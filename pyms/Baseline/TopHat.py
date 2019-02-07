@@ -60,7 +60,7 @@ def tophat(ic, struct=None):
     else:
         struct_pts = ic_window_points(ic,struct)
 
-#    print " -> Top-hat: structural element is %d point(s)" % ( struct_pts )
+#    print(" -> Top-hat: structural element is %d point(s)" % ( struct_pts ))
 
     str_el = numpy.repeat([1], struct_pts)
     ia = ndimage.white_tophat(ia, None, str_el)

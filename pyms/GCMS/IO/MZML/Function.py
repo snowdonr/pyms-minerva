@@ -68,14 +68,14 @@ def mzML_reader(file_name):
                 file_n = comm.recv(recv_buffer, i)
                 file_names.append(file_n)
 
-            print " -> Reading mzML files:"
-            print file_name
+            print(" -> Reading mzML files:")
+            print(file_name)
             for file_n in file_names:
-                print file_n
+                print(file_n)
         else:
             comm.send(file_name, dest=0)
     except:
-        print " -> Reading mzML file '%s'" % (file_name)
+        print(" -> Reading mzML file '%s'" % (file_name))
 
     scan_list = []
     time_list = []
@@ -97,8 +97,8 @@ def mzML_reader(file_name):
                 time_list.append(60*float(element.get('value')))
                 scan_list.append(Scan(mass_list, intensity_list))
 
-    #print "time:", len(time_list)
-    #print "scan:", len(scan_list)
+    #print("time:", len(time_list))
+    #print("scan:", len(scan_list))
 
     data = GCMS_data(time_list, scan_list)
 

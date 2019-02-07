@@ -22,6 +22,7 @@ Provides conversion and information functions for GC-MS data objects
  #                                                                           #
  #############################################################################
 
+from __future__ import print_function # for py2
 import math, sys
 
 from pyms.Utils.Error import error
@@ -37,6 +38,11 @@ try:
 except:
     pass
 
+if sys.version_info[0] == 3: # for python 3
+    def xrange(*args):
+        return range(*args)
+	
+	
 def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5):
 
     """
@@ -111,7 +117,7 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
     # Calculate integer min mass based on right boundary
     bin_right = abs(bin_right)
     min_mass = int(min_mass+1-bin_right)
-
+    
     return __fill_bins(data, min_mass, max_mass, 1, bin_left, bin_right)
 
 def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
@@ -277,21 +283,21 @@ def diff(data1, data2):
     # times.
     #
     if not len(time_list1) == len(time_list2):
-        print " -> The number of retention time points different."
-        print " First data set: %d time points" % (len(time_list1))
-        print " Second data set: %d time points" % (len(time_list2))
-        print " Data sets are different."
+        print(" -> The number of retention time points different.")
+        print(" First data set: %d time points" % (len(time_list1)))
+        print(" Second data set: %d time points" % (len(time_list2)))
+        print(" Data sets are different.")
         return
     else:
         time_rmsd = rmsd(time_list1, time_list2)
-        print " Data sets have the same number of time points."
-        print "   Time RMSD: %.2e" % ( time_rmsd )
+        print(" Data sets have the same number of time points.")
+        print("   Time RMSD: %.2e" % ( time_rmsd ))
 
     #
     # Second, check if each scan has the same number of m/z intensities
     #
 
-    print " Checking for consistency in scan lengths ...",
+    print(" Checking for consistency in scan lengths ...", end='')
     sys.stdout.flush()
 
     scan_list1 = data1.get_scan_list()
@@ -309,17 +315,17 @@ def diff(data1, data2):
         mass_list1 = scan1.get_mass_list()
         mass_list2 = scan2.get_mass_list()
         if len(mass_list1) != len(mass_list2):
-            print "\n Different number of points detected in scan no. %d" % ( ii )
-            print " Data sets are different."
+            print("\n Different number of points detected in scan no. %d" % ( ii ))
+            print(" Data sets are different.")
             return
 
-    print "OK"
+    print("OK")
 
     #
     # Third, if here, calculate the max RMSD for m/z and intensities
     #
 
-    print " Calculating maximum RMSD for m/z values and intensities ...",
+    print(" Calculating maximum RMSD for m/z values and intensities ...",end='')
     sys.stdout.flush()
 
     max_mass_rmsd = 0.0
@@ -339,8 +345,8 @@ def diff(data1, data2):
         if intensity_rmsd > max_intensity_rmsd:
             max_intensity_rmsd = intensity_rmsd
 
-    print "\n   Max m/z RMSD: %.2e" % ( max_mass_rmsd )
-    print "   Max intensity RMSD: %.2e" % ( max_intensity_rmsd )
+    print("\n   Max m/z RMSD: %.2e" % ( max_mass_rmsd ))
+    print("   Max intensity RMSD: %.2e" % ( max_intensity_rmsd ))
 
 def is_ionchromatogram(arg):
 

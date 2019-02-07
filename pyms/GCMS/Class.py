@@ -33,6 +33,10 @@ from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
 from pyms.Utils.Math import mean, std, median
 from pyms.Utils.Time import time_str_secs
 
+if sys.version_info[0] == 3: # for python 3
+    def xrange(*args):
+        return range(*args)
+
 class GCMS_data(object):
 
     """
@@ -300,7 +304,7 @@ class GCMS_data(object):
 
         # trim called with defaults, or silly arguments
         if begin == None and end == None:
-            print "Nothing to do."
+            print("Nothing to do.")
             return # exit immediately
 
         N = len(self.__scan_list)
@@ -334,8 +338,8 @@ class GCMS_data(object):
         elif last_scan > N-1:
             error("last scan=%d, total number of scans=%d" % (last_scan, N))
 
-        print "Trimming data to between %d and %d scans" % \
-                (first_scan+1, last_scan+1)
+        print("Trimming data to between %d and %d scans" % \
+                (first_scan+1, last_scan+1))
 
         scan_list_new = []
         time_list_new = []
@@ -366,13 +370,13 @@ class GCMS_data(object):
         """
 
         # print the summary of simply attributes
-        print " Data retention time range: %.3f min -- %.3f min" % \
-                (self.__min_rt/60.0, self.__max_rt/60)
-        print " Time step: %.3f s (std=%.3f s)" % ( self.__time_step, \
-                self.__time_step_std )
-        print " Number of scans: %d" % ( len(self.__scan_list) )
-        print " Minimum m/z measured: %.3f" % ( self.__min_mass )
-        print " Maximum m/z measured: %.3f" % ( self.__max_mass )
+        print(" Data retention time range: %.3f min -- %.3f min" % \
+                (self.__min_rt/60.0, self.__max_rt/60))
+        print(" Time step: %.3f s (std=%.3f s)" % ( self.__time_step, \
+                self.__time_step_std ))
+        print(" Number of scans: %d" % ( len(self.__scan_list) ))
+        print(" Minimum m/z measured: %.3f" % ( self.__min_mass ))
+        print(" Maximum m/z measured: %.3f" % ( self.__max_mass ))
 
         # calculate median number of m/z values measured per scan
         n_list = []
@@ -380,11 +384,11 @@ class GCMS_data(object):
             scan = self.__scan_list[ii]
             n = len(scan)
             n_list.append(n)
-            if print_scan_n: print n
+            if print_scan_n: print(n)
         mz_mean = mean(n_list)
         mz_median = median(n_list)
-        print " Mean number of m/z values per scan: %d" % ( mz_mean )
-        print " Median number of m/z values per scan: %d" % ( mz_median )
+        print(" Mean number of m/z values per scan: %d" % ( mz_mean ))
+        print(" Median number of m/z values per scan: %d" % ( mz_median ))
 
     def write(self, file_root):
 
@@ -410,8 +414,8 @@ class GCMS_data(object):
         file_name1 = file_root + ".I.csv"
         file_name2 = file_root + ".mz.csv"
 
-        print " -> Writing intensities to '%s'" % ( file_name1 )
-        print " -> Writing m/z values to '%s'" % ( file_name2 )
+        print(" -> Writing intensities to '%s'" % ( file_name1 ))
+        print(" -> Writing m/z values to '%s'" % ( file_name2 ))
 
         fp1 = open_for_writing(file_name1)
         fp2 = open_for_writing(file_name2)
@@ -463,8 +467,8 @@ class GCMS_data(object):
 
         N = len(self.__scan_list)
 
-        print" -> Writing scans to a file"
-
+        print(" -> Writing scans to a file")
+		
         fp = open_for_writing(file_name)
 
         for ii in range(len(self.__scan_list)):
@@ -847,7 +851,7 @@ class IntensityMatrix(object):
             return self.get_tic()
 
         if mass < self.__min_mass or mass > self.__max_mass:
-            print "min mass: ", self.__min_mass, "max mass:", self.__max_mass
+            print("min mass: ", self.__min_mass, "max mass:", self.__max_mass)
             error("mass is out of range")
 
         ix = self.get_index_of_mass(mass)
@@ -1341,13 +1345,13 @@ class IntensityMatrix(object):
                     if len(data_row) == num_mass:
                         data.append(data_row)
                     else:
-                        print ("Warning: ignoring row")
+                        print("Warning: ignoring row")
 
                 HEADER = False
 
         # check col lengths
         if len(time_list) != len(data):
-            print ("Warning: number of data rows and time list length differ")
+            print("Warning: number of data rows and time list length differ")
 
         self.__mass_list = mass_list
         self.__time_list = time_list
@@ -1369,7 +1373,7 @@ class IonChromatogram(object):
     (TIC).
 
     The nature of an IonChromatogram object can be revealed by inspecting
-    the value of the attribute '__mass'. This is se to the m/z value of the
+    the value of the attribute '__mass'. This is set to the m/z value of the
     ion chromatogram, or to None for TIC.
 
     @author: Lewis Lee

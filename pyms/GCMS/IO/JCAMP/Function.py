@@ -44,7 +44,7 @@ def JCAMP_reader(file_name):
     if not is_str(file_name):
         error("'file_name' not a string")
 
-    print " -> Reading JCAMP file '%s'" % (file_name)
+    print(" -> Reading JCAMP file '%s'" % (file_name))
     lines_list = open(file_name,'r')
     data = []
     page_idx = 0
@@ -71,7 +71,7 @@ def JCAMP_reader(file_name):
                         error("data not in pair !")
                     mass = []
                     intensity = []
-                    for i in range(len(data) / 2):
+                    for i in range(len(data) // 2):
                         mass.append(data[i * 2])
                         intensity.append(data[i * 2 + 1])
                     if not len(mass) == len(intensity):
@@ -97,7 +97,7 @@ def JCAMP_reader(file_name):
     # get last scan
     mass = []
     intensity = []
-    for i in range(len(data) / 2):
+    for i in range(len(data) // 2):
         mass.append(data[i * 2])
         intensity.append(data[i * 2 + 1])
 

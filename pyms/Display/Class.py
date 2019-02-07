@@ -281,11 +281,11 @@ class Display(object):
         largest = self.get_5_largest(intensity_list)
         
         if len(intensity_list) != 0:
-            print "mass\t intensity"
+            print("mass\t intensity")
             for i in range(10):
-                print mass_list[largest[i]], "\t", intensity_list[largest[i]]
+                print(mass_list[largest[i]], "\t", intensity_list[largest[i]])
         else:    # if the selected point is not close enough to peak
-            print "No Peak at this point"
+            print("No Peak at this point")
         
         # Check if a button other than left was pressed, if so plot mass spectrum
         # Also check that a peak was selected, not just whitespace
@@ -310,9 +310,9 @@ class Display(object):
 	
 	# if no plots have been created advise user
 	if len(self.__tic_ic_plots) == 0:
-	    print 'No plots have been created'
-	    print 'Please call a plotting function before'
-	    print 'calling do_plotting()'
+	    print('No plots have been created')
+	    print('Please call a plotting function before')
+	    print('calling do_plotting()')
 	
 	if plot_label != None :
             t = self.__ax.set_title(plot_label)

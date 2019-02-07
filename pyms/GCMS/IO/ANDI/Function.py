@@ -38,6 +38,10 @@ try:
 except:
     pass
 
+if sys.version_info[0] == 3: # for python 3
+    def xrange(*args):
+        return range(*args)	
+	
 def ANDI_reader(file_name):
 
     """
@@ -79,14 +83,14 @@ def ANDI_reader(file_name):
                 file_n = comm.recv(recv_buffer, i)
                 file_names.append(file_n)
 
-            print " -> Reading netCDF files:"
-            print file_name
+            print(" -> Reading netCDF files:")
+            print(file_name)
             for file_n in file_names:
-                print file_n
+                print(file_n)
         else:
             comm.send(file_name, dest=0)
     except:
-        print " -> Reading netCDF file '%s'" % (file_name)
+        print(" -> Reading netCDF file '%s'" % (file_name))
 
 
 
@@ -108,7 +112,7 @@ def ANDI_reader(file_name):
     for i in range(len(mass_values) - 1):
         # assume masses in ascending order until new scan
         if mass_previous <= mass_values[i + 1]:
-            #print mass_values[i+1]
+            #print(mass_values[i+1])
             mass_list.append(mass_values[i + 1])
             mass_previous = mass_values[i + 1]
             intensity_list.append(intensity_values[i + 1])
@@ -116,7 +120,7 @@ def ANDI_reader(file_name):
         # new scan
         else:
             scan_list.append(Scan(mass_list, intensity_list))
-            #print "Added scan"
+            #print("Added scan")
             mass_previous = mass_values[i + 1]
             intensity_previous = intensity_values[i + 1]
             mass_list = []
