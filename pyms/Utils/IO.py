@@ -2,6 +2,8 @@
 General I/O functions
 """
 
+# Patched version by Dominic Davis-Foster, 2019
+
  #############################################################################
  #                                                                           #
  #    PyMS software for processing of metabolomic mass-spectrometry data     #
@@ -22,7 +24,12 @@ General I/O functions
  #                                                                           #
  #############################################################################
 
-import types, os, string, cPickle
+import types, os, string, sys
+
+if sys.version_info[0] == 3:
+    import pickle as cPickle
+else:
+    import cPickle
 
 from pyms.Utils.Error import error
 from pyms.Utils.Utils import is_number, is_str, is_list
@@ -39,9 +46,12 @@ def dump_object(object, file_name):
     @type file_name: StringType
 
     @author: Vladimir Likic
+    @author: Dominic Davis-Foster
     """
 
-    fp = open_for_writing(file_name)
+    if not os.path.exists(os.path.dirname(file_name)):
+            os.mkdir(os.path.dirname(file_name))
+    fp = open_for_writing(file_name, 'wb')
     cPickle.dump(object, fp)
     close_for_writing(fp)
 
@@ -88,7 +98,7 @@ def open_for_reading(file_name):
 
     return fp
 
-def open_for_writing(file_name):
+def open_for_writing(file_name, mode='w'):
 
     """
     @summary: Opens file for writing, returns file pointer
@@ -100,12 +110,15 @@ def open_for_writing(file_name):
     @rtype: FileType
 
     @author: Vladimir Likic
+    @author: Dominic Davis-Foster
     """
 
     if not is_str(file_name):
         error("'file_name' is not a string")
     try:
-        fp = open(file_name, "w")
+        if not os.path.exists(os.path.dirname(file_name)):
+            os.mkdir(os.path.dirname(file_name))
+        fp = open(file_name, mode)
     except IOError:
         error("Cannot open '%s' for writing" % (file_name))
 
@@ -188,7 +201,7 @@ def file_lines(file_name, filter=False):
     return lines
 
 def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
-	compressed=False):
+    compressed=False):
 
     """
     @summary: Saves a list of numbers or a list of lists of numbers
@@ -211,8 +224,12 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
     @rtype: NoneType
 
     @author: Vladimir Likic
+    @author: Dominic Davis-Foster
     """
 
+    if not os.path.exists(os.path.dirname(file_name)):
+            os.mkdir(os.path.dirname(file_name))
+    
     if not is_str(file_name):
         error("'file_name' is not a string")
 

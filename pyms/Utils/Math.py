@@ -49,11 +49,11 @@ def median(v):
 
     if (N % 2) == 0:
         # even number of points
-        K = N/2 - 1 
+        K = N//2 - 1 
         median = (local_data[K] + local_data[K+1])/2.0
     else:
 	    # odd number of points
-        K = (N - 1)/2 - 1
+        K = (N - 1)//2 - 1
         median = local_data[K+1]
 
     return median

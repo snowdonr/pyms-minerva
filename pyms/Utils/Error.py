@@ -77,9 +77,9 @@ def error(message=None):
     cstr = ""
     for ii in range(n):
         cstr = cstr + "=" 
-    print "\n %s" % (cstr)
-    print " %s" % (fmessage)
-    print " %s\n" % (cstr)
+    print("\n %s" % (cstr))
+    print(" %s" % (fmessage))
+    print(" %s\n" % (cstr))
 
     sys.exit(1)
 
@@ -96,7 +96,7 @@ def stop(message=None):
     """
 
     if message != None:
-        print message 
+        print(message)
 
     raise RuntimeError
 

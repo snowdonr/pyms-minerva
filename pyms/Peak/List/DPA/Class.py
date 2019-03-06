@@ -22,6 +22,8 @@ Classes for peak alignment by dynamic programming
  #                                                                           #
  #############################################################################
 
+from __future__ import print_function
+ 
 import copy
 
 import numpy
@@ -325,9 +327,9 @@ class Alignment(object):
             index += 1
 
         # now write the file
-#        print "length of areas[0]", len(areas[0])
-#        print "lenght of areas", len(areas)
-#        print "length of out_strings", len(out_strings)
+#        print("length of areas[0]", len(areas[0]))
+#        print("lenght of areas", len(areas))
+#        print("length of out_strings", len(out_strings))
         for row in out_strings:
             fp.write(row +"\n")
                 
@@ -346,8 +348,8 @@ class Alignment(object):
 
         """
 
-        # print "#peak lists =", len(self.peakpos)
-        # print "#peaks =", len(self.peakpos[0])
+        # print("#peak lists =", len(self.peakpos))
+        # print("#peaks =", len(self.peakpos[0]))
         
         # a list to contain the dictionaries
         # each dictionary contains the
@@ -388,7 +390,7 @@ class Alignment(object):
                             top_ion_dict[ion]+=1
                         # shouldn't happen
                         else:
-                            print "error: in function common_ion()"
+                            print("error: in function common_ion()")
                 else:
                     empty_count += 1
                     
@@ -402,13 +404,13 @@ class Alignment(object):
                 # increment for the next peak
                 index += 1
 
-        #print "length of list of dicts", len(list_of_top_ion_dicts)
+        #print("length of list of dicts", len(list_of_top_ion_dicts))
 
         #index = 0
         #for entry in list_of_top_ion_dicts:
         #    for ion in sorted(entry, key=entry.get, reverse=True)[0:3]:
-        #        print ion,":", entry[ion],
-        #    print '  empty:', empty_count_list[index]
+        #        print(ion,":", entry[ion],end='')
+        #    print('  empty:', empty_count_list[index])
         #    index += 1
 
         top_ion_list = []
@@ -553,7 +555,7 @@ class Alignment(object):
 
             #calculate the time from the leftmost peak to the average
             l_window_delta = compo_peak.get_rt() - rtmin[index]
-            #print "l_window", l_window_delta, "rt", compo_peak.get_rt(), "rt_min", rtmin[index]
+            #print("l_window", l_window_delta, "rt", compo_peak.get_rt(), "rt_min", rtmin[index])
             r_window_delta = rtmax[index] - compo_peak.get_rt()
 
             common_ion = top_ion_list[index]
@@ -569,7 +571,7 @@ class Alignment(object):
             
             ci_intensity = compo_peak.get_int_of_ion(common_ion)
             if ci_intensity == None:
-                print "No Ci for peak", index
+                print("No Ci for peak", index)
             q1_intensity = compo_peak.get_int_of_ion(qual_ion_1)
             q2_intensity = compo_peak.get_int_of_ion(qual_ion_2)
 
@@ -598,9 +600,9 @@ class Alignment(object):
             index += 1
 
         # now write the file
-#        print "length of areas[0]", len(areas[0])
-#        print "lenght of areas", len(areas)
-#        print "length of out_strings", len(out_strings)
+#        print("length of areas[0]", len(areas[0]))
+#        print("lenght of areas", len(areas))
+#        print("length of out_strings", len(out_strings))
         for row in out_strings:
             fp.write(row +"\n")
 
@@ -690,19 +692,19 @@ class PairwiseAlignment(object):
 
         n = len(algts)
 
-        total_n = n * (n - 1) / 2
+        total_n = n * (n - 1) // 2
 
-        print " Calculating pairwise alignments for %d alignments (D=%.2f, gap=%.2f)" % \
-                (n, D, gap)
+        print(" Calculating pairwise alignments for %d alignments (D=%.2f, gap=%.2f)" % \
+                (n, D, gap))
 
         sim_matrix = numpy.zeros((n,n), dtype='f')
 
         for i in range(n - 1):
             for j in range(i + 1, n):
-                ma = Function_new.align(algts[i], algts[j], D, gap)
+                ma = Function.align(algts[i], algts[j], D, gap)
                 sim_matrix[i,j] = sim_matrix[j,i] = ma.similarity
                 total_n = total_n - 1
-                print " -> %d pairs remaining" % total_n
+                print(" -> %d pairs remaining" % total_n)
 
         return sim_matrix
 
@@ -744,9 +746,9 @@ class PairwiseAlignment(object):
 
         n = len(dist_matrix)
 
-        print " -> Clustering %d pairwise alignments." % (n*(n-1)),
+        print(" -> Clustering %d pairwise alignments." % (n*(n-1)),end='')
         tree = treecluster(distancematrix=dist_matrix, method='a')
-        print "Done"
+        print("Done")
 
         return tree
 

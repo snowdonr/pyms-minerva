@@ -22,6 +22,8 @@ Provides functions for simulation of GCMS data
  #                                                                           #
  #############################################################################
 
+from __future__ import print_function
+ 
 import numpy
 import math
 import sys
@@ -60,12 +62,12 @@ def gcms_sim(time_list, mass_list, peak_list):
     
     
     for peak in peak_list:
-        print "-", 
+        print("-", end='')
         index = int((peak.get_rt() - t1)/period) 
         height = sum(peak.get_mass_spectrum().mass_spec)
         # standard deviation = area/(height * sqrt(2/pi)) 
         sigma = peak.get_area() / (height * (math.sqrt(2*math.pi)))
-        print "width", sigma
+        print("width", sigma)
         for i in range(len(peak.get_mass_spectrum().mass_list)):
             ion_height = peak.get_mass_spectrum().mass_spec[i]
             ic = chromatogram(n_scan, index, sigma, ion_height)

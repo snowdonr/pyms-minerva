@@ -22,7 +22,12 @@ Functions related to storing and loading a list of Peak objects
  #                                                                           #
  #############################################################################
 
-import string, cPickle
+import string
+
+try:
+	import cPickle
+except ModuleNotFoundError:
+	import pickle as cPickle
 
 from pyms.Utils.Error import error
 from pyms.Peak.Class import Peak

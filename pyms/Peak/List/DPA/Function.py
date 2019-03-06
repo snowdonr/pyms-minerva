@@ -55,8 +55,8 @@ def align_with_tree(T, min_peaks=1):
     @author: Vladimir Likic
     """
 
-    print " Aligning %d items with guide tree (D=%.2f, gap=%.2f)" % \
-            (len(T.algts), T.D, T.gap)
+    print(" Aligning %d items with guide tree (D=%.2f, gap=%.2f)" % \
+            (len(T.algts), T.D, T.gap))
 
     # For everything else, we align according to the guide tree provided by
     # Pycluster. From Pycluster documentation:
@@ -76,7 +76,7 @@ def align_with_tree(T, min_peaks=1):
         index = index - 1
         As[index] = align(As[node.left], As[node.right], T.D, T.gap)
         total = total - 1
-        print " -> %d item(s) remaining" % total
+        print(" -> %d item(s) remaining" % total)
 
     # the final alignment is in the root. Filter min peaks and return
     final_algt =  As[index]

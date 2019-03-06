@@ -2,6 +2,8 @@
 Functions related to Peak modification
 """
 
+# peak_pt_bounds() added by Dominic Davis-Foster, 2019
+
  #############################################################################
  #                                                                           #
  #    PyMS software for processing of metabolomic mass-spectrometry data     #
@@ -23,7 +25,7 @@ Functions related to Peak modification
  #############################################################################
 
 import numpy
-import copy
+import copy, sys
 
 #from pyms.Utils.Error import error
 from pyms.Peak.Class import Peak
@@ -38,6 +40,10 @@ try:
 except:
     pass
 
+if sys.version_info[0] == 3: # for python 3
+    def xrange(*args):
+        return range(*args)
+	
 def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 
     """
@@ -87,6 +93,64 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
         return sum_area, area_dict
     else:
         return sum_area
+        
+def peak_pt_bounds(im, peak):
+
+    """
+    @Summary: Approximate the peak bounds (left and right offsets from apex).
+
+    @param im: The originating IntensityMatrix object
+    @type im: pyms.GCMS.Class.IntensityMatrix
+    @param peak: The Peak object
+    @type peak: pyms.Peak.Class.Peak
+
+    @return: Sum of peak apex ions in detected bounds
+    @rtype: FloatType
+
+    @author: Andrew Isaac
+    @author: Sean O'Callaghan
+    @author: Dominic Davis-Foster
+    """
+
+    sum_area = 0
+    # Use internal values (not copy)
+    #mat = im.get_matrix_list()
+    mat = im.intensity_matrix
+    ms = peak.get_mass_spectrum()
+    rt = peak.get_rt()
+    apex = im.get_index_at_time(rt)
+
+    # get peak masses with non-zero intensity
+    if sys.version_info[0] == 3:
+        mass_ii = [ ii for ii in range(len(ms.mass_list)) \
+            if ms.mass_spec[ii] > 0 ]
+    else:
+        mass_ii = [ ii for ii in xrange(len(ms.mass_list)) \
+            if ms.mass_spec[ii] > 0 ]
+
+    left_list = []
+    right_list = []
+    
+    # get stats on boundaries
+    for ii in mass_ii:
+        # get ion chromatogram as list
+        if sys.version_info[0] == 3:
+            ia = [ mat[scan][ii] for scan in range(len(mat)) ]
+        else:
+            ia = [ mat[scan][ii] for scan in xrange(len(mat)) ]
+        area, left, right, l_share, r_share = ion_area(ia, apex, 0)
+        left_list.append(left)
+        right_list.append(right)
+    
+    from numpy import percentile
+    left_list.sort()
+    right_list.sort()
+    
+    from math import ceil
+    
+    return int(ceil(percentile(left_list, 95))), int(ceil(percentile(right_list, 95)))
+        
+
 
 def peak_top_ion_areas(im, peak, n_top_ions = 5, max_bound=0):
     """
@@ -112,7 +176,7 @@ def peak_top_ion_areas(im, peak, n_top_ions = 5, max_bound=0):
     
 
     top_ions = top_ions_v2(peak, n_top_ions)
-    #print top_ions
+    #print(top_ions)
 
     for ion in top_ions:
         ion_chrom = im.get_ic_at_mass(ion)

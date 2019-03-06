@@ -37,6 +37,10 @@ try:
 except:
     pass
 
+if sys.version_info[0] == 3: # for python 3
+    def xrange(*args):
+        return range(*args)
+
 def composite_peak(peak_list, minutes=False):
 
     """

@@ -50,7 +50,7 @@ def time_str_secs(time_str):
     time_spec = time_str[-1].lower()
 
     if not is_str_num(time_number):
-       print " --> received time string '%s'" % (time_number)
+       print(" --> received time string '%s'" % (time_number))
        error("improper time string")
 
     if not time_spec == "s" and not time_spec == "m":

@@ -491,7 +491,7 @@ class Peak:
         if len(new_mass_list) == 0:
             error("mass spectrum is now empty")
         elif len(new_mass_list) < 10:
-            print " WARNING: peak mass spectrum contains < 10 points"
+            print(" WARNING: peak mass spectrum contains < 10 points")
 
         # update UID
         self.make_UID()

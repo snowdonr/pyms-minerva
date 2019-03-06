@@ -119,7 +119,7 @@ def __mean_window(ia, wing_length):
     @author: Vladimir Likic
     """
 
-#print " -> Window smoothing (mean): the wing is %d point(s)" % (wing_length)
+#print(" -> Window smoothing (mean): the wing is %d point(s)" % (wing_length))
 
     ia_denoise = numpy.repeat([0], ia.size)
 
@@ -153,7 +153,7 @@ def __median_window(ia, wing_length):
     @author: Vladimir Likic
     """
 
-#print " -> Window smoothing (median): the wing is %d point(s)" % (wing_length)
+#print(" -> Window smoothing (median): the wing is %d point(s)" % (wing_length))
 
     ia_denoise = numpy.repeat([0], ia.size)
 

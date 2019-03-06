@@ -65,9 +65,9 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, \
 
     wing_length = ic_window_points(ic, window, half_window=True)
 
-    #print " -> Applying Savitzky-Golay filter"
-    #print "      Window width (points): %d" % ( 2*wing_length+1 )
-    #print "      Polynomial degree: %d" % ( degree )
+    #print(" -> Applying Savitzky-Golay filter")
+    #print("      Window width (points): %d" % ( 2*wing_length+1 ))
+    #print("      Polynomial degree: %d" % ( degree ))
 
     coeff = __calc_coeff(wing_length, degree)
     ia_denoise = __smooth(ia, coeff)
@@ -202,7 +202,7 @@ def __smooth(signal, coeff):
     @copyright: Uwe Schmitt
     """
 
-    N = numpy.size(coeff-1)/2
+    N = numpy.size(coeff-1)//2
     res = numpy.convolve(signal, coeff)
     return res[N:-N]
 
