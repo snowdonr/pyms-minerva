@@ -22,6 +22,7 @@ Functions for peak alignment by dynamic programming
  #                                                                           #
  #############################################################################
 
+import functools
 import copy
 import numpy
 #from math import sqrt, log
@@ -32,8 +33,8 @@ from pyms.Utils.Utils import is_list
 from pyms.Utils.DP import dp
 from pyms.Experiment.Class import Experiment
 
-import Class
-import Utils
+from pyms.Peak.List.DPA import Class
+from pyms.Peak.List.DPA import Utils
 
 # If psyco is installed, use it to speed up running time
 try:
@@ -212,7 +213,7 @@ def merge_alignments(A1, A2, traces):
     ma.peakalgt = numpy.transpose(merged)
     # sort according to average peak
     ma.peakalgt = list(ma.peakalgt)
-    ma.peakalgt.sort(Utils.alignment_compare)
+    ma.peakalgt.sort(key=functools.cmp_to_key(Utils.alignment_compare))
     ma.peakpos = numpy.transpose(ma.peakalgt)
 
     return ma

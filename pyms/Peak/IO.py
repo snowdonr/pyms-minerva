@@ -49,7 +49,7 @@ def store_peaks(peak_list, file_name):
     if not is_str(file_name):
         error("'file_name' must be a string")
 
-    fp = open(file_name,'w')
+    fp = open(file_name,'wb')
     cPickle.dump(peak_list, fp, 1)
     fp.close()
 
@@ -70,7 +70,7 @@ def load_peaks(file_name):
     if not is_str(file_name):
         error("'file_name' not a string")
 
-    fp = open(file_name,'r')
+    fp = open(file_name,'rb')
     peak_list = cPickle.load(fp)
     fp.close()
 

@@ -39,8 +39,9 @@ from pyms.GCMS.Class import MassSpectrum
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import composite_peak
 
-import Function
-import Function_new
+#import Function
+#import Function_new
+from pyms.Peak.List.DPA import Function
 
 # If psyco is installed, use it to speed up running time
 try:
@@ -113,7 +114,8 @@ class Alignment(object):
         filtered_list=[]
 
         for pos in range(len(self.peakalgt)):
-            if len(filter(None,self.peakalgt[pos])) >= min_peaks:
+            #if len(filter(None,self.peakalgt[pos])) >= min_peaks:
+            if len([x for x in self.peakalgt[pos] if x != None]) >= min_peaks:
                 filtered_list.append(self.peakalgt[pos])
 
         self.peakalgt = filtered_list
@@ -747,7 +749,7 @@ class PairwiseAlignment(object):
         n = len(dist_matrix)
 
         print(" -> Clustering %d pairwise alignments." % (n*(n-1)),end='')
-        tree = treecluster(distancematrix=dist_matrix, method='a')
+        tree = treecluster(data=None,distancematrix=dist_matrix, method='a')
         print("Done")
 
         return tree
