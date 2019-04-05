@@ -11,6 +11,6 @@ The project seems to have been abandoned as there have been no commits in 18 mon
 Original Publication:
 https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
 
-The main PyMS documentation is available here: https://github.com/domdfcoding/pyms-docs
+The documentation is available here: https://github.com/domdfcoding/pyms-docs
 
 Test code available here: https://github.com/domdfcoding/pyms-test
