@@ -2,7 +2,8 @@
 
 A Python toolkit for processing of gas chromatography-mass spectrometry (GC-MS) data
 
-Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms
+Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
+
 The project seems to have been abandoned as there have been no commits in 18 months. 
 
 Original Publication:
