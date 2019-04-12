@@ -56,7 +56,7 @@ html_context = {
     "github_user": "domdfcoding", # Username
     "github_repo": "pyms", # Repo name
     "github_version": "master", # Version
-    "conf_py_path": "docs/", # Path in the checkout to the docs root
+    "conf_py_path": "", # Path in the checkout to the docs root
 }
 
 htmlhelp_basename = slug
