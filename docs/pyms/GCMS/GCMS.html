@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyms.GCMS &mdash; PyMassSpec 1.0.0 documentation</title>
+  <title>pyms.GCMS &mdash; PyMassSpec 2.1.0 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                2.1.0
               </div>
             
           
@@ -1318,11 +1318,9 @@ dimension of the intensity matrix.</p>
 <dl class="class">
 <dt id="pyms.GCMS.Class.IonChromatogram">
 <em class="property">class </em><code class="descclassname">pyms.GCMS.Class.</code><code class="descname">IonChromatogram</code><span class="sig-paren">(</span><em>ia</em>, <em>time_list</em>, <em>mass=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><dl class="field-list">
 <dt class="field-odd">Summary</dt>
 <dd class="field-odd"><p>Models an ion chromatogram</p>
-</dd>
-</dl>
 <p>An ion chromatogram is a set of intensities as a function of retention
 time. This can can be either m/z channel intensities (for example, ion
 chromatograms at m/z=65), or cumulative intensities over all measured
@@ -1331,12 +1329,12 @@ m/z. In the latter case the ion chromatogram is total ion chromatogram
 <p>The nature of an IonChromatogram object can be revealed by inspecting
 the value of the attribute ‘__mass’. This is set to the m/z value of the
 ion chromatogram, or to None for TIC.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Author</dt>
-<dd class="field-odd"><p>Lewis Lee</p>
 </dd>
 <dt class="field-even">Author</dt>
-<dd class="field-even"><p>Vladimir Likic</p>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
 </dd>
 </dl>
 <dl class="method">
@@ -1642,7 +1640,7 @@ is a total ion chromatogram (True) or not (False)</p>
 
 <dl class="method">
 <dt id="pyms.GCMS.Class.IonChromatogram.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>file_name</em>, <em>minutes=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.write" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write</code><span class="sig-paren">(</span><em>file_name</em>, <em>minutes=False</em>, <em>formatting=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.write" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Summary</dt>
 <dd class="field-odd"><p>Writes the ion chromatogram to the specified file</p>
@@ -1652,6 +1650,8 @@ is a total ion chromatogram (True) or not (False)</p>
 <li><p><strong>file_name</strong> (<em>StringType</em>) – Output file name</p></li>
 <li><p><strong>minutes</strong> (<em>BooleanType</em>) – A boolean value indicating whether to write
 time in minutes</p></li>
+<li><p><strong>formatting</strong> – A boolean value indicating whether to
+format the numbers in the output (default True)</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns</dt>
@@ -1982,7 +1982,7 @@ time in minutes</p></li>
 
 <dl class="function">
 <dt id="pyms.GCMS.Function.build_intensity_matrix">
-<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">build_intensity_matrix</code><span class="sig-paren">(</span><em>data</em>, <em>bin_interval=1</em>, <em>bin_left=0.5</em>, <em>bin_right=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#build_intensity_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.build_intensity_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">build_intensity_matrix</code><span class="sig-paren">(</span><em>data</em>, <em>bin_interval=1</em>, <em>bin_left=0.5</em>, <em>bin_right=0.5</em>, <em>min_mass=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#build_intensity_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.build_intensity_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Summary</dt>
 <dd class="field-odd"><p>Sets the full intensity matrix with flexible bins</p>
@@ -1993,6 +1993,7 @@ time in minutes</p></li>
 <li><p><strong>bin_interval</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – interval between bin centres (default 1)</p></li>
 <li><p><strong>bin_left</strong> (<em>FloatType</em>) – left bin boundary offset (default 0.5)</p></li>
 <li><p><strong>bin_right</strong> (<em>FloatType</em>) – right bin boundary offset (default 0.5)</p></li>
+<li><p><strong>min_mass</strong> (<em>BooleanType</em>) – Minimum mass to bin (default minimum mass from data)</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns</dt>

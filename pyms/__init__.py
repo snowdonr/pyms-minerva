@@ -24,3 +24,6 @@
  #############################################################################
 
 #from pyms import Baseline, Deconvolution, Display, Experiment, Gapfill, GCMS, Noise, Peak, Simulator, Utils
+
+name = "PyMassSpec"
+__version__ = "2.1.0"

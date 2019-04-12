@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4. Building from Source &mdash; PyMassSpec 1.0.0 documentation</title>
+  <title>4. Building from Source &mdash; PyMassSpec 2.1.0 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                1.0.0
+                2.1.0
               </div>
             
           
@@ -298,29 +298,31 @@
 20
 21
 22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+
+<span class="kn">from</span> <span class="nn">pyms</span> <span class="kn">import</span> <span class="n">name</span><span class="p">,</span> <span class="n">__version__</span>
 
 <span class="n">setup</span><span class="p">(</span>
-	<span class="n">name</span><span class="o">=</span><span class="s2">&quot;PyMassSpec&quot;</span><span class="p">,</span>
-	<span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.1.0&#39;</span><span class="p">,</span>
-    	<span class="n">author</span><span class="o">=</span><span class="s1">&#39;Sean O</span><span class="se">\&#39;</span><span class="s1">Callaghan&#39;</span><span class="p">,</span>
-	<span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;spoc@unimelb.edu.au&#39;</span><span class="p">,</span>	
+	<span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+	<span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">,</span>
+    <span class="n">author</span><span class="o">=</span><span class="s1">&#39;Dominic Davis-Foster&#39;</span><span class="p">,</span>
+	<span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;dominic@davis-foster.co.uk&#39;</span><span class="p">,</span>
 	<span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(),</span>
 	<span class="n">license</span><span class="o">=</span><span class="s2">&quot;GNU General Public License v2.0&quot;</span><span class="p">,</span>
 	<span class="n">url</span><span class="o">=</span><span class="s2">&quot;http://github.com/domdfcoding/pyms/&quot;</span><span class="p">,</span>
 	<span class="n">description</span><span class="o">=</span><span class="s1">&#39;Python Toolkit for Mass Spectrometry&#39;</span><span class="p">,</span>
-	<span class="n">long_description</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;PyMassSpec is a collection of PyMS libraries &#39;</span>
-                      <span class="s1">&#39;which can be used to perform peak picking &#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;alignment by dynamic programming, and &#39;</span>
-                      <span class="s1">&#39;gap-filling in Gas Chromatography Mass &#39;</span>
-                      <span class="s1">&#39;Spectrometry experiments&#39;</span><span class="p">),</span>
+	<span class="n">long_description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;PyMassSpec is a collection of PyMS libraries which can be used to perform peak picking,</span>
+<span class="s2">alignment by dynamic programming, and gap-filling in Gas Chromatography Mass Spectrometry experiments.&quot;&quot;&quot;</span><span class="p">,</span>
 	<span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
 	        <span class="s2">&quot;numpy &gt;= 1.16.2&quot;</span><span class="p">,</span>
 	        <span class="s2">&quot;scipy &gt;= 1.2.1&quot;</span><span class="p">,</span>
 	        <span class="s2">&quot;pymzml &gt;= 2.2.1&quot;</span><span class="p">,</span>
-		<span class="s2">&quot;matplotlib &gt;= 3.0.2</span>
+			<span class="s2">&quot;matplotlib &gt;= 3.0.2&quot;</span><span class="p">,</span>
         	<span class="p">],</span>
 <span class="p">)</span>
+
+<span class="c1"># Original Author Sean O&#39;Callaghan &lt;spoc@unimelb.edu.au&gt;,</span>
 </pre></div>
 </td></tr></table></div>
 </div>

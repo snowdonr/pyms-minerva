@@ -11,9 +11,9 @@ sys.path.append(os.path.abspath('./demo/'))
 
 from sphinx.locale import _
 
-__version__ = "1.0.0"
+from pyms import name, __version__
 
-project = u'PyMassSpec'
+project = name
 slug = re.sub(r'\W+', '-', project.lower())
 version = __version__
 release = __version__

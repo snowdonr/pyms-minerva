@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyms.GCMS.Class &mdash; PyMassSpec 1.0.0 documentation</title>
+  <title>pyms.GCMS.Class &mdash; PyMassSpec 2.1.0 documentation</title>
   
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                1.0.0
+                2.1.0
               </div>
             
           
@@ -1581,15 +1581,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :summary: Models an ion chromatogram</span>
 
-<span class="sd">    An ion chromatogram is a set of intensities as a function of retention</span>
-<span class="sd">    time. This can can be either m/z channel intensities (for example, ion</span>
-<span class="sd">    chromatograms at m/z=65), or cumulative intensities over all measured</span>
-<span class="sd">    m/z. In the latter case the ion chromatogram is total ion chromatogram</span>
-<span class="sd">    (TIC).</span>
-
-<span class="sd">    The nature of an IonChromatogram object can be revealed by inspecting</span>
-<span class="sd">    the value of the attribute &#39;__mass&#39;. This is set to the m/z value of the</span>
-<span class="sd">    ion chromatogram, or to None for TIC.</span>
+<span class="sd">        An ion chromatogram is a set of intensities as a function of retention</span>
+<span class="sd">        time. This can can be either m/z channel intensities (for example, ion</span>
+<span class="sd">        chromatograms at m/z=65), or cumulative intensities over all measured</span>
+<span class="sd">        m/z. In the latter case the ion chromatogram is total ion chromatogram</span>
+<span class="sd">        (TIC).</span>
+<span class="sd">    </span>
+<span class="sd">        The nature of an IonChromatogram object can be revealed by inspecting</span>
+<span class="sd">        the value of the attribute &#39;__mass&#39;. This is set to the m/z value of the</span>
+<span class="sd">        ion chromatogram, or to None for TIC.</span>
 
 <span class="sd">    :author: Lewis Lee</span>
 <span class="sd">    :author: Vladimir Likic</span>
@@ -1858,7 +1858,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span> <span class="o">=</span> <span class="n">ia</span></div>
 
 
-<div class="viewcode-block" id="IonChromatogram.write"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="IonChromatogram.write"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">formatting</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :summary: Writes the ion chromatogram to the specified file</span>
@@ -1867,6 +1867,9 @@
 <span class="sd">        :type file_name: StringType</span>
 <span class="sd">        :param minutes: A boolean value indicating whether to write</span>
 <span class="sd">            time in minutes</span>
+<span class="sd">        :type minutes: BooleanType</span>
+<span class="sd">        :param formatting: A boolean value indicating whether to</span>
+<span class="sd">            format the numbers in the output (default True)</span>
 <span class="sd">        :type minutes: BooleanType</span>
 
 <span class="sd">        :return: none</span>
@@ -1888,7 +1891,10 @@
                 <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">/</span><span class="mf">60.0</span>
 
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
-            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%8.4f</span><span class="s2"> </span><span class="si">%#.6e</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">ii</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">formatting</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%8.4f</span><span class="s2"> </span><span class="si">%#.6e</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">ii</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">ii</span><span class="p">]))</span>
 
         <span class="n">close_for_writing</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span></div></div>
 
