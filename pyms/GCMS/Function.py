@@ -23,7 +23,8 @@ Provides conversion and information functions for GC-MS data objects
  #############################################################################
 
 from __future__ import print_function # for py2
-import math, sys
+import sys
+import math
 
 from pyms.Utils.Error import error
 from pyms.Utils.Utils import is_number, is_str, is_array, is_list, is_int
@@ -38,34 +39,32 @@ try:
 except:
     pass
 
-if sys.version_info[0] == 3: # for python 3
-    def xrange(*args):
-        return range(*args)
-	
-	
+
+    
+    
 def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5):
 
     """
-    @summary: Sets the full intensity matrix with flexible bins
+    :summary: Sets the full intensity matrix with flexible bins
 
-    @param data: Raw GCMS data
-    @type data: pyms.GCMS.Class.GCMS_data
+    :param data: Raw GCMS data
+    :type data: pyms.GCMS.Class.GCMS_data
 
-    @param bin_interval: interval between bin centres (default 1)
-    @type bin_interval: IntType or FloatType
+    :param bin_interval: interval between bin centres (default 1)
+    :type bin_interval: IntType or FloatType
 
-    @param bin_left: left bin boundary offset (default 0.5)
-    @type bin_left: FloatType
+    :param bin_left: left bin boundary offset (default 0.5)
+    :type bin_left: FloatType
 
-    @param bin_right: right bin boundary offset (default 0.5)
-    @type bin_right: FloatType
+    :param bin_right: right bin boundary offset (default 0.5)
+    :type bin_right: FloatType
 
-    @return: Binned IntensityMatrix object
-    @rtype: pyms.GCMS.Class.IntensityMatrix
+    :return: Binned IntensityMatrix object
+    :rtype: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     if not isinstance(data, GCMS_data):
@@ -85,23 +84,23 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5):
 def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 
     """
-    @summary: Sets the full intensity matrix with integer bins
+    :summary: Sets the full intensity matrix with integer bins
 
-    @param data: Raw GCMS data
-    @type data: pyms.GCMS.Class.GCMS_data
+    :param data: Raw GCMS data
+    :type data: pyms.GCMS.Class.GCMS_data
 
-    @param bin_left: left bin boundary offset (default 0.3)
-    @type bin_left: FloatType
+    :param bin_left: left bin boundary offset (default 0.3)
+    :type bin_left: FloatType
 
-    @param bin_right: right bin boundary offset (default 0.7)
-    @type bin_right: FloatType
+    :param bin_right: right bin boundary offset (default 0.7)
+    :type bin_right: FloatType
 
-    @return: Binned IntensityMatrix object
-    @rtype: pyms.GCMS.Class.IntensityMatrix
+    :return: Binned IntensityMatrix object
+    :rtype: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     if not isinstance(data, GCMS_data):
@@ -123,28 +122,28 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 
     """
-    @summary: Fills the intensity values for all bins
+    :summary: Fills the intensity values for all bins
 
-    @param data: Raw GCMS data
-    @type data: pyms.GCMS.Class.GCMS_data
-    @param min_mass: minimum mass value
-    @type min_mass: IntType or FloatType
-    @param max_mass: maximum mass value
-    @type max_mass: IntType or FloatType
-    @param bin_interval: interval between bin centres
-    @type bin_interval: IntType or FloatType
-    @param bin_left: left bin boundary offset
-    @type bin_left: FloatType
-    @param bin_right: right bin boundary offset
-    @type bin_right: FloatType
+    :param data: Raw GCMS data
+    :type data: pyms.GCMS.Class.GCMS_data
+    :param min_mass: minimum mass value
+    :type min_mass: IntType or FloatType
+    :param max_mass: maximum mass value
+    :type max_mass: IntType or FloatType
+    :param bin_interval: interval between bin centres
+    :type bin_interval: IntType or FloatType
+    :param bin_left: left bin boundary offset
+    :type bin_left: FloatType
+    :param bin_right: right bin boundary offset
+    :type bin_right: FloatType
 
-    @return: Binned IntensityMatrix object
-    @rtype: pyms.GCMS.Class.IntensityMatrix
+    :return: Binned IntensityMatrix object
+    :rtype: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Moshe Olshansky
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Moshe Olshansky
+    :author: Vladimir Likic
     """
 
     if not isinstance(data, GCMS_data):
@@ -172,7 +171,7 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
     num_bins = int(float(max_mass+bl-min_mass)/bin_interval)+1
 
     # initialise masses to bin centres
-    mass_list = [i * bin_interval + min_mass for i in xrange(num_bins)]
+    mass_list = [i * bin_interval + min_mass for i in range(num_bins)]
 
     # Modified binning loops. I've replaced the deepcopy getting routines with
     # the alias properties. This way we can avoid performing the copies when
@@ -186,7 +185,7 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
         intensity_list = [0.0] * num_bins
         masses = scan.mass_list # use the alias, not the copy (Luke)
         intensities = scan.intensity_list # use the alias, not the copy (Luke)
-        for ii in xrange(len(masses)):
+        for ii in range(len(masses)):
             mm = int((masses[ii] + bl - min_mass)/bin_interval)
             intensity_list[mm] += intensities[ii]
         intensity_matrix.append(intensity_list)
@@ -196,27 +195,27 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 
     """
-    @summary: Fills the intensity values for all bins
+    :summary: Fills the intensity values for all bins
 
-    @param data: Raw GCMS data
-    @type data: pyms.GCMS.Class.GCMS_data
-    @param min_mass: minimum mass value
-    @type min_mass: IntType or FloatType
-    @param max_mass: maximum mass value
-    @type max_mass: IntType or FloatType
-    @param bin_interval: interval between bin centres
-    @type bin_interval: IntType or FloatType
-    @param bin_left: left bin boundary offset
-    @type bin_left: FloatType
-    @param bin_right: right bin boundary offset
-    @type bin_right: FloatType
+    :param data: Raw GCMS data
+    :type data: pyms.GCMS.Class.GCMS_data
+    :param min_mass: minimum mass value
+    :type min_mass: IntType or FloatType
+    :param max_mass: maximum mass value
+    :type max_mass: IntType or FloatType
+    :param bin_interval: interval between bin centres
+    :type bin_interval: IntType or FloatType
+    :param bin_left: left bin boundary offset
+    :type bin_left: FloatType
+    :param bin_right: right bin boundary offset
+    :type bin_right: FloatType
 
-    @return: Binned IntensityMatrix object
-    @rtype: pyms.GCMS.Class.IntensityMatrix
+    :return: Binned IntensityMatrix object
+    :rtype: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     if not isinstance(data, GCMS_data):
@@ -242,7 +241,7 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
     num_bins = int(float(max_mass+bl-min_mass)/bin_interval)+1
 
     # initialise masses to bin centres
-    mass_list = [i * bin_interval + min_mass for i in xrange(num_bins)]
+    mass_list = [i * bin_interval + min_mass for i in range(num_bins)]
 
     # fill the bins
     intensity_matrix = []
@@ -250,8 +249,8 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
         intensity_list = [0.0] * num_bins
         masses = scan.get_mass_list()
         intensities = scan.get_intensity_list()
-        for mm in xrange(num_bins):
-            for ii in xrange(len(scan)):
+        for mm in range(num_bins):
+            for ii in range(len(scan)):
                 if masses[ii] >= mass_list[mm]-bin_left and \
                 masses[ii] < mass_list[mm]+bin_right:
                     intensity_list[mm] += intensities[ii]
@@ -262,16 +261,16 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 def diff(data1, data2):
 
     """
-    @summary: Compares two GCMS_data objects
+    :summary: Compares two GCMS_data objects
 
-    @param data1: GCMS data set 1
-    @type data1: pyms.GCMS.Class.GCMS_data
-    @param data2: GCMS data set 2
-    @type data2: pyms.GCMS.Class.GCMS_data
+    :param data1: GCMS data set 1
+    :type data1: pyms.GCMS.Class.GCMS_data
+    :param data2: GCMS data set 2
+    :type data2: pyms.GCMS.Class.GCMS_data
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     # get time attributes
@@ -351,16 +350,16 @@ def diff(data1, data2):
 def is_ionchromatogram(arg):
 
     """
-    @summary: Returns True if the argument is a pyms.IO.Class.IonCromatogram
+    :summary: Returns True if the argument is a pyms.IO.Class.IonCromatogram
         object, False otherwise
 
-    @param arg: The argument to be evaluated as IonCromatogram object
-    @type arg: arbitrary
+    :param arg: The argument to be evaluated as IonCromatogram object
+    :type arg: arbitrary
 
-    @return: A boolean indicator True or False
-    @rtype: BooleanType
+    :return: A boolean indicator True or False
+    :rtype: BooleanType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if isinstance(arg,IonChromatogram):
@@ -371,20 +370,20 @@ def is_ionchromatogram(arg):
 def ic_window_points(ic, window_sele, half_window=False):
 
     """
-    @summary: Converts window selection parameter into points based on
+    :summary: Converts window selection parameter into points based on
         the time step in an ion chromatogram
 
-    @param ic: ion chromatogram object relevant for the conversion
-    @type ic: pyms.IO.Class.IonChromatogram
-    @param window_sele: The window selection parameter. This can be an
+    :param ic: ion chromatogram object relevant for the conversion
+    :type ic: pyms.IO.Class.IonChromatogram
+    :param window_sele: The window selection parameter. This can be an
         integer or time string. If integer, taken as the number of points.
         If a string, must of the form "<NUMBER>s" or "<NUMBER>m",
         specifying a time in seconds or minutes, respectively
-    @type window_sele: IntType or StringType
-    @param half_window: Specifies whether to return half-window
-    @type half_window: Booleantype
+    :type window_sele: IntType or StringType
+    :param half_window: Specifies whether to return half-window
+    :type half_window: Booleantype
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_int(window_sele) and not is_str(window_sele):

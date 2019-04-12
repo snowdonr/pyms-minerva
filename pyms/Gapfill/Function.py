@@ -1,36 +1,33 @@
 '''
-@summary:    # Functions to fill missing peak objects
+:summary:    # Functions to fill missing peak objects
 
-@author:    Jairus Bowne
-@author:    Sean O'Callaghan
+:author:    Jairus Bowne
+:author:    Sean O'Callaghan
 '''
 
 import csv
 import string
 import sys, os, errno, string, numpy
-sys.path.append("/x/PyMS")
 
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
-from pyms.GCMS.IO.MZML.Function import mzML_reader
 from pyms.GCMS.Function import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Baseline.TopHat import tophat
 from pyms.Deconvolution.BillerBiemann.Function import get_maxima_list_reduced
 from pyms.Peak.Function import ion_area
 
-from Class import MissingPeak, Sample
+from pyms.Gapfill.Class import MissingPeak, Sample
 
 
 # .csv reader (cloned from gcqc project)
 def file2matrix(filename):
     '''
-    @summary:    Convert a .csv file to a matrix (list of lists)
+    :summary:    Convert a .csv file to a matrix (list of lists)
     
-    @param filename:    Filename (.csv) to convert (area.csv, area_ci.csv)
-    @type filename:    StringType
+    :param filename:    Filename (.csv) to convert (area.csv, area_ci.csv)
+    :type filename:    StringType
     
-    @return:    Data matrix
-    @rtype:    ListType (List of lists)
+    :return:    Data matrix
+    :rtype:    ListType (List of lists)
     '''
     
     # open(filename, 'rb')? Or unnecessary?
@@ -52,15 +49,15 @@ def file2matrix(filename):
 
 def mp_finder(inputmatrix):
     """
-    @summary: setup sample objects with missing peak objects
+    :summary: setup sample objects with missing peak objects
               Finds the 'NA's in the transformed area_ci.csv file and
               makes Sample objects with them
 
-    @param inputmatrix: Data matrix derived from the area_ci.csv file
-    @type inputmatrix: listType
+    :param inputmatrix: Data matrix derived from the area_ci.csv file
+    :type inputmatrix: listType
 
-    @return: list of Sample objects
-    @rtype: list of pyms.MissingPeak.Class.Sample
+    :return: list of Sample objects
+    :rtype: list of pyms.MissingPeak.Class.Sample
 
     """
 
@@ -78,7 +75,7 @@ def mp_finder(inputmatrix):
     # All entries on line 1 beyond the Qual Ion position are sample names
     for i, sample_name in enumerate(inputmatrix[0][ci_pos:]):
 
-        print sample_name
+        print(sample_name)
         sample = Sample(sample_name, i+3) #add 4 to allow for UID, RT,QualIon
         sample_list.append(sample)
 
@@ -89,7 +86,7 @@ def mp_finder(inputmatrix):
         qual_ion_1 = uid.split("-")[0]
         qual_ion_2 = uid.split("-")[1]
         rt = uid.split("-")[-1]
-        #print rt
+        #print(rt)
         
         for i, area in enumerate(line[ci_pos:]):
             if area == 'NA':
@@ -103,50 +100,52 @@ def mp_finder(inputmatrix):
 def missing_peak_finder(sample, filename, points=13, null_ions=[73, 147],\
                             crop_ions=[50,540], threshold=1000, rt_window=1, filetype='mzml'):
     """
-    @summary: Integrates raw data around missing peak locations
+    :summary: Integrates raw data around missing peak locations
               to fill in NAs in the data matrix
 
-    @param  sample: The sample object containing missing peaks
-    @type sample: pyms.MissingPeak.Class.Sample
+    :param  sample: The sample object containing missing peaks
+    :type sample: pyms.MissingPeak.Class.Sample
 
-    @param  andi_file: Name of the raw data file
-    @type andi_file: stringType
+    :param  andi_file: Name of the raw data file
+    :type andi_file: stringType
 
-    @param  points: Peak finding - Peak if maxima over 'points' \
+    :param  points: Peak finding - Peak if maxima over 'points' \
                     number of scans (Default 3) 
-    @type points: intType
+    :type points: intType
 
-    @param  null_ions: Ions to be deleted in the matrix
-    @type null_ions: listType
+    :param  null_ions: Ions to be deleted in the matrix
+    :type null_ions: listType
 
-    @param crop_ions: Range of Ions to be considered
-    @type crop_ions: listType 
+    :param crop_ions: Range of Ions to be considered
+    :type crop_ions: listType
 
-    @param threshold: Minimum intensity of IonChromatogram allowable to fill\
+    :param threshold: Minimum intensity of IonChromatogram allowable to fill\
                       missing peak
-    @type threshold: intType
+    :type threshold: intType
 
-    @param  rt_window: Window in seconds around average RT to look for \
+    :param  rt_window: Window in seconds around average RT to look for \
                        missing peak
-    @type rt_window: floatType
+    :type rt_window: floatType
 
-    @param filetype: either mzml or netcdf
-    @type filetype: stringType
+    :param filetype: either mzml or netcdf
+    :type filetype: stringType
 
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
 
     ### some error checks on null and crop ions
 
     ### a for root,files,dirs in os.path.walk(): loop
-    print "Sample:", sample.get_name(), "File:", filename
+    print("Sample:", sample.get_name(), "File:", filename)
     
     if filetype.lower() == 'cdf':
+        from pyms.GCMS.IO.ANDI.Function import ANDI_reader
         data = ANDI_reader(filename)
     elif filetype.lower() == 'mzml':
+        from pyms.GCMS.IO.MZML.Function import mzML_reader
         data = mzML_reader(filename)
     else:
-        print "file type not valid"
+        print("file type not valid")
     
 
     # build integer intensity matrix
@@ -177,11 +176,11 @@ def missing_peak_finder(sample, filename, points=13, null_ions=[73, 147],\
         
 
         ci_ion_chrom = im.get_ic_at_mass(common_ion)
-        print "ci = ",common_ion
+        print("ci = ",common_ion)
         qi1_ion_chrom = im.get_ic_at_mass(qual_ion_1)
-        print "qi1 = ", qual_ion_1
+        print("qi1 = ", qual_ion_1)
         qi2_ion_chrom = im.get_ic_at_mass(qual_ion_2)
-        print "qi2 = ", qual_ion_2
+        print("qi2 = ", qual_ion_2)
         ######
         # Integrate the CI around that particular RT
         #######
@@ -191,7 +190,7 @@ def missing_peak_finder(sample, filename, points=13, null_ions=[73, 147],\
         
         points_1 = ci_ion_chrom.get_index_at_time(float(mp_rt))
         points_2 = ci_ion_chrom.get_index_at_time(float(mp_rt)-rt_window)
-        print "rt_window = ", points_1 - points_2
+        print("rt_window = ", points_1 - points_2)
 
         rt_window_points = points_1 - points_2
 
@@ -225,17 +224,17 @@ def missing_peak_finder(sample, filename, points=13, null_ions=[73, 147],\
             biggest_area = areas[-1]
             mp.set_ci_area(biggest_area)
             mp.set_exact_rt("{:.3f}".format(float(mp_rt)/60.0))
-            print "found area:", biggest_area, "at rt:", mp_rt
+            print("found area:", biggest_area, "at rt:", mp_rt)
         else:
-            print "Missing peak at rt = ", mp_rt
+            print("Missing peak at rt = ", mp_rt)
             mp.set_ci_area('na')
 
 def transposed(lists):
    """
-   @summary: transposes a list of lists
+   :summary: transposes a list of lists
 
-   @param lists: the list of lists to be transposed
-   @type lists: listType
+   :param lists: the list of lists to be transposed
+   :type lists: listType
    """
    
    if not lists: return []
@@ -244,17 +243,17 @@ def transposed(lists):
 
 def write_filled_csv(sample_list, area_file, filled_area_file):
     """
-    @summary: creates a new area_ci.csv file, replacing NAs with
+    :summary: creates a new area_ci.csv file, replacing NAs with
               values from the sample_list objects where possible
-    @param sample_list: A list of sample objects
-    @type sample_list: list of Class.Sample
+    :param sample_list: A list of sample objects
+    :type sample_list: list of Class.Sample
 
-    @param area_file: the file 'area_ci.csv' from PyMS output
-    @type area_file: stringType
+    :param area_file: the file 'area_ci.csv' from PyMS output
+    :type area_file: stringType
 
-    @param filled_area_file: the new output file which has NA
+    :param filled_area_file: the new output file which has NA
                              values replaced
-    @type filled_area_file: stringType
+    :type filled_area_file: stringType
     """
 
     old_matrix = file2matrix(area_file)
@@ -323,17 +322,17 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 
 def write_filled_rt_csv(sample_list, rt_file, filled_rt_file):
     """
-    @summary: creates a new rt.csv file, replacing NAs with
+    :summary: creates a new rt.csv file, replacing NAs with
               values from the sample_list objects where possible
-    @param sample_list: A list of sample objects
-    @type sample_list: list of Class.Sample
+    :param sample_list: A list of sample objects
+    :type sample_list: list of Class.Sample
 
-    @param area_file: the file 'rt.csv' from PyMS output
-    @type area_file: stringType
+    :param area_file: the file 'rt.csv' from PyMS output
+    :type area_file: stringType
 
-    @param filled_area_file: the new output file which has NA
+    :param filled_area_file: the new output file which has NA
                              values replaced
-    @type filled_area_file: stringType
+    :type filled_area_file: stringType
     """
 
     old_matrix = file2matrix(rt_file)
@@ -403,11 +402,4 @@ def write_filled_rt_csv(sample_list, rt_file, filled_rt_file):
         fp_new.write("\n")
             
     fp_new.close()
-        
-                
-                
 
-
-    
-    
-             

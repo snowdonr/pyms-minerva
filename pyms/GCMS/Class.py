@@ -22,6 +22,7 @@ Classes to model GC-MS data
  #                                                                           #
  #############################################################################
 
+import sys
 import numpy
 import math
 import copy
@@ -33,34 +34,30 @@ from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
 from pyms.Utils.Math import mean, std, median
 from pyms.Utils.Time import time_str_secs
 
-if sys.version_info[0] == 3: # for python 3
-    def xrange(*args):
-        return range(*args)
-
 class GCMS_data(object):
 
     """
-    @summary: Generic object for GC-MS data. Contains raw data
+    :summary: Generic object for GC-MS data. Contains raw data
         as a list of scans and times
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     def __init__(self, time_list, scan_list):
 
         """
-        @summary: Initialize the GC-MS data
+        :summary: Initialize the GC-MS data
 
-        @param time_list: List of scan retention times
-        @type time_list: ListType
-        @param scan_list: List of Scan objects
-        @type scan_list: ListType
+        :param time_list: List of scan retention times
+        :type time_list: ListType
+        :param scan_list: List of Scan objects
+        :type scan_list: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         if not is_list(time_list) or not is_number(time_list[0]):
@@ -77,13 +74,13 @@ class GCMS_data(object):
     def __len__(self):
 
         """
-        @summary: Returns the length of the data object,
+        :summary: Returns the length of the data object,
             defined as the number of scans
 
-        @return: Number of scans
-        @rtype: IntType
+        :return: Number of scans
+        :rtype: IntType
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         return len(self.__scan_list)
@@ -91,12 +88,12 @@ class GCMS_data(object):
     def __set_time(self, time_list):
 
         """
-        @summary: Sets time-related properties of the data
+        :summary: Sets time-related properties of the data
 
-        @param time_list: List of retention times
-        @type time_list: ListType
+        :param time_list: List of retention times
+        :type time_list: ListType
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         # calculate the time step, its spreak, and along the way
@@ -123,11 +120,11 @@ class GCMS_data(object):
     def __set_min_max_mass(self):
 
         """
-        @summary: Sets the min and max mass value
+        :summary: Sets the min and max mass value
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         mini = self.__scan_list[0].get_min_mass()
@@ -145,14 +142,14 @@ class GCMS_data(object):
     def get_min_mass(self):
 
         """
-        @summary: Get the min mass value over all scans
+        :summary: Get the min mass value over all scans
 
-        @return: The minimum mass of all the data
-        @rtype: FloatType
+        :return: The minimum mass of all the data
+        :rtype: FloatType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         return self.__min_mass
@@ -160,14 +157,14 @@ class GCMS_data(object):
     def get_max_mass(self):
 
         """
-        @summary: Get the max mass value over all scans
+        :summary: Get the max mass value over all scans
 
-        @return: The maximum mass of all the data
-        @rtype: FloatType
+        :return: The maximum mass of all the data
+        :rtype: FloatType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         return self.__max_mass
@@ -175,18 +172,18 @@ class GCMS_data(object):
     def get_index_at_time(self, time):
 
         """
-        @summary: Returns the nearest index corresponding to the given
+        :summary: Returns the nearest index corresponding to the given
             time
 
-        @param time: Time in seconds
-        @type time: FloatType
+        :param time: Time in seconds
+        :type time: FloatType
 
-        @return: Nearest index corresponding to given time
-        @rtype: IntType
+        :return: Nearest index corresponding to given time
+        :rtype: IntType
 
-        @author: Lewis Lee
-        @author: Tim Erwin
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Tim Erwin
+        :author: Vladimir Likic
         """
 
         if not is_number(time):
@@ -213,14 +210,14 @@ class GCMS_data(object):
     def get_time_list(self):
 
         """
-        @summary: Returns the list of each scan retention time
+        :summary: Returns the list of each scan retention time
 
-        @return: A list of each scan retention time
-        @rtype: ListType
+        :return: A list of each scan retention time
+        :rtype: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         return copy.deepcopy(self.__time_list)
@@ -228,14 +225,14 @@ class GCMS_data(object):
     def get_scan_list(self):
 
         """
-        @summary: Return a list of the scan objects
+        :summary: Return a list of the scan objects
 
-        @return: A list of scan objects
-        @rtype: ListType
+        :return: A list of scan objects
+        :rtype: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         return copy.deepcopy(self.__scan_list)
@@ -248,26 +245,26 @@ class GCMS_data(object):
     def get_tic(self):
 
         """
-        @summary: Returns the total ion chromatogram
+        :summary: Returns the total ion chromatogram
 
-        @return: Total ion chromatogram
-        @rtype: pyms.GCMS.Class.IonChromatogram
+        :return: Total ion chromatogram
+        :rtype: pyms.GCMS.Class.IonChromatogram
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__tic
 
     def __calc_tic(self):
         """
-        @summary: Calculate the total ion chromatogram
+        :summary: Calculate the total ion chromatogram
 
-        @return: Total ion chromatogram
-        @rtype: pyms.GCMS.Class.IonChromatogram
+        :return: Total ion chromatogram
+        :rtype: pyms.GCMS.Class.IonChromatogram
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         intensities = []
@@ -282,14 +279,14 @@ class GCMS_data(object):
     def trim(self, begin=None, end=None):
 
         """
-        @summary: trims data in the time domain
+        :summary: trims data in the time domain
 
-        @param begin: begin parameter designating start time or
+        :param begin: begin parameter designating start time or
             scan number
-        @type begin: IntType or StrType
-        @param end: end parameter designating start time or
+        :type begin: IntType or StrType
+        :param end: end parameter designating start time or
             scan number
-        @type end: IntType or StrType
+        :type end: IntType or StrType
 
             The arguments 'begin' and 'end' can be either integers
             (in which case they are taken as the first/last scan
@@ -299,7 +296,7 @@ class GCMS_data(object):
             At present both 'begin' and 'end' must be of the same
             type, either both scan numbers or time strings.
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         # trim called with defaults, or silly arguments
@@ -360,13 +357,13 @@ class GCMS_data(object):
     def info(self, print_scan_n=False):
 
         """
-        @summary: Prints some information about the data
+        :summary: Prints some information about the data
 
-        @param print_scan_n: If set to True will print the number
+        :param print_scan_n: If set to True will print the number
             of m/z values in each scan
-        @type print_scan_n: BooleanType
+        :type print_scan_n: BooleanType
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         # print the summary of simply attributes
@@ -393,7 +390,7 @@ class GCMS_data(object):
     def write(self, file_root):
 
         """
-        @summary: Writes the entire raw data to two files, one
+        :summary: Writes the entire raw data to two files, one
             'file_root'.I.csv (intensities) and 'file_root'.mz.csv
             (m/z values).
 
@@ -402,10 +399,10 @@ class GCMS_data(object):
             two-dimensional matrices, because different scans may
             have different number of m/z values recorded.
 
-        @param file_root: The root for the output file names
-        @type file_root: StringType
+        :param file_root: The root for the output file names
+        :type file_root: StringType
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         if not is_str(file_root):
@@ -449,17 +446,17 @@ class GCMS_data(object):
     def write_intensities_stream(self, file_name):
 
         """
-        @summary: Writes all intensities to a file
+        :summary: Writes all intensities to a file
 
-        @param file_name: Output file name
-        @type file_name: StringType
+        :param file_name: Output file name
+        :type file_name: StringType
 
         This function loop over all scans, and for each scan
         writes intensities to the file, one intenisity per
         line. Intensities from different scans are joined
         without any delimiters.
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         if not is_str(file_name):
@@ -468,7 +465,7 @@ class GCMS_data(object):
         N = len(self.__scan_list)
 
         print(" -> Writing scans to a file")
-		
+        
         fp = open_for_writing(file_name)
 
         for ii in range(len(self.__scan_list)):
@@ -482,27 +479,27 @@ class GCMS_data(object):
 class Scan(object):
 
     """
-    @summary: Generic object for a single Scan's raw data
+    :summary: Generic object for a single Scan's raw data
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     def __init__(self, mass_list, intensity_list):
 
         """
-        @summary: Initialize the Scan data
+        :summary: Initialize the Scan data
 
-        @param mass_list: mass values
-        @type mass_list: ListType
+        :param mass_list: mass values
+        :type mass_list: ListType
 
-        @param intensity_list: intensity values
-        @type intensity_list: ListType
+        :param intensity_list: intensity values
+        :type intensity_list: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
         #print "mass_list[0]",mass_list[0]
         if not is_list(mass_list) or not is_number(mass_list[0]):
@@ -519,12 +516,12 @@ class Scan(object):
     def __len__(self):
 
         """
-        @summary: Returns the length of the Scan object
+        :summary: Returns the length of the Scan object
 
-        @return: Length of Scan
-        @rtype: IntType
+        :return: Length of Scan
+        :rtype: IntType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return len(self.__mass_list)
@@ -532,14 +529,14 @@ class Scan(object):
     def get_mass_list(self):
 
         """
-        @summary: Returns the masses for the current scan
+        :summary: Returns the masses for the current scan
 
-        @return: the masses
-        @rtype: ListType
+        :return: the masses
+        :rtype: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
  
         return copy.deepcopy(self.__mass_list)
@@ -553,14 +550,14 @@ class Scan(object):
     def get_intensity_list(self):
 
         """
-        @summary: Returns the intensities for the current scan
+        :summary: Returns the intensities for the current scan
 
-        @return: the intensities
-        @rtype: ListType
+        :return: the intensities
+        :rtype: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
        
         return copy.deepcopy(self.__intensity_list)
@@ -574,12 +571,12 @@ class Scan(object):
     def get_min_mass(self):
 
         """
-        @summary: Returns the minimum m/z value in the scan
+        :summary: Returns the minimum m/z value in the scan
 
-        @return: Minimum m/z
-        @rtype: Float
+        :return: Minimum m/z
+        :rtype: Float
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__min_mass
@@ -587,12 +584,12 @@ class Scan(object):
     def get_max_mass(self):
 
         """
-        @summary: Returns the maximum m/z value in the scan
+        :summary: Returns the maximum m/z value in the scan
 
-        @return: Maximum m/z
-        @rtype: Float
+        :return: Maximum m/z
+        :rtype: Float
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__max_mass
@@ -600,26 +597,26 @@ class Scan(object):
 class IntensityMatrix(object):
 
     """
-    @summary: Intensity matrix of binned raw data
+    :summary: Intensity matrix of binned raw data
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     def __init__(self, time_list, mass_list, intensity_matrix):
 
         """
-        @summary: Initialize the IntensityMatrix data
+        :summary: Initialize the IntensityMatrix data
 
-        @param time_list: Retention time values
-        @type time_list: ListType
+        :param time_list: Retention time values
+        :type time_list: ListType
 
-        @param mass_list: Binned mass values
-        @type mass_list: ListType
+        :param mass_list: Binned mass values
+        :type mass_list: ListType
 
-        @param intensity_matrix: Binned intensity values per scan
-        @type intensity_matrix: ListType
+        :param intensity_matrix: Binned intensity values per scan
+        :type intensity_matrix: ListType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         # sanity check
@@ -673,12 +670,12 @@ class IntensityMatrix(object):
 
     def get_local_size(self):
         """
-        @summary: Gets the local size of intensity matrix.
+        :summary: Gets the local size of intensity matrix.
 
-        @return: Number of rows and cols
-        @rtype: IntType
+        :return: Number of rows and cols
+        :rtype: IntType
 
-        @author: Luke Hodkinson
+        :author: Luke Hodkinson
         """
 
         # Check for parallel.
@@ -691,15 +688,15 @@ class IntensityMatrix(object):
     def get_size(self):
 
         """
-        @summary: Gets the size of intensity matrix
+        :summary: Gets the size of intensity matrix
 
-        @return: Number of rows and cols
-        @rtype: IntType
+        :return: Number of rows and cols
+        :rtype: IntType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Luke Hodkinson
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Luke Hodkinson
+        :author: Vladimir Likic
         """
 
         n_scan = len(self.__intensity_matrix)
@@ -709,12 +706,12 @@ class IntensityMatrix(object):
 
     def iter_ms_indices(self):
         """
-        @summary: Iterates over local row indices
+        :summary: Iterates over local row indices
 
-        @return: Current row index
-        @rtype: IntType
+        :return: Current row index
+        :rtype: IntType
 
-        @author: Luke Hodkinson
+        :author: Luke Hodkinson
         """
 
         # Check for parallel.
@@ -722,23 +719,23 @@ class IntensityMatrix(object):
             # At the moment we assume we break the matrix into contiguous
             # ranges. We've allowed for this to change by wrapping up the
             # iteration in this method.
-            for i in xrange(self.local_row_range[0], self.local_row_range[1]):
+            for i in range(self.local_row_range[0], self.local_row_range[1]):
                 yield i
 
         else:
             # Iterate over global indices.
             n_scan = len(self.__intensity_matrix)
-            for i in xrange(0, n_scan):
+            for i in range(0, n_scan):
                 yield i
 
     def iter_ic_indices(self):
         """
-        @summary: Iterate over local column indices
+        :summary: Iterate over local column indices
 
-        @return: Current column index
-        @rtype: IntType
+        :return: Current column index
+        :rtype: IntType
 
-        @author: Luke Hodkinson
+        :author: Luke Hodkinson
         """
 
         # Check for parallel.
@@ -746,32 +743,32 @@ class IntensityMatrix(object):
             # At the moment we assume we break the matrix into contiguous
             # ranges. We've allowed for this to change by wrapping up the
             # iteration in this method.
-            for i in xrange(self.local_col_range[0], self.local_col_range[1]):
+            for i in range(self.local_col_range[0], self.local_col_range[1]):
                 yield i
 
         else:
             # Iterate over global indices.
             n_mz = len(self.__intensity_matrix[0])
-            for i in xrange(0, n_mz):
+            for i in range(0, n_mz):
                 yield i
 
     def set_ic_at_index(self, ix, ic):
 
         """
-        @summary: Sets the ion chromatogram specified by index to a new
+        :summary: Sets the ion chromatogram specified by index to a new
             value
 
-        @param ix: Index of an ion chromatogram in the intensity data
+        :param ix: Index of an ion chromatogram in the intensity data
             matrix to be set
-        @type ix: IntType
-        @param ic: Ion chromatogram that will be copied at position 'ix'
+        :type ix: IntType
+        :param ic: Ion chromatogram that will be copied at position 'ix'
             in the data matrix
-        @type: IonChromatogram
+        :type: IonChromatogram
 
         The length of the ion chromatogram must match the appropriate
         dimension of the intensity matrix.
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         if not is_int(ix):
@@ -799,18 +796,18 @@ class IntensityMatrix(object):
     def get_ic_at_index(self, ix):
 
         """
-        @summary: Returns the ion chromatogram at the specified index
+        :summary: Returns the ion chromatogram at the specified index
 
-        @param ix: Index of an ion chromatogram in the intensity data
+        :param ix: Index of an ion chromatogram in the intensity data
             matrix
-        @type ix: IntType
+        :type ix: IntType
 
-        @return: Ion chromatogram at given index
-        @rtype: IonChromatogram
+        :return: Ion chromatogram at given index
+        :rtype: IonChromatogram
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         if not is_int(ix):
@@ -831,20 +828,20 @@ class IntensityMatrix(object):
     def get_ic_at_mass(self, mass = None):
 
         """
-        @summary: Returns the ion chromatogram for the specified mass.
+        :summary: Returns the ion chromatogram for the specified mass.
             The nearest binned mass to mass is used.
 
             If no mass value is given, the function returns the total
             ion chromatogram.
 
-        @param mass: Mass value of an ion chromatogram
-        @type mass: IntType
+        :param mass: Mass value of an ion chromatogram
+        :type mass: IntType
 
-        @return: Ion chromatogram for given mass
-        @rtype: IonChromatogram
+        :return: Ion chromatogram for given mass
+        :rtype: IonChromatogram
 
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         if mass == None:
@@ -861,14 +858,14 @@ class IntensityMatrix(object):
     def get_mass_list(self):
 
         """
-        @summary: Returns a list of the binned masses
+        :summary: Returns a list of the binned masses
 
-        @return: Binned mass list
-        @rtype: ListType
+        :return: Binned mass list
+        :rtype: ListType
 
-        @author: Qiao Wang
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         return copy.deepcopy(self.__mass_list)
@@ -876,15 +873,15 @@ class IntensityMatrix(object):
     def get_ms_at_index(self, ix):
 
         """
-        @summary: Returns a mass spectrum for a given scan index
+        :summary: Returns a mass spectrum for a given scan index
 
-        @param ix: The index of the scan
-        @type ix: IntType
+        :param ix: The index of the scan
+        :type ix: IntType
 
-        @return: Mass spectrum
-        @rtype: pyms.GCMS.Class.MassSpectrum
+        :return: Mass spectrum
+        :rtype: pyms.GCMS.Class.MassSpectrum
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         # TODO: should a deepcopy be returned?
@@ -899,15 +896,15 @@ class IntensityMatrix(object):
     def get_scan_at_index(self, ix):
 
         """
-        @summary: Returns the spectral intensities for scan index
+        :summary: Returns the spectral intensities for scan index
 
-        @param ix: The index of the scan
-        @type ix: IntType
+        :param ix: The index of the scan
+        :type ix: IntType
 
-        @return: Intensity values of scan spectra
-        @rtype: ListType
+        :return: Intensity values of scan spectra
+        :rtype: ListType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_int(ix):
@@ -921,12 +918,12 @@ class IntensityMatrix(object):
     def get_min_mass(self):
 
         """
-        @summary: Returns the maximum binned mass
+        :summary: Returns the maximum binned mass
 
-        @return: The maximum binned mass
-        @rtype: FloatType
+        :return: The maximum binned mass
+        :rtype: FloatType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__min_mass
@@ -934,12 +931,12 @@ class IntensityMatrix(object):
     def get_max_mass(self):
 
         """
-        @summary: Returns the maximum binned mass
+        :summary: Returns the maximum binned mass
 
-        @return: The maximum binned mass
-        @rtype: FloatType
+        :return: The maximum binned mass
+        :rtype: FloatType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__max_mass
@@ -947,15 +944,15 @@ class IntensityMatrix(object):
     def get_mass_at_index(self, ix):
 
         """
-        @summary: Returns binned mass at index
+        :summary: Returns binned mass at index
 
-        @param ix: Index of binned mass
-        @type ix: IntType
+        :param ix: Index of binned mass
+        :type ix: IntType
 
-        @return: Binned mass
-        @rtype: IntType
+        :return: Binned mass
+        :rtype: IntType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_int(ix):
@@ -969,17 +966,17 @@ class IntensityMatrix(object):
     def get_index_of_mass(self, mass):
 
         """
-        @summary: Returns the index of mass in the list of masses
+        :summary: Returns the index of mass in the list of masses
 
         The nearest binned mass to given mass is used.
 
-        @param mass: Mass to lookup in list of masses
-        @type mass: FloatType
+        :param mass: Mass to lookup in list of masses
+        :type mass: FloatType
 
-        @return: Index of mass closest to given mass
-        @rtype: IntType
+        :return: Index of mass closest to given mass
+        :rtype: IntType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         best = self.__max_mass
@@ -994,13 +991,13 @@ class IntensityMatrix(object):
     def get_matrix_list(self):
 
         """
-        @summary: Returns a copy of the intensity matrix as a
+        :summary: Returns a copy of the intensity matrix as a
             list of lists of floats
 
-        @return: Matrix of intensity values
-        @rtype: ListType
+        :return: Matrix of intensity values
+        :rtype: ListType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return copy.deepcopy(self.__intensity_matrix)
@@ -1008,12 +1005,12 @@ class IntensityMatrix(object):
     def get_time_list(self):
 
         """
-        @summary: Returns a copy of the time list
+        :summary: Returns a copy of the time list
 
-        @return: List of retention times
-        @rtype: ListType
+        :return: List of retention times
+        :rtype: ListType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return copy.deepcopy(self.__time_list)
@@ -1021,17 +1018,17 @@ class IntensityMatrix(object):
     def get_index_at_time(self, time):
 
         """
-        @summary: Returns the nearest index corresponding to the given time
+        :summary: Returns the nearest index corresponding to the given time
 
-        @param time: Time in seconds
-        @type time: FloatType
+        :param time: Time in seconds
+        :type time: FloatType
 
-        @return: Nearest index corresponding to given time
-        @rtype: IntType
+        :return: Nearest index corresponding to given time
+        :rtype: IntType
 
-        @author: Lewis Lee
-        @author: Tim Erwin
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Tim Erwin
+        :author: Vladimir Likic
         """
 
         if not is_number(time):
@@ -1058,17 +1055,17 @@ class IntensityMatrix(object):
     def crop_mass(self, mass_min, mass_max):
 
         """
-        @summary: Crops mass spectrum
+        :summary: Crops mass spectrum
 
-        @param mass_min: Minimum mass value
-        @type mass_min: IntType or FloatType
-        @param mass_max: Maximum mass value
-        @type mass_max: IntType or FloatType
+        :param mass_min: Minimum mass value
+        :type mass_min: IntType or FloatType
+        :param mass_max: Maximum mass value
+        :type mass_max: IntType or FloatType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_number(mass_min) or not is_number(mass_max):
@@ -1107,12 +1104,12 @@ class IntensityMatrix(object):
     def null_mass(self, mass):
 
         """
-        @summary: Ignore given (closest) mass in spectra
+        :summary: Ignore given (closest) mass in spectra
 
-        @param mass: Mass value to remove
-        @type mass: IntType or FloatType
+        :param mass: Mass value to remove
+        :type mass: IntType or FloatType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_number(mass):
@@ -1130,13 +1127,13 @@ class IntensityMatrix(object):
     def reduce_mass_spectra(self, N=5):
 
         """
-        @summary: Reduces mass spectra by retaining top N
-        intensities, discarding all other intensities.
+        :summary: Reduces mass spectra by retaining top N
+            intensities, discarding all other intensities.
 
-        @param N: The number of top intensities to keep
-        @type N: IntType
+        :param N: The number of top intensities to keep
+        :type N: IntType
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         # loop over all mass spectral scans
@@ -1164,24 +1161,24 @@ class IntensityMatrix(object):
     def export_ascii(self, root_name, format='dat'):
 
         """
-        @summary: Exports the intensity matrix, retention time vector, and
-        m/z vector to the ascii format
+        :summary: Exports the intensity matrix, retention time vector, and
+            m/z vector to the ascii format
+    
+            By default, export_ascii("NAME") will create NAME.im.dat, NAME.rt.dat,
+            and NAME.mz.dat where these are the intensity matrix, retention
+            time vector, and m/z vector in tab delimited format. If format='csv',
+            the files will be in the CSV format, named NAME.im.csv, NAME.rt.csv,
+            and NAME.mz.csv.
 
-        By default, export_ascii("NAME") will create NAME.im.dat, NAME.rt.dat,
-        and NAME.mz.dat where these are the intensity matrix, retention
-        time vector, and m/z vector in tab delimited format. If format='csv',
-        the files will be in the CSV format, named NAME.im.csv, NAME.rt.csv,
-        and NAME.mz.csv.
+        :param root_name: Root name for the output files
+        :type root_name: StringType
 
-        @param root_name: Root name for the output files
-        @type root_name: StringType
+        :return: none
+        :rtype: NoneType
 
-        @return: none
-        @rtype: NoneType
-
-        @author: Milica Ng
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Milica Ng
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         if not is_str(root_name):
@@ -1213,16 +1210,16 @@ class IntensityMatrix(object):
     def export_leco_csv(self, file_name):
 
         """
-        @summary: Exports data in LECO CSV format
+        :summary: Exports data in LECO CSV format
 
-        @param file_name: File name
-        @type file_name: StringType
+        :param file_name: File name
+        :type file_name: StringType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
 
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         if not is_str(file_name):
@@ -1265,15 +1262,15 @@ class IntensityMatrix(object):
 
     def import_leco_csv(self, file_name):
         """
-        @summary: Imports data in LECO CSV format
+        :summary: Imports data in LECO CSV format
 
-        @param file_name: File name
-        @type file_name: StringType
+        :param file_name: File name
+        :type file_name: StringType
 
-        @return: Data as an IntensityMatrix
-        @rtype: pyms.GCMS.Class.IntensityMatrix
+        :return: Data as an IntensityMatrix
+        :rtype: pyms.GCMS.Class.IntensityMatrix
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_str(file_name):
@@ -1364,7 +1361,7 @@ class IntensityMatrix(object):
 class IonChromatogram(object):
 
     """
-    @summary: Models an ion chromatogram
+    :summary: Models an ion chromatogram
 
     An ion chromatogram is a set of intensities as a function of retention
     time. This can can be either m/z channel intensities (for example, ion
@@ -1376,23 +1373,23 @@ class IonChromatogram(object):
     the value of the attribute '__mass'. This is set to the m/z value of the
     ion chromatogram, or to None for TIC.
 
-    @author: Lewis Lee
-    @author: Vladimir Likic
+    :author: Lewis Lee
+    :author: Vladimir Likic
     """
 
     def __init__(self, ia, time_list, mass=None):
 
         """
-        @param ia: Ion chromatogram intensity values
-        @type ia: numpy.array
-        @param time_list: A list of ion chromatogram retention times
-        @type time_list: ListType
-        @param mass: Mass of ion chromatogram (Null if TIC)
-        @type mass: IntType
+        :param ia: Ion chromatogram intensity values
+        :type ia: numpy.array
+        :param time_list: A list of ion chromatogram retention times
+        :type time_list: ListType
+        :param mass: Mass of ion chromatogram (Null if TIC)
+        :type mass: IntType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         if not isinstance(ia, numpy.ndarray):
@@ -1414,23 +1411,23 @@ class IonChromatogram(object):
     def __len__(self):
 
         """
-        @summary: Returns the length of the IonChromatogram object
+        :summary: Returns the length of the IonChromatogram object
 
-        @return: Length of ion chromatogram
-        @rtype: IntType
+        :return: Length of ion chromatogram
+        :rtype: IntType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         return self.__ia.size
     
     def __sub__(self, Other):
         """
-        @summary: Subtracts another IC from the current one
+        :summary: Subtracts another IC from the current one
         
-        @param other: Another IC
-        @type other: pyms.GCMS.IonChromatogram
+        :param other: Another IC
+        :type other: pyms.GCMS.IonChromatogram
         """
         
         ia_for_sub = Other.get_intensity_array()
@@ -1442,16 +1439,16 @@ class IonChromatogram(object):
     def get_intensity_at_index(self, ix):
 
         """
-        @summary: Returns intensity at given index
+        :summary: Returns intensity at given index
 
-        @param ix: An index
-        @type ix: IntType
+        :param ix: An index
+        :type ix: IntType
 
-        @return: Intensity value
-        @rtype: FloatType
+        :return: Intensity value
+        :rtype: FloatType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         if not is_int(ix):
@@ -1465,13 +1462,13 @@ class IonChromatogram(object):
     def get_intensity_array(self):
 
         """
-        @summary: Returns the entire intensity array
+        :summary: Returns the entire intensity array
 
-        @return: Intensity array
-        @rtype: numpy.ndarray
+        :return: Intensity array
+        :rtype: numpy.ndarray
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         return self.__ia
@@ -1479,16 +1476,16 @@ class IonChromatogram(object):
     def get_time_at_index(self, ix):
 
         """
-        @summary: Returns time at given index
+        :summary: Returns time at given index
 
-        @param ix: An index
-        @type ix: IntType
+        :param ix: An index
+        :type ix: IntType
 
-        @return: Time value
-        @rtype: FloatType
+        :return: Time value
+        :rtype: FloatType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         if not is_int(ix):
@@ -1502,13 +1499,13 @@ class IonChromatogram(object):
     def get_time_list(self):
 
         """
-        @summary: Returns the time list
+        :summary: Returns the time list
 
-        @return: Time list
-        @rtype: ListType
+        :return: Time list
+        :rtype: ListType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         return self.__time_list
@@ -1516,12 +1513,12 @@ class IonChromatogram(object):
     def get_mass(self):
         
         """
-        @summary: Returns the m/z channel of the IC
+        :summary: Returns the m/z channel of the IC
         
-        @return: m/z channel of the IC
-        @rtype: intType
+        :return: m/z channel of the IC
+        :rtype: intType
         
-        @author: Sean O'Callaghan
+        :author: Sean O'Callaghan
         """
         if self.__mass == None:
             error("TIC has no m/z label")
@@ -1532,13 +1529,13 @@ class IonChromatogram(object):
     def get_time_step(self):
 
         """
-        @summary: Returns the time step
+        :summary: Returns the time step
 
-        @return: Time step
-        @rtype: FloatType
+        :return: Time step
+        :rtype: FloatType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         return self.__time_step
@@ -1546,16 +1543,16 @@ class IonChromatogram(object):
     def __calc_time_step(self, time_list):
 
         """
-        @summary: Calculates the time step
+        :summary: Calculates the time step
 
-        @param time_list: A list of retention times
-        @type time_list: ListType
+        :param time_list: A list of retention times
+        :type time_list: ListType
 
-        @return: Time step value
-        @rtype: FloatType
+        :return: Time step value
+        :rtype: FloatType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         td_list = []
@@ -1571,18 +1568,18 @@ class IonChromatogram(object):
     def get_index_at_time(self, time):
 
         """
-        @summary: Returns the nearest index corresponding to the given time
+        :summary: Returns the nearest index corresponding to the given time
 
-        @param time: Time in seconds
-        @type time: FloatType
+        :param time: Time in seconds
+        :type time: FloatType
 
-        @return: Nearest index corresponding to given time
-        @rtype: IntType
+        :return: Nearest index corresponding to given time
+        :rtype: IntType
 
-        @author: Lewis Lee
-        @author: Tim Erwin
-        @author: Milica Ng
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Tim Erwin
+        :author: Milica Ng
+        :author: Vladimir Likic
         """
 
         if not is_number(time):
@@ -1610,15 +1607,15 @@ class IonChromatogram(object):
     def is_tic(self):
 
         """
-        @summary: Returns True if the ion chromatogram is a total ion
+        :summary: Returns True if the ion chromatogram is a total ion
             chromatogram (TIC), or False otherwise
 
-        @return: A boolean value indicating if the ion chromatogram
+        :return: A boolean value indicating if the ion chromatogram
             is a total ion chromatogram (True) or not (False)
-        @rtype: BooleanType
+        :rtype: BooleanType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         if self.__mass == None:
@@ -1629,15 +1626,15 @@ class IonChromatogram(object):
     def set_intensity_array(self, ia):
 
         """
-        @summary: Sets the value for the intensity array
+        :summary: Sets the value for the intensity array
 
-        @param ia: An array of new intensity values
-        @type ia: numpy.ndarray
+        :param ia: An array of new intensity values
+        :type ia: numpy.ndarray
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
 
-        @author: Vladimir Likic
+        :author: Vladimir Likic
         """
 
         self.__ia = ia
@@ -1646,19 +1643,19 @@ class IonChromatogram(object):
     def write(self, file_name, minutes=False):
 
         """
-        @summary: Writes the ion chromatogram to the specified file
+        :summary: Writes the ion chromatogram to the specified file
 
-        @param file_name: Output file name
-        @type file_name: StringType
-        @param minutes: A boolean value indicating whether to write
+        :param file_name: Output file name
+        :type file_name: StringType
+        :param minutes: A boolean value indicating whether to write
             time in minutes
-        @type minutes: BooleanType
+        :type minutes: BooleanType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
 
-        @author: Lewis Lee
-        @author: Vladimir Likic
+        :author: Lewis Lee
+        :author: Vladimir Likic
         """
 
         if not is_str(file_name):
@@ -1680,26 +1677,26 @@ class IonChromatogram(object):
 class MassSpectrum(object):
 
     """
-    @summary: Models a binned mass spectrum
+    :summary: Models a binned mass spectrum
 
-    @author: Andrew Isaac
-    @author: Qiao Wang
-    @author: Vladimir Likic
+    :author: Andrew Isaac
+    :author: Qiao Wang
+    :author: Vladimir Likic
     """
 
     def __init__(self, mass_list, intensity_list):
 
         """
-        @summary: Initialise the MassSpectrum
+        :summary: Initialise the MassSpectrum
 
-        @param mass_list: List of binned masses
-        @type mass_list: ListType
-        @param intensity_list: List of binned intensities
-        @type intensity_list: ListType
+        :param mass_list: List of binned masses
+        :type mass_list: ListType
+        :param intensity_list: List of binned intensities
+        :type intensity_list: ListType
 
-        @author: Andrew Isaac
-        @author: Qiao Wang
-        @author: Vladimir Likic
+        :author: Andrew Isaac
+        :author: Qiao Wang
+        :author: Vladimir Likic
         """
 
         if not is_list(mass_list) or not is_number(mass_list[0]):
@@ -1717,14 +1714,14 @@ class MassSpectrum(object):
     def __len__(self):
 
         """
-        @summary: Length of the MassSpectrum
+        :summary: Length of the MassSpectrum
 
-        @return: Length of the MassSpectrum (Number of bins)
-        @rtype: IntType
+        :return: Length of the MassSpectrum (Number of bins)
+        :rtype: IntType
 
-        @author: Andrew Isaac
-        @author: Qiao Wang
-        @author: Vladimir Likic
+        :author: Andrew Isaac
+        :author: Qiao Wang
+        :author: Vladimir Likic
         """
 
         return len(self.mass_list)

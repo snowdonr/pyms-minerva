@@ -22,7 +22,9 @@ Functions related to Peak modification
  #                                                                           #
  #############################################################################
 
-import numpy, math
+import numpy
+import math
+import sys
 
 #from pyms.Utils.Error import error
 from pyms.Peak.Class import Peak
@@ -37,25 +39,21 @@ try:
 except:
     pass
 
-if sys.version_info[0] == 3: # for python 3
-    def xrange(*args):
-        return range(*args)
-
 def composite_peak(peak_list, minutes=False):
 
     """
-    @summary: Create a peak that consists of a composite spectrum from all
+    :summary: Create a peak that consists of a composite spectrum from all
         spectra in the list of peaks.
 
-    @param peak_list: A list of peak objects
-    @type peak_list: ListType
-    @param minutes: Return retention time as minutes
-    @type minutes: BooleanType
+    :param peak_list: A list of peak objects
+    :type peak_list: ListType
+    :param minutes: Return retention time as minutes
+    :type minutes: BooleanType
 
-    @return: Peak Object with combined mass spectra of 'peak_list'
-    @type: pyms.Peak.Class.Peak
+    :return: Peak Object with combined mass spectra of 'peak_list'
+    :type: pyms.Peak.Class.Peak
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     first = True
@@ -93,24 +91,24 @@ def composite_peak(peak_list, minutes=False):
 def fill_peaks(data, peak_list, D, minutes=False):
 
     """
-    @summary: Gets the best matching Retention Time and spectra from 'data' for
+    :summary: Gets the best matching Retention Time and spectra from 'data' for
         each peak in the peak list.
 
-    @param data: A data IntensityMatrix that has the same mass range as the
+    :param data: A data IntensityMatrix that has the same mass range as the
         peaks in the peak list
-    @type data: pyms.GCMS.Class.IntensityMatrix
-    @param peak_list: A list of peak objects
-    @type peak_list: ListType
-    @param D: Peak width standard deviation in seconds.  Determines search
+    :type data: pyms.GCMS.Class.IntensityMatrix
+    :param peak_list: A list of peak objects
+    :type peak_list: ListType
+    :param D: Peak width standard deviation in seconds.  Determines search
         window width.
-    @type D: FloatType
-    @param minutes: Return retention time as minutes
-    @type minutes: BooleanType
+    :type D: FloatType
+    :param minutes: Return retention time as minutes
+    :type minutes: BooleanType
 
-    @return: List of Peak Objects
-    @type: ListType
+    :return: List of Peak Objects
+    :type: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     # Test for best match in range where RT weight is greater than _TOL
@@ -129,7 +127,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
     rtl = 0
     rtr = 0
     new_peak_list = []
-    for ii in xrange(len(peak_list)):
+    for ii in range(len(peak_list)):
         spec = peak_list[ii].get_mass_spectrum().mass_spec
         spec = numpy.array(spec, dtype='d')
         rt = peak_list[ii].get_rt()

@@ -33,12 +33,12 @@ import numpy
 def JCAMP_reader(file_name):
 
     """
-    @summary: Generic reader for JCAMP DX files, produces GC-MS data
+    :summary: Generic reader for JCAMP DX files, produces GC-MS data
        object
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     if not is_str(file_name):

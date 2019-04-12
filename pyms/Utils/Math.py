@@ -30,14 +30,14 @@ from pyms.Utils.Utils import is_list, is_number
 def median(v):
 
     """
-    @summary: Returns a median of a list or numpy array
+    :summary: Returns a median of a list or numpy array
 
-    @param v: Input list or array
-    @type v: ListType or numpy.core.ndarray
-    @return: The median of the input list
-    @rtype: FloatType
+    :param v: Input list or array
+    :type v: ListType or numpy.core.ndarray
+    :return: The median of the input list
+    :rtype: FloatType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_list(v):
@@ -52,7 +52,7 @@ def median(v):
         K = N//2 - 1 
         median = (local_data[K] + local_data[K+1])/2.0
     else:
-	    # odd number of points
+        # odd number of points
         K = (N - 1)//2 - 1
         median = local_data[K+1]
 
@@ -91,15 +91,15 @@ def vector_by_step(vstart,vstop,vstep):
 def MAD(v):
 
     """
-    @summary: median absolute deviation
+    :summary: median absolute deviation
 
-    @param v: A list or array
-    @type v: ListType, TupleType, or numpy.core.ndarray
+    :param v: A list or array
+    :type v: ListType, TupleType, or numpy.core.ndarray
 
-    @return: median absolute deviation
-    @rtype: FloatType
+    :return: median absolute deviation
+    :rtype: FloatType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_list(v):
@@ -119,16 +119,16 @@ def MAD(v):
 def amin(v):
 
     """
-    @summary: Finds the minimum element in a list or array
+    :summary: Finds the minimum element in a list or array
 
-    @param v: A list or array
-    @type v: ListType, TupleType, or numpy.core.ndarray
+    :param v: A list or array
+    :type v: ListType, TupleType, or numpy.core.ndarray
 
-    @return: Tuple (maxi, maxv), where maxv is the minimum 
+    :return: Tuple (maxi, maxv), where maxv is the minimum
         element in the list and maxi is its index
-    @rtype: TupleType
+    :rtype: TupleType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_list(v):
@@ -150,15 +150,15 @@ def amin(v):
 def mean(v):
 
     """
-    @summary: Calculates the mean
+    :summary: Calculates the mean
 
-    @param v: A list or array
-    @type v: ListType, TupleType, or numpy.core.ndarray
+    :param v: A list or array
+    :type v: ListType, TupleType, or numpy.core.ndarray
 
-    @return: Mean
-    @rtype: FloatType
+    :return: Mean
+    :rtype: FloatType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_list(v):
@@ -174,15 +174,15 @@ def mean(v):
 def std(v):
 
     """
-    @summary: Calculates standard deviation
+    :summary: Calculates standard deviation
 
-    @param v: A list or array
-    @type v: ListType, TupleType, or numpy.core.ndarray
+    :param v: A list or array
+    :type v: ListType, TupleType, or numpy.core.ndarray
 
-    @return: Mean
-    @rtype: FloatType
+    :return: Mean
+    :rtype: FloatType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_list(v):
@@ -203,18 +203,18 @@ def std(v):
 def rmsd(list1, list2):
 
     """
-    @summary: Calculates RMSD for the 2 lists
+    :summary: Calculates RMSD for the 2 lists
 
-    @param list1: First data set
-    @type list1: ListType, TupleType, or numpy.core.ndarray 
-    @param list2: Second data set
-    @type list2: ListType, TupleType, or numpy.core.ndarray 
-    @return: RMSD value
-    @rtype: FloatType
+    :param list1: First data set
+    :type list1: ListType, TupleType, or numpy.core.ndarray
+    :param list2: Second data set
+    :type list2: ListType, TupleType, or numpy.core.ndarray
+    :return: RMSD value
+    :rtype: FloatType
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     if not is_list(list1):

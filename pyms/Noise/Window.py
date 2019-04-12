@@ -33,23 +33,23 @@ __DEFAULT_WINDOW = 3
 def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
 
     """
-    @summary: Applies window smoothing on ion chromatogram
+    :summary: Applies window smoothing on ion chromatogram
 
-    @param ic: The input ion chromatogram
-    @type ic: pyms.GCMS.Class.IonChromatogram
-    @param window: The window selection parameter. This can be an integer
+    :param ic: The input ion chromatogram
+    :type ic: pyms.GCMS.Class.IonChromatogram
+    :param window: The window selection parameter. This can be an integer
         or time string. If integer, taken as the number of points. If a
         string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
         a time in seconds or minutes, respectively
-    @type window: IntType or StringType
-    @param median: An indicator whether the mean or median window smoothing
+    :type window: IntType or StringType
+    :param median: An indicator whether the mean or median window smoothing
         to be used
-    @type median: Booleantype
+    :type median: Booleantype
 
-    @return: Smoothed ion chromatogram
-    @rtype: pyms.GCMS.Class.IonChromatogram
+    :return: Smoothed ion chromatogram
+    :rtype: pyms.GCMS.Class.IonChromatogram
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_ionchromatogram(ic):
@@ -71,24 +71,24 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
 
 def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
     """
-    @summary: Applies window smoothing on Intensity Matrix
+    :summary: Applies window smoothing on Intensity Matrix
 
               Simply wraps around the window smooth function above
 
-    @param im: The input Intensity Matrix
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param window: The window selection parameter. 
-    @type window: IntType or StringType
+    :param im: The input Intensity Matrix
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param window: The window selection parameter.
+    :type window: IntType or StringType
     
-    @param median: An indicator whether the mean or median window smoothing
+    :param median: An indicator whether the mean or median window smoothing
         to be used
-    @type median: Booleantype
+    :type median: Booleantype
 
-    @return: Smoothed Intensity Matrix
-    @rtype: pyms.GCMS.Class.IntensityMatrix
+    :return: Smoothed Intensity Matrix
+    :rtype: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Sean O'Callaghan
-    @author: Vladimir Likic
+    :author: Sean O'Callaghan
+    :author: Vladimir Likic
     """
     
     n_scan, n_mz = im.get_size()
@@ -105,18 +105,18 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
 def __mean_window(ia, wing_length):
 
     """
-    @summary: Applies mean-window averaging on the array of intensities.
+    :summary: Applies mean-window averaging on the array of intensities.
 
-    @param ia: Intensity array
-    @type ia: nympy.core.ndarray
-    @param wing_length: An integer value representing the number of
+    :param ia: Intensity array
+    :type ia: nympy.core.ndarray
+    :param wing_length: An integer value representing the number of
         points on either side of a point in the ion chromatogram
-    @type wing_length: IntType
+    :type wing_length: IntType
 
-    @return: Smoothed intensity array
-    @rtype: nympy.core.ndarray
+    :return: Smoothed intensity array
+    :rtype: nympy.core.ndarray
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
 #print(" -> Window smoothing (mean): the wing is %d point(s)" % (wing_length))
@@ -139,18 +139,18 @@ def __mean_window(ia, wing_length):
 def __median_window(ia, wing_length):
 
     """
-    @summary: Applies median-window averaging on the array of intensities.
+    :summary: Applies median-window averaging on the array of intensities.
 
-    @param ia: Intensity array
-    @type ia: nympy.core.ndarray
-    @param wing_length: An integer value representing the number of
+    :param ia: Intensity array
+    :type ia: nympy.core.ndarray
+    :param wing_length: An integer value representing the number of
         points on either side of a point in the ion chromatogram
-    @type wing_length: IntType
+    :type wing_length: IntType
 
-    @return: Smoothed intensity array
-    @rtype: nympy.core.ndarray
+    :return: Smoothed intensity array
+    :rtype: nympy.core.ndarray
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
 #print(" -> Window smoothing (median): the wing is %d point(s)" % (wing_length))

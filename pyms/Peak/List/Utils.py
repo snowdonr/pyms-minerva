@@ -32,16 +32,16 @@ from pyms.Utils.Time import time_str_secs
 def is_peak_list(peaks):
 
     """
-    @summary: Returns True if 'peaks' is a valid peak list, False
-    otherwise
+    :summary: Returns True if 'peaks' is a valid peak list, False
+        otherwise
 
-    @param peaks: A list of peak objects
-    @type peaks: ListType
+    :param peaks: A list of peak objects
+    :type peaks: ListType
 
-    @return: A boolean indicator
-    @rtype: BooleanType
+    :return: A boolean indicator
+    :rtype: BooleanType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     flag = True
@@ -58,15 +58,15 @@ def is_peak_list(peaks):
 def sele_peaks_by_rt(peaks, rt_range):
 
     """
-    @summary: Selects peaks from a retention time range
+    :summary: Selects peaks from a retention time range
 
-    @param peaks: A list of peak objects
-    @type peaks: ListType
-    @param rt_range: A list of two time strings, specifying lower and
+    :param peaks: A list of peak objects
+    :type peaks: ListType
+    :param rt_range: A list of two time strings, specifying lower and
            upper retention times
-    @type rt_range: ListType
-    @return: A list of peak objects
-    @rtype: ListType
+    :type rt_range: ListType
+    :return: A list of peak objects
+    :rtype: ListType
     """
 
     if not is_peak_list(peaks):

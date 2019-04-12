@@ -22,8 +22,6 @@ Functions for reading manufacturer specific ANDI-MS data files
  #                                                                           #
  #############################################################################
 
-import pymzml
-
 import numpy
 
 from pyms.GCMS.Class import GCMS_data
@@ -39,14 +37,16 @@ except:
 def mzML_reader(file_name):
 
     """
-    @summary: A reader for mzML files, returns
+    :summary: A reader for mzML files, returns
         a GC-MS data object
 
-    @param file_name: The name of the mzML file
-    @type file_name: StringType
+    :param file_name: The name of the mzML file
+    :type file_name: StringType
 
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
+
+    import pymzml
 
     if not is_str(file_name):
         error("'file_name' must be a string")

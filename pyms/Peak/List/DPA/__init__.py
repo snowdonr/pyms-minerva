@@ -22,3 +22,4 @@ Alignment of peak lists by dynamic programming
  #                                                                           #
  #############################################################################
 
+from pyms.Peak.List.DPA import Class, Function, Utils

@@ -48,22 +48,23 @@ except:
 def BillerBiemann(im, points=3, scans=1):
 
     """
-    @summary: BillerBiemann Deconvolution
-
+    :summary: BillerBiemann Deconvolution.
+     
+     
         Deconvolution based on the algorithm of Biller and Biemann (1974)
 
-    @param im: An IntensityMatrix object
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param points: Peak if maxima over 'points' number of scans (Default 3)
-    @type points: IntType
-    @param scans: To compensate for spectra skewing,
+    :param im: An IntensityMatrix object
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param points: Peak if maxima over 'points' number of scans (Default 3)
+    :type points: IntType
+    :param scans: To compensate for spectra skewing,
         peaks from 'scans' scans are combined (Default 1).
-    @type scans: IntType
+    :type scans: IntType
 
-    @return: List of Peak objects
-    @rtype: ListType
+    :return: List of Peak objects
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     rt_list = im.get_time_list()
@@ -84,18 +85,18 @@ def BillerBiemann(im, points=3, scans=1):
 def rel_threshold(pl, percent=2):
 
     """
-    @summary: Remove ions with relative intensities less than the given
+    :summary: Remove ions with relative intensities less than the given
         relative percentage of the maximum intensity.
 
-    @param pl: A list of Peak objects
-    @type pl: ListType
-    @param percent: Threshold for relative percentage of intensity (Default 2%)
-    @type percent: FloatType
+    :param pl: A list of Peak objects
+    :type pl: ListType
+    :param percent: Threshold for relative percentage of intensity (Default 2%)
+    :type percent: FloatType
 
-    @return: A new list of Peak objects with threshold ions
-    @rtype: ListType
+    :return: A new list of Peak objects with threshold ions
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     if not is_number(percent) or percent <= 0:
@@ -119,20 +120,20 @@ def rel_threshold(pl, percent=2):
 def num_ions_threshold(pl, n, cutoff):
 
     """
-    @summary: Remove Peaks where there are less than a given number of ion
+    :summary: Remove Peaks where there are less than a given number of ion
         intensities above the given threshold
 
-    @param pl: A list of Peak objects
-    @type pl: ListType
-    @param n: Minimum number of ions that must have intensities above the cutoff
-    @type n: IntType
-    @param cutoff: The minimum intensity threshold
-    @type cutoff: FloatType
+    :param pl: A list of Peak objects
+    :type pl: ListType
+    :param n: Minimum number of ions that must have intensities above the cutoff
+    :type n: IntType
+    :param cutoff: The minimum intensity threshold
+    :type cutoff: FloatType
 
-    @return: A new list of Peak objects
-    @rtype: ListType
+    :return: A new list of Peak objects
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     pl_copy = copy.deepcopy(pl)
@@ -151,20 +152,20 @@ def num_ions_threshold(pl, n, cutoff):
 def sum_maxima(im, points=3, scans=1):
 
     """
-    @summary: Reconstruct the TIC as sum of maxima
+    :summary: Reconstruct the TIC as sum of maxima
 
-    @param im: An IntensityMatrix object
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param points: Peak if maxima over 'points' number of scans
-    @type points: IntType
-    @param scans: To compensate for spectra scewing,
+    :param im: An IntensityMatrix object
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param points: Peak if maxima over 'points' number of scans
+    :type points: IntType
+    :param scans: To compensate for spectra scewing,
         peaks from 'scans' scans are combined.
-    @type scans: IntType
+    :type scans: IntType
 
-    @return: The reconstructed TIC
-    @rtype: pyms.GCMS.Class.IonChromatogram
+    :return: The reconstructed TIC
+    :rtype: pyms.GCMS.Class.IonChromatogram
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     maxima_im = get_maxima_matrix(im, points)
@@ -184,17 +185,17 @@ def sum_maxima(im, points=3, scans=1):
 def get_maxima_indices(ion_intensities, points=3):
 
     """
-    @summary: Find local maxima.
+    :summary: Find local maxima.
 
-    @param ion_intensities: A list of intensities for a single ion
-    @type ion_intensities: ListType
-    @param points: Peak if maxima over 'points' number of scans
-    @type points: IntType
+    :param ion_intensities: A list of intensities for a single ion
+    :type ion_intensities: ListType
+    :param points: Peak if maxima over 'points' number of scans
+    :type points: IntType
 
-    @return: A list of scan indices
-    @rtype: ListType
+    :return: A list of scan indices
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     if not is_list(ion_intensities) or not is_number(ion_intensities[0]):
@@ -232,17 +233,17 @@ def get_maxima_indices(ion_intensities, points=3):
 def get_maxima_list(ic, points=3):
 
     """
-    @summary: List of retention time and intensity of local maxima for ion
+    :summary: List of retention time and intensity of local maxima for ion
 
-    @param ic: An IonChromatogram object
-    @type ic: pyms.GCMS.Class.IonChromatogram
-    @param points: Peak if maxima over 'points' number of scans
-    @type points: IntType
+    :param ic: An IonChromatogram object
+    :type ic: pyms.GCMS.Class.IonChromatogram
+    :param points: Peak if maxima over 'points' number of scans
+    :type points: IntType
 
-    @return: A list of retention time and intensity of local maxima for ion
-    @rtype: ListType
+    :return: A list of retention time and intensity of local maxima for ion
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     peak_point = get_maxima_indices(ic.get_intensity_array(), points)
@@ -256,23 +257,23 @@ def get_maxima_list(ic, points=3):
 def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
 
     """
-    @summary: List of retention time and intensity of local maxima for ion
+    :summary: List of retention time and intensity of local maxima for ion
               Only peaks around a specific retention time are recorded
               created for use with gap filling algorithm
-    @param ic: An IonChromatogram object
-    @type ic: pyms.GCMS.Class.IonChromatogram
-    @param mp_rt: The retention time of the missing peak
-    @type ic: floatType
-    @param points: Peak if maxima over 'points' number of scans
-    @type points: IntType
-    @param window: The window around the mp_rt where peaks should
+    :param ic: An IonChromatogram object
+    :type ic: pyms.GCMS.Class.IonChromatogram
+    :param mp_rt: The retention time of the missing peak
+    :type ic: floatType
+    :param points: Peak if maxima over 'points' number of scans
+    :type points: IntType
+    :param window: The window around the mp_rt where peaks should
                    be recorded
-    @type window: intType
+    :type window: intType
 
-    @return: A list of retention time and intensity of local maxima for ion
-    @rtype: ListType
+    :return: A list of retention time and intensity of local maxima for ion
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     peak_point = get_maxima_indices(ic.get_intensity_array(), points)
@@ -290,20 +291,20 @@ def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
 def get_maxima_matrix(im, points=3, scans=1):
 
     """
-    @summary: Get matrix of local maxima for each ion
+    :summary: Get matrix of local maxima for each ion
 
-    @param im: A list of intensities for a single ion
-    @type im: ListType
-    @param points: Peak if maxima over 'points' number of scans
-    @type points: IntType
-    @param scans: To compensate for spectra scewing,
+    :param im: A list of intensities for a single ion
+    :type im: ListType
+    :param points: Peak if maxima over 'points' number of scans
+    :type points: IntType
+    :param scans: To compensate for spectra scewing,
         peaks from 'scans' scans are combined (Default 1).
-    @type scans: IntType
+    :type scans: IntType
 
-    @return: A matrix of each ion and scan and intensity at ion peaks
-    @rtype: ListType
+    :return: A matrix of each ion and scan and intensity at ion peaks
+    :rtype: ListType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     numrows, numcols = im.get_size()

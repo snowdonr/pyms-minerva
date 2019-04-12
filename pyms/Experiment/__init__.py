@@ -22,3 +22,4 @@ Functions for modelling experiments
  #                                                                           #
  #############################################################################
 
+#from pyms.Experiment import Class, IO

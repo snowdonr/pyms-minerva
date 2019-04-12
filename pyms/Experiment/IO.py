@@ -22,7 +22,7 @@ Functions related to experiment input/output
  #                                                                           #
  #############################################################################
 
-import string, cPickle
+import string, pickle
 
 from pyms.Utils.Error import error
 from pyms.Experiment.Class import Experiment
@@ -33,23 +33,23 @@ from pyms.GCMS.Class import IntensityMatrix
 def load_expr(file_name):
 
     """
-    @summary: Loads an experiment saved with 'store_expr'
+    :summary: Loads an experiment saved with 'store_expr'
 
-    @param file_name: Experiment file name
-    @type file_name: StringType
+    :param file_name: Experiment file name
+    :type file_name: StringType
 
-    @return: The experiment intensity matrix and peak list
-    @rtype: pyms.Experiment.Class.Experiment
+    :return: The experiment intensity matrix and peak list
+    :rtype: pyms.Experiment.Class.Experiment
 
-    @author: Vladimir Likic
-    @author: Andrew Isaac
+    :author: Vladimir Likic
+    :author: Andrew Isaac
     """
 
     if not is_str(file_name):
         error("'file_name' not a string")
 
     fp = open(file_name,'rb')
-    expr = cPickle.load(fp)
+    expr = pickle.load(fp)
     fp.close()
 
     if not isinstance(expr, Experiment):
@@ -60,18 +60,18 @@ def load_expr(file_name):
 def store_expr(file_name, expr):
 
     """
-    @summary: stores an expriment to a file
+    :summary: stores an expriment to a file
 
-    @param file_name: The name of the file
-    @type file_name: StringType
-    @param expr: An experiment object
-    @type expr: pyms.Experiment.Class.Experiment
+    :param file_name: The name of the file
+    :type file_name: StringType
+    :param expr: An experiment object
+    :type expr: pyms.Experiment.Class.Experiment
 
-    @return: none
-    @rtype: NoneType
+    :return: none
+    :rtype: NoneType
 
-    @author: Vladimir Likic
-    @author: Andrew Isaac
+    :author: Vladimir Likic
+    :author: Andrew Isaac
     """
 
     if not isinstance(expr, Experiment):
@@ -81,23 +81,23 @@ def store_expr(file_name, expr):
         error("'file_name' not a string")
 
     fp = open(file_name,'wb')
-    cPickle.dump(expr, fp, 1)
+    pickle.dump(expr, fp, 1)
     fp.close()
 
 def read_expr_list(file_name):
 
     """
-    @summary: Reads the set of experiment files and returns a list of
-    Experiment objects
+    :summary: Reads the set of experiment files and returns a list of
+        Experiment objects
 
-    @param file_name: The name of the file which lists experiment
+    :param file_name: The name of the file which lists experiment
         dump file names, one file per line
-    @type file_name: StringType
+    :type file_name: StringType
 
-    @return: A list of Experiment instances
-    @rtype: ListType
+    :return: A list of Experiment instances
+    :rtype: ListType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_str(file_name):

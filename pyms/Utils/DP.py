@@ -23,24 +23,24 @@ Dynamic Programming routine
  #############################################################################
 
 import numpy
-from Error import error
+from pyms.Utils.Error import error
 #from mpi4py import MPI
 
 def dp(S, gap_penalty):
     
     """ 
-    @summary: Solves optimal path in score matrix based on global sequence
-    alignment
+    :summary: Solves optimal path in score matrix based on global sequence
+        alignment
 
-    @param S: Score matrix
-    @type S: numpy.
-    @param gap_penalty: Gap penalty
-    @type gap_penalty: FloatType
+    :param S: Score matrix
+    :type S: numpy.
+    :param gap_penalty: Gap penalty
+    :type gap_penalty: FloatType
 
-    @return: A dictionary of results
-    @rtype: DictType
+    :return: A dictionary of results
+    :rtype: DictType
 
-    @author: Tim Erwin
+    :author: Tim Erwin
     """
     #comm = MPI.COMM_WORLD
     #rank = comm.Get_rank()

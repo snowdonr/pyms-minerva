@@ -22,3 +22,4 @@ Sub-package to handle raw data
  #                                                                           #
  #############################################################################
 
+from pyms.GCMS import IO, Class, Function

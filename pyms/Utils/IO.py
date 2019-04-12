@@ -26,10 +26,7 @@ General I/O functions
 
 import types, os, string, sys
 
-if sys.version_info[0] == 3:
-    import pickle as cPickle
-else:
-    import cPickle
+import pickle
 
 from pyms.Utils.Error import error
 from pyms.Utils.Utils import is_number, is_str, is_list
@@ -37,40 +34,40 @@ from pyms.Utils.Utils import is_number, is_str, is_list
 def dump_object(object, file_name):
 
     """
-    @summary: Dumps an object to a file through cPickle.dump()
+    :summary: Dumps an object to a file through cPickle.dump()
 
-    @param object: Object to be dumpted
-    @type object: An instance of an arbitrary class
+    :param object: Object to be dumpted
+    :type object: An instance of an arbitrary class
 
-    @param file_name: Name of the file for the object dump
-    @type file_name: StringType
+    :param file_name: Name of the file for the object dump
+    :type file_name: StringType
 
-    @author: Vladimir Likic
-    @author: Dominic Davis-Foster
+    :author: Vladimir Likic
+    :author: Dominic Davis-Foster
     """
 
     if not os.path.exists(os.path.dirname(file_name)):
             os.mkdir(os.path.dirname(file_name))
     fp = open_for_writing(file_name, 'wb')
-    cPickle.dump(object, fp)
+    pickle.dump(object, fp)
     close_for_writing(fp)
 
 def load_object(file_name):
 
     """
-    @summary: Loads an object previously dumped with dump_object()
+    :summary: Loads an object previously dumped with dump_object()
 
-    @param file_name: Name of the object dump file
-    @type file_name: StringType
+    :param file_name: Name of the object dump file
+    :type file_name: StringType
 
-    @return: Object contained in the file 'file_name'
-    @rtype: An instance of an arbitrary class
+    :return: Object contained in the file 'file_name'
+    :rtype: An instance of an arbitrary class
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     fp = open_for_reading(file_name)
-    object = cPickle.load(fp)
+    object = pickle.load(fp)
     close_for_reading(fp)
 
     return object
@@ -78,15 +75,15 @@ def load_object(file_name):
 def open_for_reading(file_name):
 
     """
-    @summary: Opens file for reading, returns file pointer
+    :summary: Opens file for reading, returns file pointer
 
-    @param file_name: Name of the file to be opened for reading
-    @type file_name: StringType
+    :param file_name: Name of the file to be opened for reading
+    :type file_name: StringType
 
-    @return: Pointer to the opened file
-    @rtype: FileType
+    :return: Pointer to the opened file
+    :rtype: FileType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_str(file_name):
@@ -101,16 +98,16 @@ def open_for_reading(file_name):
 def open_for_writing(file_name, mode='w'):
 
     """
-    @summary: Opens file for writing, returns file pointer
+    :summary: Opens file for writing, returns file pointer
 
-    @param file_name: Name of the file to be opened for writing
-    @type file_name: StringType
+    :param file_name: Name of the file to be opened for writing
+    :type file_name: StringType
 
-    @return: Pointer to the opened file
-    @rtype: FileType
+    :return: Pointer to the opened file
+    :rtype: FileType
 
-    @author: Vladimir Likic
-    @author: Dominic Davis-Foster
+    :author: Vladimir Likic
+    :author: Dominic Davis-Foster
     """
 
     if not is_str(file_name):
@@ -127,15 +124,15 @@ def open_for_writing(file_name, mode='w'):
 def close_for_reading(fp):
 
     """
-    @summary: Closes file pointer open for reading
+    :summary: Closes file pointer open for reading
 
-    @param fp: A file pointer, previously opened for reading
-    @type fp: FileType
+    :param fp: A file pointer, previously opened for reading
+    :type fp: FileType
 
-    @return: none
-    @rtype: NoneType
+    :return: none
+    :rtype: NoneType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     fp.close()
@@ -143,15 +140,15 @@ def close_for_reading(fp):
 def close_for_writing(fp):
 
     """
-    @summary: Closes file pointer open for writing
+    :summary: Closes file pointer open for writing
 
-    @param fp: A file pointer, previously opened for writing
-    @type fp: FileType
+    :param fp: A file pointer, previously opened for writing
+    :type fp: FileType
 
-    @return: none
-    @rtype: NoneType
+    :return: none
+    :rtype: NoneType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     fp.close()
@@ -159,19 +156,19 @@ def close_for_writing(fp):
 def file_lines(file_name, filter=False):
 
     """
-    @summary: Returns lines from a file, as a list
+    :summary: Returns lines from a file, as a list
 
-    @param file_name: Name of a file
-    @type: StringType
-    @param filter: If True, lines are pre-processes. Newline character
+    :param file_name: Name of a file
+    :type: StringType
+    :param filter: If True, lines are pre-processes. Newline character
         if removed, leading and taling whitespaces are removed, and lines
         starting with '#' are discarded
-    @type: BooleanType 
+    :type: BooleanType
 
-    @return: A list of lines
-    @rtype: ListType
+    :return: A list of lines
+    :rtype: ListType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_str(file_name):
@@ -204,27 +201,27 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
     compressed=False):
 
     """
-    @summary: Saves a list of numbers or a list of lists of numbers
-    to a file with specific formatting
+    :summary: Saves a list of numbers or a list of lists of numbers
+        to a file with specific formatting
 
-    @param file_name: Name of a file
-    @type: StringType
-    @param data: A list of numbers, or a list of lists
-    @type: ListType
-    @param format_str: A format string for individual entries
-    @type: StringType
-    @param prepend: A string, printed before each row
-    @type: StringType
-    @param sep: A string, printed after each number
-    @type: StringType
-    @param compressed: A boolean. If True, the output will be gzipped
-    @type: BooleanType
+    :param file_name: Name of a file
+    :type: StringType
+    :param data: A list of numbers, or a list of lists
+    :type: ListType
+    :param format_str: A format string for individual entries
+    :type: StringType
+    :param prepend: A string, printed before each row
+    :type: StringType
+    :param sep: A string, printed after each number
+    :type: StringType
+    :param compressed: A boolean. If True, the output will be gzipped
+    :type: BooleanType
 
-    @return: none
-    @rtype: NoneType
+    :return: none
+    :rtype: NoneType
 
-    @author: Vladimir Likic
-    @author: Dominic Davis-Foster
+    :author: Vladimir Likic
+    :author: Dominic Davis-Foster
     """
 
     if not os.path.exists(os.path.dirname(file_name)):

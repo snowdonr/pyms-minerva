@@ -1,0 +1,11 @@
+******
+61a
+******
+
+Experiment setup for group A peak data.
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

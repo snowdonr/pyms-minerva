@@ -22,3 +22,4 @@ Sub-package to simulate GCMS data
  #                                                                           #
  #############################################################################
 
+from pyms.Simulator import Function

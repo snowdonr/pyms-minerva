@@ -22,3 +22,4 @@ Functions for baseline correction
  #                                                                           #
  #############################################################################
 
+#import pyms.Baseline.TopHat

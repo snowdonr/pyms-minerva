@@ -1,0 +1,11 @@
+******
+52
+******
+
+Peak detection and deconvolution.
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

@@ -22,8 +22,9 @@ Functions for reading manufacturer specific ANDI-MS data files
  #                                                                           #
  #############################################################################
 
-import math, copy
-
+import math
+import copy
+import sys
 import numpy
 
 from pyms.GCMS.Class import GCMS_data
@@ -31,32 +32,31 @@ from pyms.GCMS.Class import Scan
 from pyms.Utils.Error import error, stop
 from pyms.Utils.Utils import is_str, is_int, is_float, is_number, is_list
 from pyms.Utils.Time import time_str_secs
-from pycdf import *
+#from pycdf import *
 
 try:
     from mpi4py import MPI
 except:
     pass
 
-if sys.version_info[0] == 3: # for python 3
-    def xrange(*args):
-        return range(*args)	
-	
+    
 def ANDI_reader(file_name):
 
     """
-    @summary: A reader for ANDI-MS NetCDF files, returns
+    :summary: A reader for ANDI-MS NetCDF files, returns
         a GC-MS data object
 
-    @param file_name: The name of the ANDI-MS file
-    @type file_name: StringType
+    :param file_name: The name of the ANDI-MS file
+    :type file_name: StringType
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
-    @author: Vladimir Likic
+    :author: Qiao Wang
+    :author: Andrew Isaac
+    :author: Vladimir Likic
     """
 
     ## TODO: use 'point_count' and allow for zero len scans
+
+    from pycdf import CDF, CDFError
 
     # the keys used to retrieve certain data from the NetCDF file
     __MASS_STRING = "mass_values"
@@ -143,15 +143,15 @@ def ANDI_reader(file_name):
 def ANDI_writer(file_name, im):
 
     """
-    @summary: A reader for ANDI-MS NetCDF files, returns
+    :summary: A reader for ANDI-MS NetCDF files, returns
         a GC-MS data object
 
-    @param file_name: The name of the ANDI-MS file
-    @type file_name: StringType
-    @param im: The IntensityMatrix
-    @type file_name: pyms.GCMS.Class.IntensityMatrix
+    :param file_name: The name of the ANDI-MS file
+    :type file_name: StringType
+    :param im: The IntensityMatrix
+    :type file_name: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     # netCDF header info for compatability
@@ -268,6 +268,8 @@ def ANDI_writer(file_name, im):
   #-------------------- --- ----   --- -----
   #units                  0 CHAR    26 Arbitrary Intensity Units
 
+    from pycdf import CDF, NC, CDFError
+    
     # netCDF dimension names
     __POINT_NUMBER = "point_number"
     __SCAN_NUMBER = "scan_number"
@@ -299,9 +301,9 @@ def ANDI_writer(file_name, im):
     mass_values = []
     intensity_values = []
     point_count_values = []
-    for row in xrange(len(intensity_matrix)):
+    for row in range(len(intensity_matrix)):
         pc = 0  # point count
-        for col in xrange(len(intensity_matrix[0])):  # all rows same len
+        for col in range(len(intensity_matrix[0])):  # all rows same len
             if (intensity_matrix[row][col] > 0):
                 mass_values.append(mass_list[col])
                 intensity_values.append(intensity_matrix[row][col])

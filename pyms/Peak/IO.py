@@ -23,11 +23,7 @@ Functions related to storing and loading a list of Peak objects
  #############################################################################
 
 import string
-
-try:
-	import cPickle
-except ModuleNotFoundError:
-	import pickle as cPickle
+import pickle
 
 from pyms.Utils.Error import error
 from pyms.Peak.Class import Peak
@@ -50,7 +46,7 @@ def store_peaks(peak_list, file_name):
         error("'file_name' must be a string")
 
     fp = open(file_name,'wb')
-    cPickle.dump(peak_list, fp, 1)
+    pickle.dump(peak_list, fp, 1)
     fp.close()
 
 def load_peaks(file_name):
@@ -71,7 +67,7 @@ def load_peaks(file_name):
         error("'file_name' not a string")
 
     fp = open(file_name,'rb')
-    peak_list = cPickle.load(fp)
+    peak_list = pickle.load(fp)
     fp.close()
 
     if not is_list(peak_list):

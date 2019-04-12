@@ -46,14 +46,14 @@ except:
 def align_with_tree(T, min_peaks=1):
 
     """
-    @summary: Aligns a list of alignments using the supplied guide tree
+    :summary: Aligns a list of alignments using the supplied guide tree
 
-    @param T: The pairwise alignment object
-    @type: pyms.Peak.List.DPA.Class.PairwiseAlignment
-    @return: The final alignment consisting of aligned input alignments
-    @rtype: pyms.Peak.List.DPA.Class.Alignment
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
+    :param T: The pairwise alignment object
+    :type: pyms.Peak.List.DPA.Class.PairwiseAlignment
+    :return: The final alignment consisting of aligned input alignments
+    :rtype: pyms.Peak.List.DPA.Class.Alignment
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
     """
 
     print(" Aligning %d items with guide tree (D=%.2f, gap=%.2f)" % \
@@ -91,13 +91,13 @@ def align_with_tree(T, min_peaks=1):
 def exprl2alignment(exprl):
 
     """
-    @summary: Converts experiments into alignments
+    :summary: Converts experiments into alignments
 
-    @param exprl: The list of experiments to be converted into an alignment
+    :param exprl: The list of experiments to be converted into an alignment
         objects
-    @type exprl: ListType
+    :type exprl: ListType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_list(exprl):
@@ -117,22 +117,22 @@ def exprl2alignment(exprl):
 def align(a1, a2, D, gap):
 
     """
-    @summary: Aligns two alignments
+    :summary: Aligns two alignments
 
-    @param a1: The first alignment
-    @type a1: pyms.Peak.List.Class.Alignment
-    @param a2: The second alignment
-    @type a2: pyms.Peak.List.Class.Alignment
-    @param D: Retention time tolerance
-    @type D: FloatType
-    @param gap: Gap penalty
-    @type gap: FloatType
+    :param a1: The first alignment
+    :type a1: pyms.Peak.List.Class.Alignment
+    :param a2: The second alignment
+    :type a2: pyms.Peak.List.Class.Alignment
+    :param D: Retention time tolerance
+    :type D: FloatType
+    :param gap: Gap penalty
+    :type gap: FloatType
 
-    @return: Aligned alignments
-    @rtype: pyms.Peak.List.Class.Alignment
+    :return: Aligned alignments
+    :rtype: pyms.Peak.List.Class.Alignment
 
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
     """
 
     # calculate score matrix for two alignments
@@ -152,16 +152,16 @@ def align(a1, a2, D, gap):
 def merge_alignments(A1, A2, traces):
 
     """
-    @summary: Merges two alignments with gaps added in from DP traceback
+    :summary: Merges two alignments with gaps added in from DP traceback
 
-    @param A1: First alignment
-    @param A2: Second alignment
-    @param traces: DP traceback
+    :param A1: First alignment
+    :param A2: Second alignment
+    :param traces: DP traceback
 
-    @return: A single alignment from A1 and A2
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
-    @author: Qiao Wang
+    :return: A single alignment from A1 and A2
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
+    :author: Qiao Wang
     """
 
     # Create object to hold new merged alignment and fill in its expr_codes
@@ -221,15 +221,15 @@ def merge_alignments(A1, A2, traces):
 def alignment_similarity(traces, score_matrix, gap):
 
     """
-    @summary: Calculates similarity score between two alignments (new method)
+    :summary: Calculates similarity score between two alignments (new method)
 
-    @param traces: Traceback from DP algorithm
-    @param score_matrix: Score matrix of the two alignments
-    @param gap: Gap penalty
+    :param traces: Traceback from DP algorithm
+    :param score_matrix: Score matrix of the two alignments
+    :param gap: Gap penalty
 
-    @return: Similarity score (i.e. more similar => higher score)
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
+    :return: Similarity score (i.e. more similar => higher score)
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
     """
 
     score_matrix = 1. - score_matrix
@@ -259,20 +259,20 @@ def alignment_similarity(traces, score_matrix, gap):
 def score_matrix(a1, a2, D):
 
     """
-    @summary: Calculates the score matrix between two alignments
+    :summary: Calculates the score matrix between two alignments
 
-    @param a1: The first alignment
-    @type a1: pyms.Peak.List.Class.Alignment
-    @param a2: The second alignment
-    @type a2: pyms.Peak.List.Class.Alignment
-    @param D: Retention time tolerance
-    @type D: FloatType
+    :param a1: The first alignment
+    :type a1: pyms.Peak.List.Class.Alignment
+    :param a2: The second alignment
+    :type a2: pyms.Peak.List.Class.Alignment
+    :param D: Retention time tolerance
+    :type D: FloatType
 
-    @return: Aligned alignments
-    @rtype: pyms.Peak.List.Class.Alignment
+    :return: Aligned alignments
+    :rtype: pyms.Peak.List.Class.Alignment
 
-    @author: Qiao Wang
-    @author: Andrew Isaac
+    :author: Qiao Wang
+    :author: Andrew Isaac
     """
 
     score_matrix = numpy.zeros((len(a1.peakalgt), len(a2.peakalgt)))
@@ -293,19 +293,19 @@ def score_matrix(a1, a2, D):
 def position_similarity(pos1, pos2, D):
 
     """
-    @summary: Calculates the similarity between the two alignment
+    :summary: Calculates the similarity between the two alignment
         positions.  A score of 0 is best and 1 is worst.
 
-    @param pos1: The position of the first alignment
-    @param pos2: The position of the second alignment
-    @param D: Rentention time tolerance
+    :param pos1: The position of the first alignment
+    :param pos2: The position of the second alignment
+    :param D: Rentention time tolerance
 
-    @return: The similarity value for the current position
-    @rtype: FloatType
+    :return: The similarity value for the current position
+    :rtype: FloatType
 
-    @author: Qiao Wang
-    @author: Vladimir Likic
-    @author: Andrew Isaac
+    :author: Qiao Wang
+    :author: Vladimir Likic
+    :author: Andrew Isaac
     """
 
     score = 0.0

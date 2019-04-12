@@ -27,19 +27,19 @@ import sys
 def error(message=None):
 
     """
-    @summary: PyMS wide error function
+    :summary: PyMS wide error function
 
     Prints out the error message (if supplied) and terminates execution
     with sys.exit(1).
 
-    @param message: The error message to be printed
-    @type message: StringType
+    :param message: The error message to be printed
+    :type message: StringType
 
-    @return: none
-    @rtype: NoneType
+    :return: none
+    :rtype: NoneType
 
-    @author: Lewis Lee
-    @author: Vladimir Likic
+    :author: Lewis Lee
+    :author: Vladimir Likic
     """
 
     sys.stdout = sys.__stderr__
@@ -86,13 +86,13 @@ def error(message=None):
 def stop(message=None):
 
     """
-    @summary: A simple termination of execution
+    :summary: A simple termination of execution
 
-    @param message: The message to be printed
-    @type message: StringType
+    :param message: The message to be printed
+    :type message: StringType
 
-    @return: none
-    @rtype: NoneType
+    :return: none
+    :rtype: NoneType
     """
 
     if message != None:

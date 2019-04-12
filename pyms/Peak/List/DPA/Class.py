@@ -22,8 +22,6 @@ Classes for peak alignment by dynamic programming
  #                                                                           #
  #############################################################################
 
-from __future__ import print_function
- 
 import copy
 
 import numpy
@@ -39,8 +37,6 @@ from pyms.GCMS.Class import MassSpectrum
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import composite_peak
 
-#import Function
-#import Function_new
 from pyms.Peak.List.DPA import Function
 
 # If psyco is installed, use it to speed up running time
@@ -53,21 +49,21 @@ except:
 class Alignment(object):
 
     """
-    @summary: Models an alignment of peak lists
+    :summary: Models an alignment of peak lists
 
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
     """
 
     def __init__(self, expr):
 
         """
-        @param expr: The experiment to be converted into an alignment object
-        @type expr: pyms.Experiment.Class.Experiment
+        :param expr: The experiment to be converted into an alignment object
+        :type expr: pyms.Experiment.Class.Experiment
 
-        @author: Woon Wai Keen
-        @author: Qiao Wang
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Qiao Wang
+        :author: Vladimir Likic
         """
         if expr == None:
             self.peakpos = []
@@ -88,11 +84,11 @@ class Alignment(object):
     def __len__(self):
 
         """
-        @summary: Returns the length of the alignment, defined as the number of
-        peak positions in the alignment
+        :summary: Returns the length of the alignment, defined as the number of
+            peak positions in the alignment
 
-        @author: Qiao Wang
-        @author: Vladimir Likic
+        :author: Qiao Wang
+        :author: Vladimir Likic
         """
 
         return len(self.peakalgt)
@@ -100,15 +96,16 @@ class Alignment(object):
     def filter_min_peaks(self, min_peaks):
 
         """
-        @summary: Filters alignment positions that have less peaks than 'min_peaks'
+        :summary: Filters alignment positions that have less peaks than 'min_peaks'
 
-        This function is useful only for within state alignment.
+            
+            This function is useful only for within state alignment.
 
-        @param min_peaks: Minimum number of peaks required for the alignment
+        :param min_peaks: Minimum number of peaks required for the alignment
             position to survive filtering
-        @type min_peaks: IntType
+        :type min_peaks: IntType
 
-        @author: Qiao Wang
+        :author: Qiao Wang
         """
 
         filtered_list=[]
@@ -124,22 +121,22 @@ class Alignment(object):
     def write_csv(self, rt_file_name, area_file_name, minutes=True):
 
         """
-        @summary: Writes the alignment to CSV files
+        :summary: Writes the alignment to CSV files
 
         This function writes two files: one containing the alignment of peak
         retention times and the other containing the alignment of peak areas.
 
-        @param rt_file_name: The name for the retention time alignment file
-        @type rt_file_name: StringType
-        @param area_file_name: The name for the areas alignment file
-        @type area_file_name: StringType
-        @param minutes: An optional indicator whether to save retention times
+        :param rt_file_name: The name for the retention time alignment file
+        :type rt_file_name: StringType
+        :param area_file_name: The name for the areas alignment file
+        :type area_file_name: StringType
+        :param minutes: An optional indicator whether to save retention times
             in minutes. If False, retention time will be saved in seconds
-        @type minutes: BooleanType
+        :type minutes: BooleanType
 
-        @author: Woon Wai Keen
-        @author: Andrew Isaac
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Andrew Isaac
+        :author: Vladimir Likic
         """
 
         try:
@@ -222,24 +219,24 @@ class Alignment(object):
     def write_common_ion_csv(self, area_file_name, top_ion_list, minutes=True):
 
         """
-        @summary: Writes the alignment to CSV files
+        :summary: Writes the alignment to CSV files
 
         This function writes two files: one containing the alignment of peak
         retention times and the other containing the alignment of peak areas.
 
-        @param area_file_name: The name for the areas alignment file
-        @type area_file_name: StringType
-        @param top_ion_list: A list of the highest intensity common ion
+        :param area_file_name: The name for the areas alignment file
+        :type area_file_name: StringType
+        :param top_ion_list: A list of the highest intensity common ion
                              along the aligned peaks
-        @type top_ion_list: ListType
-        @param minutes: An optional indicator whether to save retention times
+        :type top_ion_list: ListType
+        :param minutes: An optional indicator whether to save retention times
             in minutes. If False, retention time will be saved in seconds
-        @type minutes: BooleanType
+        :type minutes: BooleanType
 
-        @author: Woon Wai Keen
-        @author: Andrew Isaac
-        @author: Sean O'Callaghan
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Andrew Isaac
+        :author: Sean O'Callaghan
+        :author: Vladimir Likic
         """
 
         try:
@@ -339,14 +336,14 @@ class Alignment(object):
 
     def common_ion(self):
         """
-        @summary: Calculates a common ion among the
+        :summary: Calculates a common ion among the
                   peaks of an aligned peak
 
-        @return: A list of the highest intensity common ion for all aligned 
+        :return: A list of the highest intensity common ion for all aligned
                  peaks
-        @rtype: ListType
+        :rtype: ListType
 
-        @author: Sean O'Callaghan
+        :author: Sean O'Callaghan
 
         """
 
@@ -424,16 +421,16 @@ class Alignment(object):
 
     def get_highest_mz_ion(self, ion_dict):
         """
-        @summary: Returns the preferred ion for quantitiation
+        :summary: Returns the preferred ion for quantitiation
                   Looks at the list of candidate ions, selects those
                   which have highest occurance, and selects the heaviest
                   of those
 
-        @param ion_dict: a dictionary of mz value: number of occurances
-        @type ion_dict: dictType
+        :param ion_dict: a dictionary of mz value: number of occurances
+        :type ion_dict: dictType
 
-        @return ion: The ion to use
-        @rtype: intType
+        :return ion: The ion to use
+        :rtype: intType
         """
 
 
@@ -451,20 +448,20 @@ class Alignment(object):
 
     def write_mass_hunter_csv(self, out_file, top_ion_list):#, peak_list_name):
         """
-        @summary: Returns a csv file with ion ratios
+        :summary: Returns a csv file with ion ratios
                   and UID
 
-        @param out_file: name of the output file
-        @type out_file: strType
+        :param out_file: name of the output file
+        :type out_file: strType
 
-        @param top_ion_list: a list of the common ions for each
+        :param top_ion_list: a list of the common ions for each
                              peak in the averaged peak list for the
                              alignment
-        @type top_ion_list: listType
+        :type top_ion_list: listType
 
-        @return: a csv file with UID, common and qualifying ions
+        :return: a csv file with UID, common and qualifying ions
                  and their ratios for mass hunter interpretation
-        @rtype: fileType
+        :rtype: fileType
         """
         try:
             fp = open(out_file, "w")
@@ -616,19 +613,19 @@ class Alignment(object):
     def aligned_peaks(self, minutes=False):
 
         """
-        @summary: Returns a list of Peak objects where each peak
+        :summary: Returns a list of Peak objects where each peak
             has the combined spectra and average retention time
             of all peaks that aligned.
 
-        @param minutes: An optional indicator of whether retention
+        :param minutes: An optional indicator of whether retention
             times are in minutes. If False, retention time are in
             seconds
-        @type minutes: BooleanType
+        :type minutes: BooleanType
 
-        @return: A list of composite peaks based on the alignment.
-        @rtype: ListType
+        :return: A list of composite peaks based on the alignment.
+        :rtype: ListType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         # for all peaks found
@@ -649,24 +646,24 @@ class Alignment(object):
 class PairwiseAlignment(object):
 
     """
-    @summary: Models pairwise alignment of alignments
+    :summary: Models pairwise alignment of alignments
 
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
     """
 
     def __init__(self, algts, D, gap):
 
         """
-        @param algts: A list of alignments
-        @type algts: ListType
-        @param D: Retention time tolerance parameter for pairwise alignments
-        @type D: FloatType
-        @param gap: Gap parameter for pairwise alignments
-        @type gap: FloatType
+        :param algts: A list of alignments
+        :type algts: ListType
+        :param D: Retention time tolerance parameter for pairwise alignments
+        :type D: FloatType
+        :param gap: Gap parameter for pairwise alignments
+        :type gap: FloatType
 
-        @author: Woon Wai Keen
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Vladimir Likic
         """
         self.algts = algts
         self.D = D
@@ -679,17 +676,17 @@ class PairwiseAlignment(object):
     def _sim_matrix(self, algts, D, gap):
 
         """
-        @summary: Calculates the similarity matrix for the set of alignments
+        :summary: Calculates the similarity matrix for the set of alignments
 
-        @param algts: A list of alignments
-        @type algts: ListType
-        @param D: Retention time tolerance parameter for pairwise alignments
-        @type D: FloatType
-        @param gap: Gap parameter for pairwise alignments
-        @type gap: FloatType
+        :param algts: A list of alignments
+        :type algts: ListType
+        :param D: Retention time tolerance parameter for pairwise alignments
+        :type D: FloatType
+        :param gap: Gap parameter for pairwise alignments
+        :type gap: FloatType
 
-        @author: Woon Wai Keen
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Vladimir Likic
         """
 
         n = len(algts)
@@ -713,13 +710,13 @@ class PairwiseAlignment(object):
     def _dist_matrix(self, sim_matrix):
 
         """
-        @summary: Converts similarity matrix into a distance matrix
+        :summary: Converts similarity matrix into a distance matrix
 
-        @param sim_matrix: The similarity matrix
-        @type sim_matrix: numpy.ndarray
+        :param sim_matrix: The similarity matrix
+        :type sim_matrix: numpy.ndarray
 
-        @author: Woon Wai Keen
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Vladimir Likic
         """
 
         # change similarity matrix entries (i,j) to max{matrix}-(i,j)
@@ -735,15 +732,15 @@ class PairwiseAlignment(object):
     def _guide_tree(self, dist_matrix):
 
         """
-        @summary: Build a guide tree from the distance matrix
+        :summary: Build a guide tree from the distance matrix
 
-        @param dist_matrix: The distance matrix
-        @type dist_matrix: numpy.ndarray
-        @return: Pycluster similarity tree
-        @rtype: Pycluster.cluster.Tree
+        :param dist_matrix: The distance matrix
+        :type dist_matrix: numpy.ndarray
+        :return: Pycluster similarity tree
+        :rtype: Pycluster.cluster.Tree
 
-        @author: Woon Wai Keen
-        @author: Vladimir Likic
+        :author: Woon Wai Keen
+        :author: Vladimir Likic
         """
 
         n = len(dist_matrix)

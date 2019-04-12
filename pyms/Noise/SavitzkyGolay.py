@@ -35,24 +35,24 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, \
         degree=__DEFAULT_POLYNOMIAL_DEGREE):
 
     """
-    @summary: Applies Savitzky-Golay filter on ion chromatogram
+    :summary: Applies Savitzky-Golay filter on ion chromatogram
 
-    @param ic: The input ion chromatogram
-    @type ic: pyms.GCMS.Class.IonChromatogram
-    @param window: The window selection parameter. This can be an integer
+    :param ic: The input ion chromatogram
+    :type ic: pyms.GCMS.Class.IonChromatogram
+    :param window: The window selection parameter. This can be an integer
         or time string. If integer, taken as the number of points. If a
         string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
         a time in seconds or minutes, respectively
-    @type window: IntType or StringType
-    @param degree: degree of the fitting polynomial for the Savitzky-Golay
+    :type window: IntType or StringType
+    :param degree: degree of the fitting polynomial for the Savitzky-Golay
         filter
-    @type degree: IntType
+    :type degree: IntType
 
-    @return: Smoothed ion chromatogram
-    @rtype: pyms.GCMS.Class.IonChromatogram
+    :return: Smoothed ion chromatogram
+    :rtype: pyms.GCMS.Class.IonChromatogram
 
-    @author: Uwe Schmitt
-    @author: Vladimir Likic
+    :author: Uwe Schmitt
+    :author: Vladimir Likic
     """
 
     if not is_ionchromatogram(ic):
@@ -80,26 +80,26 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, \
 def savitzky_golay_im(im, window=__DEFAULT_WINDOW, \
         degree=__DEFAULT_POLYNOMIAL_DEGREE):
     """
-    @summary: Applies Savitzky-Golay filter on Intensity
+    :summary: Applies Savitzky-Golay filter on Intensity
               Matrix
               
               Simply wraps around the Savitzky Golay 
               function above
 
-    @param im: The input IntensityMatrix
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param window: The window selection parameter. 
-    @type window: IntType or StringType
+    :param im: The input IntensityMatrix
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param window: The window selection parameter.
+    :type window: IntType or StringType
     
-    @param degree: degree of the fitting polynomial for the Savitzky-Golay
+    :param degree: degree of the fitting polynomial for the Savitzky-Golay
         filter
-    @type degree: IntType
+    :type degree: IntType
 
-    @return: Smoothed IntensityMatrix
-    @rtype: pyms.GCMS.Class.IntensityMatrix
+    :return: Smoothed IntensityMatrix
+    :rtype: pyms.GCMS.Class.IntensityMatrix
 
-    @author: Sean O'Callaghan
-    @author: Vladimir Likic
+    :author: Sean O'Callaghan
+    :author: Vladimir Likic
     """
     
     n_scan, n_mz = im.get_size()
@@ -116,26 +116,26 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, \
 def __calc_coeff(num_points, pol_degree, diff_order=0):
 
     """
-    @summary: Calculates filter coefficients for symmetric savitzky-golay
+    :summary: Calculates filter coefficients for symmetric savitzky-golay
         filter
 
         See: http://www.nrbook.com/a/bookcpdf/c14-8.pdf
 
-    @param num_points: Means that 2*num_points+1 values contribute to
+    :param num_points: Means that 2*num_points+1 values contribute to
        the smoother
-    @type num_points: IntType
-    @param pol_degree: The degree of fitting polynomial
-    @type pol_degree: IntType
-    @param diff_order: The degree of implicit differentiation.  0 means
+    :type num_points: IntType
+    :param pol_degree: The degree of fitting polynomial
+    :type pol_degree: IntType
+    :param diff_order: The degree of implicit differentiation.  0 means
         that filter results in smoothing of function, 1 means that filter
         results in smoothing the first derivative of function, and so on.
         Always use 0
 
-    @return: Filter coefficients
-    @rtype: numpy.ndarray
+    :return: Filter coefficients
+    :rtype: numpy.ndarray
 
-    @author: Uwe Schmitt
-    @copyright: Uwe Schmitt
+    :author: Uwe Schmitt
+    :copyright: Uwe Schmitt
     """
 
     # setup normal matrix
@@ -164,12 +164,12 @@ def __calc_coeff(num_points, pol_degree, diff_order=0):
 def __resub(D, rhs):
 
     """
-    @summary: Solves D D^T = rhs by resubstitution
+    :summary: Solves D D^T = rhs by resubstitution
 
     D is lower triangle-matrix from cholesky-decomposition
 
-    @author: Uwe Schmitt
-    @copyright: Uwe Schmitt
+    :author: Uwe Schmitt
+    :copyright: Uwe Schmitt
     """
 
     M = D.shape[0]
@@ -195,11 +195,11 @@ def __resub(D, rhs):
 def __smooth(signal, coeff):
 
     """
-    @summary: Applies coefficients calculated by __calc_coeff()
-    to signal
+    :summary: Applies coefficients calculated by __calc_coeff()
+        to signal
 
-    @author: Uwe Schmitt
-    @copyright: Uwe Schmitt
+    :author: Uwe Schmitt
+    :copyright: Uwe Schmitt
     """
 
     N = numpy.size(coeff-1)//2

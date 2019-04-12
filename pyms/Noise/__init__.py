@@ -22,3 +22,4 @@ Noise processing functions
  #                                                                           #
  #############################################################################
 
+from pyms.Noise import Analysis, SavitzkyGolay, Window

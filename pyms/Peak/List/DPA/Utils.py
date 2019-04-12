@@ -27,7 +27,7 @@ import numpy
 def alignment_compare(x, y):
 
     """
-    @summary: A helper function for sorting peak positions in a alignment
+    :summary: A helper function for sorting peak positions in a alignment
     """
 
     x = [ _.get_rt() for _ in filter(None, x)]

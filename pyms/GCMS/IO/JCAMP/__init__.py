@@ -22,3 +22,5 @@ Functions for I/O of JCAMP DX files
  #                                                                           #
  #############################################################################
 
+#from pyms.GCMS.IO.JCAMP import Function
+

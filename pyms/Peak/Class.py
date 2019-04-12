@@ -33,26 +33,26 @@ from pyms.Utils.IO import open_for_writing, close_for_writing
 class Peak:
 
     """
-    @summary: Models a signal peak
+    :summary: Models a signal peak
 
     A signal peak object
     A peak object is initialised with retention time and
     Either an ion mass, a mass spectrum or None
 
-    @author: Vladimir Likic
-    @author: Andrew Isaac
+    :author: Vladimir Likic
+    :author: Andrew Isaac
     """
 
     def __init__(self, rt=0.0, ms=None, minutes=False):
 
         """
-        @param rt: Retention time
-        @type rt: FloatType
-        @param ms: A ion mass, or spectra of maximising ions
-        @type ms: FloatType, pyms.GCSM.Class.MassSpectrum
-        @param minutes: Retention time units flag. If True, retention time
+        :param rt: Retention time
+        :type rt: FloatType
+        :param ms: A ion mass, or spectra of maximising ions
+        :type ms: FloatType, pyms.GCSM.Class.MassSpectrum
+        :param minutes: Retention time units flag. If True, retention time
             is in minutes; if False retention time is in seconds
-        @type minutes: BooleanType
+        :type minutes: BooleanType
         """
 
         if not is_number(rt):
@@ -103,11 +103,11 @@ class Peak:
     def make_UID(self):
 
         """
-        @summary: Create a unique peak ID (UID) based on:
+        :summary: Create a unique peak ID (UID) based on:
             Int masses of top two intensities, their ratio and RT (as
             Mass1-Mass2-Ratio*100-RT); or the single mass as int and RT.
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         minutes = 1.0
@@ -138,14 +138,14 @@ class Peak:
     def get_UID(self):
 
         """
-        @summary: Return the unique peak ID (UID) based on:
+        :summary: Return the unique peak ID (UID) based on:
             Int masses of top two intensities and their ratio (as
             Mass1-Mass2-Ratio*100); or the single mass as int.
 
-        @return: UID string
-        @rtype: StringType
+        :return: UID string
+        :rtype: StringType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__UID
@@ -153,11 +153,11 @@ class Peak:
     def get_third_highest_mz(self):
 
         """
-        @summary: returns the mz value with the third highest
+        :summary: returns the mz value with the third highest
                   intensity
 
-        @return: the ion with the third highest intensity
-        @rtype: intType
+        :return: the ion with the third highest intensity
+        :rtype: intType
 
         """
 
@@ -182,14 +182,14 @@ class Peak:
     def set_pt_bounds(self, pt_bounds):
 
         """
-        @summary: Sets peak boundaries in points
+        :summary: Sets peak boundaries in points
 
-        @param pt_bounds: A list containing left, apex, and right
+        :param pt_bounds: A list containing left, apex, and right
             peak boundaries in points, left and right are offsets
-        @type pt_bounds: ListType
+        :type pt_bounds: ListType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
         """
 
         if not is_list(pt_bounds):
@@ -207,13 +207,13 @@ class Peak:
     def get_pt_bounds(self):
 
         """
-        @summary: Gets peak boundaries in points
+        :summary: Gets peak boundaries in points
 
-        @return: A list containing left, apex, and right
+        :return: A list containing left, apex, and right
             peak boundaries in points, left and right are offsets
-        @rtype: ListType
+        :rtype: ListType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return copy.deepcopy(self.__pt_bounds)
@@ -221,12 +221,12 @@ class Peak:
     def get_area(self):
 
         """
-        @summary: Gets the area under the peak
+        :summary: Gets the area under the peak
 
-        @return: The peak area
-        @rtype: FloatType
+        :return: The peak area
+        :rtype: FloatType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         return self.__area
@@ -234,12 +234,12 @@ class Peak:
     def set_area(self, area):
 
         """
-        @summary: Sets the area under the peak
+        :summary: Sets the area under the peak
 
-        @param area: The peak area
-        @type area: FloatType
+        :param area: The peak area
+        :type area: FloatType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_number(area) or area <= 0:
@@ -249,14 +249,14 @@ class Peak:
         
     def get_ion_area(self, ion):
         """
-        @summary: gets the area of a single ion chromatogram
+        :summary: gets the area of a single ion chromatogram
                   under the peak
 
-        @param ion: the ion who's IC is to be returned
-        @type ion: IntType
+        :param ion: the ion who's IC is to be returned
+        :type ion: IntType
 
-        @return: The area of the ion under this peak
-        @rtype: FloatType
+        :return: The area of the ion under this peak
+        :rtype: FloatType
         """
         try:
             return self.__ion_areas[ion]
@@ -265,10 +265,10 @@ class Peak:
             
     def get_ion_areas(self):
         """
-        @summary: returns a copy of the ion areas dict
+        :summary: returns a copy of the ion areas dict
 
-        @return: The dictionary of ion:ion area pairs
-        @rtype: dictType
+        :return: The dictionary of ion:ion area pairs
+        :rtype: dictType
         """
         if len(self.__ion_areas) == 0:
             error("no ion areas set")
@@ -278,35 +278,35 @@ class Peak:
     
     def set_ion_area(self, ion, area):
         """
-        @summary: sets the area for a single ion
+        :summary: sets the area for a single ion
 
-        @param ion: the ion who's area is being entered
-        @param area: the area under the IC of ion
+        :param ion: the ion who's area is being entered
+        :param area: the area under the IC of ion
 
-        @author: Sean O'Callaghan
+        :author: Sean O'Callaghan
         """
 
         self.__ion_areas[ion] = area
 
     def set_ion_areas(self, ion_areas):
         """
-        @summary: set the ion:ion area pair dictionary
+        :summary: set the ion:ion area pair dictionary
 
-        @param ion_areas: the dictionary of ion:ion_area pairs
-        @type ion_areas: dictType
+        :param ion_areas: the dictionary of ion:ion_area pairs
+        :type ion_areas: dictType
         """
 
         self.__ion_areas = ion_areas
     
     def get_int_of_ion(self, ion):
         """
-        @summary: returns the intensity of a given ion
+        :summary: returns the intensity of a given ion
 
-        @param ion: the m/z value of the ion of interest
-        @type ion: intType
+        :param ion: the m/z value of the ion of interest
+        :type ion: intType
 
-        @return: The intensity of the given ion in this peak
-        @rtype: intType
+        :return: The intensity of the given ion in this peak
+        :rtype: intType
         """
 
         for i,mass in enumerate(self.__mass_spectrum.mass_list):
@@ -325,14 +325,14 @@ class Peak:
     def set_ic_mass(self, mz):
 
         """
-        @summary: Sets the mass for a single ion chromatogram peak
+        :summary: Sets the mass for a single ion chromatogram peak
             Clears the mass spectrum
 
-        @param mz: The mass of the ion chromatogram that the peak is from
-        @type mz: FloatType
+        :param mz: The mass of the ion chromatogram that the peak is from
+        :type mz: FloatType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
         """
 
         if not is_number(mz):
@@ -348,14 +348,14 @@ class Peak:
     def set_mass_spectrum(self, ms):
 
         """
-        @summary: Sets the mass spectrum
+        :summary: Sets the mass spectrum
             Clears the mass for a single ion chromatogram peak
 
-        @param ms: The mass spectrum at the apex of the peak
-        @type ms: pyms.GCSM.Class.MassSpectrum
+        :param ms: The mass spectrum at the apex of the peak
+        :type ms: pyms.GCSM.Class.MassSpectrum
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
         """
 
         if not isinstance(ms, MassSpectrum):
@@ -372,10 +372,10 @@ class Peak:
     def get_rt(self):
 
         """
-        @summary: Return the retention time
+        :summary: Return the retention time
 
-        @return: Retention time
-        @rtype: FloatType
+        :return: Retention time
+        :rtype: FloatType
         """
 
         return self.__rt
@@ -383,10 +383,10 @@ class Peak:
     def get_ic_mass(self):
 
         """
-        @summary: Gets the mass for a single ion chromatogram peak
+        :summary: Gets the mass for a single ion chromatogram peak
 
-        @return: The mass of the single ion chromatogram that the peak is from
-        @rtype: FloatType or IntType
+        :return: The mass of the single ion chromatogram that the peak is from
+        :rtype: FloatType or IntType
         """
 
         return self.__ic_mass
@@ -394,10 +394,10 @@ class Peak:
     def get_mass_spectrum(self):
 
         """
-        @summary: Gets the mass spectrum at the apex of the peak
+        :summary: Gets the mass spectrum at the apex of the peak
 
-        @return: The mass spectrum at the apex of the peak
-        @rtype: pyms.GCSM.Class.MassSpectrum
+        :return: The mass spectrum at the apex of the peak
+        :rtype: pyms.GCSM.Class.MassSpectrum
         """
 
         return copy.deepcopy(self.__mass_spectrum)
@@ -406,18 +406,18 @@ class Peak:
     def find_mass_spectrum(self, data, from_bounds=False):
 
         """
-        @summary: Sets peak mass spectrum from the data
+        :summary: Sets peak mass spectrum from the data
             Clears the single ion chromatogram mass
 
-        @param data: An IntensityMatrix object
-        @type data: pyms.GCMS.IntensityMatrix
-        @param from_bounds: Indicator whether to use the attribute
+        :param data: An IntensityMatrix object
+        :type data: pyms.GCMS.IntensityMatrix
+        :param from_bounds: Indicator whether to use the attribute
             'pt_bounds' or to find the peak apex from the peak
             retention time
-        @type from_bounds: BooleanType
+        :type from_bounds: BooleanType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
         """
 
         if not isinstance(data, IntensityMatrix):
@@ -448,17 +448,17 @@ class Peak:
     def crop_mass(self, mass_min, mass_max):
 
         """
-        @summary: Crops mass spectrum
+        :summary: Crops mass spectrum
 
-        @param mass_min: Minimum mass value
-        @type mass_min: IntType or FloatType
-        @param mass_max: Maximum mass value
-        @type mass_max: IntType or FloatType
+        :param mass_min: Minimum mass value
+        :type mass_min: IntType or FloatType
+        :param mass_max: Maximum mass value
+        :type mass_max: IntType or FloatType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if not is_number(mass_min) or not is_number(mass_max):
@@ -502,12 +502,12 @@ class Peak:
     def null_mass(self, mass):
 
         """
-        @summary: Ignore given mass in spectra
+        :summary: Ignore given mass in spectra
 
-        @param mass: Mass value to remove
-        @type mass: IntType or FloatType
+        :param mass: Mass value to remove
+        :type mass: IntType or FloatType
 
-        @author: Andrew Isaac
+        :author: Andrew Isaac
         """
 
         if self.__mass_spectrum == None:

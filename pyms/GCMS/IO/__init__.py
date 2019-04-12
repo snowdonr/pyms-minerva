@@ -22,3 +22,14 @@ Input/output functions for GC-MS data files
  #                                                                           #
  #############################################################################
 
+# from pyms.GCMS.IO import JCAMP
+#
+# try:
+#     from pyms.GCMS.IO import MZML
+# except ModuleNotFoundError:
+#     pass
+#
+# try:
+#     from pyms.GCMS.IO import ANDI
+# except ModuleNotFoundError:
+#     pass

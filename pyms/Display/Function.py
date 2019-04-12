@@ -25,7 +25,6 @@
 import matplotlib.pyplot as plt
 
 import sys
-sys.path.append('/x/PyMS/')
 
 from pyms.Utils.Error import error
 from pyms.GCMS.Class import IonChromatogram 
@@ -33,40 +32,40 @@ from pyms.GCMS.Class import IonChromatogram
 
 def plot_ic(ic, line_label=" ", plot_title=" "):
     """
-    @summary: Plots an Ion Chromatogram or List of same
+    :summary: Plots an Ion Chromatogram or List of same
     
-    @param ic: The ion chromatogram
-    @type ic: pyms.GCMS.Class.IonChromatogram
+    :param ic: The ion chromatogram
+    :type ic: pyms.GCMS.Class.IonChromatogram
     
-    @param line_label: plot legend
-    @type line_label: stringType
+    :param line_label: plot legend
+    :type line_label: stringType
     
-    @param plot_title: A label for the plot
-    @type plot_title: String Type
+    :param plot_title: A label for the plot
+    :type plot_title: String Type
     
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
-    			
+    
     #Plotting Variables
     fig = plt.figure()
     ax = fig.add_subplot(111)
     
    
     if not isinstance(ic, IonChromatogram):
-	error("ics argument must be an IonChromatogram\
-            or a list of Ion Chromatograms")
+        error("ics argument must be an IonChromatogram\
+                or a list of Ion Chromatograms")
 
     time_list = ic.get_time_list()
-			
-	
+    
+    
     
     intensity_list = ic.get_intensity_array()
-    	
+    
     ic_plot = plt.plot(time_list, intensity_list, label=line_label)
         
     t = ax.set_title(plot_title)
     l = ax.legend()
-			
+    
     fig.canvas.draw
     plt.show()
     
@@ -75,15 +74,15 @@ def plot_ic(ic, line_label=" ", plot_title=" "):
 def plot_ms(mass_spec, plot_title=" "):
         
     """ 
-    @summary: Plots the mass spec given a list of masses and intensities
+    :summary: Plots the mass spec given a list of masses and intensities
         
-    @param mass_spec: The mass spectrum at a given time/index
-    @type mass_spec: GCMS.Class.MassSpectrum
+    :param mass_spec: The mass spectrum at a given time/index
+    :type mass_spec: GCMS.Class.MassSpectrum
         
-    @param plot_title: A label for the plot
-    @type plot_title: String Type
+    :param plot_title: A label for the plot
+    :type plot_title: String Type
     
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
         
     fig = plt.figure()

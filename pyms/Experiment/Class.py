@@ -30,21 +30,21 @@ from pyms.Peak.List.Utils import is_peak_list, sele_peaks_by_rt
 class Experiment:
 
     """
-    @summary: Models an experiment object
+    :summary: Models an experiment object
 
-    @author: Vladimir Likic
-    @author: Andrew Isaac
+    :author: Vladimir Likic
+    :author: Andrew Isaac
     """
 
     def __init__(self, expr_code, peak_list):
 
         """
-        @summary: Models an experiment
+        :summary: Models an experiment
 
-        @param expr_code: Unique identifier for the experiment
-        @type expr_code: StringType
-        @param peak_list: A list of peak objects
-        @type peak_list: ListType
+        :param expr_code: Unique identifier for the experiment
+        :type expr_code: StringType
+        :param peak_list: A list of peak objects
+        :type peak_list: ListType
         """
 
         if not is_str(expr_code):
@@ -58,10 +58,10 @@ class Experiment:
     def get_expr_code(self):
 
         """
-        @summary: Returns the expr_code of the experiment
+        :summary: Returns the expr_code of the experiment
 
-        @return: The expr_code of the experiment
-        @rtype:  StringType
+        :return: The expr_code of the experiment
+        :rtype:  StringType
         """
 
         return self.__expr_code
@@ -69,10 +69,10 @@ class Experiment:
     def get_peak_list(self):
 
         """
-        @summary: Returns the peak list
+        :summary: Returns the peak list
 
-        @return: A list of peak objects
-        @rtype: ListType
+        :return: A list of peak objects
+        :rtype: ListType
         """
 
         return self.__peak_list
@@ -80,14 +80,14 @@ class Experiment:
     def sele_rt_range(self, rt_range):
 
         """
-        @summary: Discards all peaks which have the retention time outside
-        the specified range
+        :summary: Discards all peaks which have the retention time outside
+            the specified range
 
-        @param rt_range: Min, max retention time given as a list [rt_min,rt_max]
-        @type rt_range: ListType
+        :param rt_range: Min, max retention time given as a list [rt_min,rt_max]
+        :type rt_range: ListType
 
-        @return: none
-        @rtype: NoneType
+        :return: none
+        :rtype: NoneType
         """
 
         peaks_sele = sele_peaks_by_rt(self.__peak_list, rt_range)

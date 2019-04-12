@@ -1,0 +1,11 @@
+******
+40b
+******
+
+Crop mass range and ignore given masses
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

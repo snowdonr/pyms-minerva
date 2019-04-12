@@ -22,3 +22,4 @@ Functions for modelling peak lists
  #                                                                           #
  #############################################################################
 
+from pyms.Peak.List import DPA, Function, Utils

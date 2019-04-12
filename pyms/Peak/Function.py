@@ -40,30 +40,27 @@ try:
 except:
     pass
 
-if sys.version_info[0] == 3: # for python 3
-    def xrange(*args):
-        return range(*args)
-	
+
 def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 
     """
-    @Summary: Calculate the sum of the raw ion areas based on
+    :Summary: Calculate the sum of the raw ion areas based on
         detected boundaries.
 
-    @param im: The originating IntensityMatrix object
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param peak: The Peak object
-    @type peak: pyms.Peak.Class.Peak
-    @param single_ion: whether single ion areas should be returned
-    @type singe_ion: BooleanType
-    @param max_bound: Optional value to limit size of detected bound
-    @type max_bound: IntType
+    :param im: The originating IntensityMatrix object
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param peak: The Peak object
+    :type peak: pyms.Peak.Class.Peak
+    :param single_ion: whether single ion areas should be returned
+    :type singe_ion: BooleanType
+    :param max_bound: Optional value to limit size of detected bound
+    :type max_bound: IntType
 
-    @return: Sum of peak apex ions in detected bounds
-    @rtype: FloatType
+    :return: Sum of peak apex ions in detected bounds
+    :rtype: FloatType
 
-    @author: Andrew Isaac
-    @author: Sean O'Callaghan
+    :author: Andrew Isaac
+    :author: Sean O'Callaghan
     """
 
     sum_area = 0
@@ -75,14 +72,14 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
     apex = im.get_index_at_time(rt)
 
     # get peak masses with non-zero intensity
-    mass_ii = [ ii for ii in xrange(len(ms.mass_list)) \
+    mass_ii = [ ii for ii in range(len(ms.mass_list)) \
         if ms.mass_spec[ii] > 0 ]
 
     area_dict = {}
     # get stats on boundaries
     for ii in mass_ii:
         # get ion chromatogram as list
-        ia = [ mat[scan][ii] for scan in xrange(len(mat)) ]
+        ia = [ mat[scan][ii] for scan in range(len(mat)) ]
         area, left, right, l_share, r_share = ion_area(ia, apex, max_bound)
         # need actual mass for single ion areas
         actual_mass = ms.mass_list[ii]
@@ -97,19 +94,19 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 def peak_pt_bounds(im, peak):
 
     """
-    @Summary: Approximate the peak bounds (left and right offsets from apex).
+    :Summary: Approximate the peak bounds (left and right offsets from apex).
 
-    @param im: The originating IntensityMatrix object
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param peak: The Peak object
-    @type peak: pyms.Peak.Class.Peak
+    :param im: The originating IntensityMatrix object
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param peak: The Peak object
+    :type peak: pyms.Peak.Class.Peak
 
-    @return: Sum of peak apex ions in detected bounds
-    @rtype: FloatType
+    :return: Sum of peak apex ions in detected bounds
+    :rtype: FloatType
 
-    @author: Andrew Isaac
-    @author: Sean O'Callaghan
-    @author: Dominic Davis-Foster
+    :author: Andrew Isaac
+    :author: Sean O'Callaghan
+    :author: Dominic Davis-Foster
     """
 
     sum_area = 0
@@ -125,7 +122,7 @@ def peak_pt_bounds(im, peak):
         mass_ii = [ ii for ii in range(len(ms.mass_list)) \
             if ms.mass_spec[ii] > 0 ]
     else:
-        mass_ii = [ ii for ii in xrange(len(ms.mass_list)) \
+        mass_ii = [ ii for ii in range(len(ms.mass_list)) \
             if ms.mass_spec[ii] > 0 ]
 
     left_list = []
@@ -137,7 +134,7 @@ def peak_pt_bounds(im, peak):
         if sys.version_info[0] == 3:
             ia = [ mat[scan][ii] for scan in range(len(mat)) ]
         else:
-            ia = [ mat[scan][ii] for scan in xrange(len(mat)) ]
+            ia = [ mat[scan][ii] for scan in range(len(mat)) ]
         area, left, right, l_share, r_share = ion_area(ia, apex, 0)
         left_list.append(left)
         right_list.append(right)
@@ -154,18 +151,18 @@ def peak_pt_bounds(im, peak):
 
 def peak_top_ion_areas(im, peak, n_top_ions = 5, max_bound=0):
     """
-    @summary: Calculate and return the ion areas of the five most
-    abundant ions in the peak
+    :summary: Calculate and return the ion areas of the five most
+        abundant ions in the peak
 
-    @param im: The originating IntensityMatrix object
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param peak: The Peak object
-    @type peak: pyms.Peak.Class.Peak
+    :param im: The originating IntensityMatrix object
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param peak: The Peak object
+    :type peak: pyms.Peak.Class.Peak
 
-    @return: dictionary of ion:ion_area pairs
-    @rtype: dictType
+    :return: dictionary of ion:ion_area pairs
+    :rtype: dictType
 
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
 
     """
     #ms = peak.get_mass_spectrum()
@@ -194,15 +191,15 @@ def peak_top_ion_areas(im, peak, n_top_ions = 5, max_bound=0):
 def top_ions_v1(peak, num_ions=5):
         
     """
-    @summary: Computes the highest 5 intensity ions
+    :summary: Computes the highest 5 intensity ions
         
-    @param peak: the peak to be processed
-    @type peak: pyms.Peak.Class.Peak
+    :param peak: the peak to be processed
+    :type peak: pyms.Peak.Class.Peak
 
-    @return: a list of the top 5 highest intensity ions
-    @rtype listType
+    :return: a list of the top 5 highest intensity ions
+    :rtype: listType
 
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
 
     intensity_list = peak.get_mass_spectrum().mass_spec
@@ -223,18 +220,18 @@ def top_ions_v1(peak, num_ions=5):
 
 def top_ions_v2(peak, num_ions=5):
     """
-    @summary: Computes the highest #num_ions intensity ions
+    :summary: Computes the highest #num_ions intensity ions
         
-    @param peak: the peak to be processed
-    @type peak: pyms.Peak.Class.Peak
+    :param peak: the peak to be processed
+    :type peak: pyms.Peak.Class.Peak
 
-    @param num_ions: the number of ions to be recorded
-    @type: num_ions: intType
+    :param num_ions: the number of ions to be recorded
+    :type num_ions: intType
 
-    @return: a list of the #num_ions highest intensity ions
-    @rtype listType
+    :return: a list of the #num_ions highest intensity ions
+    :rtype: listType
 
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
 
     intensity_list = peak.get_mass_spectrum().mass_spec
@@ -256,22 +253,22 @@ def top_ions_v2(peak, num_ions=5):
 def ion_area(ia, apex, max_bound=0, tol=0.5):
 
     """
-    @Summary: Find bounds of peak by summing intensities until change in sum is
+    :Summary: Find bounds of peak by summing intensities until change in sum is
         less than 'tol' percent of the current area.
 
-    @param ia: List of intensities for a given mass
-    @type ia: ListType
-    @param apex: Index of the peak apex.
-    @type apex: IntType
-    @param max_bound: Optional value to limit size of detected bound
-    @type max_bound: IntType
-    @param tol: Percentage tolerance of added area to current area.
-    @type tol: FloatType
+    :param ia: List of intensities for a given mass
+    :type ia: ListType
+    :param apex: Index of the peak apex.
+    :type apex: IntType
+    :param max_bound: Optional value to limit size of detected bound
+    :type max_bound: IntType
+    :param tol: Percentage tolerance of added area to current area.
+    :type tol: FloatType
 
-    @return: Area, left and right boundary offset, shared left, shared right
-    @rtype: TupleType
+    :return: Area, left and right boundary offset, shared left, shared right
+    :rtype: TupleType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     # Left area
@@ -290,20 +287,20 @@ def ion_area(ia, apex, max_bound=0, tol=0.5):
 def half_area(ia, max_bound=0, tol=0.5):
 
     """
-    @Summary: Find bound of peak by summing intensities until change in sum is
+    :Summary: Find bound of peak by summing intensities until change in sum is
         less than 'tol' percent of the current area.
 
-    @param ia: List of intensities from Peak apex for a given mass
-    @type ia: ListType
-    @param max_bound: Optional value to limit size of detected bound
-    @type max_bound: IntType
-    @param tol: Percentage tolerance of added area to current area.
-    @type tol: FloatType
+    :param ia: List of intensities from Peak apex for a given mass
+    :type ia: ListType
+    :param max_bound: Optional value to limit size of detected bound
+    :type max_bound: IntType
+    :param tol: Percentage tolerance of added area to current area.
+    :type tol: FloatType
 
-    @return: Half peak area, boundary offset, shared (True if shared ion)
-    @rtype: TupleType
+    :return: Half peak area, boundary offset, shared (True if shared ion)
+    :rtype: TupleType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     tol = tol/200.0  # halve and convert from percent
@@ -343,20 +340,20 @@ def half_area(ia, max_bound=0, tol=0.5):
 def median_bounds(im, peak, shared=True):
 
     """
-    @Summary: Calculates the median of the left and right bounds found
+    :Summary: Calculates the median of the left and right bounds found
         for each apexing peak mass
 
-    @param im: The originating IntensityMatrix object
-    @type im: pyms.GCMS.Class.IntensityMatrix
-    @param peak: The Peak object
-    @type peak: pyms.Peak.Class.Peak
-    @param shared: Include shared ions shared with neighbouring peak
-    @type shared: BooleanType
+    :param im: The originating IntensityMatrix object
+    :type im: pyms.GCMS.Class.IntensityMatrix
+    :param peak: The Peak object
+    :type peak: pyms.Peak.Class.Peak
+    :param shared: Include shared ions shared with neighbouring peak
+    :type shared: BooleanType
 
-    @return: median left and right boundary offset in points
-    @rtype: TupleType
+    :return: median left and right boundary offset in points
+    :rtype: TupleType
 
-    @author: Andrew Isaac
+    :author: Andrew Isaac
     """
 
     mat = im.get_matrix_list()
@@ -369,7 +366,7 @@ def median_bounds(im, peak, shared=True):
         apex = tmp[1]
 
     # get peak masses with non-zero intensity
-    mass_ii = [ ii for ii in xrange(len(ms.mass_list)) \
+    mass_ii = [ ii for ii in range(len(ms.mass_list)) \
         if ms.mass_spec[ii] > 0 ]
 
     # get stats on boundaries
@@ -377,7 +374,7 @@ def median_bounds(im, peak, shared=True):
     right_list = []
     for ii in mass_ii:
         # get ion chromatogram as list
-        ia = [ mat[scan][ii] for scan in xrange(len(mat)) ]
+        ia = [ mat[scan][ii] for scan in range(len(mat)) ]
         area, left, right, l_share, r_share = ion_area(ia, apex)
         if shared or not l_share:
             left_list.append(left)

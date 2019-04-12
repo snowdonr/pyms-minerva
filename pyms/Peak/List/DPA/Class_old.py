@@ -386,7 +386,7 @@ class Alignment(object):
                             top_ion_dict[ion]+=1
                         # shouldn't happen
                         else:
-                            print "error: in function common_ion()"
+                            print("error: in function common_ion()")
                 else:
                     empty_count += 1
                     
@@ -499,8 +499,8 @@ class PairwiseAlignment(object):
 
         total_n = n * (n - 1) / 2
 
-        print " Calculating pairwise alignments for %d alignments (D=%.2f, gap=%.2f)" % \
-                (n, D, gap)
+        print(" Calculating pairwise alignments for %d alignments (D=%.2f, gap=%.2f)" % \
+                (n, D, gap))
 
         sim_matrix = numpy.zeros((n,n), dtype='f')
 
@@ -509,7 +509,7 @@ class PairwiseAlignment(object):
                 ma = Function.align(algts[i], algts[j], D, gap)
                 sim_matrix[i,j] = sim_matrix[j,i] = ma.similarity
                 total_n = total_n - 1
-                print " -> %d pairs remaining" % total_n
+                print(" -> %d pairs remaining" % total_n)
 
         return sim_matrix
 
@@ -551,9 +551,9 @@ class PairwiseAlignment(object):
 
         n = len(dist_matrix)
 
-        print " -> Clustering %d pairwise alignments." % (n*(n-1)),
+        print(" -> Clustering %d pairwise alignments." % (n*(n-1)),)
         tree = treecluster(distancematrix=dist_matrix, method='a')
-        print "Done"
+        print("Done")
 
         return tree
 

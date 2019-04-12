@@ -36,18 +36,18 @@ _STRUCT_ELM_FRAC = 0.2
 def tophat(ic, struct=None):
 
     """
-    @summary: Top-hat baseline correction on Ion Chromatogram
+    :summary: Top-hat baseline correction on Ion Chromatogram
 
-    @param ic: The input ion chromatogram
-    @type ic: pyms.GCMS.Class.IonChromatogram
-    @param struct: Top-hat structural element as time string
-    @type struct: StringType
+    :param ic: The input ion chromatogram
+    :type ic: pyms.GCMS.Class.IonChromatogram
+    :param struct: Top-hat structural element as time string
+    :type struct: StringType
 
-    @return: Top-hat corrected ion chromatogram
-    @rtype: pyms.IO.Class.IonChromatogram
+    :return: Top-hat corrected ion chromatogram
+    :rtype: pyms.IO.Class.IonChromatogram
 
-    @author: Woon Wai Keen
-    @author: Vladimir Likic
+    :author: Woon Wai Keen
+    :author: Vladimir Likic
     """
 
     if not is_ionchromatogram(ic):
@@ -73,19 +73,19 @@ def tophat(ic, struct=None):
 def tophat_im(im, struct=None):
     
     """
-    @summary: Top-hat baseline correction on Intensity Matrix
+    :summary: Top-hat baseline correction on Intensity Matrix
 
               Wraps around the TopHat function above
 
-    @param im: The input Intensity Matrix
-    @type im: pyms.GCMS.Class.IntenstiyMatrix
-    @param struct: Top-hat structural element as time string
-    @type struct: StringType
+    :param im: The input Intensity Matrix
+    :type im: pyms.GCMS.Class.IntenstiyMatrix
+    :param struct: Top-hat structural element as time string
+    :type struct: StringType
 
-    @return: Top-hat corrected Intenstity Matrix
-    @rtype: pyms.IO.Class.IntensityMatrix
+    :return: Top-hat corrected Intenstity Matrix
+    :rtype: pyms.IO.Class.IntensityMatrix
     
-    @author: Sean O'Callaghan
+    :author: Sean O'Callaghan
     """
     
     n_scan, n_mz = im.get_size()

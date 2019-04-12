@@ -30,17 +30,17 @@ from pyms.Utils.Utils import is_int, is_str, is_str_num
 def time_str_secs(time_str):
 
     """
-    @summary: Resolves time string of the form "<NUMBER>s" or "<NUMBER>m",
+    :summary: Resolves time string of the form "<NUMBER>s" or "<NUMBER>m",
         returns time in seconds
 
-    @param time_str: A time string, which must be of the form
+    :param time_str: A time string, which must be of the form
         "<NUMBER>s" or "<NUMBER>m" where "<NUMBER>" is a valid number
-    @type time_str: StringType
+    :type time_str: StringType
 
-    @return: Time in seconds
-    @rtype: FloatType
+    :return: Time in seconds
+    :rtype: FloatType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_str(time_str):
@@ -66,26 +66,26 @@ def time_str_secs(time_str):
 def window_sele_points(ic, window_sele, half_window=False):
 
     """
-    @summary: Converts window selection parameter into points based
+    :summary: Converts window selection parameter into points based
         on the time step in an ion chromatogram
 
-    @param ic: ion chromatogram object relevant for the conversion
-    @type ic: pyms.GCMS.Class.IonChromatogram
+    :param ic: ion chromatogram object relevant for the conversion
+    :type ic: pyms.GCMS.Class.IonChromatogram
 
-    @param window_sele: The window selection parameter. This can be
+    :param window_sele: The window selection parameter. This can be
         an integer or time string. If integer, taken as the number
         of points. If a string, must of the form "<NUMBER>s" or
         "<NUMBER>m", specifying a time in seconds or minutes,
         respectively
-    @type window_sele: IntType or StringType
+    :type window_sele: IntType or StringType
 
-    @param half_window: Specifies whether to return half-window
-    @type half_window: BooleanType
+    :param half_window: Specifies whether to return half-window
+    :type half_window: BooleanType
 
-    @return: The number of points in the window
-    @rtype: IntType
+    :return: The number of points in the window
+    :rtype: IntType
 
-    @author: Vladimir Likic
+    :author: Vladimir Likic
     """
 
     if not is_int(window_sele) and not is_str(window_sele):

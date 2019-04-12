@@ -1,0 +1,11 @@
+******
+70a
+******
+
+A simple plot of TIC
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:
