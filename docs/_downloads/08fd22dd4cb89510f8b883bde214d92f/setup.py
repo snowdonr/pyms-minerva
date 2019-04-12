@@ -1,15 +1,15 @@
 from setuptools import setup, find_packages
 
-from pyms import name, __version__
+from pyms import name, __version__, __maintainer_email__, __url__
 
 setup(
 	name=name,
 	version=__version__,
     author='Dominic Davis-Foster',
-	author_email='dominic@davis-foster.co.uk',
+	author_email=__maintainer_email__,
 	packages=find_packages(),
 	license="GNU General Public License v2.0",
-	url="http://github.com/domdfcoding/pyms/",
+	url=__url__,
 	description='Python Toolkit for Mass Spectrometry',
 	long_description="""PyMassSpec is a collection of PyMS libraries which can be used to perform peak picking,
 alignment by dynamic programming, and gap-filling in Gas Chromatography Mass Spectrometry experiments.""",

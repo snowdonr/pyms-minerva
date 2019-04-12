@@ -2,7 +2,6 @@
 """The root of the package pyms
 """
 
-
  #############################################################################
  #                                                                           #
  #    PyMS software for processing of metabolomic mass-spectrometry data     #
@@ -26,4 +25,8 @@
 #from pyms import Baseline, Deconvolution, Display, Experiment, Gapfill, GCMS, Noise, Peak, Simulator, Utils
 
 name = "PyMassSpec"
-__version__ = "2.1.0"
+__author__ = 'See AUTHORS'
+__license__ = 'GPL v2'
+__maintainer_email__ = 'dominic@davis-foster.co.uk'
+__url__ = 'domdfcoding.github.io/PyMassSpec'
+__version__ = '2.1.0'
