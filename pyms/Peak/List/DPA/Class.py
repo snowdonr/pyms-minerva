@@ -23,8 +23,8 @@ Classes for peak alignment by dynamic programming
  #############################################################################
 
 import copy
-
 import numpy
+
 try:
     from Pycluster import treecluster
 except:
@@ -79,6 +79,7 @@ class Alignment(object):
             self.peakpos = [ copy.deepcopy(expr.get_peak_list()) ]
             self.peakalgt = numpy.transpose(self.peakpos)
             self.expr_code =  [ expr.get_expr_code() ]
+            print(self.expr_code)
             self.similarity = None
 
     def __len__(self):
@@ -415,7 +416,11 @@ class Alignment(object):
         top_ion_list = []
 
         for entry in list_of_top_ion_dicts:
-            top_ion_list.append(self.get_highest_mz_ion(entry))
+            # This was in the Repo
+            #top_ion_list.append(self.get_highest_mz_ion(entry))
+            # This was in the version being used by GSMatch
+            top_ion_list.append(max(entry, key=entry.get))
+            # TODO: Change over to the new version
 
         return top_ion_list
 

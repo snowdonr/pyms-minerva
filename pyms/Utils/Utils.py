@@ -42,7 +42,7 @@ def is_str(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,types.StringType):
+    if isinstance(arg,str):
         return True 
     else:
         return False
@@ -62,7 +62,7 @@ def is_int(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,types.IntType) or isinstance(arg,types.LongType):
+    if isinstance(arg,int):
         return True
     else:
         return False
@@ -81,7 +81,7 @@ def is_float(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,types.FloatType):
+    if isinstance(arg,float):
         return True
     else:
         return False
@@ -121,7 +121,7 @@ def is_list(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,types.ListType) or isinstance(arg,types.TupleType) \
+    if isinstance(arg,list) or isinstance(arg,tuple) \
             or isinstance(arg, numpy.core.ndarray):
         return True 
     else:
@@ -162,7 +162,7 @@ def is_boolean(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,types.BooleanType):
+    if isinstance(arg,boolean):
         return True
     else:
         return False 
@@ -226,13 +226,13 @@ def is_list_of_dec_nums(arg):
     :author: Milica Ng
     """
 
-    if not(isinstance(arg, types.ListType)):
+    if not(isinstance(arg, list)):
         return False
     elif (arg == []):
         return False
     else:
         for q in arg:
-           if not(isinstance(q, types.FloatType)):
+           if not(isinstance(q, list)):
                return False
     return True
 

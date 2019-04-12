@@ -1363,15 +1363,15 @@ class IonChromatogram(object):
     """
     :summary: Models an ion chromatogram
 
-    An ion chromatogram is a set of intensities as a function of retention
-    time. This can can be either m/z channel intensities (for example, ion
-    chromatograms at m/z=65), or cumulative intensities over all measured
-    m/z. In the latter case the ion chromatogram is total ion chromatogram
-    (TIC).
-
-    The nature of an IonChromatogram object can be revealed by inspecting
-    the value of the attribute '__mass'. This is set to the m/z value of the
-    ion chromatogram, or to None for TIC.
+        An ion chromatogram is a set of intensities as a function of retention
+        time. This can can be either m/z channel intensities (for example, ion
+        chromatograms at m/z=65), or cumulative intensities over all measured
+        m/z. In the latter case the ion chromatogram is total ion chromatogram
+        (TIC).
+    
+        The nature of an IonChromatogram object can be revealed by inspecting
+        the value of the attribute '__mass'. This is set to the m/z value of the
+        ion chromatogram, or to None for TIC.
 
     :author: Lewis Lee
     :author: Vladimir Likic
@@ -1640,7 +1640,7 @@ class IonChromatogram(object):
         self.__ia = ia
 
 
-    def write(self, file_name, minutes=False):
+    def write(self, file_name, minutes=False, formatting=True):
 
         """
         :summary: Writes the ion chromatogram to the specified file
@@ -1649,6 +1649,9 @@ class IonChromatogram(object):
         :type file_name: StringType
         :param minutes: A boolean value indicating whether to write
             time in minutes
+        :type minutes: BooleanType
+        :param formatting: A boolean value indicating whether to
+            format the numbers in the output (default True)
         :type minutes: BooleanType
 
         :return: none
@@ -1670,7 +1673,10 @@ class IonChromatogram(object):
                 time_list[ii] = time_list[ii]/60.0
 
         for ii in range(len(time_list)):
-            fp.write("%8.4f %#.6e\n" % (time_list[ii], self.__ia[ii]))
+            if formatting:
+                fp.write("%8.4f %#.6e\n" % (time_list[ii], self.__ia[ii]))
+            else:
+                fp.write("{} {}\n".format(time_list[ii], self.__ia[ii]))
 
         close_for_writing(fp)
 

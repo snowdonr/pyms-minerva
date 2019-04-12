@@ -35,9 +35,9 @@ class Peak:
     """
     :summary: Models a signal peak
 
-    A signal peak object
-    A peak object is initialised with retention time and
-    Either an ion mass, a mass spectrum or None
+        A signal peak object
+        A peak object is initialised with retention time and
+        Either an ion mass, a mass spectrum or None
 
     :author: Vladimir Likic
     :author: Andrew Isaac

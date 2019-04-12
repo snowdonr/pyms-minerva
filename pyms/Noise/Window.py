@@ -27,6 +27,7 @@ import numpy
 
 from pyms.GCMS.Function import is_ionchromatogram, ic_window_points
 from pyms.Utils.Math import median
+from pyms.Utils.Error import error
 
 __DEFAULT_WINDOW = 3
 

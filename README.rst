@@ -27,7 +27,7 @@ to perform data processing in the batch mode.
 
 PyMassSpec functionality consists of modules which are loaded when needed,
 and different functionalities are completely decoupled from one another.
-If desired, new functionality (such as test or prototype of a new algorithm)
+If desired, new functionality (such as a test or prototype of a new algorithm)
 can be implemented efficiently and ensuring that this will not break any
 existing functionality.
 

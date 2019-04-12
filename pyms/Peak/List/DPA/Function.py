@@ -28,6 +28,12 @@ import numpy
 #from math import sqrt, log
 import math
 
+try:
+    from mpi4py import MPI
+except:
+    #print("No mpi4py installed: serial execution only")
+    pass
+
 from pyms.Utils.Error import error, stop
 from pyms.Utils.Utils import is_list
 from pyms.Utils.DP import dp

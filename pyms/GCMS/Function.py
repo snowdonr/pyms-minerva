@@ -22,7 +22,7 @@ Provides conversion and information functions for GC-MS data objects
  #                                                                           #
  #############################################################################
 
-from __future__ import print_function # for py2
+
 import sys
 import math
 
@@ -42,7 +42,7 @@ except:
 
     
     
-def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5):
+def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, min_mass=None):
 
     """
     :summary: Sets the full intensity matrix with flexible bins
@@ -58,6 +58,9 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5):
 
     :param bin_right: right bin boundary offset (default 0.5)
     :type bin_right: FloatType
+    
+    :param min_mass: Minimum mass to bin (default minimum mass from data)
+    :type min_mass: BooleanType
 
     :return: Binned IntensityMatrix object
     :rtype: pyms.GCMS.Class.IntensityMatrix
@@ -76,7 +79,8 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5):
     if not is_number(bin_right):
         error("'bin_right' must be a number.")
 
-    min_mass = data.get_min_mass()
+    if not min_mass:
+        min_mass = data.get_min_mass()
     max_mass = data.get_max_mass()
 
     return __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
