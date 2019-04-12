@@ -28,5 +28,5 @@ name = "PyMassSpec"
 __author__ = 'See AUTHORS'
 __license__ = 'GPL v2'
 __maintainer_email__ = 'dominic@davis-foster.co.uk'
-__url__ = 'domdfcoding.github.io/PyMassSpec'
+__url__ = 'http://domdfcoding.github.io/PyMassSpec'
 __version__ = '2.1.0'
