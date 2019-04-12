@@ -48,7 +48,7 @@ The directory structure of PyMassSpec is as follows:
     /
     ├── pyms:      The PyMassSpec code
     │
-    ├── pyms-docs: The PyMassSpec User Guide and Documentation
+    ├── docs: The PyMassSpec User Guide and Documentation
     │
     ├── pyms-test: Examples of how to use PyMassSpec
     │
