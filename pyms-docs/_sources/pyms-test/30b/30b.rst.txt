@@ -1,0 +1,11 @@
+******
+30a
+******
+
+Exploration of build intensity matrix parameters.
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyms.Noise &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pyms.Peak" href="../Peak/Peak.html" />
+    <link rel="prev" title="pyms.GCMS" href="../GCMS/GCMS.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GCMS/GCMS.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyms.Noise.Analysis"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.Analysis</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyms.Noise.SavitzkyGolay"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.SavitzkyGolay</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyms.Noise.Window"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.Window</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/domdfcoding/pyms-docs/blob/master/source/pyms/Noise/Noise.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyms-noise">
+<h1><a class="toc-backref" href="#id1"><a class="reference internal" href="#module-pyms.Noise" title="pyms.Noise"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></a><a class="headerlink" href="#pyms-noise" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyms-noise" id="id1"><a class="reference internal" href="#module-pyms.Noise" title="pyms.Noise"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></a></p>
+<ul>
+<li><p><a class="reference internal" href="#module-pyms.Noise.Analysis" id="id2"><a class="reference internal" href="#module-pyms.Noise.Analysis" title="pyms.Noise.Analysis"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.Analysis</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pyms.Noise.SavitzkyGolay" id="id3"><a class="reference internal" href="#module-pyms.Noise.SavitzkyGolay" title="pyms.Noise.SavitzkyGolay"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.SavitzkyGolay</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pyms.Noise.Window" id="id4"><a class="reference internal" href="#module-pyms.Noise.Window" title="pyms.Noise.Window"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.Window</span></code></a></a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<span class="target" id="module-pyms.Noise"></span><p>Noise processing functions</p>
+<div class="section" id="module-pyms.Noise.Analysis">
+<span id="pyms-noise-analysis"></span><h2><a class="toc-backref" href="#id2"><a class="reference internal" href="#module-pyms.Noise.Analysis" title="pyms.Noise.Analysis"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.Analysis</span></code></a></a><a class="headerlink" href="#module-pyms.Noise.Analysis" title="Permalink to this headline">¶</a></h2>
+<p>Noise analysis functions</p>
+<dl class="function">
+<dt id="pyms.Noise.Analysis.window_analyzer">
+<code class="descclassname">pyms.Noise.Analysis.</code><code class="descname">window_analyzer</code><span class="sig-paren">(</span><em>ic</em>, <em>window=256</em>, <em>n_windows=1024</em>, <em>rand_seed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/Analysis.html#window_analyzer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.Analysis.window_analyzer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>A simple estimator of the signal noise based on randomly
+placed windows and median absolute deviation</p>
+<p>The noise value is estimated by repeatedly and picking random
+windows (of a specified width) and calculating median absolute
+deviation (MAD). The noise estimate is given by the minimum MAD.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ic</strong> (<em>pyms.IO.Class.IonCromatogram</em>) – An IonChromatogram object</p></li>
+<li><p><strong>window</strong> (<em>IntType</em><em> or </em><em>StringType</em>) – Window width selection</p></li>
+<li><p><strong>n_windows</strong> (<em>IntType</em>) – The number of windows to calculate</p></li>
+<li><p><strong>rand_seed</strong> (<em>IntType</em>) – Random seed generator</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The noise estimate</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>FloatType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyms.Noise.SavitzkyGolay">
+<span id="pyms-noise-savitzkygolay"></span><h2><a class="toc-backref" href="#id3"><a class="reference internal" href="#module-pyms.Noise.SavitzkyGolay" title="pyms.Noise.SavitzkyGolay"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.SavitzkyGolay</span></code></a></a><a class="headerlink" href="#module-pyms.Noise.SavitzkyGolay" title="Permalink to this headline">¶</a></h2>
+<p>Savitzky-Golay noise filter</p>
+<dl class="function">
+<dt id="pyms.Noise.SavitzkyGolay.__calc_coeff">
+<code class="descclassname">pyms.Noise.SavitzkyGolay.</code><code class="descname">__calc_coeff</code><span class="sig-paren">(</span><em>num_points</em>, <em>pol_degree</em>, <em>diff_order=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/SavitzkyGolay.html#__calc_coeff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.SavitzkyGolay.__calc_coeff" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Calculates filter coefficients for symmetric savitzky-golay
+filter</p>
+<p>See: <a class="reference external" href="http://www.nrbook.com/a/bookcpdf/c14-8.pdf">http://www.nrbook.com/a/bookcpdf/c14-8.pdf</a></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>num_points</strong> (<em>IntType</em>) – Means that 2*num_points+1 values contribute to
+the smoother</p></li>
+<li><p><strong>pol_degree</strong> (<em>IntType</em>) – The degree of fitting polynomial</p></li>
+<li><p><strong>diff_order</strong> – The degree of implicit differentiation.  0 means
+that filter results in smoothing of function, 1 means that filter
+results in smoothing the first derivative of function, and so on.
+Always use 0</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Filter coefficients</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Uwe Schmitt</p>
+</dd>
+<dt class="field-even">Copyright</dt>
+<dd class="field-even"><p>Uwe Schmitt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.SavitzkyGolay.__resub">
+<code class="descclassname">pyms.Noise.SavitzkyGolay.</code><code class="descname">__resub</code><span class="sig-paren">(</span><em>D</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/SavitzkyGolay.html#__resub"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.SavitzkyGolay.__resub" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Solves D D^T = rhs by resubstitution</p>
+</dd>
+</dl>
+<p>D is lower triangle-matrix from cholesky-decomposition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Uwe Schmitt</p>
+</dd>
+<dt class="field-even">Copyright</dt>
+<dd class="field-even"><p>Uwe Schmitt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.SavitzkyGolay.__smooth">
+<code class="descclassname">pyms.Noise.SavitzkyGolay.</code><code class="descname">__smooth</code><span class="sig-paren">(</span><em>signal</em>, <em>coeff</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/SavitzkyGolay.html#__smooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.SavitzkyGolay.__smooth" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies coefficients calculated by __calc_coeff()
+to signal</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Uwe Schmitt</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>Uwe Schmitt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.SavitzkyGolay.savitzky_golay">
+<code class="descclassname">pyms.Noise.SavitzkyGolay.</code><code class="descname">savitzky_golay</code><span class="sig-paren">(</span><em>ic</em>, <em>window=7</em>, <em>degree=2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/SavitzkyGolay.html#savitzky_golay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.SavitzkyGolay.savitzky_golay" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies Savitzky-Golay filter on ion chromatogram</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ic</strong> (<a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><em>pyms.GCMS.Class.IonChromatogram</em></a>) – The input ion chromatogram</p></li>
+<li><p><strong>window</strong> (<em>IntType</em><em> or </em><em>StringType</em>) – The window selection parameter. This can be an integer
+or time string. If integer, taken as the number of points. If a
+string, must of the form “&lt;NUMBER&gt;s” or “&lt;NUMBER&gt;m”, specifying
+a time in seconds or minutes, respectively</p></li>
+<li><p><strong>degree</strong> (<em>IntType</em>) – degree of the fitting polynomial for the Savitzky-Golay
+filter</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Smoothed ion chromatogram</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">pyms.GCMS.Class.IonChromatogram</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Uwe Schmitt</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.SavitzkyGolay.savitzky_golay_im">
+<code class="descclassname">pyms.Noise.SavitzkyGolay.</code><code class="descname">savitzky_golay_im</code><span class="sig-paren">(</span><em>im</em>, <em>window=7</em>, <em>degree=2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/SavitzkyGolay.html#savitzky_golay_im"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.SavitzkyGolay.savitzky_golay_im" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies Savitzky-Golay filter on Intensity
+Matrix</p>
+<p>Simply wraps around the Savitzky Golay 
+function above</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>im</strong> (<a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><em>pyms.GCMS.Class.IntensityMatrix</em></a>) – The input IntensityMatrix</p></li>
+<li><p><strong>window</strong> (<em>IntType</em><em> or </em><em>StringType</em>) – The window selection parameter.</p></li>
+<li><p><strong>degree</strong> (<em>IntType</em>) – degree of the fitting polynomial for the Savitzky-Golay
+filter</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Smoothed IntensityMatrix</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Sean O’Callaghan</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyms.Noise.Window">
+<span id="pyms-noise-window"></span><h2><a class="toc-backref" href="#id4"><a class="reference internal" href="#module-pyms.Noise.Window" title="pyms.Noise.Window"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise.Window</span></code></a></a><a class="headerlink" href="#module-pyms.Noise.Window" title="Permalink to this headline">¶</a></h2>
+<p>Moving window noise filter</p>
+<dl class="function">
+<dt id="pyms.Noise.Window.__mean_window">
+<code class="descclassname">pyms.Noise.Window.</code><code class="descname">__mean_window</code><span class="sig-paren">(</span><em>ia</em>, <em>wing_length</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/Window.html#__mean_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.Window.__mean_window" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies mean-window averaging on the array of intensities.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ia</strong> (<em>nympy.core.ndarray</em>) – Intensity array</p></li>
+<li><p><strong>wing_length</strong> (<em>IntType</em>) – An integer value representing the number of
+points on either side of a point in the ion chromatogram</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Smoothed intensity array</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>nympy.core.ndarray</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.Window.__median_window">
+<code class="descclassname">pyms.Noise.Window.</code><code class="descname">__median_window</code><span class="sig-paren">(</span><em>ia</em>, <em>wing_length</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/Window.html#__median_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.Window.__median_window" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies median-window averaging on the array of intensities.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ia</strong> (<em>nympy.core.ndarray</em>) – Intensity array</p></li>
+<li><p><strong>wing_length</strong> (<em>IntType</em>) – An integer value representing the number of
+points on either side of a point in the ion chromatogram</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Smoothed intensity array</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>nympy.core.ndarray</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.Window.window_smooth">
+<code class="descclassname">pyms.Noise.Window.</code><code class="descname">window_smooth</code><span class="sig-paren">(</span><em>ic</em>, <em>window=3</em>, <em>median=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/Window.html#window_smooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.Window.window_smooth" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies window smoothing on ion chromatogram</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ic</strong> (<a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><em>pyms.GCMS.Class.IonChromatogram</em></a>) – The input ion chromatogram</p></li>
+<li><p><strong>window</strong> (<em>IntType</em><em> or </em><em>StringType</em>) – The window selection parameter. This can be an integer
+or time string. If integer, taken as the number of points. If a
+string, must of the form “&lt;NUMBER&gt;s” or “&lt;NUMBER&gt;m”, specifying
+a time in seconds or minutes, respectively</p></li>
+<li><p><strong>median</strong> (<em>Booleantype</em>) – An indicator whether the mean or median window smoothing
+to be used</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Smoothed ion chromatogram</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">pyms.GCMS.Class.IonChromatogram</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.Noise.Window.window_smooth_im">
+<code class="descclassname">pyms.Noise.Window.</code><code class="descname">window_smooth_im</code><span class="sig-paren">(</span><em>im</em>, <em>window=3</em>, <em>median=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/Noise/Window.html#window_smooth_im"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.Noise.Window.window_smooth_im" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Applies window smoothing on Intensity Matrix</p>
+<p>Simply wraps around the window smooth function above</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>im</strong> (<a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><em>pyms.GCMS.Class.IntensityMatrix</em></a>) – The input Intensity Matrix</p></li>
+<li><p><strong>window</strong> (<em>IntType</em><em> or </em><em>StringType</em>) – The window selection parameter.</p></li>
+<li><p><strong>median</strong> (<em>Booleantype</em>) – An indicator whether the mean or median window smoothing
+to be used</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Smoothed Intensity Matrix</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Sean O’Callaghan</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Peak/Peak.html" class="btn btn-neutral float-right" title="pyms.Peak" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../GCMS/GCMS.html" class="btn btn-neutral float-left" title="pyms.GCMS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

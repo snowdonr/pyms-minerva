@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GC-MS data derived objects &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/GCMS/GCMS.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Noise/Noise.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>GC-MS data derived objects</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/domdfcoding/pyms-docs/blob/master/source/UserGuide/chapter04.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gc-ms-data-derived-objects">
+<h1><a class="toc-backref" href="#id3">GC-MS data derived objects</a><a class="headerlink" href="#gc-ms-data-derived-objects" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#gc-ms-data-derived-objects" id="id3">GC-MS data derived objects</a></p>
+<ul>
+<li><p><a class="reference internal" href="#intensitymatrix-object" id="id4">IntensityMatrix Object</a></p>
+<ul>
+<li><p><a class="reference internal" href="#discussion-of-binning-boundaries" id="id5">Discussion of Binning Boundaries</a></p></li>
+<li><p><a class="reference internal" href="#build-intensity-matrix" id="id6">Build intensity matrix</a></p></li>
+<li><p><a class="reference internal" href="#build-intensity-matrix-parameters" id="id7">Build intensity matrix parameters</a></p></li>
+<li><p><a class="reference internal" href="#build-integer-mass-intensity-matrix" id="id8">Build integer mass intensity matrix</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#massspectrum-object" id="id9">MassSpectrum object</a></p></li>
+<li><p><a class="reference internal" href="#ionchromatogram-object" id="id10">IonChromatogram object</a></p>
+<ul>
+<li><p><a class="reference internal" href="#writing-ionchromatogram-object-to-a-file" id="id11">Writing IonChromatogram object to a file</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#saving-data" id="id12">Saving data</a></p></li>
+<li><p><a class="reference internal" href="#importing-ascii-data" id="id13">Importing ASCII data</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In the raw GC-MS data, consecutive scans do not necessarily contain the same
+mass per charge (mass) values. For data processing, it is often necessary to
+convert the data to a matrix with a set number of masses and scans. In PyMS,
+the resulting object is called intensity matrix. In this chapter the methods
+for converting the raw GC-MS data to an intensity matrix object are illustrated.</p>
+<div class="section" id="intensitymatrix-object">
+<h2><a class="toc-backref" href="#id4">IntensityMatrix Object</a><a class="headerlink" href="#intensitymatrix-object" title="Permalink to this headline">¶</a></h2>
+<p>The general scheme for converting raw mass values is to bin intensity values
+based on the interval the corresponding mass belongs to. The general procedure
+is as follows:</p>
+<ul class="simple">
+<li><p>Set the interval between bins, lower and upper bin boundaries.</p></li>
+<li><p>Calculate the number of bins to cover the range of all masses.</p></li>
+<li><p>Centre the first bin at the minimum mass found for all the raw data.</p></li>
+<li><p>Sum intensities whose masses are in a given bin.</p></li>
+</ul>
+<p>A mass, <span class="math notranslate nohighlight">\(m\)</span>, is considered to belong to a bin when <span class="math notranslate nohighlight">\(c - l \le m &lt; c + u\)</span>,
+where <span class="math notranslate nohighlight">\(c\)</span> is the centre of the bin, <span class="math notranslate nohighlight">\(l\)</span> is the lower boundary and <span class="math notranslate nohighlight">\(u\)</span> is
+the upper boundary of the bin. The default bin interval is one with a lower
+and upper boundary of <span class="math notranslate nohighlight">\(\pm0.5\)</span>.</p>
+<p>A function to bin masses to the nearest integer is also available. The default
+bin interval is one with a lower boundary of <span class="math notranslate nohighlight">\(-0.3\)</span> and upper boundary of
+<span class="math notranslate nohighlight">\(+0.7\)</span> (as per the NIST library).</p>
+<div class="section" id="discussion-of-binning-boundaries">
+<h3><a class="toc-backref" href="#id5">Discussion of Binning Boundaries</a><a class="headerlink" href="#discussion-of-binning-boundaries" title="Permalink to this headline">¶</a></h3>
+<p>For any chemical element <span class="math notranslate nohighlight">\(X\)</span>, let <span class="math notranslate nohighlight">\(w(x)\)</span> be the atomic weight of <span class="math notranslate nohighlight">\(X\)</span>, and</p>
+<p><span class="math notranslate nohighlight">\(\delta(X) = \frac{w(X) - \{w(X)\}}{w(X)}\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\{a\}\)</span> is the integer value of <span class="math notranslate nohighlight">\(a\)</span> (rounded to the nearest integer).</p>
+<p>For example, for hydrogen <span class="math notranslate nohighlight">\(\delta(^1\rm{H}) = \frac{1.007825032 - 1}{1.007825032} = 0.0076\)</span>.
+Similarly <span class="math notranslate nohighlight">\(\delta(^{12}\rm{C}) = 0\)</span>, <span class="math notranslate nohighlight">\(\delta(^{14}\rm{N}) = 0.00022\)</span>,
+<span class="math notranslate nohighlight">\(\delta(^{16}\rm{O}) = -0.00032\)</span>, etc.</p>
+<p>Let also <span class="math notranslate nohighlight">\(\Delta(X) = w(X) - \{w(x)\}\)</span>. Then <span class="math notranslate nohighlight">\(-0.023 &lt;\Delta(^{31}\rm{P}),
+\Delta(^{28}\rm{Si}) &lt; 0\)</span>.</p>
+<p>Let a compound undergo GC-MS and let Y be one of it’s fragments. If Y consists
+of <span class="math notranslate nohighlight">\(k_{1}\)</span>,
+<span class="math notranslate nohighlight">\(k_{2}\)</span> atoms of type <span class="math notranslate nohighlight">\(X_{2}\)</span>,…..,
+<span class="math notranslate nohighlight">\(k_{r}\)</span> atoms of type <span class="math notranslate nohighlight">\(X_{r}\)</span>, then
+<span class="math notranslate nohighlight">\(\Delta(Y) = k_{1}*\Delta(X_{1}) + k_{2}*\Delta(X_{2}) + ....+ k_{r}*\Delta(X_{r})\)</span>.</p>
+<p>The fragment will usually not contain more than 2 or 3 P or Si atoms and if it’s
+molecular weight is less than 550 it may not contain more than 35 O atoms, so
+<span class="math notranslate nohighlight">\(\Delta(Y) \geq -0.023*5 - 0.00051*35 = -0.133\)</span>.</p>
+<p>On the other hand, of Y contains <span class="math notranslate nohighlight">\(k\)</span> H atoms and <span class="math notranslate nohighlight">\(m\)</span> N atoms, then <span class="math notranslate nohighlight">\(\Delta(Y)
+\leq k*0.00783 + m*0.00051\)</span>. Since for each two hydrogen atoms at least one
+carbon (or heavier) atom is needed, giving the limit of no more than 80 hydrogen
+atoms. Therefore in this case (i.e. H and C atoms only) <span class="math notranslate nohighlight">\(\Delta(Y) \leq 80*0.00783 = 0.63\)</span>.
+If carbon is replaced by any heavier atom, at least 2 hydrogen atoms
+will be eliminated and <span class="math notranslate nohighlight">\(\Delta(Y)\)</span> will become even smaller.</p>
+<p>If the molecular weight of <span class="math notranslate nohighlight">\(Y\)</span> does not exceed 550 (typically the largest mass
+scanned for in a GC-MS setup) then <span class="math notranslate nohighlight">\(\mathbf{-0.133 \leq \Delta(Y) \leq 0.63}\)</span>.
+This means that if we set our binning boundaries to <span class="math notranslate nohighlight">\((-0.3, 0.7)\)</span> or <span class="math notranslate nohighlight">\((-0.2, 0.8)\)</span>
+the opportunity for having a fragment whose molecular weight is very close to
+the boundary is minimised.</p>
+<p>Since the resolution of MS is at least 0.1 dalton, we may assume that it’s error
+does not exceed 0.05, and MS accuracy will not cause additional problems.</p>
+</div>
+<div class="section" id="build-intensity-matrix">
+<h3><a class="toc-backref" href="#id6">Build intensity matrix</a><a class="headerlink" href="#build-intensity-matrix" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/30a/30a.html">pyms-test/30a</a></p>
+</div>
+<p>An intensity matrix on the raw GC-MS data can be built using the following
+function. First the raw data is imported as before.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.IO.JCAMP.Function</span> <span class="k">import</span> <span class="n">JCAMP_reader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jcamp_file</span> <span class="o">=</span> <span class="s2">&quot;/x/PyMS/data/gc01_0812_066.jdx&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">JCAMP_reader</span><span class="p">(</span><span class="n">jcamp_file</span><span class="p">)</span>
+<span class="go"> -&gt; Reading JCAMP file &#39;/x/PyMS/pyms-data/gc01_0812_066.jdx&#39;</span>
+</pre></div>
+</div>
+<p>Then the data can be converted to an intensity matrix using the functions
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Function.build_intensity_matrix" title="pyms.GCMS.Function.build_intensity_matrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_intensity_matrix()</span></code></a> and
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Function.build_intensity_matrix_i" title="pyms.GCMS.Function.build_intensity_matrix_i"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_intensity_matrix_i()</span></code></a>,
+available in <a class="reference internal" href="../pyms/GCMS/GCMS.html#module-pyms.GCMS.Function" title="pyms.GCMS.Function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyms.GCMS.Function</span></code></a></p>
+<p>The default operation of <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Function.build_intensity_matrix" title="pyms.GCMS.Function.build_intensity_matrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_intensity_matrix()</span></code></a>
+is to use a bin interval of one and treat the masses as floating point numbers.
+The default intensity matrix can be built as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.Function</span> <span class="k">import</span> <span class="n">build_intensity_matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">build_intensity_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The size as the number of scans and the number of bins is returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+<span class="go">(9865, 551)</span>
+</pre></div>
+</div>
+<p>There are 9865 scans and 551 bins in this example.</p>
+<p>The raw masses have been binned into new mass units based on the minimum mass
+in the raw data and the bin size. A list of the new masses can be obtained
+as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">masses</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_mass_list</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">masses</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="go">[50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0]</span>
+</pre></div>
+</div>
+<p>The last command prints the first ten masses. The methods
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_min_mass" title="pyms.GCMS.Class.IntensityMatrix.get_min_mass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">im.get_min_mass()</span></code></a> and
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_max_mass" title="pyms.GCMS.Class.IntensityMatrix.get_max_mass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">im.get_ax_mass()</span></code></a>
+return the minimum and maximum mass:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_min_mass</span><span class="p">())</span>
+<span class="go">50.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_max_mass</span><span class="p">())</span>
+<span class="go">600.0</span>
+</pre></div>
+</div>
+<p>It is also possible to search for a particular mass, by finding the index of
+the binned mass closest to the desired mass. For example, the index of the
+closest binned mass to a mass of 73.3 <span class="math notranslate nohighlight">\(m/z\)</span> can be found by using the
+methods <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_index_of_mass" title="pyms.GCMS.Class.IntensityMatrix.get_index_of_mass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">im.get_index_of_mass()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_of_mass</span><span class="p">(</span><span class="mf">73.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+<p>The value of the closest mass can be returned by the method
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_mass_at_index" title="pyms.GCMS.Class.IntensityMatrix.get_mass_at_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">im.get_mass_at_index()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_mass_at_index</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+<span class="go">73.0</span>
+</pre></div>
+</div>
+<p>A mass of 73.0 is returned in this example.</p>
+</div>
+<div class="section" id="build-intensity-matrix-parameters">
+<h3><a class="toc-backref" href="#id7">Build intensity matrix parameters</a><a class="headerlink" href="#build-intensity-matrix-parameters" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/30b/30b.html">pyms-test/30b</a></p>
+</div>
+<p>The bin interval can be set to values other than one, and binning boundaries
+can also be adjusted. In the example below, to fit the 0.5 bin interval, the
+upper and lower boundaries are set to :math:<a href="#id1"><span class="problematic" id="id2">`</span></a>pm`0.25.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">build_intensity_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The size of the intensity matrix will reflect the change in the number of bins:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this example there are 9865 scans (as before), but 1101 bins.</p>
+<p>The index and binned mass of the mass closest to 73.3 should also reflect the
+different binning.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_of_mass</span><span class="p">(</span><span class="mf">73.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_mass_at_index</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>A mass of 73.5 is returned in this example.</p>
+</div>
+<div class="section" id="build-integer-mass-intensity-matrix">
+<h3><a class="toc-backref" href="#id8">Build integer mass intensity matrix</a><a class="headerlink" href="#build-integer-mass-intensity-matrix" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/30c/30c.html">pyms-test/30c</a></p>
+</div>
+<p>It is also possible to build an intensity matrix with integer masses and a bin
+interval of one. The default range for the binning is -0.3 and +0.7 mass
+units. The function is imported from <a class="reference internal" href="../pyms/GCMS/GCMS.html#module-pyms.GCMS.Function" title="pyms.GCMS.Function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyms.GCMS.Function</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.Function</span> <span class="k">import</span> <span class="n">build_intensity_matrix_i</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">build_intensity_matrix_i</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The masses are now integers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_of_mass</span><span class="p">(</span><span class="mf">73.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_mass_at_index</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>A mass of 73 is returned in this example.</p>
+<p>The lower and upper bounds can be adjusted by
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Function.build_intensity_matrix_i" title="pyms.GCMS.Function.build_intensity_matrix_i"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_intensity_matrix_i(data,</span> <span class="pre">lower,</span> <span class="pre">upper)</span></code></a></p>
+</div>
+</div>
+<div class="section" id="massspectrum-object">
+<h2><a class="toc-backref" href="#id9">MassSpectrum object</a><a class="headerlink" href="#massspectrum-object" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/31/31.html">pyms-test/31</a></p>
+</div>
+<p>A <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.MassSpectrum" title="pyms.GCMS.Class.MassSpectrum"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MassSpectrum</span></code></a> object contains
+two attributes, <code class="docutils literal notranslate"><span class="pre">mass_list</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_spec</span></code>, a list of mass values
+and corresponding intensities, respectively.
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.MassSpectrum" title="pyms.GCMS.Class.MassSpectrum"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MassSpectrum</span></code></a> is returned by the
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntensityMatrix</span></code></a> method
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_ms_at_index" title="pyms.GCMS.Class.IntensityMatrix.get_ms_at_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_ms_at_index(index)</span></code></a>.</p>
+<p>For example, the properties of the first MassSpectrum object of an
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntensityMatrix</span></code></a>, <code class="docutils literal notranslate"><span class="pre">im</span></code>, can be investigated by;</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ms</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_ms_at_index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">mass_list</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">mass_spec</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The length of all attributes should be the same.</p>
+</div>
+<div class="section" id="ionchromatogram-object">
+<h2><a class="toc-backref" href="#id10">IonChromatogram object</a><a class="headerlink" href="#ionchromatogram-object" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/31/31.html">pyms-test/31</a></p>
+</div>
+<p>An <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IonChromatogram</span></code></a> object is a
+one dimensional vector containing mass intensities as a function of
+retention time. This can can be either <span class="math notranslate nohighlight">\(m/z\)</span> channel intensities
+(for example, the ion chromatogram at <span class="math notranslate nohighlight">\(m/z = 73\)</span>), or cumulative
+intensities over all measured <span class="math notranslate nohighlight">\(m/z\)</span> (TIC).</p>
+<p>An <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IonChromatogram</span></code></a> for the
+TIC and a given mass or index can be obtained as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tic</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get_tic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ic</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_ic_at_index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ic</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_ic_at_mass</span><span class="p">(</span><span class="mi">73</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will return, respectively: the TIC; the ion chromatogram of the first
+mass; and the ion chromatogram of the mass closest to 73.</p>
+<p>An ion chromatogram object has a method
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.is_tic" title="pyms.GCMS.Class.IonChromatogram.is_tic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_tic()</span></code></a>
+which returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the ion chromatogram is a TIC, <code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;tic&#39; is a TIC:&quot;</span><span class="p">,</span> <span class="n">tic</span><span class="o">.</span><span class="n">is_tic</span><span class="p">())</span>
+<span class="go">&#39;tic&#39; is a TIC: True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&#39;ic&#39; is a TIC:&quot;</span><span class="p">,</span><span class="n">ic</span><span class="o">.</span><span class="n">is_tic</span><span class="p">())</span>
+<span class="go">&#39;ic&#39; is a TIC: False</span>
+</pre></div>
+</div>
+<div class="section" id="writing-ionchromatogram-object-to-a-file">
+<h3><a class="toc-backref" href="#id11">Writing IonChromatogram object to a file</a><a class="headerlink" href="#writing-ionchromatogram-object-to-a-file" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/31/31.html">pyms-test/31</a></p>
+</div>
+<p>The method <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.write" title="pyms.GCMS.Class.IonChromatogram.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>
+of an <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IonChromatogram</span></code></a>
+object allows one to save the ion chromatogram object to a file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tic</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output/tic.dat&quot;</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ic</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output/ic.dat&quot;</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The flag <code class="docutils literal notranslate"><span class="pre">minutes=True</span></code> indicates that retention time will be saved in minutes.
+The ion chromatogram object saved with with the
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.write" title="pyms.GCMS.Class.IonChromatogram.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a>
+method is a plain ASCII file which contains a pair of
+(retention time, intensity) per line.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ head tic.dat
+  <span class="m">5</span>.0930 <span class="m">2</span>.222021e+07
+  <span class="m">5</span>.0993 <span class="m">2</span>.212489e+07
+  <span class="m">5</span>.1056 <span class="m">2</span>.208650e+07
+  <span class="m">5</span>.1118 <span class="m">2</span>.208815e+07
+  <span class="m">5</span>.1181 <span class="m">2</span>.200635e+07
+  <span class="m">5</span>.1243 <span class="m">2</span>.200326e+07
+  <span class="m">5</span>.1306 <span class="m">2</span>.202363e+07
+  <span class="m">5</span>.1368 <span class="m">2</span>.198357e+07
+  <span class="m">5</span>.1431 <span class="m">2</span>.197408e+07
+  <span class="m">5</span>.1493 <span class="m">2</span>.193351e+07
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="saving-data">
+<h2><a class="toc-backref" href="#id12">Saving data</a><a class="headerlink" href="#saving-data" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/32/32.html">pyms-test/32</a></p>
+</div>
+<p>A matrix of intensity values can be saved to a file with the function
+<a class="reference internal" href="../pyms/Utils/Utils.html#pyms.Utils.IO.save_data" title="pyms.Utils.IO.save_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_data()</span></code></a>
+from <a class="reference internal" href="../pyms/Utils/Utils.html#module-pyms.Utils.IO" title="pyms.Utils.IO"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyms.Utils.IO</span></code></a>. A matrix of intensity values can
+be returned from an <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntensityMatrix</span></code></a>
+with the method
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_matrix_list" title="pyms.GCMS.Class.IntensityMatrix.get_matrix_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_matrix_list()</span></code></a>.
+For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.Utils.IO</span> <span class="k">import</span> <span class="n">save_data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mat</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_matrix_list</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_data</span><span class="p">(</span><span class="s2">&quot;output/im.dat&quot;</span><span class="p">,</span> <span class="n">mat</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is also possible to save the list of masses (from
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_mass_list" title="pyms.GCMS.Class.IntensityMatrix.get_mass_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">im.get_mass_list()</span></code></a>
+and the list of retention times (from
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_time_list" title="pyms.GCMS.Class.IntensityMatrix.get_time_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">im.get_time_list()</span></code></a>
+using the <a class="reference internal" href="../pyms/Utils/Utils.html#pyms.Utils.IO.save_data" title="pyms.Utils.IO.save_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_data()</span></code></a> function.
+For convenience, the intensity values, mass list and time list,
+can be saved with the method
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.export_ascii" title="pyms.GCMS.Class.IntensityMatrix.export_ascii"><code class="xref py py-meth docutils literal notranslate"><span class="pre">export_ascii()</span></code></a>.
+For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="o">.</span><span class="n">export_ascii</span><span class="p">(</span><span class="s2">&quot;output/data&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will create <code class="docutils literal notranslate"><span class="pre">data.im.dat</span></code>, <code class="docutils literal notranslate"><span class="pre">data.mz.dat</span></code>, and <code class="docutils literal notranslate"><span class="pre">data.rt.dat</span></code> where these
+are the intensity matrix, retention time vector, and <span class="math notranslate nohighlight">\(m/z\)</span> vector. By default
+the data is saved as space separated data with a “.dat” extension. It is
+also possible to save the data as comma separated data with a “.csv”
+extension by the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="o">.</span><span class="n">export_ascii</span><span class="p">(</span><span class="s2">&quot;output/data&quot;</span><span class="p">,</span> <span class="s2">&quot;csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Additionally, the entire <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntensityMatrix</span></code></a>
+can be exported to LECO CSV format. This facility is useful for import into
+other analytical software packages. The format has a header line specifying
+the column heading information as:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>scan, retention time, mass1, mass2, ...
+</pre></div>
+</div>
+<p>and then each row as the intensity data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="o">.</span><span class="n">export_leco_csv</span><span class="p">(</span><span class="s2">&quot;output/data_leco.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="importing-ascii-data">
+<h2><a class="toc-backref" href="#id13">Importing ASCII data</a><a class="headerlink" href="#importing-ascii-data" title="Permalink to this headline">¶</a></h2>
+<p><strong>This example is in pyms-test/32</strong></p>
+<p>The LECO CSV data format can be used to import ASCII data directly into an
+IntensityMatrix object.  The data must follow the format outlined above.
+For example, the file saved above can be read and compared to the original:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.Class</span> <span class="kn">import</span> <span class="n">IntensityMatrix</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iim</span> <span class="o">=</span> <span class="n">IntensityMatrix</span><span class="p">([</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iim</span><span class="o">.</span><span class="n">import_leco_csv</span><span class="p">(</span><span class="s2">&quot;output/data_leco.csv&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">im</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">iim</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The line <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.__init__" title="pyms.GCMS.Class.IntensityMatrix.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntensityMatrix([0],[0],[[0]])</span></code></a>
+is required to create an empty
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntensityMatrix</span></code></a> object.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+******
+50
+******
+
+Demonstrates a Peak object and its properties.
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

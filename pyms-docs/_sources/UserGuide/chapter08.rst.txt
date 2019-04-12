@@ -1,0 +1,190 @@
+*********************
+The Display module
+*********************
+
+.. contents:: Table of Contents
+
+PyMS has graphical capabilities to display information such as ion chromatogram
+objects (ICs), total ion chromatogram (TIC), and detected lists of peaks.
+
+
+Displaying the TIC
+====================
+
+.. note:: This example is in `pyms-test/70a <../pyms-test/70a/70a.html>`__
+
+TIC must first be extracted from the data (see section
+`'IonChromatogram Object' <./chapter04.html#ionchromatogram-object>`_).
+Once the TIC object is created, a simple call to the function
+:py:meth:`plot_ics() <pyms.Display.Class.Display.plot_ics>`
+displays the TIC in a graphical window. In addition to the TIC,
+two strings may be passed to
+:py:meth:`plot_ics() <pyms.Display.Class.Display.plot_ics>`
+which label the data (in this case "TIC"), and the
+overall plot ("TIC for gc01_0812_066").
+
+    >>> plot_ics(tic, 'TIC','TIC for gc01_0812_066')
+
+This window should now be displayed:
+
+.. figure:: graphics/chapter08/test-70a.png
+    :scale: 33
+    :alt: Graphics window displayed by the script 70a/proc.py
+
+    Graphics window displayed by the script 70a/proc.py
+
+To zoom in on a portion of the plot, select the |magnifier| button,
+hold down the left mouse button while dragging a rectangle over
+the area of interest. To return to the original view, click on the
+|home| button.
+
+The |cross| button allows panning across the zoomed plot.
+
+.. |magnifier| image:: graphics/chapter08/magnifier_button.png
+    :scale: 50
+.. |home| image:: graphics/chapter08/home_button.png
+    :scale: 50
+.. |cross| image:: graphics/chapter08/cross_button.png
+    :scale: 50
+
+Displaying multiple ion chromatogram objects
+=============================================
+
+.. note:: This example is in `pyms-test/70b <../pyms-test/70b/70b.html>`__
+
+The Display module can plot multiple ICs and the TIC on the same figure,
+as shown in the following example. First, a list of ion chromatogram
+objects is created:
+
+    >>> tic = data.get_tic()
+    >>> ic = im.get_ic_at_mass(73)
+    >>> ic1 = im.get_ic_at_mass(147)
+    >>> ics = [tic, ic, ic1]
+
+This list is passed to the function :py:meth:`plot_ics() <pyms.Display.Class.Display.plot_ics>`,
+along with a list of strings to label each ion chromatogram:
+
+    >>> plot_ics(ics, ['TIC', '73','147'], 'TIC and ICs for m/z = 73 & 147')
+
+This results in the graphics window being displayed:
+
+.. figure:: graphics/chapter08/test-70b.png
+    :scale: 33
+    :alt: Graphics window displayed by the script 70b/proc.py
+
+    Graphics window displayed by the script 70b/proc.py
+
+
+Displaying the mass spectrum
+================================
+.. note:: This example is in `pyms-test/70c <../pyms-test/70c/70c.html>`__
+
+The pyms Display module can also be used to display individual mass spectra. The
+following selects the mass spectrum of interest:
+
+    >>> ms = im.get_ms_at_index(1024)
+    ... im is an intensity matrix
+
+The pyms function :py:meth:`plot_ms() <pyms.Display.Function.plot_ms>`
+can then be called to display the mass spectrum to the screen.
+
+>>> plot_ms(ms, 'Mass Spectrum at index 1024')
+
+The resulting window is shown below.
+
+.. figure:: graphics/chapter08/test-70c.png
+    :scale: 33
+    :alt: Graphics window displayed by the script 70c/proc.py
+
+    Graphics window displayed by the script 70c/proc.py
+
+
+Displaying detected peaks on the TIC plot
+====================================================
+
+.. note:: This example is in `pyms-test/71 <../pyms-test/71/71.html>`__
+
+The Display class is a more powerful implementation of plotting which
+allows plotting of detected peaks and user interaction with the plot
+figure.
+
+In order to plot a list of peaks, the peaks must be created first.
+The example `pyms-test/71 <../pyms-test/71/71.html>`__ contains the script
+``proc_save_peaks.py`` which produces such a peak list.
+For more information on detecting peaks see
+"`Peak detection and representation <chapter06.html>`_".
+The function :py:meth:`store_peaks() <pyms.Peak.IO.store_peaks>`
+in ``proc_save_peaks.py`` stores the peaks, while
+:py:meth:`load_peaks() <pyms.Peak.IO.load_peaks>`
+in ``proc.py`` loads them for the Display class to use.
+
+When using the Display Class, a series of plots is added to the figure
+one at a time before the final plot is displayed. The first step is
+always creating an instance of the Display class:
+
+    >>> display = Display()
+
+Next some ics and the TIC are plotted. Unlike in simple plotting, the
+TIC is plotted using a separate function. This function ensures that
+the TIC is always plotted in blue for easy reference. The legend for
+each IC is supplied to the functions, but the overall figure label
+is not supplied at this time.
+
+    >>> display.plot_ics(ics, ['73','147'])
+    >>> displat.plot_tic(tic, 'TIC')
+
+The function
+:py:meth:`plot_peaks() <pyms.Display.Class.Display.plot_peaks>`
+adds the PyMS detected peaks to the figure.
+
+    >>> display.plot_peaks(peak_list, 'Peaks')
+
+
+Finally, the function
+:py:meth:`do_plotting() <pyms.Display.Class.Display.do_plotting>`
+is called to draw the figure with labels and display the plot.
+
+    >>> display.do_plotting('TIC, ICs, and PyMS Detected Peaks')
+
+This should result in the following being displayed:
+
+.. figure:: graphics/chapter08/test-71-ICs.png
+    :scale: 33
+    :alt: Graphics window displayed by the script 71/proc.py
+
+    Graphics window displayed by the script 71/proc.py
+
+
+User interaction with the plot window
+---------------------------------------
+
+When using the Display class, the resulting figure window can be used to
+access data about the displayed peaks.
+
+Clicking on a peak causes a list of the 5 highest intensity eluting ions
+at that peak to be written to the screen in order.  Clicking a mouse
+button over one of the peaks should result in output similar to the
+following:
+
+    >>> mass     intensity
+    >>> 273     1003678.47619
+    >>> 73      625396.428571
+    >>> 147     526953.333333
+    >>> 363     255903.714286
+    >>> 347     241031.333333
+
+In addition, clicking a mouse button other than the left button on a peak
+displays the mass spectrum at the peak in a new window (figure \ref{fig:71-spec``):
+
+
+.. figure:: graphics/chapter08/test-71-spec.png
+    :scale: 33
+    :alt: The mass spectrum displayed by PyMS when a peak in the graphics window is clicked on
+
+    The mass spectrum displayed by PyMS when a peak in the graphics window is clicked on
+
+
+Clicking on other peaks will display further mass spectrums for those peaks
+in new windows.
+
+

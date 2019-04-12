@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyms.Peak.List.DPA.Function &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../../../../../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../UserGuide/chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/GCMS/GCMS.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Noise/Noise.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms/Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../UserGuide/Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../UserGuide/Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../UserGuide/Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../UserGuide/Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyms.Peak.List.DPA.Function</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyms.Peak.List.DPA.Function</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for peak alignment by dynamic programming</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+ <span class="c1">#############################################################################</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    PyMS software for processing of metabolomic mass-spectrometry data     #</span>
+ <span class="c1">#    Copyright (C) 2005-2012 Vladimir Likic                                 #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    This program is free software; you can redistribute it and/or modify   #</span>
+ <span class="c1">#    it under the terms of the GNU General Public License version 2 as      #</span>
+ <span class="c1">#    published by the Free Software Foundation.                             #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    This program is distributed in the hope that it will be useful,        #</span>
+ <span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #</span>
+ <span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #</span>
+ <span class="c1">#    GNU General Public License for more details.                           #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    You should have received a copy of the GNU General Public License      #</span>
+ <span class="c1">#    along with this program; if not, write to the Free Software            #</span>
+ <span class="c1">#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#############################################################################</span>
+
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="c1">#from math import sqrt, log</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">pyms.Utils.Error</span> <span class="k">import</span> <span class="n">error</span><span class="p">,</span> <span class="n">stop</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.Utils</span> <span class="k">import</span> <span class="n">is_list</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.DP</span> <span class="k">import</span> <span class="n">dp</span>
+<span class="kn">from</span> <span class="nn">pyms.Experiment.Class</span> <span class="k">import</span> <span class="n">Experiment</span>
+
+<span class="kn">from</span> <span class="nn">pyms.Peak.List.DPA</span> <span class="k">import</span> <span class="n">Class</span>
+<span class="kn">from</span> <span class="nn">pyms.Peak.List.DPA</span> <span class="k">import</span> <span class="n">Utils</span>
+
+<span class="c1"># If psyco is installed, use it to speed up running time</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">psyco</span>
+    <span class="n">psyco</span><span class="o">.</span><span class="n">full</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="align_with_tree"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.align_with_tree">[docs]</a><span class="k">def</span> <span class="nf">align_with_tree</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">min_peaks</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Aligns a list of alignments using the supplied guide tree</span>
+
+<span class="sd">    :param T: The pairwise alignment object</span>
+<span class="sd">    :type: pyms.Peak.List.DPA.Class.PairwiseAlignment</span>
+<span class="sd">    :return: The final alignment consisting of aligned input alignments</span>
+<span class="sd">    :rtype: pyms.Peak.List.DPA.Class.Alignment</span>
+<span class="sd">    :author: Woon Wai Keen</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Aligning </span><span class="si">%d</span><span class="s2"> items with guide tree (D=</span><span class="si">%.2f</span><span class="s2">, gap=</span><span class="si">%.2f</span><span class="s2">)&quot;</span> <span class="o">%</span> \
+            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">algts</span><span class="p">),</span> <span class="n">T</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">gap</span><span class="p">))</span>
+
+    <span class="c1"># For everything else, we align according to the guide tree provided by</span>
+    <span class="c1"># Pycluster. From Pycluster documentation:</span>
+    <span class="c1">#   Each item and subnode is represented by an integer. For hierarchical</span>
+    <span class="c1">#   clustering of n items, we number the original items {0, ... , n-1},</span>
+    <span class="c1">#   nodes are numbered {-1, ... , -(n-1)}. Note that the number of nodes</span>
+    <span class="c1">#   is one less than the number of items.</span>
+
+    <span class="c1"># extend As to length 2n to hold the n items, n-1 nodes, and 1 root</span>
+    <span class="n">As</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">algts</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">algts</span><span class="p">))</span> <span class="p">]</span>
+
+    <span class="c1"># align the alignments into positions -1, ... ,-(n-1)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">T</span><span class="o">.</span><span class="n">tree</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">As</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">align</span><span class="p">(</span><span class="n">As</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">left</span><span class="p">],</span> <span class="n">As</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">right</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">gap</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; </span><span class="si">%d</span><span class="s2"> item(s) remaining&quot;</span> <span class="o">%</span> <span class="n">total</span><span class="p">)</span>
+
+    <span class="c1"># the final alignment is in the root. Filter min peaks and return</span>
+    <span class="n">final_algt</span> <span class="o">=</span>  <span class="n">As</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="c1"># useful for within state alignment only</span>
+    <span class="k">if</span> <span class="n">min_peaks</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">final_algt</span><span class="o">.</span><span class="n">filter_min_peaks</span><span class="p">(</span><span class="n">min_peaks</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_algt</span></div>
+
+<div class="viewcode-block" id="exprl2alignment"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.exprl2alignment">[docs]</a><span class="k">def</span> <span class="nf">exprl2alignment</span><span class="p">(</span><span class="n">exprl</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Converts experiments into alignments</span>
+
+<span class="sd">    :param exprl: The list of experiments to be converted into an alignment</span>
+<span class="sd">        objects</span>
+<span class="sd">    :type exprl: ListType</span>
+
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">exprl</span><span class="p">):</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;the argument is not a list&quot;</span><span class="p">)</span>
+
+    <span class="n">algts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">exprl</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Experiment</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;list items must be &#39;Experiment&#39; instances&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">algt</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="n">Alignment</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">algts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">algt</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">algts</span></div>
+
+<div class="viewcode-block" id="align"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.align">[docs]</a><span class="k">def</span> <span class="nf">align</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">gap</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Aligns two alignments</span>
+
+<span class="sd">    :param a1: The first alignment</span>
+<span class="sd">    :type a1: pyms.Peak.List.Class.Alignment</span>
+<span class="sd">    :param a2: The second alignment</span>
+<span class="sd">    :type a2: pyms.Peak.List.Class.Alignment</span>
+<span class="sd">    :param D: Retention time tolerance</span>
+<span class="sd">    :type D: FloatType</span>
+<span class="sd">    :param gap: Gap penalty</span>
+<span class="sd">    :type gap: FloatType</span>
+
+<span class="sd">    :return: Aligned alignments</span>
+<span class="sd">    :rtype: pyms.Peak.List.Class.Alignment</span>
+
+<span class="sd">    :author: Woon Wai Keen</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># calculate score matrix for two alignments</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">score_matrix</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+
+    <span class="c1"># run dynamic programming</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">dp</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span>
+
+    <span class="c1"># make composite alignment from the results</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="n">merge_alignments</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;trace&#39;</span><span class="p">])</span>
+
+    <span class="c1"># calculate the similarity score</span>
+    <span class="n">ma</span><span class="o">.</span><span class="n">similarity</span> <span class="o">=</span> <span class="n">alignment_similarity</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;trace&#39;</span><span class="p">],</span> <span class="n">M</span><span class="p">,</span> <span class="n">gap</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ma</span></div>
+
+<div class="viewcode-block" id="merge_alignments"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.merge_alignments">[docs]</a><span class="k">def</span> <span class="nf">merge_alignments</span><span class="p">(</span><span class="n">A1</span><span class="p">,</span> <span class="n">A2</span><span class="p">,</span> <span class="n">traces</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Merges two alignments with gaps added in from DP traceback</span>
+
+<span class="sd">    :param A1: First alignment</span>
+<span class="sd">    :param A2: Second alignment</span>
+<span class="sd">    :param traces: DP traceback</span>
+
+<span class="sd">    :return: A single alignment from A1 and A2</span>
+<span class="sd">    :author: Woon Wai Keen</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    :author: Qiao Wang</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Create object to hold new merged alignment and fill in its expr_codes</span>
+    <span class="n">ma</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="n">Alignment</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">ma</span><span class="o">.</span><span class="n">expr_code</span> <span class="o">=</span> <span class="n">A1</span><span class="o">.</span><span class="n">expr_code</span> <span class="o">+</span> <span class="n">A2</span><span class="o">.</span><span class="n">expr_code</span>
+
+    <span class="c1"># create empty lists of dimension |A1| + |A2|</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A1</span><span class="o">.</span><span class="n">peakpos</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">A2</span><span class="o">.</span><span class="n">peakpos</span><span class="p">)</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span> <span class="p">]</span>
+    <span class="n">A1</span> <span class="o">=</span> <span class="n">A1</span><span class="o">.</span><span class="n">peakpos</span>
+    <span class="n">A2</span> <span class="o">=</span> <span class="n">A2</span><span class="o">.</span><span class="n">peakpos</span>
+
+    <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># trace can either be 0, 1, or 2</span>
+    <span class="c1"># if it is 0, there are no gaps. otherwise, if it is 1 or 2,</span>
+    <span class="c1"># there is a gap in A2 or A1 respectively.</span>
+
+    <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">trace</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A1</span><span class="p">)):</span>
+                <span class="n">merged</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx1</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A2</span><span class="p">)):</span>
+                <span class="n">merged</span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A2</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx2</span><span class="p">])</span>
+
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="n">trace</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A1</span><span class="p">)):</span>
+                <span class="n">merged</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx1</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A2</span><span class="p">)):</span>
+                <span class="n">merged</span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="n">trace</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A1</span><span class="p">)):</span>
+                <span class="n">merged</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A2</span><span class="p">)):</span>
+                <span class="n">merged</span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A2</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">idx2</span><span class="p">])</span>
+
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">ma</span><span class="o">.</span><span class="n">peakalgt</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
+    <span class="c1"># sort according to average peak</span>
+    <span class="n">ma</span><span class="o">.</span><span class="n">peakalgt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">peakalgt</span><span class="p">)</span>
+    <span class="n">ma</span><span class="o">.</span><span class="n">peakalgt</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">cmp_to_key</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">alignment_compare</span><span class="p">))</span>
+    <span class="n">ma</span><span class="o">.</span><span class="n">peakpos</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">peakalgt</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ma</span></div>
+
+<div class="viewcode-block" id="alignment_similarity"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.alignment_similarity">[docs]</a><span class="k">def</span> <span class="nf">alignment_similarity</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">score_matrix</span><span class="p">,</span> <span class="n">gap</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Calculates similarity score between two alignments (new method)</span>
+
+<span class="sd">    :param traces: Traceback from DP algorithm</span>
+<span class="sd">    :param score_matrix: Score matrix of the two alignments</span>
+<span class="sd">    :param gap: Gap penalty</span>
+
+<span class="sd">    :return: Similarity score (i.e. more similar =&gt; higher score)</span>
+<span class="sd">    :author: Woon Wai Keen</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">score_matrix</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">-</span> <span class="n">score_matrix</span>
+    <span class="n">similarity</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Trace can either be 0, 1, or 2</span>
+    <span class="c1"># If it is 0, there is a match and we add to the sum the score between</span>
+    <span class="c1"># these two aligned peaks.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Otherwise, if it is 1 or 2, and there is a gap in A2 or A1</span>
+    <span class="c1"># respectively. We then subtract the gap penalty from the sum.</span>
+    <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">trace</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">similarity</span> <span class="o">=</span> <span class="n">similarity</span> <span class="o">+</span> <span class="n">score_matrix</span><span class="p">[</span><span class="n">idx1</span><span class="p">][</span><span class="n">idx2</span><span class="p">]</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">trace</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">similarity</span> <span class="o">=</span> <span class="n">similarity</span> <span class="o">-</span> <span class="n">gap</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">idx1</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">trace</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">similarity</span> <span class="o">=</span> <span class="n">similarity</span> <span class="o">-</span> <span class="n">gap</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">idx2</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">similarity</span></div>
+
+<div class="viewcode-block" id="score_matrix"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.score_matrix">[docs]</a><span class="k">def</span> <span class="nf">score_matrix</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Calculates the score matrix between two alignments</span>
+
+<span class="sd">    :param a1: The first alignment</span>
+<span class="sd">    :type a1: pyms.Peak.List.Class.Alignment</span>
+<span class="sd">    :param a2: The second alignment</span>
+<span class="sd">    :type a2: pyms.Peak.List.Class.Alignment</span>
+<span class="sd">    :param D: Retention time tolerance</span>
+<span class="sd">    :type D: FloatType</span>
+
+<span class="sd">    :return: Aligned alignments</span>
+<span class="sd">    :rtype: pyms.Peak.List.Class.Alignment</span>
+
+<span class="sd">    :author: Qiao Wang</span>
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">score_matrix</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">a1</span><span class="o">.</span><span class="n">peakalgt</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">a2</span><span class="o">.</span><span class="n">peakalgt</span><span class="p">)))</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sim_score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">algt1pos</span> <span class="ow">in</span> <span class="n">a1</span><span class="o">.</span><span class="n">peakalgt</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">algt2pos</span> <span class="ow">in</span> <span class="n">a2</span><span class="o">.</span><span class="n">peakalgt</span><span class="p">:</span>
+            <span class="n">sim_score</span> <span class="o">=</span> <span class="n">position_similarity</span><span class="p">(</span><span class="n">algt1pos</span><span class="p">,</span> <span class="n">algt2pos</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+            <span class="n">score_matrix</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_score</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">score_matrix</span></div>
+
+<div class="viewcode-block" id="position_similarity"><a class="viewcode-back" href="../../../../../pyms/Peak/Peak.html#pyms.Peak.List.DPA.Function.position_similarity">[docs]</a><span class="k">def</span> <span class="nf">position_similarity</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">D</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Calculates the similarity between the two alignment</span>
+<span class="sd">        positions.  A score of 0 is best and 1 is worst.</span>
+
+<span class="sd">    :param pos1: The position of the first alignment</span>
+<span class="sd">    :param pos2: The position of the second alignment</span>
+<span class="sd">    :param D: Rentention time tolerance</span>
+
+<span class="sd">    :return: The similarity value for the current position</span>
+<span class="sd">    :rtype: FloatType</span>
+
+<span class="sd">    :author: Qiao Wang</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1">## Attempt to speed up by only calculating &#39;in-range&#39; values</span>
+    <span class="c1">## set tollerance to 1/1000</span>
+    <span class="n">_TOL</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="n">cutoff</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_TOL</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">pos1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">aspec</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">mass_spec</span>
+            <span class="n">art</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">rt</span>
+            <span class="n">once</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">pos2</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">brt</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">rt</span>
+                    <span class="c1"># in range?</span>
+                    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">art</span><span class="o">-</span><span class="n">brt</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cutoff</span><span class="p">:</span>
+                        <span class="n">score</span> <span class="o">+=</span> <span class="mf">1.0</span>  <span class="c1"># NB score of 1 is worst</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># Once per b-loop</span>
+                        <span class="k">if</span> <span class="n">once</span><span class="p">:</span>
+                            <span class="n">mass_spect1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">aspec</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+                            <span class="n">mass_spect1_sum</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mass_spect1</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="n">once</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="n">bspec</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">mass_spec</span>
+                        <span class="n">mass_spect2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bspec</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+                        <span class="n">mass_spect2_sum</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mass_spect2</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">top</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">mass_spect1</span><span class="p">,</span> <span class="n">mass_spect2</span><span class="p">)</span>
+                        <span class="k">except</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+                            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Mass Spectra are of different length</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span>  
+                                 <span class="s2">&quot; Use IntensityMatrix.crop_mass() to set</span><span class="se">\n</span><span class="s2">&quot;</span> 
+                                  <span class="o">+</span> <span class="s2">&quot; same length for all Mass Spectra&quot;&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">bot</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mass_spect1_sum</span><span class="o">*</span><span class="n">mass_spect2_sum</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">bot</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">cos</span> <span class="o">=</span> <span class="n">top</span><span class="o">/</span><span class="n">bot</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">cos</span> <span class="o">=</span> <span class="mi">0</span>
+                        <span class="n">rtime</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">art</span><span class="o">-</span><span class="n">brt</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">D</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+                        <span class="n">score</span> <span class="o">=</span> <span class="n">score</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">cos</span><span class="o">*</span><span class="n">rtime</span><span class="p">))</span>
+                    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># NB score of 1 is worst</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">score</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

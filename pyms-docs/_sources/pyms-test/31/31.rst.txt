@@ -1,0 +1,11 @@
+******
+31
+******
+
+MassSpectrum and IonChromatogram objects of an IntensityMatrix
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

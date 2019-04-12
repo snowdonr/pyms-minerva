@@ -1,0 +1,2172 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyms.GCMS &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="pyms.Noise" href="../Noise/Noise.html" />
+    <link rel="prev" title="pyms.Gapfill" href="../Gapfill/Gapfill.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyms.GCMS.IO"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI.Function</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP.Function</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-pyms.GCMS.IO.MZML"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.MZML</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-pyms.GCMS.IO.MZML.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.MZML.Function</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyms.GCMS.Class"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.Class</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyms.GCMS.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.Function</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Noise/Noise.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UserGuide/Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/domdfcoding/pyms-docs/blob/master/source/pyms/GCMS/GCMS.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyms-gcms">
+<h1><a class="toc-backref" href="#id1"><a class="reference internal" href="#module-pyms.GCMS" title="pyms.GCMS"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></a><a class="headerlink" href="#pyms-gcms" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pyms-gcms" id="id1"><a class="reference internal" href="#module-pyms.GCMS" title="pyms.GCMS"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></a></p>
+<ul>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO" id="id2"><a class="reference internal" href="#module-pyms.GCMS.IO" title="pyms.GCMS.IO"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO</span></code></a></a></p>
+<ul>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI" id="id3"><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI" title="pyms.GCMS.IO.ANDI"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI</span></code></a></a></p>
+<ul>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI.Function" id="id4"><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI.Function" title="pyms.GCMS.IO.ANDI.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI.Function</span></code></a></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP" id="id5"><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP" title="pyms.GCMS.IO.JCAMP"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP</span></code></a></a></p>
+<ul>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP.Function" id="id6"><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP.Function" title="pyms.GCMS.IO.JCAMP.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP.Function</span></code></a></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO.MZML" id="id7"><a class="reference internal" href="#module-pyms.GCMS.IO.MZML" title="pyms.GCMS.IO.MZML"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.MZML</span></code></a></a></p>
+<ul>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.IO.MZML.Function" id="id8"><a class="reference internal" href="#module-pyms.GCMS.IO.MZML.Function" title="pyms.GCMS.IO.MZML.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.MZML.Function</span></code></a></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.Class" id="id9"><a class="reference internal" href="#module-pyms.GCMS.Class" title="pyms.GCMS.Class"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.Class</span></code></a></a></p></li>
+<li><p><a class="reference internal" href="#module-pyms.GCMS.Function" id="id10"><a class="reference internal" href="#module-pyms.GCMS.Function" title="pyms.GCMS.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.Function</span></code></a></a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<span class="target" id="module-pyms.GCMS"></span><p>Sub-package to handle raw data</p>
+<div class="section" id="module-pyms.GCMS.IO">
+<span id="pyms-gcms-io"></span><h2><a class="toc-backref" href="#id2"><a class="reference internal" href="#module-pyms.GCMS.IO" title="pyms.GCMS.IO"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO" title="Permalink to this headline">¶</a></h2>
+<p>Input/output functions for GC-MS data files</p>
+<div class="section" id="module-pyms.GCMS.IO.ANDI">
+<span id="pyms-gcms-io-andi"></span><h3><a class="toc-backref" href="#id3"><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI" title="pyms.GCMS.IO.ANDI"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO.ANDI" title="Permalink to this headline">¶</a></h3>
+<p>Functions for the manipulation of spectral libraries</p>
+<div class="section" id="module-pyms.GCMS.IO.ANDI.Function">
+<span id="pyms-gcms-io-andi-function"></span><h4><a class="toc-backref" href="#id4"><a class="reference internal" href="#module-pyms.GCMS.IO.ANDI.Function" title="pyms.GCMS.IO.ANDI.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI.Function</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO.ANDI.Function" title="Permalink to this headline">¶</a></h4>
+<p>Functions for reading manufacturer specific ANDI-MS data files</p>
+<dl class="function">
+<dt id="pyms.GCMS.IO.ANDI.Function.ANDI_reader">
+<code class="descclassname">pyms.GCMS.IO.ANDI.Function.</code><code class="descname">ANDI_reader</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/IO/ANDI/Function.html#ANDI_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.IO.ANDI.Function.ANDI_reader" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>A reader for ANDI-MS NetCDF files, returns
+a GC-MS data object</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>file_name</strong> (<em>StringType</em>) – The name of the ANDI-MS file</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.IO.ANDI.Function.ANDI_writer">
+<code class="descclassname">pyms.GCMS.IO.ANDI.Function.</code><code class="descname">ANDI_writer</code><span class="sig-paren">(</span><em>file_name</em>, <em>im</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/IO/ANDI/Function.html#ANDI_writer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.IO.ANDI.Function.ANDI_writer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>A reader for ANDI-MS NetCDF files, returns
+a GC-MS data object</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>file_name</strong> (<a class="reference internal" href="#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix"><em>pyms.GCMS.Class.IntensityMatrix</em></a>) – The name of the ANDI-MS file</p></li>
+<li><p><strong>im</strong> – The IntensityMatrix</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-pyms.GCMS.IO.JCAMP">
+<span id="pyms-gcms-io-jcamp"></span><h3><a class="toc-backref" href="#id5"><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP" title="pyms.GCMS.IO.JCAMP"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO.JCAMP" title="Permalink to this headline">¶</a></h3>
+<p>Functions for I/O of JCAMP DX files</p>
+<div class="section" id="module-pyms.GCMS.IO.JCAMP.Function">
+<span id="pyms-gcms-io-jcamp-function"></span><h4><a class="toc-backref" href="#id6"><a class="reference internal" href="#module-pyms.GCMS.IO.JCAMP.Function" title="pyms.GCMS.IO.JCAMP.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP.Function</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO.JCAMP.Function" title="Permalink to this headline">¶</a></h4>
+<p>Functions for I/O of data in JCAMP-DX format</p>
+<dl class="function">
+<dt id="pyms.GCMS.IO.JCAMP.Function.JCAMP_reader">
+<code class="descclassname">pyms.GCMS.IO.JCAMP.Function.</code><code class="descname">JCAMP_reader</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/IO/JCAMP/Function.html#JCAMP_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.IO.JCAMP.Function.JCAMP_reader" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Generic reader for JCAMP DX files, produces GC-MS data
+object</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-pyms.GCMS.IO.MZML">
+<span id="pyms-gcms-io-mzml"></span><h3><a class="toc-backref" href="#id7"><a class="reference internal" href="#module-pyms.GCMS.IO.MZML" title="pyms.GCMS.IO.MZML"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.MZML</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO.MZML" title="Permalink to this headline">¶</a></h3>
+<p>Functions for the manipulation of spectral libraries</p>
+<div class="section" id="module-pyms.GCMS.IO.MZML.Function">
+<span id="pyms-gcms-io-mzml-function"></span><h4><a class="toc-backref" href="#id8"><a class="reference internal" href="#module-pyms.GCMS.IO.MZML.Function" title="pyms.GCMS.IO.MZML.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.MZML.Function</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.IO.MZML.Function" title="Permalink to this headline">¶</a></h4>
+<p>Functions for reading manufacturer specific ANDI-MS data files</p>
+<dl class="function">
+<dt id="pyms.GCMS.IO.MZML.Function.mzML_reader">
+<code class="descclassname">pyms.GCMS.IO.MZML.Function.</code><code class="descname">mzML_reader</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/IO/MZML/Function.html#mzML_reader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.IO.MZML.Function.mzML_reader" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>A reader for mzML files, returns
+a GC-MS data object</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>file_name</strong> (<em>StringType</em>) – The name of the mzML file</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Sean O’Callaghan</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="module-pyms.GCMS.Class">
+<span id="pyms-gcms-class"></span><h2><a class="toc-backref" href="#id9"><a class="reference internal" href="#module-pyms.GCMS.Class" title="pyms.GCMS.Class"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.Class</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.Class" title="Permalink to this headline">¶</a></h2>
+<p>Classes to model GC-MS data</p>
+<dl class="class">
+<dt id="pyms.GCMS.Class.GCMS_data">
+<em class="property">class </em><code class="descclassname">pyms.GCMS.Class.</code><code class="descname">GCMS_data</code><span class="sig-paren">(</span><em>time_list</em>, <em>scan_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Generic object for GC-MS data. Contains raw data
+as a list of scans and times</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data._GCMS_data__calc_tic">
+<code class="descname">_GCMS_data__calc_tic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data._GCMS_data__calc_tic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Calculate the total ion chromatogram</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Total ion chromatogram</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">pyms.GCMS.Class.IonChromatogram</a></p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data._GCMS_data__set_min_max_mass">
+<code class="descname">_GCMS_data__set_min_max_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data._GCMS_data__set_min_max_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Sets the min and max mass value</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data._GCMS_data__set_time">
+<code class="descname">_GCMS_data__set_time</code><span class="sig-paren">(</span><em>time_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data._GCMS_data__set_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Sets time-related properties of the data</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>time_list</strong> (<em>ListType</em>) – List of retention times</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>time_list</em>, <em>scan_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Initialize the GC-MS data</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>time_list</strong> (<em>ListType</em>) – List of scan retention times</p></li>
+<li><p><strong>scan_list</strong> (<em>ListType</em>) – List of Scan objects</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the length of the data object,
+defined as the number of scans</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of scans</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyms.GCMS.Class.GCMS_data.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.get_index_at_time">
+<code class="descname">get_index_at_time</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.get_index_at_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.get_index_at_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the nearest index corresponding to the given
+time</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>FloatType</em>) – Time in seconds</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Nearest index corresponding to given time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>IntType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Tim Erwin</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.get_max_mass">
+<code class="descname">get_max_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.get_max_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.get_max_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Get the max mass value over all scans</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The maximum mass of all the data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FloatType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.get_min_mass">
+<code class="descname">get_min_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.get_min_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.get_min_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Get the min mass value over all scans</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The minimum mass of all the data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FloatType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.get_scan_list">
+<code class="descname">get_scan_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.get_scan_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.get_scan_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Return a list of the scan objects</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of scan objects</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.get_tic">
+<code class="descname">get_tic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.get_tic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.get_tic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the total ion chromatogram</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Total ion chromatogram</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">pyms.GCMS.Class.IonChromatogram</a></p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.get_time_list">
+<code class="descname">get_time_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.get_time_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.get_time_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the list of each scan retention time</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of each scan retention time</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.info">
+<code class="descname">info</code><span class="sig-paren">(</span><em>print_scan_n=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Prints some information about the data</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>print_scan_n</strong> (<em>BooleanType</em>) – If set to True will print the number
+of m/z values in each scan</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.trim">
+<code class="descname">trim</code><span class="sig-paren">(</span><em>begin=None</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.trim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.trim" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>trims data in the time domain</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>begin</strong> (<em>IntType</em><em> or </em><em>StrType</em>) – begin parameter designating start time or
+scan number</p></li>
+<li><p><strong>end</strong> – end parameter designating start time or
+scan number</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>file_root</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.write" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Writes the entire raw data to two files, one
+‘file_root’.I.csv (intensities) and ‘file_root’.mz.csv
+(m/z values).</p>
+<p>This method writes two CSV files, containing intensities
+and corresponding m/z values. In general these are not
+two-dimensional matrices, because different scans may
+have different number of m/z values recorded.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>file_root</strong> (<em>StringType</em>) – The root for the output file names</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.GCMS_data.write_intensities_stream">
+<code class="descname">write_intensities_stream</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#GCMS_data.write_intensities_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.GCMS_data.write_intensities_stream" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Writes all intensities to a file</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>file_name</strong> (<em>StringType</em>) – Output file name</p>
+</dd>
+</dl>
+<p>This function loop over all scans, and for each scan
+writes intensities to the file, one intenisity per
+line. Intensities from different scans are joined
+without any delimiters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyms.GCMS.Class.IntensityMatrix">
+<em class="property">class </em><code class="descclassname">pyms.GCMS.Class.</code><code class="descname">IntensityMatrix</code><span class="sig-paren">(</span><em>time_list</em>, <em>mass_list</em>, <em>intensity_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Intensity matrix of binned raw data</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>time_list</em>, <em>mass_list</em>, <em>intensity_matrix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Initialize the IntensityMatrix data</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>time_list</strong> (<em>ListType</em>) – Retention time values</p></li>
+<li><p><strong>mass_list</strong> (<em>ListType</em>) – Binned mass values</p></li>
+<li><p><strong>intensity_matrix</strong> (<em>ListType</em>) – Binned intensity values per scan</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyms.GCMS.Class.IntensityMatrix.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.crop_mass">
+<code class="descname">crop_mass</code><span class="sig-paren">(</span><em>mass_min</em>, <em>mass_max</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.crop_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.crop_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Crops mass spectrum</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>mass_min</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – Minimum mass value</p></li>
+<li><p><strong>mass_max</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – Maximum mass value</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>none</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.export_ascii">
+<code class="descname">export_ascii</code><span class="sig-paren">(</span><em>root_name</em>, <em>format='dat'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.export_ascii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.export_ascii" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Exports the intensity matrix, retention time vector, and
+m/z vector to the ascii format</p>
+<p>By default, export_ascii(“NAME”) will create NAME.im.dat, NAME.rt.dat,
+and NAME.mz.dat where these are the intensity matrix, retention
+time vector, and m/z vector in tab delimited format. If format=’csv’,
+the files will be in the CSV format, named NAME.im.csv, NAME.rt.csv,
+and NAME.mz.csv.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>root_name</strong> (<em>StringType</em>) – Root name for the output files</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>none</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Milica Ng</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.export_leco_csv">
+<code class="descname">export_leco_csv</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.export_leco_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.export_leco_csv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Exports data in LECO CSV format</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>file_name</strong> (<em>StringType</em>) – File name</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>none</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_ic_at_index">
+<code class="descname">get_ic_at_index</code><span class="sig-paren">(</span><em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_ic_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_ic_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the ion chromatogram at the specified index</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ix</strong> (<em>IntType</em>) – Index of an ion chromatogram in the intensity data
+matrix</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Ion chromatogram at given index</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">IonChromatogram</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_ic_at_mass">
+<code class="descname">get_ic_at_mass</code><span class="sig-paren">(</span><em>mass=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_ic_at_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_ic_at_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the ion chromatogram for the specified mass.
+The nearest binned mass to mass is used.</p>
+<p>If no mass value is given, the function returns the total
+ion chromatogram.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>mass</strong> (<em>IntType</em>) – Mass value of an ion chromatogram</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Ion chromatogram for given mass</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">IonChromatogram</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_index_at_time">
+<code class="descname">get_index_at_time</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_index_at_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_index_at_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the nearest index corresponding to the given time</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>FloatType</em>) – Time in seconds</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Nearest index corresponding to given time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>IntType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Tim Erwin</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_index_of_mass">
+<code class="descname">get_index_of_mass</code><span class="sig-paren">(</span><em>mass</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_index_of_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_index_of_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the index of mass in the list of masses</p>
+</dd>
+</dl>
+<p>The nearest binned mass to given mass is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mass</strong> (<em>FloatType</em>) – Mass to lookup in list of masses</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Index of mass closest to given mass</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_local_size">
+<code class="descname">get_local_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_local_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_local_size" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Gets the local size of intensity matrix.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of rows and cols</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Luke Hodkinson</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_mass_at_index">
+<code class="descname">get_mass_at_index</code><span class="sig-paren">(</span><em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_mass_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_mass_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns binned mass at index</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ix</strong> (<em>IntType</em>) – Index of binned mass</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Binned mass</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>IntType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_mass_list">
+<code class="descname">get_mass_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_mass_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_mass_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns a list of the binned masses</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Binned mass list</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_matrix_list">
+<code class="descname">get_matrix_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_matrix_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_matrix_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns a copy of the intensity matrix as a
+list of lists of floats</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix of intensity values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_max_mass">
+<code class="descname">get_max_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_max_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_max_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the maximum binned mass</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The maximum binned mass</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FloatType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_min_mass">
+<code class="descname">get_min_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_min_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_min_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the maximum binned mass</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The maximum binned mass</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FloatType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_ms_at_index">
+<code class="descname">get_ms_at_index</code><span class="sig-paren">(</span><em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_ms_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_ms_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns a mass spectrum for a given scan index</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ix</strong> (<em>IntType</em>) – The index of the scan</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Mass spectrum</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.MassSpectrum" title="pyms.GCMS.Class.MassSpectrum">pyms.GCMS.Class.MassSpectrum</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_scan_at_index">
+<code class="descname">get_scan_at_index</code><span class="sig-paren">(</span><em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_scan_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_scan_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the spectral intensities for scan index</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ix</strong> (<em>IntType</em>) – The index of the scan</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Intensity values of scan spectra</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>ListType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_size">
+<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_size" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Gets the size of intensity matrix</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of rows and cols</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Luke Hodkinson</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.get_time_list">
+<code class="descname">get_time_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.get_time_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.get_time_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns a copy of the time list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of retention times</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.import_leco_csv">
+<code class="descname">import_leco_csv</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.import_leco_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.import_leco_csv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Imports data in LECO CSV format</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>file_name</strong> (<em>StringType</em>) – File name</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data as an IntensityMatrix</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.iter_ic_indices">
+<code class="descname">iter_ic_indices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.iter_ic_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.iter_ic_indices" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Iterate over local column indices</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Current column index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Luke Hodkinson</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.iter_ms_indices">
+<code class="descname">iter_ms_indices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.iter_ms_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.iter_ms_indices" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Iterates over local row indices</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Current row index</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Luke Hodkinson</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.null_mass">
+<code class="descname">null_mass</code><span class="sig-paren">(</span><em>mass</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.null_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.null_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Ignore given (closest) mass in spectra</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>mass</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – Mass value to remove</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.reduce_mass_spectra">
+<code class="descname">reduce_mass_spectra</code><span class="sig-paren">(</span><em>N=5</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.reduce_mass_spectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.reduce_mass_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Reduces mass spectra by retaining top N
+intensities, discarding all other intensities.</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>N</strong> (<em>IntType</em>) – The number of top intensities to keep</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IntensityMatrix.set_ic_at_index">
+<code class="descname">set_ic_at_index</code><span class="sig-paren">(</span><em>ix</em>, <em>ic</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IntensityMatrix.set_ic_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IntensityMatrix.set_ic_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Sets the ion chromatogram specified by index to a new
+value</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ix</strong> (<em>IntType</em>) – Index of an ion chromatogram in the intensity data
+matrix to be set</p></li>
+<li><p><strong>ic</strong> – Ion chromatogram that will be copied at position ‘ix’
+in the data matrix</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram">IonChromatogram</a></p>
+</dd>
+</dl>
+<p>The length of the ion chromatogram must match the appropriate
+dimension of the intensity matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyms.GCMS.Class.IonChromatogram">
+<em class="property">class </em><code class="descclassname">pyms.GCMS.Class.</code><code class="descname">IonChromatogram</code><span class="sig-paren">(</span><em>ia</em>, <em>time_list</em>, <em>mass=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Models an ion chromatogram</p>
+</dd>
+</dl>
+<p>An ion chromatogram is a set of intensities as a function of retention
+time. This can can be either m/z channel intensities (for example, ion
+chromatograms at m/z=65), or cumulative intensities over all measured
+m/z. In the latter case the ion chromatogram is total ion chromatogram
+(TIC).</p>
+<p>The nature of an IonChromatogram object can be revealed by inspecting
+the value of the attribute ‘__mass’. This is set to the m/z value of the
+ion chromatogram, or to None for TIC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram._IonChromatogram__calc_time_step">
+<code class="descname">_IonChromatogram__calc_time_step</code><span class="sig-paren">(</span><em>time_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram._IonChromatogram__calc_time_step" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Calculates the time step</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>time_list</strong> (<em>ListType</em>) – A list of retention times</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Time step value</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>FloatType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>ia</em>, <em>time_list</em>, <em>mass=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ia</strong> (<em>numpy.array</em>) – Ion chromatogram intensity values</p></li>
+<li><p><strong>time_list</strong> (<em>ListType</em>) – A list of ion chromatogram retention times</p></li>
+<li><p><strong>mass</strong> (<em>IntType</em>) – Mass of ion chromatogram (Null if TIC)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the length of the IonChromatogram object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Length of ion chromatogram</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.__sub__">
+<code class="descname">__sub__</code><span class="sig-paren">(</span><em>Other</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.__sub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.__sub__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Subtracts another IC from the current one</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>other</strong> (<em>pyms.GCMS.IonChromatogram</em>) – Another IC</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyms.GCMS.Class.IonChromatogram.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_index_at_time">
+<code class="descname">get_index_at_time</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_index_at_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_index_at_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the nearest index corresponding to the given time</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>time</strong> (<em>FloatType</em>) – Time in seconds</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Nearest index corresponding to given time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>IntType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Tim Erwin</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Milica Ng</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_intensity_array">
+<code class="descname">get_intensity_array</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_intensity_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_intensity_array" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the entire intensity array</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Intensity array</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_intensity_at_index">
+<code class="descname">get_intensity_at_index</code><span class="sig-paren">(</span><em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_intensity_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_intensity_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns intensity at given index</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ix</strong> (<em>IntType</em>) – An index</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Intensity value</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>FloatType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_mass">
+<code class="descname">get_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the m/z channel of the IC</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>m/z channel of the IC</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>intType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Sean O’Callaghan</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_time_at_index">
+<code class="descname">get_time_at_index</code><span class="sig-paren">(</span><em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_time_at_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_time_at_index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns time at given index</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ix</strong> (<em>IntType</em>) – An index</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Time value</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>FloatType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_time_list">
+<code class="descname">get_time_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_time_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_time_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the time list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Time list</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.get_time_step">
+<code class="descname">get_time_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.get_time_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.get_time_step" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the time step</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Time step</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FloatType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.is_tic">
+<code class="descname">is_tic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.is_tic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.is_tic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns True if the ion chromatogram is a total ion
+chromatogram (TIC), or False otherwise</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean value indicating if the ion chromatogram
+is a total ion chromatogram (True) or not (False)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>BooleanType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Lewis Lee</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.set_intensity_array">
+<code class="descname">set_intensity_array</code><span class="sig-paren">(</span><em>ia</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.set_intensity_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.set_intensity_array" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Sets the value for the intensity array</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>ia</strong> (<em>numpy.ndarray</em>) – An array of new intensity values</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>none</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.IonChromatogram.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>file_name</em>, <em>minutes=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#IonChromatogram.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.IonChromatogram.write" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Writes the ion chromatogram to the specified file</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>file_name</strong> (<em>StringType</em>) – Output file name</p></li>
+<li><p><strong>minutes</strong> (<em>BooleanType</em>) – A boolean value indicating whether to write
+time in minutes</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>none</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>NoneType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Lewis Lee</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyms.GCMS.Class.MassSpectrum">
+<em class="property">class </em><code class="descclassname">pyms.GCMS.Class.</code><code class="descname">MassSpectrum</code><span class="sig-paren">(</span><em>mass_list</em>, <em>intensity_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#MassSpectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.MassSpectrum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Models a binned mass spectrum</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyms.GCMS.Class.MassSpectrum.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mass_list</em>, <em>intensity_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#MassSpectrum.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.MassSpectrum.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Initialise the MassSpectrum</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>mass_list</strong> (<em>ListType</em>) – List of binned masses</p></li>
+<li><p><strong>intensity_list</strong> (<em>ListType</em>) – List of binned intensities</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.MassSpectrum.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#MassSpectrum.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.MassSpectrum.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Length of the MassSpectrum</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Length of the MassSpectrum (Number of bins)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyms.GCMS.Class.MassSpectrum.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#pyms.GCMS.Class.MassSpectrum.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyms.GCMS.Class.Scan">
+<em class="property">class </em><code class="descclassname">pyms.GCMS.Class.</code><code class="descname">Scan</code><span class="sig-paren">(</span><em>mass_list</em>, <em>intensity_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Generic object for a single Scan’s raw data</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pyms.GCMS.Class.Scan.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>mass_list</em>, <em>intensity_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Initialize the Scan data</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>mass_list</strong> (<em>ListType</em>) – mass values</p></li>
+<li><p><strong>intensity_list</strong> (<em>ListType</em>) – intensity values</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.Scan.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the length of the Scan object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Length of Scan</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>IntType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyms.GCMS.Class.Scan.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#pyms.GCMS.Class.Scan.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.Scan.get_intensity_list">
+<code class="descname">get_intensity_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan.get_intensity_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan.get_intensity_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the intensities for the current scan</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the intensities</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.Scan.get_mass_list">
+<code class="descname">get_mass_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan.get_mass_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan.get_mass_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the masses for the current scan</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the masses</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ListType</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Qiao Wang</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.Scan.get_max_mass">
+<code class="descname">get_max_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan.get_max_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan.get_max_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the maximum m/z value in the scan</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Maximum m/z</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyms.GCMS.Class.Scan.get_min_mass">
+<code class="descname">get_min_mass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Class.html#Scan.get_min_mass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Class.Scan.get_min_mass" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns the minimum m/z value in the scan</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Minimum m/z</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Float</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyms.GCMS.Function">
+<span id="pyms-gcms-function"></span><h2><a class="toc-backref" href="#id10"><a class="reference internal" href="#module-pyms.GCMS.Function" title="pyms.GCMS.Function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.Function</span></code></a></a><a class="headerlink" href="#module-pyms.GCMS.Function" title="Permalink to this headline">¶</a></h2>
+<p>Provides conversion and information functions for GC-MS data objects</p>
+<dl class="function">
+<dt id="pyms.GCMS.Function.__fill_bins">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">__fill_bins</code><span class="sig-paren">(</span><em>data</em>, <em>min_mass</em>, <em>max_mass</em>, <em>bin_interval</em>, <em>bin_left</em>, <em>bin_right</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#__fill_bins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.__fill_bins" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Fills the intensity values for all bins</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><em>pyms.GCMS.Class.GCMS_data</em></a>) – Raw GCMS data</p></li>
+<li><p><strong>min_mass</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – minimum mass value</p></li>
+<li><p><strong>max_mass</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – maximum mass value</p></li>
+<li><p><strong>bin_interval</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – interval between bin centres</p></li>
+<li><p><strong>bin_left</strong> (<em>FloatType</em>) – left bin boundary offset</p></li>
+<li><p><strong>bin_right</strong> (<em>FloatType</em>) – right bin boundary offset</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Binned IntensityMatrix object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Moshe Olshansky</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.Function.__fill_bins_old">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">__fill_bins_old</code><span class="sig-paren">(</span><em>data</em>, <em>min_mass</em>, <em>max_mass</em>, <em>bin_interval</em>, <em>bin_left</em>, <em>bin_right</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#__fill_bins_old"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.__fill_bins_old" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Fills the intensity values for all bins</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><em>pyms.GCMS.Class.GCMS_data</em></a>) – Raw GCMS data</p></li>
+<li><p><strong>min_mass</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – minimum mass value</p></li>
+<li><p><strong>max_mass</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – maximum mass value</p></li>
+<li><p><strong>bin_interval</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – interval between bin centres</p></li>
+<li><p><strong>bin_left</strong> (<em>FloatType</em>) – left bin boundary offset</p></li>
+<li><p><strong>bin_right</strong> (<em>FloatType</em>) – right bin boundary offset</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Binned IntensityMatrix object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.Function.build_intensity_matrix">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">build_intensity_matrix</code><span class="sig-paren">(</span><em>data</em>, <em>bin_interval=1</em>, <em>bin_left=0.5</em>, <em>bin_right=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#build_intensity_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.build_intensity_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Sets the full intensity matrix with flexible bins</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><em>pyms.GCMS.Class.GCMS_data</em></a>) – Raw GCMS data</p></li>
+<li><p><strong>bin_interval</strong> (<em>IntType</em><em> or </em><em>FloatType</em>) – interval between bin centres (default 1)</p></li>
+<li><p><strong>bin_left</strong> (<em>FloatType</em>) – left bin boundary offset (default 0.5)</p></li>
+<li><p><strong>bin_right</strong> (<em>FloatType</em>) – right bin boundary offset (default 0.5)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Binned IntensityMatrix object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.Function.build_intensity_matrix_i">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">build_intensity_matrix_i</code><span class="sig-paren">(</span><em>data</em>, <em>bin_left=0.3</em>, <em>bin_right=0.7</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#build_intensity_matrix_i"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.build_intensity_matrix_i" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Sets the full intensity matrix with integer bins</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><em>pyms.GCMS.Class.GCMS_data</em></a>) – Raw GCMS data</p></li>
+<li><p><strong>bin_left</strong> (<em>FloatType</em>) – left bin boundary offset (default 0.3)</p></li>
+<li><p><strong>bin_right</strong> (<em>FloatType</em>) – right bin boundary offset (default 0.7)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Binned IntensityMatrix object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pyms.GCMS.Class.IntensityMatrix" title="pyms.GCMS.Class.IntensityMatrix">pyms.GCMS.Class.IntensityMatrix</a></p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.Function.diff">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">diff</code><span class="sig-paren">(</span><em>data1</em>, <em>data2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.diff" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Compares two GCMS_data objects</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>data1</strong> (<a class="reference internal" href="#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><em>pyms.GCMS.Class.GCMS_data</em></a>) – GCMS data set 1</p></li>
+<li><p><strong>data2</strong> (<a class="reference internal" href="#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><em>pyms.GCMS.Class.GCMS_data</em></a>) – GCMS data set 2</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Qiao Wang</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Andrew Isaac</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.Function.ic_window_points">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">ic_window_points</code><span class="sig-paren">(</span><em>ic</em>, <em>window_sele</em>, <em>half_window=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#ic_window_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.ic_window_points" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Converts window selection parameter into points based on
+the time step in an ion chromatogram</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ic</strong> (<em>pyms.IO.Class.IonChromatogram</em>) – ion chromatogram object relevant for the conversion</p></li>
+<li><p><strong>window_sele</strong> (<em>IntType</em><em> or </em><em>StringType</em>) – The window selection parameter. This can be an
+integer or time string. If integer, taken as the number of points.
+If a string, must of the form “&lt;NUMBER&gt;s” or “&lt;NUMBER&gt;m”,
+specifying a time in seconds or minutes, respectively</p></li>
+<li><p><strong>half_window</strong> (<em>Booleantype</em>) – Specifies whether to return half-window</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyms.GCMS.Function.is_ionchromatogram">
+<code class="descclassname">pyms.GCMS.Function.</code><code class="descname">is_ionchromatogram</code><span class="sig-paren">(</span><em>arg</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyms/GCMS/Function.html#is_ionchromatogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyms.GCMS.Function.is_ionchromatogram" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Summary</dt>
+<dd class="field-odd"><p>Returns True if the argument is a pyms.IO.Class.IonCromatogram
+object, False otherwise</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>arg</strong> (<em>arbitrary</em>) – The argument to be evaluated as IonCromatogram object</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A boolean indicator True or False</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>BooleanType</p>
+</dd>
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Vladimir Likic</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Noise/Noise.html" class="btn btn-neutral float-right" title="pyms.Noise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Gapfill/Gapfill.html" class="btn btn-neutral float-left" title="pyms.Gapfill" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

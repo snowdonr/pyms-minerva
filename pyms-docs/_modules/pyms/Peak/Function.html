@@ -1,0 +1,653 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyms.Peak.Function &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../../../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/GCMS/GCMS.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Noise/Noise.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyms.Peak.Function</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyms.Peak.Function</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions related to Peak modification</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># peak_pt_bounds() added by Dominic Davis-Foster, 2019</span>
+
+ <span class="c1">#############################################################################</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    PyMS software for processing of metabolomic mass-spectrometry data     #</span>
+ <span class="c1">#    Copyright (C) 2005-2012 Vladimir Likic                                 #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    This program is free software; you can redistribute it and/or modify   #</span>
+ <span class="c1">#    it under the terms of the GNU General Public License version 2 as      #</span>
+ <span class="c1">#    published by the Free Software Foundation.                             #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    This program is distributed in the hope that it will be useful,        #</span>
+ <span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #</span>
+ <span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #</span>
+ <span class="c1">#    GNU General Public License for more details.                           #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    You should have received a copy of the GNU General Public License      #</span>
+ <span class="c1">#    along with this program; if not, write to the Free Software            #</span>
+ <span class="c1">#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#############################################################################</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">copy</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="c1">#from pyms.Utils.Error import error</span>
+<span class="kn">from</span> <span class="nn">pyms.Peak.Class</span> <span class="k">import</span> <span class="n">Peak</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.Utils</span> <span class="k">import</span> <span class="n">is_str</span><span class="p">,</span> <span class="n">is_list</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.Math</span> <span class="k">import</span> <span class="n">median</span>
+<span class="kn">from</span> <span class="nn">pyms.GCMS.Class</span> <span class="k">import</span> <span class="n">MassSpectrum</span>
+
+<span class="c1"># If psyco is installed, use it to speed up running time</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">psyco</span>
+    <span class="n">psyco</span><span class="o">.</span><span class="n">full</span><span class="p">()</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="peak_sum_area"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.peak_sum_area">[docs]</a><span class="k">def</span> <span class="nf">peak_sum_area</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">single_ion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :Summary: Calculate the sum of the raw ion areas based on</span>
+<span class="sd">        detected boundaries.</span>
+
+<span class="sd">    :param im: The originating IntensityMatrix object</span>
+<span class="sd">    :type im: pyms.GCMS.Class.IntensityMatrix</span>
+<span class="sd">    :param peak: The Peak object</span>
+<span class="sd">    :type peak: pyms.Peak.Class.Peak</span>
+<span class="sd">    :param single_ion: whether single ion areas should be returned</span>
+<span class="sd">    :type singe_ion: BooleanType</span>
+<span class="sd">    :param max_bound: Optional value to limit size of detected bound</span>
+<span class="sd">    :type max_bound: IntType</span>
+
+<span class="sd">    :return: Sum of peak apex ions in detected bounds</span>
+<span class="sd">    :rtype: FloatType</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    :author: Sean O&#39;Callaghan</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sum_area</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Use internal values (not copy)</span>
+    <span class="c1">#mat = im.get_matrix_list()</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">intensity_matrix</span>
+    <span class="n">ms</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_rt</span><span class="p">()</span>
+    <span class="n">apex</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span>
+
+    <span class="c1"># get peak masses with non-zero intensity</span>
+    <span class="n">mass_ii</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">mass_list</span><span class="p">))</span> \
+        <span class="k">if</span> <span class="n">ms</span><span class="o">.</span><span class="n">mass_spec</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">]</span>
+
+    <span class="n">area_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># get stats on boundaries</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">mass_ii</span><span class="p">:</span>
+        <span class="c1"># get ion chromatogram as list</span>
+        <span class="n">ia</span> <span class="o">=</span> <span class="p">[</span> <span class="n">mat</span><span class="p">[</span><span class="n">scan</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span> <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mat</span><span class="p">))</span> <span class="p">]</span>
+        <span class="n">area</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">l_share</span><span class="p">,</span> <span class="n">r_share</span> <span class="o">=</span> <span class="n">ion_area</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">apex</span><span class="p">,</span> <span class="n">max_bound</span><span class="p">)</span>
+        <span class="c1"># need actual mass for single ion areas</span>
+        <span class="n">actual_mass</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">mass_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+        <span class="n">area_dict</span><span class="p">[</span><span class="n">actual_mass</span><span class="p">]</span> <span class="o">=</span> <span class="n">area</span>
+        <span class="n">sum_area</span> <span class="o">+=</span> <span class="n">area</span>
+
+    <span class="k">if</span> <span class="n">single_ion</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sum_area</span><span class="p">,</span> <span class="n">area_dict</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sum_area</span></div>
+        
+<div class="viewcode-block" id="peak_pt_bounds"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.peak_pt_bounds">[docs]</a><span class="k">def</span> <span class="nf">peak_pt_bounds</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">peak</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :Summary: Approximate the peak bounds (left and right offsets from apex).</span>
+
+<span class="sd">    :param im: The originating IntensityMatrix object</span>
+<span class="sd">    :type im: pyms.GCMS.Class.IntensityMatrix</span>
+<span class="sd">    :param peak: The Peak object</span>
+<span class="sd">    :type peak: pyms.Peak.Class.Peak</span>
+
+<span class="sd">    :return: Sum of peak apex ions in detected bounds</span>
+<span class="sd">    :rtype: FloatType</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    :author: Sean O&#39;Callaghan</span>
+<span class="sd">    :author: Dominic Davis-Foster</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sum_area</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Use internal values (not copy)</span>
+    <span class="c1">#mat = im.get_matrix_list()</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">intensity_matrix</span>
+    <span class="n">ms</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_rt</span><span class="p">()</span>
+    <span class="n">apex</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span>
+
+    <span class="c1"># get peak masses with non-zero intensity</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">mass_ii</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">mass_list</span><span class="p">))</span> \
+            <span class="k">if</span> <span class="n">ms</span><span class="o">.</span><span class="n">mass_spec</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mass_ii</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">mass_list</span><span class="p">))</span> \
+            <span class="k">if</span> <span class="n">ms</span><span class="o">.</span><span class="n">mass_spec</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">]</span>
+
+    <span class="n">left_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">right_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># get stats on boundaries</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">mass_ii</span><span class="p">:</span>
+        <span class="c1"># get ion chromatogram as list</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">ia</span> <span class="o">=</span> <span class="p">[</span> <span class="n">mat</span><span class="p">[</span><span class="n">scan</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span> <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mat</span><span class="p">))</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ia</span> <span class="o">=</span> <span class="p">[</span> <span class="n">mat</span><span class="p">[</span><span class="n">scan</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span> <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mat</span><span class="p">))</span> <span class="p">]</span>
+        <span class="n">area</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">l_share</span><span class="p">,</span> <span class="n">r_share</span> <span class="o">=</span> <span class="n">ion_area</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">apex</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">left_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+        <span class="n">right_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+    
+    <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">percentile</span>
+    <span class="n">left_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">right_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    
+    <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">ceil</span>
+    
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">percentile</span><span class="p">(</span><span class="n">left_list</span><span class="p">,</span> <span class="mi">95</span><span class="p">))),</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">percentile</span><span class="p">(</span><span class="n">right_list</span><span class="p">,</span> <span class="mi">95</span><span class="p">)))</span></div>
+        
+
+
+<div class="viewcode-block" id="peak_top_ion_areas"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.peak_top_ion_areas">[docs]</a><span class="k">def</span> <span class="nf">peak_top_ion_areas</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">n_top_ions</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">max_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Calculate and return the ion areas of the five most</span>
+<span class="sd">        abundant ions in the peak</span>
+
+<span class="sd">    :param im: The originating IntensityMatrix object</span>
+<span class="sd">    :type im: pyms.GCMS.Class.IntensityMatrix</span>
+<span class="sd">    :param peak: The Peak object</span>
+<span class="sd">    :type peak: pyms.Peak.Class.Peak</span>
+
+<span class="sd">    :return: dictionary of ion:ion_area pairs</span>
+<span class="sd">    :rtype: dictType</span>
+
+<span class="sd">    :author: Sean O&#39;Callaghan</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#ms = peak.get_mass_spectrum()</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_rt</span><span class="p">()</span>
+    <span class="n">apex</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span>
+
+    <span class="n">ion_areas</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># Dictionary to store ion:ion_area pairs</span>
+    
+
+    <span class="n">top_ions</span> <span class="o">=</span> <span class="n">top_ions_v2</span><span class="p">(</span><span class="n">peak</span><span class="p">,</span> <span class="n">n_top_ions</span><span class="p">)</span>
+    <span class="c1">#print(top_ions)</span>
+
+    <span class="k">for</span> <span class="n">ion</span> <span class="ow">in</span> <span class="n">top_ions</span><span class="p">:</span>
+        <span class="n">ion_chrom</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_ic_at_mass</span><span class="p">(</span><span class="n">ion</span><span class="p">)</span>
+        <span class="c1"># need ia as a list not numpy array so use .tolist()</span>
+        <span class="n">ia</span> <span class="o">=</span> <span class="n">ion_chrom</span><span class="o">.</span><span class="n">get_intensity_array</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">area</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">l_share</span><span class="p">,</span> <span class="n">r_share</span> <span class="o">=</span> <span class="n">ion_area</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">apex</span><span class="p">,</span> <span class="n">max_bound</span><span class="p">)</span>
+        <span class="c1"># need actual mass for single ion areas</span>
+        <span class="n">ion_areas</span><span class="p">[</span><span class="n">ion</span><span class="p">]</span> <span class="o">=</span> <span class="n">area</span>
+                
+
+    <span class="k">return</span> <span class="n">ion_areas</span></div>
+
+
+
+<div class="viewcode-block" id="top_ions_v1"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.top_ions_v1">[docs]</a><span class="k">def</span> <span class="nf">top_ions_v1</span><span class="p">(</span><span class="n">peak</span><span class="p">,</span> <span class="n">num_ions</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Computes the highest 5 intensity ions</span>
+<span class="sd">        </span>
+<span class="sd">    :param peak: the peak to be processed</span>
+<span class="sd">    :type peak: pyms.Peak.Class.Peak</span>
+
+<span class="sd">    :return: a list of the top 5 highest intensity ions</span>
+<span class="sd">    :rtype: listType</span>
+
+<span class="sd">    :author: Sean O&#39;Callaghan</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">intensity_list</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span><span class="o">.</span><span class="n">mass_spec</span>
+    <span class="n">mass_list</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span><span class="o">.</span><span class="n">mass_list</span>
+
+    <span class="n">intensity_list_sorted</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">)</span>
+    <span class="n">intensity_list_sorted</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+
+    <span class="n">top_ions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">top_intensities</span> <span class="o">=</span> <span class="n">intensity_list_sorted</span><span class="p">[</span><span class="o">-</span><span class="n">num_ions</span><span class="p">:]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">intensity_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="n">top_intensities</span><span class="p">:</span>
+            <span class="n">top_ions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mass_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+  
+    <span class="k">return</span> <span class="n">top_ions</span></div>
+
+<div class="viewcode-block" id="top_ions_v2"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.top_ions_v2">[docs]</a><span class="k">def</span> <span class="nf">top_ions_v2</span><span class="p">(</span><span class="n">peak</span><span class="p">,</span> <span class="n">num_ions</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Computes the highest #num_ions intensity ions</span>
+<span class="sd">        </span>
+<span class="sd">    :param peak: the peak to be processed</span>
+<span class="sd">    :type peak: pyms.Peak.Class.Peak</span>
+
+<span class="sd">    :param num_ions: the number of ions to be recorded</span>
+<span class="sd">    :type num_ions: intType</span>
+
+<span class="sd">    :return: a list of the #num_ions highest intensity ions</span>
+<span class="sd">    :rtype: listType</span>
+
+<span class="sd">    :author: Sean O&#39;Callaghan</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">intensity_list</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span><span class="o">.</span><span class="n">mass_spec</span>
+    <span class="n">mass_list</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span><span class="o">.</span><span class="n">mass_list</span>
+
+    <span class="n">ic_tuple</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">,</span> <span class="n">mass_list</span><span class="p">)</span>
+
+    <span class="n">sorted_ic</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ic_tuple</span><span class="p">)</span>
+    <span class="n">top_ic</span> <span class="o">=</span> <span class="n">sorted_ic</span><span class="p">[</span><span class="o">-</span><span class="n">num_ions</span><span class="p">:]</span>
+
+    <span class="n">top_ions</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">top_ic</span><span class="p">:</span>
+        <span class="n">top_ions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  
+    <span class="k">return</span> <span class="n">top_ions</span></div>
+
+
+<div class="viewcode-block" id="ion_area"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.ion_area">[docs]</a><span class="k">def</span> <span class="nf">ion_area</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">apex</span><span class="p">,</span> <span class="n">max_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :Summary: Find bounds of peak by summing intensities until change in sum is</span>
+<span class="sd">        less than &#39;tol&#39; percent of the current area.</span>
+
+<span class="sd">    :param ia: List of intensities for a given mass</span>
+<span class="sd">    :type ia: ListType</span>
+<span class="sd">    :param apex: Index of the peak apex.</span>
+<span class="sd">    :type apex: IntType</span>
+<span class="sd">    :param max_bound: Optional value to limit size of detected bound</span>
+<span class="sd">    :type max_bound: IntType</span>
+<span class="sd">    :param tol: Percentage tolerance of added area to current area.</span>
+<span class="sd">    :type tol: FloatType</span>
+
+<span class="sd">    :return: Area, left and right boundary offset, shared left, shared right</span>
+<span class="sd">    :rtype: TupleType</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Left area</span>
+    <span class="n">lhs</span> <span class="o">=</span> <span class="n">ia</span><span class="p">[:</span><span class="n">apex</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lhs</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>  <span class="c1"># reverse, as search to right is bounds safe</span>
+    <span class="n">l_area</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">l_share</span> <span class="o">=</span> <span class="n">half_area</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">max_bound</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
+
+    <span class="c1"># Right area</span>
+    <span class="n">rhs</span> <span class="o">=</span> <span class="n">ia</span><span class="p">[</span><span class="n">apex</span><span class="p">:]</span>
+    <span class="n">r_area</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">r_share</span> <span class="o">=</span> <span class="n">half_area</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">max_bound</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
+    <span class="n">r_area</span> <span class="o">-=</span> <span class="n">ia</span><span class="p">[</span><span class="n">apex</span><span class="p">]</span>  <span class="c1"># counted apex twice for tollerence, now ignore</span>
+
+    <span class="c1"># Put it all together</span>
+    <span class="k">return</span> <span class="n">l_area</span><span class="o">+</span><span class="n">r_area</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">l_share</span><span class="p">,</span> <span class="n">r_share</span></div>
+
+<div class="viewcode-block" id="half_area"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.half_area">[docs]</a><span class="k">def</span> <span class="nf">half_area</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">max_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :Summary: Find bound of peak by summing intensities until change in sum is</span>
+<span class="sd">        less than &#39;tol&#39; percent of the current area.</span>
+
+<span class="sd">    :param ia: List of intensities from Peak apex for a given mass</span>
+<span class="sd">    :type ia: ListType</span>
+<span class="sd">    :param max_bound: Optional value to limit size of detected bound</span>
+<span class="sd">    :type max_bound: IntType</span>
+<span class="sd">    :param tol: Percentage tolerance of added area to current area.</span>
+<span class="sd">    :type tol: FloatType</span>
+
+<span class="sd">    :return: Half peak area, boundary offset, shared (True if shared ion)</span>
+<span class="sd">    :rtype: TupleType</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">tol</span> <span class="o">=</span> <span class="n">tol</span><span class="o">/</span><span class="mf">200.0</span>  <span class="c1"># halve and convert from percent</span>
+
+    <span class="c1"># Default number of points to sum new area across, for smoothing</span>
+    <span class="n">wide</span> <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="c1"># start at 0, compare average value of &#39;wide&#39; points to the right,</span>
+    <span class="c1"># centre &#39;wide&#39; points on edge point,</span>
+    <span class="c1"># and keep moving right until:</span>
+    <span class="c1"># i) tollerence reached</span>
+    <span class="c1"># ii) edge area starts increasing</span>
+    <span class="c1"># iii) bound reached</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># initialise areas and bounds</span>
+    <span class="n">shared</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">ia</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">ia</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">wide</span><span class="p">]))</span><span class="o">/</span><span class="n">wide</span>
+    <span class="n">old_edge</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">edge</span>  <span class="c1"># bigger than expected edge</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">max_bound</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_bound</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ia</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">edge</span> <span class="o">&gt;</span> <span class="n">area</span> <span class="o">*</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">edge</span> <span class="o">&lt;</span> <span class="n">old_edge</span> <span class="ow">and</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">:</span>
+        <span class="n">old_edge</span> <span class="o">=</span> <span class="n">edge</span>
+        <span class="n">area</span> <span class="o">+=</span> <span class="n">ia</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">ia</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="n">wide</span><span class="p">]))</span><span class="o">/</span><span class="n">wide</span>  <span class="c1"># bounds safe</span>
+        <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">edge</span> <span class="o">&gt;=</span> <span class="n">old_edge</span><span class="p">:</span>
+        <span class="n">shared</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">index</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">area</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">shared</span></div>
+
+<div class="viewcode-block" id="median_bounds"><a class="viewcode-back" href="../../../pyms/Peak/Peak.html#pyms.Peak.Function.median_bounds">[docs]</a><span class="k">def</span> <span class="nf">median_bounds</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">shared</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :Summary: Calculates the median of the left and right bounds found</span>
+<span class="sd">        for each apexing peak mass</span>
+
+<span class="sd">    :param im: The originating IntensityMatrix object</span>
+<span class="sd">    :type im: pyms.GCMS.Class.IntensityMatrix</span>
+<span class="sd">    :param peak: The Peak object</span>
+<span class="sd">    :type peak: pyms.Peak.Class.Peak</span>
+<span class="sd">    :param shared: Include shared ions shared with neighbouring peak</span>
+<span class="sd">    :type shared: BooleanType</span>
+
+<span class="sd">    :return: median left and right boundary offset in points</span>
+<span class="sd">    :rtype: TupleType</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_matrix_list</span><span class="p">()</span>
+    <span class="n">ms</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_mass_spectrum</span><span class="p">()</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_rt</span><span class="p">()</span>
+    <span class="n">apex</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span>
+    <span class="c1"># check if RT based index is simmilar to stored index</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">peak</span><span class="o">.</span><span class="n">get_pt_bounds</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">is_list</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">apex</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">apex</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">apex</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># get peak masses with non-zero intensity</span>
+    <span class="n">mass_ii</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">mass_list</span><span class="p">))</span> \
+        <span class="k">if</span> <span class="n">ms</span><span class="o">.</span><span class="n">mass_spec</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">]</span>
+
+    <span class="c1"># get stats on boundaries</span>
+    <span class="n">left_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">right_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">mass_ii</span><span class="p">:</span>
+        <span class="c1"># get ion chromatogram as list</span>
+        <span class="n">ia</span> <span class="o">=</span> <span class="p">[</span> <span class="n">mat</span><span class="p">[</span><span class="n">scan</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span> <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mat</span><span class="p">))</span> <span class="p">]</span>
+        <span class="n">area</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">l_share</span><span class="p">,</span> <span class="n">r_share</span> <span class="o">=</span> <span class="n">ion_area</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">apex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">shared</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">l_share</span><span class="p">:</span>
+            <span class="n">left_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">shared</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">r_share</span><span class="p">:</span>
+            <span class="n">right_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+
+    <span class="c1"># return medians</span>
+    <span class="c1"># NB if shared=True, lists maybe empty</span>
+    <span class="n">l_med</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">r_med</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">l_med</span> <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">left_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">right_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">r_med</span> <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">right_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">l_med</span><span class="p">,</span> <span class="n">r_med</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

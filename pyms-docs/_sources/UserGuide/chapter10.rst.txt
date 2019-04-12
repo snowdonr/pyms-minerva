@@ -1,0 +1,206 @@
+***************
+GCMS Simulator
+***************
+
+.. contents:: Table of Contents
+
+The PyMS GCMS data simulator is a useful tool for creating datasets with known
+peaks.
+
+Setting up input data for the simulator
+========================================
+
+The PyMS GCMS data simulator package provides an
+:py:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`
+object which can be processed by PyMS in the same way as any
+:py:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`
+object derived from real data.
+
+As input, the simulator requires a list of peaks, a list of times and a list of
+m/z channels. In this example we will use the time list, mass list and PyMS detected
+peak list from an existing real GCMS dataset.
+
+For the purpose of demonstrating the simulator, only a portion of this dataset is
+examined. The following code selects the area of interest in the dataset and
+limits subsequent processing to this interval:
+
+    >>> data.trim(4101, 4350)
+    ... data is a GCMS data object
+
+Providing input to the simulator
+--------------------------------
+
+.. note:: This example is in `pyms-test/90 <../pyms-test/90/90.html>`__
+
+The peaks are detected using the PyMS function
+:py:meth:`BillerBiemann() <pyms.Deconvolution.BillerBiemann.Function.BillerBiemann>`,
+and subsequently filtered to remove those which do not meet certain requirements.
+This procedure is fully detailed in the section
+"`Peak Detection <chapter05.html#peak-detection>`__".
+
+Next the time list and mass list of the original data are copied to be used in the
+simulator
+
+    >>> mass_list = real_im.get_mass_list()
+    >>> time_list = real_im.get_time_list()
+
+where ``real_im`` is the :py:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`
+object derived from the real data. (For more information about Intensity Matrix and
+data conversion refer to the section
+`IntensityMatrix Object <chapter03.html#intensitymatrix-object>`__).
+
+Running the simulator
+========================
+
+The function ``gcms_sim()`` takes three inputs: time list, mass list and peak list.
+It returns an Intensity Matrix object which can be manipulated in PyMS.
+
+    >>> sim_im = gcms_sim(time_list, mass_list, peak_list)
+
+Using the PyMS display functionality described in `Chapter 7 <chapter07.html>`__,
+the results of the simulator can be viewed. The figure below shows the
+Ion Chromatograms of the simulated Intensity Matrix.
+
+.. figure:: graphics/chapter09/test-90.png
+    :alt: Graphics window displayed by the script 90/proc.py
+
+    Graphics window displayed by the script 90/proc.py
+
+
+Adding noise to the simulated data
+===================================
+
+Noise can be added to either the full Intenstity Matrix, or to individual
+Ion Chromatograms. Currently two noise models have been implemented in PyMS.
+These are:
+
+#. Gaussian noise drawn from a normal distribution with constant scale across all scans.
+#. Gaussian noise drawn from a normal distribution with scale varying with the intensity value at that point.
+
+
+Constant scale noise
+-----------------------
+
+.. note:: This example is in `pyms-test/91 <../pyms-test/91/91.html>`__
+
+The Python package NumPy contains routines for pseudo random number generation. These
+"random" values are drawn from a normal distribution with a user defined scale over the same number
+of samples as the number of scans in a GC-MS experiment. This resulting list of numbers is a
+good approximation to gaussian noise on an :math:`m/z` channel in the GC-MS experiment.
+
+To add gaussian noise to an IC, the following code is used:
+
+    >>> ic = sim_im.get_ic_at_mass(73)
+    >>> scale = 1000
+    >>> add_gaussc_noise_ic(ic, scale)
+
+The normal distribution from which the noise values are drawn in this example has a top value of 1000.
+This noisy IC can be displayed using the PyMS package Display, and the resulting figure is shown below.
+
+.. figure:: graphics/chapter09/test-91.png
+    :alt: Graphics window displayed by the script 91/proc.py
+
+    Graphics window displayed by the script 91/proc.py
+
+
+Variable scale noise
+--------------------
+
+.. note:: This example is in `pyms-test/92 <../pyms-test/92/92.html>`__
+
+In reality, noise from a GC-MS experiment tends to have higher values in areas where peaks occur than in
+the valleys between peaks. To attempt to model this, a variable scale noise function has been implemented in
+PyMS. For a given time-point in an Ion Chromatogram, if the intensity at that time-point is greater than
+a user defined threshold value, the scale of the normal distribution from which the noise value is drawn will be
+proportional to the intensity at that point. The actual scale of the distribution at that point will be
+``scale * (intensity*proportion)``, if the intensity is above the ``cutoff`` value, and ``scale`` if below.
+
+To add variable scale gaussian noise to an IC, the following code is used:
+
+    >>> ic = sim_im.get_ic_at_mass(73)
+    >>> scale = 1000
+    >>> cutoff = 10000
+    >>> prop = 0.0003
+    >>> add_gaussv_noise_ic(ic, scale, cutoff, prop)
+
+The resulting noisy IC is shown below.
+
+.. figure:: graphics/chapter09/test-92.png
+    :alt: Graphics window displayed by the script 92/proc.py
+
+    Graphics window displayed by the script 92/proc.py
+
+
+
+
+Adding noise to the whole simulated dataset
+=============================================
+
+Often, the user may desire to add noise to all ICs in the dataset. This can be
+accomplished easily using the functions
+:py:meth:`add_gaussc_noise() <pyms.Simulator.Function.add_gaussc_noise>`
+and
+:py:meth:`add_gaussv_noise() <pyms.Simulator.Function.add_gaussv_noise>`.
+The noise models in question are exactly the same as for the single IC noise functions above.
+
+Constant scale gaussian noise
+-------------------------------
+
+.. note:: This example is in `pyms-test/93 <../pyms-test/93/93.html>`__
+
+For constant scale gaussian noise:
+
+    >>> scale = 1000
+    >>> add_gaussc_noise(sim_im, scale)
+    ... sim_im is a simulated intensity matrix object
+
+This code adds noise to all Ion Chromatograms in the Intensity Matrix. These can be
+viewed in the PyMS package Display, with the resulting figure shown below.
+
+.. figure:: graphics/chapter09/test-93.png
+    :alt: Graphics window displayed by the script 93/proc.py
+
+    Graphics window displayed by the script 93/proc.py
+
+
+Variable scale gaussian noise
+--------------------------------
+
+.. note:: This example is in `pyms-test/94 <../pyms-test/94/94.html>`__
+
+
+To apply variable scale gaussian noise to the whole simulated dataset:
+
+    >>> scale = 1000
+    >>> cutoff = 10000
+    >>> prop = 0.0003
+    >>> add_gaussv_noise(sim_im, scale, cutoff, prop)
+
+The arguments supplied to
+:py:meth:`add_gaussv_noise() <pyms.Simulator.Function.add_gaussv_noise>`.
+relate to how the gaussian distribution supplying the noise values changes
+with the intensity.
+
+.. figure:: graphics/chapter10/test-94.png
+    :alt: Graphics window displayed by the script 94/proc.py
+
+    Graphics window displayed by the script 94/proc.py
+
+
+Detecting Peaks in the Simulated data
+======================================
+
+.. note:: This example is in `pyms-test/95 <../pyms-test/95/95.html>`__
+
+The simulated intensity matrix may be processed in PyMS in the same way as an intensity
+matrix derived from real data. Applying the same techniques as outlined in section
+\ref{sec:peak-detection``, the peaks of the simulated IM with added noise from
+\ref{subsec:gaussv-noise`` above can be found and displayed.
+
+The found peaks are shown in the figure below.
+
+.. figure:: graphics/chapter10/test-95.png
+    :alt: Graphics window displayed by the script 95/proc.py
+
+    Graphics window displayed by the script 95/proc.py
+

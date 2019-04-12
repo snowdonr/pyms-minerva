@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GC-MS Raw Data Model &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/GCMS/GCMS.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Noise/Noise.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms/Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>GC-MS Raw Data Model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/domdfcoding/pyms-docs/blob/master/source/UserGuide/chapter03.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gc-ms-raw-data-model">
+<h1><a class="toc-backref" href="#id4">GC-MS Raw Data Model</a><a class="headerlink" href="#gc-ms-raw-data-model" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#gc-ms-raw-data-model" id="id4">GC-MS Raw Data Model</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id5">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#creating-a-gcms-data-object" id="id6">Creating a “GCMS_data” object</a></p>
+<ul>
+<li><p><a class="reference internal" href="#reading-jcamp-gc-ms-data" id="id7">Reading JCAMP GC-MS data</a></p></li>
+<li><p><a class="reference internal" href="#reading-andi-gc-ms-data" id="id8">Reading ANDI GC-MS data</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#a-gcms-data-object" id="id9">A GCMS_data object</a></p>
+<ul>
+<li><p><a class="reference internal" href="#methods" id="id10">Methods</a></p></li>
+<li><p><a class="reference internal" href="#a-scan-data-object" id="id11">A Scan data object</a></p></li>
+<li><p><a class="reference internal" href="#exporting-data-and-obtaining-information-about-a-data-set" id="id12">Exporting data and obtaining information about a data set</a></p></li>
+<li><p><a class="reference internal" href="#comparing-two-gc-ms-data-sets" id="id13">Comparing two GC-MS data sets</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id5">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>PyMassSpec can read gas chromatography-mass spectrometry (GC-MS) data stored in
+Analytical Data Interchange for Mass Spectrometry (ANDI-MS), <a class="footnote-reference brackets" href="#andi-ms" id="id1">1</a>
+and Joint Committee on Atomic and Molecular Physical Data (JCAMP-DX) <a class="footnote-reference brackets" href="#jcamp-dx" id="id2">2</a>
+formats. The information contained in the data files can vary significantly
+depending on the instrument, vendor’s software, or conversion utility.
+PyMassSpec makes the following assumptions about the information contained in the data file:</p>
+<ul class="simple">
+<li><p>The data contain the m/z and intensity value pairs across a scan.</p></li>
+<li><p>Each scan has a retention time.</p></li>
+</ul>
+<p>Internally, PyMassSpec stores the raw data from ANDI files or JCAMP files as a
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a> object.</p>
+</div>
+<div class="section" id="creating-a-gcms-data-object">
+<h2><a class="toc-backref" href="#id6">Creating a “GCMS_data” object</a><a class="headerlink" href="#creating-a-gcms-data-object" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reading-jcamp-gc-ms-data">
+<h3><a class="toc-backref" href="#id7">Reading JCAMP GC-MS data</a><a class="headerlink" href="#reading-jcamp-gc-ms-data" title="Permalink to this headline">¶</a></h3>
+<p>The PyMS package <a class="reference internal" href="../pyms/GCMS/GCMS.html#module-pyms.GCMS.IO.JCAMP" title="pyms.GCMS.IO.JCAMP"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.JCAMP</span></code></a> provides capabilities to read the raw
+GC-MS data stored in the JCAMP-DX format.</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">gc01_0812_066.jdx</span></code> (located in <code class="docutils literal notranslate"><span class="pre">Data</span></code>) is a GC-MS experiment
+converted from Agilent ChemStation format to JCAMP format using File
+Translator Pro <a class="footnote-reference brackets" href="#chemsw" id="id3">3</a>. This file can be loaded in Python
+as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.IO.JCAMP.Function</span> <span class="kn">import</span> <span class="n">JCAMP_reader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jcamp_file</span> <span class="o">=</span> <span class="s2">&quot;Data/gc01_0812_066.jdx&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">JCAMP_reader</span><span class="p">(</span><span class="n">jcamp_file</span><span class="p">)</span>
+<span class="go"> -&gt; Reading JCAMP file &#39;Data/gc01_0812_066.jdx&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>The above command creates the object <code class="docutils literal notranslate"><span class="pre">data</span></code> which is an <cite>instance</cite>
+of the class <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a>.</p>
+</div>
+<div class="section" id="reading-andi-gc-ms-data">
+<h3><a class="toc-backref" href="#id8">Reading ANDI GC-MS data</a><a class="headerlink" href="#reading-andi-gc-ms-data" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/20b/20b.html">pyms-test/20b</a></p>
+</div>
+<p>The PyMS package <a class="reference internal" href="../pyms/GCMS/GCMS.html#module-pyms.GCMS.IO.ANDI" title="pyms.GCMS.IO.ANDI"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS.IO.ANDI</span></code></a> provides capabilities to read the raw
+GC-MS data stored in the ANDI-MS format.</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">gc01_0812_066.cdf</span></code> is a GC-MS experiment converted to ANDI-MS
+format from Agilent ChemStation (the same data as in the example 20a above).
+This file can be loaded as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.IO.ANDI.Function</span> <span class="kn">import</span> <span class="n">ANDI_reader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ANDI_file</span> <span class="o">=</span> <span class="s2">&quot;Data/gc01_0812_066.cdf&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ANDI_reader</span><span class="p">(</span><span class="n">ANDI_file</span><span class="p">)</span>
+<span class="go"> -&gt; Reading netCDF file &#39;Data/gc01_0812_066.cdf&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>The above command creates the object <code class="docutils literal notranslate"><span class="pre">data</span></code> which is an <cite>instance</cite>
+of the class <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="a-gcms-data-object">
+<h2><a class="toc-backref" href="#id9">A GCMS_data object</a><a class="headerlink" href="#a-gcms-data-object" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="methods">
+<h3><a class="toc-backref" href="#id10">Methods</a><a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The examples below are in <a class="reference external" href="../pyms-test/20a/20a.html">pyms-test/20a</a> and <a class="reference external" href="../pyms-test/20b/20b.html">pyms-test/20b</a></p>
+</div>
+<p>The object <code class="docutils literal notranslate"><span class="pre">data</span></code> (from the two previous examples) stores the raw data as a
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a> object. Within the
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a> object, raw data are stored as a list
+of <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan" title="pyms.GCMS.Class.Scan"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Scan</span></code></a> objects and a list of retention times.
+There are several methods available to access data and attributes of the
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a> and
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan" title="pyms.GCMS.Class.Scan"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Scan</span></code></a> objects.</p>
+<p>The <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a> object’s methods relate to the raw data. The main properties
+relate to the masses, retention times and scans. For example, the
+minimum and maximum mass from all of the raw data can be returned by the
+following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">get_min_mass</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">get_max_mass</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A list of all retention times can be returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get_time_list</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The index of a specific retention time (in seconds) can be returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="mf">400.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this returns the index of the retention time in the
+data closest to the given retention time of 400.0 seconds.</p>
+<p>The method <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_tic" title="pyms.GCMS.Class.GCMS_data.get_tic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tic()</span></code></a>
+returns a total ion chromatogram (TIC) of the data
+as an <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IonChromatogram</span></code></a> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tic</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get_tic</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram" title="pyms.GCMS.Class.IonChromatogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IonChromatogram</span></code></a>
+object is explained in a later chapter.</p>
+</div>
+<div class="section" id="a-scan-data-object">
+<h3><a class="toc-backref" href="#id11">A Scan data object</a><a class="headerlink" href="#a-scan-data-object" title="Permalink to this headline">¶</a></h3>
+<p>A Scan object contains a list of masses and a corresponding list of intensity
+values from a single mass-spectrum scan in the raw data. Typically only
+non-zero (or non-threshold) intensities and corresponding masses are stored in
+the raw data.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following examples are the same in <a class="reference external" href="../pyms-test/20a/20a.html">pyms-test/20a</a> and <a class="reference external" href="../pyms-test/20b/20b.html">pyms-test/20b</a></p>
+</div>
+<p>A list of all the raw Scan objects can be returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scans</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get_scan_list</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A list of all masses in a scan (e.g. the 1st scan) is returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_mass_list</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A list of all corresponding intensities in a scan is returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_intensity_list</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The minimum and maximum mass in an individual scan (e.g. the 1st scan) are
+returned by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_min_mass</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_max_mass</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exporting-data-and-obtaining-information-about-a-data-set">
+<h3><a class="toc-backref" href="#id12">Exporting data and obtaining information about a data set</a><a class="headerlink" href="#exporting-data-and-obtaining-information-about-a-data-set" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/20c/20c.html">pyms-test/20c</a></p>
+</div>
+<p>Often it is of interest to find out some basic information about the
+data set, e.g. the number of scans, the retention time range, and
+m/z range and so on. The <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data" title="pyms.GCMS.Class.GCMS_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GCMS_data</span></code></a>
+class provides a method <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.info" title="pyms.GCMS.Class.GCMS_data.info"><code class="xref py py-meth docutils literal notranslate"><span class="pre">info()</span></code></a>
+that can be used for this purpose.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.IO.ANDI.Function</span> <span class="kn">import</span> <span class="n">ANDI_reader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">andi_file</span> <span class="o">=</span> <span class="s2">&quot;data/gc01_0812_066.cdf&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ANDI_reader</span><span class="p">(</span><span class="n">andi_file</span><span class="p">)</span>
+<span class="go"> -&gt; Reading netCDF file &#39;data/gc01_0812_066.cdf&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="go"> Data retention time range: 5.093 min -- 66.795 min</span>
+<span class="go"> Time step: 0.375 s (std=0.000 s)</span>
+<span class="go"> Number of scans: 9865</span>
+<span class="go"> Minimum m/z measured: 50.000</span>
+<span class="go"> Maximum m/z measured: 599.900</span>
+<span class="go"> Mean number of m/z values per scan: 56</span>
+<span class="go"> Median number of m/z values per scan: 40</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>The entire raw data can be exported to a file with the method
+<a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.write" title="pyms.GCMS.Class.GCMS_data.write"><code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code></a> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output/data&quot;</span><span class="p">)</span>
+<span class="go"> -&gt; Writing intensities to &#39;output/data.I.csv&#39;</span>
+<span class="go"> -&gt; Writing m/z values to &#39;output/data.mz.csv&#39;</span>
+</pre></div>
+</div>
+<p>This method takes the string (“output/data”, in this example)
+and writes two CSV files. One has extension “.I.csv” and
+contains the intensities (“output/data.I.csv” in this example),
+and the other has the extension “.mz” and contains the
+corresponding table of m/z value (“output/data.mz.csv” in
+this example). In general, these are not two-dimensional matrices,
+because different scans may have different number of m/z
+values recorded.</p>
+</div>
+<div class="section" id="comparing-two-gc-ms-data-sets">
+<h3><a class="toc-backref" href="#id13">Comparing two GC-MS data sets</a><a class="headerlink" href="#comparing-two-gc-ms-data-sets" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example is in <a class="reference external" href="../pyms-test/20d/20d.html">pyms-test/20d</a></p>
+</div>
+<p>Occasionally it is useful to compare two data sets. For example,
+one may want to check the consistency between the data set
+exported in netCDF format from the manufacturer’s software, and
+the JCAMP format exported from a third party software.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.IO.JCAMP.Function</span> <span class="kn">import</span> <span class="n">JCAMP_reader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.IO.ANDI.Function</span> <span class="kn">import</span> <span class="n">ANDI_reader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">andi_file</span> <span class="o">=</span> <span class="s2">&quot;data/gc01_0812_066.cdf&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">jcamp_file</span> <span class="o">=</span> <span class="s2">&quot;data/gc01_0812_066.jdx&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data1</span> <span class="o">=</span> <span class="n">ANDI_reader</span><span class="p">(</span><span class="n">andi_file</span><span class="p">)</span>
+<span class="go"> -&gt; Reading netCDF file &#39;data/gc01_0812_066.cdf&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data2</span> <span class="o">=</span> <span class="n">JCAMP_reader</span><span class="p">(</span><span class="n">jcamp_file</span><span class="p">)</span>
+<span class="go"> -&gt; Reading JCAMP file &#39;data/gc01_0812_066.jdx&#39;</span>
+</pre></div>
+</div>
+<p>To compare the two data sets:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyms.GCMS.Function</span> <span class="kn">import</span> <span class="n">diff</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span><span class="n">data2</span><span class="p">)</span>
+<span class="go"> Data sets have the same number of time points.</span>
+<span class="go">   Time RMSD: 1.80e-13</span>
+<span class="go"> Checking for consistency in scan lengths ... OK</span>
+<span class="go"> Calculating maximum RMSD for m/z values and intensities ...</span>
+<span class="go">   Max m/z RMSD: 1.03e-05</span>
+<span class="go">   Max intensity RMSD: 0.00e+00</span>
+</pre></div>
+</div>
+<p>If the data is not possible to compare, for example because of
+different number of scans, or inconsistent number of m/z values
+in between two scans, <a class="reference internal" href="../pyms/GCMS/GCMS.html#pyms.GCMS.Function.diff" title="pyms.GCMS.Function.diff"><code class="xref py py-meth docutils literal notranslate"><span class="pre">diff()</span></code></a>
+will report the difference. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data2</span><span class="o">.</span><span class="n">trim</span><span class="p">(</span><span class="n">begin</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="go">Trimming data to between 1000 and 2000 scans</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">diff</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span><span class="n">data2</span><span class="p">)</span>
+<span class="go"> -&gt; The number of retention time points different.</span>
+<span class="go"> First data set: 9865 time points</span>
+<span class="go"> Second data set: 1001 time points</span>
+<span class="go"> Data sets are different.</span>
+</pre></div>
+</div>
+<p class="rubric">Footnotes</p>
+<dl class="footnote brackets">
+<dt class="label" id="andi-ms"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>ANDI-MS was developed by the Analytical Instrument Association</p>
+</dd>
+<dt class="label" id="jcamp-dx"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>JCAMP-DX is maintained by the International Union of Pure and Applied Chemistry</p>
+</dd>
+<dt class="label" id="chemsw"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>ChemSW, Inc.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

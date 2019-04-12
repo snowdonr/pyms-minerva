@@ -1,0 +1,1988 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyms.GCMS.Class &mdash; PyMassSpec 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyMassSpec
+          
+
+          
+            
+            <img src="../../../_static/pyms.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/chapter01.html">1. Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/documentation.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Baseline/Baseline.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Baseline</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Deconvolution/Deconvolution.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Deconvolution</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Display/Display.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Display</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Experiment/Experiment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Experiment</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Gapfill/Gapfill.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Gapfill</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/GCMS/GCMS.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.GCMS</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Noise/Noise.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Noise</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Peak/Peak.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Peak</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Simulator/Simulator.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Simulator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms/Utils/Utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyms.Utils</span></code></a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing to PyMS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/Contributing.html">1. Contributing to PyMassSpec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/StyleGuide.html">2. PyMassSpec coding Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/Source.html">3. Downloading PyMS source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserGuide/Contributing/Building.html">4. Building from Source</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tests and Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20a/20a.html">20a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20b/20b.html">20b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20c/20c.html">20c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/20d/20d.html">20d</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/30a/30a.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/30b/30b.html">30a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/30c/30c.html">30c</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/31/31.html">31</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/32/32.html">32</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/40a/40a.html">40a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/40b/40b.html">40b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/41a/41a.html">41a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/41b/41b.html">41b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/42a/42a.html">42a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/42b/42b.html">42b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/43/43.html">43</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/50/50.html">50</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/51/51.html">51</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/52/52.html">52</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/53/53.html">53</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/54/54.html">54</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/60/60.html">60</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/61a/61a.html">61a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/61b/61b.html">61b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/62/62.html">62</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/63/63.html">63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/64/64.html">64</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/70a/70a.html">70a</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/70b/70b.html">70b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/71/71.html">71</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/90/90.html">90</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/91/91.html">91</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/92/92.html">92</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/93/93.html">93</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/94/94.html">94</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/95/95.html">95</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/A1/A1.html">A1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/A2/A2.html">A2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pyms-test/x10/x10.html">x10</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyMassSpec</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pyms.GCMS.Class</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyms.GCMS.Class</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Classes to model GC-MS data</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+ <span class="c1">#############################################################################</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    PyMS software for processing of metabolomic mass-spectrometry data     #</span>
+ <span class="c1">#    Copyright (C) 2005-2012 Vladimir Likic                                 #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    This program is free software; you can redistribute it and/or modify   #</span>
+ <span class="c1">#    it under the terms of the GNU General Public License version 2 as      #</span>
+ <span class="c1">#    published by the Free Software Foundation.                             #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    This program is distributed in the hope that it will be useful,        #</span>
+ <span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #</span>
+ <span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #</span>
+ <span class="c1">#    GNU General Public License for more details.                           #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#    You should have received a copy of the GNU General Public License      #</span>
+ <span class="c1">#    along with this program; if not, write to the Free Software            #</span>
+ <span class="c1">#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #</span>
+ <span class="c1">#                                                                           #</span>
+ <span class="c1">#############################################################################</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="kn">from</span> <span class="nn">pyms.Utils.Error</span> <span class="k">import</span> <span class="n">error</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.Utils</span> <span class="k">import</span> <span class="n">is_str</span><span class="p">,</span> <span class="n">is_int</span><span class="p">,</span> <span class="n">is_array</span><span class="p">,</span> <span class="n">is_list</span><span class="p">,</span> <span class="n">is_number</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.IO</span> <span class="k">import</span> <span class="n">open_for_writing</span><span class="p">,</span> <span class="n">close_for_writing</span><span class="p">,</span> <span class="n">save_data</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.Math</span> <span class="k">import</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">median</span>
+<span class="kn">from</span> <span class="nn">pyms.Utils.Time</span> <span class="k">import</span> <span class="n">time_str_secs</span>
+
+<div class="viewcode-block" id="GCMS_data"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data">[docs]</a><span class="k">class</span> <span class="nc">GCMS_data</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Generic object for GC-MS data. Contains raw data</span>
+<span class="sd">        as a list of scans and times</span>
+
+<span class="sd">    :author: Qiao Wang</span>
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GCMS_data.__init__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_list</span><span class="p">,</span> <span class="n">scan_list</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Initialize the GC-MS data</span>
+
+<span class="sd">        :param time_list: List of scan retention times</span>
+<span class="sd">        :type time_list: ListType</span>
+<span class="sd">        :param scan_list: List of Scan objects</span>
+<span class="sd">        :type scan_list: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">scan_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scan_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Scan</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;scan_list&#39; must be a list of Scan objects&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__set_time</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span> <span class="o">=</span> <span class="n">scan_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__set_min_max_mass</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__calc_tic</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GCMS_data.__len__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the length of the data object,</span>
+<span class="sd">            defined as the number of scans</span>
+
+<span class="sd">        :return: Number of scans</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__set_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_list</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Sets time-related properties of the data</span>
+
+<span class="sd">        :param time_list: List of retention times</span>
+<span class="sd">        :type time_list: ListType</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># calculate the time step, its spreak, and along the way</span>
+        <span class="c1"># check that retention times are increasing</span>
+        <span class="n">time_diff_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="n">t2</span> <span class="o">=</span> <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">t2</span> <span class="o">&gt;</span> <span class="n">t1</span><span class="p">:</span>
+                <span class="n">error</span><span class="p">(</span><span class="s2">&quot;problem with retention times detected&quot;</span><span class="p">)</span>
+            <span class="n">time_diff</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span>
+            <span class="n">time_diff_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time_diff</span><span class="p">)</span>
+
+        <span class="n">time_step</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">time_diff_list</span><span class="p">)</span>
+        <span class="n">time_step_std</span> <span class="o">=</span> <span class="n">std</span><span class="p">(</span><span class="n">time_diff_list</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span> <span class="o">=</span> <span class="n">time_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_step</span> <span class="o">=</span> <span class="n">time_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_std</span> <span class="o">=</span> <span class="n">time_step_std</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__set_min_max_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Sets the min and max mass value</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">mini</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_min_mass</span><span class="p">()</span>
+        <span class="n">maxi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_max_mass</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">:</span>
+            <span class="n">tmp_mini</span> <span class="o">=</span> <span class="n">scan</span><span class="o">.</span><span class="n">get_min_mass</span><span class="p">()</span>
+            <span class="n">tmp_maxi</span> <span class="o">=</span> <span class="n">scan</span><span class="o">.</span><span class="n">get_max_mass</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">tmp_mini</span> <span class="o">&lt;</span> <span class="n">mini</span><span class="p">:</span>
+                <span class="n">mini</span> <span class="o">=</span> <span class="n">tmp_mini</span>
+            <span class="k">if</span> <span class="n">tmp_maxi</span> <span class="o">&gt;</span> <span class="n">maxi</span><span class="p">:</span>
+                <span class="n">maxi</span> <span class="o">=</span> <span class="n">tmp_maxi</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="o">=</span> <span class="n">mini</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span> <span class="o">=</span> <span class="n">maxi</span>
+
+<div class="viewcode-block" id="GCMS_data.get_min_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_min_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_min_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Get the min mass value over all scans</span>
+
+<span class="sd">        :return: The minimum mass of all the data</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span></div>
+
+<div class="viewcode-block" id="GCMS_data.get_max_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_max_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Get the max mass value over all scans</span>
+
+<span class="sd">        :return: The maximum mass of all the data</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span></div>
+
+<div class="viewcode-block" id="GCMS_data.get_index_at_time"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_index_at_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_index_at_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the nearest index corresponding to the given</span>
+<span class="sd">            time</span>
+
+<span class="sd">        :param time: Time in seconds</span>
+<span class="sd">        :type time: FloatType</span>
+
+<span class="sd">        :return: Nearest index corresponding to given time</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Tim Erwin</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time&#39; must be a number&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;time </span><span class="si">%.2f</span><span class="s2"> is out of bounds (min: </span><span class="si">%.2f</span><span class="s2">, max: </span><span class="si">%.2f</span><span class="s2">)&quot;</span> <span class="o">%</span>
+                  <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span><span class="p">))</span>
+
+        <span class="n">time_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span>
+        <span class="n">time_diff_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span>
+        <span class="n">ix_match</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
+
+            <span class="n">time_diff</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">time</span><span class="o">-</span><span class="n">time_list</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">time_diff</span> <span class="o">&lt;</span> <span class="n">time_diff_min</span><span class="p">:</span>
+                <span class="n">ix_match</span> <span class="o">=</span> <span class="n">ix</span>
+                <span class="n">time_diff_min</span> <span class="o">=</span> <span class="n">time_diff</span>
+
+        <span class="k">return</span> <span class="n">ix_match</span></div>
+
+<div class="viewcode-block" id="GCMS_data.get_time_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_time_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the list of each scan retention time</span>
+
+<span class="sd">        :return: A list of each scan retention time</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCMS_data.get_scan_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_scan_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_scan_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Return a list of the scan objects</span>
+
+<span class="sd">        :return: A list of scan objects</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_scan_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span>
+
+    <span class="n">scan_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_scan_list</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GCMS_data.get_tic"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.get_tic">[docs]</a>    <span class="k">def</span> <span class="nf">get_tic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the total ion chromatogram</span>
+
+<span class="sd">        :return: Total ion chromatogram</span>
+<span class="sd">        :rtype: pyms.GCMS.Class.IonChromatogram</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tic</span></div>
+
+    <span class="k">def</span> <span class="nf">__calc_tic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Calculate the total ion chromatogram</span>
+
+<span class="sd">        :return: Total ion chromatogram</span>
+<span class="sd">        :rtype: pyms.GCMS.Class.IonChromatogram</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">intensities</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">scan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">:</span>
+            <span class="n">intensities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">scan</span><span class="o">.</span><span class="n">get_intensity_list</span><span class="p">()))</span>
+        <span class="n">ia</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">intensities</span><span class="p">)</span>
+        <span class="n">rt</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span>
+        <span class="n">tic</span> <span class="o">=</span> <span class="n">IonChromatogram</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">rt</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tic</span> <span class="o">=</span> <span class="n">tic</span>
+
+<div class="viewcode-block" id="GCMS_data.trim"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.trim">[docs]</a>    <span class="k">def</span> <span class="nf">trim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: trims data in the time domain</span>
+
+<span class="sd">        :param begin: begin parameter designating start time or</span>
+<span class="sd">            scan number</span>
+<span class="sd">        :type begin: IntType or StrType</span>
+<span class="sd">        :param end: end parameter designating start time or</span>
+<span class="sd">            scan number</span>
+<span class="sd">        :type end: IntType or StrType</span>
+
+<span class="sd">            The arguments &#39;begin&#39; and &#39;end&#39; can be either integers</span>
+<span class="sd">            (in which case they are taken as the first/last scan</span>
+<span class="sd">            number for trimming) or strings in which case they are</span>
+<span class="sd">            treated as time strings and converted to scan numbers.</span>
+
+<span class="sd">            At present both &#39;begin&#39; and &#39;end&#39; must be of the same</span>
+<span class="sd">            type, either both scan numbers or time strings.</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># trim called with defaults, or silly arguments</span>
+        <span class="k">if</span> <span class="n">begin</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">end</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nothing to do.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="c1"># exit immediately</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)</span>
+
+        <span class="c1"># process &#39;begin&#39; and &#39;end&#39;</span>
+        <span class="k">if</span> <span class="n">begin</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">first_scan</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">is_int</span><span class="p">(</span><span class="n">begin</span><span class="p">):</span>
+            <span class="n">first_scan</span> <span class="o">=</span> <span class="n">begin</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">is_str</span><span class="p">(</span><span class="n">begin</span><span class="p">):</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">time_str_secs</span><span class="p">(</span><span class="n">begin</span><span class="p">)</span>
+            <span class="n">first_scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;invalid &#39;begin&#39; argument&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">last_scan</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">is_int</span><span class="p">(</span><span class="n">end</span><span class="p">):</span>
+            <span class="n">last_scan</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="k">elif</span> <span class="n">is_str</span><span class="p">(</span><span class="n">end</span><span class="p">):</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">time_str_secs</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+            <span class="n">last_scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_index_at_time</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;invalid &#39;end&#39; argument&quot;</span><span class="p">)</span>
+
+        <span class="c1"># sanity checks</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">last_scan</span> <span class="o">&gt;</span> <span class="n">first_scan</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;last scan=</span><span class="si">%d</span><span class="s2">, first scan=</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">last_scan</span><span class="p">,</span> <span class="n">first_scan</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">first_scan</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;scan number must be greater than one&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">last_scan</span> <span class="o">&gt;</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;last scan=</span><span class="si">%d</span><span class="s2">, total number of scans=</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">last_scan</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Trimming data to between </span><span class="si">%d</span><span class="s2"> and </span><span class="si">%d</span><span class="s2"> scans&quot;</span> <span class="o">%</span> \
+                <span class="p">(</span><span class="n">first_scan</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">last_scan</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">scan_list_new</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">time_list_new</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">ii</span> <span class="o">&gt;=</span> <span class="n">first_scan</span> <span class="ow">and</span> <span class="n">ii</span> <span class="o">&lt;=</span> <span class="n">last_scan</span><span class="p">:</span>
+                <span class="n">scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">scan_list_new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scan</span><span class="p">)</span>
+                <span class="n">time_list_new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+
+
+        <span class="c1"># update info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span> <span class="o">=</span> <span class="n">scan_list_new</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__set_time</span><span class="p">(</span><span class="n">time_list_new</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__set_min_max_mass</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__calc_tic</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GCMS_data.info"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.info">[docs]</a>    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_scan_n</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Prints some information about the data</span>
+
+<span class="sd">        :param print_scan_n: If set to True will print the number</span>
+<span class="sd">            of m/z values in each scan</span>
+<span class="sd">        :type print_scan_n: BooleanType</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># print the summary of simply attributes</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Data retention time range: </span><span class="si">%.3f</span><span class="s2"> min -- </span><span class="si">%.3f</span><span class="s2"> min&quot;</span> <span class="o">%</span> \
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span><span class="o">/</span><span class="mf">60.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span><span class="o">/</span><span class="mi">60</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Time step: </span><span class="si">%.3f</span><span class="s2"> s (std=</span><span class="si">%.3f</span><span class="s2"> s)&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_step</span><span class="p">,</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">__time_step_std</span> <span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Number of scans: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)</span> <span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Minimum m/z measured: </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Maximum m/z measured: </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span> <span class="p">))</span>
+
+        <span class="c1"># calculate median number of m/z values measured per scan</span>
+        <span class="n">n_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)):</span>
+            <span class="n">scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scan</span><span class="p">)</span>
+            <span class="n">n_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">print_scan_n</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">mz_mean</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">n_list</span><span class="p">)</span>
+        <span class="n">mz_median</span> <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">n_list</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Mean number of m/z values per scan: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">mz_mean</span> <span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Median number of m/z values per scan: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">mz_median</span> <span class="p">))</span></div>
+
+<div class="viewcode-block" id="GCMS_data.write"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_root</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Writes the entire raw data to two files, one</span>
+<span class="sd">            &#39;file_root&#39;.I.csv (intensities) and &#39;file_root&#39;.mz.csv</span>
+<span class="sd">            (m/z values).</span>
+
+<span class="sd">            This method writes two CSV files, containing intensities</span>
+<span class="sd">            and corresponding m/z values. In general these are not</span>
+<span class="sd">            two-dimensional matrices, because different scans may</span>
+<span class="sd">            have different number of m/z values recorded.</span>
+
+<span class="sd">        :param file_root: The root for the output file names</span>
+<span class="sd">        :type file_root: StringType</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_str</span><span class="p">(</span><span class="n">file_root</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;file_root&#39; must be a string&quot;</span><span class="p">)</span>
+
+        <span class="n">file_name1</span> <span class="o">=</span> <span class="n">file_root</span> <span class="o">+</span> <span class="s2">&quot;.I.csv&quot;</span>
+        <span class="n">file_name2</span> <span class="o">=</span> <span class="n">file_root</span> <span class="o">+</span> <span class="s2">&quot;.mz.csv&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Writing intensities to &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">file_name1</span> <span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Writing m/z values to &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">file_name2</span> <span class="p">))</span>
+
+        <span class="n">fp1</span> <span class="o">=</span> <span class="n">open_for_writing</span><span class="p">(</span><span class="n">file_name1</span><span class="p">)</span>
+        <span class="n">fp2</span> <span class="o">=</span> <span class="n">open_for_writing</span><span class="p">(</span><span class="n">file_name2</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)):</span>
+
+            <span class="n">scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+
+            <span class="n">intensity_list</span> <span class="o">=</span> <span class="n">scan</span><span class="o">.</span><span class="n">get_intensity_list</span><span class="p">()</span>
+            <span class="n">mass_list</span> <span class="o">=</span> <span class="n">scan</span><span class="o">.</span><span class="n">get_mass_list</span><span class="p">()</span>
+
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">)):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">intensity_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ii</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">fp1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">fp1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;,</span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="n">fp1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">mass_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">ii</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">fp2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">fp2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;,</span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="n">fp2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">close_for_writing</span><span class="p">(</span><span class="n">fp1</span><span class="p">)</span>
+        <span class="n">close_for_writing</span><span class="p">(</span><span class="n">fp2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCMS_data.write_intensities_stream"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.GCMS_data.write_intensities_stream">[docs]</a>    <span class="k">def</span> <span class="nf">write_intensities_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Writes all intensities to a file</span>
+
+<span class="sd">        :param file_name: Output file name</span>
+<span class="sd">        :type file_name: StringType</span>
+
+<span class="sd">        This function loop over all scans, and for each scan</span>
+<span class="sd">        writes intensities to the file, one intenisity per</span>
+<span class="sd">        line. Intensities from different scans are joined</span>
+<span class="sd">        without any delimiters.</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_str</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;file_name&#39; must be a string&quot;</span><span class="p">)</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; -&gt; Writing scans to a file&quot;</span><span class="p">)</span>
+        
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">open_for_writing</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">)):</span>
+            <span class="n">scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scan_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="n">intensities</span> <span class="o">=</span> <span class="n">scan</span><span class="o">.</span><span class="n">get_intensity_list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="n">intensities</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%8.4f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">I</span> <span class="p">)</span> <span class="p">)</span>
+
+        <span class="n">close_for_writing</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="Scan"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan">[docs]</a><span class="k">class</span> <span class="nc">Scan</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Generic object for a single Scan&#39;s raw data</span>
+
+<span class="sd">    :author: Qiao Wang</span>
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Scan.__init__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_list</span><span class="p">,</span> <span class="n">intensity_list</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Initialize the Scan data</span>
+
+<span class="sd">        :param mass_list: mass values</span>
+<span class="sd">        :type mass_list: ListType</span>
+
+<span class="sd">        :param intensity_list: intensity values</span>
+<span class="sd">        :type intensity_list: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#print &quot;mass_list[0]&quot;,mass_list[0]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">mass_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;intensity_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span> <span class="o">=</span> <span class="n">mass_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_list</span> <span class="o">=</span> <span class="n">intensity_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Scan.__len__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the length of the Scan object</span>
+
+<span class="sd">        :return: Length of Scan</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Scan.get_mass_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan.get_mass_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_mass_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the masses for the current scan</span>
+
+<span class="sd">        :return: the masses</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+ 
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_mass_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span>
+
+    <span class="n">mass_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_mass_list</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Scan.get_intensity_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan.get_intensity_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_intensity_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the intensities for the current scan</span>
+
+<span class="sd">        :return: the intensities</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+       
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_list</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_intensity_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_list</span>
+
+    <span class="n">intensity_list</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_intensity_list</span><span class="p">)</span>
+  
+
+<div class="viewcode-block" id="Scan.get_min_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan.get_min_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_min_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the minimum m/z value in the scan</span>
+
+<span class="sd">        :return: Minimum m/z</span>
+<span class="sd">        :rtype: Float</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span></div>
+
+<div class="viewcode-block" id="Scan.get_max_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.Scan.get_max_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the maximum m/z value in the scan</span>
+
+<span class="sd">        :return: Maximum m/z</span>
+<span class="sd">        :rtype: Float</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span></div></div>
+
+<div class="viewcode-block" id="IntensityMatrix"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix">[docs]</a><span class="k">class</span> <span class="nc">IntensityMatrix</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Intensity matrix of binned raw data</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IntensityMatrix.__init__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_list</span><span class="p">,</span> <span class="n">mass_list</span><span class="p">,</span> <span class="n">intensity_matrix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Initialize the IntensityMatrix data</span>
+
+<span class="sd">        :param time_list: Retention time values</span>
+<span class="sd">        :type time_list: ListType</span>
+
+<span class="sd">        :param mass_list: Binned mass values</span>
+<span class="sd">        :type mass_list: ListType</span>
+
+<span class="sd">        :param intensity_matrix: Binned intensity values per scan</span>
+<span class="sd">        :type intensity_matrix: ListType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># sanity check</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">mass_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> \
+           <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;intensity_matrix&#39; must be a list, of a list, of numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time_list&#39; is not the same length as &#39;intensity_matrix&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_list&#39; is not the same size as &#39;intensity_matrix&#39;&quot;</span>
+                <span class="s2">&quot; width&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span> <span class="o">=</span> <span class="n">time_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span> <span class="o">=</span> <span class="n">mass_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span> <span class="o">=</span> <span class="n">intensity_matrix</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span>
+
+        <span class="c1"># Direct access for speed (DANGEROUS)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intensity_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span>
+
+        <span class="c1"># Try to include parallelism.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="k">import</span> <span class="n">MPI</span>
+            <span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
+            <span class="n">num_ranks</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
+            <span class="n">rank</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
+            <span class="n">M</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">lrr</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span><span class="o">*</span><span class="n">M</span><span class="o">/</span><span class="n">num_ranks</span><span class="p">,</span> <span class="p">(</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">M</span><span class="o">/</span><span class="n">num_ranks</span><span class="p">)</span>
+            <span class="n">lcr</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span><span class="o">*</span><span class="n">N</span><span class="o">/</span><span class="n">num_ranks</span><span class="p">,</span> <span class="p">(</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">N</span><span class="o">/</span><span class="n">num_ranks</span><span class="p">)</span>
+            <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">lrr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lrr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lcr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lcr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm</span> <span class="o">=</span> <span class="n">comm</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_ranks</span> <span class="o">=</span> <span class="n">num_ranks</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">=</span> <span class="n">rank</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_row_range</span> <span class="o">=</span> <span class="n">lrr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_col_range</span> <span class="o">=</span> <span class="n">lcr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+
+        <span class="c1"># If we can&#39;t import mpi4py then continue in serial.</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_local_size"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_local_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_local_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Gets the local size of intensity matrix.</span>
+
+<span class="sd">        :return: Number of rows and cols</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Luke Hodkinson</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check for parallel.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;comm&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+
+        <span class="c1"># If serial call the regular routine.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_size"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Gets the size of intensity matrix</span>
+
+<span class="sd">        :return: Number of rows and cols</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Luke Hodkinson</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">n_scan</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">)</span>
+        <span class="n">n_mz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">n_scan</span><span class="p">,</span> <span class="n">n_mz</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.iter_ms_indices"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.iter_ms_indices">[docs]</a>    <span class="k">def</span> <span class="nf">iter_ms_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Iterates over local row indices</span>
+
+<span class="sd">        :return: Current row index</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Luke Hodkinson</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check for parallel.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;comm&#39;</span><span class="p">):</span>
+            <span class="c1"># At the moment we assume we break the matrix into contiguous</span>
+            <span class="c1"># ranges. We&#39;ve allowed for this to change by wrapping up the</span>
+            <span class="c1"># iteration in this method.</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">local_row_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_row_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">yield</span> <span class="n">i</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Iterate over global indices.</span>
+            <span class="n">n_scan</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_scan</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">i</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.iter_ic_indices"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.iter_ic_indices">[docs]</a>    <span class="k">def</span> <span class="nf">iter_ic_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Iterate over local column indices</span>
+
+<span class="sd">        :return: Current column index</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Luke Hodkinson</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check for parallel.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;comm&#39;</span><span class="p">):</span>
+            <span class="c1"># At the moment we assume we break the matrix into contiguous</span>
+            <span class="c1"># ranges. We&#39;ve allowed for this to change by wrapping up the</span>
+            <span class="c1"># iteration in this method.</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">local_col_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_col_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">yield</span> <span class="n">i</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Iterate over global indices.</span>
+            <span class="n">n_mz</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_mz</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">i</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.set_ic_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.set_ic_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">set_ic_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">ic</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Sets the ion chromatogram specified by index to a new</span>
+<span class="sd">            value</span>
+
+<span class="sd">        :param ix: Index of an ion chromatogram in the intensity data</span>
+<span class="sd">            matrix to be set</span>
+<span class="sd">        :type ix: IntType</span>
+<span class="sd">        :param ic: Ion chromatogram that will be copied at position &#39;ix&#39;</span>
+<span class="sd">            in the data matrix</span>
+<span class="sd">        :type: IonChromatogram</span>
+
+<span class="sd">        The length of the ion chromatogram must match the appropriate</span>
+<span class="sd">        dimension of the intensity matrix.</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+
+        <span class="c1"># this returns an numpy.array object</span>
+        <span class="n">ia</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">get_intensity_array</span><span class="p">()</span>
+
+        <span class="c1"># check if the dimension is ok</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;ion chromatogram incompatible with the intensity matrix&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+           <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span>
+
+        <span class="c1"># Convert &#39;ia&#39; to a list. By convention, the attribute</span>
+        <span class="c1"># __intensity_matrix of the class IntensityMatrix is a list</span>
+        <span class="c1"># of lists. This makes pickling instances of IntensityMatrix</span>
+        <span class="c1"># practically possible, since pickling numpy.array objects</span>
+        <span class="c1"># produces ten times larger files compared to pickling python</span>
+        <span class="c1">#lists.</span>
+        <span class="n">ial</span> <span class="o">=</span> <span class="n">ia</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">ial</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_ic_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_ic_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_ic_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the ion chromatogram at the specified index</span>
+
+<span class="sd">        :param ix: Index of an ion chromatogram in the intensity data</span>
+<span class="sd">            matrix</span>
+<span class="sd">        :type ix: IntType</span>
+
+<span class="sd">        :return: Ion chromatogram at given index</span>
+<span class="sd">        :rtype: IonChromatogram</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ia</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">)):</span>
+                <span class="n">ia</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">ix</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index out of bounds.&quot;</span><span class="p">)</span>
+
+        <span class="n">ic_ia</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mass_at_index</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>
+        <span class="n">rt</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">IonChromatogram</span><span class="p">(</span><span class="n">ic_ia</span><span class="p">,</span> <span class="n">rt</span><span class="p">,</span> <span class="n">mass</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_ic_at_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_ic_at_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_ic_at_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the ion chromatogram for the specified mass.</span>
+<span class="sd">            The nearest binned mass to mass is used.</span>
+
+<span class="sd">            If no mass value is given, the function returns the total</span>
+<span class="sd">            ion chromatogram.</span>
+
+<span class="sd">        :param mass: Mass value of an ion chromatogram</span>
+<span class="sd">        :type mass: IntType</span>
+
+<span class="sd">        :return: Ion chromatogram for given mass</span>
+<span class="sd">        :rtype: IonChromatogram</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">mass</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tic</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">mass</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="ow">or</span> <span class="n">mass</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;min mass: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span><span class="p">,</span> <span class="s2">&quot;max mass:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span><span class="p">)</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;mass is out of range&quot;</span><span class="p">)</span>
+
+        <span class="n">ix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_index_of_mass</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ic_at_index</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_mass_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_mass_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_mass_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns a list of the binned masses</span>
+
+<span class="sd">        :return: Binned mass list</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_ms_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_ms_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_ms_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns a mass spectrum for a given scan index</span>
+
+<span class="sd">        :param ix: The index of the scan</span>
+<span class="sd">        :type ix: IntType</span>
+
+<span class="sd">        :return: Mass spectrum</span>
+<span class="sd">        :rtype: pyms.GCMS.Class.MassSpectrum</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># TODO: should a deepcopy be returned?</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+
+        <span class="n">scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_scan_at_index</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">MassSpectrum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">,</span> <span class="n">scan</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_scan_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_scan_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_scan_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the spectral intensities for scan index</span>
+
+<span class="sd">        :param ix: The index of the scan</span>
+<span class="sd">        :type ix: IntType</span>
+
+<span class="sd">        :return: Intensity values of scan spectra</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ix</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index out of range&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_min_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_min_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_min_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the maximum binned mass</span>
+
+<span class="sd">        :return: The maximum binned mass</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_max_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_max_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the maximum binned mass</span>
+
+<span class="sd">        :return: The maximum binned mass</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_mass_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_mass_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_mass_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns binned mass at index</span>
+
+<span class="sd">        :param ix: Index of binned mass</span>
+<span class="sd">        :type ix: IntType</span>
+
+<span class="sd">        :return: Binned mass</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ix</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index out of range&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_index_of_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_index_of_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_index_of_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the index of mass in the list of masses</span>
+
+<span class="sd">        The nearest binned mass to given mass is used.</span>
+
+<span class="sd">        :param mass: Mass to lookup in list of masses</span>
+<span class="sd">        :type mass: FloatType</span>
+
+<span class="sd">        :return: Index of mass closest to given mass</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">)):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">-</span> <span class="n">mass</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">:</span>
+                <span class="n">best</span> <span class="o">=</span> <span class="n">tmp</span>
+                <span class="n">ix</span> <span class="o">=</span> <span class="n">ii</span>
+        <span class="k">return</span> <span class="n">ix</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_matrix_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_matrix_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_matrix_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns a copy of the intensity matrix as a</span>
+<span class="sd">            list of lists of floats</span>
+
+<span class="sd">        :return: Matrix of intensity values</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_time_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_time_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns a copy of the time list</span>
+
+<span class="sd">        :return: List of retention times</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.get_index_at_time"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.get_index_at_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_index_at_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the nearest index corresponding to the given time</span>
+
+<span class="sd">        :param time: Time in seconds</span>
+<span class="sd">        :type time: FloatType</span>
+
+<span class="sd">        :return: Nearest index corresponding to given time</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Tim Erwin</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time&#39; must be a number&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span> <span class="ow">or</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;time </span><span class="si">%.2f</span><span class="s2"> is out of bounds (min: </span><span class="si">%.2f</span><span class="s2">, max: </span><span class="si">%.2f</span><span class="s2">)&quot;</span> <span class="o">%</span>
+                  <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span><span class="p">))</span>
+
+        <span class="n">time_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span>
+        <span class="n">time_diff_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span>
+        <span class="n">ix_match</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
+
+            <span class="n">time_diff</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">time</span><span class="o">-</span><span class="n">time_list</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">time_diff</span> <span class="o">&lt;</span> <span class="n">time_diff_min</span><span class="p">:</span>
+                <span class="n">ix_match</span> <span class="o">=</span> <span class="n">ix</span>
+                <span class="n">time_diff_min</span> <span class="o">=</span> <span class="n">time_diff</span>
+
+        <span class="k">return</span> <span class="n">ix_match</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.crop_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.crop_mass">[docs]</a>    <span class="k">def</span> <span class="nf">crop_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_min</span><span class="p">,</span> <span class="n">mass_max</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Crops mass spectrum</span>
+
+<span class="sd">        :param mass_min: Minimum mass value</span>
+<span class="sd">        :type mass_min: IntType or FloatType</span>
+<span class="sd">        :param mass_max: Maximum mass value</span>
+<span class="sd">        :type mass_max: IntType or FloatType</span>
+
+<span class="sd">        :return: none</span>
+<span class="sd">        :rtype: NoneType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">mass_min</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">mass_max</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_min&#39; and &#39;mass_max&#39; must be numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mass_min</span> <span class="o">&gt;=</span> <span class="n">mass_max</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_min&#39; must be less than &#39;mass_max&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mass_min</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_min&#39; is less than the smallest mass: </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mass_max</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_max&#39; is greater than the largest mass: </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span><span class="p">)</span>
+
+        <span class="c1"># pre build mass_list and list of indecies</span>
+        <span class="n">mass_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span>
+        <span class="n">new_mass_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ii_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)):</span>
+             <span class="n">mass</span> <span class="o">=</span> <span class="n">mass_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+             <span class="k">if</span> <span class="n">mass</span> <span class="o">&gt;=</span> <span class="n">mass_min</span> <span class="ow">and</span> <span class="n">mass</span> <span class="o">&lt;=</span> <span class="n">mass_max</span><span class="p">:</span>
+                 <span class="n">new_mass_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span>
+                 <span class="n">ii_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+
+        <span class="c1"># update intensity matrix</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span>
+        <span class="k">for</span> <span class="n">spec_jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">im</span><span class="p">)):</span>
+            <span class="n">new_spec</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">ii_list</span><span class="p">:</span>
+                <span class="n">new_spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">im</span><span class="p">[</span><span class="n">spec_jj</span><span class="p">][</span><span class="n">ii</span><span class="p">])</span>
+            <span class="n">im</span><span class="p">[</span><span class="n">spec_jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_spec</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span> <span class="o">=</span> <span class="n">new_mass_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">new_mass_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">new_mass_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.null_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.null_mass">[docs]</a>    <span class="k">def</span> <span class="nf">null_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Ignore given (closest) mass in spectra</span>
+
+<span class="sd">        :param mass: Mass value to remove</span>
+<span class="sd">        :type mass: IntType or FloatType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">mass</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass&#39; must be numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mass</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span> <span class="ow">or</span> <span class="n">mass</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass&#39; not in mass range: </span><span class="si">%.3f</span><span class="s2"> to </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__min_mass</span><span class="p">,</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">__max_mass</span><span class="p">))</span>
+
+        <span class="n">ii</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_index_of_mass</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span>
+
+        <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span>
+        <span class="k">for</span> <span class="n">spec_jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">im</span><span class="p">)):</span>
+            <span class="n">im</span><span class="p">[</span><span class="n">spec_jj</span><span class="p">][</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.reduce_mass_spectra"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.reduce_mass_spectra">[docs]</a>    <span class="k">def</span> <span class="nf">reduce_mass_spectra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Reduces mass spectra by retaining top N</span>
+<span class="sd">            intensities, discarding all other intensities.</span>
+
+<span class="sd">        :param N: The number of top intensities to keep</span>
+<span class="sd">        :type N: IntType</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># loop over all mass spectral scans</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">)):</span>
+
+            <span class="c1"># get the next mass spectrum as list of intensities</span>
+            <span class="n">intensity_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">)</span>
+
+            <span class="c1"># get the indices of top N intensities</span>
+            <span class="n">top_indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">top_indices</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">intensity_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">top_indices</span> <span class="o">=</span> <span class="n">top_indices</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
+
+            <span class="c1"># initiate new mass spectrum, and retain only top N intensities</span>
+            <span class="n">intensity_list_new</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">intensity_list_new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">jj</span> <span class="ow">in</span> <span class="n">top_indices</span><span class="p">:</span>
+                    <span class="n">intensity_list_new</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">intensity_list</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">intensity_list_new</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.export_ascii"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.export_ascii">[docs]</a>    <span class="k">def</span> <span class="nf">export_ascii</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_name</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;dat&#39;</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Exports the intensity matrix, retention time vector, and</span>
+<span class="sd">            m/z vector to the ascii format</span>
+<span class="sd">    </span>
+<span class="sd">            By default, export_ascii(&quot;NAME&quot;) will create NAME.im.dat, NAME.rt.dat,</span>
+<span class="sd">            and NAME.mz.dat where these are the intensity matrix, retention</span>
+<span class="sd">            time vector, and m/z vector in tab delimited format. If format=&#39;csv&#39;,</span>
+<span class="sd">            the files will be in the CSV format, named NAME.im.csv, NAME.rt.csv,</span>
+<span class="sd">            and NAME.mz.csv.</span>
+
+<span class="sd">        :param root_name: Root name for the output files</span>
+<span class="sd">        :type root_name: StringType</span>
+
+<span class="sd">        :return: none</span>
+<span class="sd">        :rtype: NoneType</span>
+
+<span class="sd">        :author: Milica Ng</span>
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_str</span><span class="p">(</span><span class="n">root_name</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;root_name&#39; is not a string&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span>
+            <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">extension</span> <span class="o">=</span> <span class="s2">&quot;.dat&quot;</span>
+        <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+            <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span>
+            <span class="n">extension</span> <span class="o">=</span> <span class="s2">&quot;.csv&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;unkown format &#39;</span><span class="si">%s</span><span class="s2">&#39;. Only &#39;dat&#39; or &#39;csv&#39; supported&quot;</span> <span class="o">%</span> <span class="nb">format</span><span class="p">)</span>
+
+        <span class="c1"># export 2D matrix of intensities</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span>
+        <span class="n">save_data</span><span class="p">(</span><span class="n">root_name</span><span class="o">+</span><span class="s1">&#39;.im&#39;</span><span class="o">+</span><span class="n">extension</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span>
+
+        <span class="c1"># export 1D vector of m/z&#39;s, corresponding to rows of</span>
+        <span class="c1"># the intensity matrix</span>
+        <span class="n">mass_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span>
+        <span class="n">save_data</span><span class="p">(</span><span class="n">root_name</span><span class="o">+</span><span class="s1">&#39;.mz&#39;</span><span class="o">+</span><span class="n">extension</span><span class="p">,</span> <span class="n">mass_list</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span>
+
+        <span class="c1"># export 1D vector of retention times, corresponding to</span>
+        <span class="c1"># columns of the intensity matrix</span>
+        <span class="n">time_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span>
+        <span class="n">save_data</span><span class="p">(</span><span class="n">root_name</span><span class="o">+</span><span class="s1">&#39;.rt&#39;</span><span class="o">+</span><span class="n">extension</span><span class="p">,</span> <span class="n">time_list</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">separator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.export_leco_csv"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.export_leco_csv">[docs]</a>    <span class="k">def</span> <span class="nf">export_leco_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Exports data in LECO CSV format</span>
+
+<span class="sd">        :param file_name: File name</span>
+<span class="sd">        :type file_name: StringType</span>
+
+<span class="sd">        :return: none</span>
+<span class="sd">        :rtype: NoneType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_str</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;file_name&#39; is not a string&quot;</span><span class="p">)</span>
+
+        <span class="n">mass_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span>
+        <span class="n">time_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span>
+
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">open_for_writing</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+        <span class="c1"># Format is text header with:</span>
+        <span class="c1"># &quot;Scan&quot;,&quot;Time&quot;,...</span>
+        <span class="c1"># and the rest is &quot;TIC&quot; or m/z as text, i.e. &quot;50&quot;,&quot;51&quot;...</span>
+        <span class="c1"># The following lines are:</span>
+        <span class="c1"># scan_number,time,value,value,...</span>
+        <span class="c1"># scan_number is an int, rest seem to be fixed format floats.</span>
+        <span class="c1"># The format is 0.000000e+000</span>
+
+        <span class="c1"># write header</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">Scan</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\&quot;</span><span class="s2">Time</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">mass_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_number</span><span class="p">(</span><span class="n">ii</span><span class="p">):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;,</span><span class="se">\&quot;</span><span class="si">%d</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">ii</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error</span><span class="p">(</span><span class="s2">&quot;mass list datum not a number&quot;</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># windows CR/LF</span>
+
+        <span class="c1"># write lines</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">,</span><span class="si">%#.6e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="n">ii</span><span class="p">])):</span>
+                <span class="k">if</span> <span class="n">is_number</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]):</span>
+                    <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;,</span><span class="si">%#.6e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error</span><span class="p">(</span><span class="s2">&quot;datum not a number&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">close_for_writing</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntensityMatrix.import_leco_csv"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IntensityMatrix.import_leco_csv">[docs]</a>    <span class="k">def</span> <span class="nf">import_leco_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Imports data in LECO CSV format</span>
+
+<span class="sd">        :param file_name: File name</span>
+<span class="sd">        :type file_name: StringType</span>
+
+<span class="sd">        :return: Data as an IntensityMatrix</span>
+<span class="sd">        :rtype: pyms.GCMS.Class.IntensityMatrix</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_str</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;file_name&#39; not a string&quot;</span><span class="p">)</span>
+
+        <span class="n">lines_list</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">time_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mass_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Format is text header with:</span>
+        <span class="c1"># &quot;Scan&quot;,&quot;Time&quot;,...</span>
+        <span class="c1"># and the rest is &quot;TIC&quot; or m/z as text, i.e. &quot;50&quot;,&quot;51&quot;...</span>
+        <span class="c1"># The following lines are:</span>
+        <span class="c1"># scan_number,time,value,value,...</span>
+        <span class="c1"># scan_number is an int, rest seem to be fixed format floats.</span>
+        <span class="c1"># The format is 0.000000e+000</span>
+
+        <span class="n">num_mass</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">FIRST</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">HEADER</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">data_col</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">time_col</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># get each line</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines_list</span><span class="p">:</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">data_row</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">data_list</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                <span class="c1"># get each value in line</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_list</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&quot;&#39;</span><span class="p">)</span>  <span class="c1"># remove quotes (in header)</span>
+
+                    <span class="c1"># Get header</span>
+                    <span class="k">if</span> <span class="n">HEADER</span><span class="p">:</span>
+                        <span class="n">cols</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                                <span class="n">time_col</span> <span class="o">=</span> <span class="n">cols</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                                <span class="c1"># find 1st col with number as header</span>
+                                <span class="k">if</span> <span class="n">FIRST</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># assume &gt;1 mass</span>
+                                    <span class="n">data_col</span> <span class="o">=</span> <span class="n">cols</span>
+                                    <span class="c1"># assume time col is previous col</span>
+                                    <span class="k">if</span> <span class="n">time_col</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                                        <span class="n">time_col</span> <span class="o">=</span> <span class="n">cols</span> <span class="o">-</span><span class="mi">1</span>
+                                    <span class="n">FIRST</span> <span class="o">=</span> <span class="kc">False</span>
+                                <span class="n">mass_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                                <span class="n">num_mass</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                                <span class="k">pass</span>
+                    <span class="c1"># Get rest</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">cols</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="n">cols</span> <span class="o">==</span> <span class="n">time_col</span><span class="p">:</span>
+                                    <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                                <span class="k">elif</span> <span class="n">cols</span> <span class="o">&gt;=</span> <span class="n">data_col</span><span class="p">:</span>
+                                    <span class="n">data_row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                                <span class="k">pass</span>
+
+                <span class="c1"># check row length</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">HEADER</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_row</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_mass</span><span class="p">:</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_row</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: ignoring row&quot;</span><span class="p">)</span>
+
+                <span class="n">HEADER</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># check col lengths</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: number of data rows and time list length differ&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mass_list</span> <span class="o">=</span> <span class="n">mass_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span> <span class="o">=</span> <span class="n">time_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="c1"># Direct access for speed (DANGEROUS)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intensity_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__intensity_matrix</span></div></div>
+
+<span class="c1">## get_ms_at_time()</span>
+
+<div class="viewcode-block" id="IonChromatogram"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram">[docs]</a><span class="k">class</span> <span class="nc">IonChromatogram</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Models an ion chromatogram</span>
+
+<span class="sd">    An ion chromatogram is a set of intensities as a function of retention</span>
+<span class="sd">    time. This can can be either m/z channel intensities (for example, ion</span>
+<span class="sd">    chromatograms at m/z=65), or cumulative intensities over all measured</span>
+<span class="sd">    m/z. In the latter case the ion chromatogram is total ion chromatogram</span>
+<span class="sd">    (TIC).</span>
+
+<span class="sd">    The nature of an IonChromatogram object can be revealed by inspecting</span>
+<span class="sd">    the value of the attribute &#39;__mass&#39;. This is set to the m/z value of the</span>
+<span class="sd">    ion chromatogram, or to None for TIC.</span>
+
+<span class="sd">    :author: Lewis Lee</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IonChromatogram.__init__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">time_list</span><span class="p">,</span> <span class="n">mass</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param ia: Ion chromatogram intensity values</span>
+<span class="sd">        :type ia: numpy.array</span>
+<span class="sd">        :param time_list: A list of ion chromatogram retention times</span>
+<span class="sd">        :type time_list: ListType</span>
+<span class="sd">        :param mass: Mass of ion chromatogram (Null if TIC)</span>
+<span class="sd">        :type mass: IntType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ia</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;ia&#39; must be a numpy array&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ia</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Intensity array and time list differ in length&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span> <span class="o">=</span> <span class="n">ia</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span> <span class="o">=</span> <span class="n">time_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mass</span> <span class="o">=</span> <span class="n">mass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__time_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__calc_time_step</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IonChromatogram.__len__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the length of the IonChromatogram object</span>
+
+<span class="sd">        :return: Length of ion chromatogram</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="o">.</span><span class="n">size</span></div>
+    
+<div class="viewcode-block" id="IonChromatogram.__sub__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.__sub__">[docs]</a>    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Subtracts another IC from the current one</span>
+<span class="sd">        </span>
+<span class="sd">        :param other: Another IC</span>
+<span class="sd">        :type other: pyms.GCMS.IonChromatogram</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">ia_for_sub</span> <span class="o">=</span> <span class="n">Other</span><span class="o">.</span><span class="n">get_intensity_array</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">ia_for_sub</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+            
+
+<div class="viewcode-block" id="IonChromatogram.get_intensity_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_intensity_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_intensity_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns intensity at given index</span>
+
+<span class="sd">        :param ix: An index</span>
+<span class="sd">        :type ix: IntType</span>
+
+<span class="sd">        :return: Intensity value</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ix</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index out of bounds&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="IonChromatogram.get_intensity_array"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_intensity_array">[docs]</a>    <span class="k">def</span> <span class="nf">get_intensity_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the entire intensity array</span>
+
+<span class="sd">        :return: Intensity array</span>
+<span class="sd">        :rtype: numpy.ndarray</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span></div>
+
+<div class="viewcode-block" id="IonChromatogram.get_time_at_index"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_time_at_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_at_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns time at given index</span>
+
+<span class="sd">        :param ix: An index</span>
+<span class="sd">        :type ix: IntType</span>
+
+<span class="sd">        :return: Time value</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">ix</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index not an integer&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ix</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ix</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;index out of bounds&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="IonChromatogram.get_time_list"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_time_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the time list</span>
+
+<span class="sd">        :return: Time list</span>
+<span class="sd">        :rtype: ListType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span></div>
+    
+<div class="viewcode-block" id="IonChromatogram.get_mass"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_mass">[docs]</a>    <span class="k">def</span> <span class="nf">get_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the m/z channel of the IC</span>
+<span class="sd">        </span>
+<span class="sd">        :return: m/z channel of the IC</span>
+<span class="sd">        :rtype: intType</span>
+<span class="sd">        </span>
+<span class="sd">        :author: Sean O&#39;Callaghan</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;TIC has no m/z label&quot;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass</span></div>
+        
+
+<div class="viewcode-block" id="IonChromatogram.get_time_step"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_time_step">[docs]</a>    <span class="k">def</span> <span class="nf">get_time_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the time step</span>
+
+<span class="sd">        :return: Time step</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_step</span></div>
+
+    <span class="k">def</span> <span class="nf">__calc_time_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_list</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Calculates the time step</span>
+
+<span class="sd">        :param time_list: A list of retention times</span>
+<span class="sd">        :type time_list: ListType</span>
+
+<span class="sd">        :return: Time step value</span>
+<span class="sd">        :rtype: FloatType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">td_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">td</span> <span class="o">=</span> <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="n">td_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">td</span><span class="p">)</span>
+
+        <span class="n">td_array</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">td_list</span><span class="p">)</span>
+        <span class="n">time_step</span> <span class="o">=</span> <span class="n">td_array</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">time_step</span>
+
+<div class="viewcode-block" id="IonChromatogram.get_index_at_time"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.get_index_at_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_index_at_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns the nearest index corresponding to the given time</span>
+
+<span class="sd">        :param time: Time in seconds</span>
+<span class="sd">        :type time: FloatType</span>
+
+<span class="sd">        :return: Nearest index corresponding to given time</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Tim Erwin</span>
+<span class="sd">        :author: Milica Ng</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;time&#39; must be a number&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span> <span class="ow">or</span> <span class="n">time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;time </span><span class="si">%.2f</span><span class="s2"> is out of bounds (min: </span><span class="si">%.2f</span><span class="s2">, max: </span><span class="si">%.2f</span><span class="s2">)&quot;</span> <span class="o">%</span>
+                  <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__min_rt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span><span class="p">))</span>
+
+        <span class="n">time_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span>
+        <span class="n">time_diff_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__max_rt</span>
+        <span class="n">ix_match</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
+
+
+            <span class="n">time_diff</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">time</span><span class="o">-</span><span class="n">time_list</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">time_diff</span> <span class="o">&lt;</span> <span class="n">time_diff_min</span><span class="p">:</span>
+                <span class="n">ix_match</span> <span class="o">=</span> <span class="n">ix</span>
+                <span class="n">time_diff_min</span> <span class="o">=</span> <span class="n">time_diff</span>
+
+        <span class="k">return</span> <span class="n">ix_match</span></div>
+
+<div class="viewcode-block" id="IonChromatogram.is_tic"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.is_tic">[docs]</a>    <span class="k">def</span> <span class="nf">is_tic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Returns True if the ion chromatogram is a total ion</span>
+<span class="sd">            chromatogram (TIC), or False otherwise</span>
+
+<span class="sd">        :return: A boolean value indicating if the ion chromatogram</span>
+<span class="sd">            is a total ion chromatogram (True) or not (False)</span>
+<span class="sd">        :rtype: BooleanType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mass</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="IonChromatogram.set_intensity_array"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.set_intensity_array">[docs]</a>    <span class="k">def</span> <span class="nf">set_intensity_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ia</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Sets the value for the intensity array</span>
+
+<span class="sd">        :param ia: An array of new intensity values</span>
+<span class="sd">        :type ia: numpy.ndarray</span>
+
+<span class="sd">        :return: none</span>
+<span class="sd">        :rtype: NoneType</span>
+
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span> <span class="o">=</span> <span class="n">ia</span></div>
+
+
+<div class="viewcode-block" id="IonChromatogram.write"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.IonChromatogram.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Writes the ion chromatogram to the specified file</span>
+
+<span class="sd">        :param file_name: Output file name</span>
+<span class="sd">        :type file_name: StringType</span>
+<span class="sd">        :param minutes: A boolean value indicating whether to write</span>
+<span class="sd">            time in minutes</span>
+<span class="sd">        :type minutes: BooleanType</span>
+
+<span class="sd">        :return: none</span>
+<span class="sd">        :rtype: NoneType</span>
+
+<span class="sd">        :author: Lewis Lee</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_str</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;file_name&#39; must be a string&quot;</span><span class="p">)</span>
+
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">open_for_writing</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+        <span class="n">time_list</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time_list</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">minutes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
+                <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">/</span><span class="mf">60.0</span>
+
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_list</span><span class="p">)):</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%8.4f</span><span class="s2"> </span><span class="si">%#.6e</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time_list</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ia</span><span class="p">[</span><span class="n">ii</span><span class="p">]))</span>
+
+        <span class="n">close_for_writing</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="MassSpectrum"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.MassSpectrum">[docs]</a><span class="k">class</span> <span class="nc">MassSpectrum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :summary: Models a binned mass spectrum</span>
+
+<span class="sd">    :author: Andrew Isaac</span>
+<span class="sd">    :author: Qiao Wang</span>
+<span class="sd">    :author: Vladimir Likic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MassSpectrum.__init__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.MassSpectrum.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass_list</span><span class="p">,</span> <span class="n">intensity_list</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Initialise the MassSpectrum</span>
+
+<span class="sd">        :param mass_list: List of binned masses</span>
+<span class="sd">        :type mass_list: ListType</span>
+<span class="sd">        :param intensity_list: List of binned intensities</span>
+<span class="sd">        :type intensity_list: ListType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">mass_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">)</span> <span class="ow">or</span> \
+           <span class="ow">not</span> <span class="n">is_number</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;intensity_list&#39; must be a list of numbers&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity_list</span><span class="p">):</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;&#39;mass_list&#39; is not the same size as &#39;intensity_list&#39;&quot;</span><span class="p">)</span>
+
+        <span class="c1">#TODO: should these be public, or accessed through methods???</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass_list</span> <span class="o">=</span> <span class="n">mass_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass_spec</span> <span class="o">=</span> <span class="n">intensity_list</span></div>
+
+<div class="viewcode-block" id="MassSpectrum.__len__"><a class="viewcode-back" href="../../../pyms/GCMS/GCMS.html#pyms.GCMS.Class.MassSpectrum.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :summary: Length of the MassSpectrum</span>
+
+<span class="sd">        :return: Length of the MassSpectrum (Number of bins)</span>
+<span class="sd">        :rtype: IntType</span>
+
+<span class="sd">        :author: Andrew Isaac</span>
+<span class="sd">        :author: Qiao Wang</span>
+<span class="sd">        :author: Vladimir Likic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mass_list</span><span class="p">)</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright PyMassSpec Developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

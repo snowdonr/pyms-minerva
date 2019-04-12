@@ -1,0 +1,12 @@
+******
+30c
+******
+
+Build integer mass intensity matrix using bin boundary of
+-0.3 and +0.7.
+
+:download:`Download Source <proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:
