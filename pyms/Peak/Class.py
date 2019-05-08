@@ -43,7 +43,8 @@ class Peak:
     :author: Andrew Isaac
     """
 
-    def __init__(self, rt=0.0, ms=None, minutes=False):
+    # DK: added the is_outlier flag
+    def __init__(self, rt=0.0, ms=None, minutes=False, outlier=False):
 
         """
         :param rt: Retention time
@@ -54,7 +55,7 @@ class Peak:
             is in minutes; if False retention time is in seconds
         :type minutes: BooleanType
         """
-
+        # TODO: Add info on outlier option
         if not is_number(rt):
             error("'rt' must be a number")
 
@@ -67,7 +68,7 @@ class Peak:
             rt = rt*60.0
 
         self.__minutes = minutes
-
+        self.isoutlier = outlier     # DK
         # basic peak attributes
         self.__rt = float(rt)
         # these two attributes are required for
@@ -537,3 +538,7 @@ class Peak:
 
         # TEST: to test if this speeds things up
         self.mass_spec = self.__mass_spectrum.mass_spec
+
+    # DK
+    def check_outlier(self):
+        return self.isoutlier

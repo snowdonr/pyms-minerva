@@ -88,6 +88,74 @@ def composite_peak(peak_list, minutes=False):
     else:
         return None
 
+# DK: I edited this function to avoid using RT outliers in the calculation
+def composite_peak_dk(peak_list, minutes=False):
+
+    """
+    @summary: Create a peak that consists of a composite spectrum from all
+        spectra in the list of peaks
+
+    @param peak_list: A list of peak objects
+    @type peak_list: ListType
+    @param minutes: Return retention time as minutes
+    @type minutes: BooleanType
+
+    @return: Peak Object with combined mass spectra of 'peak_list'
+    @type: pyms.Peak.Class.Peak
+
+    @author: Andrew Isaac
+    @author: David Kainer
+    """
+
+    first = True
+    count = 0
+    avg_rt = 0
+    new_ms = None
+
+    # DK: first mark peaks in the list that are outliers by RT, but only if there are more than 3 peaks in the list
+    rts = []
+    if len(peak_list) > 3:
+        for peak in peak_list:
+            rts.append( peak.get_rt() )
+
+        is_outlier = median_outliers(rts)
+
+        for i, val in enumerate(is_outlier):
+            if val:
+                peak_list[i].isoutlier = True
+
+
+    # DK: the average RT and average mass spec for the compo peak is now calculated from peaks that are NOT outliers.
+    # This should improve the ability to order peaks and figure out badly aligned entries
+
+    for peak in peak_list:
+        if peak is not None and peak.check_outlier() == False:
+            ms = peak.get_mass_spectrum()
+            spec = numpy.array(ms.mass_spec, dtype='d')
+            if first:
+                avg_spec = numpy.zeros(len(ms.mass_spec), dtype='d')
+                mass_list = ms.mass_list
+                first = False
+            # scale all intensities to [0,100]
+            max_spec = max(spec)/100.0
+            if max_spec > 0:
+                spec = spec/max_spec
+            else:
+                spec = spec*0
+            avg_rt += peak.get_rt()
+            avg_spec += spec
+            count += 1
+    if count > 0:
+        avg_rt = avg_rt/count
+        if minutes == True:
+            avg_rt = avg_rt/60.0
+        avg_spec = avg_spec/count
+        avg_spec = avg_spec.tolist()  # list more compact than ndarray
+        new_ms = MassSpectrum(mass_list, avg_spec)
+        return Peak(avg_rt, new_ms, minutes)
+    else:
+        return None
+
 def fill_peaks(data, peak_list, D, minutes=False):
 
     """
@@ -195,3 +263,41 @@ def fill_peaks(data, peak_list, D, minutes=False):
         new_peak_list.append(Peak(bestrt, ms, minutes))
 
     return new_peak_list
+
+
+# added by DK. courtesy of
+# http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data
+def mad_based_outlier(data, thresh=3.5):
+    data = numpy.array(data)
+    if len(data.shape) == 1:
+        data = data[:, None]
+    median = numpy.nanmedian(data)
+    diff = numpy.nansum((data - median) ** 2, dtype=float, axis=-1)
+    diff = numpy.sqrt(diff)
+    med_abs_deviation = numpy.nanmedian(diff)
+    
+    modified_z_score = 0.6745 * diff / med_abs_deviation
+    
+    return modified_z_score > thresh
+
+
+# added by DK. courtesy of
+# http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data
+def percentile_based_outlier(data, threshold=95):
+    data = numpy.array(data)
+    diff = (100 - threshold) / 2.0
+    # nanpercentile only works in numpy 1.9 and up
+    # minval, maxval = numpy.nanpercentile(data, [diff, 100 - diff])
+    data = numpy.array(data)
+    minval, maxval = numpy.percentile(numpy.compress(numpy.isnan(data) == False, data), (diff, 100 - diff))
+    return (data < minval) | (data > maxval)
+
+
+# added by DK. courtesy of
+# http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list
+def median_outliers(data, m=2.5):
+    data = numpy.array(data)
+    d = numpy.abs(data - numpy.nanmedian(data))
+    mdev = numpy.nanmedian(d)
+    s = d / mdev if mdev else 0.
+    return (s > m)

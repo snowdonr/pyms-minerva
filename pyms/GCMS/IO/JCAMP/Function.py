@@ -112,3 +112,86 @@ def JCAMP_reader(file_name):
     data = GCMS_data(time_list, scan_list)
 
     return data
+
+def JCAMP_OpenChrom_reader(file_name):
+
+    """
+    :summary: reader for JCAMP DX files produced by OpenChrom,
+    produces GC-MS data object
+
+    :author: David Kainer
+    """
+
+    if not is_str(file_name):
+        error("'file_name' not a string")
+
+    print(" -> Reading JCAMP file '%s'" % (file_name))
+    lines_list = open(file_name,'r')
+    data = []
+    page_idx = 0
+    xydata_idx = 0
+    time_list = []
+    scan_list = []
+
+    for line in lines_list:
+        if not len(line.strip()) == 0:
+            prefix = line.find('#')
+            # key word or information
+            if prefix == 0:
+                fields = line.split('=')
+                #print(" -> fields found: ", fields)
+                if fields[0].find("##RETENTION_TIME") >= 0:
+                    time = float(fields[1].strip()) #rt for the scan to be submitted
+                #    print(" -> RT: ", str(time))
+                    time_list.append(time)
+                    page_idx = page_idx + 1
+                elif fields[0].find("##XYDATA") >= 0:
+                    xydata_idx = xydata_idx + 1
+            # data
+            elif prefix == -1:
+                if page_idx > 1 or xydata_idx > 1:
+                    if len(data) % 2 == 1:
+                        error("data not in pair !")
+                    mass = []
+                    intensity = []
+                    for i in range(len(data) // 2):
+                        mass.append(data[i * 2])
+                        intensity.append(data[i * 2 + 1])
+                    if not len(mass) == len(intensity):
+                        error("len(mass) is not equal to len(intensity)")
+                    scan_list.append(Scan(mass, intensity))
+                    data = []
+                    data_sub = line.strip().split(',')
+                    for item in data_sub:
+                        if not len(item.strip()) == 0:
+                            data.append(float(item.strip()))
+                    if page_idx > 1:
+                        page_idx = 1
+                    if xydata_idx > 1:
+                        xydata_idx = 1
+                else:
+                    data_sub = line.strip().split(',')
+                    for item in data_sub:
+                        if not len(item.strip()) == 0:
+                            data.append(float(item.strip()))
+
+    if len(data) % 2 == 1:
+        error("data not in pair !")
+    # get last scan
+    mass = []
+    intensity = []
+    for i in range(len(data) // 2):
+        mass.append(data[i * 2])
+        intensity.append(data[i * 2 + 1])
+
+    if not len(mass) == len(intensity):
+        error("len(mass) is not equal to len(intensity)")
+    scan_list.append(Scan(mass, intensity))
+
+    # sanity check
+    if not len(time_list) == len(scan_list):
+        error("number of time points does not equal the number of scans")
+
+    data = GCMS_data(time_list, scan_list)
+
+    return data

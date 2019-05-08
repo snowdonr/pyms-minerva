@@ -24,11 +24,19 @@ Classes for peak alignment by dynamic programming
 
 import copy
 import numpy
+import math
+import operator
 
 try:
     from Pycluster import treecluster
 except:
-    from Bio.Cluster import treecluster
+    try:
+        from Bio.Cluster import treecluster
+    except:
+        import sys
+        print("Neither PyCluster or BioPython is installed.")
+        print("Please install one of them and try again.")
+        sys.exit(1)
 
 from pyms.Utils.Error import error, stop
 from pyms.Utils.IO import dump_object
@@ -38,6 +46,15 @@ from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import composite_peak
 
 from pyms.Peak.List.DPA import Function
+from pyms.Peak.List.Function import percentile_based_outlier, mad_based_outlier, median_outliers
+
+from openpyxl import Workbook
+from openpyxl.comments import Comment
+from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
+from openpyxl.utils import *
+
+from openpyxl.styles import PatternFill
+
 
 # If psyco is installed, use it to speed up running time
 try:
@@ -79,7 +96,6 @@ class Alignment(object):
             self.peakpos = [ copy.deepcopy(expr.get_peak_list()) ]
             self.peakalgt = numpy.transpose(self.peakpos)
             self.expr_code =  [ expr.get_expr_code() ]
-            print(self.expr_code)
             self.similarity = None
 
     def __len__(self):
@@ -99,8 +115,7 @@ class Alignment(object):
         """
         :summary: Filters alignment positions that have less peaks than 'min_peaks'
 
-            
-            This function is useful only for within state alignment.
+        This function is useful only for within state alignment.
 
         :param min_peaks: Minimum number of peaks required for the alignment
             position to survive filtering
@@ -118,6 +133,268 @@ class Alignment(object):
 
         self.peakalgt = filtered_list
         self.peakpos = numpy.transpose(self.peakalgt)
+
+
+    def write_csv_dk(self, rt_file_name, area_file_name, minutes=True):
+
+        """
+        :summary: Writes the alignment to CSV files, but excluded outliers from the calculation of composite peak
+
+        This function writes two files: one containing the alignment of peak
+        retention times and the other containing the alignment of peak areas.
+
+        :param rt_file_name: The name for the retention time alignment file
+        :type rt_file_name: StringType
+        :param area_file_name: The name for the areas alignment file
+        :type area_file_name: StringType
+        :param minutes: An optional indicator whether to save retention times
+            in minutes. If False, retention time will be saved in seconds
+        :type minutes: BooleanType
+
+        :author: David Kainer
+        """
+
+        try:
+            fp1 = open(rt_file_name, "w")
+            fp2 = open(area_file_name, "w")
+        except IOError:
+            error("Cannot open output file for writing")
+
+        # create header
+        header = '"UID","RTavg"'
+        for item in self.expr_code:
+            expr_code = ( '"%s"' % item )
+            header = header + "," + expr_code
+        header = header + "\n"
+
+        # write headers
+        fp1.write(header)
+        fp2.write(header)
+
+        # for each alignment position write alignment's peak and area
+        for peak_idx in range(len(self.peakpos[0])):    # loop through peak lists (rows)
+
+            rts = []
+            areas = []
+            new_peak_list = []
+
+            for align_idx in range(len(self.peakpos)):   # loops through samples (columns)
+                peak = self.peakpos[align_idx][peak_idx]
+
+                if peak is not None:
+
+                    if minutes:
+                        rt = peak.get_rt()/60.0
+                    else:
+                        rt = peak.get_rt()
+
+                    rts.append(rt)
+                    areas.append(peak.get_area())
+                    new_peak_list.append(peak)
+
+                else:
+                    rts.append(numpy.nan)
+                    areas.append(None)
+
+            compo_peak = composite_peak(new_peak_list, minutes)
+            peak_UID = compo_peak.get_UID()
+            peak_UID_string = ( '"%s"' % peak_UID)
+
+            # write to retention times file
+            fp1.write(peak_UID_string)
+            fp1.write(",%.3f" % float(compo_peak.get_rt()/60))
+
+            for rt in rts:
+                if numpy.isnan(rt):
+                    fp1.write(",NA")
+                else:
+                    fp1.write(",%.3f" % rt)
+            fp1.write("\n")
+
+            # write to peak areas file
+            fp2.write(peak_UID_string)
+            fp2.write(",%.3f" % float(compo_peak.get_rt()/60))
+            for area in areas:
+                if area == None:
+                    fp2.write(",NA")
+                else:
+                    fp2.write(",%.0f" % area)
+            fp2.write("\n")
+
+        fp1.close()
+        fp2.close()
+
+    def write_transposed_output(self, excel_file_name, minutes=True):
+        wb = Workbook()
+        ws1 = wb.create_sheet(title='Aligned RT')
+        ws2 = wb.create_sheet(title='Aligned Area')
+
+        ws1['A1'] = "Peak"
+        ws1['A2'] = "RTavg"
+
+        ws2['A1'] = "Peak"
+        ws2['A2'] = "RTavg"
+
+        style_outlier = PatternFill(fill_type="solid", fgColor="FFAE19", bgColor="FFAE19")
+
+
+        # write column with sample IDs
+        for i,item in enumerate(self.expr_code):
+            currcell = ws1.cell( column = 1, row = i+3, value= "%s" % item )
+            currcell = ws2.cell( column = 1, row = i+3, value= "%s" % item )
+
+        # for each alignment position write alignment's peak and area
+        for peak_idx in range(len(self.peakpos[0])):    # loop through peak lists
+
+            new_peak_list = []  # this will contain a list of tuples of form (peak, col, row), but only non-NA peaks
+            cell_col, cell_row = 0,0
+
+            for align_idx in range(len(self.peakpos)):   # loops through samples
+                peak = self.peakpos[align_idx][peak_idx]
+                cell_col = 2+peak_idx
+                cell_row = 3+align_idx
+
+                if peak is not None:
+
+                    if minutes:
+                        rt = peak.get_rt()/60.0
+                    else:
+                        rt = peak.get_rt()
+
+                    area = peak.get_area()
+
+                    #these are the col,row coords of the peak in the output matrix
+                    new_peak_list.append((peak,cell_col,cell_row))
+
+                    # write the RT into the cell in the excel file
+                    currcell1 = ws1.cell( column = cell_col, row = cell_row, value=round(rt, 3) )
+                    currcell2 = ws2.cell( column = cell_col, row = cell_row, value=round(area, 3) )
+
+                    # get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them
+                    ia = peak.get_ion_areas()
+                    ia.update( (mass, int(intensity/1000)) for mass, intensity in ia.items() )
+                    sorted_ia = sorted(ia.iteritems(), key=operator.itemgetter(1), reverse=True)
+
+                    # write the peak area and mass spec into the comment for the cell
+                    comment = Comment("Area: %.0f | MassSpec: %s" % (area,sorted_ia), 'dave')
+                    currcell1.comment = comment
+
+
+                else:
+                    rt = 'NA'
+                    area = 'NA'
+                    currcell1 = ws1.cell( column = cell_col, row = cell_row, value='NA' )
+                    currcell2 = ws2.cell( column = cell_col, row = cell_row, value='NA' )
+                    comment = Comment("Area: NA", 'dave')
+                    currcell1.comment = comment
+
+
+            compo_peak      = composite_peak( list(p[0] for p in new_peak_list), minutes)   # this method will create the compo peak, aqnd also mark outlier peaks with a bool isoutlier
+            peak_UID        = compo_peak.get_UID()
+            peak_UID_string = ( '"%s"' % peak_UID)
+
+            currcell = ws1.cell( column = 2+peak_idx, row = 1, value = peak_UID_string )
+            currcell = ws1.cell( column = 2+peak_idx, row = 2, value = "%.3f" % float(compo_peak.get_rt()/60) )
+            currcell = ws2.cell( column = 2+peak_idx, row = 1, value = peak_UID_string )
+            currcell = ws2.cell( column = 2+peak_idx, row = 2, value = "%.3f" % float(compo_peak.get_rt()/60) )
+
+            # highlight outlier cells in the current peak list
+            for p in new_peak_list:
+                if p[0].isoutlier:
+                    #ws[ get_column_letter(p[1]) + str(p[2]) ].style = style_outlier
+                    ws1.cell(column = p[1], row = p[2]).fill = style_outlier
+                    ws2.cell(column = p[1], row = p[2]).fill = style_outlier
+
+
+        wb.save(excel_file_name)
+
+
+
+    def write_excel(self, excel_file_name, minutes=True):
+        """
+        @summary: Writes the alignment to an excel file, with colouring showing possible mis-alignments
+
+        @param excel_file_name: The name for the retention time alignment file
+        @type excel_file_name: StringType
+        @param minutes: An optional indicator whether to save retention times
+            in minutes. If False, retention time will be saved in seconds
+        @type minutes: BooleanType
+
+        @author: David Kainer
+        """
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Aligned RT"
+
+        # create header row
+        ws['A1'] = "UID"
+        ws['B1'] = "RTavg"
+        for i,item in enumerate(self.expr_code):
+            currcell = ws.cell( row = 1, column = i+3, value= "%s" % item )
+            comment = Comment('sample '+str(i), 'dave')
+            currcell.comment = comment
+
+        # for each alignment position write alignment's peak and area
+        for peak_idx in range(len(self.peakpos[0])):    # loop through peak lists (rows)
+
+            new_peak_list = []
+
+            for align_idx in range(len(self.peakpos)):   # loops through samples (columns)
+                peak = self.peakpos[align_idx][peak_idx]
+
+                if peak is not None:
+
+                    if minutes:
+                        rt = peak.get_rt()/60.0
+                    else:
+                        rt = peak.get_rt()
+
+                    area = peak.get_area()
+                    new_peak_list.append(peak)
+
+                    # write the RT into the cell in the excel file
+                    currcell = ws.cell( row = 2+peak_idx, column = 3+align_idx, value=round(rt, 3) )
+
+                    # get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them
+                    ia = peak.get_ion_areas()
+                    ia.update( (mass, int(intensity/1000)) for mass, intensity in ia.items() )
+                    sorted_ia = sorted(ia.iteritems(), key=operator.itemgetter(1), reverse=True)
+
+                    # write the peak area and mass spec into the comment for the cell
+                    comment = Comment("Area: %.0f | MassSpec: %s" % (area,sorted_ia), 'dave')
+                    currcell.number_format
+                    currcell.comment = comment
+
+                else:
+                    rt = 'NA'
+                    area = 'NA'
+                    currcell = ws.cell( row = 2+peak_idx, column = 3+align_idx, value='NA' )
+                    comment = Comment("Area: NA", 'dave')
+                    currcell.number_format
+                    currcell.comment = comment
+
+            compo_peak      = composite_peak(new_peak_list, minutes)
+            peak_UID        = compo_peak.get_UID()
+            peak_UID_string = ( '"%s"' % peak_UID)
+
+            currcell = ws.cell( row = 2+peak_idx, column = 1, value = peak_UID_string )
+            currcell = ws.cell( row = 2+peak_idx, column = 2, value = "%.3f" % float(compo_peak.get_rt()/60) )
+
+        # colour the cells in each row based on their RT percentile for that row
+        i = 0
+        for row in ws.rows:
+            i += 1
+            cell_range = ("{0}"+str(i)+":{1}"+str(i)).format(utils.get_column_letter(3), utils.get_column_letter(len(row)))
+            ws.conditional_formatting.add(cell_range, ColorScaleRule(start_type='percentile', start_value=1, start_color='E5FFCC',
+                                                               mid_type='percentile', mid_value=50, mid_color='FFFFFF',
+                                                               end_type='percentile', end_value=99, end_color='FFE5CC'))
+        wb.save(excel_file_name)
+
+
+
+
+
+
 
     def write_csv(self, rt_file_name, area_file_name, minutes=True):
 
@@ -335,6 +612,80 @@ class Alignment(object):
                 
         fp.close()
 
+    def write_ion_areas_csv(self, ms_file_name, minutes=True):
+        """
+        :summary: Write Ion Areas to CSV File
+
+        :author: David Kainer
+
+        """
+        # TODO: Input and output types
+        try:
+            fp1 = open(ms_file_name, "w")  # dk
+        except IOError:
+            error("Cannot open output file for writing")
+    
+        # create header
+        header = '"UID"|"RTavg"'
+        for item in self.expr_code:
+            expr_code = ('"%s"' % item)
+            header = header + "|" + expr_code
+        header = header + "\n"
+    
+        fp1.write(header)  # dk
+    
+        for peak_idx in range(len(self.peakpos[0])):
+
+            rts = []
+            ias = []
+            new_peak_list = []
+            avgrt = 0
+            countrt = 0
+
+            for align_idx in range(len(self.peakpos)):
+
+                peak = self.peakpos[align_idx][peak_idx]
+
+                if peak is not None:
+
+                    if minutes:
+                        rt = peak.get_rt() / 60.0
+                    else:
+                        rt = peak.get_rt()
+
+                    rts.append(rt)
+                
+                    ia = peak.get_ion_areas()
+                    ia.update((mass, math.floor(intensity)) for mass, intensity in ia.items())
+                    sorted_ia = sorted(ia.iteritems(), key=operator.itemgetter(1), reverse=True)
+                    ias.append(sorted_ia)
+                    new_peak_list.append(peak)
+                
+                    avgrt = avgrt + rt
+                    countrt = countrt + 1
+                else:
+                    rts.append(None)
+                    ias.append(None)
+
+            if countrt > 0:
+                avgrt = avgrt / countrt
+
+            compo_peak = composite_peak(new_peak_list, minutes)
+            peak_UID = compo_peak.get_UID()
+            peak_UID_string = ('"%s"' % peak_UID)
+
+            # write to ms file
+            fp1.write(peak_UID_string)
+            fp1.write("|%.3f" % avgrt)
+            for ia in ias:
+                if ia == None:
+                    fp1.write("|NA")
+                else:
+                    fp1.write("|%s" % ia)
+            fp1.write("\n")
+
+        fp1.close()
+
     def common_ion(self):
         """
         :summary: Calculates a common ion among the
@@ -416,9 +767,9 @@ class Alignment(object):
         top_ion_list = []
 
         for entry in list_of_top_ion_dicts:
-            # This was in the Repo
+            # This was in the Repo and commented in easyGC
             #top_ion_list.append(self.get_highest_mz_ion(entry))
-            # This was in the version being used by GSMatch
+            # This was in the version being used by GSMatch and easyGC
             top_ion_list.append(max(entry, key=entry.get))
             # TODO: Change over to the new version
 
@@ -437,12 +788,8 @@ class Alignment(object):
         :return ion: The ion to use
         :rtype: intType
         """
-
-
         max_occurances = max(ion_dict.values())
-        
         most_freq_mzs = []
-
         for key, value in ion_dict.iteritems():
             if value == max_occurances:
                 most_freq_mzs.append(key)
@@ -703,6 +1050,7 @@ class PairwiseAlignment(object):
 
         sim_matrix = numpy.zeros((n,n), dtype='f')
 
+        # Could we parallelize this pairwise alignment loop??
         for i in range(n - 1):
             for j in range(i + 1, n):
                 ma = Function.align(algts[i], algts[j], D, gap)

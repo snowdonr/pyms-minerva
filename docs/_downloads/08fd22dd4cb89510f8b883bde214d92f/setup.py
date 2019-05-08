@@ -18,6 +18,9 @@ alignment by dynamic programming, and gap-filling in Gas Chromatography Mass Spe
 	        "scipy >= 1.2.1",
 	        "pymzml >= 2.2.1",
 			"matplotlib >= 3.0.2",
+			"openpyxl >= 2.6.2",
+			"netCDF4 >= 1.5.0",
+
         	],
 )
 

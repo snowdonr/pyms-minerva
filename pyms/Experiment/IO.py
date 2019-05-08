@@ -60,7 +60,7 @@ def load_expr(file_name):
 def store_expr(file_name, expr):
 
     """
-    :summary: stores an expriment to a file
+    :summary: stores an experiment to a file
 
     :param file_name: The name of the file
     :type file_name: StringType

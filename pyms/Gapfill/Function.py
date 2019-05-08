@@ -65,6 +65,7 @@ def mp_finder(inputmatrix):
 
     try:
         ci_pos = inputmatrix[0].index(' "Quant Ion"')
+        print("found Quant Ion position:", ci_pos)
     except ValueError:
         ci_pos = inputmatrix[0].index('"Quant Ion"')
     
@@ -218,6 +219,8 @@ def missing_peak_finder(sample, filename, points=13, null_ions=[73, 147],\
             ia = ci_ion_chrom.get_intensity_array().tolist()
             area, left, right, l_share, r_share = ion_area(ia, apex, 0)
             areas.append(area)
+            
+            
         ########################
         areas.sort()
         if len(areas)>0:
@@ -270,7 +273,7 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
         rt_list.append(rt)
         
     
-    #print rt_list
+    #print(rt_list)
 
     #start setting up the output file
     invert_new_matrix = []

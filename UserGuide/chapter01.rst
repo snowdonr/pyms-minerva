@@ -35,14 +35,14 @@ command, such as ``py`` on Windows.
 Installation with pip
 ======================
 
-The latest package can be downloaded :download:`here <../dist/PyMassSpec-1.0.0.tar.gz>`
+The latest source package can be downloaded :download:`here <../dist/PyMassSpec-2.1.0.tar.gz>`
 
 The recommended installation method is to use ``pip``.
 PyMassSpec, NumPy, SciPy and matplotlib, can be installed with the following command:
 
 .. code-block:: bash
 
-    $ python3 -m pip --user install PyMassSpec-1.0.0.tar.gz
+    $ python3 -m pip --user install PyMassSpec
 
 * The package NumPy provides numerical capabilities to Python.
 

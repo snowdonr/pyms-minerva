@@ -52,7 +52,7 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
     :param peak: The Peak object
     :type peak: pyms.Peak.Class.Peak
     :param single_ion: whether single ion areas should be returned
-    :type singe_ion: BooleanType
+    :type single_ion: BooleanType
     :param max_bound: Optional value to limit size of detected bound
     :type max_bound: IntType
 

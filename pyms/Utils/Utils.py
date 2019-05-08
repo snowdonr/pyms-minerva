@@ -162,7 +162,7 @@ def is_boolean(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,boolean):
+    if isinstance(arg,bool):
         return True
     else:
         return False 
