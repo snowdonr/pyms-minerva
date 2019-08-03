@@ -1,0 +1,1 @@
+.. include:: ../../pyms-test/A1.rst

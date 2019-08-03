@@ -41,15 +41,6 @@ web                = github_url = f"https://github.com/{github_username}/PyMassS
 
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>,
 
-install_requires   = [
-	        "numpy >= 1.16.2",
-	        "scipy >= 1.2.1",
-	        "pymzml >= 2.2.1",
-			"matplotlib >= 3.0.2",
-			"openpyxl >= 2.6.2",
-			"netCDF4 >= 1.5.0",
-        	]
-
 
 import os.path
 def get_srcdir():
@@ -63,6 +54,9 @@ def read(*rnames):
 
 # Get info from files; set: long_description
 long_description   = ( read("README.rst") + '\n' )
+
+install_requires   = read("requirements.txt").split("\n")
+
 
 classifiers = [
 	# "Development Status :: 4 - Beta",

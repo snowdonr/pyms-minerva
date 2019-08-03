@@ -35,14 +35,18 @@ command, such as ``py`` on Windows.
 Installation with pip
 ======================
 
-The latest source package can be downloaded :download:`here <../dist/PyMassSpec-2.1.0.tar.gz>`
+.. The latest source package can be downloaded :download:`here <../dist/PyMassSpec-2.1.0.tar.gz>`
 
 The recommended installation method is to use ``pip``.
-PyMassSpec, NumPy, SciPy and matplotlib, can be installed with the following command:
+PyMassSpec can be installed with the following command:
 
 .. code-block:: bash
 
     $ python3 -m pip --user install PyMassSpec
+
+This will also install the following dependencies:
+
+.. literalinclude:: ../requirements.txt
 
 * The package NumPy provides numerical capabilities to Python.
 
@@ -59,6 +63,9 @@ PyMassSpec, NumPy, SciPy and matplotlib, can be installed with the following com
 
     Further information can be found on the matplotlib website: https://matplotlib.org/
 
+* The package BioPython provides an alternative to Pycluster, which is used for peak alignment.
+
+    Further information can be found on the BioPython website: https://biopython.org/
 
 Additional Libraries
 ====================
@@ -75,6 +82,8 @@ For further information see http://unidata.github.io/netcdf4-python/netCDF4/inde
 
 Package 'Pycluster' (required for peak alignment by dynamic programming)
 -------------------------------------------------------------------------
+
+.. Attention:: Pycluster is only required if BioPython is not installed
 
 The peak alignment by dynamic programming is located in the subpackage
 :mod:`pyms.Peak.List.DPA`. This subpackage uses the Python package 'Pycluster_'
