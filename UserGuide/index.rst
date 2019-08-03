@@ -1,4 +1,4 @@
-.. include:: README.rst
+.. include:: ../README.rst
 
 
 View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.

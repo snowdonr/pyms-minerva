@@ -1,27 +1,24 @@
+#!/usr/bin/env python
+"""Setup script"""
+
+from __pkginfo__ import \
+    author,           author_email,       install_requires,          \
+    license,          long_description,   classifiers,               \
+    entry_points,     modname,            py_modules,                \
+    short_desc,       VERSION,            web
+
 from setuptools import setup, find_packages
-
-from pyms import name, __version__, __maintainer_email__, __url__
-
 setup(
-	name=name,
-	version=__version__,
-    author='Dominic Davis-Foster',
-	author_email=__maintainer_email__,
-	packages=find_packages(),
-	license="GNU General Public License v2.0",
-	url=__url__,
-	description='Python Toolkit for Mass Spectrometry',
-	long_description="""PyMassSpec is a collection of PyMS libraries which can be used to perform peak picking,
-alignment by dynamic programming, and gap-filling in Gas Chromatography Mass Spectrometry experiments.""",
-	install_requires=[
-	        "numpy >= 1.16.2",
-	        "scipy >= 1.2.1",
-	        "pymzml >= 2.2.1",
-			"matplotlib >= 3.0.2",
-			"openpyxl >= 2.6.2",
-			"netCDF4 >= 1.5.0",
-
-        	],
-)
-
-# Original Author Sean O'Callaghan <spoc@unimelb.edu.au>,
+       author             = author,
+       author_email       = author_email,
+       classifiers        = classifiers,
+       description        = short_desc,
+       entry_points       = entry_points,
+       install_requires   = install_requires,
+       license            = license,
+       long_description   = long_description,
+       name               = modname,
+       packages           = find_packages(),
+       py_modules         = py_modules,
+       url                = web,
+       version            = VERSION)

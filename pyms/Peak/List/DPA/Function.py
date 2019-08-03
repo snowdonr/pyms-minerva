@@ -79,7 +79,7 @@ def align_with_tree(T, min_peaks=1):
     total = len(T.tree)
     index = 0
 
-    for node in T.tree:
+    for node in T.tree[:]:
         index = index - 1
         As[index] = align(As[node.left], As[node.right], T.D, T.gap)
         total = total - 1

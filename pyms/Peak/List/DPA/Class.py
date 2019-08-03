@@ -22,6 +22,7 @@ Classes for peak alignment by dynamic programming
  #                                                                           #
  #############################################################################
 
+import os
 import copy
 import numpy
 import math
@@ -416,7 +417,12 @@ class Alignment(object):
         :author: Andrew Isaac
         :author: Vladimir Likic
         """
-
+        
+        if not os.path.isdir(os.path.dirname(rt_file_name)):
+            os.makedirs(os.path.dirname(rt_file_name))
+        if not os.path.isdir(os.path.dirname(area_file_name)):
+            os.makedirs(os.path.dirname(area_file_name))
+        
         try:
             fp1 = open(rt_file_name, "w")
             fp2 = open(area_file_name, "w")
