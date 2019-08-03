@@ -43,6 +43,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     :caption: Tests and Examples
 
     pyms-test/introduction
+    pyms-test/data-files
     pyms-test/20a/20a
     pyms-test/20b/20b
     pyms-test/20c/20c
