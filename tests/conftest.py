@@ -16,7 +16,7 @@ from copy import deepcopy
 
 @pytest.fixture(scope="session")
 def data():
-	return JCAMP_reader(os.path.join("data","ELEY_1_SUBTRACT.JDX"))
+	return JCAMP_reader(os.path.join("tests", "data","ELEY_1_SUBTRACT.JDX"))
 
 
 @pytest.fixture(scope="session")
