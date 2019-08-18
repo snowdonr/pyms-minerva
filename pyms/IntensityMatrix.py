@@ -273,7 +273,7 @@ class IntensityMatrix(object):
 		"""
 		
 		if not isinstance(ix, int):
-			raise TypeError("index not an integer")
+			raise TypeError("'ix' must be an an integer")
 		
 		if not isinstance(ic, IonChromatogram):
 			raise TypeError("'ic' must be an IonChromaogram object")
@@ -315,7 +315,7 @@ class IntensityMatrix(object):
 		"""
 		
 		if not isinstance(ix, int):
-			raise TypeError("'ix must be an integer")
+			raise TypeError("'ix' must be an integer")
 		
 		ia = []
 		for i in range(len(self.__intensity_array)):
@@ -446,8 +446,8 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		if not isinstance(ix, (int, float)):
-			raise TypeError("'ix' must be an integer")
+		if not isinstance(ix, int):
+			raise TypeError("'ix' must be an an integer")
 		
 		scan = self.get_scan_at_index(ix)
 		
@@ -467,8 +467,8 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		if not isinstance(ix, (int, float)):
-			raise TypeError("'ix' must be an integer")
+		if not isinstance(ix, int):
+			raise TypeError("'ix' must be an an integer")
 		
 		if ix < 0 or ix >= len(self.__intensity_array):
 			raise IndexError("index out of range")
@@ -545,8 +545,8 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		if not isinstance(ix, (int, float)):
-			raise TypeError("'ix' must be an integer")
+		if not isinstance(ix, int):
+			raise TypeError("'ix' must be an an integer")
 		
 		if ix < 0 or ix >= len(self.__mass_list):
 			raise IndexError("index out of range")
