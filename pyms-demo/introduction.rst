@@ -1,4 +1,4 @@
-.. _pyms-test:
+.. _pyms-demo:
 
 **************
 Introduction

@@ -1,1 +1,0 @@
-.. include:: ../../pyms-test/introduction.rst

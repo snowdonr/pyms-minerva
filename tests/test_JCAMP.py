@@ -193,10 +193,10 @@ def test_info(capsys, data):
  Median number of m/z values per scan: 98
 """
 
-
+@pytest.mark.skip(reason="Test not yet written")
 def test_write(data):
 	raise NotImplementedError
 
-
+@pytest.mark.skip(reason="Test not yet written")
 def test_write_intensities_stream(data):
 	raise NotImplementedError

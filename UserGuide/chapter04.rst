@@ -79,7 +79,7 @@ does not exceed 0.05, and MS accuracy will not cause additional problems.
 Build intensity matrix
 ------------------------
 
-.. note:: This example is in `pyms-test/30a <../pyms-test/30a/30a.html>`__
+.. note:: This example is in `pyms-demo/30a <../pyms-demo/30a/30a.html>`__
 
 An intensity matrix on the raw GC-MS data can be built using the following
 function. First the raw data is imported as before.
@@ -150,7 +150,7 @@ A mass of 73.0 is returned in this example.
 Build intensity matrix parameters
 -----------------------------------
 
-.. note:: This example is in `pyms-test/30b <../pyms-test/30b/30b.html>`__
+.. note:: This example is in `pyms-demo/30b <../pyms-demo/30b/30b.html>`__
 
 The bin interval can be set to values other than one, and binning boundaries
 can also be adjusted. In the example below, to fit the 0.5 bin interval, the
@@ -175,7 +175,7 @@ A mass of 73.5 is returned in this example.
 Build integer mass intensity matrix
 ------------------------------------
 
-.. note:: This example is in `pyms-test/30c <../pyms-test/30c/30c.html>`__
+.. note:: This example is in `pyms-demo/30c <../pyms-demo/30c/30c.html>`__
 
 It is also possible to build an intensity matrix with integer masses and a bin
 interval of one. The default range for the binning is -0.3 and +0.7 mass
@@ -197,7 +197,7 @@ The lower and upper bounds can be adjusted by
 MassSpectrum object
 =====================
 
-.. note:: This example is in `pyms-test/31 <../pyms-test/31/31.html>`__
+.. note:: This example is in `pyms-demo/31 <../pyms-demo/31/31.html>`__
 
 A :py:class:`MassSpectrum <pyms.MassSpectrum.MassSpectrum>` object contains
 two attributes, ``mass_list`` and ``mass_spec``, a list of mass values
@@ -219,7 +219,7 @@ The length of all attributes should be the same.
 IonChromatogram object
 =======================
 
-.. note:: This example is in `pyms-test/31 <../pyms-test/31/31.html>`__
+.. note:: This example is in `pyms-demo/31 <../pyms-demo/31/31.html>`__
 
 An :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>` object is a
 one dimensional vector containing mass intensities as a function of
@@ -249,7 +249,7 @@ which returns ``True`` if the ion chromatogram is a TIC, ``False`` otherwise:
 Writing IonChromatogram object to a file
 --------------------------------------------
 
-.. note:: This example is in `pyms-test/31 <../pyms-test/31/31.html>`__
+.. note:: This example is in `pyms-demo/31 <../pyms-demo/31/31.html>`__
 
 The method :py:meth:`write() <pyms.IonChromatogram.IonChromatogram.write>`
 of an :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>`
@@ -281,7 +281,7 @@ method is a plain ASCII file which contains a pair of
 Saving data
 =============
 
-.. note:: This example is in `pyms-test/32 <../pyms-test/32/32.html>`__
+.. note:: This example is in `pyms-demo/32 <../pyms-demo/32/32.html>`__
 
 A matrix of intensity values can be saved to a file with the function
 :py:function:`save_data() <pyms.Utils.IO.save_data>`
@@ -331,7 +331,7 @@ and then each row as the intensity data.
 Importing ASCII data
 ====================
 
-.. note:: This example is in `pyms-test/32 <../pyms-test/32/32.html>`__
+.. note:: This example is in `pyms-demo/32 <../pyms-demo/32/32.html>`__
 
 The LECO CSV data format can be used to import ASCII data directly into an
 IntensityMatrix object.  The data must follow the format outlined above.

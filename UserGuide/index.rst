@@ -1,30 +1,34 @@
 .. include:: ../README.rst
 
-
-View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
-
-|browse_github|
-
 .. toctree::
     :numbered:
     :caption: User Guide
     :maxdepth: 2
 
     chapter01
+    chapter02
+    chapter03
+    chapter04
+
+View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
+
+|browse_github|
 
 .. toctree::
     :maxdepth: 2
     :caption: Documentation
 
     pyms/documentation
-    pyms/Baseline
-    pyms/Deconvolution
     pyms/Display
     pyms/Experiment
     pyms/Gapfill
     pyms/GCMS
+    pyms/IntensityMatrix
+    pyms/IonChromatogram
+    pyms/MassSpectrum
     pyms/Noise
     pyms/Peak
+    pyms/Scan
     pyms/Simulator
     pyms/Utils
 
@@ -42,44 +46,44 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     :maxdepth: 2
     :caption: Tests and Examples
 
-    pyms-test/introduction
-    pyms-test/data-files
-    pyms-test/20a
-    pyms-test/20b
-    pyms-test/20c
-    pyms-test/20d
-    pyms-test/30a
-    pyms-test/30b
-    pyms-test/30c
-    pyms-test/31
-    pyms-test/32
-    pyms-test/40a
-    pyms-test/40b
-    pyms-test/41a
-    pyms-test/41b
-    pyms-test/42a
-    pyms-test/42b
-    pyms-test/43
-    pyms-test/50
-    pyms-test/51
-    pyms-test/52
-    pyms-test/53
-    pyms-test/54
-    pyms-test/60
-    pyms-test/61a
-    pyms-test/61b
-    pyms-test/62
-    pyms-test/63
-    pyms-test/64
-    pyms-test/70a
-    pyms-test/70b
-    pyms-test/71
-    pyms-test/90
-    pyms-test/91
-    pyms-test/92
-    pyms-test/93
-    pyms-test/94
-    pyms-test/95
-    pyms-test/A1
-    pyms-test/A2
-    pyms-test/x10
+    pyms-demo/introduction
+    pyms-demo/data-files
+    pyms-demo/20a
+    pyms-demo/20b
+    pyms-demo/20c
+    pyms-demo/20d
+    pyms-demo/30a
+    pyms-demo/30b
+    pyms-demo/30c
+    pyms-demo/31
+    pyms-demo/32
+    pyms-demo/40a
+    pyms-demo/40b
+    pyms-demo/41a
+    pyms-demo/41b
+    pyms-demo/42a
+    pyms-demo/42b
+    pyms-demo/43
+    pyms-demo/50
+    pyms-demo/51
+    pyms-demo/52
+    pyms-demo/53
+    pyms-demo/54
+    pyms-demo/60
+    pyms-demo/61a
+    pyms-demo/61b
+    pyms-demo/62
+    pyms-demo/63
+    pyms-demo/64
+    pyms-demo/70a
+    pyms-demo/70b
+    pyms-demo/71
+    pyms-demo/90
+    pyms-demo/91
+    pyms-demo/92
+    pyms-demo/93
+    pyms-demo/94
+    pyms-demo/95
+    pyms-demo/A1
+    pyms-demo/A2
+    pyms-demo/x10

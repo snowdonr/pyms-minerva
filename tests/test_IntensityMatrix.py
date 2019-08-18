@@ -86,11 +86,11 @@ def test_size(im):
 	assert isinstance(im.size[0], int)
 	assert im.size == (2103, 450)
 
-
+@pytest.mark.skip(reason="Test not yet written")
 def test_iter_ms_indices(im):
 	raise NotImplementedError
 
-
+@pytest.mark.skip(reason="Test not yet written")
 def test_iter_ic_indices(im):
 	raise NotImplementedError
 

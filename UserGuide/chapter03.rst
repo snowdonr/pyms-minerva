@@ -26,7 +26,7 @@ Creating a "GCMS_data" object
 Reading JCAMP GC-MS data
 ----------------------------
 
-.. note::This example is in `pyms-test/20a <../pyms-test/20a/20a.html>`__
+.. note::This example is in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__
 
 The PyMS package :mod:`pyms.GCMS.IO.JCAMP` provides capabilities to read the raw
 GC-MS data stored in the JCAMP-DX format.
@@ -50,7 +50,7 @@ of the class :py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>`.
 Reading ANDI GC-MS data
 ------------------------
 
-.. note:: This example is in `pyms-test/20b <../pyms-test/20b/20b.html>`__
+.. note:: This example is in `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
 
 The PyMS package :mod:`pyms.GCMS.IO.ANDI` provides capabilities to read the raw
 GC-MS data stored in the ANDI-MS format.
@@ -76,7 +76,7 @@ A GCMS_data object
 Methods
 ---------
 
-.. note:: The examples below are in `pyms-test/20a <../pyms-test/20a/20a.html>`__ and `pyms-test/20b <../pyms-test/20b/20b.html>`__
+.. note:: The examples below are in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__ and `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
 
 The object ``data`` (from the two previous examples) stores the raw data as a
 :py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>` object. Within the
@@ -124,7 +124,7 @@ values from a single mass-spectrum scan in the raw data. Typically only
 non-zero (or non-threshold) intensities and corresponding masses are stored in
 the raw data.
 
-.. note:: The following examples are the same in `pyms-test/20a <../pyms-test/20a/20a.html>`__ and `pyms-test/20b <../pyms-test/20b/20b.html>`__
+.. note:: The following examples are the same in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__ and `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
 
 A list of all the raw Scan objects can be returned by:
 
@@ -147,7 +147,7 @@ returned by:
 Exporting data and obtaining information about a data set
 ----------------------------------------------------------
 
-.. note:: This example is in `pyms-test/20c <../pyms-test/20c/20c.html>`__
+.. note:: This example is in `pyms-demo/20c <../pyms-demo/20c/20c.html>`__
 
 Often it is of interest to find out some basic information about the
 data set, e.g. the number of scans, the retention time range, and
@@ -192,7 +192,7 @@ values recorded.
 Comparing two GC-MS data sets
 ----------------------------------
 
-.. note:: This example is in `pyms-test/20d <../pyms-test/20d/20d.html>`__
+.. note:: This example is in `pyms-demo/20d <../pyms-demo/20d/20d.html>`__
 
 Occasionally it is useful to compare two data sets. For example,
 one may want to check the consistency between the data set

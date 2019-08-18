@@ -12,7 +12,7 @@ from pyms.Peak.Class import Peak
 from pyms.Experiment.Class import Experiment
 
 from copy import deepcopy
-
+# TODO: consider using pytest-datadir
 
 @pytest.fixture(scope="session")
 def data():
