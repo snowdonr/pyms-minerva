@@ -153,18 +153,17 @@ def test_set_area(peak):
 		peak.set_area(1234)
 
 
-def test_area(im_i, filtered_peak_list):
-	filtered_peak_list = copy.deepcopy(filtered_peak_list)
+def test_area(im_i, peak):
+	peak = copy.deepcopy(peak)
 	
-	for peak in filtered_peak_list:
-		# determine and set area
-		area = peak_sum_area(im_i, peak)
-		assert isinstance(area, float)
-		peak.area = area
-		
-		assert peak.area == area
-		assert isinstance(peak.area, float)
+	# determine and set area
+	area = peak_sum_area(im_i, peak)
+	assert isinstance(area, float)
+	peak.area = area
 	
+	assert peak.area == area
+	assert isinstance(peak.area, float)
+
 	scan_i = im_i.get_index_at_time(31.17 * 60.0)
 	ms = im_i.get_ms_at_index(scan_i)
 	
