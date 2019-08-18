@@ -7,9 +7,8 @@ python:
 install:
   - pip install -r tests/requirements.txt
   - pip install -r requirements.txt
-  - travis_wait mvn install
 script:
-  - pytest --cov=pyms tests/
+  - travis_wait pytest --cov=pyms tests/
 after_success:
   - coveralls
 deploy:
