@@ -25,9 +25,10 @@ Functions related to storing and loading a list of Peak objects
 
 
 import pickle
+import pathlib
 
 from pyms.Peak.Class import Peak
-from pyms.Utils.Utils import is_str, is_list
+from pyms.Utils.Utils import is_list
 
 
 def store_peaks(peak_list, file_name):
@@ -37,15 +38,19 @@ def store_peaks(peak_list, file_name):
     :param peak_list: A list of peak objects
     :type peak_list: pyms.Peaks.Class.Peak
     :param file_name: File name to store peak list
-    :type file_name: str
+    :type file_name: str or pathlib.Path
 
     :author: Andrew Isaac
+    :author: Dominic Davis-Foster (pathlib support)
     """
 
-    if not is_str(file_name):
-        raise TypeError("'file_name' must be a string")
+    if not isinstance(file_name, (str, pathlib.Path)):
+        raise TypeError("'file_name' must be a string or a pathlib.Path object")
 
-    fp = open(file_name,'wb')
+    if not isinstance(file_name, pathlib.Path):
+        file_name = pathlib.Path(file_name)
+
+    fp = file_name.open('wb')
     pickle.dump(peak_list, fp, 1)
     fp.close()
 
@@ -56,18 +61,23 @@ def load_peaks(file_name):
     :summary: Loads the peak_list stored with 'store_peaks'
 
     :param file_name: File name of peak list
-    :type file_name: str
+    :type file_name: str or pathlib.Path
+
 
     :return: The list of Peak objects
     :rtype: list
 
     :author: Andrew Isaac
+    :author: Dominic Davis-Foster (pathlib support)
     """
 
-    if not is_str(file_name):
-        raise TypeError("'file_name' not a string")
+    if not isinstance(file_name, (str, pathlib.Path)):
+        raise TypeError("'file_name' must be a string or a pathlib.Path object")
 
-    fp = open(file_name,'rb')
+    if not isinstance(file_name, pathlib.Path):
+        file_name = pathlib.Path(file_name)
+
+    fp = file_name.open('rb')
     peak_list = pickle.load(fp)
     fp.close()
 

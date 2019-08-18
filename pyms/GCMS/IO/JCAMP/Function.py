@@ -24,10 +24,12 @@ Functions for I/O of data in JCAMP-DX format
 #############################################################################
 
 
+import pathlib
+
 from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.Class import Scan
 from pyms.Utils.Utils import is_str
-from pyms.Utils.Error import error, pymsError
+from pyms.Utils.Error import pymsError
 
 
 def JCAMP_reader(file_name):
@@ -35,17 +37,24 @@ def JCAMP_reader(file_name):
     """
     :summary: Generic reader for JCAMP DX files, produces GC-MS data
        object
+       
+    :param file_name: Path of the file to read
+    :type file_name: str or pathlib.Path
 
     :author: Qiao Wang
     :author: Andrew Isaac
     :author: Vladimir Likic
+    :author: Dominic Davis-Foster (pathlib support)
     """
 
-    if not is_str(file_name):
-        raise TypeError("'file_name' must be a string")
+    if not isinstance(file_name, (str, pathlib.Path)):
+        raise TypeError("'file_name' must be a string or a pathlib.Path object")
+    
+    if not isinstance(file_name, pathlib.Path):
+        file_name = pathlib.Path(file_name)
 
-    print(" -> Reading JCAMP file '%s'" % (file_name))
-    lines_list = open(file_name,'r')
+    print(f" -> Reading JCAMP file '{file_name}'")
+    lines_list = file_name.open('r')
     data = []
     page_idx = 0
     xydata_idx = 0

@@ -29,6 +29,7 @@ import copy
 import numpy
 import math
 import operator
+import pathlib
 
 try:
     from Pycluster import treecluster
@@ -341,17 +342,32 @@ class Alignment(object):
         :author: Woon Wai Keen
         :author: Andrew Isaac
         :author: Vladimir Likic
+        :author: David Kainer
+        :author: Dominic Davis-Foster (pathlib support)
+
         """
+
+        if not isinstance(rt_file_name, (str, pathlib.Path)):
+            raise TypeError("'rt_file_name' must be a string or a pathlib.Path object")
         
-        if not isinstance(rt_file_name, str):
-            raise TypeError("'rt_file_name' must be a string")
-        if not isinstance(area_file_name, str):
-            raise TypeError("'area_file_name' must be a string")
+        if not isinstance(area_file_name, (str, pathlib.Path)):
+            raise TypeError("'area_file_name' must be a string or a pathlib.Path object")
+
+        if not isinstance(rt_file_name, pathlib.Path):
+            rt_file_name = pathlib.Path(rt_file_name)
+
+        if not isinstance(area_file_name, pathlib.Path):
+            area_file_name = pathlib.Path(area_file_name)
         
-        if not os.path.isdir(os.path.dirname(rt_file_name)):
-            os.makedirs(os.path.dirname(rt_file_name))
-        if not os.path.isdir(os.path.dirname(area_file_name)):
-            os.makedirs(os.path.dirname(area_file_name))
+        if not rt_file_name.parent.isdir():
+            rt_file_name.parent.mkdir(parents=True)
+        if not area_file_name.parent.isdir():
+            area_file_name.parent.mkdir(parents=True)
+        
+        #if not os.path.isdir(os.path.dirname(rt_file_name)):
+        #    os.makedirs(os.path.dirname(rt_file_name))
+        #if not os.path.isdir(os.path.dirname(area_file_name)):
+        #    os.makedirs(os.path.dirname(area_file_name))
         
         fp1 = open(rt_file_name, "w")
         fp2 = open(area_file_name, "w")

@@ -28,6 +28,8 @@ import numpy
 import math
 import copy
 
+import pathlib
+
 from warnings import warn
 
 import deprecation
@@ -131,7 +133,7 @@ class IntensityMatrix(object):
 		if isinstance(other, self.__class__):
 			return self.time_list == other.time_list \
 				   and self.mass_list == other.mass_list \
-				   and all(numpy.equal(self.intensity_array, other.intensity_array))
+				   and numpy.array_equal(self.intensity_array, other.intensity_array)
 		return NotImplemented
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
@@ -471,7 +473,7 @@ class IntensityMatrix(object):
 		if ix < 0 or ix >= len(self.__intensity_array):
 			raise IndexError("index out of range")
 		
-		return self.__intensity_array[ix][:]
+		return self.__intensity_array[ix].tolist()
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -886,19 +888,24 @@ def import_leco_csv(file_name):
 	"""
 	:summary: Imports data in LECO CSV format
 
-	:param file_name: File name
-	:type file_name: str
+	:param file_name: Path of the file to read
+	:type file_name: str or pathlib.Path
 
 	:return: Data as an IntensityMatrix
 	:rtype: pyms.GCMS.Class.IntensityMatrix
 
 	:author: Andrew Isaac
+	:author: Dominic Davis-Foster (pathlib support)
+
 	"""
 	
-	if not is_str(file_name):
-		raise TypeError("'file_name' not a string")
+	if not isinstance(file_name, (str, pathlib.Path)):
+		raise TypeError("'file_name' must be a string or a pathlib.Path object")
 	
-	lines_list = open(file_name, 'r')
+	if not isinstance(file_name, pathlib.Path):
+		file_name = pathlib.Path(file_name)
+	
+	lines_list = file_name.open('r')
 	data = []
 	time_list = []
 	mass_list = []

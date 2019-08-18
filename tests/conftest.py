@@ -43,8 +43,8 @@ def datadir():
 @pytest.fixture(scope="session")
 def data(datadir):
 	print("data")
-	#return JCAMP_reader(datadir / "ELEY_1_SUBTRACT.JDX")
-	return JCAMP_reader(os.path.join("tests", "data", "ELEY_1_SUBTRACT.JDX"))
+	return JCAMP_reader(datadir / "ELEY_1_SUBTRACT.JDX")
+	#return JCAMP_reader(os.path.join("tests", "data", "ELEY_1_SUBTRACT.JDX"))
 
 
 @pytest.fixture(scope="session")
