@@ -25,7 +25,7 @@ Example:
 
     # -- snip --
     if not is_str(file_name):
-        error("'file_name' must be a string")
+        raise TypeError("'file_name' must be a string")
 
     try:
         file = CDF(file_name)

@@ -2,32 +2,36 @@
 Provides conversion and information functions for GC-MS data objects
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
 
 
 import sys
 import math
 
-from pyms.Utils.Error import error
-from pyms.Utils.Utils import is_number, is_str, is_array, is_list, is_int
+import deprecation
+from pyms import __version__
+
+
+from pyms.Utils.Error import pymsError
 from pyms.GCMS.Class import GCMS_data, IntensityMatrix, IonChromatogram
 from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Math import rmsd
@@ -38,232 +42,11 @@ try:
     psyco.full()
 except:
     pass
+   
+from pyms.IntensityMatrix import build_intensity_matrix, build_intensity_matrix_i
 
-
-    
-    
-def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, min_mass=None):
-
-    """
-    :summary: Sets the full intensity matrix with flexible bins
-
-    :param data: Raw GCMS data
-    :type data: pyms.GCMS.Class.GCMS_data
-
-    :param bin_interval: interval between bin centres (default 1)
-    :type bin_interval: IntType or FloatType
-
-    :param bin_left: left bin boundary offset (default 0.5)
-    :type bin_left: FloatType
-
-    :param bin_right: right bin boundary offset (default 0.5)
-    :type bin_right: FloatType
-    
-    :param min_mass: Minimum mass to bin (default minimum mass from data)
-    :type min_mass: BooleanType
-
-    :return: Binned IntensityMatrix object
-    :rtype: pyms.GCMS.Class.IntensityMatrix
-
-    :author: Qiao Wang
-    :author: Andrew Isaac
-    :author: Vladimir Likic
-    """
-
-    if not isinstance(data, GCMS_data):
-        error("data must be an GCMS_data object")
-    if bin_interval <= 0:
-        error("The bin interval must be larger than zero.")
-    if not is_number(bin_left):
-        error("'bin_left' must be a number.")
-    if not is_number(bin_right):
-        error("'bin_right' must be a number.")
-
-    if not min_mass:
-        min_mass = data.get_min_mass()
-    max_mass = data.get_max_mass()
-
-    return __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
-
-def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
-
-    """
-    :summary: Sets the full intensity matrix with integer bins
-
-    :param data: Raw GCMS data
-    :type data: pyms.GCMS.Class.GCMS_data
-
-    :param bin_left: left bin boundary offset (default 0.3)
-    :type bin_left: FloatType
-
-    :param bin_right: right bin boundary offset (default 0.7)
-    :type bin_right: FloatType
-
-    :return: Binned IntensityMatrix object
-    :rtype: pyms.GCMS.Class.IntensityMatrix
-
-    :author: Qiao Wang
-    :author: Andrew Isaac
-    :author: Vladimir Likic
-    """
-
-    if not isinstance(data, GCMS_data):
-        error("data must be an GCMS_data object")
-    if not is_number(bin_left):
-        error("'bin_left' must be a number.")
-    if not is_number(bin_right):
-        error("'bin_right' must be a number.")
-
-    min_mass = data.get_min_mass()
-    max_mass = data.get_max_mass()
-
-    # Calculate integer min mass based on right boundary
-    bin_right = abs(bin_right)
-    min_mass = int(min_mass+1-bin_right)
-    
-    return __fill_bins(data, min_mass, max_mass, 1, bin_left, bin_right)
-
-def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
-
-    """
-    :summary: Fills the intensity values for all bins
-
-    :param data: Raw GCMS data
-    :type data: pyms.GCMS.Class.GCMS_data
-    :param min_mass: minimum mass value
-    :type min_mass: IntType or FloatType
-    :param max_mass: maximum mass value
-    :type max_mass: IntType or FloatType
-    :param bin_interval: interval between bin centres
-    :type bin_interval: IntType or FloatType
-    :param bin_left: left bin boundary offset
-    :type bin_left: FloatType
-    :param bin_right: right bin boundary offset
-    :type bin_right: FloatType
-
-    :return: Binned IntensityMatrix object
-    :rtype: pyms.GCMS.Class.IntensityMatrix
-
-    :author: Qiao Wang
-    :author: Andrew Isaac
-    :author: Moshe Olshansky
-    :author: Vladimir Likic
-    """
-
-    if not isinstance(data, GCMS_data):
-        error("data must be an GCMS_data object")
-    if not is_number(min_mass):
-        error("'min_mass' must be a number")
-    if not is_number(max_mass):
-        error("'max_mass' must be a number")
-    if not is_number(bin_interval):
-        error("'bin_interval' must be a number")
-    if not is_number(bin_left):
-        error("'bin_left' must be a number.")
-    if not is_number(bin_right):
-        error("'bin_right' must be a number.")
-    if not (abs(bin_left+bin_right-bin_interval) < 1.0e-6*bin_interval):
-        error("there should be no gaps or overlap.")
-
-    bin_left = abs(bin_left)
-    bin_right = abs(bin_right)
-
-    # To convert to int range, ensure bounds are < 1
-    bl = bin_left - int(bin_left)
-
-    # Number of bins
-    num_bins = int(float(max_mass+bl-min_mass)/bin_interval)+1
-
-    # initialise masses to bin centres
-    mass_list = [i * bin_interval + min_mass for i in range(num_bins)]
-
-    # Modified binning loops. I've replaced the deepcopy getting routines with
-    # the alias properties. This way we can avoid performing the copies when
-    # it is clear that we do not intend on modifying the contents of the arrays
-    # here.
-    #           - Luke Hodkinson, 18/05/2010
-
-    # fill the bins
-    intensity_matrix = []
-    for scan in data.scan_list: # use the alias, not the copy (Luke)
-        intensity_list = [0.0] * num_bins
-        masses = scan.mass_list # use the alias, not the copy (Luke)
-        intensities = scan.intensity_list # use the alias, not the copy (Luke)
-        for ii in range(len(masses)):
-            mm = int((masses[ii] + bl - min_mass)/bin_interval)
-            intensity_list[mm] += intensities[ii]
-        intensity_matrix.append(intensity_list)
-
-    return IntensityMatrix(data.get_time_list(), mass_list, intensity_matrix)
-
-def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
-
-    """
-    :summary: Fills the intensity values for all bins
-
-    :param data: Raw GCMS data
-    :type data: pyms.GCMS.Class.GCMS_data
-    :param min_mass: minimum mass value
-    :type min_mass: IntType or FloatType
-    :param max_mass: maximum mass value
-    :type max_mass: IntType or FloatType
-    :param bin_interval: interval between bin centres
-    :type bin_interval: IntType or FloatType
-    :param bin_left: left bin boundary offset
-    :type bin_left: FloatType
-    :param bin_right: right bin boundary offset
-    :type bin_right: FloatType
-
-    :return: Binned IntensityMatrix object
-    :rtype: pyms.GCMS.Class.IntensityMatrix
-
-    :author: Qiao Wang
-    :author: Andrew Isaac
-    :author: Vladimir Likic
-    """
-
-    if not isinstance(data, GCMS_data):
-        error("data must be an GCMS_data object")
-    if not is_number(min_mass):
-        error("'min_mass' must be a number")
-    if not is_number(max_mass):
-        error("'max_mass' must be a number")
-    if not is_number(bin_interval):
-        error("'bin_interval' must be a number")
-    if not is_number(bin_left):
-        error("'bin_left' must be a number.")
-    if not is_number(bin_right):
-        error("'bin_right' must be a number.")
-
-    bin_left = abs(bin_left)
-    bin_right = abs(bin_right)
-
-    # To convert to int range, ensure bounds are < 1
-    bl = bin_left - int(bin_left)
-
-    # Number of bins
-    num_bins = int(float(max_mass+bl-min_mass)/bin_interval)+1
-
-    # initialise masses to bin centres
-    mass_list = [i * bin_interval + min_mass for i in range(num_bins)]
-
-    # fill the bins
-    intensity_matrix = []
-    for scan in data.get_scan_list():
-        intensity_list = [0.0] * num_bins
-        masses = scan.get_mass_list()
-        intensities = scan.get_intensity_list()
-        for mm in range(num_bins):
-            for ii in range(len(scan)):
-                if masses[ii] >= mass_list[mm]-bin_left and \
-                masses[ii] < mass_list[mm]+bin_right:
-                    intensity_list[mm] += intensities[ii]
-        intensity_matrix.append(intensity_list)
-
-    return IntensityMatrix(data.get_time_list(), mass_list, intensity_matrix)
 
 def diff(data1, data2):
-
     """
     :summary: Compares two GCMS_data objects
 
@@ -281,11 +64,8 @@ def diff(data1, data2):
     time_list1 = data1.get_time_list()
     time_list2 = data2.get_time_list()
 
-    #
-    # First, check if two data sets have the same number of retention
-    # times.
-    #
-    if not len(time_list1) == len(time_list2):
+    # First, check if two data sets have the same number of retention times.
+    if len(time_list1) != len(time_list2):
         print(" -> The number of retention time points different.")
         print(" First data set: %d time points" % (len(time_list1)))
         print(" Second data set: %d time points" % (len(time_list2)))
@@ -296,10 +76,7 @@ def diff(data1, data2):
         print(" Data sets have the same number of time points.")
         print("   Time RMSD: %.2e" % ( time_rmsd ))
 
-    #
     # Second, check if each scan has the same number of m/z intensities
-    #
-
     print(" Checking for consistency in scan lengths ...", end='')
     sys.stdout.flush()
 
@@ -308,7 +85,7 @@ def diff(data1, data2):
     if not len(scan_list1) == len(scan_list2):
         # since the number of rention times are the same, this indicated
         # some unexpected problem with data
-        error("inconsistency in data detected")
+        raise pymsError("inconsistency in data detected")
 
     N = len(scan_list1)
 
@@ -324,10 +101,7 @@ def diff(data1, data2):
 
     print("OK")
 
-    #
     # Third, if here, calculate the max RMSD for m/z and intensities
-    #
-
     print(" Calculating maximum RMSD for m/z values and intensities ...",end='')
     sys.stdout.flush()
 
@@ -351,25 +125,26 @@ def diff(data1, data2):
     print("\n   Max m/z RMSD: %.2e" % ( max_mass_rmsd ))
     print("   Max intensity RMSD: %.2e" % ( max_intensity_rmsd ))
 
-def is_ionchromatogram(arg):
 
+@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+                        current_version=__version__,
+                        details="Use 'isinstance(vsr, IonChromatogram)' instead")
+def is_ionchromatogram(arg):
     """
-    :summary: Returns True if the argument is a pyms.IO.Class.IonCromatogram
+    :summary: Returns True if the argument is a pyms.IO.Class.IonChromatogram
         object, False otherwise
 
     :param arg: The argument to be evaluated as IonCromatogram object
     :type arg: arbitrary
 
     :return: A boolean indicator True or False
-    :rtype: BooleanType
+    :rtype: bool
 
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,IonChromatogram):
-        return True
-    else:
-        return False
+    return isinstance(arg,IonChromatogram)
+
 
 def ic_window_points(ic, window_sele, half_window=False):
 
@@ -390,21 +165,20 @@ def ic_window_points(ic, window_sele, half_window=False):
     :author: Vladimir Likic
     """
 
-    if not is_int(window_sele) and not is_str(window_sele):
-        error("'window' must be either an integer or a string")
+    if not isinstance(window_sele, (int, str)):
+        raise TypeError("'window_sele' must be either an integer or a string")
 
-    if is_int(window_sele):
-
+    if isinstance(window_sele, int):
         if half_window:
             if window_sele % 2 == 0:
-                error("window must be an odd number of points")
+                raise ValueError("window must be an odd number of points")
             else:
                 points = int(math.floor(window_sele*0.5))
         else:
             points = window_sele
     else:
         time = time_str_secs(window_sele)
-        time_step = ic.get_time_step()
+        time_step = ic.time_step
 
         if half_window:
             time = time*0.5
@@ -412,9 +186,9 @@ def ic_window_points(ic, window_sele, half_window=False):
         points = int(math.floor(time/time_step))
 
     if half_window:
-        if points < 1: error("window too small (half window=%d)" % (points))
+        if points < 1: raise ValueError(f"window too small (half window={points}%d)")
     else:
-        if points < 2: error("window too small (window=%d)" % (points))
+        if points < 2: raise ValueError(f"window too small (window={points})")
 
     return points
 

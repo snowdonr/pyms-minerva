@@ -23,11 +23,8 @@ Class to Display Ion Chromatograms and TIC
 #############################################################################
 
 import matplotlib.pyplot as plt
-import numpy
-import sys
 
 from pyms.GCMS.Class import IonChromatogram 
-from pyms.Utils.Error import error
 
 
 class Display(object):
@@ -39,6 +36,7 @@ class Display(object):
 
     :author: Sean O'Callaghan
     :author: Vladimir Likic
+    :author: Dominic Davis-Foster (type assertions)
     """
 
     def __init__(self):
@@ -60,9 +58,6 @@ class Display(object):
         #Plotting Variables
         self.__fig = plt.figure()
         self.__ax = self.__fig.add_subplot(111)
-
-
-    
     
     def plot_ics(self, ics, labels = None):
 
@@ -82,22 +77,18 @@ class Display(object):
             if isinstance(ics, IonChromatogram):
                 ics = [ics]
             else:
-                error("ics argument must be an IonChromatogram\
-                or a list of Ion Chromatograms")
+                raise TypeError("'ics' must be an IonChromatogram or a list of Ion Chromatograms")
 
         if not isinstance(labels, list) and labels != None:
             labels = [labels]
         # TODO: take care of case where one element of ics is
         # not an IonChromatogram
 
-
         intensity_list = []
         time_list = ics[0].get_time_list()
 
-
         for i in range(len(ics)):
             intensity_list.append(ics[i].get_intensity_array())
-
 
         # Case for labels not present
         if labels == None:
@@ -113,19 +104,16 @@ class Display(object):
         else:
             for i in range(len(ics)):
 
-                self.__tic_ic_plots.append(plt.plot(time_list, \
-                    intensity_list[i], self.__col_ic[self.__col_count]\
-                        , label = labels[i]))
+                self.__tic_ic_plots.append(plt.plot(time_list,
+                                                    intensity_list[i],
+                                                    self.__col_ic[self.__col_count],
+                                                    label = labels[i]))
                 if self.__col_count == 5:
                     self.__col_count = 0
                 else:
                     self.__col_count += 1
-
-
-    
     
     def plot_tic(self, tic, label=None):
-
         """
         :summary: Adds Total Ion Chromatogram to plot list
 
@@ -137,24 +125,17 @@ class Display(object):
         """
 
         if not isinstance(tic, IonChromatogram):
-            error("TIC is not an Ion Chromatogram object")
+            raise TypeError("'tic' must be an Ion Chromatogram object")
 
 
         intensity_list = tic.get_intensity_array()
         time_list = tic.get_time_list()
 
-        self.__tic_ic_plots.append(plt.plot(time_list, intensity_list,\
-        label=label))
+        self.__tic_ic_plots.append(plt.plot(time_list, intensity_list, label=label))
 
-    
-    
-    
-    
     def plot_peaks(self, peak_list, label = "Peaks"):
-
         """
-        :summary: Plots the locations of peaks as found
-          by PyMS.
+        :summary: Plots the locations of peaks as found by PyMS.
 
         :param peak_list: List of peaks
         :type peak_list: list of pyms.Peak.Class.Peak
@@ -164,7 +145,7 @@ class Display(object):
         """
         
         if not isinstance(peak_list, list):
-            error("peak_list is not a list")
+            raise TypeError("'peak_list' must be a list")
 
         time_list = []
         height_list=[]
@@ -176,13 +157,8 @@ class Display(object):
             time_list.append(peak.get_rt())
             height_list.append(sum(peak.get_mass_spectrum().mass_spec))
 
-        self.__tic_ic_plots.append(plt.plot(time_list, height_list, 'o',\
-            label = label))
+        self.__tic_ic_plots.append(plt.plot(time_list, height_list, 'o', label = label))
 
-    
-    
-    
-    
     def get_5_largest(self, intensity_list):
         
         """
@@ -190,10 +166,10 @@ class Display(object):
                   for writing to console
         
         :param intensity_list: List of Ion intensities
-        :type intensity_list: listType
+        :type intensity_list: list
         """
         
-        largest = [0,0,0,0,0,0,0,0,0,0]
+        largest = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         
         # Find out largest value
         for i in range(len(intensity_list)):
@@ -203,29 +179,22 @@ class Display(object):
         # Now find next four largest values
         for j in [1,2,3,4,5,6,7,8,9]:
             for i in range(len(intensity_list)):
-                if intensity_list[i] > intensity_list[largest[j]] and \
-                    intensity_list[i] < intensity_list[largest[j-1]]:
+                #if intensity_list[i] > intensity_list[largest[j]] and intensity_list[i] < intensity_list[largest[j-1]]:
+                if intensity_list[largest[j]] < intensity_list[i] < intensity_list[largest[j - 1]]:
                     largest[j] = i
        
         return largest
 
-    
-    
-    
-    
     def plot_mass_spec(self, rt, mass_list, intensity_list):
-        
         """ 
         :summary: Plots the mass spec given a list of masses and intensities
         
         :param rt: The retention time for labelling of the plot
-        :type rt: floatType
-        
+        :type rt: float
         :param mass_list: list of masses of the MassSpectrum object
-        :type mass_list: listType
-        
+        :type mass_list: list
         :param intensity_list: List of intensities of the MassSpectrum object
-        :type intensity_list: listType
+        :type intensity_list: list
         """
         
         new_fig = plt.figure()
@@ -245,20 +214,13 @@ class Display(object):
         
         label = "Mass spec for peak at time " + "%5.2f" % rt
         
-        mass_spec_plot = plt.bar(mass_list, intensity_list,\
-        label=label, width=0.01)
+        mass_spec_plot = plt.bar(mass_list, intensity_list, label=label, width=0.01)
         
         x_axis_range = plt.xlim(min_mz, max_mz)
-        
         t = new_ax.set_title(label)
-        
         plt.show()
         
-        
-    
-    
     def onclick(self, event):
-        
         """
         :summary: Finds the 5 highest intensity m/z channels for the selected peak.
                   The peak is selected by clicking on it. If a button other than
@@ -270,10 +232,9 @@ class Display(object):
         intensity_list = []
         mass_list = []
         
-        
         for peak in self.__peak_list:
-            if event.xdata > 0.9999*peak.get_rt() and event.xdata < \
-                1.0001*peak.get_rt():
+            #if event.xdata > 0.9999*peak.get_rt() and event.xdata < 1.0001*peak.get_rt():
+            if 0.9999*peak.get_rt() < event.xdata < 1.0001*peak.get_rt():
                 intensity_list = peak.get_mass_spectrum().mass_spec
                 mass_list = peak.get_mass_spectrum().mass_list
             
@@ -291,11 +252,7 @@ class Display(object):
         if event.button != 1 and len(intensity_list) != 0:
             self.plot_mass_spec(event.xdata, mass_list, intensity_list)
         
-            
-    
-    
-    def do_plotting(self, plot_label = None):
-
+    def do_plotting(self, plot_label=None):
         """
         :summary: Plots TIC and IC(s) if they have been created
             by plot_tic() or plot_ics(). Adds detected peaks
@@ -324,6 +281,3 @@ class Display(object):
         if len(self.__peak_list) != 0:
             cid = self.__fig.canvas.mpl_connect('button_press_event', self.onclick)
         plt.show()
-
-
-

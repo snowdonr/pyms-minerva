@@ -2,25 +2,27 @@
 Functions for peak alignment by dynamic programming
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import functools
 import copy
@@ -34,7 +36,6 @@ except:
     #print("No mpi4py installed: serial execution only")
     pass
 
-from pyms.Utils.Error import error, stop
 from pyms.Utils.Utils import is_list
 from pyms.Utils.DP import dp
 from pyms.Experiment.Class import Experiment
@@ -46,8 +47,9 @@ from pyms.Peak.List.DPA import Utils
 try:
     import psyco
     psyco.full()
-except:
+except ModuleNotFoundError:
     pass
+
 
 def align_with_tree(T, min_peaks=1):
 
@@ -94,6 +96,7 @@ def align_with_tree(T, min_peaks=1):
 
     return final_algt
 
+
 def exprl2alignment(exprl):
 
     """
@@ -107,18 +110,19 @@ def exprl2alignment(exprl):
     """
 
     if not is_list(exprl):
-        error("the argument is not a list")
+        raise TypeError("the argument is not a list")
 
     algts = []
 
     for item in exprl:
         if not isinstance(item, Experiment):
-            error("list items must be 'Experiment' instances")
+            raise TypeError("list items must be 'Experiment' instances")
         else:
             algt = Class.Alignment(item)
         algts.append(algt)
 
     return algts
+
 
 def align(a1, a2, D, gap):
 
@@ -154,6 +158,7 @@ def align(a1, a2, D, gap):
     ma.similarity = alignment_similarity(result['trace'], M, gap)
 
     return ma
+
 
 def merge_alignments(A1, A2, traces):
 
@@ -224,6 +229,7 @@ def merge_alignments(A1, A2, traces):
 
     return ma
 
+
 def alignment_similarity(traces, score_matrix, gap):
 
     """
@@ -262,6 +268,7 @@ def alignment_similarity(traces, score_matrix, gap):
 
     return similarity
 
+
 def score_matrix(a1, a2, D):
 
     """
@@ -295,6 +302,7 @@ def score_matrix(a1, a2, D):
         col = 0
 
     return score_matrix
+
 
 def position_similarity(pos1, pos2, D):
 
@@ -345,7 +353,7 @@ def position_similarity(pos1, pos2, D):
                         try:
                             top = numpy.dot(mass_spect1, mass_spect2)
                         except(ValueError):
-                            error("Mass Spectra are of different length\n\n" +  
+                            raise ValueError("Mass Spectra are of different length\n\n" +
                                  " Use IntensityMatrix.crop_mass() to set\n" 
                                   + " same length for all Mass Spectra""")
                         bot = numpy.sqrt(mass_spect1_sum*mass_spect2_sum)

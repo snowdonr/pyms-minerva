@@ -2,543 +2,764 @@
 Provides a class to model signal peak
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
 
-import math
+
+
 import copy
 
+import deprecation
+from pyms import __version__
+
 from pyms.GCMS.Class import IntensityMatrix, MassSpectrum
-from pyms.Utils.Error import error
-from pyms.Utils.Utils import is_int, is_number, is_list, is_boolean, is_str
-from pyms.Utils.IO import open_for_writing, close_for_writing
+from pyms.Utils.Utils import is_int, is_number, is_list, is_boolean
+from warnings import warn
+import pickle
+
 
 class Peak:
-
-    """
-    :summary: Models a signal peak
-
-        A signal peak object
-        A peak object is initialised with retention time and
-        Either an ion mass, a mass spectrum or None
-
-    :author: Vladimir Likic
-    :author: Andrew Isaac
-    """
-
-    # DK: added the is_outlier flag
-    def __init__(self, rt=0.0, ms=None, minutes=False, outlier=False):
-
-        """
-        :param rt: Retention time
-        :type rt: FloatType
-        :param ms: A ion mass, or spectra of maximising ions
-        :type ms: FloatType, pyms.GCSM.Class.MassSpectrum
-        :param minutes: Retention time units flag. If True, retention time
-            is in minutes; if False retention time is in seconds
-        :type minutes: BooleanType
-        """
-        # TODO: Add info on outlier option
-        if not is_number(rt):
-            error("'rt' must be a number")
-
-        if not ms == None and \
-            not isinstance(ms, MassSpectrum) and \
-            not is_number(ms):
-            error("'ms' must be a Float or a MassSpectrum object")
-
-        if minutes:
-            rt = rt*60.0
-
-        self.__minutes = minutes
-        self.isoutlier = outlier     # DK
-        # basic peak attributes
-        self.__rt = float(rt)
-        # these two attributes are required for
-        # setting the peak mass spectrum
-        if not ms == None:
-            if isinstance(ms, MassSpectrum):
-                # mass spectrum
-                self.__mass_spectrum = ms
-                self.__ic_mass = None
-                self.make_UID()
-
-                # TEST: to test if this speeds things up
-                self.mass_spec = ms.mass_spec
-                self.ms = ms
-
-            else:
-                # single ion chromatogram properties
-                self.__ic_mass = ms
-                self.__mass_spectrum = None
-                self.make_UID()
-
-                # TEST: to test if this speeds things up
-                self.mass_spec = None
-
-
-        self.__pt_bounds = None
-        self.__area = None
-        self.__ion_areas = {}
-
-        # TEST: to test if this speeds things up
-        self.rt = self.__rt
-
-    def make_UID(self):
-
-        """
-        :summary: Create a unique peak ID (UID) based on:
-            Int masses of top two intensities, their ratio and RT (as
-            Mass1-Mass2-Ratio*100-RT); or the single mass as int and RT.
-
-        :author: Andrew Isaac
-        """
-
-        minutes = 1.0
-        if self.__minutes == True:
-            minutes = 60.0
-        if self.__mass_spectrum != None:
-            mass_list = self.__mass_spectrum.mass_list
-            mass_spec = self.__mass_spectrum.mass_spec
-            # find top two masses
-            best = 0
-            best_ii = 0
-            best2_ii = 0
-            for ii in range(len(mass_spec)):
-                if mass_spec[ii] > best:
-                    best = mass_spec[ii]
-                    best2_ii = best_ii
-                    best_ii = ii
-            ratio = int(100*mass_spec[best2_ii]/best)
-            UID = "%d-%d-%d-%.2f" % (int(mass_list[best_ii]),
-                    int(mass_list[best2_ii]), ratio, self.__rt/minutes)
-        elif self.__ic_mass != None:
-            UID = "%d-%.2f" % (int(self.__ic_mass), self.__rt/minutes)
-        else:
-            UID =  "%.2f" % self.__rt/minutes
-
-        self.__UID = UID
-
-    def get_UID(self):
-
-        """
-        :summary: Return the unique peak ID (UID) based on:
-            Int masses of top two intensities and their ratio (as
-            Mass1-Mass2-Ratio*100); or the single mass as int.
-
-        :return: UID string
-        :rtype: StringType
-
-        :author: Andrew Isaac
-        """
-
-        return self.__UID
-    
-    def get_third_highest_mz(self):
-
-        """
-        :summary: returns the mz value with the third highest
-                  intensity
-
-        :return: the ion with the third highest intensity
-        :rtype: intType
-
-        """
-
-        if self.__mass_spectrum != None:
-            mass_list = self.__mass_spectrum.mass_list
-            mass_spec = self.__mass_spectrum.mass_spec
-            # find top two masses
-            best = 0
-            best_ii = 0
-            best2_ii = 0
-            best3_ii = 0
-            for ii in range(len(mass_spec)):
-                if mass_spec[ii] > best:
-                    best = mass_spec[ii]
-                    best3_ii = best2_ii
-                    best2_ii = best_ii
-                    best_ii = ii
-
-        return int(mass_list[best3_ii])
-        
-
-    def set_pt_bounds(self, pt_bounds):
-
-        """
-        :summary: Sets peak boundaries in points
-
-        :param pt_bounds: A list containing left, apex, and right
-            peak boundaries in points, left and right are offsets
-        :type pt_bounds: ListType
-
-        :return: none
-        :rtype: NoneType
-        """
-
-        if not is_list(pt_bounds):
-            error("'pt_bounds' must be a list")
-
-        if not len(pt_bounds) == 3:
-            error("'pt_bounds' must have exactly 3 elements")
-        else:
-            for item in pt_bounds:
-                if not is_int(item):
-                    error("'pt_bounds' element not an integer")
-
-        self.__pt_bounds = pt_bounds
-
-    def get_pt_bounds(self):
-
-        """
-        :summary: Gets peak boundaries in points
-
-        :return: A list containing left, apex, and right
-            peak boundaries in points, left and right are offsets
-        :rtype: ListType
-
-        :author: Andrew Isaac
-        """
-
-        return copy.deepcopy(self.__pt_bounds)
-
-    def get_area(self):
-
-        """
-        :summary: Gets the area under the peak
-
-        :return: The peak area
-        :rtype: FloatType
-
-        :author: Andrew Isaac
-        """
-
-        return self.__area
-
-    def set_area(self, area):
-
-        """
-        :summary: Sets the area under the peak
-
-        :param area: The peak area
-        :type area: FloatType
-
-        :author: Andrew Isaac
-        """
-
-        if not is_number(area) or area <= 0:
-            error("'area' must be a positive number")
-
-        self.__area = area
-        
-    def get_ion_area(self, ion):
-        """
-        :summary: gets the area of a single ion chromatogram
-                  under the peak
-
-        :param ion: the ion who's IC is to be returned
-        :type ion: IntType
-
-        :return: The area of the ion under this peak
-        :rtype: FloatType
-        """
-        try:
-            return self.__ion_areas[ion]
-        except KeyError:
-            return None
-            
-    def get_ion_areas(self):
-        """
-        :summary: returns a copy of the ion areas dict
-
-        :return: The dictionary of ion:ion area pairs
-        :rtype: dictType
-        """
-        if len(self.__ion_areas) == 0:
-            error("no ion areas set")
-
-        return copy.deepcopy(self.__ion_areas)
-
-    
-    def set_ion_area(self, ion, area):
-        """
-        :summary: sets the area for a single ion
-
-        :param ion: the ion who's area is being entered
-        :param area: the area under the IC of ion
-
-        :author: Sean O'Callaghan
-        """
-
-        self.__ion_areas[ion] = area
-
-    def set_ion_areas(self, ion_areas):
-        """
-        :summary: set the ion:ion area pair dictionary
-
-        :param ion_areas: the dictionary of ion:ion_area pairs
-        :type ion_areas: dictType
-        """
-
-        self.__ion_areas = ion_areas
-    
-    def get_int_of_ion(self, ion):
-        """
-        :summary: returns the intensity of a given ion
-
-        :param ion: the m/z value of the ion of interest
-        :type ion: intType
-
-        :return: The intensity of the given ion in this peak
-        :rtype: intType
-        """
-
-        for i,mass in enumerate(self.__mass_spectrum.mass_list):
-            if mass == ion:
-                index = i
-
-        try:
-            intensity = self.__mass_spectrum.mass_spec[index]
-        except:
-            intensity = None
-
-        return intensity  
-
- 
-
-    def set_ic_mass(self, mz):
-
-        """
-        :summary: Sets the mass for a single ion chromatogram peak
-            Clears the mass spectrum
-
-        :param mz: The mass of the ion chromatogram that the peak is from
-        :type mz: FloatType
-
-        :return: none
-        :rtype: NoneType
-        """
-
-        if not is_number(mz):
-            error("'mz' must be a number")
-        self.__ic_mass = mz
-        # clear mass spectrum
-        self.__mass_spectrum = None
-        self.make_UID()
-
-        # TEST: to test if this speeds things up
-        self.mass_spec = None
-
-    def set_mass_spectrum(self, ms):
-
-        """
-        :summary: Sets the mass spectrum
-            Clears the mass for a single ion chromatogram peak
-
-        :param ms: The mass spectrum at the apex of the peak
-        :type ms: pyms.GCSM.Class.MassSpectrum
-
-        :return: none
-        :rtype: NoneType
-        """
-
-        if not isinstance(ms, MassSpectrum):
-            error("'ms' must be a MassSpectrum object")
-
-        self.__mass_spectrum = ms
-        # clear ion mass
-        self.__ic_mass = None
-        self.make_UID()
-
-        # TEST: to test if this speeds things up
-        self.mass_spec = ms.mass_spec
-
-    def get_rt(self):
-
-        """
-        :summary: Return the retention time
-
-        :return: Retention time
-        :rtype: FloatType
-        """
-
-        return self.__rt
-
-    def get_ic_mass(self):
-
-        """
-        :summary: Gets the mass for a single ion chromatogram peak
-
-        :return: The mass of the single ion chromatogram that the peak is from
-        :rtype: FloatType or IntType
-        """
-
-        return self.__ic_mass
-
-    def get_mass_spectrum(self):
-
-        """
-        :summary: Gets the mass spectrum at the apex of the peak
-
-        :return: The mass spectrum at the apex of the peak
-        :rtype: pyms.GCSM.Class.MassSpectrum
-        """
-
-        return copy.deepcopy(self.__mass_spectrum)
-
-## TODO: What is this?
-    def find_mass_spectrum(self, data, from_bounds=False):
-
-        """
-        :summary: Sets peak mass spectrum from the data
-            Clears the single ion chromatogram mass
-
-        :param data: An IntensityMatrix object
-        :type data: pyms.GCMS.IntensityMatrix
-        :param from_bounds: Indicator whether to use the attribute
-            'pt_bounds' or to find the peak apex from the peak
-            retention time
-        :type from_bounds: BooleanType
-
-        :return: none
-        :rtype: NoneType
-        """
-
-        if not isinstance(data, IntensityMatrix):
-            error("'data' must be an IntensityMatrix")
-
-        if not is_boolean(from_bounds):
-            error("'from_bounds' must be boolean")
-
-        if from_bounds:
-            if self.__pt_bounds == None:
-                error("pt_bounds not set for this peak")
-            else:
-                pt_apex = self.__pt_bounds[1]
-        else:
-            # get the index of peak apex from peak retention time
-            pt_apex = data.get_index_at_time(self.__rt)
-
-        # set the mass spectrum
-        self.__mass_spectrum = data.get_ms_at_index(pt_apex)
-
-        # clear single ion chromatogram mass
-        self.__ic_mass = None
-        self.make_UID()
-
-        # TEST: to test if this speeds things up
-        self.mass_spec = self.__mass_spectrum.mass_spec
-
-    def crop_mass(self, mass_min, mass_max):
-
-        """
-        :summary: Crops mass spectrum
-
-        :param mass_min: Minimum mass value
-        :type mass_min: IntType or FloatType
-        :param mass_max: Maximum mass value
-        :type mass_max: IntType or FloatType
-
-        :return: none
-        :rtype: NoneType
-
-        :author: Andrew Isaac
-        """
-
-        if not is_number(mass_min) or not is_number(mass_max):
-            error("'mass_min' and 'mass_max' must be numbers")
-        if mass_min >= mass_max:
-            error("'mass_min' must be less than 'mass_max'")
-
-        mass_list = self.__mass_spectrum.mass_list
-
-        if mass_min < min(mass_list):
-            error("'mass_min' is less than the smallest mass: %d" \
-              % min(mass_list))
-        if mass_max > max(mass_list):
-            error("'mass_max' is greater than the largest mass: %d" \
-              % max(mass_list))
-
-        # pre build mass_list and list of indecies
-        new_mass_list = []
-        new_mass_spec = []
-        mass_spec = self.__mass_spectrum.mass_spec
-        for ii in range(len(mass_list)):
-             mass = mass_list[ii]
-             if mass >= mass_min and mass <= mass_max:
-                 new_mass_list.append(mass)
-                 new_mass_spec.append(mass_spec[ii])
-
-        self.__mass_spectrum.mass_list = new_mass_list
-        self.__mass_spectrum.mass_spec = new_mass_spec
-
-        if len(new_mass_list) == 0:
-            error("mass spectrum is now empty")
-        elif len(new_mass_list) < 10:
-            print(" WARNING: peak mass spectrum contains < 10 points")
-
-        # update UID
-        self.make_UID()
-
-        # TEST: to test if this speeds things up
-        self.mass_spec = self.__mass_spectrum.mass_spec
-
-    def null_mass(self, mass):
-
-        """
-        :summary: Ignore given mass in spectra
-
-        :param mass: Mass value to remove
-        :type mass: IntType or FloatType
-
-        :author: Andrew Isaac
-        """
-
-        if self.__mass_spectrum == None:
-            error("mass spectrum not set for this peak")
-
-        if not is_number(mass):
-            error("'mass' must be numbers")
-
-        mass_list = self.__mass_spectrum.mass_list
-
-        if mass < min(mass_list) or mass > max(mass_list):
-            error("'mass' not in mass range:", min(mass_list), "to", \
-                max(mass_list))
-
-        best = max(mass_list)
-        ix = 0
-        for ii in range(len(mass_list)):
-            tmp = abs(mass_list[ii] - mass)
-            if tmp < best:
-                best = tmp
-                ix = ii
-
-        self.__mass_spectrum.mass_spec[ix] = 0
-
-        # update UID
-        self.make_UID()
-
-        # TEST: to test if this speeds things up
-        self.mass_spec = self.__mass_spectrum.mass_spec
-
-    # DK
-    def check_outlier(self):
-        return self.isoutlier
+	"""
+	:summary: Models a signal peak
+
+		A signal peak object
+		A peak object is initialised with retention time and
+		Either an ion mass, a mass spectrum or None
+
+	:author: Vladimir Likic
+	:author: Andrew Isaac
+	:author: Dominic Davis-Foster (type assertions and properties)
+	:author: David Kainer (outlier flag)
+	"""
+	
+	def __init__(self, rt=0.0, ms=None, minutes=False, outlier=False):
+		"""
+		:param rt: Retention time
+		:type rt: int or float
+		:param ms: A ion mass, or spectra of maximising ions
+		:type ms: int or float or pyms.GCMS.Class.MassSpectrum
+		:param minutes: Retention time units flag. If True, retention time
+			is in minutes; if False retention time is in seconds
+		:type minutes: bool
+		:param outlier: Whether the peak is an outlier
+		:type outlier: bool
+		"""
+		
+		if not isinstance(rt, (int, float)):
+			raise TypeError("'rt' must be a number")
+		
+		if ms and not isinstance(ms, MassSpectrum) and not isinstance(ms, (int, float)):
+			raise TypeError("'ms' must be a number or a MassSpectrum object")
+		
+		if minutes:
+			rt = rt*60.0
+		
+		# basic peak attributes
+		self.__minutes = minutes
+		self.is_outlier = outlier
+		self.__rt = float(rt)
+		self.__pt_bounds = None
+		self.__area = None
+		self.__ion_areas = {}
+		
+		# these two attributes are required for
+		# setting the peak mass spectrum
+		if isinstance(ms, MassSpectrum):
+			# mass spectrum
+			self.__mass_spectrum = ms
+			self.__ic_mass = None
+		else:
+			# single ion chromatogram properties
+			self.__mass_spectrum = None
+			self.__ic_mass = ms
+		
+		self.make_UID()
+	
+	def __eq__(self, other):
+		if isinstance(other, self.__class__):
+			return self.UID == other.UID \
+				   and self.bounds == other.bounds \
+				   and self.rt == other.rt \
+				   and self.mass_spectrum == other.mass_spectrum \
+				   and self.area == other.area
+		
+		return NotImplemented
+	
+	"""def __copy__(self):
+		#return pickle.loads(pickle.dumps(self))
+		
+		if self.__mass_spectrum is None:
+			peak = Peak(rt=copy.copy(self.__rt),
+						ms=copy.copy(self.__ic_mass),
+						minutes=self.__minutes,
+						outlier=self.is_outlier)
+		else:
+			peak = Peak(rt=copy.copy(self.__rt),
+						ms=copy.copy(self.__mass_spectrum),
+						minutes=self.__minutes,
+						outlier=self.is_outlier)
+		if self.__area is not None:
+			peak.area = self.area
+		if self.__pt_bounds is not None:
+			peak.bounds = copy.copy(self.bounds)
+		if self.__ic_mass is not None:
+			peak.ic_mass = 0+self.ic_mass
+		
+		return peak
+		
+	def __deepcopy__(self, memodict={}):
+		return self.__copy__()"""
+	
+	@property
+	def area(self):
+		"""
+		:summary: Gets the area under the peak
+
+		:return: The peak area
+		:rtype: float
+
+		:author: Andrew Isaac
+		"""
+		
+		return copy.copy(self.__area)
+	
+	@area.setter
+	def area(self, value):
+		"""
+		:summary: Sets the area under the peak
+
+		:param value: The peak area
+		:type value: float
+
+		:author: Andrew Isaac
+		"""
+		
+		if not isinstance(value, (int, float)):
+			raise TypeError("'Peak.area' must be a positive number")
+		elif value <= 0:
+			raise ValueError("'Peak.area' must be a positive number")
+		
+		self.__area = value
+	
+	@property
+	def bounds(self):
+		"""
+		:summary: Gets peak boundaries in points
+
+		:return: A list containing left, apex, and right
+			peak boundaries in points, left and right are offsets
+		:rtype: list
+
+		:author: Andrew Isaac
+		"""
+		
+		return self.__pt_bounds
+	
+	@bounds.setter
+	def bounds(self, value):
+		"""
+		:summary: Sets peak boundaries in points
+
+		:param value: A list containing left, apex, and right
+			peak boundaries in points, left and right are offsets
+		:type value: list
+		"""
+		
+		if not is_list(value):
+			raise TypeError("'Peak.bounds' must be a list")
+		
+		if len(value) != 3:
+			raise ValueError("'Peak.bounds' must have exactly 3 elements")
+
+		for index, item in enumerate(value):
+			if not is_int(item):
+				raise TypeError(f"'Peak.bounds' element #{index} must be an integer")
+		
+		self.__pt_bounds = value
+	
+	def crop_mass(self, mass_min, mass_max):
+		"""
+		:summary: Crops mass spectrum
+
+		:param mass_min: Minimum mass value
+		:type mass_min: int or float
+		:param mass_max: Maximum mass value
+		:type mass_max: int or float
+
+		:author: Andrew Isaac
+		"""
+		
+		if not is_number(mass_min) or not is_number(mass_max):
+			raise TypeError("'mass_min' and 'mass_max' must be numbers")
+		if mass_min >= mass_max:
+			raise ValueError("'mass_min' must be less than 'mass_max'")
+		
+		mass_list = self.__mass_spectrum.mass_list
+		
+		if mass_min < min(mass_list):
+			raise ValueError("'mass_min' is less than the smallest mass: %d" % min(mass_list))
+		if mass_max > max(mass_list):
+			raise ValueError("'mass_max' is greater than the largest mass: %d" % max(mass_list))
+		
+		# pre build mass_list and list of indecies
+		new_mass_list = []
+		new_mass_spec = []
+		mass_spec = self.__mass_spectrum.mass_spec
+		for ii in range(len(mass_list)):
+			mass = mass_list[ii]
+			if mass_min <= mass <= mass_max:
+				new_mass_list.append(mass)
+				new_mass_spec.append(mass_spec[ii])
+		
+		self.__mass_spectrum.mass_list = new_mass_list
+		self.__mass_spectrum.mass_spec = new_mass_spec
+		
+		if len(new_mass_list) == 0:
+			raise ValueError("mass spectrum is now empty")
+		elif len(new_mass_list) < 10:
+			warn("peak mass spectrum contains < 10 points", Warning)
+		
+		# update UID
+		self.make_UID()
+
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.area' instead")
+	def get_area(self):
+		"""
+		:summary: Gets the area under the peak
+
+		:return: The peak area
+		:rtype: float
+
+		:author: Andrew Isaac
+		"""
+		
+		return self.area
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.ic_mass' instead")
+	def get_ic_mass(self):
+		"""
+		:summary: Gets the mass for a single ion chromatogram peak
+
+		:return: The mass of the single ion chromatogram that the peak is from
+		:rtype: float or int
+		"""
+		
+		return self.ic_mass
+	
+	def get_int_of_ion(self, ion):
+		"""
+		:summary: returns the intensity of a given ion
+
+		:param ion: The m/z value of the ion of interest
+		:type ion: int
+
+		:return: The intensity of the given ion in this peak
+		:rtype: int
+		"""
+		
+		try:
+			index = self.__mass_spectrum.mass_list.index(ion)
+			return self.__mass_spectrum.mass_spec[index]
+		except (ValueError, IndexError):
+			raise IndexError(f"'ion' out of range of mass spectrum (range {min(self.__mass_spectrum.mass_list)} to {max(self.__mass_spectrum.mass_list)})")
+	
+	def get_ion_area(self, ion):
+		"""
+		:summary: gets the area of a single ion chromatogram
+				  under the peak
+
+		:param ion: The ion whose IC is to be returned
+		:type ion: int
+
+		:return: The area of the ion under this peak
+		:rtype: float
+		"""
+		
+		try:
+			return self.__ion_areas[ion]
+		except KeyError:
+			return None
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.ion_areas' instead")
+	def get_ion_areas(self):
+		"""
+		:summary: returns a copy of the ion areas dict
+
+		:return: The dictionary of ion:ion area pairs
+		:rtype: dict
+		"""
+		
+		return self.ion_areas
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.mass_spectrum' instead")
+	def get_mass_spectrum(self):
+		"""
+		:summary: Gets the mass spectrum at the apex of the peak
+
+		:return: The mass spectrum at the apex of the peak
+		:rtype: pyms.GCSM.Class.MassSpectrum
+		"""
+		
+		return self.mass_spectrum
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.bounds' instead")
+	def get_pt_bounds(self):
+		"""
+		:summary: Gets peak boundaries in points
+
+		:return: A list containing left, apex, and right
+			peak boundaries in points, left and right are offsets
+		:rtype: list
+
+		:author: Andrew Isaac
+		"""
+		
+		return self.bounds
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.rt' instead")
+	def get_rt(self):
+		"""
+		:summary: Return the retention time
+
+		:return: Retention time
+		:rtype: float
+		"""
+		
+		return self.rt
+	
+	def get_third_highest_mz(self):
+		"""
+		:summary: returns the mz value with the third highest
+				  intensity
+
+		:return: the ion with the third highest intensity
+		:rtype: int
+		"""
+		
+		if self.__mass_spectrum is not None:
+			mass_list = self.__mass_spectrum.mass_list
+			mass_spec = self.__mass_spectrum.mass_spec
+			# find top two masses
+			best = 0
+			best_ii = 0
+			best2_ii = 0
+			best3_ii = 0
+			for ii in range(len(mass_spec)):
+				if mass_spec[ii] > best:
+					best = mass_spec[ii]
+					best3_ii = best2_ii
+					best2_ii = best_ii
+					best_ii = ii
+			
+			return int(mass_list[best3_ii])
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.UID' instead")
+	def get_UID(self):
+		"""
+		:summary: Return the unique peak ID (UID) based on:
+			Int masses of top two intensities and their ratio (as
+			Mass1-Mass2-Ratio*100); or the single mass as int.
+
+		:return: UID string
+		:rtype: str
+
+		:author: Andrew Isaac
+		"""
+		
+		return self.UID
+	
+	@property
+	def ic_mass(self):
+		"""
+		:summary: Gets the mass for a single ion chromatogram peak
+
+		:return: The mass of the single ion chromatogram that the peak is from
+		:rtype: float or int
+		"""
+		
+		return self.__ic_mass
+	
+	@ic_mass.setter
+	def ic_mass(self, value):
+		"""
+		:summary: Sets the mass for a single ion chromatogram peak
+			Clears the mass spectrum
+
+		:param value: The mass of the ion chromatogram that the peak is from
+		:type value: float
+		"""
+		
+		if not isinstance(value, (int, float)):
+			raise TypeError("'Peak.ic_mass' must be a number")
+		self.__ic_mass = value
+		# clear mass spectrum
+		self.__mass_spectrum = None
+		self.make_UID()
+	
+	@property
+	def ion_areas(self):
+		"""
+		:summary: Returns a copy of the ion areas dict
+
+		:return: The dictionary of ion:ion area pairs
+		:rtype: dict
+		"""
+		if len(self.__ion_areas) == 0:
+			raise ValueError("no ion areas set")
+		
+		return copy.deepcopy(self.__ion_areas)
+	
+	@ion_areas.setter
+	def ion_areas(self, value):
+		"""
+		:summary: Set the ion:ion area pair dictionary
+
+		:param value: The dictionary of ion:ion_area pairs
+		:type value: dict
+		"""
+		
+		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], int):
+			raise TypeError("'Peak.ion_areas' must be a dictionary of ion:ion_area pairs")
+		self.__ion_areas = value
+	
+	def make_UID(self):
+		"""
+		:summary: Create a unique peak ID (UID) based on:
+			Int masses of top two intensities, their ratio and RT (as
+			Mass1-Mass2-Ratio*100-RT); or the single mass as int and RT.
+
+		:author: Andrew Isaac
+		"""
+		
+		minutes = 1.0
+		if self.__minutes:
+			minutes = 60.0
+		if self.__mass_spectrum is not None:
+			mass_list = self.__mass_spectrum.mass_list
+			mass_spec = self.__mass_spectrum.mass_spec
+			# find top two masses
+			best = 0
+			best_ii = 0
+			best2_ii = 0
+			for ii in range(len(mass_spec)):
+				if mass_spec[ii] > best:
+					best = mass_spec[ii]
+					best2_ii = best_ii
+					best_ii = ii
+			ratio = int(100*mass_spec[best2_ii]/best)
+			UID = "%d-%d-%d-%.2f" % (int(mass_list[best_ii]),
+									 int(mass_list[best2_ii]), ratio, self.__rt/minutes)
+		elif self.__ic_mass is not None:
+			UID = "%d-%.2f" % (int(self.__ic_mass), self.__rt/minutes)
+		else:
+			UID = f"{self.__rt/minutes:.2f}"
+		
+		self.__UID = UID
+	
+	@property
+	def mass_spectrum(self):
+		"""
+		:summary: Gets the mass spectrum at the apex of the peak
+
+		:return: The mass spectrum at the apex of the peak
+		:rtype: pyms.GCSM.Class.MassSpectrum
+		"""
+		
+		return copy.deepcopy(self.__mass_spectrum)
+	
+	@mass_spectrum.setter
+	def mass_spectrum(self, value):
+		"""
+		:summary: Sets the mass spectrum
+			Clears the mass for a single ion chromatogram peak
+
+		:param value: The mass spectrum at the apex of the peak
+		:type value: pyms.GCMS.Class.MassSpectrum
+		"""
+		
+		if not isinstance(value, MassSpectrum):
+			raise TypeError("'Peak.mass_spectrum' must be a MassSpectrum object")
+		
+		self.__mass_spectrum = value
+		# clear ion mass
+		self.__ic_mass = None
+		self.make_UID()
+	
+	def null_mass(self, mass):
+		"""
+		:summary: Ignore given mass in spectra
+
+		:param mass: Mass value to remove
+		:type mass: int or float
+
+		:author: Andrew Isaac
+		"""
+		
+		if self.__mass_spectrum is None:
+			raise NameError("mass spectrum not set for this peak")
+		
+		if not isinstance(mass, (int, float)):
+			raise TypeError("'mass' must be a number")
+		
+		mass_list = self.__mass_spectrum.mass_list
+		
+		if mass < min(mass_list) or mass > max(mass_list):
+			raise IndexError("'mass' not in mass range:", min(mass_list), "to", max(mass_list))
+		
+		best = max(mass_list)
+		ix = 0
+		for ii in range(len(mass_list)):
+			tmp = abs(mass_list[ii] - mass)
+			if tmp < best:
+				best = tmp
+				ix = ii
+		
+		self.__mass_spectrum.mass_spec[ix] = 0
+		
+		# update UID
+		self.make_UID()
+	
+	@property
+	def rt(self):
+		"""
+		:summary: Return the retention time
+
+		:return: Retention time
+		:rtype: float
+		"""
+		
+		return self.__rt
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.area' instead")
+	def set_area(self, area):
+		"""
+		:summary: Sets the area under the peak
+
+		:param area: The peak area
+		:type area: float
+
+		:author: Andrew Isaac
+		"""
+		
+		if not isinstance(area, (int, float)):
+			raise TypeError("'area' must be a positive number")
+		elif area <= 0:
+			raise ValueError("'area' must be a positive number")
+		
+		self.__area = area
+	
+	def set_bounds(self, left, apex, right):
+		"""
+		:summary: Sets peak boundaries in points
+
+		:param left: Left peak boundary, in points offset from apex
+		:param apex: Apex of the peak, in points
+		:param right: Right peak boundary, in points offset from apex
+		"""
+		
+		self.bounds = (left, apex, right)
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.ic_mass' instead")
+	def set_ic_mass(self, mz):
+		"""
+		:summary: Sets the mass for a single ion chromatogram peak
+			Clears the mass spectrum
+
+		:param mz: The mass of the ion chromatogram that the peak is from
+		:type mz: float
+		"""
+		
+		if not is_number(mz):
+			raise TypeError("'mz' must be a number")
+		self.__ic_mass = mz
+		# clear mass spectrum
+		self.__mass_spectrum = None
+		self.make_UID()
+	
+	def set_ion_area(self, ion, area):
+		"""
+		:summary: sets the area for a single ion
+
+		:param ion: the ion who's area is being entered
+		:param area: the area under the IC of ion
+
+		:author: Sean O'Callaghan
+		"""
+
+		if not isinstance(ion, int):
+			raise TypeError("'ion' must be an integer")
+		
+		if not isinstance(area, (int, float)):
+			raise TypeError("'area' must be a number")
+		
+		self.__ion_areas[ion] = area
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.ion_areas' instead")
+	def set_ion_areas(self, ion_areas):
+		"""
+		:summary: set the ion:ion area pair dictionary
+
+		:param ion_areas: The dictionary of ion:ion_area pairs
+		:type ion_areas: dict
+		"""
+		
+		self.ion_areas = ion_areas
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.mass_spectrum' instead")
+	def set_mass_spectrum(self, ms):
+		"""
+		:summary: Sets the mass spectrum
+			Clears the mass for a single ion chromatogram peak
+
+		:param ms: The mass spectrum at the apex of the peak
+		:type ms: pyms.GCMS.Class.MassSpectrum
+		"""
+		
+		if not isinstance(ms, MassSpectrum):
+			raise TypeError("'ms' must be a MassSpectrum object")
+		
+		self.__mass_spectrum = ms
+		# clear ion mass
+		self.__ic_mass = None
+		self.make_UID()
+	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Peak.bounds' instead")
+	def set_pt_bounds(self, pt_bounds):
+		"""
+		:summary: Sets peak boundaries in points
+
+		:param pt_bounds: A list containing left, apex, and right
+			peak boundaries in points, left and right are offsets
+		:type pt_bounds: list
+		"""
+		
+		self.bounds = pt_bounds
+	
+	@property
+	def UID(self):
+		"""
+		:summary: Return the unique peak ID (UID) based on:
+			Int masses of top two intensities and their ratio (as
+			Mass1-Mass2-Ratio*100); or the single mass as int.
+
+		:return: UID string
+		:rtype: str
+
+		:author: Andrew Isaac
+		"""
+		
+		return self.__UID
+		
+	## TODO: What is this?
+	def find_mass_spectrum(self, data, from_bounds=False):
+		
+		"""
+		:summary: Sets peak mass spectrum from the data
+			Clears the single ion chromatogram mass
+
+		:param data: An IntensityMatrix object
+		:type data: pyms.GCMS.IntensityMatrix
+		:param from_bounds: Indicator whether to use the attribute
+			'pt_bounds' or to find the peak apex from the peak
+			retention time
+		:type from_bounds: BooleanType
+
+		:return: none
+		:rtype: NoneType
+		"""
+		
+		if not isinstance(data, IntensityMatrix):
+			raise TypeError("'data' must be an IntensityMatrix")
+		
+		if not is_boolean(from_bounds):
+			raise TypeError("'from_bounds' must be boolean")
+		
+		if from_bounds:
+			if self.__pt_bounds is None:
+				raise NameError("pt_bounds not set for this peak")
+			else:
+				pt_apex = self.__pt_bounds[1]
+		else:
+			# get the index of peak apex from peak retention time
+			pt_apex = data.get_index_at_time(self.__rt)
+		
+		# set the mass spectrum
+		self.__mass_spectrum = data.get_ms_at_index(pt_apex)
+		
+		# clear single ion chromatogram mass
+		self.__ic_mass = None
+		self.make_UID()
+
+	def top_ions(self, num_ions=5):
+		"""
+		:summary: Computes the highest #num_ions intensity ions
+	
+		:param num_ions: The number of ions to be recorded
+		:type num_ions: int
+	
+		:return: A list of the #num_ions highest intensity ions
+		:rtype: list
+	
+		:author: Sean O'Callaghan
+		:author: Dominic Davis-Foster (type assertions)
+		"""
+		
+		if not isinstance(num_ions, int):
+			raise TypeError("'n_top_ions' must be an integer")
+	
+		intensity_list = self.mass_spectrum.mass_spec
+		mass_list = self.mass_spectrum.mass_list
+	
+		ic_tuple = zip(intensity_list, mass_list)
+	
+		sorted_ic = sorted(ic_tuple)
+		top_ic = sorted_ic[-num_ions:]
+	
+		top_ions = []
+	
+		for entry in top_ic:
+			top_ions.append(entry[1])
+			
+		return top_ions

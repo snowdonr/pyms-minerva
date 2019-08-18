@@ -2,30 +2,31 @@
 Noise analysis functions
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import random, math
 
-from pyms.Utils.Error import error
-from pyms.GCMS.Function import is_ionchromatogram
+from pyms.IonChromatogram import IonChromatogram
 from pyms.Utils.Time import window_sele_points
 from pyms.Utils.Math import MAD
 
@@ -45,25 +46,29 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
     :param ic: An IonChromatogram object
     :type ic: pyms.IO.Class.IonCromatogram
     :param window: Window width selection
-    :type window: IntType or StringType
+    :type window: int or str
     :param n_windows: The number of windows to calculate
-    :type n_windows: IntType
+    :type n_windows: int
     :param rand_seed: Random seed generator
-    :type rand_seed: IntType
+    :type rand_seed: str or int or float
 
     :return: The noise estimate
-    :rtype: FloatType
+    :rtype: float
 
     :author: Vladimir Likic
     """
+    
+    if not isinstance(ic, IonChromatogram):
+        raise TypeError("'ic' must be an IonChromatogram object")
+    if not isinstance(window, (int, str)):
+        raise TypeError("'window' must be a int or string")
+    if not isinstance(n_windows, int):
+        raise TypeError("'n_windows' must be an integer")
 
-    if not is_ionchromatogram(ic):
-        error("argument must be an IonChromatogram object")
-
-    ia = ic.get_intensity_array() # fetch the intensities
+    ia = ic.intensity_array # fetch the intensitiess
 
     # create an instance of the Random class
-    if rand_seed != None:
+    if rand_seed:
         generator = random.Random(rand_seed)
     else:
         generator = random.Random()

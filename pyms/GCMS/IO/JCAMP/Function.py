@@ -2,33 +2,33 @@
 Functions for I/O of data in JCAMP-DX format
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.Class import Scan
-from pyms.Utils.IO import file_lines
 from pyms.Utils.Utils import is_str
-from pyms.Utils.Error import error
+from pyms.Utils.Error import error, pymsError
 
-import numpy
 
 def JCAMP_reader(file_name):
 
@@ -42,7 +42,7 @@ def JCAMP_reader(file_name):
     """
 
     if not is_str(file_name):
-        error("'file_name' not a string")
+        raise TypeError("'file_name' must be a string")
 
     print(" -> Reading JCAMP file '%s'" % (file_name))
     lines_list = open(file_name,'r')
@@ -68,14 +68,15 @@ def JCAMP_reader(file_name):
             elif prefix == -1:
                 if page_idx > 1 or xydata_idx > 1:
                     if len(data) % 2 == 1:
-                        error("data not in pair !")
+                        raise ValueError("data not in pair !")
+                        # TODO: what does this mean?
                     mass = []
                     intensity = []
                     for i in range(len(data) // 2):
                         mass.append(data[i * 2])
                         intensity.append(data[i * 2 + 1])
                     if not len(mass) == len(intensity):
-                        error("len(mass) is not equal to len(intensity)")
+                        raise ValueError("len(mass) is not equal to len(intensity)")
                     scan_list.append(Scan(mass, intensity))
                     data = []
                     data_sub = line.strip().split(',')
@@ -93,7 +94,7 @@ def JCAMP_reader(file_name):
                             data.append(float(item.strip()))
 
     if len(data) % 2 == 1:
-        error("data not in pair !")
+        raise pymsError("data not in pair !")
     # get last scan
     mass = []
     intensity = []
@@ -102,12 +103,12 @@ def JCAMP_reader(file_name):
         intensity.append(data[i * 2 + 1])
 
     if not len(mass) == len(intensity):
-        error("len(mass) is not equal to len(intensity)")
+        raise ValueError("len(mass) is not equal to len(intensity)")
     scan_list.append(Scan(mass, intensity))
 
     # sanity check
     if not len(time_list) == len(scan_list):
-        error("number of time points does not equal the number of scans")
+        raise ValueError("number of time points does not equal the number of scans")
 
     data = GCMS_data(time_list, scan_list)
 
@@ -123,7 +124,7 @@ def JCAMP_OpenChrom_reader(file_name):
     """
 
     if not is_str(file_name):
-        error("'file_name' not a string")
+        raise TypeError("'file_name' must be a string")
 
     print(" -> Reading JCAMP file '%s'" % (file_name))
     lines_list = open(file_name,'r')
@@ -151,14 +152,14 @@ def JCAMP_OpenChrom_reader(file_name):
             elif prefix == -1:
                 if page_idx > 1 or xydata_idx > 1:
                     if len(data) % 2 == 1:
-                        error("data not in pair !")
+                        raise pymsError("data not in pair !")
                     mass = []
                     intensity = []
                     for i in range(len(data) // 2):
                         mass.append(data[i * 2])
                         intensity.append(data[i * 2 + 1])
                     if not len(mass) == len(intensity):
-                        error("len(mass) is not equal to len(intensity)")
+                        raise ValueError("len(mass) is not equal to len(intensity)")
                     scan_list.append(Scan(mass, intensity))
                     data = []
                     data_sub = line.strip().split(',')
@@ -176,7 +177,7 @@ def JCAMP_OpenChrom_reader(file_name):
                             data.append(float(item.strip()))
 
     if len(data) % 2 == 1:
-        error("data not in pair !")
+        raise pymsError("data not in pair !")
     # get last scan
     mass = []
     intensity = []
@@ -185,12 +186,12 @@ def JCAMP_OpenChrom_reader(file_name):
         intensity.append(data[i * 2 + 1])
 
     if not len(mass) == len(intensity):
-        error("len(mass) is not equal to len(intensity)")
+        raise ValueError("len(mass) is not equal to len(intensity)")
     scan_list.append(Scan(mass, intensity))
 
     # sanity check
     if not len(time_list) == len(scan_list):
-        error("number of time points does not equal the number of scans")
+        raise ValueError("number of time points does not equal the number of scans")
 
     data = GCMS_data(time_list, scan_list)
 

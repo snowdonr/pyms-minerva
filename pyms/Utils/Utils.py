@@ -2,31 +2,31 @@
 General utility functions
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
 
-import types, re
+
+import re
 
 import numpy
-
-from pyms.Utils.Error import error
 
 def is_str(arg):
 
@@ -42,11 +42,9 @@ def is_str(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,str):
-        return True 
-    else:
-        return False
-
+    return isinstance(arg,str)
+    
+    
 def is_int(arg):
 
     """
@@ -62,10 +60,7 @@ def is_int(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,int):
-        return True
-    else:
-        return False
+    return isinstance(arg,int)
 
 def is_float(arg):
 
@@ -81,10 +76,7 @@ def is_float(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,float):
-        return True
-    else:
-        return False
+    return isinstance(arg,float)
 
 def is_number(arg):
 
@@ -101,10 +93,7 @@ def is_number(arg):
     :author: Vladimir Likic
     """
 
-    if is_int(arg) or is_float(arg):
-        return True 
-    else:
-        return False
+    return isinstance(arg, (int, float))
 
 def is_list(arg):
 
@@ -121,12 +110,8 @@ def is_list(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,list) or isinstance(arg,tuple) \
-            or isinstance(arg, numpy.core.ndarray):
-        return True 
-    else:
-        return False
-
+    return isinstance(arg,(list, tuple, numpy.core.ndarray))
+    
 def is_array(arg):
 
     """
@@ -142,10 +127,7 @@ def is_array(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg, numpy.core.ndarray):
-        return True 
-    else:
-        return False
+    return isinstance(arg, numpy.core.ndarray)
 
 
 def is_boolean(arg):
@@ -162,10 +144,7 @@ def is_boolean(arg):
     :author: Vladimir Likic
     """
 
-    if isinstance(arg,bool):
-        return True
-    else:
-        return False 
+    return isinstance(arg,bool)
 
 def is_str_num(arg):
 

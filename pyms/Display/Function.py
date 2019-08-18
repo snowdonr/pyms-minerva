@@ -1,4 +1,4 @@
-"""Display.Function.py
+"""Display.BillerBiemann.py
 """
 
 #############################################################################
@@ -24,10 +24,7 @@
 
 import matplotlib.pyplot as plt
 
-import sys
-
-from pyms.Utils.Error import error
-from pyms.GCMS.Class import IonChromatogram 
+from pyms.GCMS.Class import IonChromatogram
 
 
 def plot_ic(ic, line_label=" ", plot_title=" "):
@@ -46,18 +43,15 @@ def plot_ic(ic, line_label=" ", plot_title=" "):
     :author: Sean O'Callaghan
     """
     
-    #Plotting Variables
+    # Plotting Variables
     fig = plt.figure()
     ax = fig.add_subplot(111)
     
-   
     if not isinstance(ic, IonChromatogram):
-        error("ics argument must be an IonChromatogram\
+        raise TypeError("ics argument must be an IonChromatogram\
                 or a list of Ion Chromatograms")
 
     time_list = ic.get_time_list()
-    
-    
     
     intensity_list = ic.get_intensity_array()
     
@@ -69,8 +63,7 @@ def plot_ic(ic, line_label=" ", plot_title=" "):
     fig.canvas.draw
     plt.show()
     
-    
-    
+# TODO: Combine with Display.plot_mass_spec()
 def plot_ms(mass_spec, plot_title=" "):
         
     """ 
@@ -103,8 +96,7 @@ def plot_ms(mass_spec, plot_title=" "):
         if mass_list[i] < min_mz:
             min_mz = mass_list[i]
         
-    mass_spec_plot = plt.bar(mass_list, intensity_list,\
-        width=0.01)
+    mass_spec_plot = plt.bar(mass_list, intensity_list, width=0.01)
         
     x_axis_range = plt.xlim(min_mz, max_mz)
     t = ax.set_title(plot_title)

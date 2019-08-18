@@ -2,37 +2,39 @@
 Savitzky-Golay noise filter
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import numpy
 import copy
 
-from pyms.GCMS.Function import is_ionchromatogram, ic_window_points
-from pyms.Utils.Utils import is_int
+from pyms.GCMS.Function import ic_window_points
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IonChromatogram import IonChromatogram
 
 __DEFAULT_WINDOW = 7
 __DEFAULT_POLYNOMIAL_DEGREE = 2
 
-def savitzky_golay(ic, window=__DEFAULT_WINDOW, \
-        degree=__DEFAULT_POLYNOMIAL_DEGREE):
+def savitzky_golay(ic, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGREE):
 
     """
     :summary: Applies Savitzky-Golay filter on ion chromatogram
@@ -43,25 +45,27 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, \
         or time string. If integer, taken as the number of points. If a
         string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
         a time in seconds or minutes, respectively
-    :type window: IntType or StringType
+    :type window: int or str
     :param degree: degree of the fitting polynomial for the Savitzky-Golay
         filter
-    :type degree: IntType
+    :type degree: int
 
     :return: Smoothed ion chromatogram
     :rtype: pyms.GCMS.Class.IonChromatogram
 
     :author: Uwe Schmitt
     :author: Vladimir Likic
+    :author: Dominic Davis-Foster
     """
+    
+    if not isinstance(ic, IonChromatogram):
+        raise TypeError("'ic' must be an IonChromatogram object")
+    if not isinstance(window, (int, str)):
+        raise TypeError("'window' must be either an int or a string")
+    if not isinstance(degree, int):
+        raise TypeError("'degree' must be an integer")
 
-    if not is_ionchromatogram(ic):
-        error("'ic' not an IonChromatogram object")
-
-    if not is_int(degree):
-        error("'degree' not an integer")
-
-    ia = ic.get_intensity_array()
+    ia = ic.intensity_array
 
     wing_length = ic_window_points(ic, window, half_window=True)
 
@@ -73,12 +77,12 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, \
     ia_denoise = __smooth(ia, coeff)
 
     ic_denoise = copy.deepcopy(ic)
-    ic_denoise.set_intensity_array(ia_denoise)
+    ic_denoise.intensity_array = ia_denoise
 
     return ic_denoise
 
-def savitzky_golay_im(im, window=__DEFAULT_WINDOW, \
-        degree=__DEFAULT_POLYNOMIAL_DEGREE):
+
+def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGREE):
     """
     :summary: Applies Savitzky-Golay filter on Intensity
               Matrix
@@ -89,20 +93,28 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, \
     :param im: The input IntensityMatrix
     :type im: pyms.GCMS.Class.IntensityMatrix
     :param window: The window selection parameter.
-    :type window: IntType or StringType
+    :type window: int or str
     
     :param degree: degree of the fitting polynomial for the Savitzky-Golay
         filter
-    :type degree: IntType
+    :type degree: int
 
     :return: Smoothed IntensityMatrix
     :rtype: pyms.GCMS.Class.IntensityMatrix
 
     :author: Sean O'Callaghan
     :author: Vladimir Likic
+    :author: Dominic Davis-Foster
     """
     
-    n_scan, n_mz = im.get_size()
+    if not isinstance(im, IntensityMatrix):
+        raise TypeError("'im' must be an IntensityMatrix object")
+    if not isinstance(window, (int, str)):
+        raise TypeError("'window' must be either an int or a string")
+    if not isinstance(degree, int):
+        raise TypeError("'degree' must be an integer")
+
+    n_scan, n_mz = im.size
     
     im_smooth = copy.deepcopy(im)
     
@@ -161,6 +173,7 @@ def __calc_coeff(num_points, pol_degree, diff_order=0):
 
     return coeff
 
+
 def __resub(D, rhs):
 
     """
@@ -191,6 +204,7 @@ def __resub(D, rhs):
         x2[l] = sum/D[l,l]
 
     return x2
+
 
 def __smooth(signal, coeff):
 

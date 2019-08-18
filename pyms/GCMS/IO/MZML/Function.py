@@ -2,32 +2,32 @@
 Functions for reading manufacturer specific ANDI-MS data files
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
 
-import numpy
 
 from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.Class import Scan
 from pyms.Utils.Utils import is_str
-from pyms.Utils.Error import error, stop
+from pyms.Utils.Error import pymsError
 
 try:
     from mpi4py import MPI
@@ -49,11 +49,11 @@ def mzML_reader(file_name):
     import pymzml
 
     if not is_str(file_name):
-        error("'file_name' must be a string")
+        raise TypeError("'file_name' must be a string")
     try:
         mzml_file = pymzml.run.Reader(file_name)
     except:
-        error("Cannot open file '%s'" % file_name)
+        raise pymsError("Cannot open file '%s'" % file_name)
 
     try:# avoid printing from each rank
         comm = MPI.COMM_WORLD

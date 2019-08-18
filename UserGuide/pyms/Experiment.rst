@@ -16,11 +16,3 @@
     :members:
     :private-members:
     :special-members:
-
-==========================
-:mod:`pyms.Experiment.IO`
-==========================
-.. automodule:: pyms.Experiment.IO
-    :members:
-    :private-members:
-    :special-members:

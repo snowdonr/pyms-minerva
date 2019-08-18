@@ -2,25 +2,27 @@
 Classes for peak alignment by dynamic programming
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import os
 import copy
@@ -39,20 +41,14 @@ except:
         print("Please install one of them and try again.")
         sys.exit(1)
 
-from pyms.Utils.Error import error, stop
-from pyms.Utils.IO import dump_object
 from pyms.Experiment.Class import Experiment
-from pyms.GCMS.Class import MassSpectrum
-from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import composite_peak
 
 from pyms.Peak.List.DPA import Function
-from pyms.Peak.List.Function import percentile_based_outlier, mad_based_outlier, median_outliers
 
 from openpyxl import Workbook
 from openpyxl.comments import Comment
-from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
-from openpyxl.utils import *
+from openpyxl.formatting.rule import ColorScaleRule#, CellIsRule, FormulaRule
 
 from openpyxl.styles import PatternFill
 
@@ -64,6 +60,7 @@ try:
 except:
     pass
 
+
 class Alignment(object):
 
     """
@@ -71,6 +68,7 @@ class Alignment(object):
 
     :author: Woon Wai Keen
     :author: Vladimir Likic
+    :author: Dominic Davis-Foster (type assertions)
     """
 
     def __init__(self, expr):
@@ -83,20 +81,20 @@ class Alignment(object):
         :author: Qiao Wang
         :author: Vladimir Likic
         """
-        if expr == None:
+        if expr is None:
             self.peakpos = []
             self.peakalgt = []
             self.expr_code =  []
             self.similarity = None
         else:
             if not isinstance(expr, Experiment):
-                error("'expr' must be an Experiment object")
+                raise TypeError("'expr' must be an Experiment object")
             #for peak in expr.get_peak_list():
             #    if peak.get_area() == None or peak.get_area() <= 0:
             #        error("All peaks must have an area for alignment")
-            self.peakpos = [ copy.deepcopy(expr.get_peak_list()) ]
+            self.peakpos = [copy.deepcopy(expr.peak_list)]
             self.peakalgt = numpy.transpose(self.peakpos)
-            self.expr_code =  [ expr.get_expr_code() ]
+            self.expr_code = [expr.expr_code]
             self.similarity = None
 
     def __len__(self):
@@ -125,6 +123,9 @@ class Alignment(object):
         :author: Qiao Wang
         """
 
+        if not isinstance(min_peaks, int):
+            raise TypeError("'min_peaks' must be an integer")
+
         filtered_list=[]
 
         for pos in range(len(self.peakalgt)):
@@ -136,7 +137,7 @@ class Alignment(object):
         self.peakpos = numpy.transpose(self.peakalgt)
 
 
-    def write_csv_dk(self, rt_file_name, area_file_name, minutes=True):
+    def write_csv_dk(self, *args, **kwargs):
 
         """
         :summary: Writes the alignment to CSV files, but excluded outliers from the calculation of composite peak
@@ -145,86 +146,18 @@ class Alignment(object):
         retention times and the other containing the alignment of peak areas.
 
         :param rt_file_name: The name for the retention time alignment file
-        :type rt_file_name: StringType
+        :type rt_file_name: str
         :param area_file_name: The name for the areas alignment file
-        :type area_file_name: StringType
+        :type area_file_name: str
         :param minutes: An optional indicator whether to save retention times
             in minutes. If False, retention time will be saved in seconds
         :type minutes: BooleanType
 
         :author: David Kainer
         """
-
-        try:
-            fp1 = open(rt_file_name, "w")
-            fp2 = open(area_file_name, "w")
-        except IOError:
-            error("Cannot open output file for writing")
-
-        # create header
-        header = '"UID","RTavg"'
-        for item in self.expr_code:
-            expr_code = ( '"%s"' % item )
-            header = header + "," + expr_code
-        header = header + "\n"
-
-        # write headers
-        fp1.write(header)
-        fp2.write(header)
-
-        # for each alignment position write alignment's peak and area
-        for peak_idx in range(len(self.peakpos[0])):    # loop through peak lists (rows)
-
-            rts = []
-            areas = []
-            new_peak_list = []
-
-            for align_idx in range(len(self.peakpos)):   # loops through samples (columns)
-                peak = self.peakpos[align_idx][peak_idx]
-
-                if peak is not None:
-
-                    if minutes:
-                        rt = peak.get_rt()/60.0
-                    else:
-                        rt = peak.get_rt()
-
-                    rts.append(rt)
-                    areas.append(peak.get_area())
-                    new_peak_list.append(peak)
-
-                else:
-                    rts.append(numpy.nan)
-                    areas.append(None)
-
-            compo_peak = composite_peak(new_peak_list, minutes)
-            peak_UID = compo_peak.get_UID()
-            peak_UID_string = ( '"%s"' % peak_UID)
-
-            # write to retention times file
-            fp1.write(peak_UID_string)
-            fp1.write(",%.3f" % float(compo_peak.get_rt()/60))
-
-            for rt in rts:
-                if numpy.isnan(rt):
-                    fp1.write(",NA")
-                else:
-                    fp1.write(",%.3f" % rt)
-            fp1.write("\n")
-
-            # write to peak areas file
-            fp2.write(peak_UID_string)
-            fp2.write(",%.3f" % float(compo_peak.get_rt()/60))
-            for area in areas:
-                if area == None:
-                    fp2.write(",NA")
-                else:
-                    fp2.write(",%.0f" % area)
-            fp2.write("\n")
-
-        fp1.close()
-        fp2.close()
-
+        
+        self.write_csv(*args, **kwargs, dk=True)
+       
     def write_transposed_output(self, excel_file_name, minutes=True):
         wb = Workbook()
         ws1 = wb.create_sheet(title='Aligned RT')
@@ -309,14 +242,12 @@ class Alignment(object):
 
         wb.save(excel_file_name)
 
-
-
     def write_excel(self, excel_file_name, minutes=True):
         """
         @summary: Writes the alignment to an excel file, with colouring showing possible mis-alignments
 
         @param excel_file_name: The name for the retention time alignment file
-        @type excel_file_name: StringType
+        @type excel_file_name: str
         @param minutes: An optional indicator whether to save retention times
             in minutes. If False, retention time will be saved in seconds
         @type minutes: BooleanType
@@ -391,14 +322,7 @@ class Alignment(object):
                                                                end_type='percentile', end_value=99, end_color='FFE5CC'))
         wb.save(excel_file_name)
 
-
-
-
-
-
-
-    def write_csv(self, rt_file_name, area_file_name, minutes=True):
-
+    def write_csv(self, rt_file_name, area_file_name, minutes=True, dk=False):
         """
         :summary: Writes the alignment to CSV files
 
@@ -406,28 +330,32 @@ class Alignment(object):
         retention times and the other containing the alignment of peak areas.
 
         :param rt_file_name: The name for the retention time alignment file
-        :type rt_file_name: StringType
+        :type rt_file_name: str
         :param area_file_name: The name for the areas alignment file
-        :type area_file_name: StringType
+        :type area_file_name: str
         :param minutes: An optional indicator whether to save retention times
             in minutes. If False, retention time will be saved in seconds
         :type minutes: BooleanType
+        :param dk: Whether to use David Kainer's modified version
 
         :author: Woon Wai Keen
         :author: Andrew Isaac
         :author: Vladimir Likic
         """
         
+        if not isinstance(rt_file_name, str):
+            raise TypeError("'rt_file_name' must be a string")
+        if not isinstance(area_file_name, str):
+            raise TypeError("'area_file_name' must be a string")
+        
         if not os.path.isdir(os.path.dirname(rt_file_name)):
             os.makedirs(os.path.dirname(rt_file_name))
         if not os.path.isdir(os.path.dirname(area_file_name)):
             os.makedirs(os.path.dirname(area_file_name))
         
-        try:
-            fp1 = open(rt_file_name, "w")
-            fp2 = open(area_file_name, "w")
-        except IOError:
-            error("Cannot open output file for writing")
+        fp1 = open(rt_file_name, "w")
+        fp2 = open(area_file_name, "w")
+    
 
         # create header
         header = '"UID","RTavg"'
@@ -441,7 +369,7 @@ class Alignment(object):
         fp2.write(header)
 
         # for each alignment position write alignment's peak and area
-        for peak_idx in range(len(self.peakpos[0])):
+        for peak_idx in range(len(self.peakpos[0])):    # loop through peak lists (rows)
 
             rts = []
             areas = []
@@ -450,7 +378,6 @@ class Alignment(object):
             countrt = 0
 
             for align_idx in range(len(self.peakpos)):
-
                 peak = self.peakpos[align_idx][peak_idx]
 
                 if peak is not None:
@@ -475,33 +402,44 @@ class Alignment(object):
 
             compo_peak = composite_peak(new_peak_list, minutes)
             peak_UID = compo_peak.get_UID()
-            peak_UID_string = ( '"%s"' % peak_UID)
+            peak_UID_string = (f'"{peak_UID}"')
 
             # write to retention times file
             fp1.write(peak_UID_string)
-            fp1.write(",%.3f" % avgrt)
+            fp1.write(f",{float(compo_peak.get_rt()/60):.3f}")
+            
             for rt in rts:
-                if rt == None:
+                if rt is None or numpy.isnan(rt):
                     fp1.write(",NA")
                 else:
-                    fp1.write(",%.3f" % rt)
+                    fp1.write(f",{rt:.3f}")
             fp1.write("\n")
 
+            
             # write to peak areas file
             fp2.write(peak_UID_string)
-            fp2.write(",%.3f" % avgrt)
-            for area in areas:
-                if area == None:
-                    fp2.write(",NA")
-                else:
-                    fp2.write(",%.4f" % area)
+
+            if dk:
+                fp2.write(",%.3f" % float(compo_peak.get_rt() / 60))
+                for area in areas:
+                    if area is None:
+                        fp2.write(",NA")
+                    else:
+                        fp2.write(",%.0f" % area)
+                
+            else:
+                fp2.write(",%.3f" % avgrt)
+                for area in areas:
+                    if area is None:
+                        fp2.write(",NA")
+                    else:
+                        fp2.write(",%.4f" % area)
             fp2.write("\n")
 
         fp1.close()
         fp2.close()
 
     def write_common_ion_csv(self, area_file_name, top_ion_list, minutes=True):
-
         """
         :summary: Writes the alignment to CSV files
 
@@ -509,10 +447,10 @@ class Alignment(object):
         retention times and the other containing the alignment of peak areas.
 
         :param area_file_name: The name for the areas alignment file
-        :type area_file_name: StringType
+        :type area_file_name: str
         :param top_ion_list: A list of the highest intensity common ion
                              along the aligned peaks
-        :type top_ion_list: ListType
+        :type top_ion_list: list
         :param minutes: An optional indicator whether to save retention times
             in minutes. If False, retention time will be saved in seconds
         :type minutes: BooleanType
@@ -523,13 +461,16 @@ class Alignment(object):
         :author: Vladimir Likic
         """
 
-        try:
-            fp = open(area_file_name, "w")
-        except IOError:
-            error("Cannot open output file for writing")
+        if not isinstance(area_file_name, str):
+            raise TypeError("'area_file_name' must be a string")
 
-        if top_ion_list == None:
-            error("List of common ions must be supplied")
+        if not isinstance(top_ion_list, list) or not isinstance(top_ion_list[0], int):
+            raise TypeError("'top_ion_list' must be a list of integers")
+
+        fp = open(area_file_name, "w")
+
+        if top_ion_list is None:
+            raise ValueError("List of common ions must be supplied")
 
         # create header
         header = '"UID","RTavg", "Quant Ion"'
@@ -626,10 +567,8 @@ class Alignment(object):
 
         """
         # TODO: Input and output types
-        try:
-            fp1 = open(ms_file_name, "w")  # dk
-        except IOError:
-            error("Cannot open output file for writing")
+        fp1 = open(ms_file_name, "w")  # dk
+
     
         # create header
         header = '"UID"|"RTavg"'
@@ -699,7 +638,7 @@ class Alignment(object):
 
         :return: A list of the highest intensity common ion for all aligned
                  peaks
-        :rtype: ListType
+        :rtype: list
 
         :author: Sean O'Callaghan
 
@@ -739,16 +678,13 @@ class Alignment(object):
                     top_5 = peak.get_ion_areas().keys()
                 
                     for ion in top_5:
-                        # if we haven't seen it before, add it
-                        if not top_ion_dict.has_key(ion):
-                            top_ion_dict[ion]=1
-                        # if we have seen it, increment the count
-                        elif top_ion_dict.has_key(ion):
-                            top_ion_dict[ion]+=1
-                        # shouldn't happen
+                        if ion in top_ion_dict:
+                            # if we have seen it, increment the count
+                            top_ion_dict[ion] += 1
                         else:
-                            print("error: in function common_ion()")
-                else:
+                            # if we haven't seen it before, add it
+                            top_ion_dict[ion] = 1
+                        
                     empty_count += 1
                     
                     # copy the dict back to the list
@@ -821,13 +757,11 @@ class Alignment(object):
                  and their ratios for mass hunter interpretation
         :rtype: fileType
         """
-        try:
-            fp = open(out_file, "w")
-        except IOError:
-            error("Cannot open output file for writing")
-
+        
+        fp = open(out_file, "w")
+        
         if top_ion_list == None:
-            error("List of common ions must be supplied")
+            raise ValueError("List of common ions must be supplied")
 
         # create header
         header = '"UID","Common Ion", "Qual Ion 1", "ratio QI1/CI", "Qual Ion 2", "ratio QI2/CI", "l window delta", "r window delta"'
@@ -981,7 +915,7 @@ class Alignment(object):
         :type minutes: BooleanType
 
         :return: A list of composite peaks based on the alignment.
-        :rtype: ListType
+        :rtype: list
 
         :author: Andrew Isaac
         """
@@ -1001,6 +935,7 @@ class Alignment(object):
 
         return peak_list
 
+
 class PairwiseAlignment(object):
 
     """
@@ -1011,18 +946,25 @@ class PairwiseAlignment(object):
     """
 
     def __init__(self, algts, D, gap):
-
         """
         :param algts: A list of alignments
-        :type algts: ListType
+        :type algts: list
         :param D: Retention time tolerance parameter for pairwise alignments
-        :type D: FloatType
+        :type D: float
         :param gap: Gap parameter for pairwise alignments
-        :type gap: FloatType
+        :type gap: float
 
         :author: Woon Wai Keen
         :author: Vladimir Likic
         """
+        
+        if not isinstance(algts, list) or not isinstance(algts[0], Alignment):
+            raise TypeError("'algts' must be a list")
+        if not isinstance(D, float):
+            raise TypeError("'D' must be a float")
+        if not isinstance(gap, float):
+            raise TypeError("'gap' must be a float")
+
         self.algts = algts
         self.D = D
         self.gap = gap
@@ -1037,11 +979,11 @@ class PairwiseAlignment(object):
         :summary: Calculates the similarity matrix for the set of alignments
 
         :param algts: A list of alignments
-        :type algts: ListType
+        :type algts: list
         :param D: Retention time tolerance parameter for pairwise alignments
-        :type D: FloatType
+        :type D: float
         :param gap: Gap parameter for pairwise alignments
-        :type gap: FloatType
+        :type gap: float
 
         :author: Woon Wai Keen
         :author: Vladimir Likic

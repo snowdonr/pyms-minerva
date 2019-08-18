@@ -2,36 +2,32 @@
 Functions for reading manufacturer specific ANDI-MS data files
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
 
-import math
-import copy
-import sys
-import numpy
 
 from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.Class import Scan
-from pyms.Utils.Error import error, stop
-from pyms.Utils.Utils import is_str, is_int, is_float, is_number, is_list
-from pyms.Utils.Time import time_str_secs
+from pyms.Utils.Error import error
+from pyms.Utils.Utils import is_str
 #from pycdf import *
 from netCDF4 import Dataset
 
@@ -63,7 +59,7 @@ def ANDI_reader(file_name):
     __TIME_STRING = "scan_acquisition_time"
 
     if not is_str(file_name):
-        error("'file_name' must be a string")
+        raise TypeError("'file_name' must be a string")
     try:
         #file = CDF(file_name)
         rootgrp = Dataset(file_name, "r+", format='NETCDF3_CLASSIC')
@@ -93,7 +89,7 @@ def ANDI_reader(file_name):
     intensity_previous = intensity_values[0]
     intensity_list.append(intensity_previous)
     if not len(mass_values) == len(intensity_values):
-        error("length of mass_list is not equal to length of intensity_list !")
+        raise ValueError("length of mass_list is not equal to length of intensity_list !")
     for i in range(len(mass_values) - 1):
         # assume masses in ascending order until new scan
         if mass_previous <= mass_values[i + 1]:
@@ -120,7 +116,7 @@ def ANDI_reader(file_name):
 
     # sanity check
     if not len(time_list) == len(scan_list):
-        error("number of time points does not equal the number of scans")
+        raise ValueError("number of time points does not equal the number of scans")
 
     data = GCMS_data(time_list, scan_list)
 
@@ -265,7 +261,7 @@ def ANDI_writer(file_name, im):
     __POINT_COUNT = "point_count"
 
     if not is_str(file_name):
-        error("'file_name' must be a string")
+        raise TypeError("'file_name' must be a string")
     try:
         # Open netCDF file in overwrite mode, creating it if inexistent.
         nc = CDF(file_name, NC.WRITE|NC.TRUNC|NC.CREATE)
@@ -296,7 +292,7 @@ def ANDI_writer(file_name, im):
 
     # sanity checks
     if not len(time_list) == len(point_count_values):
-        error("number of time points does not equal the number of scans")
+        raise ValueError("number of time points does not equal the number of scans")
 
     # create dimensions
     # total number of data points

@@ -108,3 +108,5 @@ build
 *.egg-info
 */__pycache__
 Scribble
+
+tests/output

@@ -1,24 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys
+#### No need to change anything in this file ####
+
 import os
 import re
+import sys
 
 sys.path.append(os.path.abspath('.'))
 sys.path.append(os.path.abspath('..'))
-sys.path.append(os.path.abspath('./demo/'))
 
 from sphinx.locale import _
 
-from pyms import name, __version__
+from pyms import name, __author__, __version__, __copyright__
+from __pkginfo__ import github_username, modname
+
+github_url = f"https://github.com/{github_username}/{name}"
+
+rst_prolog = f""".. |pkgname| replace:: {name}
+.. |pkgname2| replace:: ``{name}``
+.. |browse_github| replace:: `Browse the GitHub Repository <{github_url}>`__
+.. |ghurl| replace:: {github_url}
+"""
+
 
 project = name
-slug = re.sub(r'\W+', '-', project.lower())
+slug = re.sub(r'\W+', '-', modname.lower())
 version = __version__
 release = __version__
+#author = __author__
 author = u'PyMassSpec Developers'
-copyright = author
+copyright = __copyright__
 language = 'en'
 
 extensions = [
@@ -47,14 +59,14 @@ html_theme_options = {
     'logo_only': False,  # True will show just the logo
 }
 html_theme_path = ["../.."]
-html_logo = "logo/pyms.png"
+#html_logo = "logo/pyms.png"
 html_show_sourcelink = False    # True will show link to source
 
 html_context = {
     # Github Settings
     "display_github": True, # Integrate GitHub
-    "github_user": "domdfcoding", # Username
-    "github_repo": "pyms", # Repo name
+    "github_user": github_username, # Username
+    "github_repo": name, # Repo name
     "github_version": "master", # Version
     "conf_py_path": "/", # Path in the checkout to the docs root
 }

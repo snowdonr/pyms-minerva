@@ -2,29 +2,30 @@
 Time conversion and related functions
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import math
 
-from pyms.Utils.Error import error
 from pyms.Utils.Utils import is_int, is_str, is_str_num
 
 def time_str_secs(time_str):
@@ -44,17 +45,17 @@ def time_str_secs(time_str):
     """
 
     if not is_str(time_str):
-        error("time string not a string")
+        raise TypeError("'time_str' must be a string")
 
     time_number = time_str[:-1]
     time_spec = time_str[-1].lower()
 
     if not is_str_num(time_number):
        print(" --> received time string '%s'" % (time_number))
-       error("improper time string")
+       raise ValueError("improper time string")
 
     if not time_spec == "s" and not time_spec == "m":
-        error("time string must end with either 's' or 'm'")
+        raise ValueError("time string must end with either 's' or 'm'")
 
     time = float(time_number)
 
@@ -89,12 +90,12 @@ def window_sele_points(ic, window_sele, half_window=False):
     """
 
     if not is_int(window_sele) and not is_str(window_sele):
-        error("'window' must be an integer or a string")
+        raise TypeError("'window' must be an integer or a string")
 
     if is_int(window_sele):
         if half_window:
             if window_sele % 2 == 0:
-                error("window must be an odd number of points")
+                raise TypeError("window must be an odd number of points")
             else:
                 points = int(math.floor(window_sele*0.5))
         else:
@@ -109,9 +110,9 @@ def window_sele_points(ic, window_sele, half_window=False):
         points = int(math.floor(time/time_step))
 
     if half_window:
-        if points < 1: error("window too small (half window=%d)" % (points))
+        if points < 1: raise ValueError("window too small (half window=%d)" % (points))
     else:
-        if points < 2: error("window too small (window=%d)" % (points))
+        if points < 2: raise ValueError("window too small (window=%d)" % (points))
 
     return points
 

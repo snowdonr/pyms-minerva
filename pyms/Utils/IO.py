@@ -4,32 +4,34 @@ General I/O functions
 
 # Patched version by Dominic Davis-Foster, 2019
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import types, os, string, sys
 
 import pickle
 
-from pyms.Utils.Error import error
 from pyms.Utils.Utils import is_number, is_str, is_list
+from pyms.Utils.Error import pymsError
 
 def dump_object(object, file_name):
 
@@ -87,11 +89,11 @@ def open_for_reading(file_name):
     """
 
     if not is_str(file_name):
-        error("'file_name' is not a string")
+        raise TypeError("'file_name' must be a string")
     try:
         fp = open(file_name)
     except IOError:
-        error("'%s' does not exist" % (file_name))
+        raise FileNotFoundError("'%s' does not exist" % (file_name))
 
     return fp
 
@@ -111,13 +113,13 @@ def open_for_writing(file_name, mode='w'):
     """
 
     if not is_str(file_name):
-        error("'file_name' is not a string")
-    try:
-        if not os.path.exists(os.path.dirname(file_name)):
-            os.mkdir(os.path.dirname(file_name))
-        fp = open(file_name, mode)
-    except IOError:
-        error("Cannot open '%s' for writing" % (file_name))
+        raise TypeError("'file_name' must be a string")
+    #try:
+    if not os.path.exists(os.path.dirname(file_name)):
+        os.mkdir(os.path.dirname(file_name))
+    fp = open(file_name, mode)
+#except IOError:
+    #    error("Cannot open '%s' for writing" % (file_name))
 
     return fp
 
@@ -172,7 +174,7 @@ def file_lines(file_name, filter=False):
     """
 
     if not is_str(file_name):
-        error("'file_name' is not a string")
+        raise TypeError("'file_name' must be a string")
 
     fp = open_for_reading(file_name)
     lines = fp.readlines()
@@ -228,16 +230,16 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
             os.mkdir(os.path.dirname(file_name))
     
     if not is_str(file_name):
-        error("'file_name' is not a string")
+        raise TypeError("'file_name' must be a string")
 
     if not is_list(data):
-        error("'data' is not a list")
+        raise TypeError("'data' must be a list")
 
     if not is_str(prepend):
-        error("'prepend' is not a string")
+        raise TypeError("'prepend' must be a string")
 
     if not is_str(sep):
-        error("'sep' is not a string")
+        raise TypeError("'sep' must be a string")
 
     fp = open_for_writing(file_name)
 
@@ -245,12 +247,12 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
     if is_number(data[0]):
         for item in data:
             if not is_number(item):
-                error("not all elements of the list are numbers")
+                raise TypeError("not all elements of the list are numbers")
         data_is_matrix = 0
     else:
         for item in data:
             if not is_list(item):
-                error("not all elements of the list are lists")
+                raise TypeError("not all elements of the list are lists")
         data_is_matrix = 1
 
     if data_is_matrix:
@@ -261,7 +263,7 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
                     fp.write(format_str % (data[ii][jj]))
                     if (jj<(len(data[ii])-1)): fp.write(sep)
                 else:
-                    error("datum not a number")
+                    raise TypeError("'datum' must be a number")
             fp.write("\n")
     else:
         for ii in range(len(data)):
@@ -274,5 +276,5 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
     if compressed:
         status = os.system('gzip %s' % (file_name))
         if status != 0:
-            error("gzip compress failed")
+            pymsError("gzip compress failed")
 

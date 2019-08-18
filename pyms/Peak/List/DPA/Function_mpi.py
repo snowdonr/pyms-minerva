@@ -2,25 +2,27 @@
 Functions for peak alignment by dynamic programming
 """
 
- #############################################################################
- #                                                                           #
- #    PyMS software for processing of metabolomic mass-spectrometry data     #
- #    Copyright (C) 2005-2012 Vladimir Likic                                 #
- #                                                                           #
- #    This program is free software; you can redistribute it and/or modify   #
- #    it under the terms of the GNU General Public License version 2 as      #
- #    published by the Free Software Foundation.                             #
- #                                                                           #
- #    This program is distributed in the hope that it will be useful,        #
- #    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
- #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
- #    GNU General Public License for more details.                           #
- #                                                                           #
- #    You should have received a copy of the GNU General Public License      #
- #    along with this program; if not, write to the Free Software            #
- #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
- #                                                                           #
- #############################################################################
+#############################################################################
+#                                                                           #
+#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 
 import copy
 import numpy
@@ -111,13 +113,13 @@ def exprl2alignment(exprl):
     """
 
     if not is_list(exprl):
-        error("the argument is not a list")
+        raise TypeError("the argument is not a list")
 
     algts = []
 
     for item in exprl:
         if not isinstance(item, Experiment):
-            error("list items must be 'Experiment' instances")
+            raise TypeError("list items must be 'Experiment' instances")
         else:
             algt = Class.Alignment(item)
         algts.append(algt)
@@ -399,7 +401,7 @@ def position_similarity(pos1, pos2, D):
                         try:
                             top = numpy.dot(mass_spect1, mass_spect2)
                         except(ValueError):
-                            error("Mass Spectra are of different length\n\n" +  
+                            raise ValueError("Mass Spectra are of different length\n\n" +
                                  " Use IntensityMatrix.crop_mass() to set\n" 
                                   + " same length for all Mass Spectra""")
                         bot = numpy.sqrt(mass_spect1_sum*mass_spect2_sum)
