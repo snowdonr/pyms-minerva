@@ -142,7 +142,7 @@ def test_get_time_at_index(tic):
 
 def test_get_time_list(tic):
 	with pytest.warns(DeprecationWarning):
-		tic.time_list
+		tic.get_time_list()
 
 
 def test_time_list(tic):

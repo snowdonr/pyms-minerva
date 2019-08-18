@@ -38,8 +38,6 @@ from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
 from pyms.IonChromatogram import IonChromatogram
 from pyms.MassSpectrum import MassSpectrum
 
-# TODO: make __intensity_matrix a numpy array
-
 try:
 	import psyco
 	psyco.full()
@@ -133,7 +131,7 @@ class IntensityMatrix(object):
 		if isinstance(other, self.__class__):
 			return self.time_list == other.time_list \
 				   and self.mass_list == other.mass_list \
-				   and self.intensity_array == other.intensity_array
+				   and all(numpy.equal(self.intensity_array, other.intensity_array))
 		return NotImplemented
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
@@ -272,7 +270,7 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		if not isinstance(ix, (int, float)):
+		if not isinstance(ix, int):
 			raise TypeError("index not an integer")
 		
 		if not isinstance(ic, IonChromatogram):
@@ -314,8 +312,8 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		if not isinstance(ix, (int, float)):
-			raise TypeError("'ix must be a number")
+		if not isinstance(ix, int):
+			raise TypeError("'ix must be an integer")
 		
 		ia = []
 		for i in range(len(self.__intensity_array)):
@@ -470,10 +468,10 @@ class IntensityMatrix(object):
 		if not isinstance(ix, (int, float)):
 			raise TypeError("'ix' must be an integer")
 		
-		if ix < 0 or ix >= len(self.__intensity_matrix):
+		if ix < 0 or ix >= len(self.__intensity_array):
 			raise IndexError("index out of range")
 		
-		return self.__intensity_matrix[ix][:]
+		return self.__intensity_array[ix][:]
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -711,12 +709,13 @@ class IntensityMatrix(object):
 				ii_list.append(ii)
 		
 		# update intensity matrix
-		im = self.__intensity_array
+		im = self.__intensity_array.tolist()
 		for spec_jj in range(len(im)):
 			new_spec = []
 			for ii in ii_list:
 				new_spec.append(im[spec_jj][ii])
 			im[spec_jj] = new_spec
+		self.__intensity_array = numpy.array(im)
 		
 		self.__mass_list = new_mass_list
 		self.__min_mass = min(new_mass_list)

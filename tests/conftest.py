@@ -1,6 +1,10 @@
 import pytest
 
 import os
+import shutil
+import sys
+
+from pathlib import Path
 
 from pyms.TopHat import tophat
 from pyms.BillerBiemann import BillerBiemann, rel_threshold, num_ions_threshold
@@ -14,10 +18,33 @@ from pyms.Experiment.Class import Experiment
 from copy import deepcopy
 # TODO: consider using pytest-datadir
 
+
+# From pytest-datadir (https://github.com/gabrielcnr/pytest-datadir)
+def _win32_longpath(path):
+	'''
+	Helper function to add the long path prefix for Windows, so that shutil.copytree won't fail
+	while working with paths with 255+ chars.
+	'''
+	if sys.platform == 'win32':
+		# The use of os.path.normpath here is necessary since "the "\\?\" prefix to a path string
+		# tells the Windows APIs to disable all string parsing and to send the string that follows
+		# it straight to the file system".
+		# (See https://docs.microsoft.com/pt-br/windows/desktop/FileIO/naming-a-file)
+		return '\\\\?\\' + os.path.normpath(path)
+	else:
+		return path
+
+
+@pytest.fixture("session")
+def datadir():
+	return Path(os.path.split(__file__)[0]) / "data"
+
+
 @pytest.fixture(scope="session")
-def data():
+def data(datadir):
 	print("data")
-	return JCAMP_reader(os.path.join("tests", "data","ELEY_1_SUBTRACT.JDX"))
+	#return JCAMP_reader(datadir / "ELEY_1_SUBTRACT.JDX")
+	return JCAMP_reader(os.path.join("tests", "data", "ELEY_1_SUBTRACT.JDX"))
 
 
 @pytest.fixture(scope="session")
