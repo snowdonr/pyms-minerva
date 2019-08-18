@@ -144,7 +144,7 @@ def test_load_expr(filtered_peak_list):
 
 
 def test_read_expr_list(filtered_peak_list):
-	expr_list = read_expr_list("read_expr_list.txt")
+	expr_list = read_expr_list(os.path.join("tests", "read_expr_list.txt"))
 	assert isinstance(expr_list, list)
 	assert isinstance(expr_list[0], Experiment)
 	

@@ -247,9 +247,9 @@ def test_get_matrix_list(im):
 		im.get_matrix_list()
 
 
-def test_matrix_list(im):
-	assert isinstance(im.matrix_list, list)
-	# todo: check values
+#def test_matrix_list(im):
+#	assert isinstance(im.matrix_list, list)
+#	# todo: check values
 
 
 def test_get_time_list(im):

@@ -413,7 +413,7 @@ def median_bounds(im, peak, shared=True):
     if not isinstance(shared, bool):
         raise TypeError("'shared' must be a boolean")
     
-    mat = im.matrix_list
+    mat = im.intensity_matrix
     ms = peak.mass_spectrum
     rt = peak.rt
     apex = im.get_index_at_time(rt)

@@ -288,11 +288,11 @@ A matrix of intensity values can be saved to a file with the function
 from :meth:`pyms.Utils.IO <pyms.Utils.IO>`. A matrix of intensity values can
 be returned from an :py:class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>`
 with the method
-:py:attr:`matrix_list <pyms.IntensityMatrix.matrix_list>`.
+:py:attr:`intensity_matrix <pyms.IntensityMatrix.intensity_matrix>`.
 For example,
 
     >>> from pyms.Utils.IO import save_data
-    >>> mat = im.matrix_list
+    >>> mat = im.intensity_matrix
     >>> save_data("output/im.dat", mat)
 
 It is also possible to save the list of masses (from

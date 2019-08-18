@@ -387,16 +387,16 @@ class IntensityMatrix(object):
 	@property
 	def intensity_matrix(self):
 		"""
-		:summary: Returns a list of the binned masses
+		:summary: Returns a intensity matrix as a
+			list of lists of floats
 
-		:return: Binned mass list
+		:return: Matrix of intensity values
 		:rtype: list
 
-		:author: Qiao Wang
 		:author: Andrew Isaac
-		:author: Vladimir Likic
 		"""
 		
+		#return numpy.array(self.__intensity_matrix).tolist()
 		return self.__intensity_matrix
 	
 	def get_ms_at_index(self, ix):
@@ -413,14 +413,12 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		# TODO: should a deepcopy be returned?
-		
 		if not isinstance(ix, (int, float)):
 			raise TypeError("'ix' must be an integer")
 		
 		scan = self.get_scan_at_index(ix)
 		
-		return MassSpectrum(self.__mass_list, scan)
+		return MassSpectrum(self.mass_list, scan)
 	
 	def get_scan_at_index(self, ix):
 		
@@ -552,7 +550,7 @@ class IntensityMatrix(object):
 	def get_matrix_list(self):
 		
 		"""
-		:summary: Returns a copy of the intensity matrix as a
+		:summary: Returns the intensity matrix as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -561,12 +559,12 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		return self.matrix_list
+		return self.intensity_matrix
 	
 	@property
 	def matrix_list(self):
 		"""
-		:summary: Returns a copy of the intensity matrix as a
+		:summary: Returns a the intensity matrix as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -574,7 +572,7 @@ class IntensityMatrix(object):
 
 		:author: Andrew Isaac
 		"""
-		
+		warn("Use 'IntensityMatrix.intensity_matrix' instead", DeprecationWarning)
 		return copy.deepcopy(self.__intensity_matrix)
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
@@ -944,6 +942,7 @@ def import_leco_csv(file_name):
 	
 	return IntensityMatrix(time_list, mass_list, data)
 
+
 def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, min_mass=None):
 	"""
 	:summary: Sets the full intensity matrix with flexible bins
@@ -1135,7 +1134,7 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 		intensities = scan.get_intensity_list()
 		for mm in range(num_bins):
 			for ii in range(len(scan)):
-				if masses[ii] >= mass_list[mm]-bin_left and masses[ii] < mass_list[mm]+bin_right:
+				if mass_list[mm]-bin_left <= masses[ii] < mass_list[mm]+bin_right:
 					intensity_list[mm] += intensities[ii]
 		intensity_matrix.append(intensity_list)
 

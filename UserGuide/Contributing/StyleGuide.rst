@@ -15,6 +15,12 @@ General
 Grouping commands and using newlines
 -------------------------------------
 
+Sort functions and class methods alphabetically, with dunder methods at the top.
+
+Return copy.copy or copy.deepcopy only when this will not impact performance or otherwise absolutely necessary. Alternatively, use numpy.array().tolist().
+
+
+
 Organise commands into logical groups, and separate if necessary with newlines to
 improve readability.
 

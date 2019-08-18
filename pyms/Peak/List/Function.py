@@ -148,7 +148,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
     # reweight so RT weight at nearest peak is _PEN
     _PEN = 0.5
 
-    datamat = data.matrix_list
+    datamat = data.intensity_matrix
     mass_list = data.mass_list
     datatimes = data.time_list
     minrt = min(datatimes)

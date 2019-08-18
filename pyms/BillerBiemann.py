@@ -380,7 +380,7 @@ def get_maxima_matrix(im, points=3, scans=1):
     numrows, numcols = im.size
     # zeroed matrix, size numrows*numcols
     maxima_im = numpy.zeros((numrows, numcols))
-    raw_im = numpy.array(im.matrix_list)
+    raw_im = numpy.array(im.intensity_matrix)
 
     for col in range(numcols):  # assume all rows have same width
         # 1st, find maxima
