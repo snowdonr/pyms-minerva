@@ -16,7 +16,8 @@ from copy import deepcopy
 
 @pytest.fixture(scope="session")
 def data():
-	return JCAMP_reader(os.path.join("tests", "data","ELEY_1_SUBTRACT.JDX"))
+	print("data")
+	return JCAMP_reader(os.path.join("data","ELEY_1_SUBTRACT.JDX"))
 
 
 @pytest.fixture(scope="session")
@@ -33,12 +34,11 @@ def tic(data):
 
 @pytest.fixture(scope="session")
 def im_i(data):
-	print(".", end="")
 	# build an intensity matrix object from the data
 	return build_intensity_matrix_i(data)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def peak_list(im_i):
 	im_i = deepcopy(im_i)
 	
@@ -59,9 +59,9 @@ def peak_list(im_i):
 	return peak_list
 	
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def filtered_peak_list(im_i, peak_list):
-	peak_list = deepcopy(peak_list)
+	#peak_list = deepcopy(peak_list)
 	# do peak detection on pre-trimmed data
 	# trim by relative intensity
 	apl = rel_threshold(peak_list, 2, inplace=True)
@@ -74,7 +74,7 @@ def filtered_peak_list(im_i, peak_list):
 		peak.crop_mass(50, 400)
 		peak.null_mass(73)
 		peak.null_mass(147)
-		
+	
 		# find area
 		area = peak_sum_area(im_i, peak)
 		peak.area = area
@@ -86,10 +86,8 @@ def filtered_peak_list(im_i, peak_list):
 
 @pytest.fixture(scope="session")
 def peak(im_i):
-	print(".", end="")
 	scan_i = im_i.get_index_at_time(31.17 * 60.0)
 	ms = im_i.get_ms_at_index(scan_i)
-	print(".", end="")
 	return Peak(12.34, ms)
 
 
@@ -98,7 +96,7 @@ def ms(im_i):
 	return deepcopy(im_i.get_ms_at_index(0))
 	
 	
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def expr(filtered_peak_list):
 	# create an experiment
 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)

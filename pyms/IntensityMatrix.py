@@ -382,7 +382,7 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		return copy.deepcopy(self.__mass_list)\
+		return copy.deepcopy(self.__mass_list)
 	
 	@property
 	def intensity_matrix(self):
@@ -397,7 +397,7 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		return copy.deepcopy(self.__intensity_matrix)
+		return self.__intensity_matrix
 	
 	def get_ms_at_index(self, ix):
 		

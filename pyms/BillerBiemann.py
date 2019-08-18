@@ -134,7 +134,7 @@ def rel_threshold(pl, percent=2, inplace=False):
         ms.mass_spec = ia
         p.mass_spectrum = ms
         new_pl.append(p)
-    
+        
     return new_pl
     
 

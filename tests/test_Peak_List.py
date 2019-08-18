@@ -27,9 +27,13 @@ from pyms.Peak.List import *
 
 
 def test_composite_peak(filtered_peak_list, im_i):
+	print(".", end='')
 	composite_peak_list = filtered_peak_list[10:20]
+	print(".", end='')
 	composite_peak(composite_peak_list)
+	print(".", end='')
 	peak = composite_peak(composite_peak_list, minutes=True)
+	print(".", end='')
 	assert isinstance(peak, Peak)
 	
 	uid = peak.UID
