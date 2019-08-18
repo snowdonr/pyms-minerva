@@ -64,10 +64,10 @@ def filtered_peak_list(im_i, peak_list):
 	#peak_list = deepcopy(peak_list)
 	# do peak detection on pre-trimmed data
 	# trim by relative intensity
-	apl = rel_threshold(peak_list, 2, inplace=True)
+	apl = rel_threshold(peak_list, 2, copy_peaks=False)
 	
 	# trim by threshold
-	new_peak_list = num_ions_threshold(apl, 3, 3000, inplace=True)
+	new_peak_list = num_ions_threshold(apl, 3, 3000, copy_peaks=False)
 	
 	# ignore TMS ions and set mass range
 	for peak in new_peak_list:

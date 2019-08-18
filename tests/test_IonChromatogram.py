@@ -44,16 +44,16 @@ def test_IonChromatogram(im, tic):
 	# Errors
 	for type in [test_string, test_int, test_float, test_list_strs, test_list_ints, test_dict, test_tuple]:
 		with pytest.raises(TypeError):
-			IonChromatogram(type, tic.get_time_list())
+			IonChromatogram(type, tic.time_list)
 	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.get_intensity_array(), type)
+			IonChromatogram(tic.intensity_array, type)
 	for type in [test_string, test_list_strs, test_list_ints, test_dict, test_tuple]:
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.get_intensity_array(), tic.get_time_list(), mass=type)
+			IonChromatogram(tic.intensity_array, tic.time_list, mass=type)
 	
 	with pytest.raises(ValueError):
-		IonChromatogram(tic.get_intensity_array(), test_list_ints)
+		IonChromatogram(tic.intensity_array, test_list_ints)
 
 
 def test_len(tic):
@@ -142,7 +142,7 @@ def test_get_time_at_index(tic):
 
 def test_get_time_list(tic):
 	with pytest.warns(DeprecationWarning):
-		tic.get_time_list()
+		tic.time_list
 
 
 def test_time_list(tic):

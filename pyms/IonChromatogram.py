@@ -33,7 +33,7 @@ import warnings
 from pyms import __version__
 
 from pyms.Utils.Error import pymsError
-from pyms.Utils.Utils import is_str, is_list
+from pyms.Utils.Utils import is_list
 from pyms.Utils.IO import open_for_writing, close_for_writing
 
 
@@ -110,7 +110,7 @@ class IonChromatogram(object):
 		:type other: pyms.GCMS.IonChromatogram
 		"""
 		
-		ia_for_sub = other.get_intensity_array()
+		ia_for_sub = other.intensity_array
 		
 		for i in range(self.__ia.size):
 			self.__ia[i] = self.__ia[i] - ia_for_sub[i]
@@ -126,7 +126,7 @@ class IonChromatogram(object):
 		return NotImplemented
 	
 	def __copy__(self):
-		return IonChromatogram(ia=copy.deepcopy(self.__ia), time_list=self.__time_list[:], mass=copy.copy(self.__mass))
+		return IonChromatogram(ia=numpy.copy(self.__ia), time_list=self.__time_list[:], mass=copy.copy(self.__mass))
 	
 	def __deepcopy__(self, memodict={}):
 		return self.__copy__()
@@ -289,7 +289,7 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		return self.__ia
+		return numpy.copy(self.__ia)
 	
 	@intensity_array.setter
 	def intensity_array(self, ia):
@@ -367,7 +367,7 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		return self.__time_list
+		return self.__time_list[:]
 		
 	@property
 	def time_step(self):
@@ -430,7 +430,7 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		if not is_str(file_name):
+		if not isinstance(file_name, str):
 			raise TypeError("'file_name' must be a string")
 		
 		fp = open_for_writing(file_name)

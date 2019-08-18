@@ -47,6 +47,7 @@ except ModuleNotFoundError:
 
 # todo: inplace
 
+
 def BillerBiemann(im, points=3, scans=1):
     """
     :summary: BillerBiemann Deconvolution.
@@ -92,7 +93,7 @@ def BillerBiemann(im, points=3, scans=1):
     return peak_list
 
 
-def rel_threshold(pl, percent=2, inplace=False):
+def rel_threshold(pl, percent=2, copy_peaks=True):
     """
     :summary: Remove ions with relative intensities less than the given
         relative percentage of the maximum intensity.
@@ -101,6 +102,8 @@ def rel_threshold(pl, percent=2, inplace=False):
     :type pl: list
     :param percent: Threshold for relative percentage of intensity (Default 2%)
     :type percent: float
+    :param copy_peaks: Whether a the returned peak list should contain copies of the peaks (Default False)
+    :type copy_peaks: bool
 
     :return: A new list of Peak objects with threshold ions
     :rtype: list
@@ -117,13 +120,11 @@ def rel_threshold(pl, percent=2, inplace=False):
     if percent <= 0:
         raise ValueError("'percent' must be a number > 0")
     
-    if inplace:
-        pl_copy = pl
-    else:
-        pl_copy = copy.deepcopy(pl)
-        
+    if copy_peaks:
+        pl = copy.deepcopy(pl)
+    
     new_pl = []
-    for p in pl_copy:
+    for p in pl:
         ms = p.mass_spectrum
         ia = ms.mass_spec
         # assume max(ia) big so /100 1st
@@ -139,7 +140,7 @@ def rel_threshold(pl, percent=2, inplace=False):
     
 
 
-def num_ions_threshold(pl, n, cutoff, inplace=False):
+def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
     """
     :summary: Remove Peaks where there are less than a given number of ion
         intensities above the given threshold
@@ -150,6 +151,8 @@ def num_ions_threshold(pl, n, cutoff, inplace=False):
     :type n: int
     :param cutoff: The minimum intensity threshold
     :type cutoff: int or float
+    :param copy_peaks: Whether a the returned peak list should contain copies of the peaks (Default False)
+    :type copy_peaks: bool
 
     :return: A new list of Peak objects
     :rtype: list
@@ -165,13 +168,10 @@ def num_ions_threshold(pl, n, cutoff, inplace=False):
     if not isinstance(cutoff, (int,float)):
         raise TypeError("'cutoff' must be a number")
 
-    if inplace:
-        pl_copy = pl
-    else:
-        pl_copy = copy.deepcopy(pl)
+    if copy_peaks:
+        pl = copy.deepcopy(pl)
         
     new_pl = []
-    #for p in pl_copy:
     for p in pl:
         ms = p.mass_spectrum
         ia = ms.mass_spec
@@ -380,7 +380,7 @@ def get_maxima_matrix(im, points=3, scans=1):
     numrows, numcols = im.size
     # zeroed matrix, size numrows*numcols
     maxima_im = numpy.zeros((numrows, numcols))
-    raw_im = numpy.array(im.intensity_matrix)
+    raw_im = im.intensity_array
 
     for col in range(numcols):  # assume all rows have same width
         # 1st, find maxima

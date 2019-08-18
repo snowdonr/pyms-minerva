@@ -139,7 +139,7 @@ class Peak:
 		:author: Andrew Isaac
 		"""
 		
-		return copy.copy(self.__area)
+		return self.__area
 	
 	@area.setter
 	def area(self, value):
@@ -497,7 +497,7 @@ class Peak:
 		:rtype: pyms.GCSM.Class.MassSpectrum
 		"""
 		
-		return copy.deepcopy(self.__mass_spectrum)
+		return copy.copy(self.__mass_spectrum)
 	
 	@mass_spectrum.setter
 	def mass_spectrum(self, value):

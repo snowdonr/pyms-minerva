@@ -55,7 +55,7 @@ class IntensityMatrix(object):
 	:author: Dominic Davis-Foster (type assertions and properties)
 	"""
 	
-	def __init__(self, time_list, mass_list, intensity_matrix):
+	def __init__(self, time_list, mass_list, intensity_array):
 		"""
 		:summary: Initialize the IntensityMatrix data
 
@@ -65,8 +65,8 @@ class IntensityMatrix(object):
 		:param mass_list: Binned mass values
 		:type mass_list: list
 
-		:param intensity_matrix: Binned intensity values per scan
-		:type intensity_matrix: list
+		:param intensity_array: Binned intensity values per scan
+		:type intensity_array: list of lists of numbers or numpy.ndarray
 
 		:author: Andrew Isaac
 		"""
@@ -76,18 +76,24 @@ class IntensityMatrix(object):
 			raise TypeError("'time_list' must be a list of numbers")
 		if not is_list(mass_list) or not isinstance(mass_list[0], (int, float)):
 			raise TypeError("'mass_list' must be a list of numbers")
-		if not is_list(intensity_matrix) \
-				or not is_list(intensity_matrix[0]) \
-				or not isinstance(intensity_matrix[0][0], (int, float)):
-			raise TypeError("'intensity_matrix' must be a list, of a list, of numbers")
-		if not len(time_list) == len(intensity_matrix):
-			raise ValueError("'time_list' is not the same length as 'intensity_matrix'")
-		if not len(mass_list) == len(intensity_matrix[0]):
-			raise ValueError("'mass_list' is not the same size as 'intensity_matrix'")
+		if not isinstance(intensity_array, numpy.ndarray):
+			if not is_list(intensity_array) \
+					or not is_list(intensity_array[0]) \
+					or not isinstance(intensity_array[0][0], (int, float)):
+				raise TypeError("'intensity_array' must be a list, of a list, of numbers")
+			if not len(time_list) == len(intensity_array):
+				raise ValueError("'time_list' is not the same length as 'intensity_array'")
+		if not len(mass_list) == len(intensity_array[0]):
+			raise ValueError("'mass_list' is not the same size as 'intensity_array'")
 		
 		self.__time_list = time_list
 		self.__mass_list = mass_list
-		self.__intensity_matrix = intensity_matrix
+		
+		if isinstance(intensity_array, numpy.ndarray):
+			self.__intensity_array = intensity_array
+		else:
+			self.__intensity_array = numpy.array(intensity_array)
+		
 		
 		self.__min_rt = min(time_list)
 		self.__max_rt = max(time_list)
@@ -95,8 +101,6 @@ class IntensityMatrix(object):
 		self.__min_mass = min(mass_list)
 		self.__max_mass = max(mass_list)
 		
-		# Direct access for speed (DANGEROUS)
-		#self.intensity_matrix = self.__intensity_matrix
 		
 		# Try to include parallelism.
 		try:
@@ -104,7 +108,7 @@ class IntensityMatrix(object):
 			comm = MPI.COMM_WORLD
 			num_ranks = comm.Get_size()
 			rank = comm.Get_rank()
-			M, N = len(intensity_matrix), len(intensity_matrix[0])
+			M, N = len(intensity_array), len(intensity_array[0])
 			lrr = (rank * M / num_ranks, (rank + 1) * M / num_ranks)
 			lcr = (rank * N / num_ranks, (rank + 1) * N / num_ranks)
 			m, n = (lrr[1] - lrr[0], lcr[1] - lcr[0])
@@ -129,7 +133,7 @@ class IntensityMatrix(object):
 		if isinstance(other, self.__class__):
 			return self.time_list == other.time_list \
 				   and self.mass_list == other.mass_list \
-				   and self.intensity_matrix == other.intensity_matrix
+				   and self.intensity_array == other.intensity_array
 		return NotImplemented
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
@@ -197,8 +201,8 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		n_scan = len(self.__intensity_matrix)
-		n_mz = len(self.__intensity_matrix[0])
+		n_scan = len(self.__intensity_array)
+		n_mz = len(self.__intensity_array[0])
 		
 		return n_scan, n_mz
 	
@@ -222,7 +226,7 @@ class IntensityMatrix(object):
 		
 		else:
 			# Iterate over global indices.
-			n_scan = len(self.__intensity_matrix)
+			n_scan = len(self.__intensity_array)
 			for i in range(0, n_scan):
 				yield i
 	
@@ -246,7 +250,7 @@ class IntensityMatrix(object):
 		
 		else:
 			# Iterate over global indices.
-			n_mz = len(self.__intensity_matrix[0])
+			n_mz = len(self.__intensity_array[0])
 			for i in range(0, n_mz):
 				yield i
 	
@@ -278,20 +282,20 @@ class IntensityMatrix(object):
 		ia = ic.intensity_array
 		
 		# check if the dimension is ok
-		if len(ia) != len(self.__intensity_matrix):
+		if len(ia) != len(self.__intensity_array):
 			raise ValueError("ion chromatogram incompatible with the intensity matrix")
 		else:
 			N = len(ia)
 		
 		# Convert 'ia' to a list. By convention, the attribute
-		# __intensity_matrix of the class IntensityMatrix is a list
+		# __intensity_array of the class IntensityMatrix is a list
 		# of lists. This makes pickling instances of IntensityMatrix
 		# practically possible, since pickling numpy.array objects
 		# produces ten times larger files compared to pickling python
 		# lists.
 		ial = ia.tolist()
 		for i in range(N):
-			self.__intensity_matrix[i][ix] = ial[i]
+			self.__intensity_array[i][ix] = ial[i]
 	
 	def get_ic_at_index(self, ix):
 		
@@ -314,8 +318,8 @@ class IntensityMatrix(object):
 			raise TypeError("'ix must be a number")
 		
 		ia = []
-		for i in range(len(self.__intensity_matrix)):
-			ia.append(self.__intensity_matrix[i][ix])
+		for i in range(len(self.__intensity_array)):
+			ia.append(self.__intensity_array[i][ix])
 		
 		ic_ia = numpy.array(ia)
 		mass = self.get_mass_at_index(ix)
@@ -383,12 +387,12 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		return copy.deepcopy(self.__mass_list)
+		return self.__mass_list[:]
 	
 	@property
-	def intensity_matrix(self):
+	def intensity_array(self):
 		"""
-		:summary: Returns a intensity matrix as a
+		:summary: Returns a copy of the intensity array as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -397,8 +401,36 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		#return numpy.array(self.__intensity_matrix).tolist()
-		return self.__intensity_matrix
+		return numpy.copy(self.__intensity_array)\
+	
+	@property
+	def intensity_matrix(self):
+		"""
+		:summary: Returns a copy of the intensity matrix as a
+			list of lists of floats
+
+		:return: Matrix of intensity values
+		:rtype: list
+
+		:author: Andrew Isaac
+		"""
+		
+		return numpy.copy(self.__intensity_array)
+	
+	@property
+	def intensity_array_list(self):
+		"""
+		:summary: Returns a copy of the intensity array as a
+			list of lists of floats
+
+		:return: Matrix of intensity values
+		:rtype: list
+
+		:author: Andrew Isaac
+		"""
+		
+		return self.__intensity_array.tolist()
+		
 	
 	def get_ms_at_index(self, ix):
 		
@@ -441,7 +473,7 @@ class IntensityMatrix(object):
 		if ix < 0 or ix >= len(self.__intensity_matrix):
 			raise IndexError("index out of range")
 		
-		return copy.deepcopy(self.__intensity_matrix[ix])
+		return self.__intensity_matrix[ix][:]
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -551,7 +583,7 @@ class IntensityMatrix(object):
 	def get_matrix_list(self):
 		
 		"""
-		:summary: Returns the intensity matrix as a
+		:summary: Returns a copy of the intensity matrix as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -560,7 +592,7 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		return self.intensity_matrix
+		return self.intensity_array
 	
 	@property
 	def matrix_list(self):
@@ -573,8 +605,8 @@ class IntensityMatrix(object):
 
 		:author: Andrew Isaac
 		"""
-		warn("Use 'IntensityMatrix.intensity_matrix' instead", DeprecationWarning)
-		return copy.deepcopy(self.__intensity_matrix)
+		warn("Use 'IntensityMatrix.intensity_array' instead", DeprecationWarning)
+		return self.intensity_array
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -602,7 +634,7 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		return copy.deepcopy(self.__time_list)
+		return self.__time_list[:]
 	
 	def get_index_at_time(self, time):
 		
@@ -679,7 +711,7 @@ class IntensityMatrix(object):
 				ii_list.append(ii)
 		
 		# update intensity matrix
-		im = self.__intensity_matrix
+		im = self.__intensity_array
 		for spec_jj in range(len(im)):
 			new_spec = []
 			for ii in ii_list:
@@ -709,7 +741,7 @@ class IntensityMatrix(object):
 		
 		ii = self.get_index_of_mass(mass)
 		
-		im = self.__intensity_matrix
+		im = self.__intensity_array
 		for spec_jj in range(len(im)):
 			im[spec_jj][ii] = 0
 	
@@ -729,10 +761,10 @@ class IntensityMatrix(object):
 			raise TypeError("'N' must be a number")
 		
 		# loop over all mass spectral scans
-		for ii in range(len(self.__intensity_matrix)):
+		for ii in range(len(self.__intensity_array)):
 			
 			# get the next mass spectrum as list of intensities
-			intensity_list = self.__intensity_matrix[ii]
+			intensity_list = self.__intensity_array[ii]
 			n = len(intensity_list)
 			
 			# get the indices of top N intensities
@@ -748,7 +780,7 @@ class IntensityMatrix(object):
 				if jj in top_indices:
 					intensity_list_new[jj] = intensity_list[jj]
 			
-			self.__intensity_matrix[ii] = intensity_list_new
+			self.__intensity_array[ii] = intensity_list_new
 	
 	def export_ascii(self, root_name, format='dat'):
 		"""
@@ -788,7 +820,7 @@ class IntensityMatrix(object):
 			raise ValueError(f"Unknown format '{format}'. Only 'dat' and 'csv' supported")
 		
 		# export 2D matrix of intensities
-		vals = self.__intensity_matrix
+		vals = self.__intensity_array
 		save_data(root_name + '.im' + extension, vals, sep=separator)
 		
 		# export 1D vector of m/z's, corresponding to rows of
@@ -817,7 +849,7 @@ class IntensityMatrix(object):
 		
 		mass_list = self.__mass_list
 		time_list = self.__time_list
-		vals = self.__intensity_matrix
+		vals = self.__intensity_array
 		
 		fp = open_for_writing(file_name)
 		

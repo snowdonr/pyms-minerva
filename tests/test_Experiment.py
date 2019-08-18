@@ -29,18 +29,14 @@ from pyms.Peak.Class import Peak
 
 
 def test_Experiment(expr, filtered_peak_list):
-	print(".", end="")
 	assert isinstance(expr, Experiment)
-	print(".", end="")
 	# Errors
 	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			print(".", end="")
 			Experiment(type, filtered_peak_list)
 			
 	for type in [test_string, test_int, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			print(".", end="")
 			Experiment(test_string, type)
 	
 	

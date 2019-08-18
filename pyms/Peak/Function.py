@@ -76,7 +76,7 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
     sum_area = 0
     # Use internal values (not copy)
     #mat = im.matrix_list
-    mat = im.intensity_matrix
+    mat = im.intensity_array
     ms = peak.mass_spectrum
     rt = peak.rt
     apex = im.get_index_at_time(rt)
@@ -125,7 +125,7 @@ def peak_pt_bounds(im, peak):
     
     # Use internal values (not copy)
     #mat = im.matrix_list
-    mat = im.intensity_matrix
+    mat = im.intensity_array
     ms = peak.mass_spectrum
     rt = peak.rt
     apex = im.get_index_at_time(rt)
@@ -413,7 +413,7 @@ def median_bounds(im, peak, shared=True):
     if not isinstance(shared, bool):
         raise TypeError("'shared' must be a boolean")
     
-    mat = im.intensity_matrix
+    mat = im.intensity_array
     ms = peak.mass_spectrum
     rt = peak.rt
     apex = im.get_index_at_time(rt)

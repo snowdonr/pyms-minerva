@@ -80,6 +80,18 @@ class Scan(object):
 		
 		return len(self.__mass_list)
 	
+	def __eq__(self, other):
+		if isinstance(other, self.__class__):
+			return self.intensity_list == other.intensity_list \
+				   and self.mass_list == other.mass_list
+		return NotImplemented
+	
+	def __copy__(self):
+		return Scan(self.mass_list, self.intensity_list)
+	
+	def __deepcopy__(self, memodict={}):
+		return self.__copy__()
+	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use 'Scan.mass_list' instead")
@@ -110,12 +122,7 @@ class Scan(object):
 		:author: Vladimir Likic
 		"""
 		
-		return copy.deepcopy(self.__mass_list)
-	
-	# def __get_mass_list(self):
-	#	return self.__mass_list
-	
-	# mass_list = property(__get_mass_list)
+		return self.__mass_list[:]
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -147,12 +154,7 @@ class Scan(object):
 		:author: Vladimir Likic
 		"""
 		
-		return copy.deepcopy(self.__intensity_list)
-	
-	# def __get_intensity_list(self):
-	#	return self.__intensity_list
-	
-	# intensity_list = property(__get_intensity_list)
+		return self.__intensity_list[:]
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,

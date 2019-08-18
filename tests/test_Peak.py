@@ -251,7 +251,7 @@ def test_set_mass_spectrum(peak, im_i):
 	
 	for type in [test_string, test_int, test_float, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			peak.set_mass_spectrum(type)
+			peak.mass_spectrum = type
 
 
 def test_get_rt(peak):
@@ -394,7 +394,8 @@ def test_top_ions(peak):
 			with pytest.warns(DeprecationWarning):
 				top_ions_v1(peak, type)
 
-	assert isinstance(top_ions_v2(peak, 10), list)
+	with pytest.warns(DeprecationWarning):
+		assert isinstance(top_ions_v2(peak, 10), list)
 	with pytest.warns(DeprecationWarning):
 		assert len(top_ions_v2(peak, 10)) == 10
 	with pytest.warns(DeprecationWarning):
