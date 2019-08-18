@@ -38,6 +38,7 @@ from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
 from pyms.IonChromatogram import IonChromatogram
 from pyms.MassSpectrum import MassSpectrum
 
+# TODO: make __intensity_matrix a numpy array
 
 try:
 	import psyco

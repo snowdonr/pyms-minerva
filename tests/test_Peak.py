@@ -230,7 +230,7 @@ def test_get_int_of_ion(peak):
 def test_set_ic_mass(peak):
 	peak = copy.deepcopy(peak)
 	uid = peak.UID
-	peak.set_ic_mass(12)
+	peak.ic_mass = 12
 	assert peak.mass_spectrum is None
 	assert peak.UID != uid
 
@@ -245,7 +245,7 @@ def test_set_mass_spectrum(peak, im_i):
 	
 	peak = Peak(test_float)
 	assert peak.mass_spectrum is None
-	peak.set_mass_spectrum(ms)
+	peak.mass_spectrum = ms
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
 	assert isinstance(peak.mass_spectrum.mass_spec, list)
 	
@@ -375,31 +375,42 @@ def test_outlier(peak):
 
 
 def test_top_ions(peak):
-	assert isinstance(top_ions_v1(peak, 10), list)
-	assert len(top_ions_v1(peak, 10)) == 10
-	assert len(top_ions_v1(peak)) == 5
-	assert top_ions_v1(peak, 10)[0] == 55
+	with pytest.warns(DeprecationWarning):
+		assert isinstance(top_ions_v1(peak, 10), list)
+	with pytest.warns(DeprecationWarning):
+		assert len(top_ions_v1(peak, 10)) == 10
+	with pytest.warns(DeprecationWarning):
+		assert len(top_ions_v1(peak)) == 5
+	with pytest.warns(DeprecationWarning):
+		assert top_ions_v1(peak, 10)[0] == 55
 
 	for type in [test_string, test_float, test_int, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			top_ions_v1(type)
+			with pytest.warns(DeprecationWarning):
+				top_ions_v1(type)
 
 	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			top_ions_v1(peak, type)
+			with pytest.warns(DeprecationWarning):
+				top_ions_v1(peak, type)
 
 	assert isinstance(top_ions_v2(peak, 10), list)
-	assert len(top_ions_v2(peak, 10)) == 10
-	assert len(top_ions_v2(peak)) == 5
-	assert top_ions_v2(peak, 10)[0] == 55
+	with pytest.warns(DeprecationWarning):
+		assert len(top_ions_v2(peak, 10)) == 10
+	with pytest.warns(DeprecationWarning):
+		assert len(top_ions_v2(peak)) == 5
+	with pytest.warns(DeprecationWarning):
+		assert top_ions_v2(peak, 10)[0] == 55
 
 	for type in [test_string, test_float, test_int, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			top_ions_v2(type)
+			with pytest.warns(DeprecationWarning):
+				top_ions_v2(type)
 
 	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
-			top_ions_v2(peak, type)
+			with pytest.warns(DeprecationWarning):
+				top_ions_v2(peak, type)
 	
 	assert isinstance(peak.top_ions(10), list)
 	assert len(peak.top_ions(10)) == 10

@@ -92,7 +92,7 @@ def tophat_im(im, struct=None):
     if not isinstance(im, IntensityMatrix):
         raise TypeError("'im' must be an IntensityMatrix object")
 
-    n_scan, n_mz = im.get_size()
+    n_scan, n_mz = im.size
     
     im_smooth = copy.deepcopy(im)
     
