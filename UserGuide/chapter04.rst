@@ -115,34 +115,34 @@ as follows:
 .. code-block:: python
 
     >>> masses = im.get_mass_list()
-    >>> print(masses[:10])
+    >>> masses[:10]
     [50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0]
 
 The last command prints the first ten masses. The methods
-:py:attr:`im.min_mass <pyms.IntensityMatrix.min_mass>` and
-:py:attr:`im.max_mass <pyms.IntensityMatrix.max_mass>`
+:attr:`im.min_mass <pyms.IntensityMatrix.min_mass>` and
+:attr:`im.max_mass <pyms.IntensityMatrix.max_mass>`
 return the minimum and maximum mass:
 
 .. code-block:: python
 
-    >>> print(im.min_mass)
+    >>> im.min_mass
     50.0
-    >>> print(im.max_mass)
+    >>> im.max_mass
     600.0
 
 It is also possible to search for a particular mass, by finding the index of
 the binned mass closest to the desired mass. For example, the index of the
 closest binned mass to a mass of 73.3 :math:`m/z` can be found by using the
-methods :py:meth:`im.get_index_of_mass() <pyms.IntensityMatrix.get_index_of_mass>`:
+methods :meth:`im.get_index_of_mass() <pyms.IntensityMatrix.get_index_of_mass>`:
 
     >>> index = im.get_index_of_mass(73.3)
     >>> print(index)
     23
 
 The value of the closest mass can be returned by the method
-:py:meth:`im.get_mass_at_index() <pyms.IntensityMatrix.get_mass_at_index>`:
+:meth:`im.get_mass_at_index() <pyms.IntensityMatrix.get_mass_at_index>`:
 
-    >>> print(im.get_mass_at_index(index))
+    >>> im.get_mass_at_index(index)
     73.0
 
 A mass of 73.0 is returned in this example.
@@ -199,15 +199,15 @@ MassSpectrum object
 
 .. note:: This example is in `pyms-demo/31 <../pyms-demo/31/31.html>`__
 
-A :py:class:`MassSpectrum <pyms.MassSpectrum.MassSpectrum>` object contains
+A :class:`~pyms.MassSpectrum.MassSpectrum` object contains
 two attributes, ``mass_list`` and ``mass_spec``, a list of mass values
 and corresponding intensities, respectively.
-:py:class:`MassSpectrum <pyms.MassSpectrum.MassSpectrum>` is returned by the
-:py:class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>` method
-:py:meth:`get_ms_at_index(index) <pyms.IntensityMatrix.get_ms_at_index()>`.
+:class:`MassSpectrum <pyms.MassSpectrum.MassSpectrum>` is returned by the
+:class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>` method
+:meth:`get_ms_at_index(index) <pyms.IntensityMatrix.get_ms_at_index()>`.
 
 For example, the properties of the first MassSpectrum object of an
-:py:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`, ``im``, can be investigated by;
+:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`, ``im``, can be investigated by;
 
     >>> ms = im.get_ms_at_index(0)
     >>> print(len(ms))
@@ -221,13 +221,13 @@ IonChromatogram object
 
 .. note:: This example is in `pyms-demo/31 <../pyms-demo/31/31.html>`__
 
-An :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>` object is a
+An :class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>` object is a
 one dimensional vector containing mass intensities as a function of
 retention time. This can can be either :math:`m/z` channel intensities
 (for example, the ion chromatogram at :math:`m/z = 73`), or cumulative
 intensities over all measured :math:`m/z` (TIC).
 
-An :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>` for the
+An :class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>` for the
 TIC and a given mass or index can be obtained as follows:
 
     >>> tic = data.get_tic()
@@ -238,7 +238,7 @@ This will return, respectively: the TIC; the ion chromatogram of the first
 mass; and the ion chromatogram of the mass closest to 73.
 
 An ion chromatogram object has a method
-:py:meth:`is_tic() <pyms.IonChromatogram.IonChromatogram.is_tic>`
+:meth:`is_tic() <pyms.IonChromatogram.IonChromatogram.is_tic>`
 which returns ``True`` if the ion chromatogram is a TIC, ``False`` otherwise:
 
     >>> print("'tic' is a TIC:", tic.is_tic())
@@ -251,8 +251,8 @@ Writing IonChromatogram object to a file
 
 .. note:: This example is in `pyms-demo/31 <../pyms-demo/31/31.html>`__
 
-The method :py:meth:`write() <pyms.IonChromatogram.IonChromatogram.write>`
-of an :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>`
+The method :meth:`write() <pyms.IonChromatogram.IonChromatogram.write>`
+of an :class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>`
 object allows one to save the ion chromatogram object to a file:
 
     >>> tic.write("output/tic.dat", minutes=True)
@@ -260,7 +260,7 @@ object allows one to save the ion chromatogram object to a file:
 
 The flag ``minutes=True`` indicates that retention time will be saved in minutes.
 The ion chromatogram object saved with with the
-:py:meth:`write() <pyms.IonChromatogram.IonChromatogram.write>`
+:meth:`write() <pyms.IonChromatogram.IonChromatogram.write>`
 method is a plain ASCII file which contains a pair of
 (retention time, intensity) per line.
 
@@ -286,9 +286,9 @@ Saving data
 A matrix of intensity values can be saved to a file with the function
 :meth:`save_data() <pyms.Utils.IO.save_data>`
 from :meth:`pyms.Utils.IO <pyms.Utils.IO>`. A matrix of intensity values can
-be returned from an :py:class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>`
+be returned from an :class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>`
 with the method
-:py:attr:`intensity_matrix <pyms.IntensityMatrix.intensity_matrix>`.
+:attr:`intensity_matrix <pyms.IntensityMatrix.intensity_matrix>`.
 For example,
 
     >>> from pyms.Utils.IO import save_data
@@ -296,13 +296,13 @@ For example,
     >>> save_data("output/im.dat", mat)
 
 It is also possible to save the list of masses (from
-:py:attr:`im.mass_list <pyms.IntensityMatrix.IntensityMatrix.mass_list>`
+:attr:`im.mass_list <pyms.IntensityMatrix.IntensityMatrix.mass_list>`
 and the list of retention times (from
-:py:attr:`im.time_list <pyms.IntensityMatrix.IntensityMatrix.time_list>`
+:attr:`im.time_list <pyms.IntensityMatrix.IntensityMatrix.time_list>`
 using the :meth:`save_data() <pyms.Utils.IO.save_data>` function.
 For convenience, the intensity values, mass list and time list,
 can be saved with the method
-:py:meth:`export_ascii() <pyms.IntensityMatrix.IntensityMatrix.export_ascii>`.
+:meth:`export_ascii() <pyms.IntensityMatrix.IntensityMatrix.export_ascii>`.
 For example,
 
     >>> im.export_ascii("output/data")
@@ -315,7 +315,7 @@ extension by the command:
 
     >>> im.export_ascii("output/data", "csv")
 
-Additionally, the entire :py:class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>`
+Additionally, the entire :class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>`
 can be exported to LECO CSV format. This facility is useful for import into
 other analytical software packages. The format has a header line specifying
 the column heading information as:
@@ -348,6 +348,6 @@ For example, the file saved above can be read and compared to the original:
     >>> print(im.size)
     >>> print(iim.size)
 
-The line :py:meth:`IntensityMatrix([0],[0],[[0]]) <pyms.GCMS.Class.IntensityMatrix.__init__>`
+The line :meth:`IntensityMatrix([0],[0],[[0]]) <pyms.GCMS.Class.IntensityMatrix.__init__>`
 is required to create an empty
-:py:class:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>` object.
+:class:`~pyms.GCMS.Class.IntensityMatrix` object.
