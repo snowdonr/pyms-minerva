@@ -18,7 +18,7 @@ PyMassSpec makes the following assumptions about the information contained in th
 * Each scan has a retention time.
 
 Internally, PyMassSpec stores the raw data from ANDI files or JCAMP files as a
-:py:class:`~pyms.GCMS.Class.GCMS_data` object.
+:class:`~pyms.GCMS.Class.GCMS_data` object.
 
 Creating a "GCMS_data" object
 ================================
