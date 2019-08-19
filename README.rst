@@ -3,22 +3,6 @@ PyMassSpec
 ************
 
 A Python toolkit for processing of chromatography--mass spectrometry data
-===========================================================================
-
-Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
-
-The project seems to have been abandoned as there has been no activity in 18 months.
-
-|
-
-.. contents:: Table of Contents
-
-
-Introduction
-==============
 
 PyMassSpec is a Python_ package for processing gas chromatography-mass spectrometry data.
 PyMassSpec provides a framework and a set of components for rapid development and testing of methods for processing of chromatography--mass spectrometry data.
@@ -30,10 +14,24 @@ If desired, new functions (such as a test or prototype of a new algorithm)
 can be implemented efficiently and ensuring that this will not break any
 existing functionality.
 
+
+
+Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić
+
 The original publication can be found here: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
 
+|
 
-The PyMS project
+Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
+
+The original project seems to have been abandoned as there has been no activity in 18 months.
+
+
+.. contents:: Table of Contents
+
+
+
+The PyMassSpec project
 =================
 
 The directory structure of PyMassSpec is as follows:
@@ -57,18 +55,11 @@ Features
 Installation
 ==============
 
-There are several ways to install PyMassSpec depending your computer
-configuration and personal preferences. These installation
-instructions assume that Python is already installed and can be
-invoked with the ``python3`` command. Modify the instructions
-given if your Python installation is invoked with a different
-command, such as ``py`` on Windows.
-
 PyMassSpec can be installed with the following command:
 
 .. code-block:: bash
 
-    $ python3 -m pip --user install PyMassSpec
+    $ pip --user install PyMassSpec
 
 This will also install the following dependencies:
 
@@ -92,7 +83,7 @@ The data used in the |pkgname| documentation and examples is available
 
 In the ":ref:`Demos and Examples <pyms-demo>`" section there
 is a page corresponding to each example, coded with the chapter number
-(ie. ``pyms-demo/20a/`` corresponds to the Example 21a, from Chapter 2).
+(ie. ":ref:`pyms-demo/20a/`" corresponds to the Example 20a, from Chapter 2).
 
 Each example has a script named 'proc.py' which contains the commands given in the example.
 These scripts can be run with the following command:
@@ -147,6 +138,8 @@ Contributions are very welcome. Tests can be run with `pytest`_. Please
 ensure the coverage stays at least the same before you submit a pull
 request.
 
+For further information see the section `Contributing to PyMassSpec`_
+
 License
 =========
 PyMassSpec is Free and Open Source software released under the `GNU General Public License version 2 <GPL_>`__.
@@ -160,6 +153,7 @@ detailed description.
 
 
 .. _`documentation`: https://pymassspec.readthedocs.io
+.. _`Contributing to PyMassSpec`: https://pymassspec.readthedocs.io/en/master/Contributing/Contributing.html
 .. _`pytest`: https://pytest.org/latest/contents.html
 .. _`file an issue`: https://github.com/domdfcoding/pymassspec/issues
 .. _Python: https://www.python.org/
