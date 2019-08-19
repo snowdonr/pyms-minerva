@@ -109,4 +109,4 @@ build
 */__pycache__
 Scribble
 
-tests/output
+*/output

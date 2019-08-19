@@ -369,8 +369,8 @@ class Alignment(object):
         #if not os.path.isdir(os.path.dirname(area_file_name)):
         #    os.makedirs(os.path.dirname(area_file_name))
         
-        fp1 = open(rt_file_name, "w")
-        fp2 = open(area_file_name, "w")
+        fp1 = rt_file_name.open("w")
+        fp2 = area_file_name.open("w")
     
 
         # create header
