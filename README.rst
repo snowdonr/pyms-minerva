@@ -14,14 +14,15 @@ The project seems to have been abandoned as there has been no activity in 18 mon
 
 |
 
+.. contents:: Table of Contents
+
+
 Introduction
 ==============
 
-PyMassSpec provides a framework and a set of components for rapid development
-and testing of methods for processing of chromatography--mass spectrometry data.
-PyMassSpec can be used interactively through the Python shell, or the functions
-can be collected into scripts and run non-interactively when it is preferable
-to perform data processing in the batch mode.
+PyMassSpec is a Python_ package for processing gas chromatography-mass spectrometry data.
+PyMassSpec provides a framework and a set of components for rapid development and testing of methods for processing of chromatography--mass spectrometry data.
+PyMassSpec can be used interactively through the Python shell, or the functions can be collected into scripts and run non-interactively when it is preferable to perform data processing in the batch mode.
 
 PyMassSpec consists of modules which are loaded when needed,
 and different functions are completely decoupled from one another.
@@ -42,17 +43,26 @@ The directory structure of PyMassSpec is as follows:
     /
     ├── pyms:      The PyMassSpec code
     │
-    ├── docs: The PyMassSpec User Guide and Documentation
+    ├── pyms-data: Example GC-MS data files
     │
     ├── pyms-demo: Examples of how to use PyMassSpec
     │
-    └── UserGuide: Sphinx source for pyms-docs
+    ├── tests: pytest tests
+    │
+    └── UserGuide: Sphinx source for documentation
 
 Features
 =========
 
 Installation
 ==============
+
+There are several ways to install PyMassSpec depending your computer
+configuration and personal preferences. These installation
+instructions assume that Python is already installed and can be
+invoked with the ``python3`` command. Modify the instructions
+given if your Python installation is invoked with a different
+command, such as ``py`` on Windows.
 
 PyMassSpec can be installed with the following command:
 
@@ -64,23 +74,49 @@ This will also install the following dependencies:
 
 .. literalinclude:: ../requirements.txt
 
+PyMassSpec also requires 'mp4py', installation instructions for which can be found at: https://mpi4py.readthedocs.io/en/stable/
+
 
 Example
 =======
 
-Download the file ``gc01\_0812\_066.jdx`` and save it in the folder ``Data``.
+A tutorial illustrating various |pkgname| features in detail is provided
+in subsequent chapters of this User Guide. The commands executed
+interactively are grouped together by example, and can be found
+:ref:`here <pyms-demo>`.
+
+.. If you are viewing this source, the examples can be found in the pyms-demo directory, and the data files in pyms-data
+
+The data used in the |pkgname| documentation and examples is available
+:ref:`here <pyms-demo/data-files>`.
+
+In the ":ref:`Demos and Examples <pyms-demo>`" section there
+is a page corresponding to each example, coded with the chapter number
+(ie. ``pyms-demo/20a/`` corresponds to the Example 21a, from Chapter 2).
+
+Each example has a script named 'proc.py' which contains the commands given in the example.
+These scripts can be run with the following command:
+
+.. code-block:: bash
+
+    $ python3 proc.py
+
+Example processing GC-MS data
+-------------------------------
+
+Download the file ``gc01_0812_066.jdx`` and save it in the folder ``data``.
 This file contains GC-MS data in the the JCAMP-DX format.
 
 First the raw data is loaded:
 
     >>> from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
-    >>> jcamp_file = "Data/gc01_0812_066.jdx"
+    >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
     -> Reading JCAMP file 'Data/gc01_0812_066.jdx'
 
 The intensity matrix object is then built by binning:
 
-    >>> from pyms.GCMS.Function import build_intensity_matrix_i
+    >>> from pyms.IntensityMatrix import build_intensity_matrix_i
     >>> im = build_intensity_matrix_i(data)
 
 In this example, we show how to obtain the dimensions of the
@@ -88,9 +124,9 @@ newly created intensity matrix, then loop over all ion chromatograms,
 and for each ion chromatogram apply Savitzky-Golay noise filter
 and tophat baseline correction:
 
-    >>> n_scan, n_mz = im.get_size()
+    >>> n_scan, n_mz = im.size
     >>> from pyms.Noise.SavitzkyGolay import savitzky_golay
-    >>> from pyms.Baseline.TopHat import tophat
+    >>> from pyms.TopHat import tophat
     >>> for ii in range(n_mz):
     ...     print("working on IC", ii)
     ...     ic = im.get_ic_at_index(ii)
