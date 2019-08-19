@@ -90,11 +90,11 @@ function. First the raw data is imported as before.
      -> Reading JCAMP file 'data/gc01_0812_066.jdx'
 
 Then the data can be converted to an intensity matrix using the functions
-:py:function:`build_intensity_matrix() <pyms.IntensityMatrix.build_intensity_matrix>` and
-:py:function:`build_intensity_matrix_i() <pyms.IntensityMatrix.build_intensity_matrix_i>`,
+:meth:`build_intensity_matrix() <pyms.IntensityMatrix.build_intensity_matrix>` and
+:meth:`build_intensity_matrix_i() <pyms.IntensityMatrix.build_intensity_matrix_i>`,
 available in :py:meth:`pyms.IntensityMatrix <pyms.IntensityMatrix>`
 
-The default operation of :py:function:`build_intensity_matrix() <pyms.IntensityMatrix.build_intensity_matrix>`
+The default operation of :meth:`build_intensity_matrix() <pyms.IntensityMatrix.build_intensity_matrix>`
 is to use a bin interval of one and treat the masses as floating point numbers.
 The default intensity matrix can be built as follows:
 
@@ -192,7 +192,7 @@ The masses are now integers.
 A mass of 73 is returned in this example.
 
 The lower and upper bounds can be adjusted by
-:py:function:`build_intensity_matrix_i(data, lower, upper) <pyms.IntensityMatrix.build_intensity_matrix_i>`
+:meth:`build_intensity_matrix_i(data, lower, upper) <pyms.IntensityMatrix.build_intensity_matrix_i>`
 
 MassSpectrum object
 =====================
@@ -284,7 +284,7 @@ Saving data
 .. note:: This example is in `pyms-demo/32 <../pyms-demo/32/32.html>`__
 
 A matrix of intensity values can be saved to a file with the function
-:py:function:`save_data() <pyms.Utils.IO.save_data>`
+:meth:`save_data() <pyms.Utils.IO.save_data>`
 from :meth:`pyms.Utils.IO <pyms.Utils.IO>`. A matrix of intensity values can
 be returned from an :py:class:`IntensityMatrix <pyms.IntensityMatrix.IntensityMatrix>`
 with the method
@@ -299,7 +299,7 @@ It is also possible to save the list of masses (from
 :py:attr:`im.mass_list <pyms.IntensityMatrix.IntensityMatrix.mass_list>`
 and the list of retention times (from
 :py:attr:`im.time_list <pyms.IntensityMatrix.IntensityMatrix.time_list>`
-using the :py:function:`save_data() <pyms.Utils.IO.save_data>` function.
+using the :meth:`save_data() <pyms.Utils.IO.save_data>` function.
 For convenience, the intensity values, mass list and time list,
 can be saved with the method
 :py:meth:`export_ascii() <pyms.IntensityMatrix.IntensityMatrix.export_ascii>`.

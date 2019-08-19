@@ -45,7 +45,7 @@ as follows:
     >>>
 
 The above command creates the object ``data`` which is an instance
-of the class :py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>`.
+of the class :class:`~pyms.GCMS.Class.GCMS_data`.
 
 Reading ANDI GC-MS data
 ------------------------
@@ -68,7 +68,7 @@ This file can be loaded as follows:
     >>>
 
 The above command creates the object ``data`` which is an instance
-of the class :py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>`.
+of the class :class:`~pyms.GCMS.Class.GCMS_data`.
 
 A GCMS_data object
 ======================
@@ -79,14 +79,14 @@ Methods
 .. note:: The examples below are in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__ and `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
 
 The object ``data`` (from the two previous examples) stores the raw data as a
-:py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>` object. Within the
-:py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>` object, raw data are stored as a list
-of :py:class:`Scan <pyms.Scan.Scan>` objects and a list of retention times.
+:class:`~pyms.GCMS.Class.GCMS_data` object. Within the
+:class:`~pyms.GCMS.Class.GCMS_data` object, raw data are stored as a list
+of :class:`~pyms.Scan.Scan` objects and a list of retention times.
 There are several methods available to access data and attributes of the
-:py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>` and
-:py:class:`Scan <pyms.Scan.Scan>` objects.
+:class:`~pyms.GCMS.Class.GCMS_data` and
+:class:`~pyms.Scan.Scan` objects.
 
-The :py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>` object's methods relate to the raw data. The main properties
+The :class:`~pyms.GCMS.Class.GCMS_data` object's methods relate to the raw data. The main properties
 relate to the masses, retention times and scans. For example, the
 minimum and maximum mass from all of the raw data can be returned by the
 following:
@@ -106,14 +106,14 @@ The index of a specific retention time (in seconds) can be returned by:
 Note that this returns the index of the retention time in the
 data closest to the given retention time of 400.0 seconds.
 
-The :py:attr:`GCMS_data.tic <pyms.GCMS.Class.GCMS_data.tic>` attribute
+The :attr:`GCMS_data.tic <pyms.GCMS.Class.GCMS_data.tic>` attribute
 returns a total ion chromatogram (TIC) of the data
-as an :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>` object:
+as an :class:`~pyms.IonChromatogram.IonChromatogram` object:
 
 
     >>> tic = data.tic
 
-The :py:class:`IonChromatogram <pyms.IonChromatogram.IonChromatogram>`
+The :class:`~pyms.IonChromatogram.IonChromatogram`
 object is explained in a later chapter.
 
 A Scan data object
@@ -151,7 +151,7 @@ Exporting data and obtaining information about a data set
 
 Often it is of interest to find out some basic information about the
 data set, e.g. the number of scans, the retention time range, and
-m/z range and so on. The :py:class:`GCMS_data <pyms.GCMS.Class.GCMS_data>`
+m/z range and so on. The :class:`~pyms.GCMS.Class.GCMS_data`
 class provides a method :py:meth:`info() <pyms.GCMS.Class.GCMS_data.info()>`
 that can be used for this purpose.
 
