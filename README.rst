@@ -15,12 +15,12 @@ can be implemented efficiently and ensuring that this will not break any
 existing functionality.
 
 
+|
 
 Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić
 
 The original publication can be found here: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
 
-|
 
 Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
 
@@ -68,7 +68,7 @@ This will also install the following dependencies:
 PyMassSpec also requires 'mp4py', installation instructions for which can be found at: https://mpi4py.readthedocs.io/en/stable/
 
 
-Example
+Usage
 =======
 
 A tutorial illustrating various |pkgname| features in detail is provided

@@ -5,8 +5,9 @@
     :caption: User Guide
     :maxdepth: 2
 
-    chapter03
-    chapter04
+    gcms_raw_data_model
+    gcms_data_derived_objects
+    data_filtering
 
 View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 

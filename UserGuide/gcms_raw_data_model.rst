@@ -119,27 +119,25 @@ object is explained in a later chapter.
 A Scan data object
 ----------------------
 
-A Scan object contains a list of masses and a corresponding list of intensity
-values from a single mass-spectrum scan in the raw data. Typically only
-non-zero (or non-threshold) intensities and corresponding masses are stored in
-the raw data.
+A :class:`~pyms.Scan.Scan`object contains a list of masses and a corresponding list of intensity values from a single mass-spectrum scan in the raw data. Typically only non-zero (or non-threshold) intensities and corresponding masses are stored in the raw data.
 
 .. note:: The following examples are the same in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__ and `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
 
-A list of all the raw Scan objects can be returned by:
+A list of all the raw :class:`~pyms.Scan.Scan` objects can be returned with:
 
     >>> scans = data.scan_list
+    >>> scans
 
-A list of all masses in a scan (e.g. the 1st scan) is returned by:
+A list of all masses in a scan (e.g. the 1st scan) is returned with:
 
     >>> scans[0].mass_list
 
-A list of all corresponding intensities in a scan is returned by:
+A list of all corresponding intensities in a scan is returned with:
 
     >>> scans[0].intensity_list
 
 The minimum and maximum mass in an individual scan (e.g. the 1st scan) are
-returned by:
+returned with:
 
     >>> scans[0].min_mass
     >>> scans[0].max_mass
@@ -225,7 +223,7 @@ To compare the two data sets:
        Max m/z RMSD: 1.03e-05
        Max intensity RMSD: 0.00e+00
 
-If the data is not possible to compare, for example because of
+If the data cannot be compared, for example because of
 different number of scans, or inconsistent number of m/z values
 in between two scans, :py:meth:`diff() <pyms.GCMS.Function.diff>`
 will report the difference. For example:
