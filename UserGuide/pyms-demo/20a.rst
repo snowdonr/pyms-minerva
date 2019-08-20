@@ -1,8 +1,7 @@
 .. _demo-20a
 
-******
 20a
-******
+^^^^^
 
 Reading of GC-MS raw data in the JCAMP-DX format, and some
 properties of raw data object. The JCAMP-DX file used in this
