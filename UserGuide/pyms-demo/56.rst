@@ -1,9 +1,11 @@
+.. _demo-56
+
 ******
 56
 ******
 
 :download:`Download Source <../../pyms-demo/56/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/56/proc.py
     :language: python
     :linenos:

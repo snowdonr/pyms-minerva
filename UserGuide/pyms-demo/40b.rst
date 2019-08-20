@@ -1,3 +1,5 @@
+.. _demo-40b
+
 ******
 40b
 ******
@@ -6,6 +8,6 @@ Crop mass range and ignore given masses
 
 :download:`Download Source <../../pyms-demo/40b/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/40b/proc.py
     :language: python
     :linenos:

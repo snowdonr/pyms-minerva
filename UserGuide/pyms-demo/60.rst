@@ -1,3 +1,5 @@
+.. _demo-60
+
 ******
 60
 ******
@@ -6,6 +8,6 @@ Experiment object.
 
 :download:`Download Source <../../pyms-demo/60/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/60/proc.py
     :language: python
     :linenos:

@@ -1,3 +1,5 @@
+.. _demo-31
+
 ******
 31
 ******
@@ -6,6 +8,6 @@ MassSpectrum and IonChromatogram objects of an IntensityMatrix
 
 :download:`Download Source <../../pyms-demo/31/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/31/proc.py
     :language: python
     :linenos:

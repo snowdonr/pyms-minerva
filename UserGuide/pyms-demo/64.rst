@@ -1,3 +1,5 @@
+.. _demo-64
+
 ******
 64
 ******
@@ -6,6 +8,6 @@ Peak alignment with the "common ion" filtering.
 
 :download:`Download Source <../../pyms-demo/64/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/64/proc.py
     :language: python
     :linenos:

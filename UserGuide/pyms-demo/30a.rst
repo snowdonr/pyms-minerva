@@ -1,3 +1,5 @@
+.. _demo-30a
+
 ******
 30a
 ******
@@ -7,6 +9,6 @@ GC-MS data, and some basic methods of the IntensityMatrix
 
 :download:`Download Source <../../pyms-demo/30a/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/30a/proc.py
     :language: python
     :linenos:

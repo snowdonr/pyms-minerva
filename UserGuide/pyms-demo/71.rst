@@ -1,3 +1,5 @@
+.. _demo-71
+
 ******
 71
 ******
@@ -11,13 +13,13 @@ several ICs, and peaks detected by PyMS
 
 ``proc.py``
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/71/proc.py
     :language: python
     :linenos:
 
 ``proc_save_peaks.py``
 
-.. literalinclude:: proc_save_peaks.py
+.. literalinclude:: ../../pyms-demo/71/proc_save_peaks.py
     :language: python
     :linenos:
 

@@ -1,3 +1,5 @@
+.. _demo-42b
+
 ******
 42b
 ******
@@ -6,6 +8,6 @@ TopHat baseline correction
 
 :download:`Download Source <../../pyms-demo/42b/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/42b/proc.py
     :language: python
     :linenos:

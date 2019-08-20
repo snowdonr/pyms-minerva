@@ -1,3 +1,5 @@
+.. _demo-40a
+
 ******
 40a
 ******
@@ -6,6 +8,6 @@ Trim raw data retention time/scan range
 
 :download:`Download Source <../../pyms-demo/40a/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/40a/proc.py
     :language: python
     :linenos:

@@ -1,3 +1,5 @@
+.. _demo-32
+
 ******
 32
 ******
@@ -6,6 +8,6 @@ Saving IonChromatogram and IntensityMatrix information.
 
 :download:`Download Source <../../pyms-demo/32/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/32/proc.py
     :language: python
     :linenos:

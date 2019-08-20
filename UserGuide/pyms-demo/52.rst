@@ -1,3 +1,5 @@
+.. _demo-52
+
 ******
 52
 ******
@@ -6,6 +8,6 @@ Peak detection and deconvolution.
 
 :download:`Download Source <../../pyms-demo/52/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/52/proc.py
     :language: python
     :linenos:

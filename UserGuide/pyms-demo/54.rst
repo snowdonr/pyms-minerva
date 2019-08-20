@@ -1,3 +1,5 @@
+.. _demo-54
+
 ******
 54
 ******
@@ -6,6 +8,6 @@ Peak area.
 
 :download:`Download Source <../../pyms-demo/54/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/54/proc.py
     :language: python
     :linenos:

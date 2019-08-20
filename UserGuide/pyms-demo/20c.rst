@@ -1,3 +1,5 @@
+.. _demo-20c
+
 ******
 20c
 ******
@@ -6,6 +8,6 @@ Use of data information, info(), function
 
 :download:`Download Source <../../pyms-demo/20c/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/20c/proc.py
     :language: python
     :linenos:

@@ -1,3 +1,5 @@
+.. _demo-30b
+
 ******
 30b
 ******
@@ -6,6 +8,6 @@ Exploration of build intensity matrix parameters.
 
 :download:`Download Source <../../pyms-demo/30b/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/30b/proc.py
     :language: python
     :linenos:

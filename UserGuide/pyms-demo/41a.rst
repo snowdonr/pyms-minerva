@@ -1,3 +1,5 @@
+.. _demo-41a
+
 ******
 41a
 ******
@@ -6,6 +8,6 @@ Noise filtering with the mean/median moving window filter, on TIC
 
 :download:`Download Source <../../pyms-demo/41a/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/41a/proc.py
     :language: python
     :linenos:

@@ -1,3 +1,5 @@
+.. _demo-x10
+
 ******
 x10
 ******
@@ -9,6 +11,6 @@ how to run this example on multiple CPUs
 
 :download:`Download Source <../../pyms-demo/x10/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/x10/proc.py
     :language: python
     :linenos:

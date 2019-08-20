@@ -1,3 +1,5 @@
+.. _demo-50
+
 ******
 50
 ******
@@ -6,6 +8,6 @@ Demonstrates a Peak object and its properties.
 
 :download:`Download Source <../../pyms-demo/50/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/50/proc.py
     :language: python
     :linenos:

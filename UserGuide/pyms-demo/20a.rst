@@ -1,3 +1,5 @@
+.. _demo-20a
+
 ******
 20a
 ******
@@ -9,6 +11,6 @@ Instrument Services, Inc)
 
 :download:`Download Source <../../pyms-demo/20a/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/20a/proc.py
     :language: python
     :linenos:

@@ -1,3 +1,5 @@
+.. _demo-53
+
 ******
 53
 ******
@@ -6,6 +8,6 @@ Filter list of detected peaks.
 
 :download:`Download Source <../../pyms-demo/53/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/53/proc.py
     :language: python
     :linenos:

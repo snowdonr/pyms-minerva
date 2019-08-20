@@ -1,9 +1,11 @@
+.. _demo-A2
+
 ******
 A2
 ******
 
 :download:`Download Source <../../pyms-demo/A2/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/A2/proc.py
     :language: python
     :linenos:

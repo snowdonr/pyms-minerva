@@ -1,3 +1,5 @@
+.. _demo-41b
+
 ******
 41b
 ******
@@ -6,6 +8,6 @@ Noise filtering with the Savitzky-Golay filter, on TIC
 
 :download:`Download Source <../../pyms-demo/41b/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/41b/proc.py
     :language: python
     :linenos:

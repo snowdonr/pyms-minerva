@@ -1,3 +1,5 @@
+.. _demo-20d
+
 ******
 20d
 ******
@@ -6,6 +8,6 @@ Illustrates the use of diff() function
 
 :download:`Download Source <../../pyms-demo/20d/proc.py>`
 
-.. literalinclude:: proc.py
+.. literalinclude:: ../../pyms-demo/20d/proc.py
     :language: python
     :linenos:
