@@ -50,7 +50,6 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
 
 .. toctree::
     :hidden:
-    :maxdepth: 0
 
     pyms-demo/20a
     pyms-demo/20b

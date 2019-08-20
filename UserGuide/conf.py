@@ -57,6 +57,7 @@ intersphinx_mapping = { # Is this where those mystery links are specified?
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = {
     'logo_only': False,  # True will show just the logo
+    'includehidden': False
 }
 html_theme_path = ["../.."]
 #html_logo = "logo/pyms.png"
