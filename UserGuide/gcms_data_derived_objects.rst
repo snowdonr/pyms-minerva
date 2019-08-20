@@ -84,7 +84,7 @@ Build intensity matrix
 An intensity matrix on the raw GC-MS data can be built using the following
 function. First the raw data is imported as before.
 
-    >>> from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+    >>> from pyms.GCMS.IO.JCAMP import JCAMP_reader
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
      -> Reading JCAMP file 'data/gc01_0812_066.jdx'

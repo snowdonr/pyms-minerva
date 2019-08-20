@@ -100,7 +100,7 @@ This file contains GC-MS data in the the JCAMP-DX format.
 
 First the raw data is loaded:
 
-    >>> from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+    >>> from pyms.GCMS.IO.JCAMP import JCAMP_reader
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
     -> Reading JCAMP file 'Data/gc01_0812_066.jdx'

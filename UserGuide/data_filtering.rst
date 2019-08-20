@@ -42,7 +42,7 @@ or specific retention times (in ``seconds`` or ``minutes``);
 Mass spectrum range and entries
 ---------------------------------
 
-.. note:: This example is in `pyms-demo/40b <../pyms-demo/40b/40b.html>`__
+.. note:: This example is in :ref:`pyms-demo/40b <demo-40b>`
 
 An :class:`~pyms.IntensityMatrix.IntensityMatrix` object has a set mass range and interval that is derived
 from the data at the time of building the intensity matrix. The range of mass
@@ -58,10 +58,10 @@ range;
 
 It is also possible to set all intensities for a given mass to zero. This is
 useful for ignoring masses associated with sample preparation. The mass can be
-"nulled" via;
+"nulled" with:
 
     >>> data.null_mass(73)
-    >>> print(sum(im.get_ic_at_mass(73).get_intensity_array()))
+    >>> sum(im.get_ic_at_mass(73).get_intensity_array())
 
 
 Noise smoothing
@@ -74,7 +74,7 @@ the contribution of the noise.
 Window averaging
 -----------------
 
-.. note:: This example is in `pyms-demo/41a <../pyms-demo/41a/41a.html>`__
+.. note:: This example is in :ref:`pyms-demo/41a <demo-41a>`
 
 A simple approach to noise smoothing is moving average window smoothing.
 In this approach the window of a fixed size (:math:`2N+1` points) is moved
@@ -91,10 +91,8 @@ Load the data and get the TIC:
 
 Apply the mean window smoothing with the 5-point window:
 
-.. code-block:: python
-
-    from pyms.Noise.Window import window_smooth
-    tic1 = window_smooth(tic, window=5)
+    >>> from pyms.Noise.Window import window_smooth
+    >>> tic1 = window_smooth(tic, window=5)
      -> Window smoothing (mean): the wing is 2 point(s)
 
 Apply the median window smoothing with the 5-point window:
@@ -112,7 +110,7 @@ Time strings are explained in the Section `Time Strings`_.
 
 Window Averaging on Intensity Matrix
 ------------------------------------
-.. note:: This example is in `pyms-demo/41b <../pyms-demo/41b/41b.html>`__
+.. note:: This example is in :ref:`pyms-demo/41b <demo-41b>`
 
 In the previous section, window averaging was applied to an
 Ion Chromatogram object (in that case a TIC). Where filtering
@@ -126,17 +124,17 @@ function, except that an Intensity Matrix
 is passed to it.
 
 For example, to perform window smoothing on an
-:py:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`
+:class:`~pyms.IntensityMatrix.IntensityMatrix`
 object with a 5 point window and mean window smoothing:
 
     >>> from pyms.Noise.Window import window_smooth_im()
-    ... im is a PyMS IntensityMatrix object
+    >>> # im is a PyMS IntensityMatrix object
     >>> im_smooth = window_smooth_im(im, window = 5, median = False)
 
 Savitzky--Golay noise filter
 ------------------------------
 
-.. note:: This example is in `pyms-demo/41c <../pyms-demo/41c/41c.html>`__
+.. note:: This example is in :ref:`pyms-demo/41c <demo-41c>`
 
 A more sophisticated noise filter is the Savitzky-Golay filter.
 Given the data loaded as above, this filter can be applied as
@@ -153,7 +151,7 @@ In this example the default parameters were used.
 Savitzky-Golay Noise filtering of Intensity Matrix Object
 ----------------------------------------------------------
 
-.. note:: This example is in `pyms-demo/41d <../pyms-demo/41d/41d.html>`__
+.. note:: This example is in :ref:`pyms-demo/41d <demo-41d>`
 
 The :py:meth:`savitzky_golay() <pyms.Noise.SavitzkyGolay.savitzky_golay>`
 function described in the previous section acts on a single
@@ -163,13 +161,13 @@ filtering on the whole Intensity matrix the function
 may be used as follows:
 
     >>> from pyms.Noise.SavitzkyGolay import savitzky_golay_im
-    ... im is a PyMS IntensityMatrix object
+    >>> # im is a PyMS IntensityMatrix object
     >>> im_smooth = savitzky_golay(im)
 
 
 Baseline correction
 ====================
-.. note:: This example is in `pyms-demo/62a <../pyms-demo/62a/62a.html>`__
+.. note:: This example is in :ref:`pyms-demo/42a <demo-42a>`
 
 Baseline distortion originating from instrument imperfections and
 experimental setup is often observed in mass spectrometry data,
@@ -209,38 +207,38 @@ top-hat baseline corrector is applied to the TIC of the data set
     >>> tic1.write("output/tic_smooth.dat",minutes=True)
     >>> tic2.write("output/tic_smooth_bc.dat",minutes=True)
 
-In the interactive session shown above, the data set if first loaded,
-Savitzky-Golay smoothing was applied, followed by baseline correction.
+In the interactive session shown above, the data set was first loaded,
+Savitzky-Golay smoothing applied, followed by baseline correction.
 Finally the original, smoothed, and smoothed and baseline corrected
 TIC were saved in the directory ``output/``.
 
 Tophat Baseline correction on an Intensity Matrix object
 -----------------------------------------------------------
 
-.. note:: This example is in `pyms-demo/42b <../pyms-demo/42b/42b.html>`__
+.. note:: This example is in :ref:`pyms-demo/42b <demo-42b>`
 
-The :py:meth:`tophat() <pyms.Baseline.TopHat.tophat>` function
+The :meth:`tophat() <pyms.TopHat.tophat>` function
 outlined in the instructions above, acts on a single
-:py:meth:`IonChromatogram <pyms.GCMS.Class.IonChromatogram>`.
+:py:meth:`~pyms.IonChromatogram.IonChromatogram`.
 To perform baseline correction on an
-:py:meth:`IntensityMatrix <pyms.GCMS.Class.IntensityMatrix>`
+:py:meth:`~pyms.IntensityMatrix.IntensityMatrix`
 object (i.e. on all `Ion Chromatograms`) the
-:py:meth:`tophat_im() <pyms.Baseline.TopHat.tophat_im>`
+:py:meth:`tophat_im() <pyms.TopHat.tophat_im>`
 function may be used.
 
 Using the same definition for "`struct`" as above, use of the
-:py:meth:`tophat_im() <pyms.Baseline.TopHat.tophat_im>`
+:py:meth:`tophat_im() <pyms.TopHat.tophat_im>`
 function is as follows:
 
     >>> from pyms.Baseline.TopHat import tophat_im()
-    ... im is an Intensity Matrix object
+    >>> # im is an Intensity Matrix object
     >>> im_base_corr = tophat(im, struct="1.5m")
 
 
 Pre-processing the IntensityMatrix
 ====================================
 
-.. note:: This example is in `pyms-demo/43 <../pyms-demo/43/43.html>`__
+.. note:: This example is in :ref:`pyms-demo/43 <demo-43>`
 
 The entire noise smoothing and baseline correction can be applied to each ion
 chromatogram in the intensity matrix;
@@ -261,7 +259,7 @@ Alternatively, the filtering may be performed on the Intensity Matrix without
 using a ``for`` loop, as outlined in the sections above. However filtering by
 Ion Chromatogram in a ``for`` loop as described here is much faster.
 
-The resulting IntensityMatrix object can be ``dumped'' to a file for later
+The resulting IntensityMatrix object can be "dumped" to a file for later
 retrieval. There are general perpose object file handling methods in
 :py:meth:`pyms.Utils.IO <pyms.Utils.IO>`. For example;
 

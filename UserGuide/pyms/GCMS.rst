@@ -42,9 +42,9 @@
     :special-members:
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:mod:`pyms.GCMS.IO.JCAMP.Function`
+:mod:`pyms.GCMS.IO.JCAMP`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: pyms.GCMS.IO.JCAMP.Function
+.. automodule:: pyms.GCMS.IO.JCAMP
     :members:
     :private-members:
     :special-members:

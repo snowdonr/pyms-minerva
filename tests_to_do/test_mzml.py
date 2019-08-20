@@ -37,7 +37,7 @@ print("maximum mass found in 1st scan: ", scans[0].max_mass)
 
 import pytest
 
-from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
 
 @pytest.fixture(scope="module")
 def data():

@@ -1,7 +1,7 @@
 """proc.py
 """
 
-from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
 
 # read the raw data
 jcamp_file = "data/gc01_0812_066.jdx"

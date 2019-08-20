@@ -1,7 +1,7 @@
 """proc.py
 """
 
-from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.GCMS.Function import build_intensity_matrix
 
 # read the raw data as a GCMS_data object

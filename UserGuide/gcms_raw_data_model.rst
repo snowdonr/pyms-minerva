@@ -26,7 +26,7 @@ Creating a "GCMS_data" object
 Reading JCAMP GC-MS data
 ----------------------------
 
-.. note::This example is in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__
+.. note::This example is in :ref:`pyms-demo/20a <demo-20a>`
 
 The PyMS package :mod:`pyms.GCMS.IO.JCAMP` provides capabilities to read the raw
 GC-MS data stored in the JCAMP-DX format.
@@ -38,7 +38,7 @@ as follows:
 
 .. code-block:: python
 
-    >>> from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+    >>> from pyms.GCMS.IO.JCAMP import JCAMP_reader
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
      -> Reading JCAMP file 'data/gc01_0812_066.jdx'
@@ -50,7 +50,7 @@ of the class :class:`~pyms.GCMS.Class.GCMS_data`.
 Reading ANDI GC-MS data
 ------------------------
 
-.. note:: This example is in `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
+.. note:: This example is in :ref:`pyms-demo/20b <demo-20b>`
 
 The PyMS package :mod:`pyms.GCMS.IO.ANDI` provides capabilities to read the raw
 GC-MS data stored in the ANDI-MS format.
@@ -145,7 +145,7 @@ returned with:
 Exporting data and obtaining information about a data set
 ----------------------------------------------------------
 
-.. note:: This example is in `pyms-demo/20c <../pyms-demo/20c/20c.html>`__
+.. note:: This example is in :ref:`pyms-demo/20c <demo-20c>`
 
 Often it is of interest to find out some basic information about the
 data set, e.g. the number of scans, the retention time range, and
@@ -190,7 +190,7 @@ values recorded.
 Comparing two GC-MS data sets
 ----------------------------------
 
-.. note:: This example is in `pyms-demo/20d <../pyms-demo/20d/20d.html>`__
+.. note:: This example is in :ref:`pyms-demo/20d <demo-20d>`
 
 Occasionally it is useful to compare two data sets. For example,
 one may want to check the consistency between the data set
@@ -201,7 +201,7 @@ For example:
 
 .. code-block:: python
 
-    >>> from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+    >>> from pyms.GCMS.IO.JCAMP import JCAMP_reader
     >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
     >>> andi_file = "data/gc01_0812_066.cdf"
     >>> jcamp_file = "data/gc01_0812_066.jdx"

@@ -14,7 +14,7 @@ from pyms.Peak.List.DPA.Function import align_with_tree, exprl2alignment
 from pyms.Baseline.TopHat import tophat
 from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann
 from pyms.GCMS.Function import build_intensity_matrix_i
-from pyms.GCMS.IO.JCAMP.Function import JCAMP_reader
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Deconvolution.BillerBiemann.Function import rel_threshold, num_ions_threshold
