@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/42b.rst
+******
+42b
+******
+
+TopHat baseline correction
+
+:download:`Download Source <../../pyms-demo/42b/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

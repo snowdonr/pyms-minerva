@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/31.rst
+******
+31
+******
+
+MassSpectrum and IonChromatogram objects of an IntensityMatrix
+
+:download:`Download Source <../../pyms-demo/31/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

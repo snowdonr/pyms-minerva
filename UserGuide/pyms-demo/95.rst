@@ -1,1 +1,9 @@
-.. include:: ../../pyms-demo/95.rst
+******
+95
+******
+
+:download:`Download Source <../../pyms-demo/95/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

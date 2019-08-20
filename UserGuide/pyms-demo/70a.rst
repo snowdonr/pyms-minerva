@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/70a.rst
+******
+70a
+******
+
+A simple plot of TIC
+
+:download:`Download Source <../../pyms-demo/70a/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

@@ -44,7 +44,7 @@ Mass spectrum range and entries
 
 .. note:: This example is in `pyms-demo/40b <../pyms-demo/40b/40b.html>`__
 
-An IntensityMatrix object has a set mass range and interval that is derived
+An :class:`~pyms.IntensityMatrix.IntensityMatrix` object has a set mass range and interval that is derived
 from the data at the time of building the intensity matrix. The range of mass
 values can be cropped. This is done, primarily, to ensure that the range of
 masses used are consistent when comparing samples.

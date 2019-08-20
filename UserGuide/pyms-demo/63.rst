@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/63.rst
+******
+63
+******
+
+Alignment of peaks within group A, group B and between groups A and B.
+
+:download:`Download Source <../../pyms-demo/63/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

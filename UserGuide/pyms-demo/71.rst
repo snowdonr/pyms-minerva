@@ -1,1 +1,23 @@
-.. include:: ../../pyms-demo/71.rst
+******
+71
+******
+
+A plot with Display() object. Example shows an overlay plot of TIC,
+several ICs, and peaks detected by PyMS
+
+
+:download:`Download proc.py <../../pyms-demo/71/proc.py>`
+:download:`Download proc_save_peaks.py <../../pyms-demo/71/proc.py>`
+
+``proc.py``
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:
+
+``proc_save_peaks.py``
+
+.. literalinclude:: proc_save_peaks.py
+    :language: python
+    :linenos:
+

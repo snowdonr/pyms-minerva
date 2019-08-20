@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/40a.rst
+******
+40a
+******
+
+Trim raw data retention time/scan range
+
+:download:`Download Source <../../pyms-demo/40a/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

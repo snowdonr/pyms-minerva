@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/41a.rst
+******
+41a
+******
+
+Noise filtering with the mean/median moving window filter, on TIC
+
+:download:`Download Source <../../pyms-demo/41a/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

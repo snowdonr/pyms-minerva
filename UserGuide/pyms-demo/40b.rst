@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/40b.rst
+******
+40b
+******
+
+Crop mass range and ignore given masses
+
+:download:`Download Source <../../pyms-demo/40b/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/60.rst
+******
+60
+******
+
+Experiment object.
+
+:download:`Download Source <../../pyms-demo/60/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

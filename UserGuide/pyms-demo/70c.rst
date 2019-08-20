@@ -1,8 +1,8 @@
 ******
-95
+70c
 ******
 
-:download:`Download Source <proc.py>`
+:download:`Download Source <../../pyms-demo/70c/proc.py>`
 
 .. literalinclude:: proc.py
     :language: python

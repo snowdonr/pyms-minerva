@@ -45,7 +45,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     :maxdepth: 2
     :caption: Tests and Examples
 
-    pyms-demo/introduction
+    ../../pyms-demo/introduction
     pyms-demo/data-files
     pyms-demo/20a
     pyms-demo/20b

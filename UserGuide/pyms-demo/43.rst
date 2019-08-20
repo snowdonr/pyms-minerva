@@ -1,1 +1,13 @@
-.. include:: ../../pyms-demo/43.rst
+******
+43
+******
+
+A pre-processing of data by ICs (building of the intensity matrix,
+smoothing each IC with the Savitzky-Golay filter and baseline correction
+with the TopHat corrector)
+
+:download:`Download Source <../../pyms-demo/43/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:

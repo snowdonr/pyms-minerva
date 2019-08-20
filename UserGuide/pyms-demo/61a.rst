@@ -1,1 +1,11 @@
-.. include:: ../../pyms-demo/61a.rst
+******
+61a
+******
+
+Experiment setup for group A peak data.
+
+:download:`Download Source <../../pyms-demo/61a/proc.py>`
+
+.. literalinclude:: proc.py
+    :language: python
+    :linenos:
