@@ -24,7 +24,7 @@ Once an IntensityMatrix has been constructed from the raw GC-MS data, the entrie
 Retention time range
 -----------------------
 
-.. note:: This example is in :ref:`pyms-demo/40a`
+.. note:: This example is in :ref:`demo-40a`
 
 A basic operation on the GC-MS data is to select a specific time range for processing. In |pkgname|, any data outside the chosen time range is discarded. The :meth:`trim() <pyms.GCMS.Class.GCMS_data.trim>` method operates on the raw data, so any subsequent processing only refers to the trimmed data.
 
