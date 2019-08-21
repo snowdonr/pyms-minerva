@@ -153,11 +153,11 @@ Savitzky-Golay Noise filtering of Intensity Matrix Object
 
 .. note:: This example is in :ref:`pyms-demo/41d <demo-41d>`
 
-The :py:meth:`savitzky_golay() <pyms.Noise.SavitzkyGolay.savitzky_golay>`
+The :meth:`savitzky_golay() <pyms.Noise.SavitzkyGolay.savitzky_golay>`
 function described in the previous section acts on a single
 Ion Chromatogram. Where it is desired to perform Savitzky Golay
 filtering on the whole Intensity matrix the function
-:py:meth:`savitzky_golay_im() <pyms.Noise.SavitzkyGolay.savitzky_golay_im>`
+:meth:`savitzky_golay_im() <pyms.Noise.SavitzkyGolay.savitzky_golay_im>`
 may be used as follows:
 
     >>> from pyms.Noise.SavitzkyGolay import savitzky_golay_im
@@ -169,38 +169,24 @@ Baseline correction
 ====================
 .. note:: This example is in :ref:`pyms-demo/42a <demo-42a>`
 
-Baseline distortion originating from instrument imperfections and
-experimental setup is often observed in mass spectrometry data,
-and off-line baseline correction is often an important step in
-data pre-processing. There are many approaches for baseline
-correction. One advanced approach is based top-hat transform
-developed in mathematical morphology [1]_, and used
-extensively in digital image processing for tasks such as image
-enhancement. Top-hat baseline correction was previously applied
-in proteomics based mass spectrometry [2]_.
+Baseline distortion originating from instrument imperfections and experimental setup is often observed in mass spectrometry data, and off-line baseline correction is often an important step in data pre-processing.
+There are many approaches for baseline correction. One advanced approach is based top-hat transform developed in mathematical morphology [1]_, and used extensively in digital image processing for tasks such as image enhancement. Top-hat baseline correction was previously applied in proteomics based mass spectrometry [2]_.
+PyMS currently implements only top-hat baseline corrector, using the SciPy package ``ndimage``.
 
-PyMS currently implements only top-hat baseline corrector, using
-the SciPy package ``ndimage``.
-
-Application of the top-hat baseline corrector requires the size
-of the structural element to be specified. The structural element
-needs to be larger than the features one wants to retain in the
-spectrum after the top-hat transform. In the example below, the
-top-hat baseline corrector is applied to the TIC of the data set
-``gc01_0812_066.cdf``, with the structural element of 1.5 minutes:
-
+Application of the top-hat baseline corrector requires the size of the structural element to be specified.
+The structural element needs to be larger than the features one wants to retain in the spectrum after the top-hat transform. In the example below, the top-hat baseline corrector is applied to the TIC of the data set ``gc01_0812_066.cdf``, with the structural element of 1.5 minutes:
 
     >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
     >>> andi_file = "data/gc01_0812_066.cdf"
     >>> data = ANDI_reader(andi_file)
      -> Reading netCDF file 'data/gc01_0812_066.cdf'
-    >>> tic = data.get_tic()
+    >>> tic = data.tic
     >>> from pyms.Noise.SavitzkyGolay import savitzky_golay
     >>> tic1 = savitzky_golay(tic)
      -> Applying Savitzky-Golay filter
           Window width (points): 7
           Polynomial degree: 2
-    >>> from pyms.Baseline.TopHat import tophat
+    >>> from pyms.TopHat import tophat
     >>> tic2 = tophat(tic1, struct="1.5m")
      -> Top-hat: structural element is 239 point(s)
     >>> tic.write("output/tic.dat",minutes=True)
@@ -217,18 +203,10 @@ Tophat Baseline correction on an Intensity Matrix object
 
 .. note:: This example is in :ref:`pyms-demo/42b <demo-42b>`
 
-The :meth:`tophat() <pyms.TopHat.tophat>` function
-outlined in the instructions above, acts on a single
-:py:meth:`~pyms.IonChromatogram.IonChromatogram`.
-To perform baseline correction on an
-:py:meth:`~pyms.IntensityMatrix.IntensityMatrix`
-object (i.e. on all `Ion Chromatograms`) the
-:py:meth:`tophat_im() <pyms.TopHat.tophat_im>`
-function may be used.
+The :meth:`tophat() <pyms.TopHat.tophat>` function outlined in the instructions above, acts on a single :py:meth:`~pyms.IonChromatogram.IonChromatogram`.
+To perform baseline correction on an :py:meth:`~pyms.IntensityMatrix.IntensityMatrix` object (i.e. on all `Ion Chromatograms`) the :py:meth:`tophat_im() <pyms.TopHat.tophat_im>` function may be used.
 
-Using the same definition for "`struct`" as above, use of the
-:py:meth:`tophat_im() <pyms.TopHat.tophat_im>`
-function is as follows:
+Using the same definition for "`struct`" as above, use of the :py:meth:`tophat_im() <pyms.TopHat.tophat_im>` function is as follows:
 
     >>> from pyms.Baseline.TopHat import tophat_im()
     >>> # im is an Intensity Matrix object
@@ -248,7 +226,7 @@ chromatogram in the intensity matrix;
     >>> im = build_intensity_matrix(data)
     >>> n_scan, n_mz = im.get_size()
     >>> for ii in range(n_mz):
-    ...     print "Working on IC#", ii+1
+    ...     print("Working on IC#", ii+1)
     ...     ic = im.get_ic_at_index(ii)
     ...     ic_smooth = savitzky_golay(ic)
     ...     ic_bc = tophat(ic_smooth, struct="1.5m")
@@ -259,7 +237,7 @@ Alternatively, the filtering may be performed on the Intensity Matrix without
 using a ``for`` loop, as outlined in the sections above. However filtering by
 Ion Chromatogram in a ``for`` loop as described here is much faster.
 
-The resulting IntensityMatrix object can be "dumped" to a file for later
+The resulting :class:`~pyms.IntensityMatrix.IntensityMatrix` object can be "dumped" to a file for later
 retrieval. There are general perpose object file handling methods in
 :py:meth:`pyms.Utils.IO <pyms.Utils.IO>`. For example;
 
