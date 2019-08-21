@@ -76,7 +76,7 @@ A GCMS_data object
 Methods
 ---------
 
-.. note:: The examples below are in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__ and `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
+.. note:: The examples below are in :ref:`pyms-demo/20a <demo-20a>` and :ref:`pyms-demo/20b <demo-20b>`
 
 The object ``data`` (from the two previous examples) stores the raw data as a
 :class:`~pyms.GCMS.Class.GCMS_data` object. Within the
@@ -121,7 +121,7 @@ A Scan data object
 
 A :class:`~pyms.Scan.Scan`object contains a list of masses and a corresponding list of intensity values from a single mass-spectrum scan in the raw data. Typically only non-zero (or non-threshold) intensities and corresponding masses are stored in the raw data.
 
-.. note:: The following examples are the same in `pyms-demo/20a <../pyms-demo/20a/20a.html>`__ and `pyms-demo/20b <../pyms-demo/20b/20b.html>`__
+.. note:: The following examples are the same in :ref:`pyms-demo/20a <demo-20a>` and :ref:`pyms-demo/20b <demo-20b>`
 
 A list of all the raw :class:`~pyms.Scan.Scan` objects can be returned with:
 

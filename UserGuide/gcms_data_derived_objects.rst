@@ -201,14 +201,14 @@ MassSpectrum object
 .. note:: This example is in :ref:`pyms-demo/31 <demo-31>`
 
 A :class:`~pyms.MassSpectrum.MassSpectrum` object contains
-two attributes, `~pyms.MassSpectrum.MassSpectrum.mass_list` and `~pyms.MassSpectrum.MassSpectrum.mass_spec`, a list of mass values
+two attributes, :attr:`~pyms.MassSpectrum.MassSpectrum.mass_list` and :attr:`~pyms.MassSpectrum.MassSpectrum.mass_spec`, a list of mass values
 and corresponding intensities, respectively.
 A :class:`~pyms.MassSpectrum.MassSpectrum` is returned by the
 :class:`~pyms.IntensityMatrix.IntensityMatrix` method
-:meth:`get_ms_at_index(index) <pyms.IntensityMatrix.get_ms_at_index()>`.
+:meth:`get_ms_at_index(index) <pyms.IntensityMatrix.IntensityMatrix.get_ms_at_index()>`.
 
 For example, the properties of the first MassSpectrum object of an
-:class:`~pyms.GCMS.Class.IntensityMatrix`, ``im``, can be obtained with;
+:class:`~pyms.IntensityMatrix.IntensityMatrix`, ``im``, can be obtained with;
 
     >>> ms = im.get_ms_at_index(0)
     >>> len(ms)
