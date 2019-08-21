@@ -4,7 +4,7 @@ Utilities for peak alignment by dynamic programming
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -29,7 +29,7 @@ import numpy
 def alignment_compare(x, y):
 
     """
-    :summary: A helper function for sorting peak positions in a alignment
+    A helper function for sorting peak positions in a alignment
     """
 
     x = [ _.get_rt() for _ in filter(None, x)]

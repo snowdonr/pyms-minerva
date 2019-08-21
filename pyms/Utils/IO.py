@@ -36,7 +36,7 @@ from pyms.Utils.Error import pymsError
 def dump_object(object, file_name):
 
     """
-    :summary: Dumps an object to a file through cPickle.dump()
+    Dumps an object to a file through cPickle.dump()
 
     :param object: Object to be dumpted
     :type object: An instance of an arbitrary class
@@ -57,7 +57,7 @@ def dump_object(object, file_name):
 def load_object(file_name):
 
     """
-    :summary: Loads an object previously dumped with dump_object()
+    Loads an object previously dumped with dump_object()
 
     :param file_name: Name of the object dump file
     :type file_name: StringType
@@ -77,7 +77,7 @@ def load_object(file_name):
 def open_for_reading(file_name):
 
     """
-    :summary: Opens file for reading, returns file pointer
+    Opens file for reading, returns file pointer
 
     :param file_name: Name of the file to be opened for reading
     :type file_name: StringType
@@ -100,7 +100,7 @@ def open_for_reading(file_name):
 def open_for_writing(file_name, mode='w'):
 
     """
-    :summary: Opens file for writing, returns file pointer
+    Opens file for writing, returns file pointer
 
     :param file_name: Name of the file to be opened for writing
     :type file_name: StringType
@@ -126,7 +126,7 @@ def open_for_writing(file_name, mode='w'):
 def close_for_reading(fp):
 
     """
-    :summary: Closes file pointer open for reading
+    Closes file pointer open for reading
 
     :param fp: A file pointer, previously opened for reading
     :type fp: FileType
@@ -142,7 +142,7 @@ def close_for_reading(fp):
 def close_for_writing(fp):
 
     """
-    :summary: Closes file pointer open for writing
+    Closes file pointer open for writing
 
     :param fp: A file pointer, previously opened for writing
     :type fp: FileType
@@ -158,7 +158,7 @@ def close_for_writing(fp):
 def file_lines(file_name, filter=False):
 
     """
-    :summary: Returns lines from a file, as a list
+    Returns lines from a file, as a list
 
     :param file_name: Name of a file
     :type: StringType
@@ -203,7 +203,7 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ",
     compressed=False):
 
     """
-    :summary: Saves a list of numbers or a list of lists of numbers
+    Saves a list of numbers or a list of lists of numbers
         to a file with specific formatting
 
     :param file_name: Name of a file

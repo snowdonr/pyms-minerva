@@ -4,7 +4,7 @@ General utility functions
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -31,7 +31,7 @@ import numpy
 def is_str(arg):
 
     """
-    :summary: Returns True if the argument is a string, False otherwise
+    Returns True if the argument is a string, False otherwise
 
     :param arg: The argument to be evaluated as a string
     :type arg: arbitrary
@@ -48,7 +48,7 @@ def is_str(arg):
 def is_int(arg):
 
     """
-    :summary: Returns True if the argument is an integer, False
+    Returns True if the argument is an integer, False
         otherwise
 
     :param arg: The argument to be evaluated as an integer
@@ -65,7 +65,7 @@ def is_int(arg):
 def is_float(arg):
 
     """
-    :summary: Returns True if the argument is a float, False otherwise
+    Returns True if the argument is a float, False otherwise
 
     :param arg: The argument to be evaluated as a float
     :type arg: arbitrary
@@ -81,7 +81,7 @@ def is_float(arg):
 def is_number(arg):
 
     """
-    :summary: Returns True if the argument is a number (integer or
+    Returns True if the argument is a number (integer or
         float), False otherwise
    
     :param arg: The argument to be evaluated as a number
@@ -98,7 +98,7 @@ def is_number(arg):
 def is_list(arg):
 
     """
-    :summary: Returns True if the argument is a list, tuple, or numpy
+    Returns True if the argument is a list, tuple, or numpy
         array, False otherwise
 
     :param arg: The argument to be evaluated as a list
@@ -115,7 +115,7 @@ def is_list(arg):
 def is_array(arg):
 
     """
-    :summary: Returns True if the argument is a numpy array, False
+    Returns True if the argument is a numpy array, False
         otherwise
 
     :param arg: The argument to be evaluated as a numpy array
@@ -133,7 +133,7 @@ def is_array(arg):
 def is_boolean(arg):
 
     """
-    :summary: Returns true of the argument is booleean, False otherwise
+    Returns true of the argument is booleean, False otherwise
 
     :param arg: The argument to be evaluated as boolean
     :type arg: arbitrary
@@ -149,7 +149,7 @@ def is_boolean(arg):
 def is_str_num(arg):
 
     """
-    :summary: Determines if the argument is a string in the format of a number
+    Determines if the argument is a string in the format of a number
 
     The number can be an integer, or alternatively floating point in scientific
     or engineering format.
@@ -173,7 +173,7 @@ def is_str_num(arg):
 def is_positive_int(arg):
 
     """
-    :summary: Determines if the argument is an integer greater than zero
+    Determines if the argument is an integer greater than zero
 
     :param arg: A string to be evaluate as a postive integer
     :type arg: types.StringType
@@ -194,7 +194,7 @@ def is_positive_int(arg):
 def is_list_of_dec_nums(arg):
 
     """
-    :summary: Determines if the argument is a list of decimal numbers
+    Determines if the argument is a list of decimal numbers
 
     :param arg: A string to be evaluate as a list of decimal numbers
     :type arg: types.StringType

@@ -4,7 +4,7 @@ Classes to model a Mass Spectrum
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -29,7 +29,7 @@ from pyms.Utils.Utils import is_list
 
 class MassSpectrum(object):
 	"""
-	:summary: Models a binned mass spectrum
+	Models a binned mass spectrum
 
 	:author: Andrew Isaac
 	:author: Qiao Wang
@@ -38,7 +38,7 @@ class MassSpectrum(object):
 	
 	def __init__(self, mass_list, intensity_list):
 		"""
-		:summary: Initialise the MassSpectrum
+		Initialise the MassSpectrum
 
 		:param mass_list: List of binned masses
 		:type mass_list: list
@@ -65,7 +65,7 @@ class MassSpectrum(object):
 	def __len__(self):
 		
 		"""
-		:summary: Length of the MassSpectrum
+		Length of the MassSpectrum
 
 		:return: Length of the MassSpectrum (Number of bins)
 		:rtype: int

@@ -4,7 +4,7 @@ Classes to model a GC-MS Ion Chromatogram
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -39,7 +39,7 @@ from pyms.Utils.IO import open_for_writing, close_for_writing
 
 class IonChromatogram(object):
 	"""
-	:summary: Models an ion chromatogram
+	Models an ion chromatogram
 
 		An ion chromatogram is a set of intensities as a function of retention
 		time. This can can be either m/z channel intensities (for example, ion
@@ -91,7 +91,7 @@ class IonChromatogram(object):
 	def __len__(self):
 		
 		"""
-		:summary: Returns the length of the IonChromatogram object
+		Returns the length of the IonChromatogram object
 
 		:return: Length of ion chromatogram
 		:rtype: int
@@ -104,7 +104,7 @@ class IonChromatogram(object):
 	
 	def __sub__(self, other):
 		"""
-		:summary: Subtracts another IC from the current one
+		Subtracts another IC from the current one
 
 		:param other: Another IC
 		:type other: pyms.GCMS.IonChromatogram
@@ -133,7 +133,7 @@ class IonChromatogram(object):
 	
 	def get_index_at_time(self, time):
 		"""
-		:summary: Returns the nearest index corresponding to the given time
+		Returns the nearest index corresponding to the given time
 
 		:param time: Time in seconds
 		:type time: float
@@ -173,7 +173,7 @@ class IonChromatogram(object):
 							details="Use 'IonChromatogram.intensity_array' instead")
 	def get_intensity_array(self):
 		"""
-		:summary: Returns the entire intensity array
+		Returns the entire intensity array
 
 		:return: Intensity array
 		:rtype: numpy.ndarray
@@ -186,7 +186,7 @@ class IonChromatogram(object):
 		
 	def get_intensity_at_index(self, ix):
 		"""
-		:summary: Returns intensity at given index
+		Returns intensity at given index
 
 		:param ix: An index
 		:type ix: int
@@ -211,7 +211,7 @@ class IonChromatogram(object):
 							details="Use 'IonChromatogram.mass' instead")
 	def get_mass(self):
 		"""
-		:summary: Returns the m/z channel of the IC
+		Returns the m/z channel of the IC
 
 		:return: m/z channel of the IC
 		:rtype: int
@@ -225,7 +225,7 @@ class IonChromatogram(object):
 	
 	def get_time_at_index(self, ix):
 		"""
-		:summary: Returns time at given index
+		Returns time at given index
 
 		:param ix: An index
 		:type ix: int
@@ -250,7 +250,7 @@ class IonChromatogram(object):
 							details="Use 'IonChromatogram.time_list' instead")
 	def get_time_list(self):
 		"""
-		:summary: Returns the time list
+		Returns the time list
 
 		:return: Time list
 		:rtype: list
@@ -266,7 +266,7 @@ class IonChromatogram(object):
 							details="Use 'IonChromatogram.time_step' instead")
 	def get_time_step(self):
 		"""
-		:summary: Returns the time step
+		Returns the time step
 
 		:return: Time step
 		:rtype: float
@@ -280,7 +280,7 @@ class IonChromatogram(object):
 	@property
 	def intensity_array(self):
 		"""
-		:summary: Returns the entire intensity array
+		Returns the entire intensity array
 
 		:return: Intensity array
 		:rtype: numpy.ndarray
@@ -294,7 +294,7 @@ class IonChromatogram(object):
 	@intensity_array.setter
 	def intensity_array(self, ia):
 		"""
-		:summary: Sets the value for the intensity array
+		Sets the value for the intensity array
 
 		:param ia: An array of new intensity values
 		:type ia: numpy.ndarray
@@ -309,7 +309,7 @@ class IonChromatogram(object):
 	
 	def is_tic(self):
 		"""
-		:summary: Returns True if the ion chromatogram is a total ion
+		Returns True if the ion chromatogram is a total ion
 			chromatogram (TIC), or False otherwise
 
 		:return: A boolean value indicating if the ion chromatogram
@@ -325,7 +325,7 @@ class IonChromatogram(object):
 	@property
 	def mass(self):
 		"""
-		:summary: Returns the m/z channel of the IC
+		Returns the m/z channel of the IC
 
 		:return: m/z channel of the IC
 		:rtype: int or float
@@ -342,7 +342,7 @@ class IonChromatogram(object):
 							details="Use 'IonChromatogram.intensity_array' instead")
 	def set_intensity_array(self, ia):
 		"""
-		:summary: Sets the value for the intensity array
+		Sets the value for the intensity array
 
 		:param ia: An array of new intensity values
 		:type ia: numpy.ndarray
@@ -358,7 +358,7 @@ class IonChromatogram(object):
 	@property
 	def time_list(self):
 		"""
-		:summary: Returns the time list
+		Returns the time list
 
 		:return: Time list
 		:rtype: list
@@ -373,7 +373,7 @@ class IonChromatogram(object):
 	def time_step(self):
 		
 		"""
-		:summary: Returns the time step
+		Returns the time step
 
 		:return: Time step
 		:rtype: float
@@ -387,7 +387,7 @@ class IonChromatogram(object):
 	def __calc_time_step(self, time_list):
 		
 		"""
-		:summary: Calculates the time step
+		Calculates the time step
 
 		:param time_list: A list of retention times
 		:type time_list: list
@@ -412,7 +412,7 @@ class IonChromatogram(object):
 	def write(self, file_name, minutes=False, formatting=True):
 		
 		"""
-		:summary: Writes the ion chromatogram to the specified file
+		Writes the ion chromatogram to the specified file
 
 		:param file_name: Output file name
 		:type file_name: StringType

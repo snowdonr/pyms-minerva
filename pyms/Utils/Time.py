@@ -31,7 +31,7 @@ from pyms.Utils.Utils import is_int, is_str, is_str_num
 def time_str_secs(time_str):
 
     """
-    :summary: Resolves time string of the form "<NUMBER>s" or "<NUMBER>m",
+    Resolves time string of the form "<NUMBER>s" or "<NUMBER>m",
         returns time in seconds
 
     :param time_str: A time string, which must be of the form
@@ -67,7 +67,7 @@ def time_str_secs(time_str):
 def window_sele_points(ic, window_sele, half_window=False):
 
     """
-    :summary: Converts window selection parameter into points based
+    Converts window selection parameter into points based
         on the time step in an ion chromatogram
 
     :param ic: ion chromatogram object relevant for the conversion

@@ -4,7 +4,7 @@ Class to model MS Scan data
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -34,7 +34,7 @@ from pyms.Utils.Utils import is_list
 
 class Scan(object):
 	"""
-	:summary: Generic object for a single Scan's raw data
+	Generic object for a single Scan's raw data
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -45,7 +45,7 @@ class Scan(object):
 	def __init__(self, mass_list, intensity_list):
 		
 		"""
-		:summary: Initialize the Scan data
+		Initialize the Scan data
 
 		:param mass_list: mass values
 		:type mass_list: list
@@ -70,7 +70,7 @@ class Scan(object):
 	
 	def __len__(self):
 		"""
-		:summary: Returns the length of the Scan object
+		Returns the length of the Scan object
 
 		:return: Length of Scan
 		:rtype: int
@@ -97,7 +97,7 @@ class Scan(object):
 							details="Use 'Scan.mass_list' instead")
 	def get_mass_list(self):
 		"""
-		:summary: Returns the masses for the current scan
+		Returns the masses for the current scan
 
 		:return: the masses
 		:rtype: list
@@ -112,7 +112,7 @@ class Scan(object):
 	@property
 	def mass_list(self):
 		"""
-		:summary: Returns the masses for the current scan
+		Returns the masses for the current scan
 
 		:return: the masses
 		:rtype: list
@@ -129,7 +129,7 @@ class Scan(object):
 							details="Use 'Scan.intensity_list' instead")
 	def get_intensity_list(self):
 		"""
-		:summary: Returns the intensities for the current scan
+		Returns the intensities for the current scan
 
 		:return: the intensities
 		:rtype: list
@@ -144,7 +144,7 @@ class Scan(object):
 	@property
 	def intensity_list(self):
 		"""
-		:summary: Returns the intensities for the current scan
+		Returns the intensities for the current scan
 
 		:return: the intensities
 		:rtype: list
@@ -162,7 +162,7 @@ class Scan(object):
 	def get_min_mass(self):
 		
 		"""
-		:summary: Returns the minimum m/z value in the scan
+		Returns the minimum m/z value in the scan
 
 		:return: Minimum m/z
 		:rtype: Float
@@ -176,7 +176,7 @@ class Scan(object):
 	def min_mass(self):
 		
 		"""
-		:summary: Returns the minimum m/z value in the scan
+		Returns the minimum m/z value in the scan
 
 		:return: Minimum m/z
 		:rtype: Float
@@ -192,7 +192,7 @@ class Scan(object):
 	def get_max_mass(self):
 		
 		"""
-		:summary: Returns the maximum m/z value in the scan
+		Returns the maximum m/z value in the scan
 
 		:return: Maximum m/z
 		:rtype: Float
@@ -206,7 +206,7 @@ class Scan(object):
 	def max_mass(self):
 		
 		"""
-		:summary: Returns the maximum m/z value in the scan
+		Returns the maximum m/z value in the scan
 
 		:return: Maximum m/z
 		:rtype: Float

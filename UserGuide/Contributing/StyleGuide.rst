@@ -106,7 +106,7 @@ Group imports as:
 
 #. Standard library imports
 #. External module imports
-#. Other PyMS subpackage imports
+#. Other PyMassSpec subpackage imports
 #. This subpackage imports
 
 Separate each group by a blank line.
@@ -122,7 +122,7 @@ For standard library modules, always import the entire module name space. i.e.
       ...
       os.path()
 
-For PyMS modules always import specific functions, i.e.
+For PyMassSpec modules always import specific functions, i.e.
 
 .. code-block:: python
 
@@ -262,7 +262,7 @@ Example:
       def open_for_reading(file_name):
 
           """
-          :summary: Opens file for reading, returns file pointer
+          Opens file for reading, returns file pointer
 
           :param file_name: Name of the file to be opened for reading
           :type file_name: StringType
@@ -290,7 +290,7 @@ Classes
         class ChemStation:
 
             """
-            :summary: ANDI-MS reader for Agilent ChemStation NetCDF files
+            ANDI-MS reader for Agilent ChemStation NetCDF files
 
             :author: Jake Blues
             """

@@ -63,7 +63,7 @@ for peak in real_peak_list:
     peak.set_area(area)
     
     
-# real_peak_list is PyMS' best guess at the true peak list
+# real_peak_list is PyMassSpec' best guess at the true peak list
 
 ################## Run Simulator ######################
 # Simulator takes a peak list, time_list and mass_list
@@ -83,7 +83,7 @@ cutoff = 10000
 prop = 0.0003
 add_gaussv_noise(sim_im, scale, cutoff, prop)
 
-# now apply standard PyMS prefiltering techniques to sim data
+# now apply standard PyMassSpec prefiltering techniques to sim data
 for ii in range(n_mz):
     ic = sim_im.get_ic_at_index(ii)
     ic_smooth = savitzky_golay(ic)
@@ -118,4 +118,4 @@ for i in range(n_mz):
 display = Display()
 display.plot_ics(ics)
 display.plot_peaks(sim_peak_list, 'Peaks')
-display.do_plotting('ICs, and PyMS Detected Peaks of Simulated Data')
+display.do_plotting('ICs, and PyMassSpec Detected Peaks of Simulated Data')

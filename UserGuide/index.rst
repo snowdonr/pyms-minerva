@@ -36,7 +36,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
 .. toctree::
     :numbered:
     :maxdepth: 2
-    :caption: Contributing to PyMS
+    :caption: Contributing to PyMassSpec
 
     Contributing/Contributing
     Contributing/StyleGuide

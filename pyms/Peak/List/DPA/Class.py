@@ -54,18 +54,10 @@ from openpyxl.formatting.rule import ColorScaleRule#, CellIsRule, FormulaRule
 from openpyxl.styles import PatternFill
 
 
-# If psyco is installed, use it to speed up running time
-try:
-    import psyco
-    psyco.full()
-except:
-    pass
-
-
 class Alignment(object):
 
     """
-    :summary: Models an alignment of peak lists
+    Models an alignment of peak lists
 
     :author: Woon Wai Keen
     :author: Vladimir Likic
@@ -101,7 +93,7 @@ class Alignment(object):
     def __len__(self):
 
         """
-        :summary: Returns the length of the alignment, defined as the number of
+        Returns the length of the alignment, defined as the number of
             peak positions in the alignment
 
         :author: Qiao Wang
@@ -113,7 +105,7 @@ class Alignment(object):
     def filter_min_peaks(self, min_peaks):
 
         """
-        :summary: Filters alignment positions that have less peaks than 'min_peaks'
+        Filters alignment positions that have less peaks than 'min_peaks'
 
         This function is useful only for within state alignment.
 
@@ -141,7 +133,7 @@ class Alignment(object):
     def write_csv_dk(self, *args, **kwargs):
 
         """
-        :summary: Writes the alignment to CSV files, but excluded outliers from the calculation of composite peak
+        Writes the alignment to CSV files, but excluded outliers from the calculation of composite peak
 
         This function writes two files: one containing the alignment of peak
         retention times and the other containing the alignment of peak areas.
@@ -325,7 +317,7 @@ class Alignment(object):
 
     def write_csv(self, rt_file_name, area_file_name, minutes=True, dk=False):
         """
-        :summary: Writes the alignment to CSV files
+        Writes the alignment to CSV files
 
         This function writes two files: one containing the alignment of peak
         retention times and the other containing the alignment of peak areas.
@@ -457,7 +449,7 @@ class Alignment(object):
 
     def write_common_ion_csv(self, area_file_name, top_ion_list, minutes=True):
         """
-        :summary: Writes the alignment to CSV files
+        Writes the alignment to CSV files
 
         This function writes two files: one containing the alignment of peak
         retention times and the other containing the alignment of peak areas.
@@ -577,7 +569,7 @@ class Alignment(object):
 
     def write_ion_areas_csv(self, ms_file_name, minutes=True):
         """
-        :summary: Write Ion Areas to CSV File
+        Write Ion Areas to CSV File
 
         :author: David Kainer
 
@@ -649,7 +641,7 @@ class Alignment(object):
 
     def common_ion(self):
         """
-        :summary: Calculates a common ion among the
+        Calculates a common ion among the
                   peaks of an aligned peak
 
         :return: A list of the highest intensity common ion for all aligned
@@ -735,7 +727,7 @@ class Alignment(object):
 
     def get_highest_mz_ion(self, ion_dict):
         """
-        :summary: Returns the preferred ion for quantitiation
+        Returns the preferred ion for quantitiation
                   Looks at the list of candidate ions, selects those
                   which have highest occurance, and selects the heaviest
                   of those
@@ -758,7 +750,7 @@ class Alignment(object):
 
     def write_mass_hunter_csv(self, out_file, top_ion_list):#, peak_list_name):
         """
-        :summary: Returns a csv file with ion ratios
+        Returns a csv file with ion ratios
                   and UID
 
         :param out_file: name of the output file
@@ -921,7 +913,7 @@ class Alignment(object):
     def aligned_peaks(self, minutes=False):
 
         """
-        :summary: Returns a list of Peak objects where each peak
+        Returns a list of Peak objects where each peak
             has the combined spectra and average retention time
             of all peaks that aligned.
 
@@ -955,7 +947,7 @@ class Alignment(object):
 class PairwiseAlignment(object):
 
     """
-    :summary: Models pairwise alignment of alignments
+    Models pairwise alignment of alignments
 
     :author: Woon Wai Keen
     :author: Vladimir Likic
@@ -992,7 +984,7 @@ class PairwiseAlignment(object):
     def _sim_matrix(self, algts, D, gap):
 
         """
-        :summary: Calculates the similarity matrix for the set of alignments
+        Calculates the similarity matrix for the set of alignments
 
         :param algts: A list of alignments
         :type algts: list
@@ -1027,7 +1019,7 @@ class PairwiseAlignment(object):
     def _dist_matrix(self, sim_matrix):
 
         """
-        :summary: Converts similarity matrix into a distance matrix
+        Converts similarity matrix into a distance matrix
 
         :param sim_matrix: The similarity matrix
         :type sim_matrix: numpy.ndarray
@@ -1049,7 +1041,7 @@ class PairwiseAlignment(object):
     def _guide_tree(self, dist_matrix):
 
         """
-        :summary: Build a guide tree from the distance matrix
+        Build a guide tree from the distance matrix
 
         :param dist_matrix: The distance matrix
         :type dist_matrix: numpy.ndarray

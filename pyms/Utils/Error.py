@@ -39,7 +39,7 @@ class pymsError(Exception):
 def error(message=None):
 
     """
-    :summary: PyMS wide error function
+    PyMS wide error function
 
     Prints out the error message (if supplied) and terminates execution
     with sys.exit(1).
@@ -100,7 +100,7 @@ def error(message=None):
 def stop(message=None):
 
     """
-    :summary: A simple termination of execution
+    A simple termination of execution
 
     :param message: The message to be printed
     :type message: StringType

@@ -38,7 +38,7 @@ __DEFAULT_WINDOW = 3
 def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
 
     """
-    :summary: Applies window smoothing on ion chromatogram
+    Applies window smoothing on ion chromatogram
 
     :param ic: The input ion chromatogram
     :type ic: pyms.GCMS.Class.IonChromatogram
@@ -82,7 +82,7 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
 
 def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
     """
-    :summary: Applies window smoothing on Intensity Matrix
+    Applies window smoothing on Intensity Matrix
 
               Simply wraps around the window smooth function above
 
@@ -121,7 +121,7 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
 def __mean_window(ia, wing_length):
 
     """
-    :summary: Applies mean-window averaging on the array of intensities.
+    Applies mean-window averaging on the array of intensities.
 
     :param ia: Intensity array
     :type ia: numpy.core.ndarray
@@ -156,7 +156,7 @@ def __mean_window(ia, wing_length):
 def __median_window(ia, wing_length):
 
     """
-    :summary: Applies median-window averaging on the array of intensities.
+    Applies median-window averaging on the array of intensities.
 
     :param ia: Intensity array
     :type ia: numpy.core.ndarray

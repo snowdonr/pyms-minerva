@@ -4,7 +4,7 @@ Provides functions for simulation of GCMS data
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -34,7 +34,7 @@ from pyms.GCMS.Class import IonChromatogram, IntensityMatrix
 def gcms_sim(time_list, mass_list, peak_list):
     
     """
-    :summary: Simulator of GCMS data
+    Simulator of GCMS data
     
     :param time_list: the list of scan times
     :type time_list: listType
@@ -82,7 +82,7 @@ def gcms_sim(time_list, mass_list, peak_list):
 def chromatogram(n_scan, x_zero, sigma, peak_scale):
 
     """
-    :summary: Returns a simulated ion chromatogram of a pure component
+    Returns a simulated ion chromatogram of a pure component
               The ion chromatogram contains a single gaussian peak.
     
     :param n_scan: the number of scans
@@ -115,7 +115,7 @@ def chromatogram(n_scan, x_zero, sigma, peak_scale):
 
 def gaussian(point, mean, sigma, scale):
     """
-    :summary: calculates a point on a gaussian density function
+    calculates a point on a gaussian density function
     
     f = s*exp(-((x-x0)^2)/(2*w^2));
     
@@ -141,7 +141,7 @@ def gaussian(point, mean, sigma, scale):
 
 def add_gaussc_noise(im, scale):
     """
-    :summary: adds noise to an IntensityMatrix object
+    adds noise to an IntensityMatrix object
      
     :param im: the intensity matrix object
     :param im: pyms.GCMS.Class.IntensityMatrix
@@ -162,7 +162,7 @@ def add_gaussc_noise(im, scale):
 
 def add_gaussv_noise(im, scale, cutoff, prop):
     """
-    :summary: adds noise to an IntensityMatrix object
+    adds noise to an IntensityMatrix object
      
     :param im: the intensity matrix object
     :param im: pyms.GCMS.Class.IntensityMatrix
@@ -195,7 +195,7 @@ def add_gaussv_noise(im, scale, cutoff, prop):
     
 def add_gaussc_noise_ic(ic, scale):
     """
-    :summary: adds noise drawn from a normal distribution
+    adds noise drawn from a normal distribution
         with constant scale to an ion chromatogram
     
     :param ic: The ion Chromatogram
@@ -215,7 +215,7 @@ def add_gaussc_noise_ic(ic, scale):
     
 def add_gaussv_noise_ic(ic, scale, cutoff, prop):
     """
-    :summary: adds noise to an ic. The noise value is drawn from a normal
+    adds noise to an ic. The noise value is drawn from a normal
               distribution, the scale of this distribution depends on the 
               value of the ic at the point where the noise is being added
      

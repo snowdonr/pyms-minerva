@@ -33,7 +33,7 @@ from pyms.Utils.Error import pymsError
 
 def JCAMP_reader(file_name):
 	"""
-	:summary: Generic reader for JCAMP DX files, produces GC-MS data object
+	Generic reader for JCAMP DX files, produces GC-MS data object
 
 	:param file_name: Path of the file to read
 	:type file_name: str or pathlib.Path
@@ -123,7 +123,7 @@ def JCAMP_reader(file_name):
 
 def JCAMP_OpenChrom_reader(file_name):
 	"""
-	:summary: reader for JCAMP DX files produced by OpenChrom,
+	reader for JCAMP DX files produced by OpenChrom,
 	produces GC-MS data object
 
 	:author: David Kainer

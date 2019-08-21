@@ -5,7 +5,7 @@
 ******
 
 A plot with Display() object. Example shows an overlay plot of TIC,
-several ICs, and peaks detected by PyMS
+several ICs, and peaks detected by PyMassSpec
 
 
 :download:`Download proc.py <../../pyms-demo/71/proc.py>`

@@ -34,7 +34,7 @@ from pyms.Utils.Utils import is_list, is_number
 
 def median(v):
     """
-    :summary: Returns a median of a list or numpy array
+    Returns a median of a list or numpy array
 
     :param v: Input list or array
     :type v: list or numpy.core.ndarray
@@ -65,7 +65,7 @@ def median(v):
 
 def vector_by_step(vstart, vstop, vstep):
     """
-    :summary: generates a list by using start, stop, and step values
+    generates a list by using start, stop, and step values
 
     :param vstart: Initial value
     :type vstart: A number
@@ -95,7 +95,7 @@ def vector_by_step(vstart, vstop, vstep):
 
 def MAD(v):
     """
-    :summary: median absolute deviation
+    median absolute deviation
 
     :param v: A list or array
     :type v: list, tuple, or numpy.core.ndarray
@@ -124,7 +124,7 @@ def MAD(v):
 def amin(v):
 
     """
-    :summary: Finds the minimum element in a list or array
+    Finds the minimum element in a list or array
 
     :param v: A list or array
     :type v: list, tuple, or numpy.core.ndarray
@@ -156,7 +156,7 @@ def amin(v):
 def mean(v):
 
     """
-    :summary: Calculates the mean
+    Calculates the mean
 
     :param v: A list or array
     :type v: list, tuple, or numpy.core.ndarray
@@ -181,7 +181,7 @@ def mean(v):
 def std(v):
 
     """
-    :summary: Calculates standard deviation
+    Calculates standard deviation
 
     :param v: A list or array
     :type v: list, tuple, or numpy.core.ndarray
@@ -210,7 +210,7 @@ def std(v):
 def rmsd(list1, list2):
 
     """
-    :summary: Calculates RMSD for the 2 lists
+    Calculates RMSD for the 2 lists
 
     :param list1: First data set
     :type list1: list, tuple, or numpy.core.ndarray

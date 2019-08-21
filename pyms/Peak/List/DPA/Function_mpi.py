@@ -4,7 +4,7 @@ Functions for peak alignment by dynamic programming
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -42,12 +42,6 @@ from pyms.Experiment.Class import Experiment
 import Class
 import Utils
 
-# If psyco is installed, use it to speed up running time
-try:
-    import psyco
-    psyco.full()
-except:
-    pass
 
 def align_with_tree_new(T, min_peaks=1):
 

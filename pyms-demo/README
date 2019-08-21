@@ -4,7 +4,7 @@ pyms-demo
 
 SUMMARY
 
-Contains examples of PyMS use given in the User Guide.
+Contains examples of PyMassSpec use given in the User Guide.
 
 
 CONTENT
@@ -99,10 +99,10 @@ Chapter 7 -- Plotting.
 70b/ -- A simple overlay plot of multiple ICs
  
 71/ -- A plot with Display() object. Example shows an overlay plot of TIC,
-    several ICs, and peaks detected by PyMS
+    several ICs, and peaks detected by PyMassSpec
 
 
-Chapter 9 -- Parallel processing with PyMS.
+Chapter 9 -- Parallel processing with PyMassSpec.
 ---------
 
 x10/ -- An example of parallel processing of data. Shows how to loop

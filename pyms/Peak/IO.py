@@ -4,7 +4,7 @@ Functions related to storing and loading a list of Peak objects
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -58,7 +58,7 @@ def store_peaks(peak_list, file_name):
 def load_peaks(file_name):
 
     """
-    :summary: Loads the peak_list stored with 'store_peaks'
+    Loads the peak_list stored with 'store_peaks'
 
     :param file_name: File name of peak list
     :type file_name: str or pathlib.Path

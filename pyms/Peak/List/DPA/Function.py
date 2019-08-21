@@ -4,7 +4,7 @@ Functions for peak alignment by dynamic programming
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -43,18 +43,11 @@ from pyms.Experiment.Class import Experiment
 from pyms.Peak.List.DPA import Class
 from pyms.Peak.List.DPA import Utils
 
-# If psyco is installed, use it to speed up running time
-try:
-    import psyco
-    psyco.full()
-except ModuleNotFoundError:
-    pass
-
 
 def align_with_tree(T, min_peaks=1):
 
     """
-    :summary: Aligns a list of alignments using the supplied guide tree
+    Aligns a list of alignments using the supplied guide tree
 
     :param T: The pairwise alignment object
     :type: pyms.Peak.List.DPA.Class.PairwiseAlignment
@@ -100,7 +93,7 @@ def align_with_tree(T, min_peaks=1):
 def exprl2alignment(exprl):
 
     """
-    :summary: Converts experiments into alignments
+    Converts experiments into alignments
 
     :param exprl: The list of experiments to be converted into an alignment
         objects
@@ -127,7 +120,7 @@ def exprl2alignment(exprl):
 def align(a1, a2, D, gap):
 
     """
-    :summary: Aligns two alignments
+    Aligns two alignments
 
     :param a1: The first alignment
     :type a1: pyms.Peak.List.Class.Alignment
@@ -163,7 +156,7 @@ def align(a1, a2, D, gap):
 def merge_alignments(A1, A2, traces):
 
     """
-    :summary: Merges two alignments with gaps added in from DP traceback
+    Merges two alignments with gaps added in from DP traceback
 
     :param A1: First alignment
     :param A2: Second alignment
@@ -233,7 +226,7 @@ def merge_alignments(A1, A2, traces):
 def alignment_similarity(traces, score_matrix, gap):
 
     """
-    :summary: Calculates similarity score between two alignments (new method)
+    Calculates similarity score between two alignments (new method)
 
     :param traces: Traceback from DP algorithm
     :param score_matrix: Score matrix of the two alignments
@@ -272,7 +265,7 @@ def alignment_similarity(traces, score_matrix, gap):
 def score_matrix(a1, a2, D):
 
     """
-    :summary: Calculates the score matrix between two alignments
+    Calculates the score matrix between two alignments
 
     :param a1: The first alignment
     :type a1: pyms.Peak.List.Class.Alignment
@@ -307,7 +300,7 @@ def score_matrix(a1, a2, D):
 def position_similarity(pos1, pos2, D):
 
     """
-    :summary: Calculates the similarity between the two alignment
+    Calculates the similarity between the two alignment
         positions.  A score of 0 is best and 1 is worst.
 
     :param pos1: The position of the first alignment

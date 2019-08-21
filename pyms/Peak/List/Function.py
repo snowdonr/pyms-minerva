@@ -4,7 +4,7 @@ Functions related to Peak modification
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -33,17 +33,10 @@ from pyms.Peak import Peak
 from pyms.MassSpectrum import MassSpectrum
 from pyms.Utils.Math import mad_based_outlier, percentile_based_outlier, median_outliers
 
-# If psyco is installed, use it to speed up running time
-try:
-    import psyco
-    psyco.full()
-except ModuleNotFoundError:
-    pass
-
 
 def composite_peak(peak_list, minutes=False, ignore_outliers=False):
     """
-    :summary: Create a peak that consists of a composite spectrum from all
+    Create a peak that consists of a composite spectrum from all
         spectra in the list of peaks.
 
     :param peak_list: A list of peak objects
@@ -113,7 +106,7 @@ def composite_peak(peak_list, minutes=False, ignore_outliers=False):
 
 def fill_peaks(data, peak_list, D, minutes=False):
     """
-    :summary: Gets the best matching Retention Time and spectra from 'data' for
+    Gets the best matching Retention Time and spectra from 'data' for
         each peak in the peak list.
 
     :param data: A data IntensityMatrix that has the same mass range as the
@@ -228,7 +221,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
 
 def is_peak_list(peaks):
     """
-    :summary: Returns True if 'peaks' is a valid peak list, False
+    Returns True if 'peaks' is a valid peak list, False
         otherwise
 
     :param peaks: A list of peak objects
@@ -256,7 +249,7 @@ def is_peak_list(peaks):
 
 def sele_peaks_by_rt(peaks, rt_range):
     """
-    :summary: Selects peaks from a retention time range
+    Selects peaks from a retention time range
 
     :param peaks: A list of peak objects
     :type peaks: list, tuple or numpy.ndarray

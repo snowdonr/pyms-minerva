@@ -30,7 +30,7 @@ import numpy
 def dp(S, gap_penalty):
     
     """ 
-    :summary: Solves optimal path in score matrix based on global sequence
+    Solves optimal path in score matrix based on global sequence
         alignment
 
     :param S: Score matrix

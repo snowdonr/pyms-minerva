@@ -1,5 +1,5 @@
 **********************************
-PyMS test and example data files
+PyMassSpec test and example data files
 **********************************
 
 The example data files can be downloaded using the links below:

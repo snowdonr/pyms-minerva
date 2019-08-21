@@ -31,12 +31,6 @@ from pyms.Utils.Utils import is_list
 from pyms.GCMS.Class import IonChromatogram, MassSpectrum, IntensityMatrix
 from pyms.Peak.Class import Peak
 
-# If psyco is installed, use it to speed up running time
-try:
-    import psyco
-    psyco.full()
-except ModuleNotFoundError:
-    pass
 
 #######################
 # structure
@@ -50,7 +44,7 @@ except ModuleNotFoundError:
 
 def BillerBiemann(im, points=3, scans=1):
     """
-    :summary: BillerBiemann Deconvolution.
+    BillerBiemann Deconvolution.
      
         Deconvolution based on the algorithm of Biller and Biemann (1974)
 
@@ -95,7 +89,7 @@ def BillerBiemann(im, points=3, scans=1):
 
 def rel_threshold(pl, percent=2, copy_peaks=True):
     """
-    :summary: Remove ions with relative intensities less than the given
+    Remove ions with relative intensities less than the given
         relative percentage of the maximum intensity.
 
     :param pl: A list of Peak objects
@@ -142,7 +136,7 @@ def rel_threshold(pl, percent=2, copy_peaks=True):
 
 def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
     """
-    :summary: Remove Peaks where there are less than a given number of ion
+    Remove Peaks where there are less than a given number of ion
         intensities above the given threshold
 
     :param pl: A list of Peak objects
@@ -187,7 +181,7 @@ def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
 
 def sum_maxima(im, points=3, scans=1):
     """
-    :summary: Reconstruct the TIC as sum of maxima
+    Reconstruct the TIC as sum of maxima
 
     :param im: An IntensityMatrix object
     :type im: pyms.GCMS.Class.IntensityMatrix
@@ -229,7 +223,7 @@ def sum_maxima(im, points=3, scans=1):
 
 def get_maxima_indices(ion_intensities, points=3):
     """
-    :summary: Find local maxima.
+    Find local maxima.
 
     :param ion_intensities: A list of intensities for a single ion
     :type ion_intensities: list or tuple or numpy.ndarray
@@ -281,7 +275,7 @@ def get_maxima_indices(ion_intensities, points=3):
 
 def get_maxima_list(ic, points=3):
     """
-    :summary: List of retention time and intensity of local maxima for ion
+    List of retention time and intensity of local maxima for ion
 
     :param ic: An IonChromatogram object
     :type ic: pyms.GCMS.Class.IonChromatogram
@@ -312,7 +306,7 @@ def get_maxima_list(ic, points=3):
 
 def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
     """
-    :summary: List of retention time and intensity of local maxima for ion
+    List of retention time and intensity of local maxima for ion
               Only peaks around a specific retention time are recorded
               created for use with gap filling algorithm
               
@@ -354,7 +348,7 @@ def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
 
 def get_maxima_matrix(im, points=3, scans=1):
     """
-    :summary: Get matrix of local maxima for each ion
+    Get matrix of local maxima for each ion
 
     :param im: An IntensityMatrix object
     :type im: pyms.GCMS.Class.IntensityMatrix

@@ -63,7 +63,7 @@ for peak in real_peak_list:
     peak.set_area(area)
     
     
-# real_peak_list is PyMS' best guess at the true peak list
+# real_peak_list is PyMassSpec' best guess at the true peak list
 
 ################## Run Simulator ######################
 # Simulator takes a peak list, time_list and mass_list
@@ -91,4 +91,4 @@ for i in range(n_mz):
 
 display = Display()
 display.plot_ics(ics)
-display.do_plotting('ICs, and PyMS Detected Peaks of Simulated Data')
+display.do_plotting('ICs, and PyMassSpec Detected Peaks of Simulated Data')

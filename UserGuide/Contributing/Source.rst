@@ -1,8 +1,8 @@
 *******************************
-Downloading PyMS source code
+Downloading PyMassSpec source code
 *******************************
 
-PyMS source code resides on publicly accessible GitHub servers,
+PyMassSpec source code resides on publicly accessible GitHub servers,
 and can be accessed from the following URL: https://github.com/domdfcoding/pyms/
 
 If you have ``git`` installed, you can clone the repository with the following command:

@@ -37,7 +37,7 @@ __DEFAULT_POLYNOMIAL_DEGREE = 2
 def savitzky_golay(ic, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGREE):
 
     """
-    :summary: Applies Savitzky-Golay filter on ion chromatogram
+    Applies Savitzky-Golay filter on ion chromatogram
 
     :param ic: The input ion chromatogram
     :type ic: pyms.GCMS.Class.IonChromatogram
@@ -84,7 +84,7 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGR
 
 def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGREE):
     """
-    :summary: Applies Savitzky-Golay filter on Intensity
+    Applies Savitzky-Golay filter on Intensity
               Matrix
               
               Simply wraps around the Savitzky Golay 
@@ -128,7 +128,7 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_D
 def __calc_coeff(num_points, pol_degree, diff_order=0):
 
     """
-    :summary: Calculates filter coefficients for symmetric savitzky-golay
+    Calculates filter coefficients for symmetric savitzky-golay
         filter
 
         See: http://www.nrbook.com/a/bookcpdf/c14-8.pdf
@@ -177,7 +177,7 @@ def __calc_coeff(num_points, pol_degree, diff_order=0):
 def __resub(D, rhs):
 
     """
-    :summary: Solves D D^T = rhs by resubstitution
+    Solves D D^T = rhs by resubstitution
 
     D is lower triangle-matrix from cholesky-decomposition
 
@@ -209,7 +209,7 @@ def __resub(D, rhs):
 def __smooth(signal, coeff):
 
     """
-    :summary: Applies coefficients calculated by __calc_coeff()
+    Applies coefficients calculated by __calc_coeff()
         to signal
 
     :author: Uwe Schmitt

@@ -4,7 +4,7 @@ Class to model Intensity Matrix
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -40,16 +40,10 @@ from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
 from pyms.IonChromatogram import IonChromatogram
 from pyms.MassSpectrum import MassSpectrum
 
-try:
-	import psyco
-	psyco.full()
-except ModuleNotFoundError:
-	pass
-
 
 class IntensityMatrix(object):
 	"""
-	:summary: Intensity matrix of binned raw data
+	Intensity matrix of binned raw data
 
 	:author: Andrew Isaac
 	:author: Dominic Davis-Foster (type assertions and properties)
@@ -57,7 +51,7 @@ class IntensityMatrix(object):
 	
 	def __init__(self, time_list, mass_list, intensity_array):
 		"""
-		:summary: Initialize the IntensityMatrix data
+		Initialize the IntensityMatrix data
 
 		:param time_list: Retention time values
 		:type time_list: list
@@ -141,7 +135,7 @@ class IntensityMatrix(object):
 							details="Use 'IntensityMatrix.local_size' instead")
 	def get_local_size(self):
 		"""
-		:summary: Gets the local size of intensity matrix.
+		Gets the local size of intensity matrix.
 
 		:return: Number of rows and cols
 		:rtype: int
@@ -154,7 +148,7 @@ class IntensityMatrix(object):
 	@property
 	def local_size(self):
 		"""
-		:summary: Gets the local size of intensity matrix.
+		Gets the local size of intensity matrix.
 
 		:return: Number of rows and cols
 		:rtype: int
@@ -174,7 +168,7 @@ class IntensityMatrix(object):
 							details="Use 'IntensityMatrix.size' instead")
 	def get_size(self):
 		"""
-		:summary: Gets the size of intensity matrix
+		Gets the size of intensity matrix
 
 		:return: Number of rows and cols
 		:rtype: int
@@ -190,7 +184,7 @@ class IntensityMatrix(object):
 	@property
 	def size(self):
 		"""
-		:summary: Gets the size of intensity matrix
+		Gets the size of intensity matrix
 
 		:return: Number of rows and cols
 		:rtype: int
@@ -208,7 +202,7 @@ class IntensityMatrix(object):
 	
 	def iter_ms_indices(self):
 		"""
-		:summary: Iterates over local row indices
+		Iterates over local row indices
 
 		:return: Current row index
 		:rtype: int
@@ -232,7 +226,7 @@ class IntensityMatrix(object):
 	
 	def iter_ic_indices(self):
 		"""
-		:summary: Iterate over local column indices
+		Iterate over local column indices
 
 		:return: Current column index
 		:rtype: int
@@ -256,7 +250,7 @@ class IntensityMatrix(object):
 	
 	def set_ic_at_index(self, ix, ic):
 		"""
-		:summary: Sets the ion chromatogram specified by index to a new
+		Sets the ion chromatogram specified by index to a new
 			value
 
 		:param ix: Index of an ion chromatogram in the intensity data
@@ -300,7 +294,7 @@ class IntensityMatrix(object):
 	def get_ic_at_index(self, ix):
 		
 		"""
-		:summary: Returns the ion chromatogram at the specified index
+		Returns the ion chromatogram at the specified index
 
 		:param ix: Index of an ion chromatogram in the intensity data
 			matrix
@@ -330,7 +324,7 @@ class IntensityMatrix(object):
 	def get_ic_at_mass(self, mass=None):
 		
 		"""
-		:summary: Returns the ion chromatogram for the specified mass.
+		Returns the ion chromatogram for the specified mass.
 			The nearest binned mass to mass is used.
 
 			If no mass value is given, the function returns the total
@@ -362,7 +356,7 @@ class IntensityMatrix(object):
 							details="Use 'IntensityMatrix.mass_list' instead")
 	def get_mass_list(self):
 		"""
-		:summary: Returns a list of the binned masses
+		Returns a list of the binned masses
 
 		:return: Binned mass list
 		:rtype: list
@@ -377,7 +371,7 @@ class IntensityMatrix(object):
 	@property
 	def mass_list(self):
 		"""
-		:summary: Returns a list of the binned masses
+		Returns a list of the binned masses
 
 		:return: Binned mass list
 		:rtype: list
@@ -392,7 +386,7 @@ class IntensityMatrix(object):
 	@property
 	def intensity_array(self):
 		"""
-		:summary: Returns a copy of the intensity array as a
+		Returns a copy of the intensity array as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -406,7 +400,7 @@ class IntensityMatrix(object):
 	@property
 	def intensity_matrix(self):
 		"""
-		:summary: Returns a copy of the intensity matrix as a
+		Returns a copy of the intensity matrix as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -420,7 +414,7 @@ class IntensityMatrix(object):
 	@property
 	def intensity_array_list(self):
 		"""
-		:summary: Returns a copy of the intensity array as a
+		Returns a copy of the intensity array as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -435,7 +429,7 @@ class IntensityMatrix(object):
 	def get_ms_at_index(self, ix):
 		
 		"""
-		:summary: Returns a mass spectrum for a given scan index
+		Returns a mass spectrum for a given scan index
 
 		:param ix: The index of the scan
 		:type ix: int
@@ -456,7 +450,7 @@ class IntensityMatrix(object):
 	def get_scan_at_index(self, ix):
 		
 		"""
-		:summary: Returns the spectral intensities for scan index
+		Returns the spectral intensities for scan index
 
 		:param ix: The index of the scan
 		:type ix: int
@@ -480,7 +474,7 @@ class IntensityMatrix(object):
 							details="Use 'IntensityMatrix.min_mass' instead")
 	def get_min_mass(self):
 		"""
-		:summary: Returns the maximum binned mass
+		Returns the maximum binned mass
 
 		:return: The maximum binned mass
 		:rtype: float
@@ -493,7 +487,7 @@ class IntensityMatrix(object):
 	@property
 	def min_mass(self):
 		"""
-		:summary: Returns the maximum binned mass
+		Returns the maximum binned mass
 
 		:return: The maximum binned mass
 		:rtype: float
@@ -508,7 +502,7 @@ class IntensityMatrix(object):
 							details="Use 'IntensityMatrix.max_mass' instead")
 	def get_max_mass(self):
 		"""
-		:summary: Returns the maximum binned mass
+		Returns the maximum binned mass
 
 		:return: The maximum binned mass
 		:rtype: float
@@ -521,7 +515,7 @@ class IntensityMatrix(object):
 	@property
 	def max_mass(self):
 		"""
-		:summary: Returns the maximum binned mass
+		Returns the maximum binned mass
 
 		:return: The maximum binned mass
 		:rtype: float
@@ -534,7 +528,7 @@ class IntensityMatrix(object):
 	def get_mass_at_index(self, ix):
 		
 		"""
-		:summary: Returns binned mass at index
+		Returns binned mass at index
 
 		:param ix: Index of binned mass
 		:type ix: int
@@ -555,7 +549,7 @@ class IntensityMatrix(object):
 	
 	def get_index_of_mass(self, mass):
 		"""
-		:summary: Returns the index of mass in the list of masses
+		Returns the index of mass in the list of masses
 
 		The nearest binned mass to given mass is used.
 
@@ -583,7 +577,7 @@ class IntensityMatrix(object):
 	def get_matrix_list(self):
 		
 		"""
-		:summary: Returns a copy of the intensity matrix as a
+		Returns a copy of the intensity matrix as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -597,7 +591,7 @@ class IntensityMatrix(object):
 	@property
 	def matrix_list(self):
 		"""
-		:summary: Returns a the intensity matrix as a
+		Returns a the intensity matrix as a
 			list of lists of floats
 
 		:return: Matrix of intensity values
@@ -613,7 +607,7 @@ class IntensityMatrix(object):
 							details="Use 'IntensityMatrix.time_list' instead")
 	def get_time_list(self):
 		"""
-		:summary: Returns a copy of the time list
+		Returns a copy of the time list
 
 		:return: List of retention times
 		:rtype: list
@@ -626,7 +620,7 @@ class IntensityMatrix(object):
 	@property
 	def time_list(self):
 		"""
-		:summary: Returns a copy of the time list
+		Returns a copy of the time list
 
 		:return: List of retention times
 		:rtype: list
@@ -639,7 +633,7 @@ class IntensityMatrix(object):
 	def get_index_at_time(self, time):
 		
 		"""
-		:summary: Returns the nearest index corresponding to the given time
+		Returns the nearest index corresponding to the given time
 
 		:param time: Time in seconds
 		:type time: float
@@ -676,7 +670,7 @@ class IntensityMatrix(object):
 	def crop_mass(self, mass_min, mass_max):
 		
 		"""
-		:summary: Crops mass spectrum
+		Crops mass spectrum
 
 		:param mass_min: Minimum mass value
 		:type mass_min: int or float
@@ -726,7 +720,7 @@ class IntensityMatrix(object):
 	def null_mass(self, mass):
 		
 		"""
-		:summary: Ignore given (closest) mass in spectra
+		Ignore given (closest) mass in spectra
 
 		:param mass: Mass value to remove
 		:type mass: int or float
@@ -749,7 +743,7 @@ class IntensityMatrix(object):
 	def reduce_mass_spectra(self, N=5):
 		
 		"""
-		:summary: Reduces mass spectra by retaining top N
+		Reduces mass spectra by retaining top N
 			intensities, discarding all other intensities.
 
 		:param N: The number of top intensities to keep
@@ -785,7 +779,7 @@ class IntensityMatrix(object):
 	
 	def export_ascii(self, root_name, format='dat'):
 		"""
-		:summary: Exports the intensity matrix, retention time vector, and
+		Exports the intensity matrix, retention time vector, and
 			m/z vector to the ascii format
 
 			By default, export_ascii("NAME") will create NAME.im.dat, NAME.rt.dat,
@@ -836,7 +830,7 @@ class IntensityMatrix(object):
 	
 	def export_leco_csv(self, file_name):
 		"""
-		:summary: Exports data in LECO CSV format
+		Exports data in LECO CSV format
 
 		:param file_name: File name
 		:type file_name: str
@@ -886,7 +880,7 @@ class IntensityMatrix(object):
 	
 def import_leco_csv(file_name):
 	"""
-	:summary: Imports data in LECO CSV format
+	Imports data in LECO CSV format
 
 	:param file_name: Path of the file to read
 	:type file_name: str or pathlib.Path
@@ -984,7 +978,7 @@ def import_leco_csv(file_name):
 
 def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, min_mass=None):
 	"""
-	:summary: Sets the full intensity matrix with flexible bins
+	Sets the full intensity matrix with flexible bins
 
 	:param data: Raw GCMS data
 	:type data: pyms.GCMS.Class.GCMS_data
@@ -1029,7 +1023,7 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 
 def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 	"""
-	:summary: Sets the full intensity matrix with integer bins
+	Sets the full intensity matrix with integer bins
 
 	:param data: Raw GCMS data
 	:type data: pyms.GCMS.Class.GCMS_data
@@ -1069,7 +1063,7 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 
 def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 	"""
-	:summary: Fills the intensity values for all bins
+	Fills the intensity values for all bins
 
 	:param data: Raw GCMS data
 	:type data: pyms.GCMS.Class.GCMS_data
@@ -1130,7 +1124,7 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 
 def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 	"""
-	:summary: Fills the intensity values for all bins
+	Fills the intensity values for all bins
 
 	:param data: Raw GCMS data
 	:type data: pyms.GCMS.Class.GCMS_data

@@ -49,7 +49,7 @@ __POINT_COUNT = "point_count"
 
 def ANDI_reader(file_name):
 	"""
-	:summary: A reader for ANDI-MS NetCDF files, returns
+	A reader for ANDI-MS NetCDF files, returns
 		a GC-MS data object
 
 	:param file_name: The path of the ANDI-MS file
@@ -125,7 +125,7 @@ def ANDI_reader(file_name):
 
 def ANDI_writer(file_name, im):
 	"""
-	:summary: A writer for ANDI-MS NetCDF files, returns
+	A writer for ANDI-MS NetCDF files, returns
 		a GC-MS data object
 
 	:param file_name: The name of the ANDI-MS file

@@ -37,7 +37,7 @@ except:
 
 def mzML_reader(file_name):
 	"""
-	:summary: A reader for mzML files, returns
+	A reader for mzML files, returns
 		a GC-MS data object
 
 	:param file_name: The name of the mzML file

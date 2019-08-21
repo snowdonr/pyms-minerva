@@ -37,7 +37,7 @@ _STRUCT_ELM_FRAC = 0.2
 
 def tophat(ic, struct=None):
     """
-    :summary: Top-hat baseline correction on Ion Chromatogram
+    Top-hat baseline correction on Ion Chromatogram
 
     :param ic: The input ion chromatogram
     :type ic: pyms.GCMS.Class.IonChromatogram
@@ -74,7 +74,7 @@ def tophat(ic, struct=None):
 
 def tophat_im(im, struct=None):
     """
-    :summary: Top-hat baseline correction on Intensity Matrix
+    Top-hat baseline correction on Intensity Matrix
 
               Wraps around the TopHat function above
 

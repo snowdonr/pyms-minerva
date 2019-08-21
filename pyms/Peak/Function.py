@@ -4,7 +4,7 @@ Functions related to Peak modification
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -34,13 +34,6 @@ from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
 from numpy import percentile
 from math import ceil
-
-# If psyco is installed, use it to speed up running time
-try:
-    import psyco
-    psyco.full()
-except ModuleNotFoundError:
-    pass
 
 
 def peak_sum_area(im, peak, single_ion=False, max_bound=0):
@@ -152,7 +145,7 @@ def peak_pt_bounds(im, peak):
     
 def peak_top_ion_areas(im, peak, n_top_ions=5, max_bound=0):
     """
-    :summary: Calculate and return the ion areas of the five most
+    Calculate and return the ion areas of the five most
         abundant ions in the peak
 
     :param im: The originating IntensityMatrix object
@@ -205,7 +198,7 @@ def peak_top_ion_areas(im, peak, n_top_ions=5, max_bound=0):
                         details="Use 'top_ions_v1' instead")
 def top_ions_v1(peak, num_ions=5):
     """
-    :summary: Computes the highest 5 intensity ions
+    Computes the highest 5 intensity ions
         
     :param peak: the peak to be processed
     :type peak: pyms.Peak.Class.Peak
@@ -245,7 +238,7 @@ def top_ions_v1(peak, num_ions=5):
                         details="Use 'Peak.top_ions' instead")
 def top_ions_v2(peak, num_ions=5):
     """
-    :summary: Computes the highest #num_ions intensity ions
+    Computes the highest #num_ions intensity ions
         
     :param peak: The peak to be processed
     :type peak: pyms.Peak.Class.Peak

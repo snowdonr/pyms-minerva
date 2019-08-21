@@ -4,7 +4,7 @@
 Introduction
 **************
 
-Examples of PyMS use given in the User Guide
+Examples of PyMassSpec use given in the User Guide
 
 Chapter 2 -- GC-MS data file reading and operations
 -----------------------------------------------------
@@ -86,9 +86,9 @@ Chapter 7 -- Plotting.
 
 :ref:`70b -- A simple overlay plot of multiple ICs. <demo-70b>
 
-:ref:`71 -- A plot with Display() object. Example shows an overlay plot of TIC, several ICs, and peaks detected by PyMS. <demo-71>`
+:ref:`71 -- A plot with Display() object. Example shows an overlay plot of TIC, several ICs, and peaks detected by PyMassSpec. <demo-71>`
 
-Chapter 9 -- Parallel processing with PyMS.
+Chapter 9 -- Parallel processing with PyMassSpec.
 ----------------------------------------------
 
 :ref:`90 --  <demo-90>`

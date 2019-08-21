@@ -63,7 +63,7 @@ for peak in real_peak_list:
     peak.set_area(area)
     
     
-# real_peak_list is PyMS' best guess at the true peak list
+# real_peak_list is PyMassSpec' best guess at the true peak list
 
 ################## Run Simulator ######################
 # Simulator takes a peak list, time_list and mass_list

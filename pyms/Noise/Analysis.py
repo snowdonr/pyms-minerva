@@ -4,7 +4,7 @@ Noise analysis functions
 
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
 #    Copyright (C) 2005-2012 Vladimir Likic                                 #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
@@ -36,7 +36,7 @@ _DEFAULT_N_WINDOWS = 1024
 def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, rand_seed=None ):
 
     """
-    :summary: A simple estimator of the signal noise based on randomly
+    A simple estimator of the signal noise based on randomly
         placed windows and median absolute deviation
 
         The noise value is estimated by repeatedly and picking random
