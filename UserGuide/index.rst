@@ -8,6 +8,8 @@
     gcms_raw_data_model
     gcms_data_derived_objects
     data_filtering
+    peak_detection_and_representation
+    peak_alignment_by_dynamic_programming
 
 View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 

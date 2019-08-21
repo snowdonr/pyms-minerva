@@ -1,4 +1,4 @@
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.GCMS.Function import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Baseline.TopHat import tophat

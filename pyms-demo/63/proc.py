@@ -1,6 +1,8 @@
 """proc.py
 """
 
+import os
+
 from pyms.Experiment import load_expr
 from pyms.Peak.List.DPA.Class import PairwiseAlignment
 from pyms.Peak.List.DPA.Function import align_with_tree, exprl2alignment
@@ -39,11 +41,11 @@ F2 = exprl2alignment(expr_list)
 T2 = PairwiseAlignment(F2, Dw, Gw)
 A2 = align_with_tree(T2, min_peaks=2)
 
+A2.write_csv('output/Brt.csv', 'output/Barea.csv')
+
 # between replicates alignment parameters
 Db = 10.0 # rt modulation
 Gb = 0.30 # gap penalty
-
-A2.write_csv('output/Brt.csv', 'output/Barea.csv')
 
 print('Aligning input {1,2}')
 T9 = PairwiseAlignment([A1,A2], Db, Gb)

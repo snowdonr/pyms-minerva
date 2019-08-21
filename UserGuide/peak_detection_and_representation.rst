@@ -24,7 +24,7 @@ A peak object can be created for a scan at a given retention time by providing t
 scan. In the example below, first a file is loaded and an :class:`~pyms.IntensityMatrix.IntensityMatrix`, ``im``, built, then a :class:`~pyms.MassSpectrum.MassSpectrum`, ``ms``, can be selected at a given time (31.17 minutes in this example).
 
     >>> from pyms.IntensityMatrix import build_intensity_matrix_i
-    >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+    >>> from pyms.GCMS.IO.ANDI import ANDI_reader
     >>> andi_file = "data/gc01_0812_066.cdf"
     >>> data = ANDI_reader(andi_file)
     >>> im = build_intensity_matrix_i(data)
@@ -109,7 +109,7 @@ Sample processing and Peak detection
 The process for detecting peaks is to pre-process the data by performing noise smoothing and baseline correction on each ion (as in :ref:`pyms-demo/51 <demo-51>`).
 The first steps then are:
 
-    >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+    >>> from pyms.GCMS.IO.ANDI import ANDI_reader
     >>> from pyms.IntensityMatrix import build_intensity_matrix
     >>> from pyms.Noise.SavitzkyGolay import savitzky_golay
     >>> from pyms.TopHat import tophat
@@ -220,6 +220,9 @@ Given a list of peaks, areas can be determined and added as follows:
     ...     area = peak_sum_area(intensity_matrix, peak)
     ...     peak.area = area
     ...
+
+
+.. individual_ion_areas:
 
 Individual Ion Areas
 ------------------------

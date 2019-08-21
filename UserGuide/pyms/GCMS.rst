@@ -26,9 +26,9 @@
     :special-members:
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:mod:`pyms.GCMS.IO.ANDI.Function`
+:mod:`pyms.GCMS.IO.ANDI`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: pyms.GCMS.IO.ANDI.Function
+.. automodule:: pyms.GCMS.IO.ANDI
     :members:
     :private-members:
     :special-members:

@@ -16,7 +16,7 @@ The location of your matplotlibrc file can be found by typing
 in an interactive session
 """
 
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.GCMS.Function import build_intensity_matrix
 
 from pyms.Display.Function import plot_ms

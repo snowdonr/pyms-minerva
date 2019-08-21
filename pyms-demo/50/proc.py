@@ -2,7 +2,7 @@
 """
 
 from pyms.GCMS.Function import build_intensity_matrix_i
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Peak.Class import Peak
 
 # read file and convert to intensity matrix

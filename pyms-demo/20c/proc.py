@@ -1,7 +1,7 @@
 """proc.py
 """
 
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 
 # read the raw data
 andi_file = "data/gc01_0812_066.cdf"

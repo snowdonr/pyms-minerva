@@ -8,7 +8,7 @@ in the correct location
 
 """
 
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.GCMS.Function import build_intensity_matrix
 from pyms.Peak.IO import load_peaks
 from pyms.Display.Class import Display

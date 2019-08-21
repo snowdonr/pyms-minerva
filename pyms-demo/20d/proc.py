@@ -2,7 +2,7 @@
 """
 
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.GCMS.Function import diff
 
 # read the raw data

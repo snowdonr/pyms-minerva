@@ -61,7 +61,7 @@ This file can be loaded as follows:
 
 .. code-block:: python
 
-    >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+    >>> from pyms.GCMS.IO.ANDI import ANDI_reader
     >>> ANDI_file = "data/gc01_0812_066.cdf"
     >>> data = ANDI_reader(ANDI_file)
      -> Reading netCDF file 'data/gc01_0812_066.cdf'
@@ -155,7 +155,7 @@ that can be used for this purpose.
 
 .. code-block:: python
 
-    >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+    >>> from pyms.GCMS.IO.ANDI import ANDI_reader
     >>> andi_file = "data/gc01_0812_066.cdf"
     >>> data = ANDI_reader(andi_file)
      -> Reading netCDF file 'data/gc01_0812_066.cdf'
@@ -202,7 +202,7 @@ For example:
 .. code-block:: python
 
     >>> from pyms.GCMS.IO.JCAMP import JCAMP_reader
-    >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+    >>> from pyms.GCMS.IO.ANDI import ANDI_reader
     >>> andi_file = "data/gc01_0812_066.cdf"
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data1 = ANDI_reader(andi_file)

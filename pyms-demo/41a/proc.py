@@ -1,7 +1,7 @@
 """proc.py
 """
 
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Noise.Window import window_smooth
 
 # read the raw data

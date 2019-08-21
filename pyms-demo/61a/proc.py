@@ -3,14 +3,13 @@
 
 import os
 
-from pyms.GCMS.IO.ANDI.Function import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.GCMS.IO.ANDI import ANDI_reader
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Baseline.TopHat import tophat
-#from pyms.Peak.Class import Peak
+from pyms.TopHat import tophat
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 
-from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann, \
+from pyms.BillerBiemann import BillerBiemann, \
     rel_threshold, num_ions_threshold
 
 from pyms.Experiment.Class import Experiment

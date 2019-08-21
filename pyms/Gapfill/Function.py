@@ -138,7 +138,7 @@ def missing_peak_finder(sample, filename, points=13, null_ions=[73, 147],\
     print("Sample:", sample.get_name(), "File:", filename)
     
     if filetype.lower() == 'cdf':
-        from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+        from pyms.GCMS.IO.ANDI import ANDI_reader
         data = ANDI_reader(filename)
     elif filetype.lower() == 'mzml':
         from pyms.GCMS.IO.MZML.Function import mzML_reader

@@ -176,7 +176,7 @@ PyMS currently implements only top-hat baseline corrector, using the SciPy packa
 Application of the top-hat baseline corrector requires the size of the structural element to be specified.
 The structural element needs to be larger than the features one wants to retain in the spectrum after the top-hat transform. In the example below, the top-hat baseline corrector is applied to the TIC of the data set ``gc01_0812_066.cdf``, with the structural element of 1.5 minutes:
 
-    >>> from pyms.GCMS.IO.ANDI.Function import ANDI_reader
+    >>> from pyms.GCMS.IO.ANDI import ANDI_reader
     >>> andi_file = "data/gc01_0812_066.cdf"
     >>> data = ANDI_reader(andi_file)
      -> Reading netCDF file 'data/gc01_0812_066.cdf'
