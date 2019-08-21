@@ -43,7 +43,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
 
 .. toctree::
     :maxdepth: 2
-    :caption: Tests and Examples
+    :caption: Demos and Examples
 
     ../../pyms-demo/introduction
     pyms-demo/data-files

@@ -154,7 +154,7 @@ detailed description.
 
 .. _`documentation`: https://pymassspec.readthedocs.io
 .. _`Contributing to PyMassSpec`: https://pymassspec.readthedocs.io/en/master/Contributing/Contributing.html
-.. _`pytest`: https://pytest.org/latest/contents.html
+.. _`pytest`: https://pytest.org/
 .. _`file an issue`: https://github.com/domdfcoding/pymassspec/issues
 .. _Python: https://www.python.org/
 .. _GPL: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
