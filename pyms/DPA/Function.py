@@ -37,7 +37,7 @@ except ModuleNotFoundError:
 
 from pyms.base import _list_types
 from pyms.Experiment import Experiment
-from pyms.DPA.Alignment import Alignment
+from pyms.DPA.Class import Alignment
 
 
 def align_with_tree(T, min_peaks=1):

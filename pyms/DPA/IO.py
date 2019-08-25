@@ -43,7 +43,7 @@ Please install one of them and try again.""")
 
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
-from pyms.Peak.List.DPA import Function
+from pyms.DPA import Function
 from pyms.Utils.IO import prepare_filepath
 
 from openpyxl import Workbook
