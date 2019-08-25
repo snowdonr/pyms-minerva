@@ -40,9 +40,9 @@ except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
 
+from pyms.base import _list_types
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
-from pyms.DPA import Function
 from pyms.Utils.IO import prepare_filepath
 
 
@@ -565,94 +565,28 @@ class Alignment(object):
 		fp1.close()
 
 
-class PairwiseAlignment(object):
+def exprl2alignment(exprl):
 	"""
-	Models pairwise alignment of alignments
+	Converts experiments into alignments
 
-	:param algts: A list of alignments
-	:type algts: list
-	:param D: Retention time tolerance parameter for pairwise alignments
-	:type D: float
-	:param gap: Gap parameter for pairwise alignments
-	:type gap: float
+	:param exprl: The list of experiments to be converted into an alignment objects
+	:type exprl: list
 
-	:author: Woon Wai Keen
 	:author: Vladimir Likic
 	"""
 	
-	def __init__(self, algts, D, gap):
-		"""
-		Models pairwise alignment of alignments
-		"""
-		
-		if not isinstance(algts, list) or not isinstance(algts[0], Alignment):
-			raise TypeError("'algts' must be a list")
-		if not isinstance(D, float):
-			raise TypeError("'D' must be a float")
-		if not isinstance(gap, float):
-			raise TypeError("'gap' must be a float")
-		
-		self.algts = algts
-		self.D = D
-		self.gap = gap
-		
-		self._sim_matrix()
-		self._dist_matrix()
-		self._guide_tree()
+	if not isinstance(exprl, _list_types):
+		raise TypeError("the argument is not a list")
 	
-	def _sim_matrix(self):
-		"""
-		Calculates the similarity matrix for the set of alignments
-
-		:author: Woon Wai Keen
-		:author: Vladimir Likic
-		"""
-		
-		n = len(self.algts)
-		
-		total_n = n * (n - 1) // 2
-		
-		print(f" Calculating pairwise alignments for {n:d} alignments (D={self.D:.2f}, gap={self.gap:.2f})")
-		
-		self.sim_matrix = numpy.zeros((n, n), dtype='f')
-		
-		# Could we parallelize this pairwise alignment loop??
-		for i in range(n - 1):
-			for j in range(i + 1, n):
-				ma = Function.align(self.algts[i], self.algts[j], self.D, self.gap)
-				self.sim_matrix[i, j] = self.sim_matrix[j, i] = ma.similarity
-				total_n = total_n - 1
-				print(" -> %d pairs remaining" % total_n)
+	algts = []
 	
-	def _dist_matrix(self):
-		
-		"""
-		Converts similarity matrix into a distance matrix
-
-		:author: Woon Wai Keen
-		:author: Vladimir Likic
-		"""
-		
-		# change similarity matrix entries (i,j) to max{matrix}-(i,j)
-		sim_max = numpy.max(numpy.ravel(self.sim_matrix))
-		self.dist_matrix = sim_max - self.sim_matrix
-		
-		# set diagonal elements of the similarity matrix to zero
-		for i in range(len(self.dist_matrix)):
-			self.dist_matrix[i, i] = 0
+	for item in exprl:
+		if not isinstance(item, Experiment):
+			raise TypeError("list items must be 'Experiment' instances")
+		else:
+			algt = Alignment(item)
+		algts.append(algt)
 	
-	def _guide_tree(self):
-		
-		"""
-		Build a guide tree from the distance matrix
+	return algts
 
-		:author: Woon Wai Keen
-		:author: Vladimir Likic
-		"""
-		
-		n = len(self.dist_matrix)
-		
-		print(" -> Clustering %d pairwise alignments." % (n * (n - 1)), end='')
-		self.tree = treecluster(data=None, distancematrix=self.dist_matrix, method='a')
-		print("Done")
 

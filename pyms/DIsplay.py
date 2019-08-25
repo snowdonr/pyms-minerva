@@ -23,11 +23,16 @@ Class to Display Ion Chromatograms and TIC
 #                                                                              #
 ################################################################################
 
+
+import warnings
+
+import matplotlib
 import matplotlib.pyplot as plt
 
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
 
+default_filetypes = ["png", "pdf", "svg"]
 
 class Display(object):
 	"""
@@ -56,8 +61,14 @@ class Display(object):
 		self.__peak_list = []
 		
 		#Plotting Variables
-		self.__fig = plt.figure()
-		self.__ax = self.__fig.add_subplot(111)
+		#self.fig = plt.figure()
+		#self.ax = self.fig.add_subplot(111)
+	
+	def setup_subplots(self, figsize=None):
+		#if not figsize:
+			#figsize = (1 + (3 * len(self.sample_list)), 9)
+		
+		self.fig, self.ax = plt.subplots()#figsize=figsize)
 	
 	def do_plotting(self, plot_label=None):
 		"""
@@ -71,9 +82,9 @@ class Display(object):
 		
 		# if no plots have been created advise user
 		if len(self.__tic_ic_plots) == 0:
-			print('No plots have been created')
-			print('Please call a plotting function before')
-			print('calling do_plotting()')
+			warnings.warn("""No plots have been created.
+Please call a plotting function before calling 'do_plotting()'""", UserWarning)
+			return
 		
 		if plot_label is not None:
 			t = self.__ax.set_title(plot_label)
@@ -164,7 +175,7 @@ class Display(object):
 			else:
 				raise TypeError("'ics' must be an IonChromatogram or a list of Ion Chromatograms")
 		
-		if not isinstance(labels, list) and labels != None:
+		if not isinstance(labels, list) and labels is not None:
 			labels = [labels]
 		# TODO: take care of case where one element of ics is not an IonChromatogram
 		
@@ -199,20 +210,25 @@ class Display(object):
 					self.__col_count += 1
 	
 	@staticmethod
-	def plot_mass_spec(rt, mass_list, intensity_list):
+	def plot_mass_spec(rt, mass_spec, labels=None):
 		"""
 		Plots the mass spec given a list of masses and intensities
 
 		:param rt: The retention time for labelling of the plot
 		:type rt: float
-		:param mass_list: list of masses of the MassSpectrum object
-		:type mass_list: list
-		:param intensity_list: List of intensities of the MassSpectrum object
-		:type intensity_list: list
+		:param mass_spec: The mass spectrum at a given time/index
+		:type mass_spec: class:`MassSpectrum.MassSpectrum`
+		:param plot_title: A label for the plot
+		:type plot_title: str, optional
+	
+		:author: Sean O'Callaghan
 		"""
 		
 		new_fig = plt.figure()
 		new_ax = new_fig.add_subplot(111)
+		
+		mass_list = mass_spec.mass_list
+		intensity_list = mass_spec.mass_spec
 		
 		# to set x axis range find minimum and maximum m/z channels
 		max_mz = mass_list[0]
@@ -278,4 +294,60 @@ class Display(object):
 		time_list = tic.get_time_list()
 		
 		self.__tic_ic_plots.append(plt.plot(time_list, intensity_list, label=label))
+	
+	def save_chart(self, filepath, filetypes=None):
+		
+		if filetypes is None:
+			filetypes = default_filetypes
+		
+		matplotlib.use("Agg")
+		
+		for filetype in filetypes:
+			# plt.savefig(filepath + ".{}".format(filetype))
+			self.fig.savefig(filepath + ".{}".format(filetype))
+		plt.close()
+	
+	def show_chart(self):
+		
+		matplotlib.use("TkAgg")
+		
+		self.fig.show()
+		plt.close()
+
+
+def plot_ic(ic, line_label=" ", plot_title=" "):
+	"""
+	Plots an Ion Chromatogram or List of same
+
+	:param ic: The ion chromatogram
+	:type ic: class:`pyms.IonChromatogram.IonChromatogram`
+
+	:param line_label: plot legend
+	:type line_label: str, optional
+
+	:param plot_title: A label for the plot
+	:type plot_title: str, optional
+
+	:author: Sean O'Callaghan
+	"""
+	
+	# Plotting Variables
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	
+	if not isinstance(ic, IonChromatogram):
+		raise TypeError("ics argument must be an IonChromatogram or a list of Ion Chromatograms")
+	
+	time_list = ic.get_time_list()
+	
+	intensity_list = ic.get_intensity_array()
+	
+	ic_plot = plt.plot(time_list, intensity_list, label=line_label)
+	
+	t = ax.set_title(plot_title)
+	l = ax.legend()
+	
+	fig.canvas.draw
+	plt.show()
+
 

@@ -9,8 +9,8 @@ from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Experiment import load_expr, Experiment
-from pyms.DPA.Class import PairwiseAlignment, Alignment
-from pyms.DPA.Function import align_with_tree, exprl2alignment
+from pyms.DPA.Alignment import Alignment, exprl2alignment
+from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
 from pyms.Peak.List.IO import store_peaks
 
 
