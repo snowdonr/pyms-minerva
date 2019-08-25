@@ -4,7 +4,7 @@ Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -365,7 +365,7 @@ class Sample(object):
 		"""
 		rt_area_dict = {}
 		for peak in self.__missing_peak_list:
-			rt = peak.get_rt()
+			rt = peak.rt
 			area = peak.get_common_ion_area()
 			
 			rt_area_dict[rt] = area
@@ -382,7 +382,7 @@ class Sample(object):
 		
 		rt_exact_rt_dict = {}
 		for peak in self.__missing_peak_list:
-			rt = peak.get_rt()
+			rt = peak.rt
 			exact_rt = peak.get_exact_rt()
 			
 			rt_exact_rt_dict[rt] = exact_rt
@@ -436,7 +436,7 @@ class Sample(object):
 		"""
 		rt_area_dict = {}
 		for peak in self.__missing_peak_list:
-			rt = peak.get_rt()
+			rt = peak.rt
 			area = peak.get_common_ion_area()
 			
 			rt_area_dict[rt] = area

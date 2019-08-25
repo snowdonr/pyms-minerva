@@ -2,51 +2,49 @@
 Provides functions for simulation of GCMS data
 """
 
-#############################################################################
-#                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
+import math
 
 import numpy
-import math
-import sys
 
-from pyms.GCMS.Class import IonChromatogram, IntensityMatrix
+from pyms.IntensityMatrix import IntensityMatrix
 
 
 def gcms_sim(time_list, mass_list, peak_list):
-    
     """
     Simulator of GCMS data
     
     :param time_list: the list of scan times
-    :type time_list: listType
+    :type time_list: list
     
     :param mass_list: the list of m/z channels
-    :type mass_list: listType
+    :type mass_list: list
     
     :param peak_list: A list of peaks
     :type peak_list: list of pyms.Peak.Class.Peak
     
     :return: A simulated Intensity Matrix object
-    :rtype: pyms.GCMS.Class.IntenstityMatrix
+    :rtype: pyms.IntensityMatrix.IntensityMatrix
     
     :author: Sean O'Callaghan
     """
@@ -57,15 +55,14 @@ def gcms_sim(time_list, mass_list, peak_list):
     period = time_list[1] - t1
     
     # initialise a 2D numpy array for intensity matrix
-    i_array = numpy.zeros((n_scan, n_mz), 'd') 
-    
+    i_array = numpy.zeros((n_scan, n_mz), 'd')
     
     for peak in peak_list:
         print("-", end='')
-        index = int((peak.get_rt() - t1)/period) 
+        index = int((peak.rt - t1)/period)
         height = sum(peak.get_mass_spectrum().mass_spec)
         # standard deviation = area/(height * sqrt(2/pi)) 
-        sigma = peak.get_area() / (height * (math.sqrt(2*math.pi)))
+        sigma = peak.area / (height * (math.sqrt(2*math.pi)))
         print("width", sigma)
         for i in range(len(peak.get_mass_spectrum().mass_list)):
             ion_height = peak.get_mass_spectrum().mass_spec[i]
@@ -75,12 +72,9 @@ def gcms_sim(time_list, mass_list, peak_list):
     im = IntensityMatrix(time_list, mass_list, i_array)
     
     return im
-        
-
-
-
+    
+    
 def chromatogram(n_scan, x_zero, sigma, peak_scale):
-
     """
     Returns a simulated ion chromatogram of a pure component
               The ion chromatogram contains a single gaussian peak.
@@ -98,11 +92,10 @@ def chromatogram(n_scan, x_zero, sigma, peak_scale):
     :type peak_scale: floatType
     
     :return: a list of intensities
-    :rtype: listType
+    :rtype: list
     
     :author: Sean O'Callaghan
     """
-    
     
     ic = numpy.zeros((n_scan), 'd')
     
@@ -112,6 +105,7 @@ def chromatogram(n_scan, x_zero, sigma, peak_scale):
         ic[i] = gaussian(x,x_zero,sigma,peak_scale)
     
     return ic
+
 
 def gaussian(point, mean, sigma, scale):
     """
@@ -139,12 +133,13 @@ def gaussian(point, mean, sigma, scale):
      
     return scale*math.exp((-(point-mean)**2)/(2*(sigma**2)))
 
+
 def add_gaussc_noise(im, scale):
     """
     adds noise to an IntensityMatrix object
      
     :param im: the intensity matrix object
-    :param im: pyms.GCMS.Class.IntensityMatrix
+    :param im: pyms.IntensityMatrix.IntensityMatrix
     
     :param scale: the scale of the normal distribution from
                   which the noise is drawn
@@ -152,7 +147,7 @@ def add_gaussc_noise(im, scale):
     
     :author: Sean O'Callaghan
     """
-    n_scan, n_mz = im.get_size()
+    n_scan, n_mz = im.size
     
     for i in range(n_mz):
         ic = im.get_ic_at_index(i)
@@ -165,7 +160,7 @@ def add_gaussv_noise(im, scale, cutoff, prop):
     adds noise to an IntensityMatrix object
      
     :param im: the intensity matrix object
-    :param im: pyms.GCMS.Class.IntensityMatrix
+    :param im: pyms.IntensityMatrix.IntensityMatrix
     
     :param scale: the scale of the normal distribution from
                   which the noise is drawn
@@ -184,13 +179,12 @@ def add_gaussv_noise(im, scale, cutoff, prop):
     
     :author: Sean O'Callaghan
     """
-    n_scan, n_mz = im.get_size()
+    n_scan, n_mz = im.size
     
     for i in range(n_mz):
         ic = im.get_ic_at_index(i)
         add_gaussv_noise_ic(ic, scale, cutoff, prop)
         im.set_ic_at_index(i, ic)
-    
     
     
 def add_gaussc_noise_ic(ic, scale):
@@ -250,5 +244,3 @@ def add_gaussv_noise_ic(ic, scale, cutoff, prop):
         
     i_array_with_noise = noise + i_array
     ic.set_intensity_array(i_array_with_noise)
-    
-    

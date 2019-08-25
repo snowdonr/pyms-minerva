@@ -1,11 +1,6 @@
-"""
-Alignment of peak lists by dynamic programming
-"""
-
 #############################################################################
 #                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -23,5 +18,55 @@ Alignment of peak lists by dynamic programming
 #                                                                           #
 #############################################################################
 
+import pytest
+from tests.constants import *
 
-from pyms.Peak.List.DPA import Class, Function, Utils
+from pyms.Spectrum import Scan
+
+
+def test_Scan(scan):
+	
+	assert isinstance(scan, Scan)
+	
+	assert isinstance(scan.mass_list, list)
+	assert isinstance(scan.intensity_list, list)
+	
+	# Errors
+	for type in [test_string, test_int, test_list_strs, test_dict]:
+		with pytest.raises(TypeError):
+			Scan(type, scan.intensity_list)
+	
+	for type in [test_string, test_int, test_list_strs, test_dict]:
+		with pytest.raises(TypeError):
+			Scan(scan.mass_list, type)
+	
+	with pytest.raises(ValueError):
+		Scan(scan.mass_list, test_list_ints)
+
+
+def test_len(scan):
+	assert len(scan) == 101
+
+
+def test_equality(im, scan):
+	assert scan != im.get_scan_at_index(1234)
+	assert scan == Scan(scan.mass_list, scan.intensity_list)
+	assert scan != test_list_ints
+	assert scan != test_list_strs
+	assert scan != test_tuple
+	assert scan != test_string
+	assert scan != test_int
+	assert scan != test_float
+
+
+def test_intensity_list(scan):
+	assert scan.intensity_list[5] == 1381.0
+	assert scan.intensity_list[50] == 673.0
+	assert scan.intensity_list[100] == 1728.0
+	
+def test_mass_list(scan):
+	assert scan.mass_list[5] == 60.9465
+	assert scan.mass_list[50] == 138.8299
+	assert scan.mass_list[100] == 477.6667
+	
+

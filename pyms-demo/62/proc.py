@@ -4,8 +4,8 @@
 import os
 
 from pyms.Experiment import load_expr
-from pyms.Peak.List.DPA.Class import PairwiseAlignment
-from pyms.Peak.List.DPA.Function import align_with_tree, exprl2alignment
+from pyms.DPA.Class import PairwiseAlignment
+from pyms.DPA.Function import align_with_tree, exprl2alignment
 
 # define the input experiments list
 exprA_codes = [ "a0806_077", "a0806_078", "a0806_079" ]

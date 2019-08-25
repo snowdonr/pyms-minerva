@@ -17,7 +17,7 @@ data = ANDI_reader(andi_file)
 
 im = build_intensity_matrix_i(data)
 
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 print("Intensity matrix size (scans, masses):", (n_scan, n_mz))
 
@@ -50,15 +50,15 @@ print("Number of filtered peaks: ", len(new_peak_list))
 print("Peak areas")
 print("UID, RT, height, area")
 for peak in new_peak_list:
-    rt = peak.get_rt()
+    rt = peak.rt
     # Only test interesting sub-set from 29.5 to 32.5 minutes
     if rt >= 29.5*60.0 and rt <= 32.5*60.0:
         # determine and set area
         area = peak_sum_area(im, peak)
-        peak.set_area(area)
+        peak.area = area
 
         # print some details
-        UID = peak.get_UID()
+        UID = peak.UID
         # height as sum of the intensities of the apexing ions
         height = sum(peak.get_mass_spectrum().mass_spec)
-        print(UID + ", %.2f, %.2f, %.2f" % (rt/60.0, height, peak.get_area()))
+        print(UID + ", %.2f, %.2f, %.2f" % (rt/60.0, height, peak.area))

@@ -30,7 +30,7 @@ Example:
 .. code-block:: python
 
     # -- snip --
-    if not is_str(file_name):
+    if not isinstance(file_name, str):
         raise TypeError("'file_name' must be a string")
 
     try:
@@ -122,11 +122,7 @@ For standard library modules, always import the entire module name space. i.e.
       ...
       os.path()
 
-For PyMassSpec modules always import specific functions, i.e.
 
-.. code-block:: python
-
-      from pyms.Utils.Utils import is_str, is_int
 
 Naming Styles
 ===============
@@ -244,16 +240,14 @@ Functions
 
 In all functions the following Sphinx tags must be defined:
 
-    * ``:summary``
     * ``:param``
     * ``:type`` (for all input arguments)
     * ``:return``
-    * ``:rtype``
+    * ``:rtype`` (unless the function returns None)
     * ``:author``
 
 Other fields are optional.
 
-If the function does not return a value, ``:return`` is ``None`` and ``:rtype`` is ``NoneType``
 
 Example:
 

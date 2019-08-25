@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -21,7 +21,8 @@
 import pytest
 from tests.constants import *
 
-from pyms.GCMS.Class import IntensityMatrix, IonChromatogram
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay, savitzky_golay_im
 
 

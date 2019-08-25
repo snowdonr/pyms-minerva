@@ -224,7 +224,7 @@ chromatogram in the intensity matrix;
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
     >>> im = build_intensity_matrix(data)
-    >>> n_scan, n_mz = im.get_size()
+    >>> n_scan, n_mz = im.size
     >>> for ii in range(n_mz):
     ...     print("Working on IC#", ii+1)
     ...     ic = im.get_ic_at_index(ii)

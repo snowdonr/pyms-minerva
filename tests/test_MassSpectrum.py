@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -18,10 +18,14 @@
 #                                                                           #
 #############################################################################
 
+
+import copy
+
 import pytest
+
 from tests.constants import *
 
-from pyms.GCMS.Class import MassSpectrum
+from pyms.Spectrum import MassSpectrum
 
 
 def test_MassSpectrum(ms):
@@ -56,4 +60,51 @@ def test_equality(im, ms):
 	assert ms != test_string
 	assert ms != test_int
 	assert ms != test_float
+
+
+def test_mass_spec(ms):
+	ms = copy.deepcopy(ms)
+	assert ms.mass_spec[5] == 4192.0
+	assert ms.mass_spec[50] == 3459.0
+	assert ms.mass_spec[100] == 0.0
+	
+	ms.mass_spec[0] = 123
+	assert ms.mass_spec[0] == 123
+	
+	assert ms.mass_spec == ms.intensity_list
+	
+	ms.mass_spec = list(range(len(ms.mass_spec)))
+	assert ms.mass_spec == list(range(len(ms.mass_spec)))
+	
+	# Errors
+	for type in [test_float, test_string, test_int, test_dict, test_list_strs]:
+		with pytest.raises(TypeError):
+			ms.mass_spec = type
+		with pytest.raises(TypeError):
+			ms.intensity_list = type
+	
+	#for type in [test_list_ints, test_tuple]:
+	#	with pytest.raises(ValueError):
+	#		ms.mass_spec = type
+	#	with pytest.raises(ValueError):
+	#		ms.intensity_list = type
+
+
+def test_mass_list(ms):
+	assert ms.mass_list[5] == 55
+	assert ms.mass_list[50] == 100
+	assert ms.mass_list[100] == 150
+	
+	ms.mass_list = list(range(len(ms.mass_list)))
+	assert ms.mass_list == list(range(len(ms.mass_list)))
+	
+	# Errors
+	for type in [test_float, test_string, test_int, test_dict, test_list_strs]:
+		with pytest.raises(TypeError):
+			ms.mass_list = type
+	
+	#for type in [test_list_ints, test_tuple]:
+	#	with pytest.raises(ValueError):
+	#		ms.mass_list = type
+
 

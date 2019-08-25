@@ -4,7 +4,7 @@ Class to Display Ion Chromatograms and TIC
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -25,13 +25,13 @@ Class to Display Ion Chromatograms and TIC
 
 import matplotlib.pyplot as plt
 
-from pyms.GCMS.Class import IonChromatogram
+from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
 
 
 class Display(object):
 	"""
-	Class to display Ion Chromatograms and Total Ion Chromatograms from class:`GCMS.Class.IonChromatogram`
+	Class to display Ion Chromatograms and Total Ion Chromatograms from class:`IonChromatogram.IonChromatogram`
 	Uses matplotlib module pyplot to do plotting
 
 	:author: Sean O'Callaghan
@@ -128,8 +128,8 @@ class Display(object):
 		mass_list = []
 		
 		for peak in self.__peak_list:
-			# if event.xdata > 0.9999*peak.get_rt() and event.xdata < 1.0001*peak.get_rt():
-			if 0.9999 * peak.get_rt() < event.xdata < 1.0001 * peak.get_rt():
+			# if event.xdata > 0.9999*peak.rt and event.xdata < 1.0001*peak.rt:
+			if 0.9999 * peak.rt < event.xdata < 1.0001 * peak.rt:
 				intensity_list = peak.get_mass_spectrum().mass_spec
 				mass_list = peak.get_mass_spectrum().mass_list
 		
@@ -152,7 +152,7 @@ class Display(object):
 		Adds an Ion Chromatogram or a list of Ion Chromatograms to plot list
 
 		:param ics: List of Ion Chromatograms m/z channels for plotting
-		:type ics: list of class:`pyms.GCMS.Class.IonChromatogram` objects
+		:type ics: list of class:`pyms.IonChromatogram.IonChromatogram` objects
 
 		:param labels: Labels for plot legend
 		:type labels: list of str, optional
@@ -255,7 +255,7 @@ class Display(object):
 		self.__peak_list = peak_list
 		
 		for peak in peak_list:
-			time_list.append(peak.get_rt())
+			time_list.append(peak.rt)
 			height_list.append(sum(peak.get_mass_spectrum().mass_spec))
 		
 		self.__tic_ic_plots.append(plt.plot(time_list, height_list, 'o', label=label))
@@ -265,7 +265,7 @@ class Display(object):
 		Adds Total Ion Chromatogram to plot list
 
 		:param tic: Total Ion Chromatogram
-		:type tic: class:`pyms.GCMS.Class.IonChromatogram`
+		:type tic: class:`pyms.IonChromatogram.IonChromatogram`
 
 		:param label: label for plot legend
 		:type label: str, optional

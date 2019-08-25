@@ -2,42 +2,41 @@
 Classes to model a GC-MS Ion Chromatogram
 """
 
-#############################################################################
-#                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
-
-import numpy
 import math
 import copy
-
-import deprecation
+import pathlib
 import warnings
+
+import numpy
+import deprecation
+
 from pyms import __version__
-
-from pyms.Utils.Error import pymsError
-from pyms.Utils.Utils import is_list
-from pyms.Utils.IO import open_for_writing, close_for_writing
+from pyms.base import pymsCopyBase, _list_types
+from pyms.Mixins import TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin
 
 
-class IonChromatogram(object):
+class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
 	"""
 	Models an ion chromatogram
 
@@ -72,7 +71,7 @@ class IonChromatogram(object):
 		if not isinstance(ia, numpy.ndarray):
 			raise TypeError("'ia' must be a numpy array")
 		
-		if not is_list(time_list) or not isinstance(time_list[0], (int, float)):
+		if not isinstance(time_list, _list_types) or not isinstance(time_list[0], (int, float)):
 			raise TypeError("'time_list' must be a list of numbers")
 		
 		if len(ia) != len(time_list):
@@ -81,12 +80,12 @@ class IonChromatogram(object):
 		if mass and not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be a number")
 		
-		self.__ia = ia
-		self.__time_list = time_list
-		self.__mass = mass
-		self.__time_step = self.__calc_time_step(time_list)
-		self.__min_rt = min(time_list)
-		self.__max_rt = max(time_list)
+		self._intensity_array = ia
+		self._time_list = time_list
+		self._mass = mass
+		self._time_step = self.__calc_time_step(time_list)
+		self._min_rt = min(time_list)
+		self._max_rt = max(time_list)
 	
 	def __len__(self):
 		
@@ -100,7 +99,7 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		return self.__ia.size
+		return self._intensity_array.size
 	
 	def __sub__(self, other):
 		"""
@@ -112,8 +111,8 @@ class IonChromatogram(object):
 		
 		ia_for_sub = other.intensity_array
 		
-		for i in range(self.__ia.size):
-			self.__ia[i] = self.__ia[i] - ia_for_sub[i]
+		for i in range(self._intensity_array.size):
+			self._intensity_array[i] = self._intensity_array[i] - ia_for_sub[i]
 		
 		return self
 	
@@ -126,64 +125,8 @@ class IonChromatogram(object):
 		return NotImplemented
 	
 	def __copy__(self):
-		return IonChromatogram(ia=numpy.copy(self.__ia), time_list=self.__time_list[:], mass=copy.copy(self.__mass))
+		return IonChromatogram(ia=numpy.copy(self._intensity_array), time_list=self._time_list[:], mass=copy.copy(self._mass))
 	
-	def __deepcopy__(self, memodict={}):
-		return self.__copy__()
-	
-	def get_index_at_time(self, time):
-		"""
-		Returns the nearest index corresponding to the given time
-
-		:param time: Time in seconds
-		:type time: float
-
-		:return: Nearest index corresponding to given time
-		:rtype: int
-
-		:author: Lewis Lee
-		:author: Tim Erwin
-		:author: Milica Ng
-		:author: Vladimir Likic
-		"""
-		
-		if not isinstance(time, (int, float)):
-			raise TypeError("'time' must be a number")
-		
-		if time < self.__min_rt or time > self.__max_rt:
-			raise IndexError("time %.2f is out of bounds (min: %.2f, max: %.2f)" %
-							 (time, self.__min_rt, self.__max_rt))
-		
-		time_list = self.__time_list
-		time_diff_min = self.__max_rt
-		ix_match = None
-		
-		for ix in range(len(time_list)):
-			
-			time_diff = math.fabs(time - time_list[ix])
-			
-			if time_diff < time_diff_min:
-				ix_match = ix
-				time_diff_min = time_diff
-		
-		return ix_match
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IonChromatogram.intensity_array' instead")
-	def get_intensity_array(self):
-		"""
-		Returns the entire intensity array
-
-		:return: Intensity array
-		:rtype: numpy.ndarray
-
-		:author: Lewis Lee
-		:author: Vladimir Likic
-		"""
-		
-		return self.intensity_array
-		
 	def get_intensity_at_index(self, ix):
 		"""
 		Returns intensity at given index
@@ -201,10 +144,10 @@ class IonChromatogram(object):
 		if not isinstance(ix, int):
 			raise TypeError("'ix' must be an integer")
 		
-		if ix < 0 or ix > self.__ia.size - 1:
+		if ix < 0 or ix > self._intensity_array.size - 1:
 			raise IndexError("index out of bounds")
 		
-		return self.__ia[ix]
+		return self._intensity_array[ix]
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -218,48 +161,8 @@ class IonChromatogram(object):
 
 		:author: Sean O'Callaghan
 		"""
-		if self.__mass == None:
-			raise pymsError("TIC has no m/z label")
 		
 		return self.mass
-	
-	def get_time_at_index(self, ix):
-		"""
-		Returns time at given index
-
-		:param ix: An index
-		:type ix: int
-
-		:return: Time value
-		:rtype: float
-
-		:author: Lewis Lee
-		:author: Vladimir Likic
-		"""
-		
-		if not isinstance(ix, (int, float)):
-			raise TypeError("'ix' must be an integer")
-		
-		if ix < 0 or ix > len(self.__time_list) - 1:
-			raise IndexError("index out of bounds")
-		
-		return self.__time_list[ix]
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IonChromatogram.time_list' instead")
-	def get_time_list(self):
-		"""
-		Returns the time list
-
-		:return: Time list
-		:rtype: list
-
-		:author: Lewis Lee
-		:author: Vladimir Likic
-		"""
-		
-		return self.time_list
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -275,23 +178,9 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		return self.__time_step
-		
-	@property
-	def intensity_array(self):
-		"""
-		Returns the entire intensity array
-
-		:return: Intensity array
-		:rtype: numpy.ndarray
-
-		:author: Lewis Lee
-		:author: Vladimir Likic
-		"""
-		
-		return numpy.copy(self.__ia)
+		return self._time_step
 	
-	@intensity_array.setter
+	@IntensityArrayMixin.intensity_array.setter
 	def intensity_array(self, ia):
 		"""
 		Sets the value for the intensity array
@@ -299,13 +188,12 @@ class IonChromatogram(object):
 		:param ia: An array of new intensity values
 		:type ia: numpy.ndarray
 
-		:return: none
-		:rtype: NoneType
-
 		:author: Vladimir Likic
 		"""
 		
-		self.__ia = ia
+		#todo: type assertion
+		
+		self._intensity_array = ia
 	
 	def is_tic(self):
 		"""
@@ -320,7 +208,7 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		return self.__mass is None
+		return self._mass is None
 	
 	@property
 	def mass(self):
@@ -332,10 +220,10 @@ class IonChromatogram(object):
 
 		:author: Sean O'Callaghan
 		"""
-		if self.__mass is None:
+		if self._mass is None:
 			warnings.warn("TIC has no m/z label", Warning)
 		
-		return self.__mass
+		return self._mass
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -347,27 +235,10 @@ class IonChromatogram(object):
 		:param ia: An array of new intensity values
 		:type ia: numpy.ndarray
 
-		:return: none
-		:rtype: NoneType
-
 		:author: Vladimir Likic
 		"""
 		# todo: type check
-		self.__ia = ia
-		
-	@property
-	def time_list(self):
-		"""
-		Returns the time list
-
-		:return: Time list
-		:rtype: list
-
-		:author: Lewis Lee
-		:author: Vladimir Likic
-		"""
-		
-		return self.__time_list[:]
+		self._intensity_array = ia
 		
 	@property
 	def time_step(self):
@@ -382,7 +253,7 @@ class IonChromatogram(object):
 		:author: Vladimir Likic
 		"""
 		
-		return self.__time_step
+		return self._time_step
 	
 	def __calc_time_step(self, time_list):
 		
@@ -414,8 +285,8 @@ class IonChromatogram(object):
 		"""
 		Writes the ion chromatogram to the specified file
 
-		:param file_name: Output file name
-		:type file_name: StringType
+		:param file_name: The name of the output file
+		:type file_name: str or pathlib.Path
 		:param minutes: A boolean value indicating whether to write
 			time in minutes
 		:type minutes: bool
@@ -423,19 +294,23 @@ class IonChromatogram(object):
 			format the numbers in the output (default True)
 		:type minutes: bool
 
-		:return: none
-		:rtype: NoneType
-
 		:author: Lewis Lee
 		:author: Vladimir Likic
+		:author: Dominic Davis-Foster (pathlib support)
 		"""
 		
-		if not isinstance(file_name, str):
-			raise TypeError("'file_name' must be a string")
+		if not isinstance(file_name, (str, pathlib.Path)):
+			raise TypeError("'file_name' must be a string or a pathlib.Path object")
 		
-		fp = open_for_writing(file_name)
+		if not isinstance(file_name, pathlib.Path):
+			file_name = pathlib.Path(file_name)
 		
-		time_list = copy.deepcopy(self.__time_list)
+		if not file_name.parent.is_dir():
+			file_name.parent.mkdir(parents=True)
+		
+		fp = file_name.open("w")
+		
+		time_list = copy.deepcopy(self._time_list)
 		
 		if minutes:
 			for ii in range(len(time_list)):
@@ -443,9 +318,9 @@ class IonChromatogram(object):
 		
 		for ii in range(len(time_list)):
 			if formatting:
-				fp.write("%8.4f %#.6e\n" % (time_list[ii], self.__ia[ii]))
+				fp.write("%8.4f %#.6e\n" % (time_list[ii], self._intensity_array[ii]))
 			else:
-				fp.write("{} {}\n".format(time_list[ii], self.__ia[ii]))
+				fp.write("{} {}\n".format(time_list[ii], self._intensity_array[ii]))
 		
-		close_for_writing(fp)
+		fp.close()
 

@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -21,9 +21,10 @@
 import pytest
 from tests.constants import *
 from pyms.Peak import Peak
-from pyms.MassSpectrum import MassSpectrum
+from pyms.Spectrum import MassSpectrum
 from pyms.Peak.Function import peak_sum_area
 from pyms.Peak.List import *
+from pyms.Peak.List.IO import *
 
 
 def test_composite_peak(filtered_peak_list, im_i):
@@ -143,6 +144,11 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	peak.crop_mass(100, 200)
 	assert peak.UID != uid
 	
+	with pytest.raises(TypeError):
+		sele_peaks_by_rt(filtered_peak_list, [1.2, 3.4])
+	with pytest.raises(ValueError):
+		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])
+	
 	# Errors
 	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_string, test_tuple, test_int]:
 		with pytest.raises(TypeError):
@@ -153,3 +159,37 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	for type in [test_list_ints, test_list_strs, test_tuple]:
 		with pytest.raises(ValueError):
 			sele_peaks_by_rt(filtered_peak_list, type)
+
+
+def test_store_peaks(filtered_peak_list, outputdir):
+	store_peaks(filtered_peak_list, outputdir/"filtered_peak_list.dat")
+	
+	# Errors
+	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_tuple, test_int, test_string]:
+		with pytest.raises(TypeError):
+			store_peaks(type, outputdir/test_string)
+	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_tuple, test_int]:
+		with pytest.raises(TypeError):
+			store_peaks(filtered_peak_list, type)
+
+
+def test_load_peaks(filtered_peak_list, datadir, outputdir):
+	loaded_peak_list = load_peaks(outputdir/"filtered_peak_list.dat")
+
+	assert loaded_peak_list == filtered_peak_list
+
+
+	# Errors
+	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_tuple, test_int]:
+		with pytest.raises(TypeError):
+			load_peaks(type)
+	with pytest.raises(FileNotFoundError):
+		load_peaks(test_string)
+
+	with pytest.raises(IOError):
+		load_peaks(datadir/"not-an-experiment.expr")
+	with pytest.raises(IOError):
+		load_peaks(datadir/"test_list_ints.dat")
+	with pytest.raises(IOError):
+		load_peaks(datadir/"test_empty_list.dat")
+

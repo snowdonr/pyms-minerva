@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -19,35 +19,37 @@
 #############################################################################
 
 import os
+import copy
+import types
+import pickle
 
 import pytest
 from tests.constants import *
-import copy
 
 import numpy
 
 from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i, import_leco_csv
-from pyms.MassSpectrum import MassSpectrum
+from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 
 def test_IntensityMatrix(im):
 	assert isinstance(im, IntensityMatrix)
 	
-	IntensityMatrix(im.time_list, im.mass_list, im.intensity_matrix)
+	IntensityMatrix(im.time_list, im.mass_list, im.intensity_array)
 	
 	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IntensityMatrix(type, im.mass_list, im.intensity_matrix)
+			IntensityMatrix(type, im.mass_list, im.intensity_array)
 	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IntensityMatrix(im.time_list, type, im.intensity_matrix)
+			IntensityMatrix(im.time_list, type, im.intensity_array)
 	for type in [test_string, test_int, test_float, test_dict]:
 		with pytest.raises(TypeError):
 			IntensityMatrix(im.time_list, im.mass_list, type)
 	with pytest.raises(ValueError):
 		IntensityMatrix(im.time_list, im.mass_list, [test_list_ints])
 	with pytest.raises(ValueError):
-		IntensityMatrix(im.time_list, test_list_ints, im.intensity_matrix)
+		IntensityMatrix(im.time_list, test_list_ints, im.intensity_array)
 
 
 def test_len(im):
@@ -55,7 +57,7 @@ def test_len(im):
 
 
 def test_equality(im):
-	assert im == IntensityMatrix(im.time_list, im.mass_list, im.intensity_matrix)
+	assert im == IntensityMatrix(im.time_list, im.mass_list, im.intensity_array)
 	assert im != test_string
 	assert im != test_int
 	assert im != test_float
@@ -86,13 +88,18 @@ def test_size(im):
 	assert isinstance(im.size[0], int)
 	assert im.size == (2103, 450)
 
-@pytest.mark.skip(reason="Test not yet written")
 def test_iter_ms_indices(im):
-	raise NotImplementedError
+	iter_ms = im.iter_ms_indices()
+	assert isinstance(iter_ms, types.GeneratorType)
+	for index, scan in enumerate(iter_ms):
+		assert scan == index
+	
 
-@pytest.mark.skip(reason="Test not yet written")
 def test_iter_ic_indices(im):
-	raise NotImplementedError
+	iter_ic = im.iter_ic_indices()
+	assert isinstance(iter_ic, types.GeneratorType)
+	for index, intensity in enumerate(iter_ic):
+		assert intensity == index
 
 
 def test_set_ic_at_index(im):
@@ -143,18 +150,6 @@ def test_get_ic_at_mass(im):
 			im.get_ic_at_mass(type)
 
 
-def test_get_mass_list(im):
-	with pytest.warns(DeprecationWarning):
-		im.get_mass_list()
-		
-		
-def test_mass_list(im):
-	# get the list of masses (bin centers), and print the first ten
-	assert isinstance(im.mass_list, list)
-	assert isinstance(im.mass_list[0], float)
-	assert im.mass_list[0] == 50.2516
-
-
 def test_get_ms_at_index(im):
 	ms = im.get_ms_at_index(123)
 	assert isinstance(ms, MassSpectrum)
@@ -191,28 +186,6 @@ def test_get_scan_at_index(im):
 		im.get_scan_at_index(1000000)
 
 
-def test_get_min_mass(im):
-	with pytest.warns(DeprecationWarning):
-		im.get_min_mass()
-		
-		
-def test_min_mass(im):
-	# start mass
-	assert isinstance(im.min_mass, float)
-	assert im.min_mass == 50.2516
-
-
-def test_get_max_mass(im):
-	with pytest.warns(DeprecationWarning):
-		im.get_max_mass()
-		
-		
-def test_max_mass(im):
-	# end mass
-	assert isinstance(im.max_mass, float)
-	assert im.max_mass == 499.2516
-
-
 def test_mass_index(im):
 	"""
 	get_mass_at_index
@@ -242,40 +215,6 @@ def test_mass_index(im):
 		im.get_mass_at_index(1000000)
 
 
-def test_get_matrix_list(im):
-	with pytest.warns(DeprecationWarning):
-		im.get_matrix_list()
-
-
-#def test_matrix_list(im):
-#	assert isinstance(im.matrix_list, list)
-#	# todo: check values
-
-
-def test_get_time_list(im):
-	with pytest.warns(DeprecationWarning):
-		im.get_time_list()
-
-
-def test_time_list(im):
-	assert isinstance(im.time_list, list)
-	assert isinstance(im.time_list[0], float)
-	
-
-def test_get_index_at_time(im):
-	assert im.get_index_at_time(test_int) == 1168
-	assert im.get_index_at_time(test_float) == 11
-	
-	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			im.get_index_at_time(type)
-	
-	with pytest.raises(IndexError):
-		im.get_index_at_time(-1)
-	with pytest.raises(IndexError):
-		im.get_index_at_time(1000000)
-		
-		
 def test_crop_mass(im):
 	im = copy.deepcopy(im)
 	
@@ -327,7 +266,7 @@ def test_reduce_mass_spectra(im):
 			im.reduce_mass_spectra(type)
 
 	
-def test_export_ascii(im):
+def test_export_ascii(im, outputdir):
 	"""
 	Export the entire IntensityMatrix as CSV. This will create
 	data.im.csv, data.mz.csv, and data.rt.csv where
@@ -335,8 +274,8 @@ def test_export_ascii(im):
 	vector, and m/z vector in the CSV format
 	"""
 	
-	im.export_ascii(os.path.join("output", "im_ascii"))
-	im.export_ascii(os.path.join("output", "im_csv"))
+	im.export_ascii(outputdir/"im_ascii")
+	im.export_ascii(outputdir/"im_csv", format="csv")
 	
 	# TODO check exported files
 	
@@ -347,27 +286,27 @@ def test_export_ascii(im):
 			im.export_ascii(test_string, type)
 
 	
-def test_export_leco_csv(im):
+def test_export_leco_csv(im, outputdir):
 	"""
 	Export the entire IntensityMatrix as LECO CSV. This is
 	useful for import into AnalyzerPro
 	"""
 	
-	im.export_leco_csv(os.path.join("output", "im_leco.csv"))
+	im.export_leco_csv(outputdir/"im_leco.csv")
 	
 	for type in [test_dict, test_list_ints, test_list_strs, test_int, test_float]:
 		with pytest.raises(TypeError):
 			im.export_leco_csv(type)
 
 	
-def test_import_leco_csv(im):
-	imported_im = import_leco_csv(os.path.join("output", "im_leco.csv"))
+def test_import_leco_csv(im, outputdir):
+	imported_im = import_leco_csv(outputdir/"im_leco.csv")
 	assert isinstance(imported_im, IntensityMatrix)
 	for imported, original in zip(imported_im.time_list, im.time_list):
 		assert f"{imported:.3f}" == f"{original:.3f}"
 	for imported, original in zip(imported_im.mass_list, im.mass_list):
 		assert f"{imported:.0f}" == f"{original:.0f}"
-	for imported1, original1 in zip(imported_im.intensity_matrix, im.intensity_matrix):
+	for imported1, original1 in zip(imported_im.intensity_array, im.intensity_array):
 		for imported2, original2 in zip(imported1, original1):
 			assert f"{imported2:.6e}" == f"{original2:.6e}"
 	
@@ -477,6 +416,151 @@ def test_build_intensity_matrix_i(data, im_i):
 		with pytest.raises(TypeError):
 			build_intensity_matrix_i(data, bin_right=type)
 
+
+# Inherited Methods from pymsBaseClass
+
+def test_dump(im_i, outputdir):
+	im_i.dump(outputdir / "im_i_dump.dat")
+	
+	# Errors
+	for type in [test_list_strs, test_dict, test_list_ints, test_tuple, test_int, test_float]:
+		with pytest.raises(TypeError):
+			im_i.dump(type)
+	
+	# Read and check values
+	assert (outputdir / "im_i_dump.dat").exists()
+	loaded_im_i = pickle.load((outputdir / "im_i_dump.dat").open("rb"))
+	assert loaded_im_i == im_i
+	assert len(loaded_im_i) == len(im_i)
+
+
+# Inherited Methods from TimeListMixin
+
+def test_time_list(im):
+	time = im.time_list
+	assert isinstance(time, list)
+	# number of retention times
+	assert len(time) == 2103
+	# retention time of 1st scan:
+	assert isinstance(time[0], float)
+	assert time[0] == 1.05200003833
+
+
+def test_get_time_list(im):
+	with pytest.warns(DeprecationWarning):
+		im.get_time_list()
+
+
+# Inherited Methods from MassListMixin
+
+def test_get_mass_list(im):
+	with pytest.warns(DeprecationWarning):
+		im.get_mass_list()
+
+
+def test_mass_list(im):
+	# get the list of masses (bin centers), and print the first ten
+	assert isinstance(im.mass_list, list)
+	assert isinstance(im.mass_list[0], float)
+	assert im.mass_list[0] == 50.2516
+
+
+# Inherited Methods from MaxMinMassMixin
+
+def test_get_min_mass(im):
+	with pytest.warns(DeprecationWarning):
+		im.get_min_mass()
+
+
+def test_min_mass(im):
+	# start mass
+	assert isinstance(im.min_mass, float)
+	assert im.min_mass == 50.2516
+
+
+def test_get_max_mass(im):
+	with pytest.warns(DeprecationWarning):
+		im.get_max_mass()
+
+
+def test_max_mass(im):
+	# end mass
+	assert isinstance(im.max_mass, float)
+	assert im.max_mass == 499.2516
+
+
+# Inherited Methods from IntensityArrayMixin
+
+def test_intensity_array(im):
+	assert isinstance(im.intensity_array, numpy.ndarray)
+	assert isinstance(im.intensity_array[0], numpy.ndarray)
+	assert isinstance(im.intensity_array[0][0], float)
+	assert im.intensity_array[0][0] == 0.0
+	assert im.intensity_array[2][3] == 1216.0
+	print(im.intensity_array)
+	
+
+def test_intensity_matrix(im):
+	assert isinstance(im.intensity_matrix, numpy.ndarray)
+	assert isinstance(im.intensity_matrix[0], numpy.ndarray)
+	assert isinstance(im.intensity_matrix[0][0], float)
+	assert im.intensity_matrix[0][0] == 0.0
+	assert im.intensity_matrix[2][3] == 1216.0
+	assert im.intensity_matrix[0][0] == im.intensity_array[0][0]
+	assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
+
+
+def test_get_intensity_array(im):
+	with pytest.warns(DeprecationWarning):
+		im.get_intensity_array()
+
+
+def test_intensity_array_list(im):
+	assert isinstance(im.intensity_array_list, list)
+	assert isinstance(im.intensity_array_list[0], list)
+	assert isinstance(im.intensity_array_list[0][0], float)
+	assert im.intensity_array_list[0][0] == 0.0
+	assert im.intensity_array_list[2][3] == 1216.0
+	assert im.intensity_array[0][0] == im.intensity_array_list[0][0]
+	assert im.intensity_array_list == im.intensity_array.tolist()
+	
+
+def test_get_matrix_list(im):
+	with pytest.warns(DeprecationWarning):
+		im.get_matrix_list()
+
+
+def test_matrix_list(im):
+	assert isinstance(im.matrix_list, numpy.ndarray)
+
+
+# Inherited methods from GetIndexTimeMixin
+
+def test_get_index_at_time(im):
+	assert im.get_index_at_time(test_int) == 1168
+	assert im.get_index_at_time(test_float) == 11
+	
+	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
+		with pytest.raises(TypeError):
+			im.get_index_at_time(type)
+	
+	with pytest.raises(IndexError):
+		im.get_index_at_time(-1)
+	with pytest.raises(IndexError):
+		im.get_index_at_time(1000000)
+
+
+def test_get_time_at_index(im):
+	assert im.get_time_at_index(test_int) == 1304.15599823
+	
+	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_float]:
+		with pytest.raises(TypeError):
+			im.get_time_at_index(type)
+	
+	with pytest.raises(IndexError):
+		im.get_time_at_index(-1)
+	with pytest.raises(IndexError):
+		im.get_time_at_index(1000000)
 
 
 # TODO; Saving data

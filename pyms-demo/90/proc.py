@@ -4,13 +4,11 @@ from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Baseline.TopHat import tophat
 from pyms.Display.Class import Display
 from pyms.Peak.Function import peak_sum_area
-from pyms.Peak.IO import store_peaks
 from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann, \
     rel_threshold, num_ions_threshold
-from pyms.Simulator.Function import gcms_sim, add_gaussv_noise
+from pyms.Simulator import gcms_sim
 
-
- # read in raw data
+# read in raw data
 andi_file = "data/gc01_0812_066.cdf"
 data = ANDI_reader(andi_file)
 
@@ -19,7 +17,7 @@ data.trim(4101, 4350)
 # Build Intensity Matrix
 real_im = build_intensity_matrix_i(data)
 
-n_scan, n_mz = real_im.get_size()
+n_scan, n_mz = real_im.size
 
  # perform necessary pre filtering
 for ii in range(n_mz):
@@ -60,7 +58,7 @@ print("Number of filtered peaks in real data: ", len(real_peak_list))
 # Set the peak areas
 for peak in real_peak_list:
     area = peak_sum_area(real_im, peak)
-    peak.set_area(area)
+    peak.area = area
     
     
 # real_peak_list is PyMassSpec' best guess at the true peak list

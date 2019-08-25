@@ -73,7 +73,7 @@ def test_times(data):
 
 def test_tic(data):
 	tic = data.get_tic()
-	from pyms.GCMS.Class import IonChromatogram
+	from pyms.IonChromatogram import IonChromatogram
 	assert isinstance(tic, IonChromatogram)
 	#number of scans in TIC
 	assert len(tic) == 2103
@@ -86,7 +86,7 @@ def test_tic(data):
 def test_scans(data):
 	# raw scans
 	scans = data.get_scan_list()
-	from pyms.GCMS.Class import Scan
+	from pyms.Scan import Scan
 	
 	assert isinstance(scans, list)
 	assert isinstance(scans[0],Scan)

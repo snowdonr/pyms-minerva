@@ -2,65 +2,119 @@
 Provides mathematical functions
 """
 
-#############################################################################
-#                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 
 import copy
 import numpy
 import math
+from statistics import mean, median
+from statistics import stdev as std
 
-from pyms.Utils.Error import pymsError
-from pyms.Utils.Utils import is_list, is_number
+from pyms.base import pymsError
+from pyms.base import _list_types
 
 
-def median(v):
-    """
-    Returns a median of a list or numpy array
-
-    :param v: Input list or array
-    :type v: list or numpy.core.ndarray
-    :return: The median of the input list
-    :rtype: list
-
-    :author: Vladimir Likic
-    """
-
-    if not is_list(v):
-        raise TypeError("'v' must be a list or array")
-
-    local_data = copy.deepcopy(v)
-    local_data.sort()
-    N = len(local_data)
-
-    if (N % 2) == 0:
-        # even number of points
-        K = N//2 - 1 
-        median = (local_data[K] + local_data[K+1])/2.0
-    else:
-        # odd number of points
-        K = (N - 1)//2 - 1
-        median = local_data[K+1]
-
-    return median
+# def median(v):
+#     """
+#     Returns a median of a list or numpy array
+#
+#     :param v: Input list or array
+#     :type v: list or numpy.core.ndarray
+#     :return: The median of the input list
+#     :rtype: list
+#
+#     :author: Vladimir Likic
+#     """
+#
+#     if not is_list(v):
+#         raise TypeError("'v' must be a list or array")
+#
+#     local_data = copy.deepcopy(v)
+#     local_data.sort()
+#     N = len(local_data)
+#
+#     if (N % 2) == 0:
+#         # even number of points
+#         K = N//2 - 1
+#         median = (local_data[K] + local_data[K+1])/2.0
+#     else:
+#         # odd number of points
+#         K = (N - 1)//2 - 1
+#         median = local_data[K+1]
+#
+#     return median
+#
+#
+# def mean(v):
+#     """
+#     Calculates the mean
+#
+#     :param v: A list or array
+#     :type v: list, tuple, or numpy.core.ndarray
+#
+#     :return: Mean
+#     :rtype: float
+#
+#     :author: Vladimir Likic
+#     """
+#
+#     if not is_list(v):
+#         raise TypeError("'v' must be a list or array")
+#
+#     s = 0.0
+#     for e in v:
+#         s = s + e
+#     s_mean = s / float(len(v))
+#
+#     return s_mean
+#
+#
+# def std(v):
+#     """
+#     Calculates standard deviation
+#
+#     :param v: A list or array
+#     :type v: list, tuple, or numpy.core.ndarray
+#
+#     :return: Mean
+#     :rtype: float
+#
+#     :author: Vladimir Likic
+#     """
+#
+#     if not is_list(v):
+#         raise TypeError("'v' must be a list or array")
+#
+#     v_mean = mean(v)
+#
+#     s = 0.0
+#     for e in v:
+#         d = e - v_mean
+#         s = s + d * d
+#     s_mean = s / float(len(v) - 1)
+#     v_std = math.sqrt(s_mean)
+#
+#     return v_std
 
 
 def vector_by_step(vstart, vstop, vstep):
@@ -80,7 +134,7 @@ def vector_by_step(vstart, vstop, vstep):
     :author: Vladimir Likic
     """
 
-    if not is_number(vstart) or not is_number(vstop) or not is_number(vstep):
+    if not isinstance(vstart, (int, float)) or not isinstance(vstop, (int, float)) or not isinstance(vstep, (int, float)):
         raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
 
     v = []
@@ -106,7 +160,7 @@ def MAD(v):
     :author: Vladimir Likic
     """
 
-    if not is_list(v):
+    if not isinstance(v, _list_types):
         raise TypeError("'v' must be a list or array")
 
     m = median(v)
@@ -136,7 +190,7 @@ def amin(v):
     :author: Vladimir Likic
     """
 
-    if not is_list(v):
+    if not isinstance(v, _list_types):
         raise TypeError("'v' must be a list or array")
 
     minv = max(v) # built-in max() function
@@ -153,58 +207,6 @@ def amin(v):
     return mini, minv
 
 
-def mean(v):
-
-    """
-    Calculates the mean
-
-    :param v: A list or array
-    :type v: list, tuple, or numpy.core.ndarray
-
-    :return: Mean
-    :rtype: float
-
-    :author: Vladimir Likic
-    """
-
-    if not is_list(v):
-        raise TypeError("'v' must be a list or array")
-        
-    s = 0.0
-    for e in v:
-        s = s + e 
-    s_mean = s/float(len(v))
-
-    return s_mean
-
-
-def std(v):
-
-    """
-    Calculates standard deviation
-
-    :param v: A list or array
-    :type v: list, tuple, or numpy.core.ndarray
-
-    :return: Mean
-    :rtype: float
-
-    :author: Vladimir Likic
-    """
-
-    if not is_list(v):
-        raise TypeError("'v' must be a list or array")
-
-    v_mean = mean(v)
-
-    s = 0.0 
-    for e in v:
-        d = e - v_mean
-        s = s + d*d
-    s_mean = s/float(len(v)-1)
-    v_std = math.sqrt(s_mean)
-
-    return v_std
 
 
 def rmsd(list1, list2):
@@ -224,10 +226,10 @@ def rmsd(list1, list2):
     :author: Vladimir Likic
     """
 
-    if not is_list(list1):
+    if not isinstance(list1, _list_types):
         raise TypeError("'list1' must be a list or array")
 
-    if not is_list(list2):
+    if not isinstance(list2, _list_types):
         raise TypeError("'list2' must be a list or array")
 
     sum = 0.0

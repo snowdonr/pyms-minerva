@@ -7,11 +7,11 @@ from numpy import *
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.GCMS.Function import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Baseline.TopHat import tophat
+from pyms.TopHat import tophat
 
-from pyms.Peak.IO import store_peaks
+from pyms.Peak.List.IO import store_peaks
  
-from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann, \
+from pyms.BillerBiemann import BillerBiemann, \
     rel_threshold, num_ions_threshold
   
  # read in raw data
@@ -21,7 +21,7 @@ data = ANDI_reader(andi_file)
 data.trim("500s", "2000s")
 # Build Intensity Matrix
 im = build_intensity_matrix_i(data)
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 
  # perform necessary pre filtering

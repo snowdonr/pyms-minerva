@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #

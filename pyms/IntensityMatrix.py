@@ -2,46 +2,46 @@
 Class to model Intensity Matrix
 """
 
-#############################################################################
-#                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 
-import numpy
 import math
 import copy
-
 import pathlib
-
 from warnings import warn
 
+import numpy
 import deprecation
+
 from pyms import __version__
-
-from pyms.Utils.Utils import is_str, is_list
-from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
+from pyms.base import pymsBaseClass
+from pyms.Mixins import TimeListMixin, MassListMixin, IntensityArrayMixin, MaxMinMassMixin, GetIndexTimeMixin
+from pyms.base import _list_types
+from pyms.Utils.IO import save_data
 from pyms.IonChromatogram import IonChromatogram
-from pyms.MassSpectrum import MassSpectrum
+from pyms.Spectrum import MassSpectrum
 
 
-class IntensityMatrix(object):
+class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin):
 	"""
 	Intensity matrix of binned raw data
 
@@ -66,34 +66,36 @@ class IntensityMatrix(object):
 		"""
 		
 		# sanity check
-		if not is_list(time_list) or not isinstance(time_list[0], (int, float)):
+		if not isinstance(time_list, _list_types) or not isinstance(time_list[0], (int, float)):
 			raise TypeError("'time_list' must be a list of numbers")
-		if not is_list(mass_list) or not isinstance(mass_list[0], (int, float)):
+		
+		if not isinstance(mass_list, _list_types) or not isinstance(mass_list[0], (int, float)):
 			raise TypeError("'mass_list' must be a list of numbers")
+
 		if not isinstance(intensity_array, numpy.ndarray):
-			if not is_list(intensity_array) \
-					or not is_list(intensity_array[0]) \
+			if not isinstance(intensity_array, _list_types) \
+					or not isinstance(intensity_array[0], _list_types) \
 					or not isinstance(intensity_array[0][0], (int, float)):
 				raise TypeError("'intensity_array' must be a list, of a list, of numbers")
+		
+			intensity_array = numpy.array(intensity_array)
+		
 			if not len(time_list) == len(intensity_array):
 				raise ValueError("'time_list' is not the same length as 'intensity_array'")
+		
 		if not len(mass_list) == len(intensity_array[0]):
 			raise ValueError("'mass_list' is not the same size as 'intensity_array'")
 		
-		self.__time_list = time_list
-		self.__mass_list = mass_list
+		self._time_list = time_list
+		self._mass_list = mass_list
 		
-		if isinstance(intensity_array, numpy.ndarray):
-			self.__intensity_array = intensity_array
-		else:
-			self.__intensity_array = numpy.array(intensity_array)
+		self._intensity_array = intensity_array
 		
+		self._min_rt = min(time_list)
+		self._max_rt = max(time_list)
 		
-		self.__min_rt = min(time_list)
-		self.__max_rt = max(time_list)
-		
-		self.__min_mass = min(mass_list)
-		self.__max_mass = max(mass_list)
+		self._min_mass = min(mass_list)
+		self._max_mass = max(mass_list)
 		
 		
 		# Try to include parallelism.
@@ -132,7 +134,7 @@ class IntensityMatrix(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'IntensityMatrix.local_size' instead")
+							details=f"Use '{__qualname__}.local_size' instead")
 	def get_local_size(self):
 		"""
 		Gets the local size of intensity matrix.
@@ -165,7 +167,7 @@ class IntensityMatrix(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'IntensityMatrix.size' instead")
+							details=f"Use '{__qualname__}.size' instead")
 	def get_size(self):
 		"""
 		Gets the size of intensity matrix
@@ -195,8 +197,8 @@ class IntensityMatrix(object):
 		:author: Vladimir Likic
 		"""
 		
-		n_scan = len(self.__intensity_array)
-		n_mz = len(self.__intensity_array[0])
+		n_scan = len(self._intensity_array)
+		n_mz = len(self._intensity_array[0])
 		
 		return n_scan, n_mz
 	
@@ -220,7 +222,7 @@ class IntensityMatrix(object):
 		
 		else:
 			# Iterate over global indices.
-			n_scan = len(self.__intensity_array)
+			n_scan = len(self._intensity_array)
 			for i in range(0, n_scan):
 				yield i
 	
@@ -244,7 +246,7 @@ class IntensityMatrix(object):
 		
 		else:
 			# Iterate over global indices.
-			n_mz = len(self.__intensity_array[0])
+			n_mz = len(self._intensity_array[0])
 			for i in range(0, n_mz):
 				yield i
 	
@@ -276,20 +278,20 @@ class IntensityMatrix(object):
 		ia = ic.intensity_array
 		
 		# check if the dimension is ok
-		if len(ia) != len(self.__intensity_array):
+		if len(ia) != len(self._intensity_array):
 			raise ValueError("ion chromatogram incompatible with the intensity matrix")
 		else:
 			N = len(ia)
 		
 		# Convert 'ia' to a list. By convention, the attribute
-		# __intensity_array of the class IntensityMatrix is a list
+		# _intensity_array of the class IntensityMatrix is a list
 		# of lists. This makes pickling instances of IntensityMatrix
 		# practically possible, since pickling numpy.array objects
 		# produces ten times larger files compared to pickling python
 		# lists.
 		ial = ia.tolist()
 		for i in range(N):
-			self.__intensity_array[i][ix] = ial[i]
+			self._intensity_array[i][ix] = ial[i]
 	
 	def get_ic_at_index(self, ix):
 		
@@ -312,12 +314,12 @@ class IntensityMatrix(object):
 			raise TypeError("'ix' must be an integer")
 		
 		ia = []
-		for i in range(len(self.__intensity_array)):
-			ia.append(self.__intensity_array[i][ix])
+		for i in range(len(self._intensity_array)):
+			ia.append(self._intensity_array[i][ix])
 		
 		ic_ia = numpy.array(ia)
 		mass = self.get_mass_at_index(ix)
-		rt = copy.deepcopy(self.__time_list)
+		rt = copy.deepcopy(self._time_list)
 		
 		return IonChromatogram(ic_ia, rt, mass)
 	
@@ -343,88 +345,13 @@ class IntensityMatrix(object):
 		if mass is None:
 			return self.tic
 		
-		if mass < self.__min_mass or mass > self.__max_mass:
-			print("min mass: ", self.__min_mass, "max mass:", self.__max_mass)
+		if mass < self._min_mass or mass > self._max_mass:
+			print("min mass: ", self._min_mass, "max mass:", self._max_mass)
 			raise IndexError("mass is out of range")
 		
 		ix = self.get_index_of_mass(mass)
 		
 		return self.get_ic_at_index(ix)
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IntensityMatrix.mass_list' instead")
-	def get_mass_list(self):
-		"""
-		Returns a list of the binned masses
-
-		:return: Binned mass list
-		:rtype: list
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.mass_list
-	
-	@property
-	def mass_list(self):
-		"""
-		Returns a list of the binned masses
-
-		:return: Binned mass list
-		:rtype: list
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.__mass_list[:]
-	
-	@property
-	def intensity_array(self):
-		"""
-		Returns a copy of the intensity array as a
-			list of lists of floats
-
-		:return: Matrix of intensity values
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		
-		return numpy.copy(self.__intensity_array)\
-	
-	@property
-	def intensity_matrix(self):
-		"""
-		Returns a copy of the intensity matrix as a
-			list of lists of floats
-
-		:return: Matrix of intensity values
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		
-		return numpy.copy(self.__intensity_array)
-	
-	@property
-	def intensity_array_list(self):
-		"""
-		Returns a copy of the intensity array as a
-			list of lists of floats
-
-		:return: Matrix of intensity values
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.__intensity_array.tolist()
-		
 	
 	def get_ms_at_index(self, ix):
 		
@@ -435,7 +362,7 @@ class IntensityMatrix(object):
 		:type ix: int
 
 		:return: Mass spectrum
-		:rtype: pyms.GCMS.Class.MassSpectrum
+		:rtype: pyms.MassSpectrum.MassSpectrum
 
 		:author: Andrew Isaac
 		"""
@@ -464,66 +391,10 @@ class IntensityMatrix(object):
 		if not isinstance(ix, int):
 			raise TypeError("'ix' must be an an integer")
 		
-		if ix < 0 or ix >= len(self.__intensity_array):
+		if ix < 0 or ix >= len(self._intensity_array):
 			raise IndexError("index out of range")
 		
-		return self.__intensity_array[ix].tolist()
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IntensityMatrix.min_mass' instead")
-	def get_min_mass(self):
-		"""
-		Returns the maximum binned mass
-
-		:return: The maximum binned mass
-		:rtype: float
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.min_mass
-	
-	@property
-	def min_mass(self):
-		"""
-		Returns the maximum binned mass
-
-		:return: The maximum binned mass
-		:rtype: float
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.__min_mass
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IntensityMatrix.max_mass' instead")
-	def get_max_mass(self):
-		"""
-		Returns the maximum binned mass
-
-		:return: The maximum binned mass
-		:rtype: float
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.max_mass
-	
-	@property
-	def max_mass(self):
-		"""
-		Returns the maximum binned mass
-
-		:return: The maximum binned mass
-		:rtype: float
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.__max_mass
+		return self._intensity_array[ix].tolist()
 	
 	def get_mass_at_index(self, ix):
 		
@@ -542,10 +413,10 @@ class IntensityMatrix(object):
 		if not isinstance(ix, int):
 			raise TypeError("'ix' must be an an integer")
 		
-		if ix < 0 or ix >= len(self.__mass_list):
+		if ix < 0 or ix >= len(self._mass_list):
 			raise IndexError("index out of range")
 		
-		return self.__mass_list[ix]
+		return self._mass_list[ix]
 	
 	def get_index_of_mass(self, mass):
 		"""
@@ -562,110 +433,14 @@ class IntensityMatrix(object):
 		:author: Andrew Isaac
 		"""
 		
-		best = self.__max_mass
+		best = self._max_mass
 		ix = 0
-		for ii in range(len(self.__mass_list)):
-			tmp = abs(self.__mass_list[ii] - mass)
+		for ii in range(len(self._mass_list)):
+			tmp = abs(self._mass_list[ii] - mass)
 			if tmp < best:
 				best = tmp
 				ix = ii
 		return ix
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IntensityMatrix.matrix_list' instead")
-	def get_matrix_list(self):
-		
-		"""
-		Returns a copy of the intensity matrix as a
-			list of lists of floats
-
-		:return: Matrix of intensity values
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.intensity_array
-	
-	@property
-	def matrix_list(self):
-		"""
-		Returns a the intensity matrix as a
-			list of lists of floats
-
-		:return: Matrix of intensity values
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		warn("Use 'IntensityMatrix.intensity_array' instead", DeprecationWarning)
-		return self.intensity_array
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'IntensityMatrix.time_list' instead")
-	def get_time_list(self):
-		"""
-		Returns a copy of the time list
-
-		:return: List of retention times
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.time_list
-	
-	@property
-	def time_list(self):
-		"""
-		Returns a copy of the time list
-
-		:return: List of retention times
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-		
-		return self.__time_list[:]
-	
-	def get_index_at_time(self, time):
-		
-		"""
-		Returns the nearest index corresponding to the given time
-
-		:param time: Time in seconds
-		:type time: float
-
-		:return: Nearest index corresponding to given time
-		:rtype: int
-
-		:author: Lewis Lee
-		:author: Tim Erwin
-		:author: Vladimir Likic
-		"""
-		
-		if not isinstance(time, (int, float)):
-			raise TypeError("'time' must be a number")
-		
-		if time < min(self.__time_list) or time > max(self.__time_list):
-			raise IndexError("time %.2f is out of bounds (min: %.2f, max: %.2f)" %
-							 (time, self.__min_rt, self.__max_rt))
-		
-		time_list = self.__time_list
-		time_diff_min = max(self.__time_list)
-		ix_match = None
-		
-		for ix in range(len(time_list)):
-			
-			time_diff = math.fabs(time - time_list[ix])
-			
-			if time_diff < time_diff_min:
-				ix_match = ix
-				time_diff_min = time_diff
-		
-		return ix_match
 	
 	def crop_mass(self, mass_min, mass_max):
 		
@@ -687,15 +462,15 @@ class IntensityMatrix(object):
 			raise TypeError("'mass_min' and 'mass_max' must be numbers")
 		if mass_min >= mass_max:
 			raise ValueError("'mass_min' must be less than 'mass_max'")
-		if mass_min < self.__min_mass:
+		if mass_min < self._min_mass:
 			raise ValueError("'mass_min' is less than the smallest mass: %.3f" %
-							 self.__min_mass)
-		if mass_max > self.__max_mass:
+							 self._min_mass)
+		if mass_max > self._max_mass:
 			raise ValueError("'mass_max' is greater than the largest mass: %.3f" %
-							 self.__max_mass)
+							 self._max_mass)
 		
 		# pre build mass_list and list of indecies
-		mass_list = self.__mass_list
+		mass_list = self._mass_list
 		new_mass_list = []
 		ii_list = []
 		for ii in range(len(mass_list)):
@@ -705,17 +480,17 @@ class IntensityMatrix(object):
 				ii_list.append(ii)
 		
 		# update intensity matrix
-		im = self.__intensity_array.tolist()
+		im = self._intensity_array.tolist()
 		for spec_jj in range(len(im)):
 			new_spec = []
 			for ii in ii_list:
 				new_spec.append(im[spec_jj][ii])
 			im[spec_jj] = new_spec
-		self.__intensity_array = numpy.array(im)
+		self._intensity_array = numpy.array(im)
 		
-		self.__mass_list = new_mass_list
-		self.__min_mass = min(new_mass_list)
-		self.__max_mass = max(new_mass_list)
+		self._mass_list = new_mass_list
+		self._min_mass = min(new_mass_list)
+		self._max_mass = max(new_mass_list)
 	
 	def null_mass(self, mass):
 		
@@ -730,13 +505,13 @@ class IntensityMatrix(object):
 		
 		if not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be numbers")
-		if mass < self.__min_mass or mass > self.__max_mass:
-			raise IndexError("'mass' not in mass range: %.3f to %.3f" % (self.__min_mass, \
-																		 self.__max_mass))
+		if mass < self._min_mass or mass > self._max_mass:
+			raise IndexError("'mass' not in mass range: %.3f to %.3f" % (self._min_mass, \
+																		 self._max_mass))
 		
 		ii = self.get_index_of_mass(mass)
 		
-		im = self.__intensity_array
+		im = self._intensity_array
 		for spec_jj in range(len(im)):
 			im[spec_jj][ii] = 0
 	
@@ -756,10 +531,10 @@ class IntensityMatrix(object):
 			raise TypeError("'N' must be a number")
 		
 		# loop over all mass spectral scans
-		for ii in range(len(self.__intensity_array)):
+		for ii in range(len(self._intensity_array)):
 			
 			# get the next mass spectrum as list of intensities
-			intensity_list = self.__intensity_array[ii]
+			intensity_list = self._intensity_array[ii]
 			n = len(intensity_list)
 			
 			# get the indices of top N intensities
@@ -775,7 +550,7 @@ class IntensityMatrix(object):
 				if jj in top_indices:
 					intensity_list_new[jj] = intensity_list[jj]
 			
-			self.__intensity_array[ii] = intensity_list_new
+			self._intensity_array[ii] = intensity_list_new
 	
 	def export_ascii(self, root_name, format='dat'):
 		"""
@@ -789,7 +564,7 @@ class IntensityMatrix(object):
 			and NAME.mz.csv.
 
 		:param root_name: Root name for the output files
-		:type root_name: str
+		:type root_name: str or pathlib.Path
 		:param format:
 		:type format: str
 
@@ -800,53 +575,65 @@ class IntensityMatrix(object):
 		:author: Milica Ng
 		:author: Andrew Isaac
 		:author: Vladimir Likic
+		:author: Dominic Davis-Foster (pathlib support)
 		"""
 		
-		if not is_str(root_name):
-			raise TypeError("'root_name' must be a string")
+		if not isinstance(root_name, (str, pathlib.Path)):
+			raise TypeError("'root_name' must be a string or a pathlib.Path object")
+		
+		if not isinstance(root_name, pathlib.Path):
+			root_name = pathlib.Path(root_name)
+		
+		if not root_name.parent.is_dir():
+			root_name.parent.mkdir(parents=True)
 		
 		if format == 'dat':
 			separator = " "
-			extension = ".dat"
 		elif format == 'csv':
 			separator = ","
-			extension = ".csv"
 		else:
 			raise ValueError(f"Unknown format '{format}'. Only 'dat' and 'csv' supported")
 		
 		# export 2D matrix of intensities
-		vals = self.__intensity_array
-		save_data(root_name + '.im' + extension, vals, sep=separator)
+		vals = self._intensity_array
+		save_data(f"{root_name}.im.{format}", vals, sep=separator)
 		
 		# export 1D vector of m/z's, corresponding to rows of
 		# the intensity matrix
-		mass_list = self.__mass_list
-		save_data(root_name + '.mz' + extension, mass_list, sep=separator)
+		mass_list = self._mass_list
+		save_data(f"{root_name}.mz.{format}", mass_list, sep=separator)
 		
 		# export 1D vector of retention times, corresponding to
 		# columns of the intensity matrix
-		time_list = self.__time_list
-		save_data(root_name + '.rt' + extension, time_list, sep=separator)
+		time_list = self._time_list
+		save_data(f"{root_name}.rt.{format}", time_list, sep=separator)
 	
 	def export_leco_csv(self, file_name):
 		"""
 		Exports data in LECO CSV format
 
-		:param file_name: File name
-		:type file_name: str
+		:param file_name: The name of the file
+		:type file_name: str or pathlib.Path
 
 		:author: Andrew Isaac
 		:author: Vladimir Likic
+		:author: Dominic Davis-Foster (pathlib support)
 		"""
 		
-		if not is_str(file_name):
-			raise TypeError("'file_name' must be a string")
+		if not isinstance(file_name, (str, pathlib.Path)):
+			raise TypeError("'file_name' must be a string or a pathlib.Path object")
 		
-		mass_list = self.__mass_list
-		time_list = self.__time_list
-		vals = self.__intensity_array
+		if not isinstance(file_name, pathlib.Path):
+			file_name = pathlib.Path(file_name)
 		
-		fp = open_for_writing(file_name)
+		if not file_name.parent.is_dir():
+			file_name.parent.mkdir(parents=True)
+		
+		mass_list = self._mass_list
+		time_list = self._time_list
+		vals = self._intensity_array
+		
+		fp = file_name.open("w")
 		
 		# Format is text header with:
 		# "Scan","Time",...
@@ -875,7 +662,7 @@ class IntensityMatrix(object):
 					raise TypeError("datum not a number")
 			fp.write("\r\n")
 		
-		close_for_writing(fp)
+		fp.close()
 	
 	
 def import_leco_csv(file_name):
@@ -886,7 +673,7 @@ def import_leco_csv(file_name):
 	:type file_name: str or pathlib.Path
 
 	:return: Data as an IntensityMatrix
-	:rtype: pyms.GCMS.Class.IntensityMatrix
+	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Andrew Isaac
 	:author: Dominic Davis-Foster (pathlib support)
@@ -984,7 +771,7 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 	:type data: pyms.GCMS.Class.GCMS_data
 
 	:param bin_interval: interval between bin centres (default 1)
-	:type bin_interval: IntType or float
+	:type bin_interval: int or float
 
 	:param bin_left: left bin boundary offset (default 0.5)
 	:type bin_left: float
@@ -996,7 +783,7 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 	:type min_mass: bool
 
 	:return: Binned IntensityMatrix object
-	:rtype: pyms.GCMS.Class.IntensityMatrix
+	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -1035,7 +822,7 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 	:type bin_right: float
 
 	:return: Binned IntensityMatrix object
-	:rtype: pyms.GCMS.Class.IntensityMatrix
+	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -1066,20 +853,20 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 	Fills the intensity values for all bins
 
 	:param data: Raw GCMS data
-	:type data: pyms.GCMS.Class.GCMS_data
+	:type data: class:`pyms.GCMS.Class.GCMS_data`
 	:param min_mass: minimum mass value
-	:type min_mass: IntType or float
+	:type min_mass: int or float
 	:param max_mass: maximum mass value
-	:type max_mass: IntType or float
+	:type max_mass: int or float
 	:param bin_interval: interval between bin centres
-	:type bin_interval: IntType or float
+	:type bin_interval: int or float
 	:param bin_left: left bin boundary offset
 	:type bin_left: float
 	:param bin_right: right bin boundary offset
 	:type bin_right: float
 
 	:return: Binned IntensityMatrix object
-	:rtype: pyms.GCMS.Class.IntensityMatrix
+	:rtype: class:`pyms.IntensityMatrix.IntensityMatrix`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -1127,20 +914,20 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 	Fills the intensity values for all bins
 
 	:param data: Raw GCMS data
-	:type data: pyms.GCMS.Class.GCMS_data
+	:type data: class:`pyms.GCMS.Class.GCMS_data`
 	:param min_mass: minimum mass value
-	:type min_mass: IntType or float
+	:type min_mass: int or float
 	:param max_mass: maximum mass value
-	:type max_mass: IntType or float
+	:type max_mass: int or float
 	:param bin_interval: interval between bin centres
-	:type bin_interval: IntType or float
+	:type bin_interval: int or float
 	:param bin_left: left bin boundary offset
 	:type bin_left: float
 	:param bin_right: right bin boundary offset
 	:type bin_right: float
 
 	:return: Binned IntensityMatrix object
-	:rtype: pyms.GCMS.Class.IntensityMatrix
+	:rtype: class:`pyms.IntensityMatrix.IntensityMatrix`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac

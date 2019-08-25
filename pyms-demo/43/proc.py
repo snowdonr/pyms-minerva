@@ -22,7 +22,7 @@ im = build_intensity_matrix_i(data)
 
 off = im.min_mass
 print(off)
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 # process data
 print(" Processing ICs")

@@ -3,7 +3,7 @@
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -25,7 +25,7 @@
 
 import matplotlib.pyplot as plt
 
-from pyms.GCMS.Class import IonChromatogram
+from pyms.IonChromatogram import IonChromatogram
 
 
 def plot_ic(ic, line_label=" ", plot_title=" "):
@@ -33,7 +33,7 @@ def plot_ic(ic, line_label=" ", plot_title=" "):
 	Plots an Ion Chromatogram or List of same
 	
 	:param ic: The ion chromatogram
-	:type ic: class:`pyms.GCMS.Class.IonChromatogram`
+	:type ic: class:`pyms.IonChromatogram.IonChromatogram`
 	
 	:param line_label: plot legend
 	:type line_label: str, optional
@@ -70,7 +70,7 @@ def plot_ms(mass_spec, plot_title=" "):
 	Plots the mass spec given a list of masses and intensities
 	
 	:param mass_spec: The mass spectrum at a given time/index
-	:type mass_spec: class:`GCMS.Class.MassSpectrum`
+	:type mass_spec: class:`MassSpectrum.MassSpectrum`
 	
 	:param plot_title: A label for the plot
 	:type plot_title: str, optional

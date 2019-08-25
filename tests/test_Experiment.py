@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -18,12 +18,11 @@
 #                                                                           #
 #############################################################################
 
-import os
 import pytest
 from tests.constants import *
 import copy
 
-from pyms.Experiment.Class import Experiment
+from pyms.Experiment  import Experiment
 from pyms.Experiment import load_expr, read_expr_list, store_expr
 from pyms.Peak.Class import Peak
 
@@ -92,9 +91,9 @@ def test_sele_rt_range(expr, filtered_peak_list):
 			expr.sele_rt_range(type)
 
 
-def test_store_expr(expr):
+def test_store_expr(expr, outputdir):
 	with pytest.warns(DeprecationWarning):
-		store_expr(os.path.join("output", "ELEY_1_SUBTRACT_DEPRECATION.expr"), expr)
+		store_expr(str(outputdir/"ELEY_1_SUBTRACT_DEPRECATION.expr"), expr)
 
 	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
 		with pytest.warns(DeprecationWarning):
@@ -107,16 +106,16 @@ def test_store_expr(expr):
 				store_expr(test_string, type)
 
 
-def test_store(expr):
-	expr.store(os.path.join("output", "ELEY_1_SUBTRACT.expr"))
+def test_store(expr, outputdir):
+	expr.store(outputdir/"ELEY_1_SUBTRACT.expr")
 
 	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
 		with pytest.raises(TypeError):
 			expr.store(type)
 
 
-def test_load_expr(filtered_peak_list):
-	expr = load_expr(os.path.join("output","ELEY_1_SUBTRACT.expr"))
+def test_load_expr(filtered_peak_list, datadir, outputdir):
+	expr = load_expr(outputdir/"ELEY_1_SUBTRACT.expr")
 	assert isinstance(expr, Experiment)
 	
 	assert isinstance(expr.expr_code, str)
@@ -134,13 +133,13 @@ def test_load_expr(filtered_peak_list):
 			load_expr(type)
 
 	with pytest.raises(IOError):
-		load_expr("non-existent.expr")
+		load_expr(datadir/"non-existent.expr")
 	with pytest.raises(IOError):
-		load_expr("not-an-experiment.expr")
+		load_expr(datadir/"not-an-experiment.expr")
 
 
-def test_read_expr_list(filtered_peak_list):
-	expr_list = read_expr_list(os.path.join("tests", "read_expr_list.txt"))
+def test_read_expr_list(filtered_peak_list, datadir):
+	expr_list = read_expr_list(datadir/"read_expr_list.txt")
 	assert isinstance(expr_list, list)
 	assert isinstance(expr_list[0], Experiment)
 	

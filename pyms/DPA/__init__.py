@@ -1,10 +1,10 @@
 """
-Functions related to experiment input/output
+Alignment of peak lists by dynamic programming
 """
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -24,7 +24,4 @@ Functions related to experiment input/output
 ################################################################################
 
 
-import warnings
-warnings.warn("Experiment.IO will be removed in version 2.2.0. Import from Experiment instead", DeprecationWarning)
-
-from pyms.Experiment.Class import read_expr_list, load_expr, store_expr
+from pyms.DPA.Class import Alignment, PairwiseAlignment

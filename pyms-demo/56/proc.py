@@ -17,7 +17,7 @@ data = ANDI_reader(andi_file)
 
 im = build_intensity_matrix_i(data)
 
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 print("Intensity matrix size (scans, masses):", (n_scan, n_mz))
 
@@ -50,13 +50,13 @@ print("Number of filtered peaks: ", len(new_peak_list))
 print("Top 5 most abundant ions for each peak ")
 
 for peak in new_peak_list:
-    rt = peak.get_rt()
+    rt = peak.rt
     # Only test interesting sub-set from 29.5 to 32.5 minutes
     if rt >= 29.5*60.0 and rt <= 32.5*60.0:
         # determine and set ion areas, use default num of ions =5
         areas_dict = peak_top_ion_areas(im, peak)
         peak.set_ion_areas(areas_dict)
 
-        area_dict = peak.get_ion_areas()
+        area_dict = peak.ion_areas
         # print the top 5 ions for each peak
         print(area_dict.keys())

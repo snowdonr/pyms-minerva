@@ -10,9 +10,9 @@
 
 
 =============================
-:mod:`pyms.Experiment.Class`
+:mod:`pyms.Experiment`
 =============================
-.. automodule:: pyms.Experiment.Class
+.. automodule:: pyms.Experiment
     :members:
     :private-members:
     :special-members:

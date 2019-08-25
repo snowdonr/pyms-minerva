@@ -20,15 +20,15 @@ ms = im.get_ms_at_index(scan_i)
 peak = Peak(31.17, ms, minutes=True)
 
 # Get the retention time (in seconds)
-print(peak.get_rt())
+print(peak.rt)
 
 # Get the peaks unique ID
 # Consists of the two most abundant ions and their ratio,
 # and the retention time (in the format set by minutes=True or False)
-print(peak.get_UID())
+print(peak.UID)
 
 # Create another peak from an isomer of the first peak (at RT 31.44 minutes)
 scan_i = im.get_index_at_time(31.44*60.0)
 ms = im.get_ms_at_index(scan_i)
 peak2 = Peak(31.44, ms, minutes=True)
-print(peak2.get_UID())
+print(peak2.UID)

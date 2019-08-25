@@ -13,6 +13,7 @@ process GC-Quad data.
 """
 
 from numpy import *
+import numpy
  
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.GCMS.Function import build_intensity_matrix_i
@@ -31,7 +32,7 @@ data = ANDI_reader(andi_file)
 
 # Build Intensity Matrix
 im = build_intensity_matrix_i(data)
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
  # perform necessary pre filtering
 for ii in range(n_mz):
@@ -68,17 +69,17 @@ print("Number of filtered peaks: ", len(new_peak_list))
 print("Peak areas")
 print("UID, RT, height, area")
 for peak in new_peak_list:
-    rt = peak.get_rt()
+    rt = peak.rt
     
     # determine and set area
     area = peak_sum_area(im, peak)
-    peak.set_area(area)
+    peak.area = area
 
     # print some details
-    UID = peak.get_UID()
+    UID = peak.UID
     # height as sum of the intensities of the apexing ions
-    height = sum(peak.get_mass_spectrum().mass_spec)
-    print(UID + ", %.2f, %.2f, %.2f" % (rt, height, peak.get_area()))
+    height = sum(peak.get_mass_spectrum().mass_spec.tolist())
+    print(UID + ", %.2f, %.2f, %.2f" % (rt, height, peak.area))
 
 # TIC from raw data
 tic = data.get_tic()

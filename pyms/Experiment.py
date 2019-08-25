@@ -4,7 +4,7 @@ Models a GC-MS experiment represented by a list of signal peaks
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -97,7 +97,7 @@ class Experiment:
 		Returns the expr_code of the experiment
 		
 		.. deprecated:: 2.1.2
-		   Use :attr:`pyms.Experiment.Experiment.expr_code` instead.
+			Use :attr:`pyms.Experiment.Experiment.expr_code` instead.
 
 		:return: The expr_code of the experiment
 		:rtype: str
@@ -112,7 +112,7 @@ class Experiment:
 		Returns the peak list
 
 		.. deprecated:: 2.1.2
-		   Use :attr:`pyms.Experiment.Experiment.peak_list` instead.
+			Use :attr:`pyms.Experiment.Experiment.peak_list` instead.
 
 		:return: A list of peak objects
 		:rtype: list
@@ -145,15 +145,22 @@ class Experiment:
 		peaks_sele = sele_peaks_by_rt(self.__peak_list, rt_range)
 		self.__peak_list = peaks_sele
 	
+	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
+							current_version=__version__,
+							details="Use 'Experiment.dump' instead")
 	def store(self, file_name):
 		"""
 		stores an experiment to a file
+	
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Experiment.Experiment.dump` instead.
 	
 		:param file_name: The name of the file
 		:type file_name: str or pathlib.Path
 	
 		:author: Vladimir Likic
 		:author: Andrew Isaac
+		:author: Dominic Davis-Foster (pathlib support)
 		"""
 		
 		if not isinstance(file_name, (str, pathlib.Path)):
@@ -189,7 +196,7 @@ def read_expr_list(file_name):
 	if not isinstance(file_name, pathlib.Path):
 		file_name = pathlib.Path(file_name)
 
-	fp = file_name.open('r')
+	fp = file_name.open()
 	
 	exprfiles = fp.readlines()
 	fp.close()
@@ -214,7 +221,7 @@ def load_expr(file_name):
 	:type file_name: str or pathlib.Path
 	
 	:return: The loaded experiment
-	:rtype: class:`pyms.Experiment.Class.Experiment`
+	:rtype: class:`pyms.Experiment.Experiment`
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac
@@ -249,7 +256,7 @@ def store_expr(file_name, expr):
 	:param file_name: The name of the file
 	:type file_name: str
 	:param expr: An experiment object
-	:type expr: class:`pyms.Experiment.Class.Experiment`
+	:type expr: class:`pyms.Experiment.Experiment`
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac

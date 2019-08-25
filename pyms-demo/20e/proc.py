@@ -1,7 +1,7 @@
 """proc.py
 """
 
-from pyms.GCMS.IO.MZML.Function import mzML_reader
+from pyms.GCMS.IO.MZML import mzML_reader
 
 # read the raw data
 mzml_file = "data/TP1U-11-16_86-2207.mzML"

@@ -1,10 +1,10 @@
 """
-Functions for modelling experiments
+Base for PyMassSpec classes
 """
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -24,4 +24,62 @@ Functions for modelling experiments
 ################################################################################
 
 
-from pyms.Experiment.Class import *
+import copy
+import pickle
+import pathlib
+
+import numpy
+
+
+_list_types = (list, tuple, numpy.core.ndarray)
+_path_types = (str, pathlib.Path)
+
+
+class pymsBaseClass(object):
+	"""
+	Base class
+	"""
+	def dump(self, file_name):
+		"""
+		Dumps an object to a file through pickle.dump()
+
+		:param file_name: Name of the file for the object dump
+		:type file_name: str or pathlib.Path
+
+		:author: Vladimir Likic
+		:author: Dominic Davis-Foster (pathlib support)
+		"""
+		
+		if not isinstance(file_name, _path_types):
+			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		
+		if not isinstance(file_name, pathlib.Path):
+			file_name = pathlib.Path(file_name)
+		
+		if not file_name.parent.is_dir():
+			file_name.parent.mkdir(parents=True)
+		
+		fp = file_name.open('wb')
+		pickle.dump(self, fp)
+		fp.close()
+
+
+class pymsCopyBase(pymsBaseClass):
+	"""
+	Base class with __deepcopy__ overridden
+	"""
+	def __copy__(self):
+		return copy.deepcopy(self.__dict__)
+	
+	def __deepcopy__(self, memodict={}):
+		return self.__copy__()
+
+
+class pymsError(Exception):
+	"""Base class for all pyms exceptions."""
+	
+	def __init__(self, msg):
+		self.msg = msg
+	
+	def __str__(self):
+		return repr(self.msg)

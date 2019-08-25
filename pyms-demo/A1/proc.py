@@ -24,7 +24,7 @@ data = ANDI_reader(andi_file)
 im = build_intensity_matrix_i(data)
 
 
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 
  # perform necessary pre filtering

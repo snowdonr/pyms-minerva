@@ -13,8 +13,7 @@ from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann, \
     rel_threshold, num_ions_threshold
 
-from pyms.Experiment.Class import Experiment
-from pyms.Experiment import store_expr
+from pyms.Experiment import Experiment, store_expr
 
 
 # define path to data files
@@ -39,7 +38,7 @@ for expr_code in expr_codes:
     im = build_intensity_matrix_i(data)
 
     # get the size of the intensity matrix
-    n_scan, n_mz = im.get_size()
+    n_scan, n_mz = im.size
 
     # smooth data
     for ii in range(n_mz):
@@ -71,7 +70,7 @@ for expr_code in expr_codes:
         peak.null_mass(147)
         # find peak areas
         area = peak_sum_area(im, peak)
-        peak.set_area(area)
+        peak.area = area
         area_dict = peak_top_ion_areas(im, peak)
         peak.set_ion_areas(area_dict)
 

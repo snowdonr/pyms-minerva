@@ -15,7 +15,7 @@ data = JCAMP_reader(jcamp_file)
 print("intensity matrix, bin interval = 0.5, boundary +/- 0.25")
 im = build_intensity_matrix(data, 0.5, 0.25, 0.25)
 
-print(" -> size of intensity matrix (#scans, #bins):", im.get_size())
+print(" -> size of intensity matrix (#scans, #bins):", im.size)
 
 print(" -> start mass:", im.min_mass)
 print(" -> end mass:", im.max_mass)

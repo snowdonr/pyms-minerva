@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
+#    PyMassSpec software for processing of mass-spectrometry data           #
 #    Copyright (C) 2019 Dominic Davis-Foster                                #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
@@ -167,14 +167,14 @@ def test_median_bounds(im_i, peak):
 	print("Top 5 most abundant ions for each peak ")
 	
 	for peak in filtered_peak_list:
-		rt = peak.get_rt()
+		rt = peak.rt
 		# Only test interesting sub-set from 29.5 to 32.5 minutes
 		if rt >= 29.5 * 60.0 and rt <= 32.5 * 60.0:
 			# determine and set ion areas, use default num of ions =5
 			areas_dict = peak_top_ion_areas(im_i, peak)
 			peak.set_ion_areas(areas_dict)
 			
-			area_dict = peak.get_ion_areas()
+			area_dict = peak.ion_areas
 			# print the top 5 ions for each peak
 			print(area_dict.keys())
 """

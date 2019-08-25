@@ -2,47 +2,57 @@
 Provides a class to model signal peak
 """
 
-#############################################################################
-#                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
-
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 
 import copy
+from warnings import warn
 
 import deprecation
+
 from pyms import __version__
+from pyms.base import pymsBaseClass
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.Spectrum import MassSpectrum
+from pyms.base import _list_types
 
-from pyms.GCMS.Class import IntensityMatrix, MassSpectrum
-from pyms.Utils.Utils import is_int, is_number, is_list, is_boolean
-from warnings import warn
-import pickle
 
-
-class Peak:
+class Peak(pymsBaseClass):
 	"""
 	Models a signal peak
 
 		A signal peak object
 		A peak object is initialised with retention time and
 		Either an ion mass, a mass spectrum or None
+
+	:param rt: Retention time
+	:type rt: int or float
+	:param ms: A ion mass, or spectra of maximising ions
+	:type ms: int or float or class`pyms.MassSpectrum.MassSpectrum`, optional
+	:param minutes: Retention time units flag. If True, retention time
+		is in minutes; if False retention time is in seconds
+	:type minutes: bool, optional
+	:param outlier: Whether the peak is an outlier
+	:type outlier: bool, optional
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac
@@ -52,15 +62,7 @@ class Peak:
 	
 	def __init__(self, rt=0.0, ms=None, minutes=False, outlier=False):
 		"""
-		:param rt: Retention time
-		:type rt: int or float
-		:param ms: A ion mass, or spectra of maximising ions
-		:type ms: int or float or pyms.GCMS.Class.MassSpectrum
-		:param minutes: Retention time units flag. If True, retention time
-			is in minutes; if False retention time is in seconds
-		:type minutes: bool
-		:param outlier: Whether the peak is an outlier
-		:type outlier: bool
+		Models a signal peak
 		"""
 		
 		if not isinstance(rt, (int, float)):
@@ -183,14 +185,14 @@ class Peak:
 		:type value: list
 		"""
 		
-		if not is_list(value):
+		if not isinstance(value, _list_types):
 			raise TypeError("'Peak.bounds' must be a list")
 		
 		if len(value) != 3:
 			raise ValueError("'Peak.bounds' must have exactly 3 elements")
 
 		for index, item in enumerate(value):
-			if not is_int(item):
+			if not isinstance(item, int):
 				raise TypeError(f"'Peak.bounds' element #{index} must be an integer")
 		
 		self.__pt_bounds = value
@@ -207,7 +209,7 @@ class Peak:
 		:author: Andrew Isaac
 		"""
 		
-		if not is_number(mass_min) or not is_number(mass_max):
+		if not isinstance(mass_min, (float, int)) or not isinstance(mass_max, (float, int)):
 			raise TypeError("'mass_min' and 'mass_max' must be numbers")
 		if mass_min >= mass_max:
 			raise ValueError("'mass_min' must be less than 'mass_max'")
@@ -247,6 +249,9 @@ class Peak:
 		"""
 		Gets the area under the peak
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.area` instead.
+
 		:return: The peak area
 		:rtype: float
 
@@ -261,6 +266,9 @@ class Peak:
 	def get_ic_mass(self):
 		"""
 		Gets the mass for a single ion chromatogram peak
+
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.ic_mass` instead.
 
 		:return: The mass of the single ion chromatogram that the peak is from
 		:rtype: float or int
@@ -287,8 +295,7 @@ class Peak:
 	
 	def get_ion_area(self, ion):
 		"""
-		gets the area of a single ion chromatogram
-				  under the peak
+		gets the area of a single ion chromatogram under the peak
 
 		:param ion: The ion whose IC is to be returned
 		:type ion: int
@@ -309,6 +316,9 @@ class Peak:
 		"""
 		returns a copy of the ion areas dict
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.ion_areas` instead.
+
 		:return: The dictionary of ion:ion area pairs
 		:rtype: dict
 		"""
@@ -322,8 +332,11 @@ class Peak:
 		"""
 		Gets the mass spectrum at the apex of the peak
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.mass_spectrum` instead.
+
 		:return: The mass spectrum at the apex of the peak
-		:rtype: pyms.GCSM.Class.MassSpectrum
+		:rtype: class:`pyms.MassSpectrum.MassSpectrum`
 		"""
 		
 		return self.mass_spectrum
@@ -334,6 +347,9 @@ class Peak:
 	def get_pt_bounds(self):
 		"""
 		Gets peak boundaries in points
+
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.bounds` instead.
 
 		:return: A list containing left, apex, and right
 			peak boundaries in points, left and right are offsets
@@ -351,6 +367,9 @@ class Peak:
 		"""
 		Return the retention time
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.rt` instead.
+
 		:return: Retention time
 		:rtype: float
 		"""
@@ -359,8 +378,7 @@ class Peak:
 	
 	def get_third_highest_mz(self):
 		"""
-		returns the mz value with the third highest
-				  intensity
+		returns the mz value with the third highest intensity
 
 		:return: the ion with the third highest intensity
 		:rtype: int
@@ -391,6 +409,9 @@ class Peak:
 		Return the unique peak ID (UID) based on:
 			Int masses of top two intensities and their ratio (as
 			Mass1-Mass2-Ratio*100); or the single mass as int.
+
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.UID` instead.
 
 		:return: UID string
 		:rtype: str
@@ -494,7 +515,7 @@ class Peak:
 		Gets the mass spectrum at the apex of the peak
 
 		:return: The mass spectrum at the apex of the peak
-		:rtype: pyms.GCSM.Class.MassSpectrum
+		:rtype: class:`pyms.MassSpectrum.MassSpectrum`
 		"""
 		
 		return copy.copy(self.__mass_spectrum)
@@ -506,7 +527,7 @@ class Peak:
 			Clears the mass for a single ion chromatogram peak
 
 		:param value: The mass spectrum at the apex of the peak
-		:type value: pyms.GCMS.Class.MassSpectrum
+		:rtype: class:`pyms.MassSpectrum.MassSpectrum`
 		"""
 		
 		if not isinstance(value, MassSpectrum):
@@ -569,6 +590,9 @@ class Peak:
 		"""
 		Sets the area under the peak
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.area` instead.
+
 		:param area: The peak area
 		:type area: float
 
@@ -601,11 +625,14 @@ class Peak:
 		Sets the mass for a single ion chromatogram peak
 			Clears the mass spectrum
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.ic_mass` instead.
+
 		:param mz: The mass of the ion chromatogram that the peak is from
 		:type mz: float
 		"""
 		
-		if not is_number(mz):
+		if not isinstance(mz, (float, int)):
 			raise TypeError("'mz' must be a number")
 		self.__ic_mass = mz
 		# clear mass spectrum
@@ -616,8 +643,10 @@ class Peak:
 		"""
 		sets the area for a single ion
 
-		:param ion: the ion who's area is being entered
+		:param ion: the ion whose area is being entered
+		:type ion: int
 		:param area: the area under the IC of ion
+		:type area: int or float
 
 		:author: Sean O'Callaghan
 		"""
@@ -637,6 +666,9 @@ class Peak:
 		"""
 		set the ion:ion area pair dictionary
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.ion_areas` instead.
+
 		:param ion_areas: The dictionary of ion:ion_area pairs
 		:type ion_areas: dict
 		"""
@@ -651,8 +683,11 @@ class Peak:
 		Sets the mass spectrum
 			Clears the mass for a single ion chromatogram peak
 
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.mass_spectrum` instead.
+
 		:param ms: The mass spectrum at the apex of the peak
-		:type ms: pyms.GCMS.Class.MassSpectrum
+		:type ms: class:`pyms.MassSpectrum.MassSpectrum`
 		"""
 		
 		if not isinstance(ms, MassSpectrum):
@@ -669,6 +704,9 @@ class Peak:
 	def set_pt_bounds(self, pt_bounds):
 		"""
 		Sets peak boundaries in points
+
+		.. deprecated:: 2.1.2
+			Use :attr:`pyms.Peak.Peak.bounds` instead.
 
 		:param pt_bounds: A list containing left, apex, and right
 			peak boundaries in points, left and right are offsets
@@ -700,21 +738,15 @@ class Peak:
 			Clears the single ion chromatogram mass
 
 		:param data: An IntensityMatrix object
-		:type data: pyms.GCMS.IntensityMatrix
+		:type data: class:`pyms.GCMS.IntensityMatrix`
 		:param from_bounds: Indicator whether to use the attribute
 			'pt_bounds' or to find the peak apex from the peak
 			retention time
-		:type from_bounds: BooleanType
-
-		:return: none
-		:rtype: NoneType
+		:type from_bounds: bool
 		"""
 		
 		if not isinstance(data, IntensityMatrix):
 			raise TypeError("'data' must be an IntensityMatrix")
-		
-		if not is_boolean(from_bounds):
-			raise TypeError("'from_bounds' must be boolean")
 		
 		if from_bounds:
 			if self.__pt_bounds is None:
@@ -739,8 +771,8 @@ class Peak:
 		:param num_ions: The number of ions to be recorded
 		:type num_ions: int
 	
-		:return: A list of the #num_ions highest intensity ions
-		:rtype: list
+		:return: A list of the #num_ions highest intensity ions, default 5
+		:rtype: list, optional
 	
 		:author: Sean O'Callaghan
 		:author: Dominic Davis-Foster (type assertions)

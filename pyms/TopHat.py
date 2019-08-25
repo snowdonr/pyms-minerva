@@ -2,34 +2,35 @@
 Top-hat baseline corrector
 """
 
-#############################################################################
-#                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 import copy
 import numpy
 
 from scipy import ndimage
 
-from pyms.GCMS.Class import IntensityMatrix, IonChromatogram
-from pyms.GCMS.Function import is_ionchromatogram, ic_window_points
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IonChromatogram import IonChromatogram
+from pyms.GCMS.Function import ic_window_points
 
 # default structural element as a fraction of total number of points
 _STRUCT_ELM_FRAC = 0.2
@@ -40,7 +41,7 @@ def tophat(ic, struct=None):
     Top-hat baseline correction on Ion Chromatogram
 
     :param ic: The input ion chromatogram
-    :type ic: pyms.GCMS.Class.IonChromatogram
+    :type ic: pyms.IonChromatogram.IonChromatogram
     :param struct: Top-hat structural element as time string
     :type struct: StringType
 
@@ -79,12 +80,12 @@ def tophat_im(im, struct=None):
               Wraps around the TopHat function above
 
     :param im: The input Intensity Matrix
-    :type im: pyms.GCMS.Class.IntenstiyMatrix
+    :type im: pyms.IntensityMatrix.IntensityMatrix
     :param struct: Top-hat structural element as time string
     :type struct: StringType
 
-    :return: Top-hat corrected Intenstity Matrix
-    :rtype: pyms.IO.Class.IntensityMatrix
+    :return: Top-hat corrected IntensityMatrix Matrix
+    :rtype: pyms.IntensityMatrix.IntensityMatrix
     
     :author: Sean O'Callaghan
     """

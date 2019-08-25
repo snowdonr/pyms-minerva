@@ -10,14 +10,6 @@
     :special-members:
 
 ===========================
-:mod:`pyms.Utils.DP`
-===========================
-.. automodule:: pyms.Utils.DP
-    :members:
-    :private-members:
-    :special-members:
-
-===========================
 :mod:`pyms.Utils.Error`
 ===========================
 .. automodule:: pyms.Utils.Error

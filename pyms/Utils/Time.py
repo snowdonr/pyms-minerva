@@ -2,31 +2,31 @@
 Time conversion and related functions
 """
 
-#############################################################################
-#                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 
 import math
 
-from pyms.Utils.Utils import is_int, is_str, is_str_num
+from pyms.Utils.Utils import is_str_num
 
 def time_str_secs(time_str):
 
@@ -36,7 +36,7 @@ def time_str_secs(time_str):
 
     :param time_str: A time string, which must be of the form
         "<NUMBER>s" or "<NUMBER>m" where "<NUMBER>" is a valid number
-    :type time_str: StringType
+    :type time_str: str
 
     :return: Time in seconds
     :rtype: FloatType
@@ -44,7 +44,7 @@ def time_str_secs(time_str):
     :author: Vladimir Likic
     """
 
-    if not is_str(time_str):
+    if not isinstance(time_str, str):
         raise TypeError("'time_str' must be a string")
 
     time_number = time_str[:-1]
@@ -64,35 +64,35 @@ def time_str_secs(time_str):
 
     return time
 
-def window_sele_points(ic, window_sele, half_window=False):
 
+def window_sele_points(ic, window_sele, half_window=False):
     """
     Converts window selection parameter into points based
         on the time step in an ion chromatogram
 
     :param ic: ion chromatogram object relevant for the conversion
-    :type ic: pyms.GCMS.Class.IonChromatogram
+    :type ic: pyms.IonChromatogram.IonChromatogram
 
     :param window_sele: The window selection parameter. This can be
         an integer or time string. If integer, taken as the number
         of points. If a string, must of the form "<NUMBER>s" or
         "<NUMBER>m", specifying a time in seconds or minutes,
         respectively
-    :type window_sele: IntType or StringType
+    :type window_sele: int or str
 
     :param half_window: Specifies whether to return half-window
-    :type half_window: BooleanType
+    :type half_window: bool
 
     :return: The number of points in the window
-    :rtype: IntType
+    :rtype: int
 
     :author: Vladimir Likic
     """
 
-    if not is_int(window_sele) and not is_str(window_sele):
+    if not isinstance(window_sele, int) and not isinstance(window_sele, str):
         raise TypeError("'window' must be an integer or a string")
 
-    if is_int(window_sele):
+    if isinstance(window_sele, int):
         if half_window:
             if window_sele % 2 == 0:
                 raise TypeError("window must be an odd number of points")

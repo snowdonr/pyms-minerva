@@ -11,8 +11,7 @@ from pyms.Peak.Function import peak_sum_area
 from pyms.BillerBiemann import BillerBiemann, \
     rel_threshold, num_ions_threshold
 
-from pyms.Experiment.Class import Experiment
-from pyms.Experiment import store_expr
+from pyms.Experiment import Experiment, store_expr
 
 
 # deconvolution and peak list filtering parameters
@@ -26,7 +25,7 @@ data = ANDI_reader(andi_file)
 im = build_intensity_matrix_i(data)
 
 # get the size of the intensity matrix
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 # smooth data
 for ii in range(n_mz):
@@ -56,7 +55,7 @@ for peak in peak_list:
     peak.null_mass(147)
     # find area
     area = peak_sum_area(im, peak)
-    peak.set_area(area)
+    peak.area = area
 
 # create an experiment
 expr = Experiment("a0806_077", peak_list)

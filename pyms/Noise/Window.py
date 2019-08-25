@@ -2,33 +2,35 @@
 Moving window noise filter
 """
 
-#############################################################################
-#                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 
 import copy
+
 import numpy
 
 from pyms.GCMS.Function import ic_window_points
 from pyms.Utils.Math import median
+
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
@@ -36,26 +38,25 @@ __DEFAULT_WINDOW = 3
 
 
 def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
-
     """
     Applies window smoothing on ion chromatogram
 
     :param ic: The input ion chromatogram
-    :type ic: pyms.GCMS.Class.IonChromatogram
+    :type ic: pyms.IonChromatogram.IonChromatogram
     :param window: The window selection parameter. This can be an integer
         or time string. If integer, taken as the number of points. If a
         string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
         a time in seconds or minutes, respectively
-    :type window: int or str
+    :type window: int or str, optional
     :param median: An indicator whether the mean or median window smoothing
         to be used
-    :type median: bool
+    :type median: bool, optional
 
     :return: Smoothed ion chromatogram
-    :rtype: pyms.GCMS.Class.IonChromatogram
+    :rtype: class:`pyms.IonChromatogram.IonChromatogram`
 
     :author: Vladimir Likic
-    :author: Dominic Davis-Foster
+    :author: Dominic Davis-Foster (type assertions)
     """
     
     if not isinstance(ic, IonChromatogram):
@@ -87,20 +88,18 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
               Simply wraps around the window smooth function above
 
     :param im: The input Intensity Matrix
-    :type im: pyms.GCMS.Class.IntensityMatrix
+    :type im: pyms.IntensityMatrix.IntensityMatrix
     :param window: The window selection parameter.
-    :type window: int or str
-    
+    :type window: int or str, optional
     :param median: An indicator whether the mean or median window smoothing
         to be used
-    :type median: bool
+    :type median: bool, optional
 
     :return: Smoothed Intensity Matrix
-    :rtype: pyms.GCMS.Class.IntensityMatrix
+    :rtype: pyms.IntensityMatrix.IntensityMatrix
 
     :author: Sean O'Callaghan
     :author: Vladimir Likic
-    :author: Dominic Davis-Foster
     """
     
     if not isinstance(im, IntensityMatrix):
@@ -119,7 +118,6 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
 
 
 def __mean_window(ia, wing_length):
-
     """
     Applies mean-window averaging on the array of intensities.
 
@@ -134,8 +132,6 @@ def __mean_window(ia, wing_length):
 
     :author: Vladimir Likic
     """
-
-#print(" -> Window smoothing (mean): the wing is %d point(s)" % (wing_length))
 
     ia_denoise = numpy.repeat([0], ia.size)
 
@@ -154,7 +150,6 @@ def __mean_window(ia, wing_length):
 
 
 def __median_window(ia, wing_length):
-
     """
     Applies median-window averaging on the array of intensities.
 
@@ -169,8 +164,6 @@ def __median_window(ia, wing_length):
 
     :author: Vladimir Likic
     """
-
-#print(" -> Window smoothing (median): the wing is %d point(s)" % (wing_length))
 
     ia_denoise = numpy.repeat([0], ia.size)
 

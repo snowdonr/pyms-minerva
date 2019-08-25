@@ -1,19 +1,11 @@
-from pyms.Peak import Peak
 from timeit import timeit
-from copy import copy, deepcopy
-
-import pytest
+from copy import copy
 
 import os
 
-from pyms.TopHat import tophat
-from pyms.BillerBiemann import BillerBiemann, rel_threshold, num_ions_threshold
-from pyms.GCMS.Function import build_intensity_matrix, build_intensity_matrix_i
+from pyms.GCMS.Function import build_intensity_matrix_i
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Peak.Class import Peak
-from pyms.Experiment.Class import Experiment
 
 from copy import deepcopy
 

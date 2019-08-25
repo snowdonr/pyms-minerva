@@ -2,36 +2,37 @@
 Functions related to Peak modification
 """
 
-#############################################################################
-#                                                                           #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 
-import numpy
 import math
 
-from pyms.Utils.Utils import is_list
+import numpy
+
+from pyms.base import _list_types
 from pyms.Utils.Time import time_str_secs
 from pyms.Peak import Peak
-from pyms.MassSpectrum import MassSpectrum
-from pyms.Utils.Math import mad_based_outlier, percentile_based_outlier, median_outliers
+from pyms.Spectrum import MassSpectrum
+from pyms.Utils.Math import median_outliers
 
 
 def composite_peak(peak_list, minutes=False, ignore_outliers=False):
@@ -42,12 +43,12 @@ def composite_peak(peak_list, minutes=False, ignore_outliers=False):
     :param peak_list: A list of peak objects
     :type peak_list: list
     :param minutes: Return retention time as minutes
-    :type minutes: bool
+    :type minutes: bool, optional
     :param ignore_outliers:
-    :type ignore_outliers: bool
+    :type ignore_outliers: bool, optional
 
     :return: Peak Object with combined mass spectra of 'peak_list'
-    :type: pyms.Peak.Class.Peak
+    :type: class:`pyms.Peak.Class.Peak`
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
@@ -62,16 +63,17 @@ def composite_peak(peak_list, minutes=False, ignore_outliers=False):
     new_ms = None
 
     # DK: first mark peaks in the list that are outliers by RT, but only if there are more than 3 peaks in the list
-    rts = []
-    if len(peak_list) > 3:
-        for peak in peak_list:
-            rts.append(peak.rt)
-
-        is_outlier = median_outliers(rts)
-
-        for i, val in enumerate(is_outlier):
-            if val:
-                peak_list[i].isoutlier = True
+    if ignore_outliers:
+        rts = []
+        if len(peak_list) > 3:
+            for peak in peak_list:
+                rts.append(peak.rt)
+    
+            is_outlier = median_outliers(rts)
+    
+            for i, val in enumerate(is_outlier):
+                if val:
+                    peak_list[i].isoutlier = True
 
     # DK: the average RT and average mass spec for the compound peak is now calculated from peaks that are NOT outliers.
     # This should improve the ability to order peaks and figure out badly aligned entries
@@ -111,17 +113,17 @@ def fill_peaks(data, peak_list, D, minutes=False):
 
     :param data: A data IntensityMatrix that has the same mass range as the
         peaks in the peak list
-    :type data: pyms.GCMS.Class.IntensityMatrix
+    :type data: pyms.IntensityMatrix.IntensityMatrix
     :param peak_list: A list of peak objects
     :type peak_list: list
     :param D: Peak width standard deviation in seconds.
         Determines search window width.
     :type D: float
     :param minutes: Return retention time as minutes
-    :type minutes: bool
+    :type minutes: bool, optional
 
     :return: List of Peak Objects
-    :type: list
+    :type: list of class:`pyms.Peak.Peak`
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
@@ -141,7 +143,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
     # reweight so RT weight at nearest peak is _PEN
     _PEN = 0.5
 
-    datamat = data.intensity_matrix
+    datamat = data.intensity_array
     mass_list = data.mass_list
     datatimes = data.time_list
     minrt = min(datatimes)
@@ -221,8 +223,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
 
 def is_peak_list(peaks):
     """
-    Returns True if 'peaks' is a valid peak list, False
-        otherwise
+    Returns True if 'peaks' is a valid peak list, False otherwise
 
     :param peaks: A list of peak objects
     :type peaks: list
@@ -233,11 +234,11 @@ def is_peak_list(peaks):
     :author: Dominic Davis-Foster
     """
 
-    return is_list(peaks) and all(isinstance(peak, Peak) for peak in peaks)
+    return isinstance(peaks, _list_types) and all(isinstance(peak, Peak) for peak in peaks)
 
     flag = True
 
-    if not is_list(peaks):
+    if not isinstance(peaks, _list_types):
         flag = False
     else:
         for item in peaks:
@@ -252,18 +253,19 @@ def sele_peaks_by_rt(peaks, rt_range):
     Selects peaks from a retention time range
 
     :param peaks: A list of peak objects
-    :type peaks: list, tuple or numpy.ndarray
+    :type peaks: list or tuple or numpy.ndarray
     :param rt_range: A list of two time strings, specifying lower and
            upper retention times
     :type rt_range: list
+    
     :return: A list of peak objects
-    :rtype: list
+    :rtype: list of class:`pyms.Peak.Peak`
     """
 
     if not is_peak_list(peaks):
         raise TypeError("'peaks' not a peak list")
 
-    if not is_list(rt_range):
+    if not isinstance(rt_range, _list_types):
         raise TypeError("'rt_range' not a list")
     else:
         if len(rt_range) != 2:
@@ -282,7 +284,7 @@ def sele_peaks_by_rt(peaks, rt_range):
 
     for peak in peaks:
         rt = peak.rt
-        if rt > rt_lo and rt < rt_hi:
+        if rt_lo < rt < rt_hi:
             peaks_sele.append(peak)
 
     #print("%d peaks selected" % (len(peaks_sele)))

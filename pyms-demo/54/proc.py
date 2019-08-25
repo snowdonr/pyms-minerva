@@ -42,7 +42,7 @@ im.null_mass(73)
 im.null_mass(147)
 
 # get the size of the intensity matrix
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 
 # loop over all IC: smoothing and baseline correction
 print(" Smoothing and baseline correction ...",)

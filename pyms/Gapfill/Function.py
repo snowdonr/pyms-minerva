@@ -4,7 +4,7 @@ Functions to fill missing peak objects
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -178,7 +178,7 @@ def missing_peak_finder(sample, file_name, points=3, null_ions=None, \
 	im.crop_mass(crop_ions[0], crop_ions[1])
 	
 	# get the size of the intensity matrix
-	n_scan, n_mz = im.get_size()
+	n_scan, n_mz = im.size
 	
 	# smooth data
 	for ii in range(n_mz):
@@ -190,7 +190,7 @@ def missing_peak_finder(sample, file_name, points=3, null_ions=None, \
 	
 	for mp in sample.get_missing_peaks():
 		
-		mp_rt = mp.get_rt()
+		mp_rt = mp.rt
 		common_ion = mp.get_ci()
 		qual_ion_1 = float(mp.get_qual_ion1())
 		qual_ion_2 = float(mp.get_qual_ion2())
@@ -279,13 +279,23 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 	:param sample_list: A list of sample objects
 	:type sample_list: list of class:`pyms.Gapfill.Class.Sample`
 	:param area_file: the file 'area_ci.csv' from PyMassSpec output
-	:type area_file: str
+	:type area_file: str or pathlib.Path
 	:param filled_area_file: the new output file which has NA values replaced
-	:type filled_area_file: str
+	:type filled_area_file: str or pathlib.Path
 	
 	:author:    Jairus Bowne
 	:author:    Sean O'Callaghan
+	:author: Dominic Davis-Foster (pathlib support)
 	"""
+		
+	if not isinstance(filled_area_file, (str, pathlib.Path)):
+		raise TypeError("'filled_area_file' must be a string or a pathlib.Path object")
+	
+	if not isinstance(filled_area_file, pathlib.Path):
+		filled_area_file = pathlib.Path(filled_area_file)
+	
+	if not filled_area_file.parent.is_dir():
+		filled_area_file.parent.mkdir(parents=True)
 	
 	old_matrix = file2matrix(area_file)
 	
@@ -322,27 +332,21 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 				try:
 					area = rt_area_dict[str(rt_list[i])]
 					new_line.append(area)
-				except(KeyError):
+				except KeyError:
 					pass
-					#print 'missing peak not found for rt =', rt_list[i], \
-					#    "in sample:", sample_name
-			
 			else:
 				new_line.append(part)
 		
 		invert_new_matrix.append(new_line)
-	#print invert_new_matrix
 	
-	#print len(invert_new_matrix[0]), len(invert_new_matrix)
-	
-	fp_new = open(filled_area_file, 'w')
+	fp_new = filled_area_file.open('w')
 	
 	#    new_matrix = numpy.empty(matrix_size)
 	new_matrix = transposed(invert_new_matrix)
 	
 	for i, line in enumerate(new_matrix):
 		for j, part in enumerate(line):
-			fp_new.write(str(part) +',')
+			fp_new.write(f"{part},")
 		fp_new.write("\n")
 	
 	fp_new.close()
@@ -353,22 +357,29 @@ def write_filled_rt_csv(sample_list, rt_file, filled_rt_file):
 	creates a new rt.csv file, replacing NAs with values from the sample_list objects where possible
 	:param sample_list: A list of sample objects
 	:type sample_list: list of Class.Sample
-
 	:param rt_file: the file 'rt.csv' from PyMassSpec output
-	:type rt_file: str
-
+	:type rt_file: str or pathlib.Path
 	:param filled_rt_file: the new output file which has NA values replaced
-	:type filled_rt_file: str
+	:type filled_rt_file: str or pathlib.Path
 	
-	:author:    Jairus Bowne
-	:author:    Sean O'Callaghan
+	:author: Jairus Bowne
+	:author: Sean O'Callaghan
+	:author: Dominic Davis-Foster (pathlib support)
 	"""
+	
+	if not isinstance(filled_rt_file, (str, pathlib.Path)):
+		raise TypeError("'filled_rt_file' must be a string or a pathlib.Path object")
+	
+	if not isinstance(filled_rt_file, pathlib.Path):
+		filled_rt_file = pathlib.Path(filled_rt_file)
+	
+	if not filled_rt_file.parent.is_dir():
+		filled_rt_file.parent.mkdir(parents=True)
 	
 	old_matrix = file2matrix(rt_file)
 	
-	#Invert it to be a little more efficent
+	# Invert it to be a little more efficent
 	invert_old_matrix = zip(*old_matrix)
-	#print invert_old_matrix[0:5][0:5]
 	
 	uid_list = invert_old_matrix[0][1:]
 	rt_list = []
@@ -376,52 +387,36 @@ def write_filled_rt_csv(sample_list, rt_file, filled_rt_file):
 		rt = uid.split('-')[-1]
 		rt_list.append(rt)
 	
-	
-	#print rt_list
-	
-	#start setting up the output file
+	# start setting up the output file
 	invert_new_matrix = []
 	for line in invert_old_matrix[0:1]:
 		invert_new_matrix.append(line)
 	
 	for line in invert_old_matrix[2:]:
 		sample_name = line[0]
-		#print "Sample Name:", sample_name
 		
-		new_line = []
-		new_line.append(sample_name)
+		new_line = [sample_name]
 		for sample in sample_list:
-			#print "sample name:", sample.get_name()
 			if sample_name in sample.get_name():
 				
 				rt_exact_rt_dict = sample.get_mp_rt_exact_rt_dict()
-				#print "Got it"
-				#print rt_area_dict
 		
 		for i, part in enumerate(line[1:]):
-			#print part
 			if part == 'NA':
 				try:
 					rt_new = rt_exact_rt_dict[str(rt_list[i])]
 					new_line.append(rt_new)
-				except(KeyError):
+				except KeyError:
 					pass
-					#print 'missing peak not found for rt =', rt_list[i], \
-					#    "in sample:", sample_name
-			
+
 			else:
 				new_line.append(part)
 		
 		invert_new_matrix.append(new_line)
-	#print invert_new_matrix
-	
-	#print len(invert_new_matrix[0]), len(invert_new_matrix)
-	
 	
 	fp_new = open(filled_rt_file, 'w')
 	
-	
-	#    new_matrix = numpy.empty(matrix_size)
+	#new_matrix = numpy.empty(matrix_size)
 	new_matrix = transposed(invert_new_matrix)
 	
 	for i, line in enumerate(new_matrix):

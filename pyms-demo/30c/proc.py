@@ -16,7 +16,7 @@ print("intensity matrix with integer mass and bin interval = 1, "\
       "using default boundary -0.3, +0.7")
 im = build_intensity_matrix_i(data)
 
-print(" -> size of intensity matrix (#scans, #bins):", im.get_size())
+print(" -> size of intensity matrix (#scans, #bins):", im.size)
 
 print(" -> start mass:", im.min_mass)
 print(" -> end mass:", im.max_mass)

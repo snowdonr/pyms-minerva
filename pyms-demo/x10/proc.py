@@ -14,7 +14,7 @@ data = ANDI_reader(andi_file)
 im = build_intensity_matrix_i(data)
 
 # get the size of the intensity matrix
-n_scan, n_mz = im.get_size()
+n_scan, n_mz = im.size
 print("Size of the intensity matrix is (n_scans, n_mz):", n_scan, n_mz)
 
 # loop over all m/z values, fetch the corresponding IC, and perform

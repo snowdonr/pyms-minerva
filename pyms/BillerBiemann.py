@@ -3,32 +3,34 @@ BillerBiemann deconvolution algorithm
 Provides a class to perform Biller and Biemann deconvolution
 """
 
-#############################################################################
-#                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 import numpy
 import copy
 
-from pyms.Utils.Utils import is_list
-from pyms.GCMS.Class import IonChromatogram, MassSpectrum, IntensityMatrix
+from pyms.base import _list_types
+from pyms.IonChromatogram import IonChromatogram
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.Spectrum import MassSpectrum
 from pyms.Peak.Class import Peak
 
 
@@ -49,7 +51,7 @@ def BillerBiemann(im, points=3, scans=1):
         Deconvolution based on the algorithm of Biller and Biemann (1974)
 
     :param im: An IntensityMatrix object
-    :type im: pyms.GCMS.Class.IntensityMatrix
+    :type im: pyms.IntensityMatrix.IntensityMatrix
     :param points: Peak if maxima over 'points' number of scans (Default 3)
     :type points: int
     :param scans: To compensate for spectra skewing,
@@ -184,7 +186,7 @@ def sum_maxima(im, points=3, scans=1):
     Reconstruct the TIC as sum of maxima
 
     :param im: An IntensityMatrix object
-    :type im: pyms.GCMS.Class.IntensityMatrix
+    :type im: pyms.IntensityMatrix.IntensityMatrix
     :param points: Peak if maxima over 'points' number of scans
     :type points: int
     :param scans: To compensate for spectra skewing,
@@ -192,7 +194,7 @@ def sum_maxima(im, points=3, scans=1):
     :type scans: int
 
     :return: The reconstructed TIC
-    :rtype: pyms.GCMS.Class.IonChromatogram
+    :rtype: pyms.IonChromatogram.IonChromatogram
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
@@ -237,7 +239,7 @@ def get_maxima_indices(ion_intensities, points=3):
     :author: Dominic Davis-Foster (type assertions)
     """
 
-    if not is_list(ion_intensities) or not isinstance(ion_intensities[0], (int, float)):
+    if not isinstance(ion_intensities, _list_types) or not isinstance(ion_intensities[0], (int, float)):
         raise TypeError("'ion_intensities' must be a List of numbers")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
@@ -278,7 +280,7 @@ def get_maxima_list(ic, points=3):
     List of retention time and intensity of local maxima for ion
 
     :param ic: An IonChromatogram object
-    :type ic: pyms.GCMS.Class.IonChromatogram
+    :type ic: pyms.IonChromatogram.IonChromatogram
     :param points: Peak if maxima over 'points' number of scans
     :type points: int
 
@@ -311,7 +313,7 @@ def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
               created for use with gap filling algorithm
               
     :param ic: An IonChromatogram object
-    :type ic: pyms.GCMS.Class.IonChromatogram
+    :type ic: pyms.IonChromatogram.IonChromatogram
     :param mp_rt: The retention time of the missing peak
     :type mp_rt: float
     :param points: Peak if maxima over 'points' number of scans
@@ -351,7 +353,7 @@ def get_maxima_matrix(im, points=3, scans=1):
     Get matrix of local maxima for each ion
 
     :param im: An IntensityMatrix object
-    :type im: pyms.GCMS.Class.IntensityMatrix
+    :type im: pyms.IntensityMatrix.IntensityMatrix
     :param points: Peak if maxima over 'points' number of scans
     :type points: int
     :param scans: To compensate for spectra skewing, peaks from 'scans' scans are combined (Default 1).

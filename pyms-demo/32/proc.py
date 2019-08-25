@@ -40,14 +40,11 @@ im.export_leco_csv("output/data_leco.csv")
 # Import saved data
 #
 
-# Create single entry IntensityMatrix
-from pyms.GCMS.Class import IntensityMatrix
+from pyms.IntensityMatrix import import_leco_csv
 
-iim = IntensityMatrix([0],[0],[[0]])
-
-# import LECO CVS file
+# import LECO CSV file
 print("importing intensity matrix data from LECO CSV format...")
-iim.import_leco_csv("output/data_leco.csv")
+iim = import_leco_csv("output/data_leco.csv")
 
 # Check size to original
-print("Output dimensions:", im.get_size(), " Input dimensions:", iim.get_size())
+print("Output dimensions:", im.size, " Input dimensions:", iim.size)

@@ -19,7 +19,7 @@ ms = im.get_ms_at_index(scan_i)
 # create a Peak object
 peak = Peak(31.17, ms, minutes=True)
 
-print(peak.get_UID())
+print(peak.UID)
 
 # modify the range and null TMS ions
 peak.crop_mass(60, 450)
@@ -27,7 +27,7 @@ peak.null_mass(73)
 peak.null_mass(147)
 
 # New UID after modification
-print(peak.get_UID())
+print(peak.UID)
 
 # Create another peak from an isomer of the first peak (at RT 31.44 minutes)
 scan_i = im.get_index_at_time(31.44*60.0)
@@ -40,4 +40,4 @@ peak2.null_mass(73)
 peak2.null_mass(147)
 
 # Compare isomers UID
-print(peak2.get_UID())
+print(peak2.UID)

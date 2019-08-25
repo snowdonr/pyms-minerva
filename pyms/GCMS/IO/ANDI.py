@@ -2,31 +2,31 @@
 Functions for reading manufacturer specific ANDI-MS data files
 """
 
-#############################################################################
-#                                                                           #
-#    PyMS software for processing of metabolomic mass-spectrometry data     #
-#    Copyright (C) 2005-2012 Vladimir Likic                                 #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
-#                                                                           #
-#    This program is free software; you can redistribute it and/or modify   #
-#    it under the terms of the GNU General Public License version 2 as      #
-#    published by the Free Software Foundation.                             #
-#                                                                           #
-#    This program is distributed in the hope that it will be useful,        #
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
-#    GNU General Public License for more details.                           #
-#                                                                           #
-#    You should have received a copy of the GNU General Public License      #
-#    along with this program; if not, write to the Free Software            #
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
-#                                                                           #
-#############################################################################
+################################################################################
+#                                                                              #
+#    PyMassSpec software for processing of mass-spectrometry data              #
+#    Copyright (C) 2005-2012 Vladimir Likic                                    #
+#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#                                                                              #
+#    This program is free software; you can redistribute it and/or modify      #
+#    it under the terms of the GNU General Public License version 2 as         #
+#    published by the Free Software Foundation.                                #
+#                                                                              #
+#    This program is distributed in the hope that it will be useful,           #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of            #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             #
+#    GNU General Public License for more details.                              #
+#                                                                              #
+#    You should have received a copy of the GNU General Public License         #
+#    along with this program; if not, write to the Free Software               #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
+#                                                                              #
+################################################################################
 
 import pathlib
 
 from pyms.GCMS.Class import GCMS_data
-from pyms.Scan import Scan
+from pyms.Spectrum import Scan
 
 from netCDF4 import Dataset
 
@@ -49,11 +49,13 @@ __POINT_COUNT = "point_count"
 
 def ANDI_reader(file_name):
 	"""
-	A reader for ANDI-MS NetCDF files, returns
-		a GC-MS data object
+	A reader for ANDI-MS NetCDF files
 
 	:param file_name: The path of the ANDI-MS file
 	:type file_name: str or pathlib.Path
+	
+	:return: GC-MS data object
+	:rtype: class:`pyms.GCMS.Class.GCMS_data`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -125,15 +127,15 @@ def ANDI_reader(file_name):
 
 def ANDI_writer(file_name, im):
 	"""
-	A writer for ANDI-MS NetCDF files, returns
-		a GC-MS data object
+	A writer for ANDI-MS NetCDF files
 
 	:param file_name: The name of the ANDI-MS file
 	:type file_name: StringType
 	:param im: The IntensityMatrix
-	:type file_name: pyms.GCMS.Class.IntensityMatrix
+	:type file_name: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Andrew Isaac
+	TODO: finish this
 	"""
 	
 	# netCDF header info for compatability
@@ -266,7 +268,7 @@ def ANDI_writer(file_name, im):
 	time_list = im.get_time_list()
 	
 	# direct access, don't modify
-	intensity_matrix = im.intensity_matrix
+	intensity_matrix = im.intensity_array
 	
 	# compress by ignoring zero intensities
 	# included for consistency with imported netCDF format

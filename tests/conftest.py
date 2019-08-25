@@ -1,8 +1,6 @@
 import pytest
 
 import os
-import shutil
-import sys
 
 from pathlib import Path
 
@@ -13,38 +11,24 @@ from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Peak.Class import Peak
-from pyms.Experiment.Class import Experiment
+from pyms.Experiment import Experiment
 
 from copy import deepcopy
-# TODO: consider using pytest-datadir
-
-
-# From pytest-datadir (https://github.com/gabrielcnr/pytest-datadir)
-def _win32_longpath(path):
-	'''
-	Helper function to add the long path prefix for Windows, so that shutil.copytree won't fail
-	while working with paths with 255+ chars.
-	'''
-	if sys.platform == 'win32':
-		# The use of os.path.normpath here is necessary since "the "\\?\" prefix to a path string
-		# tells the Windows APIs to disable all string parsing and to send the string that follows
-		# it straight to the file system".
-		# (See https://docs.microsoft.com/pt-br/windows/desktop/FileIO/naming-a-file)
-		return '\\\\?\\' + os.path.normpath(path)
-	else:
-		return path
 
 
 @pytest.fixture("session")
 def datadir():
 	return Path(os.path.split(__file__)[0]) / "data"
 
+@pytest.fixture("session")
+def outputdir():
+	return Path(os.path.split(__file__)[0]) / "output"
+
 
 @pytest.fixture(scope="session")
 def data(datadir):
 	print("data")
 	return JCAMP_reader(datadir / "ELEY_1_SUBTRACT.JDX")
-	#return JCAMP_reader(os.path.join("tests", "data", "ELEY_1_SUBTRACT.JDX"))
 
 
 @pytest.fixture(scope="session")
@@ -121,6 +105,11 @@ def peak(im_i):
 @pytest.fixture(scope="session")
 def ms(im_i):
 	return deepcopy(im_i.get_ms_at_index(0))
+
+@pytest.fixture(scope="session")
+def scan(data):
+	#return deepcopy(im_i.get_scan_at_index(0))
+	return deepcopy(data.scan_list[0])
 	
 	
 @pytest.fixture(scope="function")

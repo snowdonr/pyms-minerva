@@ -4,7 +4,7 @@ Provides conversion and information functions for GC-MS data objects
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -30,7 +30,7 @@ import math
 import deprecation
 
 from pyms import __version__
-from pyms.Utils.Error import pymsError
+from pyms.base import pymsError
 from pyms.GCMS.Class import GCMS_data
 from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i
 from pyms.IonChromatogram import IonChromatogram
@@ -116,29 +116,6 @@ def diff(data1, data2):
 	
 	print(f"\n   Max m/z RMSD: {max_mass_rmsd:.2e}")
 	print(f"   Max intensity RMSD: {max_intensity_rmsd:.2e}")
-
-
-@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-						current_version=__version__,
-						details="Use 'isinstance(vsr, IonChromatogram)' instead")
-def is_ionchromatogram(arg):
-	"""
-	Returns True if the argument is a pyms.IO.Class.IonChromatogram
-		object, False otherwise
-
-	.. deprecated:: 2.1.2
-		Use 'isinstance(vsr, IonChromatogram)' instead instead.
-
-	:param arg: The argument to be evaluated as IonChromatogram object
-	:type arg: arbitrary
-
-	:return: A boolean indicator True or False
-	:rtype: bool
-
-	:author: Vladimir Likic
-	"""
-	
-	return isinstance(arg, IonChromatogram)
 
 
 def ic_window_points(ic, window_sele, half_window=False):

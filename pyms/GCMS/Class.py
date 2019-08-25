@@ -4,7 +4,7 @@ Class to model GC-MS data
 
 ################################################################################
 #                                                                              #
-#    PyMassSpec software for processing of metabolomic mass-spectrometry data  #
+#    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
@@ -25,25 +25,23 @@ Class to model GC-MS data
 
 
 import copy
-import math
 import pathlib
 
 import numpy
 import deprecation
 
 from pyms import __version__
-from pyms.Utils.Error import pymsError
-from pyms.Utils.Utils import is_str, is_list
-from pyms.Utils.IO import open_for_writing, close_for_writing, save_data
+from pyms.base import pymsError
 from pyms.Utils.Math import mean, std, median
 from pyms.Utils.Time import time_str_secs
-from pyms.Scan import Scan
+from pyms.Spectrum import MassSpectrum, Scan
 from pyms.IonChromatogram import IonChromatogram
 from pyms.IntensityMatrix import IntensityMatrix
-from pyms.MassSpectrum import MassSpectrum
+from pyms.base import pymsBaseClass, _list_types
+from pyms.Mixins import TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 
-class GCMS_data(object):
+class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin):
 	"""
 	Generic object for GC-MS data. Contains raw data
 		as a list of scans and times
@@ -64,21 +62,21 @@ class GCMS_data(object):
 		Initialize the GC-MS data
 		"""
 		
-		if not is_list(time_list) or not isinstance(time_list[0], (int, float)):
+		if not isinstance(time_list, _list_types) or not isinstance(time_list[0], (int, float)):
 			raise TypeError("'time_list' must be a list of numbers")
 		
-		if not is_list(scan_list) or not isinstance(scan_list[0], Scan):
+		if not isinstance(scan_list, _list_types) or not isinstance(scan_list[0], Scan):
 			raise TypeError("'scan_list' must be a list of Scan objects")
 		
-		self.__time_list = time_list
-		self.__scan_list = scan_list
+		self._time_list = time_list
+		self._scan_list = scan_list
 		self.__set_time()
 		self.__set_min_max_mass()
 		self.__calc_tic()
 	
 	def __eq__(self, other):
-		# 		self.__time_step = time_step
-		# 		self.__time_step_std = time_step_std
+		# 		self._time_step = time_step
+		# 		self._time_step_std = time_step_std
 		
 		if isinstance(other, self.__class__):
 			return self.scan_list == other.scan_list \
@@ -95,14 +93,14 @@ class GCMS_data(object):
 		:author: Vladimir Likic
 		"""
 		
-		return len(self.__scan_list)
+		return len(self._scan_list)
 	
 	def __calc_tic(self):
 		"""
 		Calculate the total ion chromatogram
 
 		:return: Total ion chromatogram
-		:rtype: pyms.GCMS.Class.IonChromatogram
+		:rtype: pyms.IonChromatogram.IonChromatogram
 
 		:author: Qiao Wang
 		:author: Andrew Isaac
@@ -110,13 +108,13 @@ class GCMS_data(object):
 		"""
 		
 		intensities = []
-		for scan in self.__scan_list:
+		for scan in self._scan_list:
 			intensities.append(sum(scan.intensity_list))
 		ia = numpy.array(intensities)
-		rt = copy.deepcopy(self.__time_list)
+		rt = copy.deepcopy(self._time_list)
 		tic = IonChromatogram(ia, rt)
 		
-		self.__tic = tic
+		self._tic = tic
 	
 	def __set_time(self):
 		"""
@@ -129,8 +127,10 @@ class GCMS_data(object):
 		# check that retention times are increasing
 		time_diff_list = []
 		
-		for index, t1 in enumerate(self.__time_list):
-			t2 = self.__time_list[index + 1]
+		for index, t1 in enumerate(self._time_list):
+			if index == len(self._time_list)-1:
+				break
+			t2 = self._time_list[index + 1]
 			if not t2 > t1:
 				raise pymsError("problem with retention times detected")
 			time_diff = t2 - t1
@@ -139,10 +139,10 @@ class GCMS_data(object):
 		time_step = mean(time_diff_list)
 		time_step_std = std(time_diff_list)
 		
-		self.__time_step = time_step
-		self.__time_step_std = time_step_std
-		self.__min_rt = min(self.__time_list)
-		self.__max_rt = max(self.__time_list)
+		self._time_step = time_step
+		self._time_step_std = time_step_std
+		self._min_rt = min(self._time_list)
+		self._max_rt = max(self._time_list)
 	
 	def __set_min_max_mass(self):
 		"""
@@ -153,95 +153,18 @@ class GCMS_data(object):
 		:author: Vladimir Likic
 		"""
 		
-		mini = self.__scan_list[0].min_mass
-		maxi = self.__scan_list[0].max_mass
-		for scan in self.__scan_list:
+		mini = self._scan_list[0].min_mass
+		maxi = self._scan_list[0].max_mass
+		for scan in self._scan_list:
 			tmp_mini = scan.min_mass
 			tmp_maxi = scan.max_mass
 			if tmp_mini < mini:
 				mini = tmp_mini
 			if tmp_maxi > maxi:
 				maxi = tmp_maxi
-		self.__min_mass = mini
-		self.__max_mass = maxi
+		self._min_mass = mini
+		self._max_mass = maxi
 		
-	
-	
-	def get_index_at_time(self, time):
-		"""
-		Returns the nearest index corresponding to the given time
-
-		:param time: Time in seconds
-		:type time: float
-
-		:return: Nearest index corresponding to given time
-		:rtype: int
-
-		:author: Lewis Lee
-		:author: Tim Erwin
-		:author: Vladimir Likic
-		"""
-		
-		if not isinstance(time, (int, float)):
-			raise TypeError("'time' must be a number")
-		
-		if (time < self.__min_rt) or (time > self.__max_rt):
-			raise IndexError(f"time {time:.2f} is out of bounds (min: {self.__min_rt:.2f}, max: {self.__max_rt:.2f})")
-		
-		time_list = self.__time_list
-		time_diff_min = self.__max_rt
-		ix_match = None
-		
-		for ix in range(len(time_list)):
-			
-			time_diff = math.fabs(time - time_list[ix])
-			
-			if time_diff < time_diff_min:
-				ix_match = ix
-				time_diff_min = time_diff
-		
-		return ix_match
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'GCMS_data.max_mass' instead")
-	def get_max_mass(self):
-		"""
-		Get the max mass value over all scans
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.GCMS.Class.GCMS_data.max_mass` instead.
-
-		:return: The maximum mass of all the data
-		:rtype: float
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.max_mass
-	
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'GCMS_data.min_mass' instead")
-	def get_min_mass(self):
-		"""
-		Get the min mass value over all scans
-		
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.GCMS.Class.GCMS_data.min_mass` instead.
-
-		:return: The minimum mass of all the data
-		:rtype: float
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.min_mass
-	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use 'GCMS.scan_list' instead")
@@ -273,32 +196,12 @@ class GCMS_data(object):
 			Use :attr:`pyms.GCMS.Class.GCMS_data.tic` instead.
 
 		:return: Total ion chromatogram
-		:rtype: pyms.GCMS.Class.IonChromatogram
+		:rtype: pyms.IonChromatogram.IonChromatogram
 
 		:author: Andrew Isaac
 		"""
 		
 		return self.tic
-
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'GCMS.time_list' instead")
-	def get_time_list(self):
-		"""
-		Returns the list of each scan retention time
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.GCMS.Class.GCMS_data.time_list` instead.
-
-		:return: A list of each scan retention time
-		:rtype: list
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.time_list
 	
 	def info(self, print_scan_n=False):
 		"""
@@ -311,54 +214,24 @@ class GCMS_data(object):
 		"""
 		
 		# print the summary of simply attributes
-		print(f" Data retention time range: {self.__min_rt / 60.0:.3f} min -- {self.__max_rt / 60:.3f} min")
-		print(f" Time step: {self.__time_step:.3f} s (std={self.__time_step_std:.3f} s)")
-		print(f" Number of scans: {len(self.__scan_list):d}")
-		print(f" Minimum m/z measured: {self.__min_mass:.3f}")
-		print(f" Maximum m/z measured: {self.__max_mass:.3f}")
+		print(f" Data retention time range: {self._min_rt / 60.0:.3f} min -- {self._max_rt / 60:.3f} min")
+		print(f" Time step: {self._time_step:.3f} s (std={self._time_step_std:.3f} s)")
+		print(f" Number of scans: {len(self._scan_list):d}")
+		print(f" Minimum m/z measured: {self._min_mass:.3f}")
+		print(f" Maximum m/z measured: {self._max_mass:.3f}")
 		
 		# calculate median number of m/z values measured per scan
 		n_list = []
-		for ii in range(len(self.__scan_list)):
-			scan = self.__scan_list[ii]
+		for ii in range(len(self._scan_list)):
+			scan = self._scan_list[ii]
 			n = len(scan)
 			n_list.append(n)
 			if print_scan_n: print(n)
 		mz_mean = mean(n_list)
 		mz_median = median(n_list)
-		print(f" Mean number of m/z values per scan: {mz_mean:d}")
-		print(f" Median number of m/z values per scan: {mz_median:d}")
-	
-	@property
-	def max_mass(self):
-		"""
-		Get the max mass value over all scans
+		print(f" Mean number of m/z values per scan: {mz_mean:.0f}")
+		print(f" Median number of m/z values per scan: {mz_median:.0f}")
 
-		:return: The maximum mass of all the data
-		:rtype: float
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.__max_mass
-
-	@property
-	def min_mass(self):
-		"""
-		Get the min mass value over all scans
-
-		:return: The minimum mass of all the data
-		:rtype: float
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.__min_mass
-	
 	@property
 	def scan_list(self):
 		"""
@@ -372,7 +245,7 @@ class GCMS_data(object):
 		:author: Vladimir Likic
 		"""
 		
-		return copy.deepcopy(self.__scan_list)
+		return copy.deepcopy(self._scan_list)
 	
 	@property
 	def tic(self):
@@ -380,27 +253,12 @@ class GCMS_data(object):
 		Returns the total ion chromatogram
 
 		:return: Total ion chromatogram
-		:rtype: pyms.GCMS.Class.IonChromatogram
+		:rtype: pyms.IonChromatogram.IonChromatogram
 
 		:author: Andrew Isaac
 		"""
 		
-		return self.__tic
-	
-	@property
-	def time_list(self):
-		"""
-		Returns the list of each scan retention time
-
-		:return: A list of each scan retention time
-		:rtype: list
-
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		"""
-		
-		return self.__time_list[:]
+		return self._tic
 	
 	def trim(self, begin=None, end=None):
 		"""
@@ -428,28 +286,28 @@ class GCMS_data(object):
 		if begin is None and end is None:
 			raise SyntaxError("At least one of 'begin' and 'end' is required")
 		
-		N = len(self.__scan_list)
+		N = len(self._scan_list)
 		
 		# process 'begin' and 'end'
 		if begin is None:
 			first_scan = 0
 		elif isinstance(begin, (int, float)):
 			first_scan = begin - 1
-		elif is_str(begin):
+		elif isinstance(begin, str):
 			time = time_str_secs(begin)
 			first_scan = self.get_index_at_time(time) + 1
 		else:
-			raise ValueError("invalid 'begin' argument")
+			raise TypeError("invalid 'begin' argument")
 		
 		if end is None:
 			last_scan = N - 1
 		elif isinstance(end, (int, float)):
 			last_scan = end
-		elif is_str(end):
+		elif isinstance(end, str):
 			time = time_str_secs(end)
 			last_scan = self.get_index_at_time(time) + 1
 		else:
-			raise ValueError("invalid 'end' argument")
+			raise TypeError("invalid 'end' argument")
 		
 		# sanity checks
 		if not last_scan > first_scan:
@@ -464,16 +322,16 @@ class GCMS_data(object):
 		
 		scan_list_new = []
 		time_list_new = []
-		for ii in range(len(self.__scan_list)):
+		for ii in range(len(self._scan_list)):
 			if first_scan <= ii <= last_scan:
-				scan = self.__scan_list[ii]
-				time = self.__time_list[ii]
+				scan = self._scan_list[ii]
+				time = self._time_list[ii]
 				scan_list_new.append(scan)
 				time_list_new.append(time)
 		
 		# update info
-		self.__scan_list = scan_list_new
-		self.__time_list = time_list_new
+		self._scan_list = scan_list_new
+		self._time_list = time_list_new
 		self.__set_time()
 		self.__set_min_max_mass()
 		self.__calc_tic()
@@ -505,17 +363,16 @@ class GCMS_data(object):
 		if not file_root.parent.is_dir():
 			file_root.parent.mkdir(parents=True)
 		
-		
 		file_name1 = str(file_root) + ".I.csv"
 		file_name2 = str(file_root) + ".mz.csv"
 		
 		print(f" -> Writing intensities to '{file_name1}'")
 		print(f" -> Writing m/z values to '{file_name2}'")
 		
-		fp1 = open_for_writing(file_name1)
-		fp2 = open_for_writing(file_name2)
+		fp1 = open(file_name1, "w")
+		fp2 = open(file_name2, "w")
 		
-		for scan in self.__scan_list:
+		for scan in self._scan_list:
 			
 			for index, intensity in enumerate(scan.intensity_list):
 				if index == 0:
@@ -531,8 +388,8 @@ class GCMS_data(object):
 					fp2.write(f",{mass:.4f}")
 			fp2.write("\n")
 		
-		close_for_writing(fp1)
-		close_for_writing(fp2)
+		fp1.close()
+		fp2.close()
 	
 	def write_intensities_stream(self, file_name):
 		"""
@@ -559,14 +416,14 @@ class GCMS_data(object):
 		if not file_name.parent.is_dir():
 			file_name.parent.mkdir(parents=True)
 		
-		N = len(self.__scan_list)
+		N = len(self._scan_list)
 		
 		print(" -> Writing scans to a file")
 		
-		fp = file_name.open(file_name)
+		fp = file_name.open("w")
 		
-		for scan in self.__scan_list:
-			intensities = scan.get_intensity_list()
+		for scan in self._scan_list:
+			intensities = scan.intensity_list
 			for I in intensities:
 				fp.write(f"{I:8.4f}\n")
 		

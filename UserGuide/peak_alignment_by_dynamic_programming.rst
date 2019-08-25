@@ -90,19 +90,19 @@ given below.
    :lines: 4-30
 
 The script reads the experiment files from the directory where they were stored (61a/output), and creates a list of the loaded :class:`~pyms.Experiment.Experiment` objects.
-Each experiment object is converted into an :class:`~pyms.Peak.List.DPA.Class.Alignment` object with the function :meth:`exprl2alignment() <pyms.Peak.List.DPA.Function.exprl2alignment>`.
+Each experiment object is converted into an :class:`~pyms.DPA.Class.Alignment` object with the function :meth:`exprl2alignment() <pyms.DPA.Function.exprl2alignment>`.
 In this example, there is only one experimental condition so the alignment object is only for within group alignment (this special case is called 1-alignment).
 The variable F1 is a Python list containing three alignment objects.
 
 The pairwise alignment is then performed.
 The parameters for the alignment by dynamic programming are: ``Dw``, the retention time modulation in seconds; and ``Gw``, the gap penalty.
 These parameters are explained in detail in [1]_.
-:class:`~pyms.Peak.List.DPA.Class.PairwiseAlignment`, defined in :mod:`pyms.Peak.List.DPA.Class`, is a class that calculates the similarity between all peaks in one sample with those of another sample.
+:class:`~pyms.DPA.Class.PairwiseAlignment`, defined in :mod:`pyms.DPA.Class`, is a class that calculates the similarity between all peaks in one sample with those of another sample.
 This is done for all possible pairwise alignments (2-alignments).
-The output of :class:`~pyms.Peak.List.DPA.Class.PairwiseAlignment` (``T1``) is an object which contains the dendrogram tree that maps the similarity relationship between the input 1-alignments, and also 1-alignments themselves.
+The output of :class:`~pyms.DPA.Class.PairwiseAlignment` (``T1``) is an object which contains the dendrogram tree that maps the similarity relationship between the input 1-alignments, and also 1-alignments themselves.
 
-The function :meth:`align_with_tree() <pyms.Peak.List.DPA.Class.align_with_tree>` takes the object T1 and aligns the individual alignment objects according to the guide tree.
-In this example, the individual alignments are three 1-alignments, and the function :meth:`align_with_tree() <pyms.Peak.List.DPA.Class.align_with_tree>` first creates a 2-alignment from the two most similar 1-alignments and then adds the third 1-alignment to this to create a 3-alignment.
+The function :meth:`align_with_tree() <pyms.DPA.Class.align_with_tree>` takes the object T1 and aligns the individual alignment objects according to the guide tree.
+In this example, the individual alignments are three 1-alignments, and the function :meth:`align_with_tree() <pyms.DPA.Class.align_with_tree>` first creates a 2-alignment from the two most similar 1-alignments and then adds the third 1-alignment to this to create a 3-alignment.
 The parameter ``min_peaks=2`` specifies that any peak column of the data matrix that has fewer than two peaks in the final alignment will be dropped.
 This is useful to clean up the data matrix of accidental peaks that are not truly observed over the set of replicates.
 
@@ -150,7 +150,7 @@ The total area is the sum of the areas of each of the individual ions in the pea
 While this approach produces broadly accurate results, it can result in errors where neighbouring peaks or unfiltered noise add to the peak in some way.
 
 One alternative to this approach is to pick a single ion which is common to a particular peak (compound), and to report only the area of this ion for each occurrence of that peak in the alignment.
-Using the method :meth:`common_ion() <pyms.Peak.List.DPA.Class.Alignment.common_ion>` of the class :class:`~pyms.Peak.List.DPA.Class.Alignment`, |pkgname| can select an ion for each aligned peak which is both abundant and occurs most often for that peak.
+Using the method :meth:`common_ion() <pyms.DPA.Class.Alignment.common_ion>` of the class :class:`~pyms.DPA.Class.Alignment`, |pkgname| can select an ion for each aligned peak which is both abundant and occurs most often for that peak.
 We call this the 'Common Ion Algorithm' (CIA).
 
 To use this method it is essential that the individual ion
@@ -160,9 +160,9 @@ areas have been set (see section :ref:`individual_ion_areas`).
 Using the Common Ion Algorithm
 ----------------------------------
 
-When using the CIA for area quantitation, a different method of the class :class:`~pyms.Peak.List.DPA.Class.Alignment` is used to write the area matrix; :meth:`write_common_ion_csv() <pyms.Peak.List.DPA.Class.Alignment.write_common_ion_csv>`.
+When using the CIA for area quantitation, a different method of the class :class:`~pyms.DPA.Class.Alignment` is used to write the area matrix; :meth:`write_common_ion_csv() <pyms.DPA.Class.Alignment.write_common_ion_csv>`.
 This requires a list of the common ions for each peak in the alignment.
-This list is generated using the Alignment class method :meth:`common_ion() <pyms.Peak.List.DPA.Class.Alignment.common_ion>`.
+This list is generated using the Alignment class method :meth:`common_ion() <pyms.DPA.Class.Alignment.common_ion>`.
 
 Continuing from the previous example, the following invokes common ion filtering on previously created alignment object 'A9':
 
