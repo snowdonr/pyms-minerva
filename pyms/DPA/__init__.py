@@ -23,5 +23,3 @@ Alignment of peak lists by dynamic programming
 #                                                                              #
 ################################################################################
 
-
-#from pyms.DPA.Class import Alignment, PairwiseAlignment

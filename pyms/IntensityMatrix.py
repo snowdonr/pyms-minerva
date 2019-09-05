@@ -24,7 +24,6 @@ Class to model Intensity Matrix
 ################################################################################
 
 
-import math
 import copy
 import pathlib
 from warnings import warn
@@ -34,7 +33,7 @@ import deprecation
 
 from pyms import __version__
 from pyms.base import pymsBaseClass
-from pyms.Mixins import TimeListMixin, MassListMixin, IntensityArrayMixin, MaxMinMassMixin, GetIndexTimeMixin
+from pyms.Mixins import TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin
 from pyms.base import _list_types
 from pyms.Utils.IO import save_data
 from pyms.IonChromatogram import IonChromatogram
@@ -96,7 +95,6 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		
 		self._min_mass = min(mass_list)
 		self._max_mass = max(mass_list)
-		
 		
 		# Try to include parallelism.
 		try:
@@ -463,11 +461,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		if mass_min >= mass_max:
 			raise ValueError("'mass_min' must be less than 'mass_max'")
 		if mass_min < self._min_mass:
-			raise ValueError("'mass_min' is less than the smallest mass: %.3f" %
-							 self._min_mass)
+			raise ValueError(f"'mass_min' is less than the smallest mass: {self._min_mass:.3f}")
 		if mass_max > self._max_mass:
-			raise ValueError("'mass_max' is greater than the largest mass: %.3f" %
-							 self._max_mass)
+			raise ValueError(f"'mass_max' is greater than the largest mass: {self._max_mass:.3f}")
 		
 		# pre build mass_list and list of indecies
 		mass_list = self._mass_list
@@ -475,7 +471,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		ii_list = []
 		for ii in range(len(mass_list)):
 			mass = mass_list[ii]
-			if mass >= mass_min and mass <= mass_max:
+			if mass_min <= mass <= mass_max:
 				new_mass_list.append(mass)
 				ii_list.append(ii)
 		
@@ -493,7 +489,6 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		self._max_mass = max(new_mass_list)
 	
 	def null_mass(self, mass):
-		
 		"""
 		Ignore given (closest) mass in spectra
 
@@ -506,8 +501,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		if not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be numbers")
 		if mass < self._min_mass or mass > self._max_mass:
-			raise IndexError("'mass' not in mass range: %.3f to %.3f" % (self._min_mass, \
-																		 self._max_mass))
+			raise IndexError(f"'mass' not in mass range: {self._min_mass:.3f} to {self._max_mass:.3f}")
 		
 		ii = self.get_index_of_mass(mass)
 		
@@ -516,7 +510,6 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			im[spec_jj][ii] = 0
 	
 	def reduce_mass_spectra(self, N=5):
-		
 		"""
 		Reduces mass spectra by retaining top N
 			intensities, discarding all other intensities.
@@ -647,17 +640,17 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		fp.write("\"Scan\",\"Time\"")
 		for ii in mass_list:
 			if isinstance(ii, (int, float)):
-				fp.write(",\"%d\"" % int(ii))
+				fp.write(f",\"{int(ii):d}\"")
 			else:
 				raise TypeError("mass list datum not a number")
 		fp.write("\r\n")  # windows CR/LF
 		
 		# write lines
 		for ii in range(len(time_list)):
-			fp.write("%s,%#.6e" % (ii, time_list[ii]))
+			fp.write(f"{ii},{time_list[ii]:#.6e}")
 			for jj in range(len(vals[ii])):
 				if isinstance(vals[ii][jj], (int, float)):
-					fp.write(",%#.6e" % (vals[ii][jj]))
+					fp.write(f",{vals[ii][jj]:#.6e}")
 				else:
 					raise TypeError("datum not a number")
 			fp.write("\r\n")
@@ -677,7 +670,6 @@ def import_leco_csv(file_name):
 
 	:author: Andrew Isaac
 	:author: Dominic Davis-Foster (pathlib support)
-
 	"""
 	
 	if not isinstance(file_name, (str, pathlib.Path)):
@@ -769,19 +761,15 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 
 	:param data: Raw GCMS data
 	:type data: pyms.GCMS.Class.GCMS_data
-
 	:param bin_interval: interval between bin centres (default 1)
 	:type bin_interval: int or float
-
 	:param bin_left: left bin boundary offset (default 0.5)
 	:type bin_left: float
-
 	:param bin_right: right bin boundary offset (default 0.5)
 	:type bin_right: float
-
 	:param min_mass: Minimum mass to bin (default minimum mass from data)
 	:type min_mass: bool
-
+	
 	:return: Binned IntensityMatrix object
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 

@@ -199,7 +199,7 @@ def test_trim(data):
 			trimmed.trim(begin=type)
 		with pytest.raises(TypeError):
 			trimmed.trim(end=type)
-	
+			
 	
 def test_write(data, outputdir):
 	data.write(outputdir/"jcamp_gcms_data")

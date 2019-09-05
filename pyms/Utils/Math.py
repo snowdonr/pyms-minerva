@@ -24,97 +24,13 @@ Provides mathematical functions
 ################################################################################
 
 
-import copy
-import numpy
 import math
-from statistics import mean, median
+from statistics import median
 from statistics import stdev as std
 
-from pyms.base import pymsError
+import numpy
+
 from pyms.base import _list_types
-
-
-# def median(v):
-#     """
-#     Returns a median of a list or numpy array
-#
-#     :param v: Input list or array
-#     :type v: list or numpy.core.ndarray
-#     :return: The median of the input list
-#     :rtype: list
-#
-#     :author: Vladimir Likic
-#     """
-#
-#     if not is_list(v):
-#         raise TypeError("'v' must be a list or array")
-#
-#     local_data = copy.deepcopy(v)
-#     local_data.sort()
-#     N = len(local_data)
-#
-#     if (N % 2) == 0:
-#         # even number of points
-#         K = N//2 - 1
-#         median = (local_data[K] + local_data[K+1])/2.0
-#     else:
-#         # odd number of points
-#         K = (N - 1)//2 - 1
-#         median = local_data[K+1]
-#
-#     return median
-#
-#
-# def mean(v):
-#     """
-#     Calculates the mean
-#
-#     :param v: A list or array
-#     :type v: list, tuple, or numpy.core.ndarray
-#
-#     :return: Mean
-#     :rtype: float
-#
-#     :author: Vladimir Likic
-#     """
-#
-#     if not is_list(v):
-#         raise TypeError("'v' must be a list or array")
-#
-#     s = 0.0
-#     for e in v:
-#         s = s + e
-#     s_mean = s / float(len(v))
-#
-#     return s_mean
-#
-#
-# def std(v):
-#     """
-#     Calculates standard deviation
-#
-#     :param v: A list or array
-#     :type v: list, tuple, or numpy.core.ndarray
-#
-#     :return: Mean
-#     :rtype: float
-#
-#     :author: Vladimir Likic
-#     """
-#
-#     if not is_list(v):
-#         raise TypeError("'v' must be a list or array")
-#
-#     v_mean = mean(v)
-#
-#     s = 0.0
-#     for e in v:
-#         d = e - v_mean
-#         s = s + d * d
-#     s_mean = s / float(len(v) - 1)
-#     v_std = math.sqrt(s_mean)
-#
-#     return v_std
 
 
 def vector_by_step(vstart, vstop, vstep):
@@ -173,40 +89,6 @@ def MAD(v):
     mad = median(m_list)/0.6745
 
     return mad
-
-
-def amin(v):
-
-    """
-    Finds the minimum element in a list or array
-
-    :param v: A list or array
-    :type v: list, tuple, or numpy.core.ndarray
-
-    :return: Tuple (maxi, maxv), where maxv is the minimum
-        element in the list and maxi is its index
-    :rtype: tuple
-
-    :author: Vladimir Likic
-    """
-
-    if not isinstance(v, _list_types):
-        raise TypeError("'v' must be a list or array")
-
-    minv = max(v) # built-in max() function
-    mini = None
-
-    for ii in range(len(v)):
-        if v[ii] < minv:
-            minv = v[ii]
-            mini = ii
-
-    if mini == None:
-        raise pymsError("finding maximum failed")
-
-    return mini, minv
-
-
 
 
 def rmsd(list1, list2):

@@ -24,9 +24,33 @@ Time conversion and related functions
 ################################################################################
 
 
+import re
 import math
 
-from pyms.Utils.Utils import is_str_num
+
+def is_str_num(arg):
+    """
+    Determines if the argument is a string in the format of a number
+
+    The number can be an integer, or alternatively floating point in scientific
+    or engineering format.
+
+    :param arg: A string to be evaluate as a number
+    :type arg: StringType
+
+    :return: A boolean indicator True or False
+    :rtype:  BooleanType
+
+    :author: Gyro Funch (from Active State Python Cookbook)
+    """
+
+    NUM_RE = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
+
+    if NUM_RE.match(str(arg)):
+        return True
+    else:
+        return False
+
 
 def time_str_secs(time_str):
 
@@ -51,7 +75,7 @@ def time_str_secs(time_str):
     time_spec = time_str[-1].lower()
 
     if not is_str_num(time_number):
-       print(" --> received time string '%s'" % (time_number))
+       print(f" --> received time string '{time_number}'")
        raise ValueError("improper time string")
 
     if not time_spec == "s" and not time_spec == "m":
@@ -110,9 +134,9 @@ def window_sele_points(ic, window_sele, half_window=False):
         points = int(math.floor(time/time_step))
 
     if half_window:
-        if points < 1: raise ValueError("window too small (half window=%d)" % (points))
+        if points < 1: raise ValueError(f"window too small (half window={points:d})")
     else:
-        if points < 2: raise ValueError("window too small (window=%d)" % (points))
+        if points < 2: raise ValueError(f"window too small (window={points:d})")
 
     return points
 

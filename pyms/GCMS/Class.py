@@ -26,19 +26,19 @@ Class to model GC-MS data
 
 import copy
 import pathlib
+from statistics import stdev, median, mean
 
 import numpy
 import deprecation
 
 from pyms import __version__
 from pyms.base import pymsError
-from pyms.Utils.Math import mean, std, median
 from pyms.Utils.Time import time_str_secs
-from pyms.Spectrum import MassSpectrum, Scan
+from pyms.Spectrum import Scan
 from pyms.IonChromatogram import IonChromatogram
-from pyms.IntensityMatrix import IntensityMatrix
 from pyms.base import pymsBaseClass, _list_types
 from pyms.Mixins import TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
+from pyms.Utils.IO import prepare_filepath
 
 
 class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin):
@@ -137,7 +137,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 			time_diff_list.append(time_diff)
 		
 		time_step = mean(time_diff_list)
-		time_step_std = std(time_diff_list)
+		time_step_std = stdev(time_diff_list)
 		
 		self._time_step = time_step
 		self._time_step_std = time_step_std
@@ -357,11 +357,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		if not isinstance(file_root, (str, pathlib.Path)):
 			raise TypeError("'file_root' must be a string or a pathlib.Path object")
 		
-		if not isinstance(file_root, pathlib.Path):
-			file_root = pathlib.Path(file_root)
-		
-		if not file_root.parent.is_dir():
-			file_root.parent.mkdir(parents=True)
+		file_root = prepare_filepath(file_root)
 		
 		file_name1 = str(file_root) + ".I.csv"
 		file_name2 = str(file_root) + ".mz.csv"
@@ -410,11 +406,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		if not isinstance(file_name, (str, pathlib.Path)):
 			raise TypeError("'file_name' must be a string or a pathlib.Path object")
 		
-		if not isinstance(file_name, pathlib.Path):
-			file_name = pathlib.Path(file_name)
-		
-		if not file_name.parent.is_dir():
-			file_name.parent.mkdir(parents=True)
+		file_name = prepare_filepath(file_name)
 		
 		N = len(self._scan_list)
 		
@@ -429,4 +421,3 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 		fp.close()
 
-## get_ms_at_time()

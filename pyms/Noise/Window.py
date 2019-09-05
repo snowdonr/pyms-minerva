@@ -25,14 +25,14 @@ Moving window noise filter
 
 
 import copy
+from statistics import median
 
 import numpy
 
 from pyms.GCMS.Function import ic_window_points
-from pyms.Utils.Math import median
-
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
+
 
 __DEFAULT_WINDOW = 3
 

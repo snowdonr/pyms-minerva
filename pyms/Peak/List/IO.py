@@ -30,6 +30,7 @@ import pathlib
 from pyms.Peak.Class import Peak
 from pyms.base import _list_types
 from pyms.Peak.List.Function import is_peak_list
+from pyms.Utils.IO import prepare_filepath
 
 
 def store_peaks(peak_list, file_name):
@@ -51,11 +52,7 @@ def store_peaks(peak_list, file_name):
     if not isinstance(file_name, (str, pathlib.Path)):
         raise TypeError("'file_name' must be a string or a pathlib.Path object")
 
-    if not isinstance(file_name, pathlib.Path):
-        file_name = pathlib.Path(file_name)
-
-    if not file_name.parent.is_dir():
-        file_name.parent.mkdir(parents=True)
+    file_name = prepare_filepath(file_name)
 
     fp = file_name.open('wb')
     pickle.dump(peak_list, fp, 1)

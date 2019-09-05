@@ -32,6 +32,7 @@ from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
+
 __DEFAULT_WINDOW = 7
 __DEFAULT_POLYNOMIAL_DEGREE = 2
 

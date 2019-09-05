@@ -21,7 +21,7 @@
 import pytest
 from tests.constants import *
 
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.Window import window_smooth_im, window_smooth
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram

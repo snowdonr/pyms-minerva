@@ -364,7 +364,7 @@ def test_another_peak(im_i, peak):
 	ms = im_i.get_ms_at_index(scan_i)
 	peak2 = Peak(31.44, ms, minutes=True)
 	assert peak2.rt == 1886.4
-	assert peak2.UID == '207-68-42-31.44'
+	assert peak2.UID == '207-68-42-1886.40'
 	assert peak.UID != peak2.UID
 
 

@@ -75,7 +75,6 @@ class Peak(pymsBaseClass):
 			rt = rt*60.0
 		
 		# basic peak attributes
-		self.__minutes = minutes
 		self.is_outlier = outlier
 		self.__rt = float(rt)
 		self.__pt_bounds = None
@@ -484,9 +483,6 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 		
-		minutes = 1.0
-		if self.__minutes:
-			minutes = 60.0
 		if self.__mass_spectrum is not None:
 			mass_list = self.__mass_spectrum.mass_list
 			mass_spec = self.__mass_spectrum.mass_spec
@@ -500,14 +496,11 @@ class Peak(pymsBaseClass):
 					best2_ii = best_ii
 					best_ii = ii
 			ratio = int(100*mass_spec[best2_ii]/best)
-			UID = "%d-%d-%d-%.2f" % (int(mass_list[best_ii]),
-									 int(mass_list[best2_ii]), ratio, self.__rt/minutes)
+			self.__UID = f"{int(mass_list[best_ii]):d}-{int(mass_list[best2_ii]):d}-{ratio:d}-{self.__rt:.2f}"
 		elif self.__ic_mass is not None:
-			UID = "%d-%.2f" % (int(self.__ic_mass), self.__rt/minutes)
+			self.__UID = f"{int(self.__ic_mass):d}-{self.__rt:.2f}"
 		else:
-			UID = f"{self.__rt/minutes:.2f}"
-		
-		self.__UID = UID
+			self.__UID = f"{self.__rt:.2f}"
 	
 	@property
 	def mass_spectrum(self):

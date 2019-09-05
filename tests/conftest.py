@@ -1,3 +1,23 @@
+#############################################################################
+#                                                                           #
+#    PyMassSpec software for processing of mass-spectrometry data           #
+#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
 import pytest
 
 import os
@@ -6,7 +26,7 @@ from pathlib import Path
 
 from pyms.TopHat import tophat
 from pyms.BillerBiemann import BillerBiemann, rel_threshold, num_ions_threshold
-from pyms.GCMS.Function import build_intensity_matrix, build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix, build_intensity_matrix_i
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas

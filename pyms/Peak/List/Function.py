@@ -35,15 +35,13 @@ from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Math import median_outliers
 
 
-def composite_peak(peak_list, minutes=False, ignore_outliers=False):
+def composite_peak(peak_list, ignore_outliers=False):
     """
     Create a peak that consists of a composite spectrum from all
         spectra in the list of peaks.
 
     :param peak_list: A list of peak objects
     :type peak_list: list
-    :param minutes: Return retention time as minutes
-    :type minutes: bool, optional
     :param ignore_outliers:
     :type ignore_outliers: bool, optional
 
@@ -96,12 +94,10 @@ def composite_peak(peak_list, minutes=False, ignore_outliers=False):
             count += 1
     if count > 0:
         avg_rt = avg_rt/count
-        #if minutes == True:
-            #avg_rt = avg_rt/60.0
         avg_spec = avg_spec/count
-        avg_spec = avg_spec.tolist()  # list more compact than ndarray
         new_ms = MassSpectrum(mass_list, avg_spec)
-        return Peak(avg_rt, new_ms, minutes)
+        
+        return Peak(avg_rt, new_ms)
     else:
         return None
 
@@ -134,7 +130,6 @@ def fill_peaks(data, peak_list, D, minutes=False):
     if not isinstance(D, float):
         raise TypeError("'D' must be a float")
 
-    
     # Test for best match in range where RT weight is greater than _TOL
     _TOL = 0.001
     cutoff = D*math.sqrt(-2.0*math.log(_TOL))
@@ -236,17 +231,6 @@ def is_peak_list(peaks):
 
     return isinstance(peaks, _list_types) and all(isinstance(peak, Peak) for peak in peaks)
 
-    flag = True
-
-    if not isinstance(peaks, _list_types):
-        flag = False
-    else:
-        for item in peaks:
-           if not isinstance(item, Peak):
-              flag = False
-
-    return flag
-    
 
 def sele_peaks_by_rt(peaks, rt_range):
     """

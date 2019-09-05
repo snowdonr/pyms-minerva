@@ -23,12 +23,13 @@ General I/O functions
 #                                                                              #
 ################################################################################
 
-import os
+import gzip
 import pickle
 import pathlib
 
-from pyms.base import pymsError
-from pyms.base import _list_types
+import numpy
+
+_list_types = (list, tuple, numpy.core.ndarray)
 
 
 def prepare_filepath(file_name):
@@ -40,9 +41,9 @@ def prepare_filepath(file_name):
 	:type file_name: str or pathlib.Path
 	
 	:return: file_name
-	:rtype: str or pathlib.Path
+	:rtype: pathlib.Path
 	
-	:author: Dominic Davis-Foster (pathlib support)
+	:author: Dominic Davis-Foster
 	"""
 	
 	if not isinstance(file_name, pathlib.Path):
@@ -54,12 +55,12 @@ def prepare_filepath(file_name):
 	return file_name
 
 
-def dump_object(object, file_name):
+def dump_object(obj, file_name):
 	"""
 	Dumps an object to a file through pickle.dump()
 
-	:param object: Object to be dumped
-	:type object: An instance of an arbitrary class
+	:param obj: Object to be dumped
+	:type obj: any
 	:param file_name: Name of the file for the object dump
 	:type file_name: str or pathlib.Path
 	
@@ -72,9 +73,8 @@ def dump_object(object, file_name):
 	
 	file_name = prepare_filepath(file_name)
 	
-	fp = file_name.open('wb')
-	pickle.dump(object, fp)
-	fp.close()
+	with file_name.open('wb') as fp:
+		pickle.dump(obj, fp)
 
 
 def load_object(file_name):
@@ -96,20 +96,17 @@ def load_object(file_name):
 	
 	file_name = prepare_filepath(file_name)
 	
-	fp = file_name.open('wb')
-	object = pickle.load(fp)
-	fp.close()
+	with file_name.open('wb') as fp:
+		return pickle.load(fp)
 	
-	return object
 
-
-def file_lines(file_name, filter=False):
+def file_lines(file_name, strip=False):
 	"""
 	Returns lines from a file, as a list
 
 	:param file_name: Name of a file
 	:type file_name: str or pathlib.Path
-	:param filter: If True, lines are pre-processes. Newline characters are
+	:param strip: If True, lines are pre-processed. Newline characters are
 		removed, leading and trailing whitespaces are removed, and lines
 		starting with '#' are discarded
 	:type: bool, optional
@@ -127,12 +124,11 @@ def file_lines(file_name, filter=False):
 	if not isinstance(file_name, pathlib.Path):
 		file_name = pathlib.Path(file_name)
 	
-	fp = file_name.open()
-	lines = fp.readlines()
-	fp.close()
+	with file_name.open() as fp:
+		lines = fp.readlines()
 	
-	if filter:
-		# strip leading and talining whitespaces
+	if strip:
+		# strip leading and trailing whitespaces
 		lines_filtered = []
 		for line in lines:
 			line = line.strip()
@@ -187,40 +183,37 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 	if not isinstance(sep, str):
 		raise TypeError("'sep' must be a string")
 	
-	fp = file_name.open("w")
-	
-	# decide whether data is a vector or matrix
-	if isinstance(data[0], (int, float)):
-		for item in data:
-			if not isinstance(item, (int, float)):
-				raise TypeError("not all elements of the list are numbers")
-		data_is_matrix = 0
-	else:
-		for item in data:
-			if not isinstance(item, _list_types):
-				raise TypeError("not all elements of the list are lists")
-		data_is_matrix = 1
-	
-	if data_is_matrix:
-		for ii in range(len(data)):
-			fp.write(prepend)
-			for jj in range(len(data[ii])):
-				if isinstance(data[ii][jj], (int, float)):
-					fp.write(format_str % (data[ii][jj]))
-					if jj<(len(data[ii]) - 1): fp.write(sep)
-				else:
-					raise TypeError("'datum' must be a number")
-			fp.write("\n")
-	else:
-		for ii in range(len(data)):
-			fp.write(prepend)
-			fp.write(format_str % (data[ii]))
-			fp.write("\n")
-	
-	fp.close()
+	with file_name.open("w") as fp:
+		
+		# decide whether data is a vector or matrix
+		if isinstance(data[0], (int, float)):
+			for item in data:
+				if not isinstance(item, (int, float)):
+					raise TypeError("not all elements of the list are numbers")
+			data_is_matrix = 0
+		else:
+			for item in data:
+				if not isinstance(item, _list_types):
+					raise TypeError("not all elements of the list are lists")
+			data_is_matrix = 1
+		
+		if data_is_matrix:
+			for ii in range(len(data)):
+				fp.write(prepend)
+				for jj in range(len(data[ii])):
+					if isinstance(data[ii][jj], (int, float)):
+						fp.write(format_str % (data[ii][jj]))
+						if jj<(len(data[ii]) - 1): fp.write(sep)
+					else:
+						raise TypeError("'datum' must be a number")
+				fp.write("\n")
+		else:
+			for ii in range(len(data)):
+				fp.write(prepend)
+				fp.write(format_str % (data[ii]))
+				fp.write("\n")
 	
 	if compressed:
-		status = os.system('gzip %s' % (file_name))
-		if status != 0:
-			pymsError("gzip compress failed")
-
+		with file_name.open() as f_in:
+			with gzip.open(str(file_name) + '.gz', 'wb') as f_out:
+				f_out.writelines(f_in)

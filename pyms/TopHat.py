@@ -32,6 +32,7 @@ from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.GCMS.Function import ic_window_points
 
+
 # default structural element as a fraction of total number of points
 _STRUCT_ELM_FRAC = 0.2
 

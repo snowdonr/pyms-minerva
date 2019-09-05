@@ -115,7 +115,7 @@ class Alignment(object):
 				if peak is not None:
 					new_peak_list.append(peak)
 			# create composite
-			new_peak = composite_peak(new_peak_list, minutes)
+			new_peak = composite_peak(new_peak_list)
 			peak_list.append(new_peak)
 		
 		return peak_list
@@ -251,7 +251,7 @@ class Alignment(object):
 		
 		return max(most_freq_mzs)
 	
-	def write_csv(self, rt_file_name, area_file_name, minutes=True, dk=False):
+	def write_csv(self, rt_file_name, area_file_name, minutes=True):
 		"""
 		Writes the alignment to CSV files
 
@@ -265,8 +265,6 @@ class Alignment(object):
 		:param minutes: An optional indicator whether to save retention times
 			in minutes. If False, retention time will be saved in seconds
 		:type minutes: bool, optional
-		:param dk: Whether to use David Kainer's modified version
-		:type dk: bool, optional
 
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
@@ -274,7 +272,7 @@ class Alignment(object):
 		:author: David Kainer
 		:author: Dominic Davis-Foster (pathlib support)
 		"""
-		
+
 		if not isinstance(rt_file_name, (str, pathlib.Path)):
 			raise TypeError("'rt_file_name' must be a string or a pathlib.Path object")
 		
@@ -288,7 +286,7 @@ class Alignment(object):
 		fp2 = area_file_name.open("w")
 		
 		# create header
-		header = ['"UID"', '"RTavg"']
+		header = ['UID', 'RTavg']
 		for item in self.expr_code:
 			header.append(f'"{item}"')
 		
@@ -302,8 +300,6 @@ class Alignment(object):
 			rts = []
 			areas = []
 			new_peak_list = []
-			avgrt = 0
-			countrt = 0
 			
 			for align_idx in range(len(self.peakpos)):
 				peak = self.peakpos[align_idx][peak_idx]
@@ -319,22 +315,19 @@ class Alignment(object):
 					areas.append(peak.area)
 					new_peak_list.append(peak)
 					
-					avgrt = avgrt + rt
-					countrt = countrt + 1
 				else:
 					rts.append(None)
 					areas.append(None)
 			
-			if countrt > 0:
-				avgrt = avgrt / countrt
-			
-			compo_peak = composite_peak(new_peak_list, minutes)
-			peak_UID = compo_peak.UID
-			peak_UID_string = (f'"{peak_UID}"')
+			compo_peak = composite_peak(new_peak_list)
 			
 			# write to retention times file
-			fp1.write(peak_UID_string)
-			fp1.write(f",{float(compo_peak.rt / 60):.3f}")
+			fp1.write(compo_peak.UID)
+			
+			if minutes:
+				fp1.write(f",{float(compo_peak.rt / 60):.3f}")
+			else:
+				fp1.write(f",{compo_peak.rt:.3f}")
 			
 			for rt in rts:
 				if rt is None or numpy.isnan(rt):
@@ -344,25 +337,20 @@ class Alignment(object):
 			fp1.write("\n")
 			
 			# write to peak areas file
-			fp2.write(peak_UID_string)
+			fp2.write(compo_peak.UID)
 			
-			if dk:
+			if minutes:
 				fp2.write(f",{float(compo_peak.rt / 60):.3f}")
-				for area in areas:
-					if area is None:
-						fp2.write(",NA")
-					else:
-						fp2.write(f",{area:.0f}")
-			
 			else:
-				fp2.write(",%.3f" % avgrt)
-				for area in areas:
-					if area is None:
-						fp2.write(",NA")
-					else:
-						fp2.write(f",{area:.4f}")
+				fp2.write(f",{compo_peak.rt:.3f}")
+				
+			for area in areas:
+				if area is None:
+					fp2.write(",NA")
+				else:
+					fp2.write(f",{area:.0f}")
 			fp2.write("\n")
-		
+	
 		fp1.close()
 		fp2.close()
 	
@@ -456,7 +444,7 @@ class Alignment(object):
 			
 			# write initial info:
 			# peak unique id, peak average rt
-			compo_peak = composite_peak(new_peak_lists[index], minutes)
+			compo_peak = composite_peak(new_peak_lists[index])
 			peak_UID = compo_peak.UID
 			peak_UID_string = f'"{peak_UID}"'
 			
@@ -510,15 +498,12 @@ class Alignment(object):
 			header.append(f'"{item}"')
 		
 		# write headers
-		fp1.write(",".join(header) + "\n")
+		fp1.write("|".join(header) + "\n")
 		
 		for peak_idx in range(len(self.peakpos[0])):
 			
-			rts = []
 			ias = []
 			new_peak_list = []
-			avgrt = 0
-			countrt = 0
 			
 			for align_idx in range(len(self.peakpos)):
 				
@@ -526,35 +511,20 @@ class Alignment(object):
 				
 				if peak is not None:
 					
-					if minutes:
-						rt = peak.rt / 60.0
-					else:
-						rt = peak.rt
-					
-					rts.append(rt)
-					
 					ia = peak.ion_areas
 					ia.update((mass, math.floor(intensity)) for mass, intensity in ia.items())
-					sorted_ia = sorted(ia.iteritems(), key=operator.itemgetter(1), reverse=True)
+					sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
 					ias.append(sorted_ia)
 					new_peak_list.append(peak)
-					
-					avgrt = avgrt + rt
-					countrt = countrt + 1
-				else:
-					rts.append(None)
-					ias.append(None)
 			
-			if countrt > 0:
-				avgrt = avgrt / countrt
-			
-			compo_peak = composite_peak(new_peak_list, minutes)
-			peak_UID = compo_peak.UID
-			peak_UID_string = (f'"{peak_UID}"')
+			compo_peak = composite_peak(new_peak_list)
 			
 			# write to ms file
-			fp1.write(peak_UID_string)
-			fp1.write("|%.3f" % avgrt)
+			fp1.write(compo_peak.UID)
+			if minutes:
+				fp1.write(f"|{compo_peak.rt/60:.3f}")
+			else:
+				fp1.write(f"|{compo_peak.rt:.3f}")
 			for ia in ias:
 				if ia is None:
 					fp1.write("|NA")

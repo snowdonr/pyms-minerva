@@ -24,13 +24,8 @@ Functions for writing peak alignment to various file formats
 ################################################################################
 
 
-
-import copy
-import math
 import operator
 import pathlib
-
-import numpy
 
 try:
 	from Pycluster import treecluster
@@ -41,9 +36,7 @@ except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
 
-from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
-from pyms.DPA import Function
 from pyms.Utils.IO import prepare_filepath
 
 from openpyxl import Workbook
@@ -155,7 +148,7 @@ def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
 		
 		# write initial info:
 		# peak unique id, peak average rt
-		compo_peak = composite_peak(new_peak_lists[index], minutes=False)
+		compo_peak = composite_peak(new_peak_lists[index])
 		compo_peaks.append(compo_peak)
 		peak_UID = compo_peak.UID
 		peak_UID_string = (f'"{peak_UID}"')
@@ -284,7 +277,7 @@ def write_excel(algt, file_name, minutes=True):
 				currcell.number_format
 				currcell.comment = comment
 		
-		compo_peak = composite_peak(new_peak_list, minutes)
+		compo_peak = composite_peak(new_peak_list)
 		peak_UID = compo_peak.UID
 		peak_UID_string = (f'"{peak_UID}"')
 		
@@ -381,8 +374,7 @@ def write_transposed_output(algt, file_name, minutes=True):
 				comment = Comment("Area: NA", 'dave')
 				currcell1.comment = comment
 		
-		compo_peak = composite_peak(list(p[0] for p in new_peak_list),
-									minutes)  # this method will create the compo peak, aqnd also mark outlier peaks with a bool isoutlier
+		compo_peak = composite_peak(list(p[0] for p in new_peak_list))  # this method will create the compo peak, aqnd also mark outlier peaks with a bool isoutlier
 		
 		ws1.cell(column=2 + peak_idx, row=1, value=f'"{compo_peak.UID}"')
 		ws1.cell(column=2 + peak_idx, row=2, value=f"{float(compo_peak.rt / 60):.3f}")

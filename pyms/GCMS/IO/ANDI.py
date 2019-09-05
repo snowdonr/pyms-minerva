@@ -23,6 +23,7 @@ Functions for reading manufacturer specific ANDI-MS data files
 #                                                                              #
 ################################################################################
 
+
 import pathlib
 
 from pyms.GCMS.Class import GCMS_data
@@ -65,9 +66,6 @@ def ANDI_reader(file_name):
 	
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
-	
-	#if isinstance(file_name, pathlib.Path):
-	#	file_name = str(file_name)
 	
 	## TODO: use 'point_count' and allow for zero len scans
 

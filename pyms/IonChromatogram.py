@@ -23,7 +23,7 @@ Classes to model a GC-MS Ion Chromatogram
 #                                                                              #
 ################################################################################
 
-import math
+
 import copy
 import pathlib
 import warnings
@@ -34,6 +34,7 @@ import deprecation
 from pyms import __version__
 from pyms.base import pymsCopyBase, _list_types
 from pyms.Mixins import TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin
+from pyms.Utils.IO import prepare_filepath
 
 
 class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
@@ -83,7 +84,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		self._intensity_array = ia
 		self._time_list = time_list
 		self._mass = mass
-		self._time_step = self.__calc_time_step(time_list)
+		self._time_step = self.__calc_time_step()
 		self._min_rt = min(time_list)
 		self._max_rt = max(time_list)
 	
@@ -186,13 +187,17 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		Sets the value for the intensity array
 
 		:param ia: An array of new intensity values
-		:type ia: numpy.ndarray
+		:type ia: list or tuple or numpy.ndarray
 
 		:author: Vladimir Likic
 		"""
 		
-		#todo: type assertion
+		if not isinstance(ia, _list_types):
+			raise TypeError("'intensity_array' must be a list, tuple or numpy.ndarray")
 		
+		if not isinstance(ia, numpy.ndarray):
+			ia = numpy.array(ia)
+			
 		self._intensity_array = ia
 	
 	def is_tic(self):
@@ -237,12 +242,17 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 
 		:author: Vladimir Likic
 		"""
-		# todo: type check
+		
+		if not isinstance(ia, _list_types):
+			raise TypeError("'intensity_array' must be a list, tuple or numpy.ndarray")
+		
+		if not isinstance(ia, numpy.ndarray):
+			ia = numpy.array(ia)
+		
 		self._intensity_array = ia
 		
 	@property
 	def time_step(self):
-		
 		"""
 		Returns the time step
 
@@ -255,13 +265,9 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		
 		return self._time_step
 	
-	def __calc_time_step(self, time_list):
-		
+	def __calc_time_step(self):
 		"""
 		Calculates the time step
-
-		:param time_list: A list of retention times
-		:type time_list: list
 
 		:return: Time step value
 		:rtype: float
@@ -271,8 +277,8 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		"""
 		
 		td_list = []
-		for ii in range(len(time_list) - 1):
-			td = time_list[ii + 1] - time_list[ii]
+		for ii in range(len(self._time_list) - 1):
+			td = self._time_list[ii + 1] - self._time_list[ii]
 			td_list.append(td)
 		
 		td_array = numpy.array(td_list)
@@ -302,11 +308,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		if not isinstance(file_name, (str, pathlib.Path)):
 			raise TypeError("'file_name' must be a string or a pathlib.Path object")
 		
-		if not isinstance(file_name, pathlib.Path):
-			file_name = pathlib.Path(file_name)
-		
-		if not file_name.parent.is_dir():
-			file_name.parent.mkdir(parents=True)
+		file_name = prepare_filepath(file_name)
 		
 		fp = file_name.open("w")
 		

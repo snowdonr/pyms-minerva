@@ -27,27 +27,59 @@ Class to Display Ion Chromatograms and TIC
 import warnings
 
 import matplotlib
+from matplotlib import figure, axes
 import matplotlib.pyplot as plt
 
+from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
 
+
 default_filetypes = ["png", "pdf", "svg"]
+
 
 class Display(object):
 	"""
 	Class to display Ion Chromatograms and Total Ion Chromatograms from class:`IonChromatogram.IonChromatogram`
-	Uses matplotlib module pyplot to do plotting
-
+	Uses matplotlib module pyplot to do plotting.
+	
+	If `fig` is not given then `fig` and `ax` default to:
+	>>> fig = plt.figure()
+	>>> ax = fig.add_subplot(111)
+	
+	if only `fig` is given then ax defaults to:
+	>>> ax = fig.add_subplot(111)
+	
+	:param fig: figure object to use
+	:type fig: matplotlib.figure.Figure, optional
+	:param ax: axes object to use
+	:type ax: matplotlib.axes.Axes, optional
+	
 	:author: Sean O'Callaghan
 	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (type assertions)
+	:author: Dominic Davis-Foster
 	"""
 	
-	def __init__(self):
+	def __init__(self, fig=None, ax=None):
 		"""
 		Initialises an instance of Display class
 		"""
+		
+		if fig is None:
+			fig = plt.figure()
+			ax = fig.add_subplot(111)
+		
+		elif isinstance(fig, matplotlib.figure.Figure) and ax is None:
+			ax = fig.add_subplot(111)
+			
+		if not isinstance(fig, matplotlib.figure.Figure):
+			raise TypeError("'fig' must be a matplotlib.figure.Figure object")
+			
+		if not isinstance(ax, matplotlib.axes.Axes):
+			raise TypeError("'ax' must be a matplotlib.axes.Axes object")
+			
+		self.fig = fig
+		self.ax = ax
 		
 		# Container to store plots
 		self.__tic_ic_plots = []
@@ -55,20 +87,10 @@ class Display(object):
 		# color dictionary for plotting of ics; blue reserved
 		# for TIC
 		self.__col_ic = {0:'r', 1:'g', 2:'k', 3:'y', 4:'m', 5:'c'}
-		self.__col_count = 0  # counter to keep track of colors
+		self.__colour_count = 0  # counter to keep track of colors
 		
 		# Peak list container
 		self.__peak_list = []
-		
-		#Plotting Variables
-		#self.fig = plt.figure()
-		#self.ax = self.fig.add_subplot(111)
-	
-	def setup_subplots(self, figsize=None):
-		#if not figsize:
-			#figsize = (1 + (3 * len(self.sample_list)), 9)
-		
-		self.fig, self.ax = plt.subplots()#figsize=figsize)
 	
 	def do_plotting(self, plot_label=None):
 		"""
@@ -87,16 +109,16 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 			return
 		
 		if plot_label is not None:
-			t = self.__ax.set_title(plot_label)
+			t = self.ax.set_title(plot_label)
 		
-		l = self.__ax.legend()
+		l = self.ax.legend()
 		
-		self.__fig.canvas.draw
+		self.fig.canvas.draw
 		
 		# If no peak list plot, no mouse click event
 		if len(self.__peak_list) != 0:
-			cid = self.__fig.canvas.mpl_connect('button_press_event', self.onclick)
-		plt.show()
+			cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+		#plt.show()
 	
 	@staticmethod
 	def get_5_largest(intensity_list):
@@ -157,75 +179,70 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		# Also check that a peak was selected, not just whitespace
 		if event.button != 1 and len(intensity_list) != 0:
 			self.plot_mass_spec(event.xdata, mass_list, intensity_list)
-
-	def plot_ics(self, ics, labels=None):
+		
+	def plot_ic(self, ic, **kwargs):
 		"""
-		Adds an Ion Chromatogram or a list of Ion Chromatograms to plot list
+		Plots an Ion Chromatogram
 
-		:param ics: List of Ion Chromatograms m/z channels for plotting
-		:type ics: list of class:`pyms.IonChromatogram.IonChromatogram` objects
+		:param ic: Ion Chromatograms m/z channels for plotting
+		:type ic: class:`pyms.IonChromatogram.IonChromatogram`
 
-		:param labels: Labels for plot legend
-		:type labels: list of str, optional
+		:param: **kwargs : `matplotlib.lines.Line2D` properties, optional
+			*kwargs* are used to specify properties like a line label (for
+			auto legends), linewidth, antialiasing, marker face color.
+
+			Example::
+
+			>>> plot_ic(im.get_ic_at_index(5), label='IC @ Index 5', linewidth=2)
+
+			See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
+			for the list of possible kwargs
 		"""
 		
-		if not isinstance(ics, list):
-			if isinstance(ics, IonChromatogram):
-				ics = [ics]
-			else:
-				raise TypeError("'ics' must be an IonChromatogram or a list of Ion Chromatograms")
+		if not isinstance(ic, IonChromatogram):
+			raise TypeError("'ic' must be an IonChromatogram")
 		
-		if not isinstance(labels, list) and labels is not None:
-			labels = [labels]
-		# TODO: take care of case where one element of ics is not an IonChromatogram
+		plot = self.ax.plot(ic.time_list,
+							 ic.intensity_array,
+							 self.__col_ic[self.__colour_count], **kwargs)
 		
-		intensity_list = []
-		time_list = ics[0].get_time_list()
-		
-		for i in range(len(ics)):
-			intensity_list.append(ics[i].get_intensity_array())
-		
-		# Case for labels not present
-		if labels is None:
-			for i in range(len(ics)):
-				self.__tic_ic_plots.append(plt.plot(time_list,
-													intensity_list[i],
-													self.__col_ic[self.__col_count]))
-				if self.__col_count == 5:
-					self.__col_count = 0
-				else:
-					self.__col_count += 1
-		
-		# Case for labels present
+		self.__tic_ic_plots.append(plot)
+	
+		if self.__colour_count == 5:
+			self.__colour_count = 0
 		else:
-			for i in range(len(ics)):
-				
-				self.__tic_ic_plots.append(plt.plot(time_list,
-													intensity_list[i],
-													self.__col_ic[self.__col_count],
-													label=labels[i]))
-				if self.__col_count == 5:
-					self.__col_count = 0
-				else:
-					self.__col_count += 1
+			self.__colour_count += 1
+		
+		self.__tic_ic_plots.append(plot)
+		
+		# Set axis ranges
+		self.ax.set_xlim(min(ic.time_list), max(ic.time_list))
+		self.ax.set_ylim(bottom=0)
+		
+		return plot
 	
-	@staticmethod
-	def plot_mass_spec(rt, mass_spec, labels=None):
+	def plot_mass_spec(self, mass_spec, **kwargs):
 		"""
-		Plots the mass spec given a list of masses and intensities
-
-		:param rt: The retention time for labelling of the plot
-		:type rt: float
+		Plots a Mass Spectrum
+		
 		:param mass_spec: The mass spectrum at a given time/index
-		:type mass_spec: class:`MassSpectrum.MassSpectrum`
-		:param plot_title: A label for the plot
-		:type plot_title: str, optional
-	
-		:author: Sean O'Callaghan
+		:type mass_spec: class:`Spectrum.MassSpectrum`
+		
+		:param: **kwargs : `matplotlib.lines.Line2D` properties, optional
+			*kwargs* are used to specify properties like a line label (for
+			auto legends), linewidth, antialiasing, marker face color.
+
+			Example::
+
+			>>> plot_mass_spec(im.get_ms_at_index(5), linewidth=2)
+			>>>	ax.set_title(f"Mass spec for peak at time {im.get_time_at_index(5):5.2f}")
+
+			See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
+			for the list of possible kwargs
 		"""
 		
-		new_fig = plt.figure()
-		new_ax = new_fig.add_subplot(111)
+		if not isinstance(mass_spec, MassSpectrum):
+			raise TypeError("'mass_spec' must be a MassSpectrum")
 		
 		mass_list = mass_spec.mass_list
 		intensity_list = mass_spec.mass_spec
@@ -242,13 +259,13 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 			if mass_list[i] < min_mz:
 				min_mz = mass_list[i]
 		
-		label = "Mass spec for peak at time " + "%5.2f" % rt
+		plot = self.ax.bar(mass_list, intensity_list, **kwargs)
 		
-		mass_spec_plot = plt.bar(mass_list, intensity_list, label=label, width=0.01)
+		# Set axis ranges
+		self.ax.set_xlim(min_mz, max_mz)
+		self.ax.set_ylim(bottom=0)
 		
-		x_axis_range = plt.xlim(min_mz, max_mz)
-		t = new_ax.set_title(label)
-		plt.show()
+		return plot
 	
 	def plot_peaks(self, peak_list, label="Peaks"):
 		"""
@@ -276,24 +293,37 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		
 		self.__tic_ic_plots.append(plt.plot(time_list, height_list, 'o', label=label))
 	
-	def plot_tic(self, tic, label=None):
+	def plot_tic(self, tic, **kwargs):
 		"""
-		Adds Total Ion Chromatogram to plot list
+		Plots a Total Ion Chromatogram
 
 		:param tic: Total Ion Chromatogram
 		:type tic: class:`pyms.IonChromatogram.IonChromatogram`
 
-		:param label: label for plot legend
-		:type label: str, optional
+		:param: **kwargs : `matplotlib.lines.Line2D` properties, optional
+			*kwargs* are used to specify properties like a line label (for
+			auto legends), linewidth, antialiasing, marker face color.
+
+			Example::
+
+			>>> plot_tic(im.get_ic_at_index(5), label='IC @ Index 5', linewidth=2)
+
+			See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
+			for the list of possible kwargs
 		"""
 		
-		if not isinstance(tic, IonChromatogram):
-			raise TypeError("'tic' must be an Ion Chromatogram object")
+		if not isinstance(tic, IonChromatogram) or not tic.is_tic():
+			raise TypeError("'tic' must be an Ion Chromatogram object representing a total ion chromatogram")
 		
-		intensity_list = tic.get_intensity_array()
-		time_list = tic.get_time_list()
+		plot = self.ax.plot(tic.time_list, tic.intensity_array, **kwargs)
 		
-		self.__tic_ic_plots.append(plt.plot(time_list, intensity_list, label=label))
+		self.__tic_ic_plots.append(plot)
+		
+		# Set axis ranges
+		self.ax.set_xlim(min(tic.time_list), max(tic.time_list))
+		self.ax.set_ylim(bottom=0)
+		
+		return plot
 	
 	def save_chart(self, filepath, filetypes=None):
 		
@@ -314,40 +344,5 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		self.fig.show()
 		plt.close()
 
-
-def plot_ic(ic, line_label=" ", plot_title=" "):
-	"""
-	Plots an Ion Chromatogram or List of same
-
-	:param ic: The ion chromatogram
-	:type ic: class:`pyms.IonChromatogram.IonChromatogram`
-
-	:param line_label: plot legend
-	:type line_label: str, optional
-
-	:param plot_title: A label for the plot
-	:type plot_title: str, optional
-
-	:author: Sean O'Callaghan
-	"""
-	
-	# Plotting Variables
-	fig = plt.figure()
-	ax = fig.add_subplot(111)
-	
-	if not isinstance(ic, IonChromatogram):
-		raise TypeError("ics argument must be an IonChromatogram or a list of Ion Chromatograms")
-	
-	time_list = ic.get_time_list()
-	
-	intensity_list = ic.get_intensity_array()
-	
-	ic_plot = plt.plot(time_list, intensity_list, label=line_label)
-	
-	t = ax.set_title(plot_title)
-	l = ax.legend()
-	
-	fig.canvas.draw
-	plt.show()
 
 

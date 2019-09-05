@@ -30,6 +30,8 @@ import pathlib
 
 import numpy
 
+from pyms.Utils.IO import prepare_filepath
+
 
 _list_types = (list, tuple, numpy.core.ndarray)
 _path_types = (str, pathlib.Path)
@@ -53,11 +55,7 @@ class pymsBaseClass(object):
 		if not isinstance(file_name, _path_types):
 			raise TypeError("'file_name' must be a string or a pathlib.Path object")
 		
-		if not isinstance(file_name, pathlib.Path):
-			file_name = pathlib.Path(file_name)
-		
-		if not file_name.parent.is_dir():
-			file_name.parent.mkdir(parents=True)
+		file_name = prepare_filepath(file_name)
 		
 		fp = file_name.open('wb')
 		pickle.dump(self, fp)

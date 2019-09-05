@@ -26,8 +26,6 @@ Classes for peak alignment by dynamic programming
 
 import copy
 import math
-import pathlib
-import operator
 import functools
 
 import numpy
@@ -37,13 +35,6 @@ try:
 except ModuleNotFoundError:
 	pass
 
-from pyms.base import _list_types
-from pyms.Experiment import Experiment
-from pyms.DPA.Alignment import Alignment
-from pyms.Experiment import Experiment
-from pyms.Peak.List.Function import composite_peak
-from pyms.Utils.IO import prepare_filepath
-
 try:
 	from Pycluster import treecluster
 except ModuleNotFoundError:
@@ -52,6 +43,8 @@ except ModuleNotFoundError:
 	except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
+
+from pyms.DPA.Alignment import Alignment
 
 
 class PairwiseAlignment(object):
@@ -310,7 +303,6 @@ def dp(S, gap_penalty):
 	return {'p': p, 'q': q, 'trace': trace, 'matches': matches, 'D': D, 'phi': trace_matrix}
 
 
-
 def position_similarity(pos1, pos2, D):
 	"""
 	Calculates the similarity between the two alignment positions.
@@ -361,10 +353,9 @@ def position_similarity(pos1, pos2, D):
 						mass_spect2_sum = numpy.sum(mass_spect2**2, axis=0)
 						try:
 							top = numpy.dot(mass_spect1, mass_spect2)
-						except(ValueError):
-							raise ValueError("Mass Spectra are of different length\n\n" +
-								 " Use IntensityMatrix.crop_mass() to set\n"
-								  + " same length for all Mass Spectra""")
+						except ValueError:
+							raise ValueError("""Mass Spectra are of different length\n
+Use IntensityMatrix.crop_mass() to set same length for all Mass Spectra""")
 						bot = numpy.sqrt(mass_spect1_sum*mass_spect2_sum)
 						if bot > 0:
 							cos = top/bot
@@ -522,7 +513,6 @@ def alignment_compare(x, y):
 		return -1
 	else:
 		return 1
-
 
 
 def score_matrix_mpi(a1, a2, D):

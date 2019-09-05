@@ -19,21 +19,21 @@
 #############################################################################
 
 import pytest
+
 from tests.constants import *
 from pyms.Peak import Peak
 from pyms.Spectrum import MassSpectrum
 from pyms.Peak.Function import peak_sum_area
 from pyms.Peak.List import *
 from pyms.Peak.List.IO import *
+from pyms.base import _list_types
 
 
 def test_composite_peak(filtered_peak_list, im_i):
 	print(".", end='')
 	composite_peak_list = filtered_peak_list[10:20]
 	print(".", end='')
-	composite_peak(composite_peak_list)
-	print(".", end='')
-	peak = composite_peak(composite_peak_list, minutes=True)
+	peak = composite_peak(composite_peak_list)
 	print(".", end='')
 	assert isinstance(peak, Peak)
 	
@@ -43,7 +43,7 @@ def test_composite_peak(filtered_peak_list, im_i):
 	assert peak.get_third_highest_mz() == 57
 	assert peak.bounds is None
 	assert peak.get_int_of_ion(100) == 3.603215488138507
-	assert peak.rt == 2863.6320233339998
+	assert peak.rt == 47.727200388899995
 	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 115
 	
@@ -52,7 +52,7 @@ def test_composite_peak(filtered_peak_list, im_i):
 	#assert peak.area == area
 
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
-	assert isinstance(peak.mass_spectrum.mass_spec, list)
+	assert isinstance(peak.mass_spectrum.mass_spec, _list_types)
 	peak.null_mass(73)
 	index_73 = peak.mass_spectrum.mass_list.index(73)
 	assert peak.mass_spectrum.mass_spec[index_73] == 0
@@ -68,7 +68,7 @@ def test_composite_peak(filtered_peak_list, im_i):
 
 def test_composite_peak_outliers(filtered_peak_list, im_i):
 	composite_peak_list = filtered_peak_list[10:13]
-	peak = composite_peak(composite_peak_list, minutes=True, ignore_outliers=True)
+	peak = composite_peak(composite_peak_list, ignore_outliers=True)
 	assert isinstance(peak, Peak)
 	
 	uid = peak.UID
@@ -77,7 +77,7 @@ def test_composite_peak_outliers(filtered_peak_list, im_i):
 	assert peak.get_third_highest_mz() == 85
 	assert peak.bounds is None
 	assert peak.get_int_of_ion(100) == 7.1236965120460285
-	assert peak.rt == 2344.080090522
+	assert peak.rt == 39.0680015087
 	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 161
 	

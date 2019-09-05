@@ -147,8 +147,7 @@ class MassSpectrum(pymsSpectrumBase):
 		:type value: list
 		"""
 		
-		if not isinstance(value, _list_types) or \
-				not isinstance(value[0], (int, float)):
+		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
 			raise TypeError("'intensity_list' must be a list of numbers")
 		
 #		if not len(self.mass_list) == len(value):
@@ -165,8 +164,7 @@ class MassSpectrum(pymsSpectrumBase):
 		:type value: list
 		"""
 		
-		if not isinstance(value, _list_types) or \
-				not isinstance(value[0], (int, float)):
+		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
 			raise TypeError("'intensity_list' must be a list of numbers")
 		
 #		if not len(self.mass_list) == len(value):
@@ -183,8 +181,7 @@ class MassSpectrum(pymsSpectrumBase):
 		:type value: list
 		"""
 		
-		if not isinstance(value, _list_types) or \
-				not isinstance(value[0], (int, float)):
+		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
 			raise TypeError("'mass_list' must be a list of numbers")
 		
 #		if not len(self.mass_list) == len(value):

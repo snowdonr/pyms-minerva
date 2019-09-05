@@ -27,13 +27,7 @@ Provides conversion and information functions for GC-MS data objects
 import sys
 import math
 
-import deprecation
-
-from pyms import __version__
 from pyms.base import pymsError
-from pyms.GCMS.Class import GCMS_data
-from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i
-from pyms.IonChromatogram import IonChromatogram
 from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Math import rmsd
 
@@ -119,7 +113,6 @@ def diff(data1, data2):
 
 
 def ic_window_points(ic, window_sele, half_window=False):
-	
 	"""
 	Converts window selection parameter into points based on
 		the time step in an ion chromatogram

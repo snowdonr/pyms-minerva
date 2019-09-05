@@ -1,3 +1,8 @@
+import csv
+import math
+import operator
+
+import numpy
 import pytest
 
 from tests.constants import *
@@ -12,14 +17,23 @@ from pyms.Experiment import load_expr, Experiment
 from pyms.DPA.Alignment import Alignment, exprl2alignment
 from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
 from pyms.Peak.List.IO import store_peaks
+from pyms.Peak.List.Function import composite_peak
 
 
-def test_alignment(datadir, outputdir):
+eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
+geco_codes = ["GECO_1_SUBTRACT", "GECO_2_SUBTRACT", "GECO_3_SUBTRACT", "GECO_4_SUBTRACT", "GECO_5_SUBTRACT"]
+
+# within replicates alignment parameters
+Dw = 2.5  # rt modulation [s]
+Gw = 0.30  # gap penalty
+
+
+@pytest.fixture(scope="module")
+def expr_list(datadir, outputdir):
 	# Create experiment files
-	file_list = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
-	for jcamp_file in file_list:
+	for jcamp_file in eley_codes:
 		
-		im = build_intensity_matrix_i(JCAMP_reader(datadir/f"{jcamp_file}.JDX"))
+		im = build_intensity_matrix_i(JCAMP_reader(datadir / f"{jcamp_file}.JDX"))
 		
 		# Intensity matrix size (scans, masses)
 		n_scan, n_mz = im.size
@@ -52,45 +66,42 @@ def test_alignment(datadir, outputdir):
 		# set time range for all experiments
 		expr.sele_rt_range(["6.5m", "21m"])
 		
-		expr.store(outputdir/f"{jcamp_file}.expr")
-	
-	
-	# within replicates alignment parameters
-	Dw = 2.5  # rt modulation [s]
-	Gw = 0.30 # gap penalty
+		expr.dump(outputdir / f"{jcamp_file}.expr")
 	
 	# Load experiments
 	expr_list = []
-	for expr_code in file_list:
-		expr = load_expr(outputdir/f"{expr_code}.expr")
+	for expr_code in eley_codes:
+		expr = load_expr(outputdir / f"{expr_code}.expr")
 		assert isinstance(expr, Experiment)
 		expr_list.append(expr)
 	
-	# Test inequality
+	return expr_list
+
+
+def test_expr_inequality(expr_list):
 	assert expr_list[0] != expr_list[1]
-	
+
+
+@pytest.fixture(scope="module")
+def F1(expr_list):
 	# do the alignment
 	print('Aligning ELEY SUBTRACT')
 	F1 = exprl2alignment(expr_list)
 	assert isinstance(F1, list)
 	
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			exprl2alignment(type)
-	
+	return F1
+
+
+@pytest.fixture(scope="module")
+def T1(F1):
 	T1 = PairwiseAlignment(F1, Dw, Gw)
 	assert isinstance(T1, PairwiseAlignment)
-	
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			PairwiseAlignment(type, Dw, Gw)
-	for type in [test_string, test_int, test_list_ints, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			PairwiseAlignment(F1, type, Gw)
-	for type in [test_string, test_int, test_list_ints, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			PairwiseAlignment(F1, Dw, type)
-	
+
+	return T1
+
+
+@pytest.fixture(scope="module")
+def A1(T1):
 	A1 = align_with_tree(T1, min_peaks=2)
 	assert isinstance(A1, Alignment)
 	
@@ -99,26 +110,21 @@ def test_alignment(datadir, outputdir):
 	A1.filter_min_peaks(5)
 	assert len(A1) == 50
 	
+	return A1
+
+
+def test_alignment_errors(F1, A1, outputdir):
+	for type in [test_string, test_int, test_list_ints, test_list_strs, test_dict, test_tuple]:
+		with pytest.raises(TypeError):
+			PairwiseAlignment(F1, type, Gw)
+		with pytest.raises(TypeError):
+			PairwiseAlignment(F1, Dw, type)
 	
-	A1.write_csv(outputdir/'alignment_rt.csv', outputdir/'alignment_area.csv')
-	# TODO: read the csv and check values
-	A1.write_csv(outputdir/'alignment_rt.csv', outputdir/'alignment_area.csv', minutes=False)
-	# TODO: read the csv and check values
-	A1.write_csv(outputdir/'alignment_rt.csv', outputdir/'alignment_area.csv', dk=True)
-	# TODO: read the csv and check values
-	
-	common_ion = A1.common_ion()
-	assert isinstance(common_ion, list)
-	assert isinstance(common_ion[0], int)
-	assert common_ion[0] == 77
-	
-	A1.write_common_ion_csv(outputdir/'alignent_ion_area.csv', A1.common_ion())
-	# TODO: read the csv and check values
-	A1.write_common_ion_csv(outputdir/'alignent_ion_area.csv', A1.common_ion(), minutes=False)
-	# TODO: read the csv and check values
-	
-	# Errors
-	for type in [test_int, test_float, test_string, test_dict, test_list_strs, test_list_ints]:
+	for type in [test_float, test_string, test_int, test_list_ints, test_list_strs, test_dict, test_tuple]:
+		with pytest.raises(TypeError):
+			exprl2alignment(type)
+		with pytest.raises(TypeError):
+			PairwiseAlignment(type, Dw, Gw)
 		with pytest.raises(TypeError):
 			Alignment(type)
 	
@@ -128,40 +134,151 @@ def test_alignment(datadir, outputdir):
 	
 	for type in [test_float, test_int, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
-			A1.write_csv(type, outputdir/'alignment_area.csv')
-	
-	for type in [test_float, test_int, test_dict, test_list_strs, test_list_ints]:
+			A1.write_csv(type, outputdir / 'alignment_area.csv')
 		with pytest.raises(TypeError):
-			A1.write_csv(outputdir/'alignment_rt.csv', type)
-	
-	for type in [test_float, test_int, test_dict, test_list_strs, test_list_ints]:
+			A1.write_csv(outputdir / 'alignment_rt.csv', type)
 		with pytest.raises(TypeError):
 			A1.write_common_ion_csv(type, A1.common_ion())
+		with pytest.raises(TypeError):
+			A1.write_ion_areas_csv(type)
 	
 	for type in [test_float, test_int, test_dict, test_list_strs, test_string]:
 		with pytest.raises(TypeError):
-			A1.write_common_ion_csv(outputdir/'alignent_ion_area.csv', type)
+			A1.write_common_ion_csv(outputdir / 'alignent_ion_area.csv', type)
 
 
-def test_align_2_alignments(datadir, outputdir):
-	# define the input experiments list
-	eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
-	geco_codes = ["GECO_1_SUBTRACT", "GECO_2_SUBTRACT", "GECO_3_SUBTRACT", "GECO_4_SUBTRACT", "GECO_5_SUBTRACT"]
-	# ΓΕΨΟ
-	# within replicates alignment parameters
-	Dw = 2.5  # rt modulation [s]
-	Gw = 0.30 # gap penalty
+def test_write_csv(A1, outputdir):
+	A1.write_csv(outputdir/'alignment_rt.csv', outputdir/'alignment_area.csv')
 	
-	expr_list = []
+	# Read alignment_rt.csv and alignment_area.csv and check values
+	assert (outputdir / "alignment_rt.csv").exists()
+	assert (outputdir / "alignment_area.csv").exists()
 	
-	for expr_file in eley_codes:
-		expr = load_expr(outputdir/f"{expr_file}.expr")
-		expr_list.append(expr)
+	rt_csv = list(csv.reader((outputdir / "alignment_rt.csv").open()))
+	area_csv = list(csv.reader((outputdir / "alignment_area.csv").open()))
 	
-	F1 = exprl2alignment(expr_list)
-	T1 = PairwiseAlignment(F1, Dw, Gw)
-	A1 = align_with_tree(T1, min_peaks=2)
+	assert rt_csv[0][0:2] == area_csv[0][0:2] == ["UID", "RTavg"]
+	assert rt_csv[0][2:] == area_csv[0][2:] == A1.expr_code
 	
+	for peak_idx in range(len(A1.peakpos[0])):  # loop through peak lists (rows)
+		
+		new_peak_list = []
+		
+		for align_idx in range(len(A1.peakpos)):
+			peak = A1.peakpos[align_idx][peak_idx]
+			
+			if peak is not None:
+				
+				if peak.rt is None or numpy.isnan(peak.rt):
+					assert rt_csv[peak_idx + 1][align_idx + 2] == "NA"
+				else:
+					assert rt_csv[peak_idx + 1][align_idx + 2] == f"{peak.rt / 60:.3f}"
+				
+				if peak.area is None or numpy.isnan(peak.area):
+					assert area_csv[peak_idx + 1][align_idx + 2] == "NA"
+				else:
+					assert area_csv[peak_idx + 1][align_idx + 2] == f"{peak.area:.0f}"
+				
+				new_peak_list.append(peak)
+		
+		compo_peak = composite_peak(new_peak_list)
+		
+		assert rt_csv[peak_idx + 1][0] == area_csv[peak_idx + 1][0] == compo_peak.UID
+		
+		assert rt_csv[peak_idx + 1][1] == area_csv[peak_idx + 1][1] == f"{float(compo_peak.rt / 60):.3f}"
+	
+	A1.write_csv(outputdir / 'alignment_rt_seconds.csv', outputdir / 'alignment_area_seconds.csv', minutes=False)
+	
+	# Read alignment_rt_seconds.csv and alignment_area_seconds.csv and check values
+	assert (outputdir / "alignment_rt_seconds.csv").exists()
+	assert (outputdir / "alignment_area_seconds.csv").exists()
+	
+	rt_csv = list(csv.reader((outputdir / "alignment_rt_seconds.csv").open()))
+	area_csv = list(csv.reader((outputdir / "alignment_area_seconds.csv").open()))
+	
+	assert rt_csv[0][0:2] == area_csv[0][0:2] == ["UID", "RTavg"]
+	assert rt_csv[0][2:] == area_csv[0][2:] == A1.expr_code
+	
+	for peak_idx in range(len(A1.peakpos[0])):  # loop through peak lists (rows)
+		
+		new_peak_list = []
+		
+		for align_idx in range(len(A1.peakpos)):
+			peak = A1.peakpos[align_idx][peak_idx]
+			
+			if peak is not None:
+				
+				if peak.rt is None or numpy.isnan(peak.rt):
+					assert rt_csv[peak_idx + 1][align_idx + 2] == "NA"
+				else:
+					assert rt_csv[peak_idx + 1][align_idx + 2] == f"{peak.rt:.3f}"
+				
+				if peak.area is None or numpy.isnan(peak.area):
+					assert area_csv[peak_idx + 1][align_idx + 2] == "NA"
+				else:
+					assert area_csv[peak_idx + 1][align_idx + 2] == f"{peak.area:.0f}"
+				
+				new_peak_list.append(peak)
+		
+		compo_peak = composite_peak(new_peak_list)
+		
+		assert rt_csv[peak_idx + 1][0] == area_csv[peak_idx + 1][0] == compo_peak.UID
+		
+		assert rt_csv[peak_idx + 1][1] == area_csv[peak_idx + 1][1] == f"{float(compo_peak.rt):.3f}"
+
+
+def test_write_ion_areas_csv(A1, outputdir):
+	A1.write_ion_areas_csv(outputdir/'alignment_ion_areas.csv')
+	A1.write_ion_areas_csv(outputdir/'alignment_ion_areas_seconds.csv', minutes=False)
+	
+	# Read alignment_ion_areas.csv and check values
+	assert (outputdir / "alignment_ion_areas.csv").exists()
+	
+	ion_csv = list(csv.reader((outputdir / "alignment_ion_areas.csv").open(), delimiter='|'))
+	seconds_ion_csv = list(csv.reader((outputdir / "alignment_ion_areas_seconds.csv").open(), delimiter='|'))
+	
+	assert ion_csv[0][0:2] == seconds_ion_csv[0][0:2] == ["UID", "RTavg"]
+	assert ion_csv[0][2:] == seconds_ion_csv[0][2:] == A1.expr_code
+	
+	for peak_idx in range(len(A1.peakpos[0])):  # loop through peak lists (rows)
+		
+		new_peak_list = []
+		
+		for align_idx in range(len(A1.peakpos)):
+			peak = A1.peakpos[align_idx][peak_idx]
+			
+			if peak is not None:
+				
+				ia = peak.ion_areas
+				ia.update((mass, math.floor(intensity)) for mass, intensity in ia.items())
+				sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
+				
+				assert ion_csv[peak_idx + 1][align_idx + 2] == str(sorted_ia)
+				assert seconds_ion_csv[peak_idx + 1][align_idx + 2] == str(sorted_ia)
+				
+				new_peak_list.append(peak)
+				
+		compo_peak = composite_peak(new_peak_list)
+		
+		assert ion_csv[peak_idx + 1][0] == seconds_ion_csv[peak_idx + 1][0] == compo_peak.UID
+		
+		assert ion_csv[peak_idx + 1][1] == f"{float(compo_peak.rt / 60):.3f}"
+		assert seconds_ion_csv[peak_idx + 1][1] == f"{float(compo_peak.rt):.3f}"
+
+
+def test_write_common_ion_csv(A1, outputdir):
+	common_ion = A1.common_ion()
+	assert isinstance(common_ion, list)
+	assert isinstance(common_ion[0], int)
+	assert common_ion[0] == 77
+	
+	A1.write_common_ion_csv(outputdir/'alignment_common_ion.csv', A1.common_ion())
+	# TODO: read the csv and check values
+	A1.write_common_ion_csv(outputdir/'alignment_common_ion_seconds.csv', A1.common_ion(), minutes=False)
+	# TODO: read the csv and check values
+	
+	
+def test_align_2_alignments(A1, datadir, outputdir):
 	expr_list = []
 	
 	for jcamp_file in geco_codes:

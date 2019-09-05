@@ -41,8 +41,6 @@ from pyms.Peak.Class import Peak
 # 3) sum ions belonging to each maxima scan
 #######################
 
-# todo: inplace
-
 
 def BillerBiemann(im, points=3, scans=1):
     """
@@ -134,7 +132,6 @@ def rel_threshold(pl, percent=2, copy_peaks=True):
         
     return new_pl
     
-
 
 def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
     """

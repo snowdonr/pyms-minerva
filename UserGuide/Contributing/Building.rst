@@ -51,3 +51,13 @@ Different formats are available for built distributions
     :language: python
     :linenos:
 
+**__pkginfo__.py**
+
+
+.. literalinclude:: ../../__pkginfo__.py
+    :language: python
+    :linenos:
+
+
+.. _`pytest`: https://pytest.org/
+

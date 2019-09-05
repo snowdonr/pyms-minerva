@@ -31,11 +31,12 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Utils.Time import window_sele_points
 from pyms.Utils.Math import MAD
 
+
 _DEFAULT_WINDOW = 256
 _DEFAULT_N_WINDOWS = 1024
 
 
-def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, rand_seed=None ):
+def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, rand_seed=None):
 	"""
 	A simple estimator of the signal noise based on randomly
 		placed windows and median absolute deviation

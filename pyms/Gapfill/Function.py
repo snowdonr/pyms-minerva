@@ -124,7 +124,7 @@ def mp_finder(inputmatrix):
 	return sample_list
 
 
-def missing_peak_finder(sample, file_name, points=3, null_ions=None, \
+def missing_peak_finder(sample, file_name, points=3, null_ions=None,
 						crop_ions=None, threshold=1000, rt_window=1, filetype='mzml'):
 	"""
 	Integrates raw data around missing peak locations to fill NAs in the data matrix
@@ -251,6 +251,7 @@ def missing_peak_finder(sample, file_name, points=3, null_ions=None, \
 		else:
 			print("Missing peak at rt = ", mp_rt)
 			mp.set_ci_area('na')
+
 
 def transposed(lists):
 	"""

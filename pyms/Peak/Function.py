@@ -25,13 +25,13 @@ Functions related to Peak modification
 
 import copy
 from math import ceil
-from numpy import percentile
+from statistics import median
 
 import deprecation
+from numpy import percentile
 
 from pyms import __version__
 from pyms.base import _list_types
-from pyms.Utils.Math import median
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
 

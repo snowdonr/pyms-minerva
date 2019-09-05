@@ -24,33 +24,6 @@ General utility functions
 ################################################################################
 
 
-import re
-
-
-def is_str_num(arg):
-    """
-    Determines if the argument is a string in the format of a number
-
-    The number can be an integer, or alternatively floating point in scientific
-    or engineering format.
-
-    :param arg: A string to be evaluate as a number
-    :type arg: StringType
-
-    :return: A boolean indicator True or False
-    :rtype:  BooleanType
-
-    :author: Gyro Funch (from Active State Python Cookbook)
-    """
-
-    NUM_RE = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
-
-    if NUM_RE.match(str(arg)):
-        return True
-    else:
-        return False
-
-
 def is_positive_int(arg):
 
     """
@@ -89,11 +62,11 @@ def is_list_of_dec_nums(arg):
 
     if not(isinstance(arg, list)):
         return False
-    elif (arg == []):
+    elif not arg:
         return False
     else:
         for q in arg:
-           if not(isinstance(q, list)):
-               return False
+            if not(isinstance(q, list)):
+                return False
     return True
 

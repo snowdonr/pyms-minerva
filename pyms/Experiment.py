@@ -32,10 +32,12 @@ import pathlib
 import deprecation
 
 from pyms import __version__
+from pyms.base import pymsBaseClass
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
+from pyms.Utils.IO import prepare_filepath
 
 
-class Experiment:
+class Experiment(pymsBaseClass):
 	"""
 	Models an experiment object
 
@@ -166,11 +168,7 @@ class Experiment:
 		if not isinstance(file_name, (str, pathlib.Path)):
 			raise TypeError("'file_name' must be a string or a pathlib.Path object")
 		
-		if not isinstance(file_name, pathlib.Path):
-			file_name = pathlib.Path(file_name)
-		
-		if not file_name.parent.is_dir():
-			file_name.parent.mkdir(parents=True)
+		file_name = prepare_filepath(file_name)
 		
 		fp = file_name.open('wb')
 		pickle.dump(self, fp, 1)
@@ -242,6 +240,7 @@ def load_expr(file_name):
 		raise IOError("The loaded file is not an experiment file")
 	
 	return expr
+
 
 @deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 						current_version=__version__,
