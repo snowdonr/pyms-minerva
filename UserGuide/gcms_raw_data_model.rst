@@ -42,7 +42,8 @@ as follows:
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
      -> Reading JCAMP file 'data/gc01_0812_066.jdx'
-    >>>
+    >>> data
+    <pyms.GCMS.Class.GCMS_data at 0x7f3ec77da0b8>
 
 The above command creates the object ``data`` which is an instance
 of the class :class:`~pyms.GCMS.Class.GCMS_data`.
@@ -65,7 +66,8 @@ This file can be loaded as follows:
     >>> ANDI_file = "data/gc01_0812_066.cdf"
     >>> data = ANDI_reader(ANDI_file)
      -> Reading netCDF file 'data/gc01_0812_066.cdf'
-    >>>
+    >>> data
+    <pyms.GCMS.Class.GCMS_data at 0x7f3ec77da0b8>
 
 The above command creates the object ``data`` which is an instance
 of the class :class:`~pyms.GCMS.Class.GCMS_data`.
@@ -92,16 +94,18 @@ minimum and maximum mass from all of the raw data can be returned by the
 following:
 
     >>> data.min_mass
+    50.5
     >>> data.max_mass
-
+    599.9000244140625
 
 A list of all retention times can be returned by:
 
-    >>> time = data.time_list
+    >>> data.time_list
 
 The index of a specific retention time (in seconds) can be returned by:
 
     >>> data.get_index_at_time(400.0)
+    252
 
 Note that this returns the index of the retention time in the
 data closest to the given retention time of 400.0 seconds.

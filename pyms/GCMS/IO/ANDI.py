@@ -74,7 +74,7 @@ def ANDI_reader(file_name):
 	
 	print(" -> Reading netCDF file '%s'" % (file_name))
 	
-	print(rootgrp.variables[__MASS_STRING][:])
+	#print(rootgrp.variables[__MASS_STRING][:])
 	
 	scan_list = []
 	# mass = file.var(__MASS_STRING)  # old pycdf way

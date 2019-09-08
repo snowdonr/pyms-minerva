@@ -21,7 +21,7 @@
 import pytest
 
 import os
-
+import shutil
 from pathlib import Path
 
 from pyms.TopHat import tophat
@@ -138,3 +138,6 @@ def expr(filtered_peak_list):
 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)
 
 
+# Teardown Function
+def pytest_sessionfinish(session, exitstatus):
+	shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
