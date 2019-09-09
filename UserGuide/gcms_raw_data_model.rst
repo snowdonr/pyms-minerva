@@ -83,10 +83,10 @@ Methods
 The object ``data`` (from the two previous examples) stores the raw data as a
 :class:`~pyms.GCMS.Class.GCMS_data` object. Within the
 :class:`~pyms.GCMS.Class.GCMS_data` object, raw data are stored as a list
-of :class:`~pyms.Scan.Scan` objects and a list of retention times.
+of :class:`~pyms.Spectrum.Scan` objects and a list of retention times.
 There are several methods available to access data and attributes of the
 :class:`~pyms.GCMS.Class.GCMS_data` and
-:class:`~pyms.Scan.Scan` objects.
+:class:`~pyms.Spectrum.Scan` objects.
 
 The :class:`~pyms.GCMS.Class.GCMS_data` object's methods relate to the raw data. The main properties
 relate to the masses, retention times and scans. For example, the
@@ -101,6 +101,7 @@ following:
 A list of all retention times can be returned by:
 
     >>> data.time_list
+    [305.582, 305.958, 306.333, 306.70799999999997, 307.084, ...]
 
 The index of a specific retention time (in seconds) can be returned by:
 
@@ -115,7 +116,8 @@ returns a total ion chromatogram (TIC) of the data
 as an :class:`~pyms.IonChromatogram.IonChromatogram` object:
 
 
-    >>> tic = data.tic
+    >>> data.tic
+    <pyms.IonChromatogram.IonChromatogram at 0x7f99a27bd320>
 
 The :class:`~pyms.IonChromatogram.IonChromatogram`
 object is explained in a later chapter.
@@ -123,28 +125,33 @@ object is explained in a later chapter.
 A Scan data object
 ----------------------
 
-A :class:`~pyms.Scan.Scan`object contains a list of masses and a corresponding list of intensity values from a single mass-spectrum scan in the raw data. Typically only non-zero (or non-threshold) intensities and corresponding masses are stored in the raw data.
+A :class:`~pyms.Spectrum.Scan`object contains a list of masses and a corresponding list of intensity values from a single mass-spectrum scan in the raw data. Typically only non-zero (or non-threshold) intensities and corresponding masses are stored in the raw data.
 
 .. note:: The following examples are the same in :ref:`pyms-demo/20a <demo-20a>` and :ref:`pyms-demo/20b <demo-20b>`
 
-A list of all the raw :class:`~pyms.Scan.Scan` objects can be returned with:
+A list of all the raw :class:`~pyms.Spectrum.Scan` objects can be returned with:
 
     >>> scans = data.scan_list
     >>> scans
+    [<pyms.Spectrum.Scan at 0x7f999d2209b0>, <pyms.Spectrum.Scan at 0x7f999d220828>, <pyms.Spectrum.Scan at 0x7f999d220390>, ...]
 
 A list of all masses in a scan (e.g. the 1st scan) is returned with:
 
     >>> scans[0].mass_list
+    [50.099998474121094, 51.099998474121094, 53.099998474121094, ...]
 
 A list of all corresponding intensities in a scan is returned with:
 
     >>> scans[0].intensity_list
+    [22128.0, 10221.0, 31400.0, 27352.0, 65688.0, ...]
 
 The minimum and maximum mass in an individual scan (e.g. the 1st scan) are
 returned with:
 
     >>> scans[0].min_mass
+    50.099998474121094
     >>> scans[0].max_mass
+    599.4000244140625
 
 Exporting data and obtaining information about a data set
 ----------------------------------------------------------
@@ -219,7 +226,7 @@ To compare the two data sets:
 .. code-block:: python
 
     >>> from pyms.GCMS.Function import diff
-    >>> diff(data1,data2)
+    >>> diff(data1, data2)
      Data sets have the same number of time points.
        Time RMSD: 1.80e-13
      Checking for consistency in scan lengths ... OK
@@ -234,9 +241,9 @@ will report the difference. For example:
 
 .. code-block:: python
 
-    >>> data2.trim(begin=1000,end=2000)
+    >>> data2.trim(begin=1000, end=2000)
     Trimming data to between 1000 and 2000 scans
-    >>> diff(data1,data2)
+    >>> diff(data1, data2)
      -> The number of retention time points different.
      First data set: 9865 time points
      Second data set: 1001 time points

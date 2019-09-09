@@ -100,6 +100,8 @@ The default intensity matrix can be built as follows:
 
     >>> from pyms.IntensityMatrix import build_intensity_matrix
     >>> im = build_intensity_matrix(data)
+    >>> im
+    <pyms.IntensityMatrix.IntensityMatrix at 0x7f999eedabe0>
 
 The size as the number of scans and the number of bins is returned by:
 
@@ -135,8 +137,7 @@ the binned mass closest to the desired mass. For example, the index of the
 closest binned mass to a mass of 73.3 :math:`m/z` can be found by using the
 methods :meth:`im.get_index_of_mass() <pyms.IntensityMatrix.get_index_of_mass>`:
 
-    >>> index = im.get_index_of_mass(73.3)
-    >>> print(index)
+    >>> im.get_index_of_mass(73.3)
     23
 
 The value of the closest mass can be returned by the method
@@ -170,8 +171,7 @@ different binning.
 
     >>> index = im.get_index_of_mass(73.3)
     >>> im.get_mass_at_index(index)
-
-A mass of 73.5 is returned in this example.
+    73.5
 
 Build integer mass intensity matrix
 ------------------------------------
@@ -188,9 +188,8 @@ units. The function is imported from :mod:`pyms.IntensityMatrix`:
 The masses are now integers.
 
     >>> index = im.get_index_of_mass(73.3)
-    >>> print(im.get_mass_at_index(index))
-
-A mass of 73 is returned in this example.
+    >>> im.get_mass_at_index(index)
+    73
 
 The lower and upper bounds can be adjusted by
 :meth:`build_intensity_matrix_i(data, lower, upper) <pyms.IntensityMatrix.build_intensity_matrix_i>`
@@ -211,9 +210,13 @@ For example, the properties of the first MassSpectrum object of an
 :class:`~pyms.IntensityMatrix.IntensityMatrix`, ``im``, can be obtained with;
 
     >>> ms = im.get_ms_at_index(0)
+    <pyms.Spectrum.MassSpectrum at 0x7f999d210940>
     >>> len(ms)
+    1101
     >>> len(ms.mass_list)
+    1101
     >>> len(ms.mass_spec)
+    1101
 
 The length of all attributes should be the same.
 
@@ -232,8 +235,11 @@ An :class:`~pyms.IonChromatogram.IonChromatogram` for the
 TIC and a given mass or index can be obtained as follows:
 
     >>> data.tic
+    <pyms.IonChromatogram.IonChromatogram at 0x7f99a27bd320>
     >>> im.get_ic_at_index(0)
+    <pyms.IonChromatogram.IonChromatogram at 0x7f999d220400>
     >>> im.get_ic_at_mass(73)
+    <pyms.IonChromatogram.IonChromatogram at 0x7f999d246fd0>
 
 This will return, respectively: the TIC; the ion chromatogram of the first
 mass; and the ion chromatogram of the mass closest to 73.
@@ -242,10 +248,10 @@ An ion chromatogram object has a method
 :meth:`is_tic() <pyms.IonChromatogram.IonChromatogram.is_tic>`
 which returns ``True`` if the ion chromatogram is a TIC, ``False`` otherwise:
 
-    >>> print("'tic' is a TIC:", tic.is_tic())
-    'tic' is a TIC: True
-    >>> print("'ic' is a TIC:",ic.is_tic())
-    'ic' is a TIC: False
+    >>> tic.is_tic()
+    True
+    >>> ic.is_tic()
+    False
 
 Writing IonChromatogram object to a file
 --------------------------------------------
@@ -294,6 +300,13 @@ For example,
 
     >>> from pyms.Utils.IO import save_data
     >>> mat = im.intensity_array
+    array([[22128.,     0., 10221., ...,     0.,   470.,     0.],
+           [22040.,     0., 10335., ...,   408.,     0.,   404.],
+           [21320.,     0., 10133., ...,   492.,     0.,   422.],
+           ...,
+           [    0.,     0.,     0., ...,     0.,     0.,     0.],
+           [    0.,     0.,     0., ...,     0.,     0.,     0.],
+           [    0.,     0.,     0., ...,     0.,     0.,     0.]])
     >>> save_data("output/im.dat", mat)
 
 It is also possible to save the list of masses (from
@@ -340,11 +353,8 @@ The LECO CSV format data can be imported directly into an `~pyms.IntensityMatrix
 .. code-block:: python
 
     >>> from pyms.IntensityMatrix import IntensityMatrix
-    >>>
     >>> iim = IntensityMatrix([0],[0],[[0]])
-    >>>
     >>> iim.import_leco_csv("output/data_leco.csv")
-    >>>
     >>> im.size
     >>> iim.size
 

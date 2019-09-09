@@ -2,18 +2,28 @@
 PyMassSpec
 ************
 
+.. image:: https://travis-ci.org/domdfcoding/pymassspec.svg?branch=master
+    :target: https://travis-ci.org/domdfcoding/pymassspec
+    :alt: Build Status
+.. image:: https://readthedocs.org/projects/pymassspec/badge/?version=latest
+    :target: https://pymassspec.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+.. image:: https://img.shields.io/pypi/v/pymassspec.svg
+    :target: https://pypi.org/project/pymassspec/
+    :alt: PyPI
+.. image:: https://img.shields.io/pypi/pyversions/pymassspec.svg
+    :target: https://pypi.org/project/pymassspec/
+    :alt: PyPI - Python Version
+.. image:: https://coveralls.io/repos/github/domdfcoding/pymassspec/badge.svg?branch=master
+    :target: https://coveralls.io/github/domdfcoding/pymassspec?branch=master
+    :alt: Coverage
+
+
 A Python toolkit for processing of chromatography--mass spectrometry data
 
 PyMassSpec is a Python_ package for processing gas chromatography-mass spectrometry data.
 PyMassSpec provides a framework and a set of components for rapid development and testing of methods for processing of chromatography--mass spectrometry data.
-PyMassSpec can be used interactively through the Python shell, or the functions can be collected into scripts and run non-interactively when it is preferable to perform data processing in the batch mode.
-
-PyMassSpec consists of modules which are loaded when needed,
-and different functions are completely decoupled from one another.
-If desired, new functions (such as a test or prototype of a new algorithm)
-can be implemented efficiently and ensuring that this will not break any
-existing functionality.
-
+PyMassSpec can be used interactively through the Python shell, or the functions can be collected into scripts when it is preferable to perform data processing in the batch mode.
 
 |
 
@@ -104,8 +114,10 @@ First the raw data is loaded:
     >>> jcamp_file = "data/gc01_0812_066.jdx"
     >>> data = JCAMP_reader(jcamp_file)
     -> Reading JCAMP file 'Data/gc01_0812_066.jdx'
+    >>> data
+    <pyms.GCMS.Class.GCMS_data at 0x7f3ec77da0b8>
 
-The intensity matrix object is then built by binning:
+The intensity matrix object is then built by binning the data:
 
     >>> from pyms.IntensityMatrix import build_intensity_matrix_i
     >>> im = build_intensity_matrix_i(data)
@@ -126,8 +138,7 @@ and tophat baseline correction:
     ...     ic_base = tophat(ic_smooth, struct="1.5m")
     ...     im.set_ic_at_index(ii, ic_base)
 
-The resulting noise and baseline corrected ion chromatogram is saved
-back into the intensity matrix.
+The resulting noise and baseline corrected ion chromatogram is saved back into the intensity matrix.
 
 Further examples can be found in the `documentation`_
 
@@ -135,8 +146,8 @@ Contributing
 ==============
 
 Contributions are very welcome. Tests can be run with `pytest`_. Please
-ensure the coverage stays at least the same before you submit a pull
-request.
+ensure the coverage is at least .. image:: https://coveralls.io/repos/github/domdfcoding/pymassspec/badge.svg?branch=master
+before you submit a pull request.
 
 For further information see the section `Contributing to PyMassSpec`_
 

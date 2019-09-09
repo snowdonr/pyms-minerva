@@ -32,6 +32,7 @@ release = __version__
 author = u'PyMassSpec Developers'
 copyright = __copyright__
 language = 'en'
+nitpicky = True
 
 extensions = [
     'sphinx.ext.intersphinx',
