@@ -17,7 +17,7 @@ setup(
        install_requires   = install_requires,
        license            = license,
        long_description   = long_description,
-       name               = modname,
+       name               = "PyMassSpec",
        packages           = find_packages(),
        py_modules         = py_modules,
        url                = web,
