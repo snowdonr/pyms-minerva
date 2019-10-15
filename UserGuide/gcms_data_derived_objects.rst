@@ -359,3 +359,4 @@ The LECO CSV format data can be imported directly into an `~pyms.IntensityMatrix
     >>> iim.size
 
 The line :meth:`IntensityMatrix([0],[0],[[0]]) <pyms.IntensityMatrix.IntensityMatrix>` is required to create an empty :class:`~pyms.IntensityMatrix.IntensityMatrix` object.
+sot
