@@ -15,6 +15,9 @@
 
 # This script based on https://github.com/rocky/python-uncompyle6/blob/master/__pkginfo__.py
 
+import os.path
+
+
 copyright   = """
 2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
@@ -42,18 +45,30 @@ web                = github_url = f"https://github.com/{github_username}/PyMassS
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>,
 
 
-import os.path
 def get_srcdir():
 	filename = os.path.normcase(os.path.dirname(os.path.abspath(__file__)))
 	return os.path.realpath(filename)
 
+
 srcdir = get_srcdir()
+
 
 def read(*rnames):
 	return open(os.path.join(srcdir, *rnames)).read()
 
+
 # Get info from files; set: long_description
-long_description   = ( read("README.rst") + '\n' )
+long_description   = (read("README.rst") + '\n')
+long_description.replace(":ref:`here <pyms-demo>`.", "`here <pyms_demo_>`__.")
+long_description.replace(":ref:`here <pyms-demo/data-files>`.", "`here <datafiles_>`__.")
+long_description.replace(":ref:`Demos and Examples <pyms-demo>`", ":ref:`Demos and Examples <pyms_demo_>`__")
+long_description.replace(":ref:`pyms-demo/20a/`", "`pyms-demo/20a/`")
+long_description += """
+
+.. _pyms_demo: https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo
+.. _datafiles: https://pymassspec.readthedocs.io/en/master/pyms-demo/data-files.html
+
+"""
 
 install_requires   = read("requirements.txt").split("\n")
 

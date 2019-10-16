@@ -42,7 +42,7 @@ The original project seems to have been abandoned as there has been no activity 
 
 
 The PyMassSpec project
-=================
+=========================
 
 The directory structure of PyMassSpec is as follows:
 
@@ -73,7 +73,17 @@ PyMassSpec can be installed with the following command:
 
 This will also install the following dependencies:
 
-.. literalinclude:: ../requirements.txt
+.. code-block:: bash
+
+    numpy >= 1.16.2
+    scipy >= 1.2.1
+    pymzml >= 2.2.1
+    matplotlib >= 3.0.2
+    openpyxl >= 2.6.2
+    netCDF4 >= 1.5.0
+    biopython >= 1.74
+    deprecation >= 2.0.6
+
 
 PyMassSpec also requires 'mp4py', installation instructions for which can be found at: https://mpi4py.readthedocs.io/en/stable/
 
