@@ -58,11 +58,11 @@ def read(*rnames):
 
 
 # Get info from files; set: long_description
-long_description   = (read("README.rst") + '\n')
-long_description.replace(":ref:`here <pyms-demo>`.", "`here <pyms_demo_>`__.")
-long_description.replace(":ref:`here <pyms-demo/data-files>`.", "`here <datafiles_>`__.")
-long_description.replace(":ref:`Demos and Examples <pyms-demo>`", ":ref:`Demos and Examples <pyms_demo_>`__")
-long_description.replace(":ref:`pyms-demo/20a/`", "`pyms-demo/20a/`")
+long_description = (read("README.rst") + '\n')
+long_description = long_description.replace(":ref:`here <pyms-demo>`.", "`here <pyms_demo_>`__.")
+long_description = long_description.replace(":ref:`here <pyms-demo/data-files>`.", "`here <datafiles_>`__.")
+long_description = long_description.replace(":ref:`Demos and Examples <pyms-demo>`", "`Demos and Examples <pyms_demo_>`__")
+long_description = long_description.replace(":ref:`pyms-demo/20a/`", "`pyms-demo/20a/`")
 long_description += """
 
 .. _pyms_demo: https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo
