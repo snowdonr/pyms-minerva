@@ -91,14 +91,14 @@ PyMassSpec also requires 'mp4py', installation instructions for which can be fou
 Usage
 =======
 
-A tutorial illustrating various |pkgname| features in detail is provided
+A tutorial illustrating various PyMassSpec features in detail is provided
 in subsequent chapters of this User Guide. The commands executed
 interactively are grouped together by example, and can be found
 :ref:`here <pyms-demo>`.
 
 .. If you are viewing this source, the examples can be found in the pyms-demo directory, and the data files in pyms-data
 
-The data used in the |pkgname| documentation and examples is available
+The data used in the PyMassSpec documentation and examples is available
 :ref:`here <pyms-demo/data-files>`.
 
 In the ":ref:`Demos and Examples <pyms-demo>`" section there
