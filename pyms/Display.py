@@ -293,7 +293,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		
 		self.__tic_ic_plots.append(plt.plot(time_list, height_list, 'o', label=label))
 	
-	def plot_tic(self, tic, **kwargs):
+	def plot_tic(self, tic, minutes=False, **kwargs):
 		"""
 		Plots a Total Ion Chromatogram
 
@@ -315,7 +315,11 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		if not isinstance(tic, IonChromatogram) or not tic.is_tic():
 			raise TypeError("'tic' must be an Ion Chromatogram object representing a total ion chromatogram")
 		
-		plot = self.ax.plot(tic.time_list, tic.intensity_array, **kwargs)
+		time_list = tic.time_list
+		if minutes:
+			time_list = [time / 60 for time in time_list]
+		
+		plot = self.ax.plot(time_list, tic.intensity_array, **kwargs)
 		
 		self.__tic_ic_plots.append(plot)
 		

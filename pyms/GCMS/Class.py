@@ -39,6 +39,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.base import pymsBaseClass, _list_types
 from pyms.Mixins import TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 from pyms.Utils.IO import prepare_filepath
+from pyms.Spectrum import MassSpectrum
 
 
 class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin):
