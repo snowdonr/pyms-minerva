@@ -31,7 +31,7 @@ __author__ = 'See AUTHORS'
 __license__ = 'GPL v2'
 __maintainer_email__ = 'dominic@davis-foster.co.uk'
 __url__ = 'http://domdfcoding.github.io/PyMassSpec'
-__version__ = '2.2.3'
+__version__ = '2.2.4'
 
 __copyright__ = "2005-2012 Vladimir Likic, 2019 Dominic Davis-Foster"
 __email__ = "dominic@davis-foster.co.uk"
