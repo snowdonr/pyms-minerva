@@ -27,10 +27,9 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     pyms/GCMS
     pyms/IntensityMatrix
     pyms/IonChromatogram
-    pyms/MassSpectrum
+    pyms/Spectrum
     pyms/Noise
     pyms/Peak
-    pyms/Scan
     pyms/Simulator
     pyms/TopHat
     pyms/Utils
