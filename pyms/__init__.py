@@ -1,5 +1,5 @@
-
-"""The root of the package pyms
+"""
+The root of the package pyms
 """
 
 ################################################################################

@@ -2,7 +2,8 @@
 GC-MS Raw Data Model
 *********************
 
-.. contents:: :local: Table of Contents
+.. contents:: Table of Contents
+    :local:
 
 Introduction
 =============

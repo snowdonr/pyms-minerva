@@ -2,7 +2,8 @@
 Peak alignment by dynamic programming
 ***************************************
 
-.. contents:: :local: Table of Contents
+.. contents:: Table of Contents
+    :local:
 
 PyMS provides functions to align GC-MS peaks by dynamic programming [1]_.
 The peak alignment by dynamic programming uses both peak apex retention time and mass spectra.

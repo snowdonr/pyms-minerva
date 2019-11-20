@@ -2,7 +2,8 @@
 PyMassSpec coding Style Guide
 *****************************
 
-.. contents:: :local: Table of Contents
+.. contents:: Table of Contents
+    :local:
 
 
 This document provides specific style conventions for PyMassSpec.

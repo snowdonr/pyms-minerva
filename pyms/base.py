@@ -23,13 +23,15 @@ Base for PyMassSpec classes
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 import pickle
 import pathlib
 
+# 3rd party
 import numpy
 
+# this package
 from pyms.Utils.IO import prepare_filepath
 
 

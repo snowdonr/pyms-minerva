@@ -4,7 +4,8 @@
 Installation
 ************
 
-.. contents:: :local: Table of Contents
+.. contents:: Table of Contents
+    :local:
 
 .. Attention:: The 'pycdf' library works only under Linux/Unix.
     Functionality that depends on this library, namely reading

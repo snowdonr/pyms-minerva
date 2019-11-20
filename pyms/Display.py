@@ -23,13 +23,15 @@ Class to Display Ion Chromatograms and TIC
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import warnings
 
+# 3rd party
 import matplotlib
-from matplotlib import figure, axes
 import matplotlib.pyplot as plt
+from matplotlib import figure, axes
 
+# this package
 from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
@@ -63,6 +65,11 @@ class Display(object):
 	def __init__(self, fig=None, ax=None):
 		"""
 		Initialises an instance of Display class
+
+		:param fig:
+		:type fig: matplotlib.figure.Figure, optional
+		:param ax:
+		:type ax: matplotlib.axes.Axes, optional
 		"""
 		
 		if fig is None:
@@ -97,9 +104,8 @@ class Display(object):
 		Plots TIC and IC(s) if they have been created by plot_tic() or plot_ics().
 		Adds detected peaks if they have been added by plot_peaks()
 
-		:param plot_label: Optional to supply a label or other
-				definition of data origin
-		:type plot_label: str
+		:param plot_label: Label for the plot to show e.g. the data origin
+		:type plot_label: str, optional
 		"""
 		
 		# if no plots have been created advise user
@@ -118,7 +124,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		# If no peak list plot, no mouse click event
 		if len(self.__peak_list) != 0:
 			cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
-		#plt.show()
+		# plt.show()
 	
 	@staticmethod
 	def get_5_largest(intensity_list):
@@ -155,6 +161,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		If a button other than the left one is clicked, a new plot of the mass spectrum is displayed
 
 		:param event: a mouse click by the user
+		:type event:
 		"""
 		
 		intensity_list = []
@@ -185,9 +192,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		Plots an Ion Chromatogram
 
 		:param ic: Ion Chromatograms m/z channels for plotting
-		:type ic: class:`pyms.IonChromatogram.IonChromatogram`
+		:type ic: pyms.IonChromatogram.IonChromatogram
 
-		:param: **kwargs : `matplotlib.lines.Line2D` properties, optional
+		:param **kwargs : `matplotlib.lines.Line2D` properties, optional
 			*kwargs* are used to specify properties like a line label (for
 			auto legends), linewidth, antialiasing, marker face color.
 
@@ -226,9 +233,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		Plots a Mass Spectrum
 		
 		:param mass_spec: The mass spectrum at a given time/index
-		:type mass_spec: class:`Spectrum.MassSpectrum`
+		:type mass_spec: pyms.Spectrum.MassSpectrum
 		
-		:param: **kwargs : `matplotlib.lines.Line2D` properties, optional
+		:param **kwargs : `matplotlib.lines.Line2D` properties, optional
 			*kwargs* are used to specify properties like a line label (for
 			auto legends), linewidth, antialiasing, marker face color.
 
@@ -272,9 +279,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		Plots the locations of peaks as found by PyMassSpec.
 
 		:param peak_list: List of peaks
-		:type peak_list: list of class:`pyms.Peak.Class.Peak` objects
+		:type peak_list: list of :class:`pyms.Peak.Class.Peak` objects
 
-		:param label: label for plot legend, default "Peaks"
+		:param label: label for plot legend (Default "Peaks")
 		:type label: str, optional
 		"""
 		
@@ -299,8 +306,10 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 
 		:param tic: Total Ion Chromatogram
 		:type tic: class:`pyms.IonChromatogram.IonChromatogram`
+		:param minutes: Whether to show the time in minutes (Default False)
+		:type minutes: bool, optional
 
-		:param: **kwargs : `matplotlib.lines.Line2D` properties, optional
+		:param **kwargs : `matplotlib.lines.Line2D` properties, optional
 			*kwargs* are used to specify properties like a line label (for
 			auto legends), linewidth, antialiasing, marker face color.
 
@@ -330,6 +339,18 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		return plot
 	
 	def save_chart(self, filepath, filetypes=None):
+		"""
+		Save the chart to the given path with the given filetypes
+		
+		:param filepath: Path and filename to save the chart as. Should not include extension
+		:type filepath: str
+		:param filetypes: List of filetypes to use
+		:type filetypes: list of strings, optional
+		
+		:author: Dominic Davis-Foster
+		"""
+		
+		# TODO: pathlib and remove extension if given & use that as filetype
 		
 		if filetypes is None:
 			filetypes = default_filetypes
@@ -342,6 +363,11 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		plt.close()
 	
 	def show_chart(self):
+		"""
+		Show the chart on screen
+		
+		:author: Dominic Davis-Foster
+		"""
 		
 		matplotlib.use("TkAgg")
 		

@@ -4,6 +4,7 @@
 PyMassSpec tutorial and examples
 ******************************
 
-.. contents:: :local: Table of Contents
+.. contents:: Table of Contents
+    :local:
 
 

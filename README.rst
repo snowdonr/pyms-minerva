@@ -37,7 +37,8 @@ Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
 The original project seems to have been abandoned as there has been no activity in 18 months.
 
 
-.. contents:: :local: Table of Contents
+.. contents:: Table of Contents
+    :local:
 
 
 
