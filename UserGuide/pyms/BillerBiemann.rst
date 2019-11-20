@@ -1,7 +1,6 @@
 *************************
 :mod:`pyms.BillerBiemann`
 *************************
-.. contents:: Table of Contents
 
 .. automodule:: pyms.BillerBiemann
     :members:

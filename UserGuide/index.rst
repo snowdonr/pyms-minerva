@@ -20,6 +20,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     :caption: Documentation
 
     pyms/documentation
+    pyms/BillerBiemann
     pyms/Display
     pyms/Experiment
     pyms/Gapfill
@@ -31,6 +32,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     pyms/Peak
     pyms/Scan
     pyms/Simulator
+    pyms/TopHat
     pyms/Utils
 
 .. toctree::

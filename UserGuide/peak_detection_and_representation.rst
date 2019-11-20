@@ -2,7 +2,7 @@
 Peak detection and representation
 ***********************************
 
-.. contents:: Table of Contents
+.. contents:: :local: Table of Contents
 
 Peak Object
 =============

@@ -2,7 +2,7 @@
 GC-MS data derived objects
 ****************************
 
-.. contents:: Table of Contents
+.. contents:: :local: Table of Contents
 
 In the raw GC-MS data, consecutive scans do not necessarily contain the same
 mass per charge (mass) values. For data processing, it is often necessary to

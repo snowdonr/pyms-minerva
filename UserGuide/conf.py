@@ -40,6 +40,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinxcontrib.httpdomain',
+    'autodocsumm',
 ]
 
 templates_path = ['_templates']
@@ -53,6 +54,10 @@ pygments_style = 'default'
 intersphinx_mapping = { # Is this where those mystery links are specified?
     'rtd': ('https://docs.readthedocs.io/en/latest/', None),
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
+}
+
+autodoc_default_options = {
+    'autosummary': True,
 }
 
 html_theme = 'sphinx_rtd_theme'

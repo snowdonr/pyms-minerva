@@ -1,9 +1,8 @@
 *************************
-:mod:`pyms.MassSpectrum`
+:mod:`pyms.Spectrum`
 *************************
-.. contents:: Table of Contents
 
-.. automodule:: pyms.MassSpectrum
+.. automodule:: pyms.Spectrum
     :members:
     :private-members:
     :special-members:
