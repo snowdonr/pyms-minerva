@@ -23,10 +23,11 @@ Classes to model a Mass Spectrum and Scans
 #                                                                              #
 ################################################################################
 
-
+# 3rd party
 import deprecation
-from pyms import __version__
 
+# this package
+from pyms import __version__
 from pyms.base import pymsCopyBase, _list_types
 from pyms.Mixins import MassListMixin
 
@@ -49,18 +50,16 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 	def __init__(self, mass_list, intensity_list):
 		"""
 		Initialise the class
-
-		:author: Andrew Isaac
-		:author: Qiao Wang
-		:author: Vladimir Likic
 		"""
 		
 		if not isinstance(mass_list, _list_types) or \
-				not isinstance(mass_list[0], (int, float)):
+			not isinstance(mass_list[0], (int, float)):
 			raise TypeError("'mass_list' must be a list of numbers")
+		
 		if not isinstance(intensity_list, _list_types) or \
-				not isinstance(intensity_list[0], (int, float)):
+			not isinstance(intensity_list[0], (int, float)):
 			raise TypeError("'intensity_list' must be a list of numbers")
+		
 		if not len(mass_list) == len(intensity_list):
 			raise ValueError("'mass_list' is not the same size as 'intensity_list'")
 		
@@ -84,12 +83,24 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 		return len(self._mass_list)
 	
 	def __eq__(self, other):
+		"""
+		Return whether this object is equal to another object
+
+		:param other: The other object to test equality with
+		:type other: object
+
+		:rtype: bool
+		"""
+		
 		if isinstance(other, self.__class__):
 			return self._intensity_list == other.intensity_list \
-				   and self._mass_list == other.mass_list
+					and self._mass_list == other.mass_list
+		
 		return NotImplemented
 	
 	def __copy__(self):
+		"""Returns a copy of the object"""
+		
 		return self.__class__(self._mass_list[:], self._intensity_list[:])
 	
 	@property
@@ -138,6 +149,12 @@ class MassSpectrum(pymsSpectrumBase):
 	:author: Dominic Davis-Foster (type assertions and properties)
 	"""
 	
+	def __init__(self, mass_list, intensity_list):
+		"""
+		Initialise the class
+		"""
+		super().__init__(mass_list, intensity_list)
+	
 	@pymsSpectrumBase.intensity_list.setter
 	def intensity_list(self, value):
 		"""
@@ -150,8 +167,8 @@ class MassSpectrum(pymsSpectrumBase):
 		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
 			raise TypeError("'intensity_list' must be a list of numbers")
 		
-#		if not len(self.mass_list) == len(value):
-#			raise ValueError("'mass_list' and 'intensity_list' are not the same size")
+		# if not len(self.mass_list) == len(value):
+		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 		
 		self._intensity_list = value
 		
@@ -167,8 +184,8 @@ class MassSpectrum(pymsSpectrumBase):
 		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
 			raise TypeError("'intensity_list' must be a list of numbers")
 		
-#		if not len(self.mass_list) == len(value):
-#			raise ValueError("'mass_list' and 'intensity_list' are not the same size")
+		# if not len(self.mass_list) == len(value):
+		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 		
 		self._intensity_list = value
 		
@@ -184,8 +201,8 @@ class MassSpectrum(pymsSpectrumBase):
 		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
 			raise TypeError("'mass_list' must be a list of numbers")
 		
-#		if not len(self.mass_list) == len(value):
-#			raise ValueError("'mass_list' and 'intensity_list' are not the same size")
+		# if not len(self.mass_list) == len(value):
+		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 		
 		self._mass_list = value
 
@@ -205,9 +222,15 @@ class Scan(pymsSpectrumBase):
 	:author: Dominic Davis-Foster (type assertions and properties)
 	"""
 	
+	def __init__(self, mass_list, intensity_list):
+		"""
+		Initialise the class
+		"""
+		super().__init__(mass_list, intensity_list)
+	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Scan.intensity_list' instead")
+							details="Use :attr:`pyms.Spectrum.Scan.intensity_list` instead")
 	def get_intensity_list(self):
 		"""
 		Returns the intensities for the current scan
@@ -224,7 +247,7 @@ class Scan(pymsSpectrumBase):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Scan.min_mass' instead")
+							details="Use :attr:`pyms.Spectrum.Scan.min_mass` instead")
 	def get_min_mass(self):
 		"""
 		Returns the minimum m/z value in the scan
@@ -239,7 +262,7 @@ class Scan(pymsSpectrumBase):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Scan.max_mass' instead")
+							details="Use :attr:`pyms.Spectrum.Scan.max_mass` instead")
 	def get_max_mass(self):
 		"""
 		Returns the maximum m/z value in the scan

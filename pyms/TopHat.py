@@ -23,11 +23,14 @@ Top-hat baseline corrector
 #                                                                              #
 ################################################################################
 
+# stdlib
 import copy
-import numpy
 
+# 3rd party
+import numpy
 from scipy import ndimage
 
+# this package
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.GCMS.Function import ic_window_points
@@ -44,10 +47,10 @@ def tophat(ic, struct=None):
     :param ic: The input ion chromatogram
     :type ic: pyms.IonChromatogram.IonChromatogram
     :param struct: Top-hat structural element as time string
-    :type struct: StringType
+    :type struct: str
 
     :return: Top-hat corrected ion chromatogram
-    :rtype: pyms.IO.Class.IonChromatogram
+    :rtype: pyms.IonChromatogram.IonChromatogram
 
     :author: Woon Wai Keen
     :author: Vladimir Likic
@@ -78,12 +81,12 @@ def tophat_im(im, struct=None):
     """
     Top-hat baseline correction on Intensity Matrix
 
-              Wraps around the TopHat function above
+        Wraps around the TopHat function above
 
     :param im: The input Intensity Matrix
     :type im: pyms.IntensityMatrix.IntensityMatrix
     :param struct: Top-hat structural element as time string
-    :type struct: StringType
+    :type struct: str
 
     :return: Top-hat corrected IntensityMatrix Matrix
     :rtype: pyms.IntensityMatrix.IntensityMatrix

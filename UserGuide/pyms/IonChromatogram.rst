@@ -4,5 +4,6 @@
 
 .. automodule:: pyms.IonChromatogram
     :members:
+    :inherited-members:
     :private-members:
     :special-members:

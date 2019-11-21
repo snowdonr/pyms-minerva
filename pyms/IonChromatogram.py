@@ -23,14 +23,16 @@ Classes to model a GC-MS Ion Chromatogram
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 import pathlib
 import warnings
 
+# 3rd party
 import numpy
 import deprecation
 
+# this package
 from pyms import __version__
 from pyms.base import pymsCopyBase, _list_types
 from pyms.Mixins import TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin
@@ -48,7 +50,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		(TIC).
 
 		The nature of an IonChromatogram object can be revealed by inspecting
-		the value of the attribute '__mass'. This is set to the m/z value of the
+		the value of the attribute 'mass'. This is set to the m/z value of the
 		ion chromatogram, or to None for TIC.
 
 	:author: Lewis Lee
@@ -118,15 +120,33 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		return self
 	
 	def __eq__(self, other):
+		"""
+		Return whether this IonChromatogram object is equal to another object
+
+		:param other: The other object to test equality with
+		:type other: object
+
+		:rtype: bool
+		"""
+		
 		if isinstance(other, self.__class__):
 			return self.time_list == other.time_list \
-				   and all(numpy.equal(self.intensity_array, other.intensity_array)) \
-				   and self.mass == other.mass
+					and all(numpy.equal(self.intensity_array, other.intensity_array)) \
+					and self.mass == other.mass
 			
 		return NotImplemented
 	
 	def __copy__(self):
-		return IonChromatogram(ia=numpy.copy(self._intensity_array), time_list=self._time_list[:], mass=copy.copy(self._mass))
+		"""
+		Returns a new IonChromatogram containing a copy of the data in this object
+		
+		:rtype: pyms.IonChromatogram.IonChromatogram
+		"""
+		return IonChromatogram(
+			ia=numpy.copy(self._intensity_array),
+			time_list=self._time_list[:],
+			mass=copy.copy(self._mass)
+		)
 	
 	def get_intensity_at_index(self, ix):
 		"""
@@ -152,7 +172,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'IonChromatogram.mass' instead")
+							details="Use :attr:`pyms.IonChromatogram.IonChromatogram.mass` instead")
 	def get_mass(self):
 		"""
 		Returns the m/z channel of the IC
@@ -167,7 +187,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'IonChromatogram.time_step' instead")
+							details="Use :attr:`pyms.IonChromatogram.IonChromatogram.time_step` instead")
 	def get_time_step(self):
 		"""
 		Returns the time step
@@ -232,7 +252,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'IonChromatogram.intensity_array' instead")
+							details="Use :attr:`pyms.IonChromatogram.IonChromatogram.intensity_array` instead")
 	def set_intensity_array(self, ia):
 		"""
 		Sets the value for the intensity array
@@ -287,12 +307,11 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		return time_step
 		
 	def write(self, file_name, minutes=False, formatting=True):
-		
 		"""
 		Writes the ion chromatogram to the specified file
 
 		:param file_name: The name of the output file
-		:type file_name: str or pathlib.Path
+		:type file_name: str or :class:`pathlib.Path`
 		:param minutes: A boolean value indicating whether to write
 			time in minutes
 		:type minutes: bool
@@ -320,9 +339,9 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		
 		for ii in range(len(time_list)):
 			if formatting:
-				fp.write("%8.4f %#.6e\n" % (time_list[ii], self._intensity_array[ii]))
+				fp.write(f"{time_list[ii]:8.4f} {self._intensity_array[ii]:#.6e}\n")
 			else:
-				fp.write("{} {}\n".format(time_list[ii], self._intensity_array[ii]))
+				fp.write(f"{time_list[ii]} {self._intensity_array[ii]}\n")
 		
 		fp.close()
 

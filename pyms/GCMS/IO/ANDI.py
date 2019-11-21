@@ -53,7 +53,7 @@ def ANDI_reader(file_name):
 	A reader for ANDI-MS NetCDF files
 
 	:param file_name: The path of the ANDI-MS file
-	:type file_name: str or pathlib.Path
+	:type file_name: str or :class:`pathlib.Path`
 	
 	:return: GC-MS data object
 	:rtype: class:`pyms.GCMS.Class.GCMS_data`
@@ -128,7 +128,7 @@ def ANDI_writer(file_name, im):
 	A writer for ANDI-MS NetCDF files
 
 	:param file_name: The name of the ANDI-MS file
-	:type file_name: StringType
+	:type file_name: str
 	:param im: The IntensityMatrix
 	:type file_name: pyms.IntensityMatrix.IntensityMatrix
 

@@ -6,6 +6,7 @@
 
 .. automodule:: pyms.GCMS
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -14,6 +15,7 @@
 ===========================
 .. automodule:: pyms.GCMS.Class
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -22,6 +24,7 @@
 ===========================
 .. automodule:: pyms.GCMS.Function
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -30,6 +33,7 @@
 ===========================
 .. automodule:: pyms.GCMS.IO
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -38,6 +42,7 @@
 ----------------------------
 .. automodule:: pyms.GCMS.IO.ANDI
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -46,6 +51,7 @@
 ----------------------------
 .. automodule:: pyms.GCMS.IO.JCAMP
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -54,6 +60,7 @@
 ----------------------------
 .. automodule:: pyms.GCMS.IO.MZML
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 

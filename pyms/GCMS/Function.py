@@ -123,7 +123,7 @@ def ic_window_points(ic, window_sele, half_window=False):
 		integer or time string. If integer, taken as the number of points.
 		If a string, must of the form "<NUMBER>s" or "<NUMBER>m",
 		specifying a time in seconds or minutes, respectively
-	:type window_sele: IntType or StringType
+	:type window_sele: int or str
 	:param half_window: Specifies whether to return half-window
 	:type half_window: bool, optional
 

@@ -49,6 +49,10 @@ class Display(object):
 	
 	>>> fig = plt.figure()
 	>>> ax = fig.add_subplot(111)
+		:param fig:
+		:type fig: matplotlib.figure.Figure, optional
+		:param ax:
+		:type ax: matplotlib.axes.Axes, optional
 	
 	if only `fig` is given then ax defaults to:
 	
@@ -67,11 +71,6 @@ class Display(object):
 	def __init__(self, fig=None, ax=None):
 		"""
 		Initialises an instance of Display class
-
-		:param fig:
-		:type fig: matplotlib.figure.Figure, optional
-		:param ax:
-		:type ax: matplotlib.axes.Axes, optional
 		"""
 		
 		if fig is None:

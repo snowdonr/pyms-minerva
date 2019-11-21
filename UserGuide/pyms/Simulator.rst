@@ -6,6 +6,7 @@
 
 .. automodule:: pyms.Simulator
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -14,5 +15,6 @@
 ===============================
 .. automodule:: pyms.Simulator.Function
     :members:
+    :inherited-members:
     :private-members:
     :special-members:

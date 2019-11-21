@@ -68,7 +68,7 @@ class Experiment(pymsBaseClass):
 	
 	def __eq__(self, other):
 		"""
-		Return whether this experiment object is equal to another object
+		Return whether this Experiment object is equal to another object
 		
 		:param other: The other object to test equality with
 		:type other: object
@@ -138,7 +138,7 @@ class Experiment(pymsBaseClass):
 		"""
 		Returns the peak list
 
-		:return: A list of peak objects
+		:return: A list of :class:`pyms.Peak.Peak` objects
 		:rtype: list
 		"""
 		
@@ -149,7 +149,7 @@ class Experiment(pymsBaseClass):
 		"""
 		Returns the peak list
 
-		:return: A list of peak objects
+		:return: A list of :class:`pyms.Peak.Peak` objects
 		:rtype: list
 		"""
 		
@@ -171,16 +171,13 @@ class Experiment(pymsBaseClass):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Experiment.dump' instead")
+							details="Use :meth:`pyms.Experiment.Experiment.dump` instead")
 	def store(self, file_name):
 		"""
 		stores an experiment to a file
 	
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Experiment.Experiment.dump` instead.
-	
 		:param file_name: The name of the file
-		:type file_name: str or pathlib.Path
+		:type file_name: str or :class:`pathlib.Path`
 	
 		:author: Vladimir Likic
 		:author: Andrew Isaac
@@ -202,7 +199,7 @@ def read_expr_list(file_name):
 	Reads the set of experiment files and returns a list of class:`pyms.Experiment.Experiment` objects
 
 	:param file_name: The name of the file which lists experiment dump file names, one file per line
-	:type file_name: str or pathlib.Path
+	:type file_name: str or :class:`pathlib.Path`
 
 	:return: A list of Experiment instances
 	:rtype: list of class:`pyms.Experiment.Experiment`
@@ -221,27 +218,27 @@ def read_expr_list(file_name):
 	exprfiles = fp.readlines()
 	fp.close()
 	
-	exprl = []
+	expr_list = []
 	
 	for exprfile in exprfiles:
 		
 		exprfile = exprfile.strip()
 		expr = load_expr(exprfile)
 		
-		exprl.append(expr)
+		expr_list.append(expr)
 	
-	return exprl
+	return expr_list
 
 
 def load_expr(file_name):
 	"""
-	Loads an experiment saved with 'store_expr'
+	Loads an experiment saved with :meth:`pyms.Experiment.store_expr`
 
 	:param file_name: Experiment file name
-	:type file_name: str or pathlib.Path
+	:type file_name: str or :class:`pathlib.Path`
 	
 	:return: The loaded experiment
-	:rtype: class:`pyms.Experiment.Experiment`
+	:rtype: pyms.Experiment.Experiment
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac
@@ -266,13 +263,10 @@ def load_expr(file_name):
 
 @deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 						current_version=__version__,
-						details="Use 'Experiment.store()' instead")
+						details="Use :meth:`pyms.Experiment.Experiment.store` instead")
 def store_expr(file_name, expr):
 	"""
 	Stores an experiment to a file
-
-	.. deprecated:: 2.1.2
-		Use :meth:`pyms.Experiment.Experiment.store` instead.
 
 	:param file_name: The name of the file
 	:type file_name: str

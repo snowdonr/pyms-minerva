@@ -4,5 +4,6 @@
 
 .. automodule:: pyms.BillerBiemann
     :members:
+    :inherited-members:
     :private-members:
     :special-members:

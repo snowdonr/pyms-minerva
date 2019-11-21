@@ -23,13 +23,15 @@ Mixins for pyms Classes
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import math
 from warnings import warn
 
+# 3rd party
 import numpy
 import deprecation
 
+# this package
 from pyms import __version__
 
 

@@ -47,7 +47,7 @@ class Peak(pymsBaseClass):
 	:param rt: Retention time
 	:type rt: int or float
 	:param ms: A ion mass, or spectra of maximising ions
-	:type ms: int or float or class`pyms.MassSpectrum.MassSpectrum`, optional
+	:type ms: int or float or class`pyms.Spectrum.MassSpectrum`, optional
 	:param minutes: Retention time units flag. If True, retention time
 		is in minutes; if False retention time is in seconds
 	:type minutes: bool, optional
@@ -95,12 +95,21 @@ class Peak(pymsBaseClass):
 		self.make_UID()
 	
 	def __eq__(self, other):
+		"""
+		Return whether this Peak object is equal to another object
+
+		:param other: The other object to test equality with
+		:type other: object
+
+		:rtype: bool
+		"""
+		
 		if isinstance(other, self.__class__):
 			return self.UID == other.UID \
-				   and self.bounds == other.bounds \
-				   and self.rt == other.rt \
-				   and self.mass_spectrum == other.mass_spectrum \
-				   and self.area == other.area
+					and self.bounds == other.bounds \
+					and self.rt == other.rt \
+					and self.mass_spectrum == other.mass_spectrum \
+					and self.area == other.area
 		
 		return NotImplemented
 	
@@ -335,7 +344,7 @@ class Peak(pymsBaseClass):
 			Use :attr:`pyms.Peak.Peak.mass_spectrum` instead.
 
 		:return: The mass spectrum at the apex of the peak
-		:rtype: class:`pyms.MassSpectrum.MassSpectrum`
+		:rtype: class:`pyms.Spectrum.MassSpectrum`
 		"""
 		
 		return self.mass_spectrum
@@ -508,7 +517,7 @@ class Peak(pymsBaseClass):
 		Gets the mass spectrum at the apex of the peak
 
 		:return: The mass spectrum at the apex of the peak
-		:rtype: class:`pyms.MassSpectrum.MassSpectrum`
+		:rtype: class:`pyms.Spectrum.MassSpectrum`
 		"""
 		
 		return copy.copy(self.__mass_spectrum)
@@ -520,7 +529,7 @@ class Peak(pymsBaseClass):
 			Clears the mass for a single ion chromatogram peak
 
 		:param value: The mass spectrum at the apex of the peak
-		:rtype: class:`pyms.MassSpectrum.MassSpectrum`
+		:rtype: class:`pyms.Spectrum.MassSpectrum`
 		"""
 		
 		if not isinstance(value, MassSpectrum):
@@ -680,7 +689,7 @@ class Peak(pymsBaseClass):
 			Use :attr:`pyms.Peak.Peak.mass_spectrum` instead.
 
 		:param ms: The mass spectrum at the apex of the peak
-		:type ms: class:`pyms.MassSpectrum.MassSpectrum`
+		:type ms: class:`pyms.Spectrum.MassSpectrum`
 		"""
 		
 		if not isinstance(ms, MassSpectrum):

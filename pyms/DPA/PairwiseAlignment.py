@@ -216,7 +216,7 @@ def dp(S, gap_penalty):
 	:param S: Score matrix
 	:type S: numpy.
 	:param gap_penalty: Gap penalty
-	:type gap_penalty: FloatType
+	:type gap_penalty: float
 
 	:return: A dictionary of results
 	:rtype: DictType

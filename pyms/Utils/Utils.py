@@ -30,7 +30,7 @@ def is_positive_int(arg):
     Determines if the argument is an integer greater than zero
 
     :param arg: A string to be evaluate as a postive integer
-    :type arg: types.StringType
+    :type arg: types.str
 
     :return: A boolean indicator True or False
     :rtype:  bool
@@ -52,7 +52,7 @@ def is_list_of_dec_nums(arg):
     Determines if the argument is a list of decimal numbers
 
     :param arg: A string to be evaluate as a list of decimal numbers
-    :type arg: types.StringType
+    :type arg: types.str
 
     :return: A boolean indicator True or False
     :rtype:  bool

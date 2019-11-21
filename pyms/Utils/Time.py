@@ -36,7 +36,7 @@ def is_str_num(arg):
     or engineering format.
 
     :param arg: A string to be evaluate as a number
-    :type arg: StringType
+    :type arg: str
 
     :return: A boolean indicator True or False
     :rtype:  BooleanType
@@ -63,7 +63,7 @@ def time_str_secs(time_str):
     :type time_str: str
 
     :return: Time in seconds
-    :rtype: FloatType
+    :rtype: float
 
     :author: Vladimir Likic
     """

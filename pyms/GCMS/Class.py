@@ -76,12 +76,22 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self.__calc_tic()
 	
 	def __eq__(self, other):
+		"""
+		Return whether this GCMS_data object is equal to another object
+
+		:param other: The other object to test equality with
+		:type other: object
+
+		:rtype: bool
+		"""
+		
 		# 		self._time_step = time_step
 		# 		self._time_step_std = time_step_std
 		
 		if isinstance(other, self.__class__):
 			return self.scan_list == other.scan_list \
-				   and self.time_list == other.time_list
+					and self.time_list == other.time_list
+		
 		return NotImplemented
 	
 	def __len__(self):
@@ -398,7 +408,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		without any delimiters.
 
 		:param file_name: Output file name
-		:type file_name: str or pathlib.Path
+		:type file_name: str or :class:`pathlib.Path`
 
 		:author: Vladimir Likic
 		:author: Dominic Davis-Foster (pathlib support)

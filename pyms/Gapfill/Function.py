@@ -43,7 +43,7 @@ def file2matrix(file_name):
 	Convert a .csv file to a matrix (list of lists)
 	
 	:param file_name: Filename (.csv) to convert (area.csv, area_ci.csv)
-	:type file_name: str or pathlib.Path
+	:type file_name: str or :class:`pathlib.Path`
 	
 	:return: Data matrix
 	:rtype: numpy.array

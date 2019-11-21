@@ -6,6 +6,7 @@
 
 .. automodule:: pyms.Peak
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -14,6 +15,7 @@
 ===========================
 .. automodule:: pyms.Peak.Class
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -22,6 +24,7 @@
 ===========================
 .. automodule:: pyms.Peak.Function
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -30,6 +33,7 @@
 ===========================
 .. automodule:: pyms.Peak.List
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -38,6 +42,7 @@
 ------------------------------
 .. automodule:: pyms.Peak.List.Function
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -46,6 +51,7 @@
 ------------------------------
 .. automodule:: pyms.Peak.List.IO
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -54,6 +60,7 @@
 ----------------------------
 .. automodule:: pyms.Peak.List.DPA
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -62,6 +69,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: pyms.DPA.Class
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -70,6 +78,7 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: pyms.DPA.Function
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -78,5 +87,6 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: pyms.DPA.Utils
     :members:
+    :inherited-members:
     :private-members:
     :special-members:

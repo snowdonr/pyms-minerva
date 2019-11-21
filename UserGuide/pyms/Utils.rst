@@ -6,6 +6,7 @@
 
 .. automodule:: pyms.Utils
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -14,6 +15,7 @@
 ===========================
 .. automodule:: pyms.Utils.Error
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -22,6 +24,7 @@
 ===========================
 .. automodule:: pyms.Utils.IO
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -30,6 +33,7 @@
 ===========================
 .. automodule:: pyms.Utils.Math
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -38,6 +42,7 @@
 ===========================
 .. automodule:: pyms.Utils.Time
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
 
@@ -46,5 +51,6 @@
 ===========================
 .. automodule:: pyms.Utils.Utils
     :members:
+    :inherited-members:
     :private-members:
     :special-members:
