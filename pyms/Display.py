@@ -46,16 +46,18 @@ class Display(object):
 	Uses matplotlib module pyplot to do plotting.
 	
 	If `fig` is not given then `fig` and `ax` default to:
+	
 	>>> fig = plt.figure()
 	>>> ax = fig.add_subplot(111)
 	
 	if only `fig` is given then ax defaults to:
+	
 	>>> ax = fig.add_subplot(111)
 	
 	:param fig: figure object to use
-	:type fig: matplotlib.figure.Figure, optional
+	:type fig: :class:`matplotlib.figure.Figure`, optional
 	:param ax: axes object to use
-	:type ax: matplotlib.axes.Axes, optional
+	:type ax: :class:`matplotlib.axes.Axes`, optional
 	
 	:author: Sean O'Callaghan
 	:author: Vladimir Likic

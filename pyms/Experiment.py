@@ -23,14 +23,16 @@ Models a GC-MS experiment represented by a list of signal peaks
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import os
 import copy
 import pickle
 import pathlib
 
+# 3rd party
 import deprecation
 
+# this package
 from pyms import __version__
 from pyms.base import pymsBaseClass
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
@@ -44,7 +46,7 @@ class Experiment(pymsBaseClass):
 	:param expr_code: Unique identifier for the experiment
 	:type expr_code: str
 	:param peak_list: A list of peak objects
-	:type peak_list: list of class:`pyms.Peak.Peak`
+	:type peak_list: list of :class:`pyms.Peak.Peak` objects
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac
@@ -61,23 +63,49 @@ class Experiment(pymsBaseClass):
 		if not is_peak_list(peak_list):
 			raise TypeError("'peak_list' must be a list of Peak objects")
 		
-		self.__expr_code = expr_code
-		self.__peak_list = peak_list
+		self._expr_code = expr_code
+		self._peak_list = peak_list
 	
 	def __eq__(self, other):
+		"""
+		Return whether this experiment object is equal to another object
+		
+		:param other: The other object to test equality with
+		:type other: object
+		
+		:rtype: bool
+		"""
+		
 		if isinstance(other, self.__class__):
-			return self.peak_list == other.peak_list \
-				   and self.expr_code == other.expr_code
+			return self.peak_list == other.peak_list and self.expr_code == other.expr_code
 		
 		return NotImplemented
 	
 	def __len__(self):
+		"""
+		Returns the number of peaks in the Experiment
+		
+		:rtype: int
+		"""
+		
 		return len(self.peak_list)
 	
 	def __copy__(self):
-		return Experiment(copy.copy(self.__expr_code), copy.copy(self.peak_list))
+		"""
+		Returns a new Experiment object containing a copy of the data in this object
+		
+		:rtype: pyms.Experiment.Experiment
+		"""
+		
+		return Experiment(copy.copy(self._expr_code), copy.copy(self.peak_list))
 	
 	def __deepcopy__(self, memodict={}):
+		"""
+		Returns a new Experiment object containing a copy of the data in this object
+
+		:rtype: pyms.Experiment.Experiment
+		"""
+
 		return self.__copy__()
 	
 	@property
@@ -89,17 +117,14 @@ class Experiment(pymsBaseClass):
 		:rtype: str
 		"""
 		
-		return self.__expr_code
+		return self._expr_code
 
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Experiment.expr_code' instead")
+							details="Use :attr:`pyms.Experiment.Experiment.expr_code` instead")
 	def get_expr_code(self):
 		"""
 		Returns the expr_code of the experiment
-		
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Experiment.Experiment.expr_code` instead.
 
 		:return: The expr_code of the experiment
 		:rtype: str
@@ -108,13 +133,10 @@ class Experiment(pymsBaseClass):
 		
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Experiment.peak_list' instead")
+							details="Use :attr:`pyms.Experiment.Experiment.peak_list` instead")
 	def get_peak_list(self):
 		"""
 		Returns the peak list
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Experiment.Experiment.peak_list` instead.
 
 		:return: A list of peak objects
 		:rtype: list
@@ -131,7 +153,7 @@ class Experiment(pymsBaseClass):
 		:rtype: list
 		"""
 		
-		return self.__peak_list
+		return self._peak_list
 	
 	def sele_rt_range(self, rt_range):
 		"""
@@ -144,8 +166,8 @@ class Experiment(pymsBaseClass):
 		if not isinstance(rt_range, list):
 			raise TypeError("'rt_range' must be a list")
 		
-		peaks_sele = sele_peaks_by_rt(self.__peak_list, rt_range)
-		self.__peak_list = peaks_sele
+		peaks_sele = sele_peaks_by_rt(self._peak_list, rt_range)
+		self._peak_list = peaks_sele
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
