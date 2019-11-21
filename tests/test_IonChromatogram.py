@@ -171,7 +171,7 @@ def test_write(tic, outputdir):
 	fp = (outputdir/"tic_formatting.dat").open()
 	
 	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
-		assert line == "%8.4f %#.6e\n" % (tic.time_list[ii], tic.intensity_array[ii])
+		assert line == f"{tic.time_list[ii]:8.4f} {tic.intensity_array[ii]:#.6e}\n"
 		
 	fp.close()
 	

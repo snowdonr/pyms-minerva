@@ -79,7 +79,7 @@ for peak in new_peak_list:
     UID = peak.UID
     # height as sum of the intensities of the apexing ions
     height = sum(peak.get_mass_spectrum().mass_spec.tolist())
-    print(UID + ", %.2f, %.2f, %.2f" % (rt, height, peak.area))
+    print(UID + f", {rt:.2f}, {height:.2f}, {peak.area:.2f}")
 
 # TIC from raw data
 tic = data.get_tic()

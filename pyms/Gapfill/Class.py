@@ -63,8 +63,7 @@ class MissingPeak(object):
 	@property
 	def common_ion(self):
 		"""
-		Returns the common ion for the peak object across an
-			experiment
+		Returns the common ion for the peak object across an experiment
 
 		:return: Common ion for the peak
 		:rtype: int
@@ -77,7 +76,7 @@ class MissingPeak(object):
 	@property
 	def common_ion_area(self):
 		"""
-		returns the common ion area
+		Returns the common ion area
 
 		:return common_ion_area: The area of the common ion
 		:rtype: int
@@ -89,16 +88,17 @@ class MissingPeak(object):
 	def common_ion_area(self, common_ion_area):
 		"""
 		sets the common ion area calculated by the gap fill algorithm
+		
 		:param common_ion_area: The area of the common ion
 		:type common_ion_area: int
-
 		"""
+		
 		self.__common_ion_area = common_ion_area
 	
 	@property
 	def exact_rt(self):
 		"""
-		returns the retention time of the peak
+		Returns the retention time of the peak
 
 		:return: the retention time of the peak
 		:rtype: float
@@ -109,7 +109,7 @@ class MissingPeak(object):
 	@exact_rt.setter
 	def exact_rt(self, rt):
 		"""
-		sets the retention time of a peak
+		Sets the retention time of a peak
 
 		:param rt: The retention time of the apex of the peak
 		:type rt: float
@@ -119,13 +119,10 @@ class MissingPeak(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.common_ion' instead")
+							details="Use :attr:pyms.Gapfill.MissingPeak.common_ion` instead")
 	def get_common_ion(self):
 		"""
 		Returns the common ion for the peak object across an experiment
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.common_ion` instead.
 
 		:return: Common ion for the peak
 		:rtype: int
@@ -137,13 +134,10 @@ class MissingPeak(object):
 		
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.common_ion_area' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.get_common_ion_area` instead")
 	def get_common_ion_area(self):
 		"""
 		returns the common ion area
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.get_common_ion_area` instead.
 
 		:return common_ion_area: The area of the common ion
 		:rtype: int
@@ -152,13 +146,10 @@ class MissingPeak(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.exact_rt' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.exact_rt` instead")
 	def get_exact_rt(self):
 		"""
 		returns the retention time of the peak
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.exact_rt` instead.
 
 		:return: the retention time of the peak
 		:rtype: float
@@ -168,13 +159,10 @@ class MissingPeak(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.qual_ion1' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.qual_ion1` instead")
 	def get_qual_ion1(self):
 		"""
 		Returns the top (most abundant) ion for the peak object
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.qual_ion1` instead.
 
 		:return: Most abundant ion
 		:rtype: int
@@ -186,13 +174,10 @@ class MissingPeak(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.qual_ion2' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.qual_ion2` instead")
 	def get_qual_ion2(self):
 		"""
 		Returns the second most abundant ion for the peak object
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.qual_ion2` instead.
 
 		:return: Second most abundant ion
 		:rtype: int
@@ -204,13 +189,10 @@ class MissingPeak(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.rt' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.rt` instead")
 	def get_rt(self):
 		"""
 		returns the retention time of the peak
-		
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.rt` instead.
 
 		:return: the retention time of the peak
 		:rtype: float
@@ -236,7 +218,7 @@ class MissingPeak(object):
 		
 		return self.__qual_1
 	
-	# return int(string.split(self.__UID, '-')[0])
+		# return int(string.split(self.__UID, '-')[0])
 	
 	@property
 	def qual_ion2(self):
@@ -249,15 +231,13 @@ class MissingPeak(object):
 		:author: Jairus Bowne
 		"""
 		
-		"""
 		# TODO: Consider the abundance of ions when some (i.e. 73, 147) have
-			been im.null_mass()'d. Is there a way to determine whether that
-			has been done to generate the original peak list?
-		"""
+		# 	been im.null_mass()'d. Is there a way to determine whether that
+		# 	has been done to generate the original peak list?
 		
 		return self.__qual_1
 	
-	# return int(string.split(self.__UID, '-')[0])
+		# return int(string.split(self.__UID, '-')[0])
 	
 	@property
 	def rt(self):
@@ -272,32 +252,28 @@ class MissingPeak(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.common_ion_area' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.common_ion_area` instead")
 	def set_common_ion_area(self, common_ion_area):
 		"""
-		sets the common ion area calculated by the gap fill algorithm
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.common_ion_area` instead.
+		sets the common ion area calculated by the gap fill algorithm.
 
 		:param common_ion_area: The area of the common ion
 		:type common_ion_area: int
 		"""
+		
 		self.common_ion_area = common_ion_area
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'MissingPeak.exact_rt' instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.exact_rt` instead")
 	def set_exact_rt(self, rt):
 		"""
 		sets the retention time of a peak
 
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.MissingPeak.exact_rt` instead.
-
 		:param rt: The retention time of the apex of the peak
 		:type rt: float
 		"""
+		
 		self.__exact_rt = rt
 
 
@@ -329,41 +305,36 @@ class Sample(object):
 		Add a new MissingPeak object to the Sample
 
 		:param missing_peak: The missing peak object to be added
-		:type missing_peak: class`pyms.GapFilling.Class.MissingPeak`
+		:type missing_peak: pyms.GapFilling.Class.MissingPeak
 		"""
-		###
-		# Do some checking here!!!
-		###
+
+		# TODO: Do some checking here!!!
+
 		self.__missing_peak_list.append(missing_peak)
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Sample.missing_peaks' instead")
+							details="Use :attr:`pyms.Gapfill.Class.Sample.missing_peaks` instead")
 	def get_missing_peaks(self):
 		"""
 		Returns a list of the MissingPeak objects in the Sample object
 
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.Sample.missing_peaks` instead.
-
-		:return: list of class:`pyms.GapFilling.Class.MissingPeak`
+		:return: list of :class:`pyms.GapFilling.Class.MissingPeak`
 		:rtype: list
 		"""
 		return self.__missing_peak_list
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Sample.rt_areas' instead")
+							details="Use :attr:`pyms.Gapfill.Class.Sample.rt_areas` instead")
 	def get_mp_rt_area_dict(self):
 		"""
-		returns a dictionary containing rt:area pairs
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.Sample.rt_areas` instead.
+		Returns a dictionary containing rt:area pairs
 
 		:return: a dict containing rt:area pairs
 		:rtype: dict
 		"""
+
 		rt_area_dict = {}
 		for peak in self.__missing_peak_list:
 			rt = peak.rt
@@ -375,7 +346,7 @@ class Sample(object):
 	
 	def get_mp_rt_exact_rt_dict(self):
 		"""
-		:summary:returns a dictionary containing average_rt:exact_rt pairs
+		Returns a dictionary containing average_rt:exact_rt pairs
 
 		:return: a dict of average_rt:exact_rt pairs
 		:rtype: dict
@@ -392,13 +363,10 @@ class Sample(object):
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'Sample.name' instead")
+							details="Use :attr:`pyms.Gapfill.Class.Sample.name` instead")
 	def get_name(self):
 		"""
 		Returns the sample name
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.Gapfill.Class.Sample.name` instead.
 
 		:return: The name of the sample
 		:rtype: str
@@ -411,7 +379,7 @@ class Sample(object):
 		"""
 		Returns a list of the MissingPeak objects in the Sample object
 		
-		:return: list of class:`pyms.GapFilling.Class.MissingPeak`
+		:return: list of :class:`pyms.GapFilling.Class.MissingPeak`
 		:rtype: list
 		"""
 		return self.__missing_peak_list
@@ -435,6 +403,7 @@ class Sample(object):
 		:return: a dict containing rt:area pairs
 		:rtype: dict
 		"""
+		
 		rt_area_dict = {}
 		for peak in self.__missing_peak_list:
 			rt = peak.rt

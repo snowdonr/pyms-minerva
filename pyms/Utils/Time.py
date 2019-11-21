@@ -23,7 +23,7 @@ Time conversion and related functions
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import re
 import math
 
@@ -44,16 +44,12 @@ def is_str_num(arg):
     :author: Gyro Funch (from Active State Python Cookbook)
     """
 
-    NUM_RE = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
+    num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
 
-    if NUM_RE.match(str(arg)):
-        return True
-    else:
-        return False
+    return num_re.match(str(arg))
 
 
 def time_str_secs(time_str):
-
     """
     Resolves time string of the form "<NUMBER>s" or "<NUMBER>m",
         returns time in seconds
@@ -75,10 +71,10 @@ def time_str_secs(time_str):
     time_spec = time_str[-1].lower()
 
     if not is_str_num(time_number):
-       print(f" --> received time string '{time_number}'")
-       raise ValueError("improper time string")
+        print(f" --> received time string '{time_number}'")
+        raise ValueError("improper time string")
 
-    if not time_spec == "s" and not time_spec == "m":
+    if time_spec not in ["s", "m"]:
         raise ValueError("time string must end with either 's' or 'm'")
 
     time = float(time_number)
@@ -134,9 +130,11 @@ def window_sele_points(ic, window_sele, half_window=False):
         points = int(math.floor(time/time_step))
 
     if half_window:
-        if points < 1: raise ValueError(f"window too small (half window={points:d})")
+        if points < 1:
+            raise ValueError(f"window too small (half window={points:d})")
     else:
-        if points < 2: raise ValueError(f"window too small (window={points:d})")
+        if points < 2:
+            raise ValueError(f"window too small (window={points:d})")
 
     return points
 

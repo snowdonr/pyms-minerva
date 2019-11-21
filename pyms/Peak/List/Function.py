@@ -23,16 +23,18 @@ Functions related to Peak modification
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import math
 
+# 3rd party
 import numpy
 
+# this package
 from pyms.base import _list_types
-from pyms.Utils.Time import time_str_secs
 from pyms.Peak import Peak
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Math import median_outliers
+from pyms.Utils.Time import time_str_secs
 
 
 def composite_peak(peak_list, ignore_outliers=False):
@@ -46,7 +48,7 @@ def composite_peak(peak_list, ignore_outliers=False):
     :type ignore_outliers: bool, optional
 
     :return: Peak Object with combined mass spectra of 'peak_list'
-    :type: class:`pyms.Peak.Class.Peak`
+    :type: pyms.Peak.Class.Peak
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
@@ -58,7 +60,7 @@ def composite_peak(peak_list, ignore_outliers=False):
     first = True
     count = 0
     avg_rt = 0
-    new_ms = None
+    # new_ms = None
 
     # DK: first mark peaks in the list that are outliers by RT, but only if there are more than 3 peaks in the list
     if ignore_outliers:
@@ -119,7 +121,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
     :type minutes: bool, optional
 
     :return: List of Peak Objects
-    :type: list of class:`pyms.Peak.Peak`
+    :type: list of :class:`pyms.Peak.Class.Peak`
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
@@ -243,7 +245,7 @@ def sele_peaks_by_rt(peaks, rt_range):
     :type rt_range: list
     
     :return: A list of peak objects
-    :rtype: list of class:`pyms.Peak.Peak`
+    :rtype: list of :class:`pyms.Peak.Class.Peak`
     """
 
     if not is_peak_list(peaks):
@@ -271,6 +273,6 @@ def sele_peaks_by_rt(peaks, rt_range):
         if rt_lo < rt < rt_hi:
             peaks_sele.append(peak)
 
-    #print("%d peaks selected" % (len(peaks_sele)))
+    # print("%d peaks selected" % (len(peaks_sele)))
 
     return peaks_sele

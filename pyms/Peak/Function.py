@@ -23,13 +23,16 @@ Functions related to Peak modification
 #                                                                              #
 ################################################################################
 
+# stdlib
 import copy
 from math import ceil
 from statistics import median
 
+# 3rd party
 import deprecation
 from numpy import percentile
 
+# this package
 from pyms import __version__
 from pyms.base import _list_types
 from pyms.IntensityMatrix import IntensityMatrix
@@ -42,9 +45,9 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 		detected boundaries.
 
 	:param im: The originating IntensityMatrix object
-	:type im: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param peak: The Peak object
-	:type peak: class:`pyms.Peak.Class.Peak`
+	:type peak: pyms.Peak.Class.Peak
 	:param single_ion: whether single ion areas should be returned, default False
 	:type single_ion: bool, optional
 	:param max_bound: Optional value to limit size of detected bound, default 0
@@ -68,7 +71,7 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 	
 	sum_area = 0
 	# Use internal values (not copy)
-	#mat = im.matrix_list
+	# mat = im.matrix_list
 	mat = im.intensity_array
 	ms = peak.mass_spectrum
 	rt = peak.rt
@@ -99,9 +102,9 @@ def peak_pt_bounds(im, peak):
 	:Summary: Approximate the peak bounds (left and right offsets from apex).
 
 	:param im: The originating IntensityMatrix object
-	:type im: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param peak: The Peak object
-	:type peak: class:`pyms.Peak.Class.Peak`
+	:type peak: pyms.Peak.Class.Peak
 
 	:return: Sum of peak apex ions in detected bounds
 	:rtype: tuple of ints
@@ -117,14 +120,14 @@ def peak_pt_bounds(im, peak):
 		raise TypeError("'peak' must be a Peak object")
 	
 	# Use internal values (not copy)
-	#mat = im.matrix_list
+	# mat = im.matrix_list
 	mat = im.intensity_array
 	ms = peak.mass_spectrum
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
 	
 	# get peak masses with non-zero intensity
-	mass_ii = [ ii for ii in range(len(ms.mass_list)) if ms.mass_spec[ii] > 0 ]
+	mass_ii = [ii for ii in range(len(ms.mass_list)) if ms.mass_spec[ii] > 0]
 	
 	left_list = []
 	right_list = []
@@ -149,9 +152,9 @@ def peak_top_ion_areas(im, peak, n_top_ions=5, max_bound=0):
 		abundant ions in the peak
 
 	:param im: The originating IntensityMatrix object
-	:type im: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param peak: The Peak object
-	:type peak: class:`pyms.Peak.Class.Peak`
+	:type peak: pyms.Peak.Class.Peak
 	:param n_top_ions: Number of top ions to return areas for, default 5
 	:type n_top_ions: int, optional
 	:param max_bound: Optional value to limit size of detected bound, default 0
@@ -173,14 +176,14 @@ def peak_top_ion_areas(im, peak, n_top_ions=5, max_bound=0):
 	if not isinstance(max_bound, int):
 		raise TypeError("'max_bound' must be an integer")
 	
-	#ms = peak.mass_spectrum
+	# ms = peak.mass_spectrum
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
 	
 	ion_areas = {}  # Dictionary to store ion:ion_area pairs
 	
 	top_ions = peak.top_ions(n_top_ions)
-	#print(top_ions)
+	# print(top_ions)
 	
 	for ion in top_ions:
 		ion_chrom = im.get_ic_at_mass(ion)
@@ -195,16 +198,13 @@ def peak_top_ion_areas(im, peak, n_top_ions=5, max_bound=0):
 
 @deprecation.deprecated(deprecated_in="2.0.0", removed_in="2.2.0",
 						current_version=__version__,
-						details="Use 'top_ions_v2' instead")
+						details="Use :func:`pyms.Peak.Function.top_ions_v2` instead")
 def top_ions_v1(peak, num_ions=5):
 	"""
 	Computes the highest 5 intensity ions
-	
-	.. deprecated:: 2.1.2
-		Use :attr:`pyms.Peak.Function.top_ions_v2` instead.
 		
 	:param peak: the peak to be processed
-	:type peak: class:`pyms.Peak.Class.Peak`
+	:type peak: pyms.Peak.Class.Peak
 	:param num_ions: The number of ions to be recorded, default 5
 	:type num_ions: int, optional
 
@@ -238,20 +238,17 @@ def top_ions_v1(peak, num_ions=5):
 
 @deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 						current_version=__version__,
-						details="Use 'Peak.top_ions' instead")
+						details="Use :meth:`pyms.Peak.Class.Peak.top_ions` instead")
 def top_ions_v2(peak, num_ions=5):
 	"""
-	Computes the highest #num_ions intensity ions
-	
-	.. deprecated:: 2.1.2
-		Use :attr:`pyms.Peak.Class.Peak.top_ions` instead.
+	Computes the highest #num_ions intensity ions.
 	
 	:param peak: The peak to be processed
-	:type peak: class:`pyms.Peak.Class.Peak`
+	:type peak: pyms.Peak.Class.Peak
 	:param num_ions: The number of ions to be recorded, default 5
 	:type num_ions: int, optional
 
-	:return: A list of the #num_ions highest intensity ions
+	:return: A list of the num_ions highest intensity ions
 	:rtype: list
 
 	:author: Sean O'Callaghan
@@ -310,7 +307,7 @@ def ion_area(ia, apex, max_bound=0, tol=0.5):
 		raise TypeError("'tol' must be a float")
 	
 	# Left area
-	lhs = ia[:apex+1]
+	lhs = ia[:apex + 1]
 	lhs.reverse()  # reverse, as search to right is bounds safe
 	l_area, left, l_share = half_area(lhs, max_bound, tol)
 	
@@ -320,7 +317,7 @@ def ion_area(ia, apex, max_bound=0, tol=0.5):
 	r_area -= ia[apex]  # counted apex twice for tollerence, now ignore
 	
 	# Put it all together
-	return l_area+r_area, left, right, l_share, r_share
+	return l_area + r_area, left, right, l_share, r_share
 
 
 def half_area(ia, max_bound=0, tol=0.5):
@@ -349,7 +346,7 @@ def half_area(ia, max_bound=0, tol=0.5):
 	if not isinstance(tol, float):
 		raise TypeError("'tol' must be a float")
 	
-	tol = tol/200.0  # halve and convert from percent
+	tol = tol / 200.0  # halve and convert from percent
 	
 	# Default number of points to sum new area across, for smoothing
 	wide = 3
@@ -365,18 +362,18 @@ def half_area(ia, max_bound=0, tol=0.5):
 	# initialise areas and bounds
 	shared = False
 	area = ia[0]
-	edge = float(sum(ia[0:wide]))/wide
+	edge = float(sum(ia[0:wide])) / wide
 	old_edge = 2 * edge  # bigger than expected edge
 	index = 1
 	if max_bound < 1:
 		limit = len(ia)
 	else:
-		limit = min(max_bound+1, len(ia))
-	#while edge > area * tol and edge < old_edge and index < limit:
+		limit = min(max_bound + 1, len(ia))
+	# while edge > area * tol and edge < old_edge and index < limit:
 	while area * tol < edge < old_edge and index < limit:
 		old_edge = edge
 		area += ia[index]
-		edge = float(sum(ia[index:index+wide]))/wide  # bounds safe
+		edge = float(sum(ia[index:index + wide])) / wide  # bounds safe
 		index += 1
 	if edge >= old_edge:
 		shared = True
@@ -405,7 +402,7 @@ def median_bounds(im, peak, shared=True):
 	"""
 	
 	if not isinstance(im, IntensityMatrix):
-		raise TypeError("'im' must be an IntenstyMatrix object")
+		raise TypeError("'im' must be an IntensityMatrix object")
 	if not isinstance(peak, Peak):
 		raise TypeError("'peak' must be a Peak object")
 	if not isinstance(shared, bool):
@@ -415,7 +412,7 @@ def median_bounds(im, peak, shared=True):
 	ms = peak.mass_spectrum
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
-	# check if RT based index is simmilar to stored index
+	# check if RT based index is similar to stored index
 	tmp = peak.bounds
 	if isinstance(tmp, _list_types) and apex - 1 < tmp[1] < apex + 1:
 		apex = tmp[1]
@@ -428,7 +425,7 @@ def median_bounds(im, peak, shared=True):
 	right_list = []
 	for ii in mass_ii:
 		# get ion chromatogram as list
-		ia = [ mat[scan][ii] for scan in range(len(mat)) ]
+		ia = [mat[scan][ii] for scan in range(len(mat))]
 		area, left, right, l_share, r_share = ion_area(ia, apex)
 		if shared or not l_share:
 			left_list.append(left)

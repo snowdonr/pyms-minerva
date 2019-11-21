@@ -42,7 +42,7 @@ default_filetypes = ["png", "pdf", "svg"]
 
 class Display(object):
 	"""
-	Class to display Ion Chromatograms and Total Ion Chromatograms from class:`IonChromatogram.IonChromatogram`
+	Class to display Ion Chromatograms and Total Ion Chromatograms from :class:`IonChromatogram.IonChromatogram`
 	Uses matplotlib module pyplot to do plotting.
 	
 	If `fig` is not given then `fig` and `ax` default to:
@@ -306,7 +306,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		Plots a Total Ion Chromatogram
 
 		:param tic: Total Ion Chromatogram
-		:type tic: class:`pyms.IonChromatogram.IonChromatogram`
+		:type tic: :class:`pyms.IonChromatogram.IonChromatogram`
 		:param minutes: Whether to show the time in minutes (Default False)
 		:type minutes: bool, optional
 

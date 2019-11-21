@@ -46,7 +46,7 @@ class Experiment(pymsBaseClass):
 	:param expr_code: Unique identifier for the experiment
 	:type expr_code: str
 	:param peak_list: A list of peak objects
-	:type peak_list: list of :class:`pyms.Peak.Peak` objects
+	:type peak_list: list of :class:`pyms.Peak.Class.Peak` objects
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac
@@ -138,7 +138,7 @@ class Experiment(pymsBaseClass):
 		"""
 		Returns the peak list
 
-		:return: A list of :class:`pyms.Peak.Peak` objects
+		:return: A list of :class:`pyms.Peak.Class.Peak` objects
 		:rtype: list
 		"""
 		
@@ -149,7 +149,7 @@ class Experiment(pymsBaseClass):
 		"""
 		Returns the peak list
 
-		:return: A list of :class:`pyms.Peak.Peak` objects
+		:return: A list of :class:`pyms.Peak.Class.Peak` objects
 		:rtype: list
 		"""
 		
@@ -196,13 +196,13 @@ class Experiment(pymsBaseClass):
 
 def read_expr_list(file_name):
 	"""
-	Reads the set of experiment files and returns a list of class:`pyms.Experiment.Experiment` objects
+	Reads the set of experiment files and returns a list of :class:`pyms.Experiment.Experiment` objects
 
 	:param file_name: The name of the file which lists experiment dump file names, one file per line
 	:type file_name: str or :class:`pathlib.Path`
 
 	:return: A list of Experiment instances
-	:rtype: list of class:`pyms.Experiment.Experiment`
+	:rtype: list of pyms.Experiment.Experiment
 
 	:author: Vladimir Likic
 	"""
@@ -271,7 +271,7 @@ def store_expr(file_name, expr):
 	:param file_name: The name of the file
 	:type file_name: str
 	:param expr: An experiment object
-	:type expr: class:`pyms.Experiment.Experiment`
+	:type expr: pyms.Experiment.Experiment
 
 	:author: Vladimir Likic
 	:author: Andrew Isaac

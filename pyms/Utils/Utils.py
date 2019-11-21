@@ -25,11 +25,10 @@ General utility functions
 
 
 def is_positive_int(arg):
-
     """
     Determines if the argument is an integer greater than zero
 
-    :param arg: A string to be evaluate as a postive integer
+    :param arg: A string to be evaluate as a positive integer
     :type arg: types.str
 
     :return: A boolean indicator True or False
@@ -47,7 +46,6 @@ def is_positive_int(arg):
 
 
 def is_list_of_dec_nums(arg):
-
     """
     Determines if the argument is a list of decimal numbers
 

@@ -23,10 +23,11 @@ Functions related to storing and loading a list of Peak objects
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import pickle
 import pathlib
 
+# this package
 from pyms.Peak.Class import Peak
 from pyms.base import _list_types
 from pyms.Peak.List.Function import is_peak_list
@@ -38,9 +39,9 @@ def store_peaks(peak_list, file_name):
     Store the list of peak objects
 
     :param peak_list: A list of peak objects
-    :type peak_list: list of class:`pyms.Peaks.Class.Peak`
+    :type peak_list: list of :class:`pyms.Peaks.Class.Peak`
     :param file_name: File name to store peak list
-    :type file_name: str or pathlib.Path
+    :type file_name: str or :class:`pathlib.Path`
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions and pathlib support)
@@ -67,7 +68,7 @@ def load_peaks(file_name):
     :type file_name: str or pathlib.Path
 
     :return: The list of Peak objects
-    :rtype: list of class:`pyms.Peak.Class.Peak`
+    :rtype: list of :class:`pyms.Peak.Class.Peak`
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (pathlib support)

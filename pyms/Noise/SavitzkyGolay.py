@@ -23,11 +23,13 @@ Savitzky-Golay noise filter
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 
+# 3rd party
 import numpy
 
+# this package
 from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
@@ -52,7 +54,7 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGR
 	:type degree: int, optional
 
 	:return: Smoothed ion chromatogram
-	:rtype: class:`pyms.IonChromatogram.IonChromatogram`
+	:rtype: pyms.IonChromatogram.IonChromatogram
 
 	:author: Uwe Schmitt
 	:author: Vladimir Likic
@@ -70,9 +72,9 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGR
 	
 	wing_length = ic_window_points(ic, window, half_window=True)
 	
-	#print(" -> Applying Savitzky-Golay filter")
-	#print("      Window width (points): %d" % ( 2*wing_length+1 ))
-	#print("      Polynomial degree: %d" % ( degree ))
+	# print(" -> Applying Savitzky-Golay filter")
+	# print("      Window width (points): %d" % ( 2*wing_length+1 ))
+	# print("      Polynomial degree: %d" % ( degree ))
 	
 	coeff = __calc_coeff(wing_length, degree)
 	ia_denoise = __smooth(ia, coeff)
@@ -90,7 +92,7 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_D
 	Simply wraps around the Savitzky Golay function above
 
 	:param im: The input IntensityMatrix
-	:type im: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param window: The window selection parameter.
 	:type window: int or str, optional
 	:param degree: degree of the fitting polynomial for the Savitzky-Golay
@@ -98,7 +100,7 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_D
 	:type degree: int, optional
 
 	:return: Smoothed IntensityMatrix
-	:rtype: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Sean O'Callaghan
 	:author: Vladimir Likic
@@ -127,13 +129,12 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_D
 def __calc_coeff(num_points, pol_degree, diff_order=0):
 	
 	"""
-	Calculates filter coefficients for symmetric savitzky-golay
-		filter
+	Calculates filter coefficients for symmetric savitzky-golay filter.
 
-		See Section 14.8: Savitzky-Golay Smoothing Filters in
-		 Numerical Recipes in C, Second Edition (1992)
-		 by Press, W.H., Teukolsky, S.A., Vetterling, W.T., Flannery, B.P.
-		 Published by Cambridge University Press
+	See Section 14.8: Savitzky-Golay Smoothing Filters in
+		Numerical Recipes in C, Second Edition (1992)
+		by Press, W.H., Teukolsky, S.A., Vetterling, W.T., Flannery, B.P.
+		Published by Cambridge University Press
 
 	:param num_points: Means that 2*num_points+1 values contribute to the smoother
 	:type num_points: int
@@ -214,7 +215,6 @@ def __resub(D, rhs):
 
 
 def __smooth(signal, coeff):
-	
 	"""
 	Applies coefficients calculated by __calc_coeff()
 		to signal

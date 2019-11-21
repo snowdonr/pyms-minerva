@@ -23,10 +23,11 @@ Provides conversion and information functions for GC-MS data objects
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import sys
 import math
 
+# this package
 from pyms.base import pymsError
 from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Math import rmsd
@@ -53,14 +54,14 @@ def diff(data1, data2):
 	# First, check if two data sets have the same number of retention times.
 	if len(time_list1) != len(time_list2):
 		print(" -> The number of retention time points different.")
-		print(" First data set: %d time points" % (len(time_list1)))
-		print(" Second data set: %d time points" % (len(time_list2)))
+		print(f" First data set: {len(time_list1):d} time points")
+		print(f" Second data set: {len(time_list2):d} time points")
 		print(" Data sets are different.")
 		return
 	else:
 		time_rmsd = rmsd(time_list1, time_list2)
 		print(" Data sets have the same number of time points.")
-		print("   Time RMSD: %.2e" % ( time_rmsd ))
+		print(f"   Time RMSD: {time_rmsd:.2e}")
 	
 	# Second, check if each scan has the same number of m/z intensities
 	print(" Checking for consistency in scan lengths ...", end='')
@@ -81,14 +82,14 @@ def diff(data1, data2):
 		mass_list1 = scan1.get_mass_list()
 		mass_list2 = scan2.get_mass_list()
 		if len(mass_list1) != len(mass_list2):
-			print("\n Different number of points detected in scan no. %d" % ( ii ))
+			print(f"\n Different number of points detected in scan no. {ii:d}")
 			print(" Data sets are different.")
 			return
 	
 	print("OK")
 	
 	# Third, if here, calculate the max RMSD for m/z and intensities
-	print(" Calculating maximum RMSD for m/z values and intensities ...",end='')
+	print(" Calculating maximum RMSD for m/z values and intensities ...", end='')
 	sys.stdout.flush()
 	
 	max_mass_rmsd = 0.0
@@ -118,7 +119,7 @@ def ic_window_points(ic, window_sele, half_window=False):
 		the time step in an ion chromatogram
 
 	:param ic: ion chromatogram object relevant for the conversion
-	:type ic: class:`pyms.IO.Class.IonChromatogram`
+	:type ic: pyms.IO.Class.IonChromatogram
 	:param window_sele: The window selection parameter. This can be an
 		integer or time string. If integer, taken as the number of points.
 		If a string, must of the form "<NUMBER>s" or "<NUMBER>m",
@@ -138,7 +139,7 @@ def ic_window_points(ic, window_sele, half_window=False):
 			if window_sele % 2 == 0:
 				raise ValueError("window must be an odd number of points")
 			else:
-				points = int(math.floor(window_sele*0.5))
+				points = int(math.floor(window_sele * 0.5))
 		else:
 			points = window_sele
 	else:
@@ -146,16 +147,15 @@ def ic_window_points(ic, window_sele, half_window=False):
 		time_step = ic.time_step
 		
 		if half_window:
-			time = time*0.5
+			time = time * 0.5
 		
-		points = int(math.floor(time/time_step))
+		points = int(math.floor(time / time_step))
 	
 	if half_window:
 		if points < 1:
-			raise ValueError(f"window too small (half window={points}%d)")
+			raise ValueError(f"window too small (half window={points:d})")
 	else:
 		if points < 2:
 			raise ValueError(f"window too small (window={points})")
 	
 	return points
-

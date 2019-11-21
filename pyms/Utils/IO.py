@@ -23,10 +23,12 @@ General I/O functions
 #                                                                              #
 ################################################################################
 
+# stdlib
 import gzip
 import pickle
 import pathlib
 
+# 3rd party
 import numpy
 
 _list_types = (list, tuple, numpy.core.ndarray)

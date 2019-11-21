@@ -23,18 +23,20 @@ Functions for reading manufacturer specific ANDI-MS data files
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import pathlib
 
-from pyms.GCMS.Class import GCMS_data
-from pyms.Spectrum import Scan
-
+# 3rd party
 import pymzml
 
 try:
 	from mpi4py import MPI
-except:
+except ModuleNotFoundError:
 	pass
+
+# this package
+from pyms.GCMS.Class import GCMS_data
+from pyms.Spectrum import Scan
 
 
 def mzML_reader(file_name):
@@ -45,7 +47,7 @@ def mzML_reader(file_name):
 	:type file_name: str or :class:`pathlib.Path`
 
 	:return: GC-MS data object
-	:rtype: class:`pyms.GCMS.Class.GCMS_data`
+	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
 	:author: Sean O'Callaghan
 	:author: Dominic Davis-Foster (pathlib support)
@@ -76,7 +78,7 @@ def mzML_reader(file_name):
 		else:
 			comm.send(file_name, dest=0)
 	except:
-		print(" -> Reading mzML file '%s'" % (file_name))
+		print(f" -> Reading mzML file '{file_name}'")
 	
 	scan_list = []
 	time_list = []

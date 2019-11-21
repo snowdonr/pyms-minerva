@@ -23,14 +23,16 @@ Class to model GC-MS data
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 import pathlib
 from statistics import stdev, median, mean
 
+# 3rd party
 import numpy
 import deprecation
 
+# this package
 from pyms import __version__
 from pyms.base import pymsError
 from pyms.Utils.Time import time_str_secs
@@ -85,8 +87,8 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		:rtype: bool
 		"""
 		
-		# 		self._time_step = time_step
-		# 		self._time_step_std = time_step_std
+		# self._time_step = time_step
+		# self._time_step_std = time_step_std
 		
 		if isinstance(other, self.__class__):
 			return self.scan_list == other.scan_list \
@@ -178,13 +180,10 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'GCMS.scan_list' instead")
+							details="Use :attr:`pyms.GCMS.Class.GCMS.scan_list` instead")
 	def get_scan_list(self):
 		"""
 		Return a list of the scan objects
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.GCMS.Class.GCMS_data.scan_list` instead.
 
 		:return: A list of scan objects
 		:rtype: list
@@ -198,13 +197,10 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use 'GCMS.tic' instead")
+							details="Use :attr:`pyms.GCMS.Class.GCMS.tic` instead")
 	def get_tic(self):
 		"""
 		Returns the total ion chromatogram
-
-		.. deprecated:: 2.1.2
-			Use :attr:`pyms.GCMS.Class.GCMS_data.tic` instead.
 
 		:return: Total ion chromatogram
 		:rtype: pyms.IonChromatogram.IonChromatogram
@@ -322,14 +318,13 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 		# sanity checks
 		if not last_scan > first_scan:
-			raise ValueError("last scan=%d, first scan=%d" % (last_scan, first_scan))
+			raise ValueError(f"last scan={last_scan:d}, first scan={first_scan:d}")
 		elif first_scan < 0:
 			raise ValueError("scan number must be greater than one")
 		elif last_scan > N - 1:
-			raise ValueError("last scan=%d, total number of scans=%d" % (last_scan, N))
+			raise ValueError(f"last scan={last_scan:d}, total number of scans={N:d}")
 		
-		print("Trimming data to between %d and %d scans" % \
-			  (first_scan + 1, last_scan + 1))
+		print(f"Trimming data to between {first_scan + 1:d} and {last_scan + 1:d} scans")
 		
 		scan_list_new = []
 		time_list_new = []

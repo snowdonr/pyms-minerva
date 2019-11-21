@@ -845,7 +845,7 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 	Fills the intensity values for all bins
 
 	:param data: Raw GCMS data
-	:type data: class:`pyms.GCMS.Class.GCMS_data`
+	:type data: pyms.GCMS.Class.GCMS_data
 	:param min_mass: minimum mass value
 	:type min_mass: int or float
 	:param max_mass: maximum mass value
@@ -858,7 +858,7 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 	:type bin_right: float
 
 	:return: Binned IntensityMatrix object
-	:rtype: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -906,7 +906,7 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 	Fills the intensity values for all bins
 
 	:param data: Raw GCMS data
-	:type data: class:`pyms.GCMS.Class.GCMS_data`
+	:type data: pyms.GCMS.Class.GCMS_data
 	:param min_mass: minimum mass value
 	:type min_mass: int or float
 	:param max_mass: maximum mass value
@@ -919,7 +919,7 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 	:type bin_right: float
 
 	:return: Binned IntensityMatrix object
-	:rtype: class:`pyms.IntensityMatrix.IntensityMatrix`
+	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Qiao Wang
 	:author: Andrew Isaac

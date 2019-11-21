@@ -23,26 +23,28 @@ Provides mathematical functions
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import math
 from statistics import median
 from statistics import stdev as std
 
+# 3rd party
 import numpy
 
+# this package
 from pyms.base import _list_types
 
 
-def vector_by_step(vstart, vstop, vstep):
+def vector_by_step(start, stop, step):
     """
-    generates a list by using start, stop, and step values
+    Generates a list by using start, stop, and step values
 
-    :param vstart: Initial value
-    :type vstart: A number
-    :param vstop: Max value
-    :type vstop: A number
-    :param vstep: Step
-    :type vstep: A number
+    :param start: Initial value
+    :type start: A number
+    :param stop: Max value
+    :type stop: A number
+    :param step: Step
+    :type step: A number
    
     :return: A list generated
     :rtype: list
@@ -50,22 +52,22 @@ def vector_by_step(vstart, vstop, vstep):
     :author: Vladimir Likic
     """
 
-    if not isinstance(vstart, (int, float)) or not isinstance(vstop, (int, float)) or not isinstance(vstep, (int, float)):
+    if not isinstance(start, (int, float)) or not isinstance(stop, (int, float)) or not isinstance(step, (int, float)):
         raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
 
     v = []
 
-    p = vstart 
-    while p < vstop:
+    p = start
+    while p < stop:
         v.append(p)
-        p = p + vstep
+        p = p + step
 
     return v
 
 
 def MAD(v):
     """
-    median absolute deviation
+    Median absolute deviation
 
     :param v: A list or array
     :type v: list, tuple, or numpy.core.ndarray
@@ -92,14 +94,14 @@ def MAD(v):
 
 
 def rmsd(list1, list2):
-
     """
     Calculates RMSD for the 2 lists
 
     :param list1: First data set
-    :type list1: list, tuple, or numpy.core.ndarray
+    :type list1: list, tuple, or :class:`numpy.core.ndarray`
     :param list2: Second data set
-    :type list2: list, tuple, or numpy.core.ndarray
+    :type list2: list, tuple, or :class:`numpy.core.ndarray`
+    
     :return: RMSD value
     :rtype: float
 
@@ -121,14 +123,19 @@ def rmsd(list1, list2):
     return rmsd
 
 
-# added by DK. courtesy of
-# http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data
 def mad_based_outlier(data, thresh=3.5):
     """
     
     :param data:
+    :type data:
     :param thresh:
+    :type thresh:
+    
     :return:
+    :rtype:
+    
+    :author: David Kainer
+    :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
     """
     
     data = numpy.array(data)
@@ -144,14 +151,19 @@ def mad_based_outlier(data, thresh=3.5):
     return modified_z_score > thresh
 
 
-# added by DK. courtesy of
-# http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data
 def percentile_based_outlier(data, threshold=95):
     """
     
     :param data:
+    :type data:
     :param threshold:
+    :type threshold:
+    
     :return:
+    :rtype:
+    
+    :author: David Kainer
+    :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
     """
     
     data = numpy.array(data)
@@ -163,18 +175,25 @@ def percentile_based_outlier(data, threshold=95):
     return (data < minval) | (data > maxval)
 
 
-# added by DK. courtesy of
-# http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list
 def median_outliers(data, m=2.5):
     """
     
     :param data:
+    :type data:
     :param m:
+    :type m:
+    
     :return:
+    :rtype:
+    
+    :author: David Kainer
+    :author: eumiro < `https://stackoverflow.com/users/449449/eumiro`_ >
+    :author: enjamin Bannier < `https://stackoverflow.com/users/176922/benjamin-bannier`_ >
+    :url: `http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list`_
     """
     
     data = numpy.array(data)
     d = numpy.abs(data - numpy.nanmedian(data))
     mdev = numpy.nanmedian(d)
     s = d / mdev if mdev else 0.
-    return (s > m)
+    return s > m

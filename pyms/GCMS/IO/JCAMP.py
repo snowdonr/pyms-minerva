@@ -23,9 +23,10 @@ Functions for I/O of data in JCAMP-DX format
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import pathlib
 
+# this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
 from pyms.base import pymsError
@@ -39,7 +40,7 @@ def JCAMP_reader(file_name):
 	:type file_name: str or :class:`pathlib.Path`
 	
 	:return: GC-MS data object
-	:rtype: class:`pyms.GCMS.Class.GCMS_data`
+	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -135,7 +136,7 @@ def JCAMP_OpenChrom_reader(file_name):
 	if not isinstance(file_name, str):
 		raise TypeError("'file_name' must be a string")
 	
-	print(" -> Reading JCAMP file '%s'" % (file_name))
+	print(f" -> Reading JCAMP file '{file_name}'")
 	lines_list = open(file_name, 'r')
 	data = []
 	page_idx = 0

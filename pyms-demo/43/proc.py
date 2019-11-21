@@ -30,12 +30,12 @@ print(" Processing ICs")
 for ii in range(n_mz):
     print("Working on IC#", ii+1)
     ic = im.get_ic_at_index(ii)
-    if ((ii+off) in [319, 205, 160, 217]):
-        ic.write("output/ic-raw-%d.dat" % (ii+off))
+    if (ii + off) in [319, 205, 160, 217]:
+        ic.write(f"output/ic-raw-{ii + off:d}.dat")
     ic_smooth = savitzky_golay(ic)
     ic_bc = tophat(ic_smooth, struct="1.5m")
-    if ((ii+off) in [319, 205, 160, 217]):
-        ic_bc.write("output/ic-flt-%d.dat" % (ii+off))
+    if (ii + off) in [319, 205, 160, 217]:
+        ic_bc.write(f"output/ic-flt-{ii + off:d}.dat")
     im.set_ic_at_index(ii, ic_bc)
 
 # save the pre-processed intensity matrix

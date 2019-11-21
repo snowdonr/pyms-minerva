@@ -23,11 +23,12 @@ Classes for peak alignment by dynamic programming
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 import math
 import functools
 
+# 3rd party
 import numpy
 
 try:
@@ -44,10 +45,11 @@ except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
 
+# this package
 from pyms.DPA.Alignment import Alignment
 
 
-class PairwiseAlignment(object):
+class PairwiseAlignment:
 	"""
 	Models pairwise alignment of alignments
 
@@ -104,10 +106,9 @@ class PairwiseAlignment(object):
 				ma = align(self.algts[i], self.algts[j], self.D, self.gap)
 				self.sim_matrix[i, j] = self.sim_matrix[j, i] = ma.similarity
 				total_n = total_n - 1
-				print(" -> %d pairs remaining" % total_n)
+				print(f" -> {total_n:d} pairs remaining")
 	
 	def _dist_matrix(self):
-		
 		"""
 		Converts similarity matrix into a distance matrix
 
@@ -124,7 +125,6 @@ class PairwiseAlignment(object):
 			self.dist_matrix[i, i] = 0
 	
 	def _guide_tree(self):
-		
 		"""
 		Build a guide tree from the distance matrix
 
@@ -134,7 +134,7 @@ class PairwiseAlignment(object):
 		
 		n = len(self.dist_matrix)
 		
-		print(" -> Clustering %d pairwise alignments." % (n * (n - 1)), end='')
+		print(f" -> Clustering {n * (n - 1):d} pairwise alignments.", end='')
 		self.tree = treecluster(data=None, distancematrix=self.dist_matrix, method='a')
 		print("Done")
 
@@ -144,16 +144,16 @@ def align(a1, a2, D, gap):
 	Aligns two alignments
 
 	:param a1: The first alignment
-	:type a1: class:`pyms.Peak.List.Class.Alignment`
+	:type a1: pyms.Peak.List.Class.Alignment
 	:param a2: The second alignment
-	:type a2: class:`pyms.Peak.List.Class.Alignment`
+	:type a2: pyms.Peak.List.Class.Alignment
 	:param D: Retention time tolerance
 	:type D: float
 	:param gap: Gap penalty
 	:type gap: float
 
 	:return: Aligned alignments
-	:rtype: class:`pyms.Peak.List.Class.Alignment`
+	:rtype: pyms.Peak.List.Class.Alignment
 
 	:author: Woon Wai Keen
 	:author: Vladimir Likic
@@ -183,14 +183,14 @@ def score_matrix(a1, a2, D):
 	Calculates the score matrix between two alignments
 
 	:param a1: The first alignment
-	:type a1: class:`pyms.DPA.Class.Alignment`
+	:type a1: pyms.DPA.Alignment.Alignment
 	:param a2: The second alignment
-	:type a2: class:`pyms.DPA.Class.Alignment`
+	:type a2: pyms.DPA.Alignment.Alignment
 	:param D: Retention time tolerance
 	:type D: float
 
 	:return: Aligned alignments
-	:rtype: class:`pyms.DPA.Class.Alignment`
+	:rtype: pyms.DPA.Alignment.Alignment
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -219,7 +219,7 @@ def dp(S, gap_penalty):
 	:type gap_penalty: float
 
 	:return: A dictionary of results
-	:rtype: DictType
+	:rtype: dict
 
 	:author: Tim Erwin
 	"""
@@ -312,7 +312,7 @@ def position_similarity(pos1, pos2, D):
 	:type pos1:
 	:param pos2: The position of the second alignment
 	:type pos2:
-	:param D: Rentention time tolerance
+	:param D: Retention time tolerance
 	:type D:
 
 	:return: The similarity value for the current position
@@ -326,8 +326,8 @@ def position_similarity(pos1, pos2, D):
 	score = 0.0
 	count = 0
 
-	## Attempt to speed up by only calculating 'in-range' values
-	## set tollerance to 1/1000
+	# Attempt to speed up by only calculating 'in-range' values
+	# set tollerance to 1/1000
 	_TOL = 0.001
 	cutoff = D*math.sqrt(-2.0*math.log(_TOL))
 
@@ -354,7 +354,7 @@ def position_similarity(pos1, pos2, D):
 						try:
 							top = numpy.dot(mass_spect1, mass_spect2)
 						except ValueError:
-							raise ValueError("""Mass Spectra are of different length\n
+							raise ValueError("""Mass Spectra are of different lengths.
 Use IntensityMatrix.crop_mass() to set same length for all Mass Spectra""")
 						bot = numpy.sqrt(mass_spect1_sum*mass_spect2_sum)
 						if bot > 0:
@@ -520,20 +520,20 @@ def score_matrix_mpi(a1, a2, D):
 	Calculates the score matrix between two alignments
 
 	:param a1: The first alignment
-	:type a1: class:`pyms.DPA.Class.Alignment`
+	:type a1: :class:`pyms.DPA.Class.Alignment`
 	:param a2: The second alignment
-	:type a2: class:`pyms.DPA.Alignment..Alignment`
+	:type a2: :class:`pyms.DPA.Alignment..Alignment`
 	:param D: Retention time tolerance
 	:type D: float
 
 	:return: Aligned alignments
-	:rtype: class:`pyms.DPA.Alignment..Alignment`
+	:rtype: :class:`pyms.DPA.Alignment..Alignment`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
 	"""
 	
-	sim_score = 0
+	# sim_score = 0
 	
 	comm = MPI.COMM_WORLD
 	rank = comm.Get_rank()
@@ -564,8 +564,9 @@ def score_matrix_mpi(a1, a2, D):
 		score_matrix[0:portion] = score_matrix_part
 		for i in range(1, size):
 			if i == size - 1:
-				recv_buffer = numpy.zeros((len(a1.peakalgt) - (i * portion), \
-										   len(a2.peakalgt)))
+				recv_buffer = numpy.zeros(
+					(len(a1.peakalgt) - (i * portion), len(a2.peakalgt))
+				)
 				comm.Recv(recv_buffer, i)
 				score_matrix[i * portion:len(a1.peakalgt)] = recv_buffer
 			else:
@@ -596,12 +597,12 @@ def align_with_tree(T, min_peaks=1):
 	Aligns a list of alignments using the supplied guide tree
 
 	:param T: The pairwise alignment object
-	:type T: class:`pyms.DPA.Class.PairwiseAlignment`
+	:type T: pyms.DPA.PairwiseAlignment.PairwiseAlignment
 	:param min_peaks:
 	:type min_peaks:
 
 	:return: The final alignment consisting of aligned input alignments
-	:rtype: class:`pyms.DPA.Class.Alignment`
+	:rtype: pyms.DPA.Alignment.Alignment
 
 	:author: Woon Wai Keen
 	:author: Vladimir Likic
@@ -644,12 +645,12 @@ def align_with_tree_mpi(T, min_peaks=1):
 	Aligns a list of alignments using the supplied guide tree
 
 	:param T: The pairwise alignment object
-	:type T: class:`pyms.DPA.Class.PairwiseAlignment`
+	:type T: :class:`pyms.DPA.Class.PairwiseAlignment`
 	:param min_peaks:
 	:type min_peaks:
 
 	:return: The final alignment consisting of aligned input alignments
-	:rtype: class:`pyms.DPA.Class.Alignment`
+	:rtype: :class:`pyms.DPA.Class.Alignment`
 
 	:author: Woon Wai Keen
 	:author: Vladimir Likic

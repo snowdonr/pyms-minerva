@@ -28,7 +28,7 @@ points = 9; scans = 2; n = 3; t = 3000; r = 2;
 # loop over all experiments
 for expr_code in expr_codes:
 
-    print(" -> Processing experiment '%s'" % ( expr_code ))
+    print(f" -> Processing experiment '{expr_code}'")
 
     # define the names of the peak file and the corresponding ANDI-MS file
     andi_file = os.path.join(base_path, expr_code + ".cdf")
@@ -81,15 +81,14 @@ for expr_code in expr_codes:
     lo_rt_limit = "6.5m"
     hi_rt_limit = "21m"
 
-    print("\t -> Selecting retention time range between '%s' and '%s'" % \
-            (lo_rt_limit, hi_rt_limit))
+    print(f"\t -> Selecting retention time range between '{lo_rt_limit}' and '{hi_rt_limit}'")
 
     expr.sele_rt_range([lo_rt_limit, hi_rt_limit])
 
     # store processed data as experiment object
     output_file = "output/" + expr_code + ".expr"
 
-    print("\t -> Saving the result as '%s'" % ( output_file ))
+    print(f"\t -> Saving the result as '{output_file}'")
 
     store_expr(output_file, expr)
 

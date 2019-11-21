@@ -23,10 +23,11 @@ Noise analysis functions
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import math
 import random
 
+# this package
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Utils.Time import window_sele_points
 from pyms.Utils.Math import MAD
@@ -46,7 +47,7 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
 		deviation (MAD). The noise estimate is given by the minimum MAD.
 
 	:param ic: An IonChromatogram object
-	:type ic: class:`pyms.IO.Class.IonChromatogram`
+	:type ic: pyms.IonChromatogram.IonChromatogram
 	:param window: Window width selection
 	:type window: int or str, optional
 	:param n_windows: The number of windows to calculate
@@ -79,7 +80,7 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
 	
 	maxi = ia.size - window_pts
 	noise_level = math.fabs(ia.max()-ia.min())
-	best_window_pos = None
+	# best_window_pos = None
 	seen_positions = []
 	
 	cntr = 0
@@ -94,7 +95,7 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
 			crnt_mad = MAD(slice)
 			if crnt_mad < noise_level:
 				noise_level = crnt_mad
-				best_window_pos = try_pos
+				# best_window_pos = try_pos
 		cntr = cntr + 1
 		seen_positions.append(try_pos)
 	

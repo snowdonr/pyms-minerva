@@ -23,20 +23,22 @@ Functions for reading manufacturer specific ANDI-MS data files
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import pathlib
 
-from pyms.GCMS.Class import GCMS_data
-from pyms.Spectrum import Scan
-
+# 3rd party
 from netCDF4 import Dataset
 
 try:
 	from mpi4py import MPI
 except ModuleNotFoundError:
 	pass
-	
-	
+
+# this package
+from pyms.GCMS.Class import GCMS_data
+from pyms.Spectrum import Scan
+
+
 # netCDF dimension names
 __POINT_NUMBER = "point_number"
 __SCAN_NUMBER = "scan_number"
@@ -56,7 +58,7 @@ def ANDI_reader(file_name):
 	:type file_name: str or :class:`pathlib.Path`
 	
 	:return: GC-MS data object
-	:rtype: class:`pyms.GCMS.Class.GCMS_data`
+	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -67,14 +69,14 @@ def ANDI_reader(file_name):
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
 	
-	## TODO: use 'point_count' and allow for zero len scans
+	# TODO: use 'point_count' and allow for zero len scans
 
 	rootgrp = Dataset(file_name, "r+", format='NETCDF3_CLASSIC')
-	#TODO: find out if netCDF4 throws specific errors that we can use here
+	# TODO: find out if netCDF4 throws specific errors that we can use here
 	
-	print(" -> Reading netCDF file '%s'" % (file_name))
+	print(f" -> Reading netCDF file '{file_name}'")
 	
-	#print(rootgrp.variables[__MASS_STRING][:])
+	# print(rootgrp.variables[__MASS_STRING][:])
 	
 	scan_list = []
 	# mass = file.var(__MASS_STRING)  # old pycdf way
@@ -260,7 +262,7 @@ def ANDI_writer(file_name, im):
 		# Automatically set define and data modes.
 		nc.automode()
 	except CDFError:
-		raise IOError("Cannot create file '%s'" % file_name)
+		raise IOError(f"Cannot create file '{file_name}'")
 	
 	mass_list = im.get_mass_list()
 	time_list = im.get_time_list()

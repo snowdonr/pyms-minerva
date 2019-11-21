@@ -23,12 +23,13 @@ Classes for peak alignment by dynamic programming
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 import math
 import operator
 import pathlib
 
+# 3rd party
 import numpy
 
 try:
@@ -40,6 +41,7 @@ except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
 
+# this package
 from pyms.base import _list_types
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
@@ -51,7 +53,7 @@ class Alignment(object):
 	Models an alignment of peak lists
 
 	:param expr: The experiment to be converted into an alignment object
-	:type expr: class:`pyms.Experiment.Experiment`
+	:type expr: pyms.Experiment.Experiment
 
 	:author: Woon Wai Keen
 	:author: Qiao Wang
@@ -104,6 +106,8 @@ class Alignment(object):
 
 		:author: Andrew Isaac
 		"""
+		
+		# TODO: minutes currently does nothing
 		
 		# for all peaks found
 		peak_list = []
@@ -243,10 +247,10 @@ class Alignment(object):
 		:rtype: int
 		"""
 		
-		max_occurances = max(ion_dict.values())
+		max_occurrences = max(ion_dict.values())
 		most_freq_mzs = []
 		for key, value in ion_dict.iteritems():
-			if value == max_occurances:
+			if value == max_occurrences:
 				most_freq_mzs.append(key)
 		
 		return max(most_freq_mzs)
@@ -259,9 +263,9 @@ class Alignment(object):
 		retention times and the other containing the alignment of peak areas.
 
 		:param rt_file_name: The name for the retention time alignment file
-		:type rt_file_name: str or pathlib.Path
+		:type rt_file_name: str or :class:`pathlib.Path`
 		:param area_file_name: The name for the areas alignment file
-		:type area_file_name: str or pathlib.Path
+		:type area_file_name: str or :class:`pathlib.Path`
 		:param minutes: An optional indicator whether to save retention times
 			in minutes. If False, retention time will be saved in seconds
 		:type minutes: bool, optional
@@ -362,7 +366,7 @@ class Alignment(object):
 		retention times and the other containing the alignment of peak areas.
 
 		:param area_file_name: The name for the areas alignment file
-		:type area_file_name: str or pathlib.Path
+		:type area_file_name: str or :class:`pathlib.Path`
 		:param top_ion_list: A list of the highest intensity common ion along the aligned peaks
 		:type top_ion_list: list
 		:param minutes: An optional indicator whether to save retention times
@@ -375,6 +379,8 @@ class Alignment(object):
 		:author: Vladimir Likic
 		:author: Dominic Davis-Foster (pathlib support)
 		"""
+		
+		# TODO: minutes currently does nothing
 		
 		if not isinstance(area_file_name, (str, pathlib.Path)):
 			raise TypeError("'area_file_name' must be a string or a pathlib.Path object")
@@ -450,13 +456,11 @@ class Alignment(object):
 			
 			rt_avg = rtsums[index] / rtcounts[index]
 			
-			out_strings.append(peak_UID_string +
-							   (f",{rt_avg / 60:.3f}") +
-							   (f",{top_ion_list[index]:d}"))
+			out_strings.append(f"{peak_UID_string},{rt_avg / 60:.3f},{top_ion_list[index]:d}")
 			
 			for area in area_list:
 				if area is not None:
-					out_strings[index] += (f",{area:.4f}")
+					out_strings[index] += f",{area:.4f}"
 				else:
 					out_strings[index] += ",NA"
 			
@@ -464,7 +468,7 @@ class Alignment(object):
 		
 		# now write the file
 		#        print("length of areas[0]", len(areas[0]))
-		#        print("lenght of areas", len(areas))
+		#        print("length of areas", len(areas))
 		#        print("length of out_strings", len(out_strings))
 		for row in out_strings:
 			fp.write(row + "\n")
@@ -535,28 +539,27 @@ class Alignment(object):
 		fp1.close()
 
 
-def exprl2alignment(exprl):
+def exprl2alignment(expr_list):
 	"""
 	Converts experiments into alignments
 
-	:param exprl: The list of experiments to be converted into an alignment objects
-	:type exprl: list
+	:param expr_list: The list of experiments to be converted into an alignment objects
+	:type expr_list: list
 
 	:author: Vladimir Likic
 	"""
 	
-	if not isinstance(exprl, _list_types):
+	if not isinstance(expr_list, _list_types):
 		raise TypeError("the argument is not a list")
 	
-	algts = []
+	alignments = []
 	
-	for item in exprl:
+	for item in expr_list:
 		if not isinstance(item, Experiment):
 			raise TypeError("list items must be 'Experiment' instances")
-		else:
-			algt = Alignment(item)
-		algts.append(algt)
+		
+		alignments.append(Alignment(item))
 	
-	return algts
+	return alignments
 
 

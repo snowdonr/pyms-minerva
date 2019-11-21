@@ -23,12 +23,14 @@ Moving window noise filter
 #                                                                              #
 ################################################################################
 
-
+# stdlib
 import copy
 from statistics import median
 
+# 3rd party
 import numpy
 
+# this package
 from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
@@ -37,7 +39,7 @@ from pyms.IonChromatogram import IonChromatogram
 __DEFAULT_WINDOW = 3
 
 
-def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
+def window_smooth(ic, window=__DEFAULT_WINDOW, use_median=False):
     """
     Applies window smoothing on ion chromatogram
 
@@ -48,12 +50,12 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
         string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
         a time in seconds or minutes, respectively
     :type window: int or str, optional
-    :param median: An indicator whether the mean or median window smoothing
+    :param use_median: An indicator whether the mean or median window smoothing
         to be used
-    :type median: bool, optional
+    :type use_median: bool, optional
 
     :return: Smoothed ion chromatogram
-    :rtype: class:`pyms.IonChromatogram.IonChromatogram`
+    :rtype: pyms.IonChromatogram.IonChromatogram
 
     :author: Vladimir Likic
     :author: Dominic Davis-Foster (type assertions)
@@ -70,7 +72,7 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
 
     wing_length = ic_window_points(ic, window, half_window=True)
 
-    if median:
+    if use_median:
         ia_denoise = __median_window(ia, wing_length)
     else:
         ia_denoise = __mean_window(ia, wing_length)
@@ -81,7 +83,7 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, median=False):
     return ic_denoise
 
 
-def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
+def window_smooth_im(im, window=__DEFAULT_WINDOW, use_median=False):
     """
     Applies window smoothing on Intensity Matrix
 
@@ -91,9 +93,9 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
     :type im: pyms.IntensityMatrix.IntensityMatrix
     :param window: The window selection parameter.
     :type window: int or str, optional
-    :param median: An indicator whether the mean or median window smoothing
+    :param use_median: An indicator whether the mean or median window smoothing
         to be used
-    :type median: bool, optional
+    :type use_median: bool, optional
 
     :return: Smoothed Intensity Matrix
     :rtype: pyms.IntensityMatrix.IntensityMatrix
@@ -111,7 +113,7 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, median=False):
     
     for ii in range(n_mz):
         ic = im_smooth.get_ic_at_index(ii)
-        ic_smooth = window_smooth(ic, window, median)
+        ic_smooth = window_smooth(ic, window, use_median)
         im_smooth.set_ic_at_index(ii, ic_smooth)
         
     return im_smooth
@@ -141,9 +143,9 @@ def __mean_window(ia, wing_length):
     while index <= end:
         left = index - wing_length
         right = index + wing_length + 1
-        if left < 0: left = 0
-        slice = ia[left:right]
-        ia_denoise[index] = slice.mean()
+        if left < 0:
+            left = 0
+        ia_denoise[index] = ia[left:right].mean()
         index = index + 1
 
     return ia_denoise
@@ -173,10 +175,9 @@ def __median_window(ia, wing_length):
     while index <= end:
         left = index - wing_length
         right = index + wing_length + 1
-        if left < 0: left = 0
-        slice = ia[left:right]
-        ia_denoise[index] = median(slice)
+        if left < 0:
+            left = 0
+        ia_denoise[index] = median(ia[left:right])
         index = index + 1
 
     return ia_denoise
-
