@@ -49,12 +49,8 @@ class Display:
 	
 	>>> fig = plt.figure()
 	>>> ax = fig.add_subplot(111)
-		:param fig:
-		:type fig: matplotlib.figure.Figure, optional
-		:param ax:
-		:type ax: matplotlib.axes.Axes, optional
 	
-	if only `fig` is given then ax defaults to:
+	If only `fig` is given then `a`x defaults to:
 	
 	>>> ax = fig.add_subplot(111)
 	
