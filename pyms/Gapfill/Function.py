@@ -39,16 +39,20 @@ from pyms.Peak.Function import ion_area
 from pyms.Gapfill.Class import MissingPeak, Sample
 
 
+MZML = 1
+NETCDF = 2
+
+
 # .csv reader (cloned from gcqc project)
 def file2matrix(file_name):
 	"""
-	Convert a .csv file to a matrix (list of lists)
+	Convert a .csv file to a numpy array
 	
 	:param file_name: Filename (.csv) to convert (area.csv, area_ci.csv)
 	:type file_name: :class:`str` or :class:`pathlib.Path`
 	
 	:return: Data matrix
-	:rtype: numpy.array
+	:rtype: :class:`numpy.array`
 	
 	:author: Jairus Bowne
 	:author: Sean O'Callaghan
@@ -62,7 +66,7 @@ def file2matrix(file_name):
 		file_name = pathlib.Path(file_name)
 	
 	with file_name.open() as fp:
-		reader = csv.reader(fp, delimiter=",", quotechar="\"")
+		reader = csv.reader(fp, delimiter=",", quotechar='"')
 		matrix = []
 		for row in reader:
 			newrow = []
@@ -77,77 +81,28 @@ def file2matrix(file_name):
 	return numpy.array(matrix)
 
 
-def mp_finder(input_matrix):
-	"""
-	Finds the 'NA's in the transformed area_ci.csv file and makes
-	:class:`pyms.Gapfill.Class.Sample` objects with them
-
-	:param input_matrix: Data matrix derived from the area_ci.csv file
-	:type input_matrix: list
-
-	:return: list of Sample objects
-	:rtype: list of :class:`pyms.MissingPeak.Class.Sample1
-
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
-	"""
-	
-	sample_list = []
-	
-	try:
-		ci_pos = input_matrix[0].index(' "Quant Ion"')
-		print("found Quant Ion position:", ci_pos)
-	except ValueError:
-		ci_pos = input_matrix[0].index('"Quant Ion"')
-	
-	uid_pos = input_matrix[0].index('UID')
-	
-	# Set up the sample objects
-	# All entries on line 1 beyond the Qual Ion position are sample names
-	for i, sample_name in enumerate(input_matrix[0][ci_pos:]):
-		
-		print(sample_name)
-		sample = Sample(sample_name, i+3)  # add 4 to allow for UID, RT,QualIon
-		sample_list.append(sample)
-	
-	for line in input_matrix[1:]:
-		uid = line[uid_pos]
-		common_ion = line[ci_pos]
-		
-		qual_ion_1 = uid.split("-")[0]
-		qual_ion_2 = uid.split("-")[1]
-		rt = uid.split("-")[-1]
-		
-		for i, area in enumerate(line[ci_pos:]):
-			if area == 'NA':
-				missing_peak = MissingPeak(common_ion, qual_ion_1, qual_ion_2, rt)
-				sample_list[i].add_missing_peak(missing_peak)
-	
-	return sample_list
-
-
 def missing_peak_finder(sample, file_name, points=3, null_ions=None,
-						crop_ions=None, threshold=1000, rt_window=1, filetype='mzml'):
+						crop_ions=None, threshold=1000, rt_window=1, filetype=MZML):
 	"""
 	Integrates raw data around missing peak locations to fill NAs in the data matrix
 
 	:param sample: The sample object containing missing peaks
-	:type sample: :class:`pyms.MissingPeak.Class.Sample`
+	:type sample: :class:`pyms.Gapfill.Class.Sample`
 
 	:param file_name: Name of the raw data file
 	:type file_name: str
-	:param points: Peak finding - Peak if maxima over 'points' number of scans, default 3
+	:param points: Peak finding - Peak if maxima over 'points' number of scans (Default 3)
 	:type points: int, optional
-	:param  null_ions: Ions to be deleted in the matrix, default [73, 147]
+	:param  null_ions: Ions to be deleted in the matrix (Default [73, 147])
 	:type null_ions: list, optional
-	:param crop_ions: Range of Ions to be considered, default [50, 540]
+	:param crop_ions: Range of Ions to be considered (Default [50, 540])
 	:type crop_ions: list, optional
-	:param threshold: Minimum intensity of IonChromatogram allowable to fill, default 1000
+	:param threshold: Minimum intensity of IonChromatogram allowable to fill (Default 1000)
 	:type threshold: int, optional
-	:param  rt_window: Window in seconds around average RT to look for, default 1
+	:param  rt_window: Window in seconds around average RT to look for (Default 1)
 	:type rt_window: float, optional
-	:param filetype: either mzml (default) or netcdf
-	:type filetype: str, optional
+	:param filetype: either `MZML` (default) or `NETCDF`
+	:type filetype: int, optional
 
 	:author: Sean O'Callaghan
 	"""
@@ -255,6 +210,54 @@ def missing_peak_finder(sample, file_name, points=3, null_ions=None,
 			mp.set_ci_area('na')
 
 
+def mp_finder(input_matrix):
+	"""
+	Finds the 'NA's in the transformed area_ci.csv file and makes
+	:class:`pyms.Gapfill.Class.Sample` objects with them
+
+	:param input_matrix: Data matrix derived from the area_ci.csv file
+	:type input_matrix: list
+
+	:return: list of Samples
+	:rtype: :class:`list` of :class:`pyms.Gapfill.Class.Sample` objects
+	
+	:author: Jairus Bowne
+	:author: Sean O'Callaghan
+	"""
+	
+	sample_list = []
+	
+	try:
+		ci_pos = input_matrix[0].index(' "Quant Ion"')
+		print("found Quant Ion position:", ci_pos)
+	except ValueError:
+		ci_pos = input_matrix[0].index('"Quant Ion"')
+	
+	uid_pos = input_matrix[0].index('UID')
+	
+	# Set up the sample objects
+	# All entries on line 1 beyond the Qual Ion position are sample names
+	for i, sample_name in enumerate(input_matrix[0][ci_pos:]):
+		print(sample_name)
+		sample = Sample(sample_name, i + 3)  # add 4 to allow for UID, RT,QualIon
+		sample_list.append(sample)
+	
+	for line in input_matrix[1:]:
+		uid = line[uid_pos]
+		common_ion = line[ci_pos]
+		
+		qual_ion_1 = uid.split("-")[0]
+		qual_ion_2 = uid.split("-")[1]
+		rt = uid.split("-")[-1]
+		
+		for i, area in enumerate(line[ci_pos:]):
+			if area == 'NA':
+				missing_peak = MissingPeak(common_ion, qual_ion_1, qual_ion_2, rt)
+				sample_list[i].add_missing_peak(missing_peak)
+	
+	return sample_list
+
+
 def transposed(lists):
 	"""
 	transposes a list of lists
@@ -263,7 +266,7 @@ def transposed(lists):
 	:type lists: list
 	
 	:return: transposed list of lists
-	:rtype: list of lists
+	:rtype: :class:`list` of lists
 	
 	:author: Jairus Bowne
 	:author: Sean O'Callaghan
@@ -279,8 +282,8 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 	"""
 	creates a new area_ci.csv file, replacing NAs with values from the sample_list objects where possible
 	
-	:param sample_list: A list of sample objects
-	:type sample_list: list of :class:`pyms.Gapfill.Class.Sample`
+	:param sample_list: A list of samples
+	:type sample_list: list of :class:`pyms.Gapfill.Class.Sample` objects
 	:param area_file: the file 'area_ci.csv' from PyMassSpec output
 	:type area_file: :class:`str` or :class:`pathlib.Path`
 	:param filled_area_file: the new output file which has NA values replaced
@@ -358,8 +361,9 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 def write_filled_rt_csv(sample_list, rt_file, filled_rt_file):
 	"""
 	creates a new rt.csv file, replacing NAs with values from the sample_list objects where possible
-	:param sample_list: A list of sample objects
-	:type sample_list: list of Class.Sample
+	
+	:param sample_list: A list of samples
+	:type sample_list: :class:`list` of :class:`pyms.Gapfill.Class.Sample` objects
 	:param rt_file: the file 'rt.csv' from PyMassSpec output
 	:type rt_file: str or pathlib.Path
 	:param filled_rt_file: the new output file which has NA values replaced

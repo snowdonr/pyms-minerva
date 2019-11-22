@@ -41,7 +41,7 @@ class MissingPeak:
 	:type qual_ion_1:
 	:param qual_ion_2:
 	:type qual_ion_2:
-	:param rt: Retention time of the peak, default 0.0
+	:param rt: Retention time of the peak (Default 0.0)
 	:type rt: float, optional
 	
 	:author: Jairus Bowne
@@ -79,7 +79,7 @@ class MissingPeak:
 		"""
 		Returns the common ion area
 
-		:return common_ion_area: The area of the common ion
+		:return: The area of the common ion
 		:rtype: int
 		"""
 		
@@ -120,7 +120,7 @@ class MissingPeak:
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use :attr:pyms.Gapfill.MissingPeak.common_ion` instead")
+							details="Use :attr:`pyms.Gapfill.Class.MissingPeak.common_ion` instead")
 	def get_common_ion(self):
 		"""
 		Returns the common ion for the peak object across an experiment
@@ -304,7 +304,7 @@ class Sample:
 		Add a new MissingPeak object to the Sample
 
 		:param missing_peak: The missing peak object to be added
-		:type missing_peak: pyms.GapFilling.Class.MissingPeak
+		:type missing_peak: pyms.Gapfill.Class.MissingPeak
 		"""
 
 		# TODO: Do some checking here!!!
@@ -318,8 +318,8 @@ class Sample:
 		"""
 		Returns a list of the MissingPeak objects in the Sample object
 
-		:return: list of :class:`pyms.GapFilling.Class.MissingPeak`
-		:rtype: list
+		:return: list of the missing peaks
+		:rtype: :class:`list` of :class:`pyms.Gapfill.Class.MissingPeak` objects
 		"""
 		return self.__missing_peak_list
 	
@@ -378,8 +378,8 @@ class Sample:
 		"""
 		Returns a list of the MissingPeak objects in the Sample object
 		
-		:return: list of :class:`pyms.GapFilling.Class.MissingPeak`
-		:rtype: list
+		:return: list of the missing peaks
+		:rtype: :class:`list` of :class:`pyms.Gapfill.Class.MissingPeak` objects
 		"""
 		return self.__missing_peak_list
 	
