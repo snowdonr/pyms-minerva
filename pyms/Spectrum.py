@@ -28,7 +28,7 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.base import pymsCopyBase, _list_types
+from pyms.Base import pymsCopyBase, _list_types
 from pyms.Mixins import MassListMixin
 
 
@@ -41,10 +41,7 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 	:param intensity_list: intensity values
 	:type intensity_list: list
 
-	:author: Andrew Isaac
-	:author: Qiao Wang
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (type assertions and properties)
+	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
 	
 	def __init__(self, mass_list, intensity_list):
@@ -74,9 +71,7 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 
 		:rtype: int
 
-		:author: Andrew Isaac
-		:author: Qiao Wang
-		:author: Vladimir Likic
+		:authors: Andrew Isaac, Qiao Wang, Vladimir Likic
 		"""
 		
 		return len(self._mass_list)
@@ -109,9 +104,7 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 
 		:rtype: list
 
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
+		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
 		
 		return self._intensity_list[:]
@@ -123,9 +116,7 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 
 		:rtype: list
 
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
+		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
 		
 		return self._intensity_list
@@ -140,10 +131,7 @@ class MassSpectrum(pymsSpectrumBase):
 	:param intensity_list: intensity values
 	:type intensity_list: list
 
-	:author: Andrew Isaac
-	:author: Qiao Wang
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (type assertions and properties)
+	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
 	
 	def __init__(self, mass_list, intensity_list):
@@ -213,10 +201,7 @@ class Scan(pymsSpectrumBase):
 	:param intensity_list: intensity values
 	:type intensity_list: list
 
-	:author: Andrew Isaac
-	:author: Qiao Wang
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (type assertions and properties)
+	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
 	
 	def __init__(self, mass_list, intensity_list):
@@ -234,9 +219,7 @@ class Scan(pymsSpectrumBase):
 
 		:rtype: list
 
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
+		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
 		
 		return self.intensity_list

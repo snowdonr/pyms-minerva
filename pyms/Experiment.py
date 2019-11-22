@@ -34,7 +34,7 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.base import pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
 from pyms.Utils.IO import prepare_filepath
 

@@ -26,7 +26,7 @@ from pyms.Spectrum import MassSpectrum
 from pyms.Peak.Function import peak_sum_area
 from pyms.Peak.List import *
 from pyms.Peak.List.IO import *
-from pyms.base import _list_types
+from pyms.Base import _list_types
 
 
 def test_composite_peak(filtered_peak_list, im_i):

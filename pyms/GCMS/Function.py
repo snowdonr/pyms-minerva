@@ -28,7 +28,7 @@ import sys
 import math
 
 # this package
-from pyms.base import pymsError
+from pyms.Base import pymsError
 from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Math import rmsd
 

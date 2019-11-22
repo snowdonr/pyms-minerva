@@ -31,7 +31,7 @@ import numpy
 
 # this package
 from pyms.Peak.Class import Peak
-from pyms.base import _list_types
+from pyms.Base import _list_types
 from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 from pyms.IntensityMatrix import IntensityMatrix

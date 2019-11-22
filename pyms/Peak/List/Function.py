@@ -30,7 +30,7 @@ import math
 import numpy
 
 # this package
-from pyms.base import _list_types
+from pyms.Base import _list_types
 from pyms.Peak import Peak
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Math import median_outliers

@@ -34,11 +34,11 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.base import pymsError
+from pyms.Base import pymsError
 from pyms.Utils.Time import time_str_secs
 from pyms.Spectrum import Scan
 from pyms.IonChromatogram import IonChromatogram
-from pyms.base import pymsBaseClass, _list_types
+from pyms.Base import pymsBaseClass, _list_types
 from pyms.Mixins import TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 from pyms.Utils.IO import prepare_filepath
 from pyms.Spectrum import MassSpectrum

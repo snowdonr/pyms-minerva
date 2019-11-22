@@ -42,7 +42,7 @@ except ModuleNotFoundError:
 Please install one of them and try again.""")
 
 # this package
-from pyms.base import _list_types
+from pyms.Base import _list_types
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath

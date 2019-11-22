@@ -34,7 +34,7 @@ from numpy import percentile
 
 # this package
 from pyms import __version__
-from pyms.base import _list_types
+from pyms.Base import _list_types
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
 

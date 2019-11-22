@@ -12,6 +12,22 @@ Functions to perform Biller and Biemann deconvolution.
 ---------------------
 Class to Display Ion Chromatograms and TIC
 
+:mod:`pyms.DPA`
+---------------------
+Alignment of peak lists by dynamic programming
+
+:mod:`pyms.DPA.Alignment`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Classes for peak alignment by dynamic programming
+
+:mod:`pyms.DPA.PairwiseAlignment`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Classes for peak alignment by dynamic programming
+
+:mod:`pyms.DPA.IO`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Functions for writing peak alignment to various file formats
+
 :mod:`pyms.Experiment`
 ---------------------
 Models a GC-MS experiment represented by a list of signal peaks

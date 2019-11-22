@@ -32,7 +32,7 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.base import pymsBaseClass, _list_types
+from pyms.Base import pymsBaseClass, _list_types
 from pyms.Spectrum import MassSpectrum
 from pyms.IntensityMatrix import IntensityMatrix
 

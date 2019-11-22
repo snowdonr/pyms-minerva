@@ -29,7 +29,7 @@ import pathlib
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
-from pyms.base import pymsError
+from pyms.Base import pymsError
 
 
 def JCAMP_reader(file_name):

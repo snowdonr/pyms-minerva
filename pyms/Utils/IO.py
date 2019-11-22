@@ -36,8 +36,7 @@ _list_types = (list, tuple, numpy.core.ndarray)
 
 def prepare_filepath(file_name):
 	"""
-	Convert string filename into pathlib.Path object
-		and create parent directories if required
+	Convert string filename into pathlib.Path object and create parent directories if required
 		
 	:param file_name: file_name to process
 	:type file_name: str or pathlib.Path
@@ -151,8 +150,7 @@ def file_lines(file_name, strip=False):
 
 def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compressed=False):
 	"""
-	Saves a list of numbers or a list of lists of numbers
-		to a file with specific formatting
+	Saves a list of numbers or a list of lists of numbers to a file with specific formatting
 
 	:param file_name: Name of a file
 	:type file_name: str or pathlib.Path

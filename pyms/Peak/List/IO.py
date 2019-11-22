@@ -29,7 +29,7 @@ import pathlib
 
 # this package
 from pyms.Peak.Class import Peak
-from pyms.base import _list_types
+from pyms.Base import _list_types
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Utils.IO import prepare_filepath
 

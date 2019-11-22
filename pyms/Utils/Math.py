@@ -32,7 +32,7 @@ from statistics import stdev as std
 import numpy
 
 # this package
-from pyms.base import _list_types
+from pyms.Base import _list_types
 
 
 def vector_by_step(start, stop, step):

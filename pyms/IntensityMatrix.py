@@ -34,9 +34,9 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.base import pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.Mixins import TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin
-from pyms.base import _list_types
+from pyms.Base import _list_types
 from pyms.Utils.IO import save_data
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import MassSpectrum
@@ -59,8 +59,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	:param intensity_array: Binned intensity values per scan
 	:type intensity_array: a :class:`list` of lists of numbers; or a :class:`numpy.ndarray`
 
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (type assertions and properties)
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions and properties)
 	"""
 	
 	def __init__(self, time_list, mass_list, intensity_array):
@@ -193,10 +192,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:return: Number of rows and cols
 		:rtype: int
 
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Luke Hodkinson
-		:author: Vladimir Likic
+		:authors: Qiao Wang, Andrew Isaac, Luke Hodkinson, Vladimir Likic
 		"""
 		
 		return self.size
@@ -209,10 +205,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:return: Number of rows and cols
 		:rtype: int
 
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Luke Hodkinson
-		:author: Vladimir Likic
+		:authors: Qiao Wang, Andrew Isaac, Luke Hodkinson, Vladimir Likic
 		"""
 		
 		n_scan = len(self._intensity_array)
@@ -320,9 +313,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:return: Ion chromatogram at given index
 		:rtype: pyms.IonChromatogram.IonChromatogram
 
-		:author: Qiao Wang
-		:author: Andrew Isaac
-		:author: Vladimir Likic
+		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
 		
 		if not isinstance(ix, int):
@@ -350,8 +341,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:return: Ion chromatogram for given mass
 		:rtype: pyms.IonChromatogram.IonChromatogram
 
-		:author: Andrew Isaac
-		:author: Vladimir Likic
+		:authors: Andrew Isaac, Vladimir Likic
 		"""
 		
 		if mass is None:
@@ -569,10 +559,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:param fmt: Format of the output file, either ``ASCII_DAT`` or ``ASCII_CSV``
 		:type fmt: int
 		
-		:author: Milica Ng
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster (pathlib support)
+		:authors: Milica Ng, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 		
 		if not isinstance(root_name, (str, pathlib.Path)):
@@ -610,9 +597,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:param file_name: The name of the output file
 		:type file_name: str or pathlib.Path
 
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster (pathlib support)
+		:authors: Andrew Isaac, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 		
 		if not isinstance(file_name, (str, pathlib.Path)):
@@ -670,8 +655,7 @@ def import_leco_csv(file_name):
 	:return: Data as an IntensityMatrix
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Andrew Isaac, Dominic Davis-Foster (pathlib support)
 	"""
 	
 	if not isinstance(file_name, (str, pathlib.Path)):
@@ -775,9 +759,7 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 	:return: Binned IntensityMatrix object
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Vladimir Likic
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 	"""
 	
 	from pyms.GCMS.Class import GCMS_data
@@ -814,9 +796,7 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 	:return: Binned IntensityMatrix object
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Vladimir Likic
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 	"""
 	
 	from pyms.GCMS.Class import GCMS_data
@@ -858,10 +838,7 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 	:return: Binned IntensityMatrix object
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Moshe Olshansky
-	:author: Vladimir Likic
+	:authors: Qiao Wang, Andrew Isaac, Moshe Olshansky, Vladimir Likic
 	"""
 
 	if not (abs(bin_left+bin_right-bin_interval) < 1.0e-6*bin_interval):
@@ -919,9 +896,7 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 	:return: Binned IntensityMatrix object
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Vladimir Likic
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 	"""
 	
 	bin_left = abs(bin_left)

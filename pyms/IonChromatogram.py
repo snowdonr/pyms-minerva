@@ -34,7 +34,7 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.base import pymsCopyBase, _list_types
+from pyms.Base import pymsCopyBase, _list_types
 from pyms.Mixins import TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin
 from pyms.Utils.IO import prepare_filepath
 
@@ -52,9 +52,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 	the value of the attribute 'mass'. This is set to the m/z value of the
 	ion chromatogram, or to ``None`` for TIC.
 
-	:author: Lewis Lee
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (type assertions and properties)
+	:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
 	
 	def __init__(self, ia, time_list, mass=None):
@@ -66,8 +64,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		:param mass: Mass of ion chromatogram (Null if TIC)
 		:type mass: int or float
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:author: Lewis Lee, Vladimir Likic
 		"""
 		
 		if not isinstance(ia, numpy.ndarray):
@@ -96,8 +93,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		:return: Length of ion chromatogram
 		:rtype: int
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:authors: Lewis Lee, Vladimir Likic
 		"""
 		
 		return self._intensity_array.size
@@ -156,8 +152,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		:return: Intensity value
 		:rtype: float
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:authors: Lewis Lee, Vladimir Likic
 		"""
 		
 		if not isinstance(ix, int):
@@ -193,8 +188,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		:return: Time step
 		:rtype: float
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:authors: Lewis Lee, Vladimir Likic
 		"""
 		
 		return self._time_step
@@ -224,8 +218,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 
 		:rtype: bool
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:authors: Lewis Lee, Vladimir Likic
 		"""
 		
 		return self._mass is None
@@ -240,6 +233,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 
 		:author: Sean O'Callaghan
 		"""
+		
 		if self._mass is None:
 			warnings.warn("TIC has no m/z label", Warning)
 		
@@ -274,8 +268,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		:return: Time step
 		:rtype: float
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:authors: Lewis Lee, Vladimir Likic
 		"""
 		
 		return self._time_step
@@ -287,8 +280,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		:return: Time step value
 		:rtype: float
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
+		:authors: Lewis Lee, Vladimir Likic
 		"""
 		
 		td_list = []
@@ -314,9 +306,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 			format the numbers in the output (default True)
 		:type minutes: bool
 
-		:author: Lewis Lee
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster (pathlib support)
+		:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 		
 		if not isinstance(file_name, (str, pathlib.Path)):
