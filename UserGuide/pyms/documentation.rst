@@ -14,5 +14,22 @@ Class to Display Ion Chromatograms and TIC
 
 :mod:`pyms.Experiment`
 ---------------------
+Models a GC-MS experiment represented by a list of signal peaks
+
+:mod:`pyms.Gapfill`
+---------------------
+Gap Filling Routines
+
+:mod:`pyms.Gapfill.Class`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
+
+
+:mod:`pyms.Gapfill.Function`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Functions to fill missing peak objects
+
+
+
 
 

@@ -36,7 +36,6 @@ from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
 
-
 default_filetypes = ["png", "pdf", "svg"]
 
 
@@ -45,19 +44,20 @@ class Display:
 	Class to display Ion Chromatograms and Total Ion Chromatograms from
 	:class:`pyms.IonChromatogram.IonChromatogram` using :mod:`matplotlib.pyplot`.
 	
-	If `fig` is not given then ``fig`` and ``ax`` default to:
+	If ``fig`` is not given then ``fig`` and ``ax`` default to:
 	
 	>>> fig = plt.figure()
 	>>> ax = fig.add_subplot(111)
+	
 	
 	If only ``fig`` is given then ``ax`` defaults to:
 	
 	>>> ax = fig.add_subplot(111)
 	
 	:param fig: figure object to use
-	:type fig: :class:`matplotlib.figure.Figure`, optional
+	:type fig: matplotlib.figure.Figure optional
 	:param ax: axes object to use
-	:type ax: :class:`matplotlib.axes.Axes`, optional
+	:type ax: matplotlib.axes.Axes optional
 	
 	:author: Sean O'Callaghan
 	:author: Vladimir Likic
@@ -75,13 +75,13 @@ class Display:
 		
 		elif isinstance(fig, matplotlib.figure.Figure) and ax is None:
 			ax = fig.add_subplot(111)
-			
+		
 		if not isinstance(fig, matplotlib.figure.Figure):
 			raise TypeError("'fig' must be a matplotlib.figure.Figure object")
-			
+		
 		if not isinstance(ax, matplotlib.axes.Axes):
 			raise TypeError("'ax' must be a matplotlib.axes.Axes object")
-			
+		
 		self.fig = fig
 		self.ax = ax
 		
@@ -90,7 +90,7 @@ class Display:
 		
 		# color dictionary for plotting of ics; blue reserved
 		# for TIC
-		self.__col_ic = {0:'r', 1:'g', 2:'k', 3:'y', 4:'m', 5:'c'}
+		self.__col_ic = {0: 'r', 1: 'g', 2: 'k', 3: 'y', 4: 'm', 5: 'c'}
 		self.__colour_count = 0  # counter to keep track of colors
 		
 		# Peak list container
@@ -122,7 +122,8 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		# If no peak list plot, no mouse click event
 		if len(self.__peak_list) != 0:
 			cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
-		# plt.show()
+	
+	# plt.show()
 	
 	@staticmethod
 	def get_5_largest(intensity_list):
@@ -183,7 +184,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		# Also check that a peak was selected, not just whitespace
 		if event.button != 1 and len(intensity_list) != 0:
 			self.plot_mass_spec(event.xdata, mass_list, intensity_list)
-		
+	
 	def plot_ic(self, ic, **kwargs):
 		"""
 		Plots an Ion Chromatogram
@@ -212,7 +213,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		)
 		
 		self.__tic_ic_plots.append(plot)
-	
+		
 		if self.__colour_count == 5:
 			self.__colour_count = 0
 		else:
@@ -371,6 +372,3 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		
 		self.fig.show()
 		plt.close()
-
-
-

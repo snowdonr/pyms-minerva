@@ -39,7 +39,7 @@ _list_types = (list, tuple, numpy.core.ndarray)
 _path_types = (str, pathlib.Path)
 
 
-class pymsBaseClass(object):
+class pymsBaseClass:
 	"""
 	Base class
 	"""
@@ -48,7 +48,7 @@ class pymsBaseClass(object):
 		Dumps an object to a file through pickle.dump()
 
 		:param file_name: Name of the file for the object dump
-		:type file_name: str or :class:`pathlib.Path`
+		:type file_name: :class:`str` or :class:`pathlib.Path`
 
 		:author: Vladimir Likic
 		:author: Dominic Davis-Foster (pathlib support)

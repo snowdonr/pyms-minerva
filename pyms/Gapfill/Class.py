@@ -23,13 +23,14 @@ Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
 #                                                                              #
 ################################################################################
 
-
+# 3rd party
 import deprecation
 
+# this package
 from pyms import __version__
 
 
-class MissingPeak(object):
+class MissingPeak:
 	"""
 	Class to encapsulate a peak object identified as missing in the output area
 	matrix fom PyMassSpec.
@@ -210,11 +211,9 @@ class MissingPeak(object):
 		:author: Jairus Bowne
 		"""
 		
-		"""
 		# TODO: Consider the abundance of ions when some (i.e. 73, 147) have
-			been im.null_mass()'d. Is there a way to determine whether that
-			has been done to generate the original peak list?
-		"""
+		#  been im.null_mass()'d. Is there a way to determine whether that
+		#  has been done to generate the original peak list?
 		
 		return self.__qual_1
 	
@@ -277,7 +276,7 @@ class MissingPeak(object):
 		self.__exact_rt = rt
 
 
-class Sample(object):
+class Sample:
 	"""
 	A collection of MissingPeak objects
 

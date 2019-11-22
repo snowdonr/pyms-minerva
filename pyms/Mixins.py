@@ -35,7 +35,7 @@ import deprecation
 from pyms import __version__
 
 
-class MaxMinMassMixin(object):
+class MaxMinMassMixin:
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use 'max_mass' attribute instead")
@@ -132,7 +132,7 @@ class MassListMixin(MaxMinMassMixin):
 		return self.mass_list
 
 
-class TimeListMixin(object):
+class TimeListMixin:
 	
 	@property
 	def time_list(self):
@@ -165,7 +165,7 @@ class TimeListMixin(object):
 		return self.time_list
 
 
-class IntensityArrayMixin(object):
+class IntensityArrayMixin:
 	
 	@property
 	def intensity_array(self):
@@ -257,7 +257,7 @@ class IntensityArrayMixin(object):
 		return self.intensity_array
 
 
-class GetIndexTimeMixin(object):
+class GetIndexTimeMixin:
 	def get_index_at_time(self, time):
 		"""
 		Returns the nearest index corresponding to the given time

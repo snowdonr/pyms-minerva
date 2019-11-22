@@ -48,7 +48,7 @@ from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
 
 
-class Alignment(object):
+class Alignment:
 	"""
 	Models an alignment of peak lists
 
@@ -263,9 +263,9 @@ class Alignment(object):
 		retention times and the other containing the alignment of peak areas.
 
 		:param rt_file_name: The name for the retention time alignment file
-		:type rt_file_name: str or :class:`pathlib.Path`
+		:type rt_file_name: :class:`str` or :class:`pathlib.Path`
 		:param area_file_name: The name for the areas alignment file
-		:type area_file_name: str or :class:`pathlib.Path`
+		:type area_file_name: :class:`str` or :class:`pathlib.Path`
 		:param minutes: An optional indicator whether to save retention times
 			in minutes. If False, retention time will be saved in seconds
 		:type minutes: bool, optional
@@ -366,7 +366,7 @@ class Alignment(object):
 		retention times and the other containing the alignment of peak areas.
 
 		:param area_file_name: The name for the areas alignment file
-		:type area_file_name: str or :class:`pathlib.Path`
+		:type area_file_name: :class:`str` or :class:`pathlib.Path`
 		:param top_ion_list: A list of the highest intensity common ion along the aligned peaks
 		:type top_ion_list: list
 		:param minutes: An optional indicator whether to save retention times

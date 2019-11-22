@@ -6,7 +6,6 @@
 
 .. automodule:: pyms.Gapfill
     :members:
-    :inherited-members:
     :private-members:
     :special-members:
 
@@ -15,7 +14,6 @@
 ===========================
 .. automodule:: pyms.Gapfill.Class
     :members:
-    :inherited-members:
     :private-members:
     :special-members:
 

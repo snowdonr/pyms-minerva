@@ -40,7 +40,7 @@ def prepare_filepath(file_name):
 		and create parent directories if required
 		
 	:param file_name: file_name to process
-	:type file_name: str or :class:`pathlib.Path`
+	:type file_name: :class:`str` or :class:`pathlib.Path`
 	
 	:return: file_name
 	:rtype: pathlib.Path
@@ -64,7 +64,7 @@ def dump_object(obj, file_name):
 	:param obj: Object to be dumped
 	:type obj: any
 	:param file_name: Name of the file for the object dump
-	:type file_name: str or :class:`pathlib.Path`
+	:type file_name: :class:`str` or :class:`pathlib.Path`
 	
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
@@ -84,7 +84,7 @@ def load_object(file_name):
 	Loads an object previously dumped with dump_object()
 
 	:param file_name: Name of the object dump file
-	:type file_name: str or :class:`pathlib.Path`
+	:type file_name: :class:`str` or :class:`pathlib.Path`
 
 	:return: Object contained in the file 'file_name'
 	:rtype: An instance of an arbitrary class
@@ -107,7 +107,7 @@ def file_lines(file_name, strip=False):
 	Returns lines from a file, as a list
 
 	:param file_name: Name of a file
-	:type file_name: str or :class:`pathlib.Path`
+	:type file_name: :class:`str` or :class:`pathlib.Path`
 	:param strip: If True, lines are pre-processed. Newline characters are
 		removed, leading and trailing whitespaces are removed, and lines
 		starting with '#' are discarded
@@ -155,7 +155,7 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 		to a file with specific formatting
 
 	:param file_name: Name of a file
-	:type file_name: str or :class:`pathlib.Path`
+	:type file_name: :class:`str` or :class:`pathlib.Path`
 	:param data: A list of numbers, or a list of lists
 	:type: list
 	:param format_str: A format string for individual entries

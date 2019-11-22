@@ -403,7 +403,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		without any delimiters.
 
 		:param file_name: Output file name
-		:type file_name: str or :class:`pathlib.Path`
+		:type file_name: :class:`str` or :class:`pathlib.Path`
 
 		:author: Vladimir Likic
 		:author: Dominic Davis-Foster (pathlib support)
