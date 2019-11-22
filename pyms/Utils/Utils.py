@@ -50,7 +50,7 @@ def is_list_of_dec_nums(arg):
     Determines if the argument is a list of decimal numbers
 
     :param arg: A string to be evaluate as a list of decimal numbers
-    :type arg: types.str
+    :type arg: str
 
     :return: A boolean indicator True or False
     :rtype:  bool

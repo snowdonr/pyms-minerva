@@ -83,3 +83,47 @@ Savitzky-Golay noise filter
 :mod:`pyms.Noise.Window`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Moving window noise filter
+
+:mod:`pyms.Peak`
+---------------------
+Functions for modelling signal peaks
+
+:mod:`pyms.Peak.Class`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Provides a class to model signal peak
+
+:mod:`pyms.Peak.Function`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Functions related to Peak modification
+
+:mod:`pyms.Peak.List`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Functions for modelling peak lists
+
+:mod:`pyms.Peak.List.Function`
+%%%%%%%%%%%%%%%%%%%%%%%%
+Functions related to Peak modification
+
+:mod:`pyms.Peak.List.IO`
+%%%%%%%%%%%%%%%%%%%%%%%%
+Functions related to storing and loading a list of Peak objects
+
+:mod:`pyms.Utils`
+---------------------
+Utility functions for PyMassSpec wide use
+
+:mod:`pyms.Utils.IO`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+General I/O functions
+
+:mod:`pyms.Utils.Math`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Provides mathematical functions
+
+:mod:`pyms.Utils.Time`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Time conversion and related functions
+
+:mod:`pyms.Utils.Utils`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+General utility functions

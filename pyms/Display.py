@@ -45,9 +45,9 @@ class Display:
 	:class:`pyms.IonChromatogram.IonChromatogram` using :mod:`matplotlib.pyplot`.
 	
 	:param fig: figure object to use
-	:type fig: matplotlib.figure.Figure optional
+	:type fig: matplotlib.figure.Figure, optional
 	:param ax: axes object to use
-	:type ax: matplotlib.axes.Axes optional
+	:type ax: matplotlib.axes.Axes, optional
 
 	If ``fig`` is not given then ``fig`` and ``ax`` default to:
 	
@@ -195,7 +195,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param ic: Ion Chromatograms m/z channels for plotting
 		:type ic: pyms.IonChromatogram.IonChromatogram
 
-		:kwargs: :class:`matplotlib.lines.Line2D` properties.
+		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
 			linewidth, antialiasing, marker face color.
 
@@ -237,7 +237,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param mass_spec: The mass spectrum at a given time/index
 		:type mass_spec: pyms.Spectrum.MassSpectrum
 		
-		:kwargs: :class:`matplotlib.lines.Line2D` properties.
+		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
 			linewidth, antialiasing, marker face color.
 
@@ -311,9 +311,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param minutes: Whether to show the time in minutes (Default False)
 		:type minutes: bool, optional
 
-		:kwargs: `matplotlib.lines.Line2D` properties, optional
-			*kwargs* are used to specify properties like a line label (for
-			auto legends), linewidth, antialiasing, marker face color.
+		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
+			Used to specify properties like a line label (for auto legends),
+			linewidth, antialiasing, marker face color.
 
 			Example::
 

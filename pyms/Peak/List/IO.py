@@ -68,7 +68,7 @@ def load_peaks(file_name):
     :type file_name: str or pathlib.Path
 
     :return: The list of Peak objects
-    :rtype: list of :class:`pyms.Peak.Class.Peak`
+    :rtype: :class:`list` of :class:`pyms.Peak.Class.Peak`
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (pathlib support)

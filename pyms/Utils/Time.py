@@ -39,7 +39,7 @@ def is_str_num(arg):
     :type arg: str
 
     :return: A boolean indicator True or False
-    :rtype:  BooleanType
+    :rtype:  bool
 
     :author: Gyro Funch (from Active State Python Cookbook)
     """
@@ -51,8 +51,7 @@ def is_str_num(arg):
 
 def time_str_secs(time_str):
     """
-    Resolves time string of the form "<NUMBER>s" or "<NUMBER>m",
-        returns time in seconds
+    Resolves time string of the form "<NUMBER>s" or "<NUMBER>m" and returns the time in seconds
 
     :param time_str: A time string, which must be of the form
         "<NUMBER>s" or "<NUMBER>m" where "<NUMBER>" is a valid number

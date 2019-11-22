@@ -40,14 +40,10 @@ from pyms.IntensityMatrix import IntensityMatrix
 class Peak(pymsBaseClass):
 	"""
 	Models a signal peak
-
-		A signal peak object
-		A peak object is initialised with retention time and
-		Either an ion mass, a mass spectrum or None
-
+	
 	:param rt: Retention time
 	:type rt: int or float
-	:param ms: A ion mass, or spectra of maximising ions
+	:param ms: Either an ion mass, a mass spectrum or None
 	:type ms: int or float or class`pyms.Spectrum.MassSpectrum`, optional
 	:param minutes: Retention time units flag. If True, retention time
 		is in minutes; if False retention time is in seconds
@@ -271,9 +267,8 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead")
 	def get_ic_mass(self):
 		"""
-		Gets the mass for a single ion chromatogram peak
+		Returns the mass for a single ion chromatogram peak
 		
-		:return: The mass of the single ion chromatogram that the peak is from
 		:rtype: float or int
 		"""
 		
@@ -281,7 +276,7 @@ class Peak(pymsBaseClass):
 	
 	def get_int_of_ion(self, ion):
 		"""
-		returns the intensity of a given ion
+		Returns the intensity of a given ion
 
 		:param ion: The m/z value of the ion of interest
 		:type ion: int
@@ -298,9 +293,9 @@ class Peak(pymsBaseClass):
 	
 	def get_ion_area(self, ion):
 		"""
-		gets the area of a single ion chromatogram under the peak
+		Returns the area of a single ion chromatogram under the peak
 
-		:param ion: The ion whose IC is to be returned
+		:param ion: The ion to calculate the area for
 		:type ion: int
 
 		:return: The area of the ion under this peak
@@ -317,9 +312,8 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead")
 	def get_ion_areas(self):
 		"""
-		returns a copy of the ion areas dict
-
-		:return: The dictionary of ion:ion area pairs
+		Returns a copy of the ion areas dict containing ion:ion area pairs
+		
 		:rtype: dict
 		"""
 		
@@ -330,9 +324,8 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead")
 	def get_mass_spectrum(self):
 		"""
-		Gets the mass spectrum at the apex of the peak
+		Returns the mass spectrum at the apex of the peak
 
-		:return: The mass spectrum at the apex of the peak
 		:rtype: pyms.Spectrum.MassSpectrum
 		"""
 		
@@ -343,10 +336,10 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead")
 	def get_pt_bounds(self):
 		"""
-		Gets peak boundaries in points
+		Returns the peak boundaries in points
 
-		:return: A list containing left, apex, and right
-			peak boundaries in points, left and right are offsets
+		:return: A list containing left, apex, and right peak boundaries in
+			points, left and right are offsets
 		:rtype: list
 
 		:author: Andrew Isaac
@@ -359,9 +352,8 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.rt` instead")
 	def get_rt(self):
 		"""
-		Return the retention time
+		Returns the retention time
 
-		:return: Retention time
 		:rtype: float
 		"""
 		
@@ -369,9 +361,8 @@ class Peak(pymsBaseClass):
 	
 	def get_third_highest_mz(self):
 		"""
-		returns the mz value with the third highest intensity
+		Returns the mz value with the third highest intensity
 
-		:return: the ion with the third highest intensity
 		:rtype: int
 		"""
 		
@@ -397,9 +388,10 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.UID` instead")
 	def get_UID(self):
 		"""
-		Return the unique peak ID (UID) based on:
-			Int masses of top two intensities and their ratio (as
-			Mass1-Mass2-Ratio*100); or the single mass as int.
+		Return the unique peak ID (UID), either:
+		
+		- Integer masses of top two intensities and their ratio (as Mass1-Mass2-Ratio*100); or
+		- the single mass as an integer and the retention time.
 
 		:return: UID string
 		:rtype: str
@@ -453,7 +445,7 @@ class Peak(pymsBaseClass):
 	@ion_areas.setter
 	def ion_areas(self, value):
 		"""
-		Set the ion:ion area pair dictionary
+		Sets the ion:ion area pair dictionary
 
 		:param value: The dictionary of ion:ion_area pairs
 		:type value: dict
@@ -465,10 +457,11 @@ class Peak(pymsBaseClass):
 	
 	def make_UID(self):
 		"""
-		Create a unique peak ID (UID) based on:
-			Int masses of top two intensities, their ratio and RT (as
-			Mass1-Mass2-Ratio*100-RT); or the single mass as int and RT.
-
+		Create a unique peak ID (UID), either:
+		
+		- Integer masses of top two intensities and their ratio (as Mass1-Mass2-Ratio*100); or
+		- the single mass as an integer and the retention time.
+		
 		:author: Andrew Isaac
 		"""
 		
@@ -601,8 +594,8 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead")
 	def set_ic_mass(self, mz):
 		"""
-		Sets the mass for a single ion chromatogram peak
-			Clears the mass spectrum
+		Sets the mass for a single ion chromatogram peak.
+		Clears the mass spectrum.
 
 		:param mz: The mass of the ion chromatogram that the peak is from
 		:type mz: float
@@ -653,8 +646,8 @@ class Peak(pymsBaseClass):
 							details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead")
 	def set_mass_spectrum(self, ms):
 		"""
-		Sets the mass spectrum
-			Clears the mass for a single ion chromatogram peak
+		Sets the mass spectrum.
+		Clears the mass for a single ion chromatogram peak.
 
 		:param ms: The mass spectrum at the apex of the peak
 		:type ms: pyms.Spectrum.MassSpectrum
@@ -685,9 +678,10 @@ class Peak(pymsBaseClass):
 	@property
 	def UID(self):
 		"""
-		Return the unique peak ID (UID) based on:
-			Int masses of top two intensities and their ratio (as
-			Mass1-Mass2-Ratio*100); or the single mass as int.
+		Return the unique peak ID (UID), either:
+		
+		- Integer masses of top two intensities and their ratio (as Mass1-Mass2-Ratio*100); or
+		- the single mass as an integer and the retention time.
 
 		:return: UID string
 		:rtype: str
@@ -700,14 +694,13 @@ class Peak(pymsBaseClass):
 	## TODO: What is this?
 	def find_mass_spectrum(self, data, from_bounds=False):
 		"""
-		Sets peak mass spectrum from the data
-			Clears the single ion chromatogram mass
+		Sets peak mass spectrum from the data.
+		Clears the single ion chromatogram mass.
 
 		:param data: An IntensityMatrix object
 		:type data: pyms.IntensityMatrix.IntensityMatrix
-		:param from_bounds: Indicator whether to use the attribute
-			'pt_bounds' or to find the peak apex from the peak
-			retention time
+		:param from_bounds: Indicator whether to use the attribute 'pt_bounds'
+			or to find the peak apex from the peak retention time
 		:type from_bounds: bool
 		"""
 		

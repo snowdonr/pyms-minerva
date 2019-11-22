@@ -40,11 +40,11 @@ def vector_by_step(start, stop, step):
     Generates a list by using start, stop, and step values
 
     :param start: Initial value
-    :type start: A number
+    :type start: int or float
     :param stop: Max value
-    :type stop: A number
+    :type stop: int or float
     :param step: Step
-    :type step: A number
+    :type step: int or float
    
     :return: A list generated
     :rtype: list
@@ -69,7 +69,7 @@ def MAD(v):
     """
     Median absolute deviation
 
-    :param v: A list or array
+    :param v: List of values to calculate the median absolute deviation of
     :type v: list, tuple, or numpy.core.ndarray
 
     :return: median absolute deviation
@@ -98,9 +98,9 @@ def rmsd(list1, list2):
     Calculates RMSD for the 2 lists
 
     :param list1: First data set
-    :type list1: list, tuple, or :class:`numpy.core.ndarray`
+    :type list1: list, tuple, or numpy.core.ndarray
     :param list2: Second data set
-    :type list2: list, tuple, or :class:`numpy.core.ndarray`
+    :type list2: list, tuple, or numpy.core.ndarray
     
     :return: RMSD value
     :rtype: float

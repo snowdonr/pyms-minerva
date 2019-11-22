@@ -111,7 +111,7 @@ def file_lines(file_name, strip=False):
 	:param strip: If True, lines are pre-processed. Newline characters are
 		removed, leading and trailing whitespaces are removed, and lines
 		starting with '#' are discarded
-	:type: bool, optional
+	:type strip: bool, optional
 
 	:return: A list of lines
 	:rtype: list
@@ -157,15 +157,15 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 	:param file_name: Name of a file
 	:type file_name: str or pathlib.Path
 	:param data: A list of numbers, or a list of lists
-	:type: list
+	:type data: list
 	:param format_str: A format string for individual entries
-	:type: str
+	:type format_str: str
 	:param prepend: A string, printed before each row
-	:type: str
+	:type prepend: str
 	:param sep: A string, printed after each number
-	:type: str
+	:type sep: str
 	:param compressed: A boolean. If True, the output will be gzipped
-	:type: bool
+	:type compressed: bool
 
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)

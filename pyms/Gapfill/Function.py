@@ -283,7 +283,7 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 	creates a new area_ci.csv file, replacing NAs with values from the sample_list objects where possible
 	
 	:param sample_list: A list of samples
-	:type sample_list: list of :class:`pyms.Gapfill.Class.Sample` objects
+	:type sample_list: :class:`list` of :class:`pyms.Gapfill.Class.Sample` objects
 	:param area_file: the file 'area_ci.csv' from PyMassSpec output
 	:type area_file: str or pathlib.Path
 	:param filled_area_file: the new output file which has NA values replaced

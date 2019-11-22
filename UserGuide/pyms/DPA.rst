@@ -1,37 +1,30 @@
 *********************
-:mod:`pyms.Utils`
+:mod:`pyms.DPA`
 *********************
 
 .. contents:: Table of Contents
 
-.. automodule:: pyms.Utils
+.. automodule:: pyms.DPA
     :members:
     :inherited-members:
 
 ===========================
-:mod:`pyms.Utils.IO`
+:mod:`pyms.DPA.Alignment`
 ===========================
-.. automodule:: pyms.Utils.IO
+.. automodule:: pyms.DPA.Alignment
     :members:
     :inherited-members:
 
 ===========================
-:mod:`pyms.Utils.Math`
+:mod:`pyms.DPA.PairwiseAlignment`
 ===========================
-.. automodule:: pyms.Utils.Math
+.. automodule:: pyms.DPA.PairwiseAlignment
     :members:
     :inherited-members:
 
 ===========================
-:mod:`pyms.Utils.Time`
+:mod:`pyms.DPA.IO`
 ===========================
-.. automodule:: pyms.Utils.Time
-    :members:
-    :inherited-members:
-
-===========================
-:mod:`pyms.Utils.Utils`
-===========================
-.. automodule:: pyms.Utils.Utils
+.. automodule:: pyms.DPA.IO
     :members:
     :inherited-members:

@@ -185,7 +185,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		Return a list of the scan objects
 
-		:rtype: :class:`list` of :class;`pyms.Spectrum.Scan` objects
+		:rtype: :class:`list` of :class:`pyms.Spectrum.Scan` objects
 
 		:author: Qiao Wang
 		:author: Andrew Isaac
@@ -201,7 +201,6 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		Returns the total ion chromatogram
 
-		:return: Total ion chromatogram
 		:rtype: pyms.IonChromatogram.IonChromatogram
 
 		:author: Andrew Isaac
@@ -243,7 +242,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		Return a list of the scan objects
 
-		:rtype: :class:`list` of :class;`pyms.Spectrum.Scan` objects
+		:rtype: :class:`list` of :class:`pyms.Spectrum.Scan` objects
 
 		:author: Qiao Wang
 		:author: Andrew Isaac
@@ -257,7 +256,6 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		Returns the total ion chromatogram
 
-		:return: Total ion chromatogram
 		:rtype: pyms.IonChromatogram.IonChromatogram
 
 		:author: Andrew Isaac

@@ -230,8 +230,7 @@ class IntensityArrayMixin:
 							details=f"Use 'matrix_list' attribute instead")
 	def get_matrix_list(self):
 		"""
-		Returns a copy of the intensity matrix as a
-			list of lists of floats
+		Returns a copy of the intensity matrix as a list of lists of floats
 
 		:return: Matrix of intensity values
 		:rtype: list

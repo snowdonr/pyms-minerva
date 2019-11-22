@@ -39,15 +39,14 @@ from pyms.Utils.Time import time_str_secs
 
 def composite_peak(peak_list, ignore_outliers=False):
     """
-    Create a peak that consists of a composite spectrum from all
-        spectra in the list of peaks.
+    Create a peak that consists of a composite spectrum from all spectra in the list of peaks.
 
     :param peak_list: A list of peak objects
     :type peak_list: list
     :param ignore_outliers:
     :type ignore_outliers: bool, optional
 
-    :return: Peak Object with combined mass spectra of 'peak_list'
+    :return: The composite peak
     :type: pyms.Peak.Class.Peak
 
     :author: Andrew Isaac
@@ -106,8 +105,8 @@ def composite_peak(peak_list, ignore_outliers=False):
 
 def fill_peaks(data, peak_list, D, minutes=False):
     """
-    Gets the best matching Retention Time and spectra from 'data' for
-        each peak in the peak list.
+    Gets the best matching Retention Time and spectra from 'data' for each peak
+    in the peak list.
 
     :param data: A data IntensityMatrix that has the same mass range as the
         peaks in the peak list
@@ -245,7 +244,7 @@ def sele_peaks_by_rt(peaks, rt_range):
     :type rt_range: list
     
     :return: A list of peak objects
-    :rtype: list of :class:`pyms.Peak.Class.Peak`
+    :rtype: :class:`list` of :class:`pyms.Peak.Class.Peak`
     """
 
     if not is_peak_list(peaks):

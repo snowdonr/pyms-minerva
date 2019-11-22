@@ -138,8 +138,8 @@ class Experiment(pymsBaseClass):
 		"""
 		Returns the peak list
 
-		:return: A list of :class:`pyms.Peak.Class.Peak` objects
-		:rtype: list
+		:return: A list of peaks
+		:rtype: :class;`list` of :class:`pyms.Peak.Class.Peak` objects
 		"""
 		
 		return self.peak_list
@@ -149,8 +149,8 @@ class Experiment(pymsBaseClass):
 		"""
 		Returns the peak list
 
-		:return: A list of :class:`pyms.Peak.Class.Peak` objects
-		:rtype: list
+		:return: A list of peaks
+		:rtype: :class;`list` of :class:`pyms.Peak.Class.Peak` objects
 		"""
 		
 		return self._peak_list

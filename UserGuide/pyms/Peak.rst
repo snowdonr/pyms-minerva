@@ -43,32 +43,3 @@
 .. automodule:: pyms.Peak.List.IO
     :members:
     :inherited-members:
-
-----------------------------
-:mod:`pyms.Peak.List.DPA`
-----------------------------
-.. automodule:: pyms.Peak.List.DPA
-    :members:
-    :inherited-members:
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:mod:`pyms.DPA.Class`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: pyms.DPA.Class
-    :members:
-    :inherited-members:
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:mod:`pyms.DPA.Function`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: pyms.DPA.Function
-    :members:
-    :inherited-members:
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-:mod:`pyms.DPA.Class`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: pyms.DPA.Utils
-    :members:
-    :inherited-members:
-
