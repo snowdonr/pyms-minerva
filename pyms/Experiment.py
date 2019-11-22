@@ -177,7 +177,7 @@ class Experiment(pymsBaseClass):
 		stores an experiment to a file
 	
 		:param file_name: The name of the file
-		:type file_name: :class:`str` or :class:`pathlib.Path`
+		:type file_name: str or pathlib.Path
 	
 		:author: Vladimir Likic
 		:author: Andrew Isaac
@@ -199,7 +199,7 @@ def read_expr_list(file_name):
 	Reads the set of experiment files and returns a list of :class:`pyms.Experiment.Experiment` objects
 
 	:param file_name: The name of the file which lists experiment dump file names, one file per line
-	:type file_name: :class:`str` or :class:`pathlib.Path`
+	:type file_name: str or pathlib.Path
 
 	:return: A list of Experiment instances
 	:rtype: list of pyms.Experiment.Experiment
@@ -235,7 +235,7 @@ def load_expr(file_name):
 	Loads an experiment saved with :meth:`pyms.Experiment.store_expr`
 
 	:param file_name: Experiment file name
-	:type file_name: :class:`str` or :class:`pathlib.Path`
+	:type file_name: str or pathlib.Path
 	
 	:return: The loaded experiment
 	:rtype: pyms.Experiment.Experiment

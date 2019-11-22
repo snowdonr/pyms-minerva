@@ -565,7 +565,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			and NAME.mz.csv.
 
 		:param root_name: Root name for the output files
-		:type root_name: :class:`str` or :class:`pathlib.Path`
+		:type root_name: str or pathlib.Path
 		:param format: Format of the output file
 		:type format: str
 		
@@ -610,7 +610,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		Exports data in LECO CSV format
 
 		:param file_name: The name of the file
-		:type file_name: :class:`str` or :class:`pathlib.Path`
+		:type file_name: str or pathlib.Path
 
 		:author: Andrew Isaac
 		:author: Vladimir Likic
@@ -667,7 +667,7 @@ def import_leco_csv(file_name):
 	Imports data in LECO CSV format
 
 	:param file_name: Path of the file to read
-	:type file_name: :class:`str` or :class:`pathlib.Path`
+	:type file_name: str or pathlib.Path
 
 	:return: Data as an IntensityMatrix
 	:rtype: pyms.IntensityMatrix.IntensityMatrix

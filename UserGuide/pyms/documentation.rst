@@ -24,10 +24,41 @@ Gap Filling Routines
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
 
-
 :mod:`pyms.Gapfill.Function`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Functions to fill missing peak objects
+
+:mod:`pyms.GCMS`
+---------------------
+Module to handle raw data
+
+:mod:`pyms.GCMS.Class`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Class to model GC-MS data
+
+:mod:`pyms.GCMS.Function`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Provides conversion and information functions for GC-MS data objects
+
+:mod:`pyms.GCMS.IO`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Input/output functions for GC-MS data files
+
+:mod:`pyms.GCMS.IO.ANDI`
+%%%%%%%%%%%%%%%%%%%%%%%%
+Functions for reading manufacturer specific ANDI-MS data files
+
+:mod:`pyms.GCMS.IO.JCAMP`
+%%%%%%%%%%%%%%%%%%%%%%%%
+Functions for I/O of data in JCAMP-DX format
+
+:mod:`pyms.GCMS.IO.MZML`
+%%%%%%%%%%%%%%%%%%%%%%%%
+Functions for reading mzML format data files
+
+
+
+
 
 
 

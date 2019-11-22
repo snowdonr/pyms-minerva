@@ -311,7 +311,7 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		Writes the ion chromatogram to the specified file
 
 		:param file_name: The name of the output file
-		:type file_name: :class:`str` or :class:`pathlib.Path`
+		:type file_name: str or pathlib.Path
 		:param minutes: A boolean value indicating whether to write
 			time in minutes
 		:type minutes: bool

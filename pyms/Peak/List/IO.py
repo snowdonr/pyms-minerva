@@ -41,7 +41,7 @@ def store_peaks(peak_list, file_name):
     :param peak_list: A list of peak objects
     :type peak_list: list of :class:`pyms.Peaks.Class.Peak`
     :param file_name: File name to store peak list
-    :type file_name: :class:`str` or :class:`pathlib.Path`
+    :type file_name: str or pathlib.Path
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions and pathlib support)

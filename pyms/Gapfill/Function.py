@@ -49,7 +49,7 @@ def file2matrix(file_name):
 	Convert a .csv file to a numpy array
 	
 	:param file_name: Filename (.csv) to convert (area.csv, area_ci.csv)
-	:type file_name: :class:`str` or :class:`pathlib.Path`
+	:type file_name: str or pathlib.Path
 	
 	:return: Data matrix
 	:rtype: :class:`numpy.array`
@@ -285,9 +285,9 @@ def write_filled_csv(sample_list, area_file, filled_area_file):
 	:param sample_list: A list of samples
 	:type sample_list: list of :class:`pyms.Gapfill.Class.Sample` objects
 	:param area_file: the file 'area_ci.csv' from PyMassSpec output
-	:type area_file: :class:`str` or :class:`pathlib.Path`
+	:type area_file: str or pathlib.Path
 	:param filled_area_file: the new output file which has NA values replaced
-	:type filled_area_file: :class:`str` or :class:`pathlib.Path`
+	:type filled_area_file: str or pathlib.Path
 	
 	:author: Jairus Bowne
 	:author: Sean O'Callaghan

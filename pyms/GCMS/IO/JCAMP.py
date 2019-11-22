@@ -37,7 +37,7 @@ def JCAMP_reader(file_name):
 	Generic reader for JCAMP DX files
 
 	:param file_name: Path of the file to read
-	:type file_name: :class:`str` or :class:`pathlib.Path`
+	:type file_name: str or pathlib.Path
 	
 	:return: GC-MS data object
 	:rtype: :class:`pyms.GCMS.Class.GCMS_data`

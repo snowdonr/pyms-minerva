@@ -1,5 +1,5 @@
 """
-Sub-package to handle raw data
+Module to handle raw data
 """
 
 ################################################################################

@@ -55,7 +55,7 @@ def ANDI_reader(file_name):
 	A reader for ANDI-MS NetCDF files
 
 	:param file_name: The path of the ANDI-MS file
-	:type file_name: :class:`str` or :class:`pathlib.Path`
+	:type file_name: str or pathlib.Path
 	
 	:return: GC-MS data object
 	:rtype: :class:`pyms.GCMS.Class.GCMS_data`

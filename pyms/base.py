@@ -48,7 +48,7 @@ class pymsBaseClass:
 		Dumps an object to a file through pickle.dump()
 
 		:param file_name: Name of the file for the object dump
-		:type file_name: :class:`str` or :class:`pathlib.Path`
+		:type file_name: str or pathlib.Path
 
 		:author: Vladimir Likic
 		:author: Dominic Davis-Foster (pathlib support)
