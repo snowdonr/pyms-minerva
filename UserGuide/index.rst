@@ -21,13 +21,16 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     :caption: Documentation
 
     pyms/documentation
+    pyms/Base
     pyms/BillerBiemann
     pyms/Display
+    pyms/DPA
     pyms/Experiment
     pyms/Gapfill
     pyms/GCMS
     pyms/IntensityMatrix
     pyms/IonChromatogram
+    pyms/Mixins
     pyms/Spectrum
     pyms/Noise
     pyms/Peak

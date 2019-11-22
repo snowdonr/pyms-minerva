@@ -4,6 +4,10 @@ Introduction
 
 The following sections contain the documentation for PyMassSpec
 
+:mod:`pyms.Base`
+--------------------------
+
+
 :mod:`pyms.BillerBiemann`
 --------------------------
 Functions to perform Biller and Biemann deconvolution.
@@ -79,6 +83,10 @@ Class to model Intensity Matrix
 :mod:`pyms.IonChromatogram`
 ---------------------
 Classes to model a GC-MS Ion Chromatogram
+
+:mod:`pyms.Mixins`
+---------------------
+
 
 :mod:`pyms.Spectrum`
 ---------------------
