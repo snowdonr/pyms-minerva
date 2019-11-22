@@ -40,7 +40,7 @@ from pyms.Peak.List.Function import is_peak_list
 default_filetypes = ["png", "pdf", "svg"]
 
 
-class Display(object):
+class Display:
 	"""
 	Class to display Ion Chromatograms and Total Ion Chromatograms from :class:`IonChromatogram.IonChromatogram`
 	Uses matplotlib module pyplot to do plotting.

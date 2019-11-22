@@ -4,6 +4,16 @@ Introduction
 
 The following sections contain the documentation for PyMassSpec
 
+*************************
+:mod:`pyms`
+*************************
+
+.. automodule:: pyms
+    :members:
+    :private-members:
+    :special-members:
+
+
 .. toctree::
     :maxdepth: 2
     :caption: Documentation
