@@ -42,15 +42,15 @@ default_filetypes = ["png", "pdf", "svg"]
 
 class Display:
 	"""
-	Class to display Ion Chromatograms and Total Ion Chromatograms from :class:`IonChromatogram.IonChromatogram`
-	Uses matplotlib module pyplot to do plotting.
+	Class to display Ion Chromatograms and Total Ion Chromatograms from
+	:class:`pyms.IonChromatogram.IonChromatogram` using :mod:`matplotlib.pyplot`.
 	
-	If `fig` is not given then `fig` and `ax` default to:
+	If `fig` is not given then ``fig`` and ``ax`` default to:
 	
 	>>> fig = plt.figure()
 	>>> ax = fig.add_subplot(111)
 	
-	If only `fig` is given then `a`x defaults to:
+	If only ``fig`` is given then ``ax`` defaults to:
 	
 	>>> ax = fig.add_subplot(111)
 	
@@ -99,6 +99,7 @@ class Display:
 	def do_plotting(self, plot_label=None):
 		"""
 		Plots TIC and IC(s) if they have been created by plot_tic() or plot_ics().
+		
 		Adds detected peaks if they have been added by plot_peaks()
 
 		:param plot_label: Label for the plot to show e.g. the data origin
@@ -155,10 +156,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		"""
 		Finds the 5 highest intensity m/z channels for the selected peak.
 		The peak is selected by clicking on it.
-		If a button other than the left one is clicked, a new plot of the mass spectrum is displayed
+		If a button other than the left one is clicked, a new plot of the mass spectrum is displayed.
 
 		:param event: a mouse click by the user
-		:type event:
 		"""
 		
 		intensity_list = []
@@ -191,9 +191,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param ic: Ion Chromatograms m/z channels for plotting
 		:type ic: pyms.IonChromatogram.IonChromatogram
 
-		:param **kwargs : `matplotlib.lines.Line2D` properties, optional
-			*kwargs* are used to specify properties like a line label (for
-			auto legends), linewidth, antialiasing, marker face color.
+		:**kwargs: :class:`matplotlib.lines.Line2D` properties.
+			Used to specify properties like a line label (for auto legends),
+			linewidth, antialiasing, marker face color.
 
 			Example::
 
@@ -206,9 +206,10 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		if not isinstance(ic, IonChromatogram):
 			raise TypeError("'ic' must be an IonChromatogram")
 		
-		plot = self.ax.plot(ic.time_list,
-							 ic.intensity_array,
-							 self.__col_ic[self.__colour_count], **kwargs)
+		plot = self.ax.plot(
+			ic.time_list, ic.intensity_array,
+			self.__col_ic[self.__colour_count], **kwargs
+		)
 		
 		self.__tic_ic_plots.append(plot)
 	
@@ -232,9 +233,9 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param mass_spec: The mass spectrum at a given time/index
 		:type mass_spec: pyms.Spectrum.MassSpectrum
 		
-		:param **kwargs : `matplotlib.lines.Line2D` properties, optional
-			*kwargs* are used to specify properties like a line label (for
-			auto legends), linewidth, antialiasing, marker face color.
+		:**kwargs: :class:`matplotlib.lines.Line2D` properties.
+			Used to specify properties like a line label (for auto legends),
+			linewidth, antialiasing, marker face color.
 
 			Example::
 
@@ -275,8 +276,8 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		"""
 		Plots the locations of peaks as found by PyMassSpec.
 
-		:param peak_list: List of peaks
-		:type peak_list: list of :class:`pyms.Peak.Class.Peak` objects
+		:param peak_list: List of peaks to plot
+		:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
 
 		:param label: label for plot legend (Default "Peaks")
 		:type label: str, optional
@@ -342,7 +343,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param filepath: Path and filename to save the chart as. Should not include extension
 		:type filepath: str
 		:param filetypes: List of filetypes to use
-		:type filetypes: list of strings, optional
+		:type filetypes: :class:`list` of :class:`str`, optional
 		
 		:author: Dominic Davis-Foster
 		"""

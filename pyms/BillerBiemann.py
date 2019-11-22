@@ -1,7 +1,5 @@
 """
-BillerBiemann deconvolution algorithm.
-
-Provides a class to perform Biller and Biemann deconvolution.
+Functions to perform Biller and Biemann deconvolution.
 """
 
 ################################################################################
