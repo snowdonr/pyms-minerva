@@ -115,8 +115,8 @@ def diff(data1, data2):
 
 def ic_window_points(ic, window_sele, half_window=False):
 	"""
-	Converts window selection parameter into points based on
-		the time step in an ion chromatogram
+	Converts the window selection parameter into points based on the
+	time step in an ion chromatogram.
 
 	:param ic: ion chromatogram object relevant for the conversion
 	:type ic: pyms.IO.Class.IonChromatogram

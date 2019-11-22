@@ -180,13 +180,12 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use :attr:`pyms.GCMS.Class.GCMS.scan_list` instead")
+							details="Use :attr:`pyms.GCMS.Class.scan_list` instead")
 	def get_scan_list(self):
 		"""
 		Return a list of the scan objects
 
-		:return: A list of scan objects
-		:rtype: list
+		:rtype: :class:`list` of :class;`pyms.Spectrum.Scan` objects
 
 		:author: Qiao Wang
 		:author: Andrew Isaac
@@ -197,7 +196,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
-							details="Use :attr:`pyms.GCMS.Class.GCMS.tic` instead")
+							details="Use :attr:`pyms.GCMS.Class.tic` instead")
 	def get_tic(self):
 		"""
 		Returns the total ion chromatogram
@@ -244,8 +243,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		Return a list of the scan objects
 
-		:return: A list of scan objects
-		:rtype: list
+		:rtype: :class:`list` of :class;`pyms.Spectrum.Scan` objects
 
 		:author: Qiao Wang
 		:author: Andrew Isaac
@@ -344,14 +342,13 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 	def write(self, file_root):
 		"""
-		Writes the entire raw data to two files, one
-			'file_root'.I.csv (intensities) and 'file_root'.mz.csv
-			(m/z values).
+		Writes the entire raw data to two CSV files:
+		
+		- 'file_root'.I.csv, containing the intensities; and
+		- 'file_root'.mz.csv, containing the corresponding m/z values.
 
-			This method writes two CSV files, containing intensities
-			and corresponding m/z values. In general these are not
-			two-dimensional matrices, because different scans may
-			have different number of m/z values recorded.
+		In general these are not two-dimensional matrices, because different
+		scans may have different numbers of m/z values recorded.
 
 		:param file_root: The root for the output file names
 		:type file_root: str or pathlib.Path
@@ -395,12 +392,9 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	
 	def write_intensities_stream(self, file_name):
 		"""
-		Writes all intensities to a file
-
-		This function loop over all scans, and for each scan
-		writes intensities to the file, one intensity per
-		line. Intensities from different scans are joined
-		without any delimiters.
+		Loop over all scans and, for each scan, write the intensities to the
+		given file, one intensity per line. Intensities from different scans
+		are joined without any delimiters.
 
 		:param file_name: Output file name
 		:type file_name: str or pathlib.Path

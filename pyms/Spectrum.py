@@ -1,5 +1,5 @@
 """
-Classes to model a Mass Spectrum and Scans
+Classes to model Mass Spectra and Scans
 """
 
 ################################################################################
@@ -72,7 +72,6 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 		"""
 		Returns the length of the object
 
-		:return: Length of object
 		:rtype: int
 
 		:author: Andrew Isaac
@@ -108,7 +107,6 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 		"""
 		Returns a copy of the intensity list
 
-		:return: the intensities
 		:rtype: list
 
 		:author: Qiao Wang
@@ -123,7 +121,6 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 		"""
 		Returns the intensity list
 
-		:return: the intensities
 		:rtype: list
 
 		:author: Qiao Wang
@@ -235,7 +232,6 @@ class Scan(pymsSpectrumBase):
 		"""
 		Returns the intensities for the current scan
 
-		:return: the intensities
 		:rtype: list
 
 		:author: Qiao Wang
@@ -252,8 +248,7 @@ class Scan(pymsSpectrumBase):
 		"""
 		Returns the minimum m/z value in the scan
 
-		:return: Minimum m/z
-		:rtype: Float
+		:rtype: float
 
 		:author: Andrew Isaac
 		"""
@@ -267,8 +262,7 @@ class Scan(pymsSpectrumBase):
 		"""
 		Returns the maximum m/z value in the scan
 
-		:return: Maximum m/z
-		:rtype: Float
+		:rtype: float
 
 		:author: Andrew Isaac
 		"""

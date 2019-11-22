@@ -92,7 +92,7 @@ def get_maxima_indices(ion_intensities, points=3):
     Find local maxima.
 
     :param ion_intensities: A list of intensities for a single ion
-    :type ion_intensities: :class:`list` or :class:`tuple` or :class:`numpy.ndarray`
+    :type ion_intensities: list or tuple or numpy.ndarray
     :param points: Number of scans over which to consider a maxima to be a peak (Default 3)
     :type points: int, optional
 

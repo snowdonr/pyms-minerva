@@ -56,11 +56,30 @@ Functions for I/O of data in JCAMP-DX format
 %%%%%%%%%%%%%%%%%%%%%%%%
 Functions for reading mzML format data files
 
+:mod:`pyms.IntensityMatrix`
+---------------------
+Class to model Intensity Matrix
 
+:mod:`pyms.IonChromatogram`
+---------------------
+Classes to model a GC-MS Ion Chromatogram
 
+:mod:`pyms.Spectrum`
+---------------------
+Classes to model Mass Spectra and Scans
 
+:mod:`pyms.Noise`
+---------------------
+Noise processing functions
 
+:mod:`pyms.Noise.Analysis`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Noise analysis functions
 
+:mod:`pyms.Noise.SavitzkyGolay`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Savitzky-Golay noise filter
 
-
-
+:mod:`pyms.Noise.Window`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Moving window noise filter

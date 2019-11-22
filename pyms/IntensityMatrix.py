@@ -42,6 +42,10 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import MassSpectrum
 
 
+ASCII_DAT = 1
+ASCII_CSV = 0
+
+
 class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin):
 	"""
 	Intensity matrix of binned raw data
@@ -53,7 +57,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	:type mass_list: list
 	
 	:param intensity_array: Binned intensity values per scan
-	:type intensity_array: list of lists of numbers or numpy.ndarray
+	:type intensity_array: a :class:`list` of lists of numbers; or a :class:`numpy.ndarray`
 
 	:author: Andrew Isaac
 	:author: Dominic Davis-Foster (type assertions and properties)
@@ -266,11 +270,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	
 	def set_ic_at_index(self, ix, ic):
 		"""
-		Sets the ion chromatogram specified by index to a new
-			value
+		Sets the ion chromatogram specified by index to a new value
 
-		:param ix: Index of an ion chromatogram in the intensity data
-			matrix to be set
+		:param ix: Index of an ion chromatogram in the intensity data matrix to be set
 		:type ix: int
 		:param ic: Ion chromatogram that will be copied at position 'ix'
 			in the data matrix
@@ -338,11 +340,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	
 	def get_ic_at_mass(self, mass=None):
 		"""
-		Returns the ion chromatogram for the specified mass.
-			The nearest binned mass to mass is used.
+		Returns the ion chromatogram for the nearest binned mass to the specified mass.
 
-			If no mass value is given, the function returns the total
-			ion chromatogram.
+		If no mass value is given, the function returns the total ion chromatogram.
 
 		:param mass: Mass value of an ion chromatogram
 		:type mass: int
@@ -519,8 +519,8 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	
 	def reduce_mass_spectra(self, n_intensities=5):
 		"""
-		Reduces mass spectra by retaining top N
-			intensities, discarding all other intensities.
+		Reduces the mass spectra by retaining the top `n_intensities`,
+		discarding all other intensities.
 
 		:param n_intensities: The number of top intensities to keep
 		:type n_intensities: int
@@ -553,21 +553,21 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			
 			self._intensity_array[ii] = intensity_list_new
 	
-	def export_ascii(self, root_name, format='dat'):
+	def export_ascii(self, root_name, fmt=ASCII_DAT):
 		"""
-		Exports the intensity matrix, retention time vector, and
-			m/z vector to the ascii format
+		Exports the intensity matrix, retention time vector, and m/z vector to the ascii format.
 
-			By default, export_ascii("NAME") will create NAME.im.dat, NAME.rt.dat,
-			and NAME.mz.dat where these are the intensity matrix, retention
-			time vector, and m/z vector in tab delimited format. If format='csv',
-			the files will be in the CSV format, named NAME.im.csv, NAME.rt.csv,
-			and NAME.mz.csv.
+		By default, export_ascii("NAME") will create NAME.im.dat, NAME.rt.dat,
+		and NAME.mz.dat where these are the intensity matrix, retention time
+		vector, and m/z vector in tab delimited format.
+		
+		If format=ASCII_CSV, the files will be in the CSV format, named
+		NAME.im.csv, NAME.rt.csv, and NAME.mz.csv.
 
 		:param root_name: Root name for the output files
 		:type root_name: str or pathlib.Path
-		:param format: Format of the output file
-		:type format: str
+		:param fmt: Format of the output file, either ``ASCII_DAT`` or ``ASCII_CSV``
+		:type fmt: int
 		
 		:author: Milica Ng
 		:author: Andrew Isaac
@@ -584,12 +584,10 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		if not root_name.parent.is_dir():
 			root_name.parent.mkdir(parents=True)
 		
-		if format == 'dat':
+		if fmt:  # dat
 			separator = " "
-		elif format == 'csv':
+		else:  # csv
 			separator = ","
-		else:
-			raise ValueError(f"Unknown format '{format}'. Only 'dat' and 'csv' supported")
 		
 		# export 2D matrix of intensities
 		vals = self._intensity_array
@@ -609,7 +607,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		"""
 		Exports data in LECO CSV format
 
-		:param file_name: The name of the file
+		:param file_name: The name of the output file
 		:type file_name: str or pathlib.Path
 
 		:author: Andrew Isaac

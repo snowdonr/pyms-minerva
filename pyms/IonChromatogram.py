@@ -43,15 +43,14 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 	"""
 	Models an ion chromatogram
 
-		An ion chromatogram is a set of intensities as a function of retention
-		time. This can can be either m/z channel intensities (for example, ion
-		chromatograms at m/z=65), or cumulative intensities over all measured
-		m/z. In the latter case the ion chromatogram is total ion chromatogram
-		(TIC).
+	An ion chromatogram is a set of intensities as a function of retention time.
+	This can can be either m/z channel intensities (for example, ion
+	chromatograms at m/z=65), or cumulative intensities over all measured m/z.
+	In the latter case the ion chromatogram is total ion chromatogram (TIC).
 
-		The nature of an IonChromatogram object can be revealed by inspecting
-		the value of the attribute 'mass'. This is set to the m/z value of the
-		ion chromatogram, or to None for TIC.
+	The nature of an IonChromatogram object can be revealed by inspecting
+	the value of the attribute 'mass'. This is set to the m/z value of the
+	ion chromatogram, or to ``None`` for TIC.
 
 	:author: Lewis Lee
 	:author: Vladimir Likic
@@ -91,7 +90,6 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 		self._max_rt = max(time_list)
 	
 	def __len__(self):
-		
 		"""
 		Returns the length of the IonChromatogram object
 
@@ -222,11 +220,8 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 	
 	def is_tic(self):
 		"""
-		Returns True if the ion chromatogram is a total ion
-			chromatogram (TIC), or False otherwise
+		Returns whether the ion chromatogram is a total ion chromatogram (TIC)
 
-		:return: A boolean value indicating if the ion chromatogram
-			is a total ion chromatogram (True) or not (False)
 		:rtype: bool
 
 		:author: Lewis Lee

@@ -76,7 +76,7 @@ class MaxMinMassMixin:
 		Returns the minimum m/z value in the spectrum
 
 		:return: Minimum m/z
-		:rtype: Float
+		:rtype: float
 
 		:author: Andrew Isaac
 		"""
@@ -89,7 +89,7 @@ class MaxMinMassMixin:
 		Returns the maximum m/z value in the spectrum
 
 		:return: Maximum m/z
-		:rtype: Float
+		:rtype: float
 
 		:author: Andrew Isaac
 		"""
@@ -215,8 +215,7 @@ class IntensityArrayMixin:
 	@property
 	def intensity_array_list(self):
 		"""
-		Returns a copy of the intensity array as a
-			list of lists of floats
+		Returns a copy of the intensity array as a list of lists of floats
 
 		:return: Matrix of intensity values
 		:rtype: list
@@ -245,8 +244,7 @@ class IntensityArrayMixin:
 	@property
 	def matrix_list(self):
 		"""
-		Returns a the intensity matrix as a
-			list of lists of floats
+		Returns a the intensity matrix as a list of lists of floats
 
 		:return: Matrix of intensity values
 		:rtype: list
