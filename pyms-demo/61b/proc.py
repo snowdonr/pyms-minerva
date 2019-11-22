@@ -61,7 +61,7 @@ for expr_code in expr_codes:
 
     print("\t -> Number of Peaks found:", len(peak_list))
 
-    print("\t -> Executing peak post-procesing and quantification...")
+    print("\t -> Executing peak post-processing and quantification...")
 
     # ignore TMS ions and use same mass range for all experiments
     for peak in peak_list:

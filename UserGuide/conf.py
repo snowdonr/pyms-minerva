@@ -54,6 +54,15 @@ pygments_style = 'default'
 intersphinx_mapping = { # Is this where those mystery links are specified?
     'rtd': ('https://docs.readthedocs.io/en/latest/', None),
     'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
+    'Python 3': ('https://docs.python.org/3', None),
+    'NumPy [latest]': ('http://docs.scipy.org/doc/numpy/', None),
+    'SciPy [latest]': ('http://docs.scipy.org/doc/scipy/reference', None),
+    'matplotlib [latest]': ('http://matplotlib.org', None),
+    'h5py [latest]': ('http://docs.h5py.org/en/latest/', None),
+    'Sphinx [stable]': ('http://www.sphinx-doc.org/en/stable/', None),
+    'Django [latest?]': ('http://docs.djangoproject.com/en/dev/', 'https://docs.djangoproject.com/en/dev/_objects/'),
+    'sarge [latest]': ('http://sarge.readthedocs.io/en/latest/', None),
+    'attrs [stable]': ('http://www.attrs.org/en/stable/', None),
 }
 
 autodoc_default_options = {

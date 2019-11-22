@@ -13,7 +13,7 @@ data1 = ANDI_reader(andi_file)
 data2 = JCAMP_reader(jcamp_file)
 
 # trim data2 between scans 1000 and 2000
-#data2.trim(begin=1000,end=2000)
+# data2.trim(begin=1000,end=2000)
 
-diff(data1,data2)
+diff(data1, data2)
 

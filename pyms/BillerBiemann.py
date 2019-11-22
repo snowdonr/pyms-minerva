@@ -1,6 +1,7 @@
 """
 BillerBiemann deconvolution algorithm.
-Provides a class to perform Biller and Biemann deconvolution
+
+Provides a class to perform Biller and Biemann deconvolution.
 """
 
 ################################################################################
@@ -48,20 +49,17 @@ from pyms.IntensityMatrix import IntensityMatrix
 
 def BillerBiemann(im, points=3, scans=1):
     """
-    BillerBiemann Deconvolution.
-     
-        Deconvolution based on the algorithm of Biller and Biemann (1974)
+    Deconvolution based on the algorithm of Biller and Biemann (1974)
 
     :param im: An IntensityMatrix object
     :type im: pyms.IntensityMatrix.IntensityMatrix
-    :param points: Peak if maxima over 'points' number of scans (Default 3)
+    :param points: Number of scans over which to consider a maxima to be a peak (Default 3)
     :type points: int, optional
-    :param scans: To compensate for spectra skewing,
-        peaks from 'scans' scans are combined (Default 1)
+    :param scans: Number of scans to combine peaks from to compensate for spectra skewing (Default 1)
     :type scans: int, optional
 
-    :return: List of Peak objects
-    :rtype: list
+    :return: List of detected peaks
+    :rtype: list :class:`pyms.Peak.Class.Peak` objects
 
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
@@ -89,6 +87,58 @@ def BillerBiemann(im, points=3, scans=1):
             peak_list.append(peak)
 
     return peak_list
+
+
+def get_maxima_indices(ion_intensities, points=3):
+    """
+    Find local maxima.
+
+    :param ion_intensities: A list of intensities for a single ion
+    :type ion_intensities: list or tuple or :class:`numpy.ndarray`
+    :param points: Peak if maxima over 'points' number of scans (Default 3)
+    :type points: int, optional
+
+    :return: A list of scan indices
+    :rtype: list
+
+    :author: Andrew Isaac
+    :author: Dominic Davis-Foster (type assertions)
+    """
+    
+    if not isinstance(ion_intensities, _list_types) or not isinstance(ion_intensities[0], (int, float)):
+        raise TypeError("'ion_intensities' must be a List of numbers")
+    if not isinstance(points, int):
+        raise TypeError("'points' must be an integer")
+    
+    # find peak inflection points
+    # use a 'points' point window
+    # for a plateau after a rise, need to check if it is the left edge of
+    # a peak
+    peak_point = []
+    edge = -1
+    points = int(points)
+    half = int(points / 2)
+    points = 2 * half + 1  # ensure odd number of points
+    
+    for index in range(len(ion_intensities) - points + 1):
+        left = ion_intensities[index:index + half]
+        mid = ion_intensities[index + half]
+        right = ion_intensities[index + half + 1:index + points]
+        # max in middle
+        if mid > max(left) and mid > max(right):
+            peak_point.append(index + half)
+            edge = -1  # ignore previous rising edge
+        # flat from rise (left of peak?)
+        if mid > max(left) and mid == max(right):
+            edge = index + half  # ignore previous rising edge, update latest
+        # fall from flat
+        if mid == max(left) and mid > max(right):
+            if edge > -1:
+                centre = int((edge + index + half) / 2)  # mid point
+                peak_point.append(centre)
+            edge = -1
+    
+    return peak_point
 
 
 def rel_threshold(pl, percent=2, copy_peaks=True):
@@ -222,57 +272,6 @@ def sum_maxima(im, points=3, scans=1):
 
     return tic
 
-
-def get_maxima_indices(ion_intensities, points=3):
-    """
-    Find local maxima.
-
-    :param ion_intensities: A list of intensities for a single ion
-    :type ion_intensities: list or tuple or :class:`numpy.ndarray`
-    :param points: Peak if maxima over 'points' number of scans (Default 3)
-    :type points: int, optional
-
-    :return: A list of scan indices
-    :rtype: list
-
-    :author: Andrew Isaac
-    :author: Dominic Davis-Foster (type assertions)
-    """
-
-    if not isinstance(ion_intensities, _list_types) or not isinstance(ion_intensities[0], (int, float)):
-        raise TypeError("'ion_intensities' must be a List of numbers")
-    if not isinstance(points, int):
-        raise TypeError("'points' must be an integer")
-
-    # find peak inflection points
-    # use a 'points' point window
-    # for a plateau after a rise, need to check if it is the left edge of
-    # a peak
-    peak_point = []
-    edge = -1
-    points = int(points)
-    half = int(points/2)
-    points = 2*half+1  # ensure odd number of points
-    
-    for index in range(len(ion_intensities)-points+1):
-        left = ion_intensities[index:index+half]
-        mid = ion_intensities[index+half]
-        right = ion_intensities[index+half+1:index+points]
-        # max in middle
-        if mid > max(left) and mid > max(right):
-            peak_point.append(index+half)
-            edge = -1  # ignore previous rising edge
-        # flat from rise (left of peak?)
-        if mid > max(left) and mid == max(right):
-            edge = index+half  # ignore previous rising edge, update latest
-        # fall from flat
-        if mid == max(left) and mid > max(right):
-            if edge > -1:
-                centre = int((edge+index+half)/2)  # mid point
-                peak_point.append(centre)
-            edge = -1
-
-    return peak_point
 
 
 def get_maxima_list(ic, points=3):
