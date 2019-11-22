@@ -44,6 +44,11 @@ class Display:
 	Class to display Ion Chromatograms and Total Ion Chromatograms from
 	:class:`pyms.IonChromatogram.IonChromatogram` using :mod:`matplotlib.pyplot`.
 	
+	:param fig: figure object to use
+	:type fig: matplotlib.figure.Figure optional
+	:param ax: axes object to use
+	:type ax: matplotlib.axes.Axes optional
+
 	If ``fig`` is not given then ``fig`` and ``ax`` default to:
 	
 	>>> fig = plt.figure()
@@ -53,11 +58,6 @@ class Display:
 	If only ``fig`` is given then ``ax`` defaults to:
 	
 	>>> ax = fig.add_subplot(111)
-	
-	:param fig: figure object to use
-	:type fig: matplotlib.figure.Figure optional
-	:param ax: axes object to use
-	:type ax: matplotlib.axes.Axes optional
 	
 	:author: Sean O'Callaghan
 	:author: Vladimir Likic
@@ -98,9 +98,12 @@ class Display:
 	
 	def do_plotting(self, plot_label=None):
 		"""
-		Plots TIC and IC(s) if they have been created by plot_tic() or plot_ics().
+		Plots TIC and IC(s) if they have been created by
+		:meth:`~pyms.Display.Display.plot_tic` or
+		:meth:`~pyms.Display.Display.plot_ics`.
 		
-		Adds detected peaks if they have been added by plot_peaks()
+		Also adds detected peaks if they have been added by
+		:meth:`~pyms.Display.Display.plot_peaks`
 
 		:param plot_label: Label for the plot to show e.g. the data origin
 		:type plot_label: str, optional
@@ -192,7 +195,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param ic: Ion Chromatograms m/z channels for plotting
 		:type ic: pyms.IonChromatogram.IonChromatogram
 
-		:**kwargs: :class:`matplotlib.lines.Line2D` properties.
+		:kwargs: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
 			linewidth, antialiasing, marker face color.
 
@@ -234,7 +237,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param mass_spec: The mass spectrum at a given time/index
 		:type mass_spec: pyms.Spectrum.MassSpectrum
 		
-		:**kwargs: :class:`matplotlib.lines.Line2D` properties.
+		:kwargs: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
 			linewidth, antialiasing, marker face color.
 
@@ -308,7 +311,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param minutes: Whether to show the time in minutes (Default False)
 		:type minutes: bool, optional
 
-		:param **kwargs : `matplotlib.lines.Line2D` properties, optional
+		:kwargs: `matplotlib.lines.Line2D` properties, optional
 			*kwargs* are used to specify properties like a line label (for
 			auto legends), linewidth, antialiasing, marker face color.
 
