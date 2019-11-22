@@ -7,8 +7,6 @@
 .. automodule:: pyms.Noise
     :members:
     :inherited-members:
-    :private-members:
-    :special-members:
 
 ===========================
 :mod:`pyms.Noise.Analysis`
@@ -16,8 +14,6 @@
 .. automodule:: pyms.Noise.Analysis
     :members:
     :inherited-members:
-    :private-members:
-    :special-members:
 
 ================================
 :mod:`pyms.Noise.SavitzkyGolay`
@@ -25,8 +21,6 @@
 .. automodule:: pyms.Noise.SavitzkyGolay
     :members:
     :inherited-members:
-    :private-members:
-    :special-members:
 
 ===========================
 :mod:`pyms.Noise.Window`
@@ -34,7 +28,5 @@
 .. automodule:: pyms.Noise.Window
     :members:
     :inherited-members:
-    :private-members:
-    :special-members:
 
 

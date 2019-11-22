@@ -5,5 +5,3 @@
 .. automodule:: pyms.IntensityMatrix
     :members:
     :inherited-members:
-    :private-members:
-    :special-members:

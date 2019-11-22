@@ -4,5 +4,3 @@
 
 .. automodule:: pyms.BillerBiemann
     :members:
-    :private-members:
-    :special-members:

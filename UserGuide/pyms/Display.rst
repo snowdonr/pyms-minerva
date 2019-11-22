@@ -4,5 +4,4 @@
 
 .. automodule:: pyms.Display
     :members:
-    :private-members:
-    :special-members:
+
