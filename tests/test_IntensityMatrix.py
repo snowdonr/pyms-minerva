@@ -28,7 +28,7 @@ from tests.constants import *
 
 import numpy
 
-from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i, import_leco_csv
+from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i, import_leco_csv, ASCII_CSV, ASCII_DAT
 from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 
@@ -275,15 +275,13 @@ def test_export_ascii(im, outputdir):
 	"""
 	
 	im.export_ascii(outputdir/"im_ascii")
-	im.export_ascii(outputdir/"im_csv", format="csv")
+	im.export_ascii(outputdir/"im_csv", fmt=ASCII_CSV)
 	
 	# TODO check exported files
 	
 	for type in [test_dict, test_list_ints, test_list_strs, test_int, test_float]:
 		with pytest.raises(TypeError):
 			im.export_ascii(type)
-		with pytest.raises(ValueError):
-			im.export_ascii(test_string, type)
 
 	
 def test_export_leco_csv(im, outputdir):

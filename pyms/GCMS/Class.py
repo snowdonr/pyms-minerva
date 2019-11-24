@@ -34,7 +34,6 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsError
 from pyms.Utils.Time import time_str_secs
 from pyms.Spectrum import Scan
 from pyms.IonChromatogram import IonChromatogram
@@ -145,7 +144,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 				break
 			t2 = self._time_list[index + 1]
 			if not t2 > t1:
-				raise pymsError("problem with retention times detected")
+				raise ValueError("problem with retention times detected")
 			time_diff = t2 - t1
 			time_diff_list.append(time_diff)
 		

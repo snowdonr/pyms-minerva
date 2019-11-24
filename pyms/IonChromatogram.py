@@ -34,12 +34,12 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsCopyBase, _list_types
+from pyms.Base import pymsBaseClass, _list_types
 from pyms.Mixins import TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin
 from pyms.Utils.IO import prepare_filepath
 
 
-class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
+class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
 	"""
 	Models an ion chromatogram
 
@@ -141,6 +141,9 @@ class IonChromatogram(pymsCopyBase, TimeListMixin, IntensityArrayMixin, GetIndex
 			time_list=self._time_list[:],
 			mass=copy.copy(self._mass)
 		)
+	
+	def __deepcopy__(self, memodict={}):
+		return self.__copy__()
 	
 	def get_intensity_at_index(self, ix):
 		"""

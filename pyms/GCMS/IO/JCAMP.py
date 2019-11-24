@@ -29,7 +29,6 @@ import pathlib
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
-from pyms.Base import pymsError
 
 
 def JCAMP_reader(file_name):
@@ -104,7 +103,8 @@ def JCAMP_reader(file_name):
 							data.append(float(item.strip()))
 	
 	if len(data) % 2 == 1:
-		raise pymsError("data not in pair !")
+		raise ValueError("data not in pair !")
+	
 	# get last scan
 	mass = []
 	intensity = []
@@ -117,9 +117,11 @@ def JCAMP_reader(file_name):
 	scan_list.append(Scan(mass, intensity))
 	
 	# sanity check
-	if not len(time_list) == len(scan_list):
-		raise ValueError("number of time points does not equal the number of scans")
-	
+	time_len = len(time_list)
+	scan_len = len(scan_list)
+	if not time_len == scan_len:
+		raise ValueError(f"Number of time points ({time_len}) does not equal the number of scans ({scan_len})")
+		
 	data = GCMS_data(time_list, scan_list)
 	
 	return data
@@ -162,7 +164,8 @@ def JCAMP_OpenChrom_reader(file_name):
 			elif prefix == -1:
 				if page_idx > 1 or xydata_idx > 1:
 					if len(data) % 2 == 1:
-						raise pymsError("data not in pair !")
+						raise ValueError("data not in pair !")
+					
 					mass = []
 					intensity = []
 					for i in range(len(data) // 2):
@@ -187,7 +190,8 @@ def JCAMP_OpenChrom_reader(file_name):
 							data.append(float(item.strip()))
 	
 	if len(data) % 2 == 1:
-		raise pymsError("data not in pair !")
+		raise ValueError("data not in pair !")
+	
 	# get last scan
 	mass = []
 	intensity = []

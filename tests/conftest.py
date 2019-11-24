@@ -92,7 +92,7 @@ def peak_list(im_i):
 
 @pytest.fixture(scope="function")
 def filtered_peak_list(im_i, peak_list):
-	#peak_list = deepcopy(peak_list)
+	# peak_list = deepcopy(peak_list)
 	# do peak detection on pre-trimmed data
 	# trim by relative intensity
 	apl = rel_threshold(peak_list, 2, copy_peaks=False)
@@ -128,7 +128,7 @@ def ms(im_i):
 
 @pytest.fixture(scope="session")
 def scan(data):
-	#return deepcopy(im_i.get_scan_at_index(0))
+	# return deepcopy(im_i.get_scan_at_index(0))
 	return deepcopy(data.scan_list[0])
 	
 	
@@ -140,4 +140,7 @@ def expr(filtered_peak_list):
 
 # Teardown Function
 def pytest_sessionfinish(session, exitstatus):
-	shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
+	try:
+		shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
+	except FileNotFoundError:
+		pass

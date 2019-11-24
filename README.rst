@@ -14,8 +14,8 @@ PyMassSpec
 .. image:: https://img.shields.io/pypi/pyversions/pymassspec.svg
     :target: https://pypi.org/project/pymassspec/
     :alt: PyPI - Python Version
-.. image:: https://coveralls.io/repos/github/domdfcoding/pymassspec/badge.svg?branch=master
-    :target: https://coveralls.io/github/domdfcoding/pymassspec?branch=master
+.. image:: https://coveralls.io/repos/github/domdfcoding/PyMassSpec/badge.svg?branch=master
+    :target: https://coveralls.io/github/domdfcoding/PyMassSpec?branch=master
     :alt: Coverage
 
 
@@ -27,15 +27,11 @@ PyMassSpec can be used interactively through the Python shell, or the functions 
 
 |
 
-Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić
-
-The original publication can be found here: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
-
-
 Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
+Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić. The original publication can be found here: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
+The original project seems to have been abandoned as there has been no activity in 2 years.
 
-The original project seems to have been abandoned as there has been no activity in 18 months.
-
+|
 
 .. contents:: Table of Contents
     :local:
@@ -86,7 +82,7 @@ This will also install the following dependencies:
     deprecation >= 2.0.6
 
 
-PyMassSpec also requires 'mp4py', installation instructions for which can be found at: https://mpi4py.readthedocs.io/en/stable/
+PyMassSpec can also make use of 'mpi4py' if it is installed. See https://mpi4py.readthedocs.io/en/stable/ for further information.
 
 
 Usage

@@ -62,24 +62,3 @@ class pymsBaseClass:
 		fp = file_name.open('wb')
 		pickle.dump(self, fp)
 		fp.close()
-
-
-class pymsCopyBase(pymsBaseClass):
-	"""
-	Base class with __deepcopy__ overridden
-	"""
-	def __copy__(self):
-		return copy.deepcopy(self.__dict__)
-	
-	def __deepcopy__(self, memodict={}):
-		return self.__copy__()
-
-
-class pymsError(Exception):
-	"""Base class for all pyms exceptions."""
-	
-	def __init__(self, msg):
-		self.msg = msg
-	
-	def __str__(self):
-		return repr(self.msg)

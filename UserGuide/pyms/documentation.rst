@@ -7,7 +7,6 @@ The following sections contain the documentation for PyMassSpec
 :mod:`pyms.Base`
 --------------------------
 
-
 :mod:`pyms.BillerBiemann`
 --------------------------
 Functions to perform Biller and Biemann deconvolution.

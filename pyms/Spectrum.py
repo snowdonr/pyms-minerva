@@ -28,11 +28,11 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsCopyBase, _list_types
+from pyms.Base import pymsBaseClass, _list_types
 from pyms.Mixins import MassListMixin
 
 
-class pymsSpectrumBase(pymsCopyBase, MassListMixin):
+class pymsSpectrumBase(pymsBaseClass, MassListMixin):
 	"""
 	Base class for mass spectrum or scan
 
@@ -96,6 +96,9 @@ class pymsSpectrumBase(pymsCopyBase, MassListMixin):
 		"""Returns a copy of the object"""
 		
 		return self.__class__(self._mass_list[:], self._intensity_list[:])
+	
+	def __deepcopy__(self, memodict={}):
+		return self.__copy__()
 	
 	@property
 	def intensity_list(self):

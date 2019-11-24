@@ -28,7 +28,6 @@ import sys
 import math
 
 # this package
-from pyms.Base import pymsError
 from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Math import rmsd
 
@@ -72,7 +71,7 @@ def diff(data1, data2):
 	if not len(scan_list1) == len(scan_list2):
 		# since the number of rention times are the same, this indicated
 		# some unexpected problem with data
-		raise pymsError("inconsistency in data detected")
+		raise ValueError("inconsistency in data detected")
 	
 	N = len(scan_list1)
 	
