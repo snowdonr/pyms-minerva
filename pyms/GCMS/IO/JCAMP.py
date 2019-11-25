@@ -61,7 +61,10 @@ def JCAMP_reader(file_name):
 	time_list = []
 	scan_list = []
 	
-	for line in lines_list:
+	for line_idx, line in enumerate(lines_list):
+		print(line_idx)
+		print(line)
+		input(">")
 		if not len(line.strip()) == 0:
 			prefix = line.find('#')
 			# key word or information
