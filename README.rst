@@ -29,6 +29,7 @@ PyMassSpec can be used interactively through the Python shell, or the functions 
 
 Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
 Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić. The original publication can be found here: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
+
 The original project seems to have been abandoned as there has been no activity in 2 years.
 
 |
