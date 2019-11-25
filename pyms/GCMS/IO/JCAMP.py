@@ -30,12 +30,10 @@ Functions for I/O of data in JCAMP-DX format
 # stdlib
 import pathlib
 
-# 3rd party
-from jcamp import is_float
-
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
+from pyms.Utils.Math import is_float
 
 
 def JCAMP_reader(file_name):

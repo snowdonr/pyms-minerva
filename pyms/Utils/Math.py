@@ -8,6 +8,10 @@ Provides mathematical functions
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
+#    is_float from on 'jcamp' by Nathan Hagen								   #
+# 	 https://github.com/nzhagen/jcamp										   #
+# 	 Licensed under the X11 License											   #
+#                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
 #    published by the Free Software Foundation.                                #
@@ -197,3 +201,37 @@ def median_outliers(data, m=2.5):
     mdev = numpy.nanmedian(d)
     s = d / mdev if mdev else 0.
     return s > m
+
+
+def is_float(s):
+    """
+    Test if a string, or list of strings, contains a numeric value(s).
+    
+    :param s: The string or list of strings to test.
+    :type s: str, or list of str
+    :return: A single boolean or list of boolean values indicating whether each input can be converted into a float.
+    :rtype: bool or list of bool
+    """
+    
+    if isinstance(s, tuple) or isinstance(s, list):
+        if not all(isinstance(i, str) for i in s):
+            raise TypeError("Input {} is not a list of strings".format(s))
+        if len(s) == 0:
+            raise ValueError('Input {} is empty'.format(s))
+        else:
+            return_list = [True] * len(s)
+            for i in range(0, len(s)):
+                try:
+                    float(s[i])
+                except ValueError:
+                    return_list[i] = False
+        return return_list
+    else:
+        if not isinstance(s, str):
+            raise TypeError(f"Input '{s}' is not a string")
+
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
