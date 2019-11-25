@@ -8,6 +8,10 @@ Functions for I/O of data in JCAMP-DX format
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019 Dominic Davis-Foster                                   #
 #                                                                              #
+#    Parts based on 'jcamp' by Nathan Hagen									   #
+# 	 https://github.com/nzhagen/jcamp										   #
+# 	 Licensed under the X11 License											   #
+#                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
 #    published by the Free Software Foundation.                                #
@@ -26,6 +30,9 @@ Functions for I/O of data in JCAMP-DX format
 # stdlib
 import pathlib
 
+# 3rd party
+from jcamp import is_float
+
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
@@ -41,10 +48,7 @@ def JCAMP_reader(file_name):
 	:return: GC-MS data object
 	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster (pathlib support)
 	"""
 	
 	if not isinstance(file_name, (str, pathlib.Path)):
@@ -61,23 +65,73 @@ def JCAMP_reader(file_name):
 	time_list = []
 	scan_list = []
 	
-	for line_idx, line in enumerate(lines_list):
-		print(line_idx)
-		print(line)
-		input(">")
-		if not len(line.strip()) == 0:
-			prefix = line.find('#')
-			# key word or information
-			if prefix == 0:
-				fields = line.split('=')
-				if fields[0].find("##PAGE") >= 0:
-					time = float(fields[2].strip())  # rt for the scan to be submitted
-					time_list.append(time)
+	header_info = {} # Dictionary containing header information
+	header_info_fields = [
+		"TITLE",
+		"JCAMP-DX",
+		"SAMPLE_DESCRIPTION",
+		"DATE",
+		"TIME",
+		"SPECTROMETER_SYSTEM",
+		"EXPERIMENT_NAME",
+		"INLET",
+		"IONIZATION_MODE",  # e.g. EI+
+		"ELECTRON_ENERGY",  # e.g. 70
+		"RESOLUTION",
+		"ACCELERATING_VOLTAGE",  # e.g. 8000
+		"CALIBRATION_FILE",
+		"REFERENCE_FILE",
+		"MASS_RANGE",
+		"SCAN_LAW",  # e.g. Exponential
+		"SCAN_RATE_UNITS",  # Units for SCAN_RATE
+		"SCAN_RATE",  # Rate at which scans were acquired
+		"SCAN_DELAY_UNITS",  # Units for SCAN_DELAY
+		"SCAN_DELAY", # Time delay in seconds before first scan acquired
+		"XUNITS",  # Units for X-Axis e.g. Daltons
+		"DATA_FORMAT",  # e.g. Centroid
+		"DATA TYPE",  # e.g. MASS SPECTRUM
+		"DATA CLASS",  # e.g. NTUPLES
+		"ORIGIN",
+		"OWNER",
+	]
+	
+	for line in lines_list:
+		
+		if len(line.strip()) != 0:
+			# prefix = line.find('#')
+			# if prefix == 0:
+			if line.startswith("##"):
+				# key word or information
+				fields = line.split('=', 1)
+				fields[0] = fields[0].lstrip("##").upper()
+				fields[1] = fields[1].strip()
+				
+				if "PAGE" in fields[0]:
+					if "T=" in fields[1]:
+						# PAGE contains retention time starting with T=
+						# FileConverter Pro style
+						time = float(fields[1].lstrip("T="))  # rt for the scan to be submitted
+						time_list.append(time)
 					page_idx = page_idx + 1
-				elif fields[0].find("##DATA TABLE") >= 0:
+				elif "RETENTION_TIME" in fields[0]:
+					# OpenChrom style
+					time = float(fields[1])  # rt for the scan to be submitted
+					time_list.append(time)
+				elif fields[0] in {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE"}:
 					xydata_idx = xydata_idx + 1
-			# data
-			elif prefix == -1:
+				
+				elif fields[0] in header_info_fields:
+					if fields[1].isdigit():
+						header_info[fields[0]] = int(fields[1])
+					elif is_float(fields[1]):
+						header_info[fields[0]] = float(fields[1])
+					else:
+						header_info[fields[0]] = fields[1]
+			
+			# elif prefix == -1:
+			else:
+				# Line doesn't start with ##
+				# data
 				if page_idx > 1 or xydata_idx > 1:
 					if len(data) % 2 == 1:
 						raise ValueError("data not in pair !")
@@ -125,91 +179,6 @@ def JCAMP_reader(file_name):
 	if not time_len == scan_len:
 		raise ValueError(f"Number of time points ({time_len}) does not equal the number of scans ({scan_len})")
 		
-	data = GCMS_data(time_list, scan_list)
-	
-	return data
-
-
-def JCAMP_OpenChrom_reader(file_name):
-	"""
-	reader for JCAMP DX files produced by OpenChrom,
-	produces GC-MS data object
-
-	:author: David Kainer
-	"""
-	
-	if not isinstance(file_name, str):
-		raise TypeError("'file_name' must be a string")
-	
-	print(f" -> Reading JCAMP file '{file_name}'")
-	lines_list = open(file_name, 'r')
-	data = []
-	page_idx = 0
-	xydata_idx = 0
-	time_list = []
-	scan_list = []
-	
-	for line in lines_list:
-		if not len(line.strip()) == 0:
-			prefix = line.find('#')
-			# key word or information
-			if prefix == 0:
-				fields = line.split('=')
-				# print(" -> fields found: ", fields)
-				if fields[0].find("##RETENTION_TIME") >= 0:
-					time = float(fields[1].strip())  # rt for the scan to be submitted
-					#    print(" -> RT: ", str(time))
-					time_list.append(time)
-					page_idx = page_idx + 1
-				elif fields[0].find("##XYDATA") >= 0:
-					xydata_idx = xydata_idx + 1
-			# data
-			elif prefix == -1:
-				if page_idx > 1 or xydata_idx > 1:
-					if len(data) % 2 == 1:
-						raise ValueError("data not in pair !")
-					
-					mass = []
-					intensity = []
-					for i in range(len(data) // 2):
-						mass.append(data[i * 2])
-						intensity.append(data[i * 2 + 1])
-					if not len(mass) == len(intensity):
-						raise ValueError("len(mass) is not equal to len(intensity)")
-					scan_list.append(Scan(mass, intensity))
-					data = []
-					data_sub = line.strip().split(',')
-					for item in data_sub:
-						if not len(item.strip()) == 0:
-							data.append(float(item.strip()))
-					if page_idx > 1:
-						page_idx = 1
-					if xydata_idx > 1:
-						xydata_idx = 1
-				else:
-					data_sub = line.strip().split(',')
-					for item in data_sub:
-						if not len(item.strip()) == 0:
-							data.append(float(item.strip()))
-	
-	if len(data) % 2 == 1:
-		raise ValueError("data not in pair !")
-	
-	# get last scan
-	mass = []
-	intensity = []
-	for i in range(len(data) // 2):
-		mass.append(data[i * 2])
-		intensity.append(data[i * 2 + 1])
-	
-	if not len(mass) == len(intensity):
-		raise ValueError("len(mass) is not equal to len(intensity)")
-	scan_list.append(Scan(mass, intensity))
-	
-	# sanity check
-	if not len(time_list) == len(scan_list):
-		raise ValueError("number of time points does not equal the number of scans")
-	
 	data = GCMS_data(time_list, scan_list)
 	
 	return data
