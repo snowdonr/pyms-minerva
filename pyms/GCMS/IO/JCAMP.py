@@ -114,7 +114,12 @@ def JCAMP_reader(file_name):
 				elif "RETENTION_TIME" in fields[0]:
 					# OpenChrom style
 					time = float(fields[1])  # rt for the scan to be submitted
-					time_list.append(time)
+					
+					# Check to make sure time is not already in the time list;
+					# Can happen when both ##PAGE and ##RETENTION_TIME are specified
+					if time_list[-1] != time:
+						time_list.append(time)
+						
 				elif fields[0] in {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE"}:
 					xydata_idx = xydata_idx + 1
 				
@@ -175,6 +180,8 @@ def JCAMP_reader(file_name):
 	time_len = len(time_list)
 	scan_len = len(scan_list)
 	if not time_len == scan_len:
+		print(time_list)
+		print(scan_list)
 		raise ValueError(f"Number of time points ({time_len}) does not equal the number of scans ({scan_len})")
 		
 	data = GCMS_data(time_list, scan_list)
