@@ -22,7 +22,7 @@ copyright   = """
 2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-VERSION = "2.2.5"
+VERSION = "2.2.6"
 
 modname            = "pyms"
 py_modules		   = None
