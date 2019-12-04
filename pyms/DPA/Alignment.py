@@ -31,6 +31,7 @@ import pathlib
 
 # 3rd party
 import numpy
+import pandas
 
 try:
 	from Pycluster import treecluster
@@ -537,6 +538,87 @@ class Alignment:
 			fp1.write("\n")
 		
 		fp1.close()
+		
+	def get_peak_alignment(self, minutes=True):
+		"""
+		Returns a Pandas dataframe of aligned retention times
+
+		:param minutes: An optional indicator whether to return retention times
+			in minutes. If False, retention time will be returned in seconds
+		:type minutes: BooleanType
+
+		:author: Woon Wai Keen
+		:author: Andrew Isaac
+		:author: Vladimir Likic
+		:author: Dominic Davis-Foster
+		"""
+		
+		rt_table = []
+		
+		# for each alignment position write alignment's RT
+		for peak_idx in range(len(self.peakpos[0])):
+			rts = []
+			countrt = 0
+			
+			for align_idx in range(len(self.peakpos)):
+				peak = self.peakpos[align_idx][peak_idx]
+				
+				if peak is not None:
+					
+					if minutes:
+						rt = peak.get_rt() / 60.0
+					else:
+						rt = peak.get_rt()
+					
+					rts.append(rt)
+					countrt = countrt + 1
+				
+				else:
+					rts.append(None)
+			
+			if countrt == len(self.expr_code):
+				rt_table.append(rts)
+		
+		rt_alignment = pandas.DataFrame(rt_table, columns=self.expr_code)
+		rt_alignment = rt_alignment.reindex(sorted(rt_alignment.columns), axis=1)
+		
+		return rt_alignment
+	
+	def get_ms_alignment(self):
+		"""
+		Returns a Pandas dataframe of mass spectra for the aligned peaks
+
+		:author: Woon Wai Keen
+		:author: Andrew Isaac
+		:author: Vladimir Likic
+		:author: Dominic Davis-Foster
+		"""
+		
+		ms_table = []
+		
+		# for each alignment position write alignment's ms
+		for peak_idx in range(len(self.peakpos[0])):
+			specs = []
+			countms = 0
+			
+			for align_idx in range(len(self.peakpos)):
+				peak = self.peakpos[align_idx][peak_idx]
+				
+				if peak is not None:
+					ms = peak.get_mass_spectrum()
+					specs.append(ms)
+					countms = countms + 1
+				
+				else:
+					specs.append(None)
+			
+			if countms == len(self.expr_code):
+				ms_table.append(specs)
+		
+		ms_alignment = pandas.DataFrame(ms_table, columns=self.expr_code)
+		ms_alignment = ms_alignment.reindex(sorted(ms_alignment.columns), axis=1)
+		
+		return ms_alignment
 
 
 def exprl2alignment(expr_list):

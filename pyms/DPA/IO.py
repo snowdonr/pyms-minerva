@@ -202,7 +202,7 @@ def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
 	
 def write_excel(algt, file_name, minutes=True):
 	"""
-	:summary: Writes the alignment to an excel file, with colouring showing possible mis-alignments
+	Writes the alignment to an excel file, with colouring showing possible mis-alignments
 
 	:param algt: Alignment object to write to file
 	:type algt: pyms.DPA.Alignment

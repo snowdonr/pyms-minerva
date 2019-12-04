@@ -41,8 +41,7 @@ from pyms.Peak import Peak
 
 def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 	"""
-	:Summary: Calculate the sum of the raw ion areas based on
-		detected boundaries.
+	Calculate the sum of the raw ion areas based on detected boundaries.
 
 	:param im: The originating IntensityMatrix object
 	:type im: pyms.IntensityMatrix.IntensityMatrix
@@ -99,9 +98,7 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 
 def peak_pt_bounds(im, peak):
 	"""
-	:Summary: Approximate the peak bounds (left and right offsets from apex).
-
-	:param im: The originating IntensityMatrix object
+	Approximate the peak bounds (left and right offsets from apex). :param im: The originating IntensityMatrix object
 	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param peak: The Peak object
 	:type peak: pyms.Peak.Class.Peak
@@ -278,8 +275,7 @@ def top_ions_v2(peak, num_ions=5):
 
 def ion_area(ia, apex, max_bound=0, tol=0.5):
 	"""
-	:Summary: Find bounds of peak by summing intensities until change in sum is
-		less than 'tol' percent of the current area.
+	Find bounds of peak by summing intensities until change in sum is less than 'tol' percent of the current area.
 
 	:param ia: List of intensities for a given mass
 	:type ia: list
@@ -293,8 +289,7 @@ def ion_area(ia, apex, max_bound=0, tol=0.5):
 	:return: Area, left and right boundary offset, shared left, shared right
 	:rtype: tuple
 
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (type assertions)
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 	
 	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
@@ -322,8 +317,8 @@ def ion_area(ia, apex, max_bound=0, tol=0.5):
 
 def half_area(ia, max_bound=0, tol=0.5):
 	"""
-	:Summary: Find bound of peak by summing intensities until change in sum is
-		less than 'tol' percent of the current area.
+	Find bound of peak by summing intensities until change in sum is less than
+	'tol' percent of the current area.
 
 	:param ia: List of intensities from Peak apex for a given mass
 	:type ia: list
@@ -335,8 +330,7 @@ def half_area(ia, max_bound=0, tol=0.5):
 	:return: Half peak area, boundary offset, shared (True if shared ion)
 	:rtype: tuple
 
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (type assertions)
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 	
 	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
@@ -384,8 +378,7 @@ def half_area(ia, max_bound=0, tol=0.5):
 
 def median_bounds(im, peak, shared=True):
 	"""
-	:Summary: Calculates the median of the left and right bounds found
-		for each apexing peak mass
+	Calculates the median of the left and right bounds found for each apexing peak mass
 
 	:param im: The originating IntensityMatrix object
 	:type im: pyms.IntensityMatrix.IntensityMatrix
@@ -397,8 +390,7 @@ def median_bounds(im, peak, shared=True):
 	:return: Median left and right boundary offset in points
 	:rtype: tuple
 
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (type assertions)
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 	
 	if not isinstance(im, IntensityMatrix):
