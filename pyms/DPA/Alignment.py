@@ -539,13 +539,15 @@ class Alignment:
 		
 		fp1.close()
 		
-	def get_peak_alignment(self, minutes=True):
+	def get_peak_alignment(self, minutes=True, require_all_expr=True):
 		"""
 		Returns a Pandas dataframe of aligned retention times
 
 		:param minutes: An optional indicator whether to return retention times
 			in minutes. If False, retention time will be returned in seconds
 		:type minutes: BooleanType
+		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
+		:type require_all_expr: bool, optional
 
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
@@ -576,7 +578,7 @@ class Alignment:
 				else:
 					rts.append(None)
 			
-			if countrt == len(self.expr_code):
+			if (require_all_expr and countrt == len(self.expr_code)) or not require_all_expr:
 				rt_table.append(rts)
 		
 		rt_alignment = pandas.DataFrame(rt_table, columns=self.expr_code)
@@ -584,9 +586,12 @@ class Alignment:
 		
 		return rt_alignment
 	
-	def get_ms_alignment(self):
+	def get_ms_alignment(self, require_all_expr=True):
 		"""
 		Returns a Pandas dataframe of mass spectra for the aligned peaks
+
+		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
+		:type require_all_expr: bool, optional
 
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
@@ -612,7 +617,7 @@ class Alignment:
 				else:
 					specs.append(None)
 			
-			if countms == len(self.expr_code):
+			if (require_all_expr and countms == len(self.expr_code)) or not require_all_expr:
 				ms_table.append(specs)
 		
 		ms_alignment = pandas.DataFrame(ms_table, columns=self.expr_code)
