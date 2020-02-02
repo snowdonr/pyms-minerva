@@ -221,7 +221,7 @@ def test_get_mass_spectrum(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_mass_spectrum()
 
-
+# @deprecation.fail_if_not_removed
 def test_get_pt_bounds(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_pt_bounds()

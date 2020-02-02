@@ -3,7 +3,7 @@ from copy import copy
 
 import os
 
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.Peak.Class import Peak
 
