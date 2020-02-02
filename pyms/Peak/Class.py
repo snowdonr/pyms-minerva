@@ -73,21 +73,21 @@ class Peak(pymsBaseClass):
 		
 		# basic peak attributes
 		self.is_outlier = outlier
-		self.__rt = float(rt)
-		self.__pt_bounds = None
-		self.__area = None
-		self.__ion_areas = {}
+		self._rt = float(rt)
+		self._pt_bounds = None
+		self._area = None
+		self._ion_areas = {}
 		
 		# these two attributes are required for
 		# setting the peak mass spectrum
 		if isinstance(ms, MassSpectrum):
 			# mass spectrum
-			self.__mass_spectrum = ms
-			self.__ic_mass = None
+			self._mass_spectrum = ms
+			self._ic_mass = None
 		else:
 			# single ion chromatogram properties
-			self.__mass_spectrum = None
-			self.__ic_mass = ms
+			self._mass_spectrum = None
+			self._ic_mass = ms
 		
 		self.make_UID()
 	
@@ -113,21 +113,21 @@ class Peak(pymsBaseClass):
 	# def __copy__(self):
 	# 	#return pickle.loads(pickle.dumps(self))
 	#
-	# 	if self.__mass_spectrum is None:
-	# 		peak = Peak(rt=copy.copy(self.__rt),
-	# 					ms=copy.copy(self.__ic_mass),
-	# 					minutes=self.__minutes,
+	# 	if self._mass_spectrum is None:
+	# 		peak = Peak(rt=copy.copy(self._rt),
+	# 					ms=copy.copy(self._ic_mass),
+	# 					minutes=self._minutes,
 	# 					outlier=self.is_outlier)
 	# 	else:
-	# 		peak = Peak(rt=copy.copy(self.__rt),
-	# 					ms=copy.copy(self.__mass_spectrum),
-	# 					minutes=self.__minutes,
+	# 		peak = Peak(rt=copy.copy(self._rt),
+	# 					ms=copy.copy(self._mass_spectrum),
+	# 					minutes=self._minutes,
 	# 					outlier=self.is_outlier)
-	# 	if self.__area is not None:
+	# 	if self._area is not None:
 	# 		peak.area = self.area
-	# 	if self.__pt_bounds is not None:
+	# 	if self._pt_bounds is not None:
 	# 		peak.bounds = copy.copy(self.bounds)
-	# 	if self.__ic_mass is not None:
+	# 	if self._ic_mass is not None:
 	# 		peak.ic_mass = 0+self.ic_mass
 	#
 	# 	return peak
@@ -146,7 +146,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 		
-		return self.__area
+		return self._area
 	
 	@area.setter
 	def area(self, value):
@@ -164,7 +164,7 @@ class Peak(pymsBaseClass):
 		elif value <= 0:
 			raise ValueError("'Peak.area' must be a positive number")
 		
-		self.__area = value
+		self._area = value
 	
 	@property
 	def bounds(self):
@@ -178,7 +178,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 		
-		return self.__pt_bounds
+		return self._pt_bounds
 	
 	@bounds.setter
 	def bounds(self, value):
@@ -200,7 +200,7 @@ class Peak(pymsBaseClass):
 			if not isinstance(item, int):
 				raise TypeError(f"'Peak.bounds' element #{index} must be an integer")
 		
-		self.__pt_bounds = value
+		self._pt_bounds = value
 	
 	def crop_mass(self, mass_min, mass_max):
 		"""
@@ -219,7 +219,7 @@ class Peak(pymsBaseClass):
 		if mass_min >= mass_max:
 			raise ValueError("'mass_min' must be less than 'mass_max'")
 		
-		mass_list = self.__mass_spectrum.mass_list
+		mass_list = self._mass_spectrum.mass_list
 		
 		if mass_min < min(mass_list):
 			raise ValueError(f"'mass_min' is less than the smallest mass: {min(mass_list):d}")
@@ -229,15 +229,15 @@ class Peak(pymsBaseClass):
 		# pre build mass_list and list of indices
 		new_mass_list = []
 		new_mass_spec = []
-		mass_spec = self.__mass_spectrum.mass_spec
+		mass_spec = self._mass_spectrum.mass_spec
 		for ii in range(len(mass_list)):
 			mass = mass_list[ii]
 			if mass_min <= mass <= mass_max:
 				new_mass_list.append(mass)
 				new_mass_spec.append(mass_spec[ii])
 		
-		self.__mass_spectrum.mass_list = new_mass_list
-		self.__mass_spectrum.mass_spec = new_mass_spec
+		self._mass_spectrum.mass_list = new_mass_list
+		self._mass_spectrum.mass_spec = new_mass_spec
 		
 		if len(new_mass_list) == 0:
 			raise ValueError("mass spectrum is now empty")
@@ -286,10 +286,10 @@ class Peak(pymsBaseClass):
 		"""
 		
 		try:
-			index = self.__mass_spectrum.mass_list.index(ion)
-			return self.__mass_spectrum.mass_spec[index]
+			index = self._mass_spectrum.mass_list.index(ion)
+			return self._mass_spectrum.mass_spec[index]
 		except (ValueError, IndexError):
-			raise IndexError(f"'ion' out of range of mass spectrum (range {min(self.__mass_spectrum.mass_list)} to {max(self.__mass_spectrum.mass_list)})")
+			raise IndexError(f"'ion' out of range of mass spectrum (range {min(self._mass_spectrum.mass_list)} to {max(self._mass_spectrum.mass_list)})")
 	
 	def get_ion_area(self, ion):
 		"""
@@ -303,7 +303,7 @@ class Peak(pymsBaseClass):
 		"""
 		
 		try:
-			return self.__ion_areas[ion]
+			return self._ion_areas[ion]
 		except KeyError:
 			return None
 	
@@ -366,9 +366,9 @@ class Peak(pymsBaseClass):
 		:rtype: int
 		"""
 		
-		if self.__mass_spectrum is not None:
-			mass_list = self.__mass_spectrum.mass_list
-			mass_spec = self.__mass_spectrum.mass_spec
+		if self._mass_spectrum is not None:
+			mass_list = self._mass_spectrum.mass_list
+			mass_spec = self._mass_spectrum.mass_spec
 			# find top two masses
 			best = 0
 			best_ii = 0
@@ -410,7 +410,7 @@ class Peak(pymsBaseClass):
 		:rtype: float or int
 		"""
 		
-		return self.__ic_mass
+		return self._ic_mass
 	
 	@ic_mass.setter
 	def ic_mass(self, value):
@@ -424,9 +424,9 @@ class Peak(pymsBaseClass):
 		
 		if not isinstance(value, (int, float)):
 			raise TypeError("'Peak.ic_mass' must be a number")
-		self.__ic_mass = value
+		self._ic_mass = value
 		# clear mass spectrum
-		self.__mass_spectrum = None
+		self._mass_spectrum = None
 		self.make_UID()
 	
 	@property
@@ -437,10 +437,10 @@ class Peak(pymsBaseClass):
 		:return: The dictionary of ion:ion area pairs
 		:rtype: dict
 		"""
-		if len(self.__ion_areas) == 0:
+		if len(self._ion_areas) == 0:
 			raise ValueError("no ion areas set")
 		
-		return copy.deepcopy(self.__ion_areas)
+		return copy.deepcopy(self._ion_areas)
 	
 	@ion_areas.setter
 	def ion_areas(self, value):
@@ -453,7 +453,7 @@ class Peak(pymsBaseClass):
 		
 		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], int):
 			raise TypeError("'Peak.ion_areas' must be a dictionary of ion:ion_area pairs")
-		self.__ion_areas = value
+		self._ion_areas = value
 	
 	def make_UID(self):
 		"""
@@ -465,9 +465,9 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 		
-		if self.__mass_spectrum is not None:
-			mass_list = self.__mass_spectrum.mass_list
-			mass_spec = self.__mass_spectrum.mass_spec
+		if self._mass_spectrum is not None:
+			mass_list = self._mass_spectrum.mass_list
+			mass_spec = self._mass_spectrum.mass_spec
 			# find top two masses
 			best = 0
 			best_ii = 0
@@ -478,11 +478,11 @@ class Peak(pymsBaseClass):
 					best2_ii = best_ii
 					best_ii = ii
 			ratio = int(100*mass_spec[best2_ii]/best)
-			self.__UID = f"{int(mass_list[best_ii]):d}-{int(mass_list[best2_ii]):d}-{ratio:d}-{self.__rt:.2f}"
-		elif self.__ic_mass is not None:
-			self.__UID = f"{int(self.__ic_mass):d}-{self.__rt:.2f}"
+			self._UID = f"{int(mass_list[best_ii]):d}-{int(mass_list[best2_ii]):d}-{ratio:d}-{self._rt:.2f}"
+		elif self._ic_mass is not None:
+			self._UID = f"{int(self._ic_mass):d}-{self._rt:.2f}"
 		else:
-			self.__UID = f"{self.__rt:.2f}"
+			self._UID = f"{self._rt:.2f}"
 	
 	@property
 	def mass_spectrum(self):
@@ -493,7 +493,7 @@ class Peak(pymsBaseClass):
 		:rtype: pyms.Spectrum.MassSpectrum
 		"""
 		
-		return copy.copy(self.__mass_spectrum)
+		return copy.copy(self._mass_spectrum)
 	
 	@mass_spectrum.setter
 	def mass_spectrum(self, value):
@@ -508,9 +508,9 @@ class Peak(pymsBaseClass):
 		if not isinstance(value, MassSpectrum):
 			raise TypeError("'Peak.mass_spectrum' must be a MassSpectrum object")
 		
-		self.__mass_spectrum = value
+		self._mass_spectrum = value
 		# clear ion mass
-		self.__ic_mass = None
+		self._ic_mass = None
 		self.make_UID()
 	
 	def null_mass(self, mass):
@@ -523,13 +523,13 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 		
-		if self.__mass_spectrum is None:
+		if self._mass_spectrum is None:
 			raise NameError("mass spectrum not set for this peak")
 		
 		if not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be a number")
 		
-		mass_list = self.__mass_spectrum.mass_list
+		mass_list = self._mass_spectrum.mass_list
 		
 		if mass < min(mass_list) or mass > max(mass_list):
 			raise IndexError("'mass' not in mass range:", min(mass_list), "to", max(mass_list))
@@ -542,7 +542,7 @@ class Peak(pymsBaseClass):
 				best = tmp
 				ix = ii
 		
-		self.__mass_spectrum.mass_spec[ix] = 0
+		self._mass_spectrum.mass_spec[ix] = 0
 		
 		# update UID
 		self.make_UID()
@@ -556,7 +556,7 @@ class Peak(pymsBaseClass):
 		:rtype: float
 		"""
 		
-		return self.__rt
+		return self._rt
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -576,7 +576,7 @@ class Peak(pymsBaseClass):
 		elif area <= 0:
 			raise ValueError("'area' must be a positive number")
 		
-		self.__area = area
+		self._area = area
 	
 	def set_bounds(self, left, apex, right):
 		"""
@@ -603,9 +603,9 @@ class Peak(pymsBaseClass):
 		
 		if not isinstance(mz, (float, int)):
 			raise TypeError("'mz' must be a number")
-		self.__ic_mass = mz
+		self._ic_mass = mz
 		# clear mass spectrum
-		self.__mass_spectrum = None
+		self._mass_spectrum = None
 		self.make_UID()
 	
 	def set_ion_area(self, ion, area):
@@ -626,7 +626,7 @@ class Peak(pymsBaseClass):
 		if not isinstance(area, (int, float)):
 			raise TypeError("'area' must be a number")
 		
-		self.__ion_areas[ion] = area
+		self._ion_areas[ion] = area
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -656,9 +656,9 @@ class Peak(pymsBaseClass):
 		if not isinstance(ms, MassSpectrum):
 			raise TypeError("'ms' must be a MassSpectrum object")
 		
-		self.__mass_spectrum = ms
+		self._mass_spectrum = ms
 		# clear ion mass
-		self.__ic_mass = None
+		self._ic_mass = None
 		self.make_UID()
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
@@ -689,7 +689,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 		
-		return self.__UID
+		return self._UID
 		
 	## TODO: What is this?
 	def find_mass_spectrum(self, data, from_bounds=False):
@@ -708,19 +708,19 @@ class Peak(pymsBaseClass):
 			raise TypeError("'data' must be an IntensityMatrix")
 		
 		if from_bounds:
-			if self.__pt_bounds is None:
+			if self._pt_bounds is None:
 				raise NameError("pt_bounds not set for this peak")
 			else:
-				pt_apex = self.__pt_bounds[1]
+				pt_apex = self._pt_bounds[1]
 		else:
 			# get the index of peak apex from peak retention time
-			pt_apex = data.get_index_at_time(self.__rt)
+			pt_apex = data.get_index_at_time(self._rt)
 		
 		# set the mass spectrum
-		self.__mass_spectrum = data.get_ms_at_index(pt_apex)
+		self._mass_spectrum = data.get_ms_at_index(pt_apex)
 		
 		# clear single ion chromatogram mass
-		self.__ic_mass = None
+		self._ic_mass = None
 		self.make_UID()
 
 	def top_ions(self, num_ions=5):
@@ -754,3 +754,23 @@ class Peak(pymsBaseClass):
 			top_ions.append(entry[1])
 			
 		return top_ions
+	#
+	# def __dict__(self):
+	#
+	# 	return {
+	# 			"UID": self.UID,
+	# 			"bounds": self.bounds,
+	# 			"area": self.area,
+	# 			"is_outlier": self.is_outlier,
+	# 			"ion_areas": self.ion_areas,
+	# 			"mass_spectrum": self.mass_spectrum,
+	# 			"rt": self.rt,
+	# 			"ic_mass": self.ic_mass,
+	#
+	#
+	#
+	# 			}
+	#
+	# def __iter__(self):
+	# 	for key, value in self.__dict__().items():
+	# 		yield key, value
