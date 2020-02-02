@@ -77,182 +77,17 @@ the boundary is minimised.
 Since the resolution of MS is at least 0.1 dalton, we may assume that it's error
 does not exceed 0.05, and MS accuracy will not cause additional problems.
 
-Build intensity matrix
-------------------------
+.. include:: demo_rst/IntensityMatrix.rst
 
-.. note:: This example is in :ref:`pyms-demo/30a <demo-30a>`
+.. note:: This example is in `pyms-demo/jupyter/IntensityMatrix.ipynb`.
 
-An intensity matrix on the raw GC-MS data can be built using the following
-function. First the raw data is imported as before.
+.. include:: demo_rst/MassSpectrum.rst
 
-    >>> from pyms.GCMS.IO.JCAMP import JCAMP_reader
-    >>> jcamp_file = "data/gc01_0812_066.jdx"
-    >>> data = JCAMP_reader(jcamp_file)
-     -> Reading JCAMP file 'data/gc01_0812_066.jdx'
+.. note:: This example is in `pyms-demo/jupyter/MassSpectrum.ipynb`.
 
-Then the data can be converted to an intensity matrix using the functions
-:meth:`build_intensity_matrix() <pyms.IntensityMatrix.build_intensity_matrix>` and
-:meth:`build_intensity_matrix_i() <pyms.IntensityMatrix.build_intensity_matrix_i>`,
-available in :py:meth:`pyms.IntensityMatrix <pyms.IntensityMatrix>`
+.. include:: demo_rst/IonChromatogram.rst
 
-The default operation of :meth:`build_intensity_matrix() <pyms.IntensityMatrix.build_intensity_matrix>`
-is to use a bin interval of one and treat the masses as floating point numbers.
-The default intensity matrix can be built as follows:
-
-    >>> from pyms.IntensityMatrix import build_intensity_matrix
-    >>> im = build_intensity_matrix(data)
-    >>> im
-    <pyms.IntensityMatrix.IntensityMatrix at 0x7f999eedabe0>
-
-The size as the number of scans and the number of bins is returned by:
-
-    >>> im.size
-    (9865, 551)
-
-There are 9865 scans and 551 bins in this example.
-
-The raw masses have been binned into new mass units based on the minimum mass
-in the raw data and the bin size. A list of the new masses can be obtained
-as follows:
-
-.. code-block:: python
-
-    >>> masses = im.mass_list
-    >>> masses[:10]
-    [50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0]
-
-The last command prints the first ten masses. The attributes
-:attr:`im.min_mass <pyms.IntensityMatrix.IntensityMatrix.min_mass>` and
-:attr:`im.max_mass <pyms.IntensityMatrix.IntensityMatrix.max_mass>`
-return the minimum and maximum mass:
-
-.. code-block:: python
-
-    >>> im.min_mass
-    50.0
-    >>> im.max_mass
-    600.0
-
-It is also possible to search for a particular mass, by finding the index of
-the binned mass closest to the desired mass. For example, the index of the
-closest binned mass to a mass of 73.3 :math:`m/z` can be found by using the
-methods :meth:`im.get_index_of_mass() <pyms.IntensityMatrix.get_index_of_mass>`:
-
-    >>> im.get_index_of_mass(73.3)
-    23
-
-The value of the closest mass can be returned by the method
-:meth:`im.get_mass_at_index() <pyms.IntensityMatrix.IntensityMatrix.get_mass_at_index>`:
-
-    >>> im.get_mass_at_index(index)
-    73.0
-
-A mass of 73.0 is returned in this example.
-
-Build intensity matrix parameters
------------------------------------
-
-.. note:: This example is in :ref:`pyms-demo/30b <demo-30b>`
-
-The bin interval can be set to values other than one, and binning boundaries
-can also be adjusted. In the example below, to fit the 0.5 bin interval, the
-upper and lower boundaries are set to :math:`\pm` 0.25.
-
-    >>> im = build_intensity_matrix(data, 0.5, 0.25, 0.25)
-
-The size of the intensity matrix will reflect the change in the number of bins:
-
-    >>> im.size
-    (9865, 1101)
-
-In this example there are 9865 scans (as before), but 1101 bins.
-
-The index and binned mass of the mass closest to 73.3 should also reflect the
-different binning.
-
-    >>> index = im.get_index_of_mass(73.3)
-    >>> im.get_mass_at_index(index)
-    73.5
-
-Build integer mass intensity matrix
-------------------------------------
-
-.. note:: This example is in :ref:`pyms-demo/30c <demo-30c>`
-
-It is also possible to build an intensity matrix with integer masses and a bin
-interval of one. The default range for the binning is -0.3 and +0.7 mass
-units. The function is imported from :mod:`pyms.IntensityMatrix`:
-
-    >>> from pyms.IntensityMatrix import build_intensity_matrix_i
-    >>> im = build_intensity_matrix_i(data)
-
-The masses are now integers.
-
-    >>> index = im.get_index_of_mass(73.3)
-    >>> im.get_mass_at_index(index)
-    73
-
-The lower and upper bounds can be adjusted by
-:meth:`build_intensity_matrix_i(data, lower, upper) <pyms.IntensityMatrix.build_intensity_matrix_i>`
-
-MassSpectrum object
-=====================
-
-.. note:: This example is in :ref:`pyms-demo/31 <demo-31>`
-
-A :class:`~pyms.MassSpectrum.MassSpectrum` object contains
-two attributes, :attr:`~pyms.MassSpectrum.MassSpectrum.mass_list` and :attr:`~pyms.MassSpectrum.MassSpectrum.mass_spec`, a list of mass values
-and corresponding intensities, respectively.
-A :class:`~pyms.MassSpectrum.MassSpectrum` is returned by the
-:class:`~pyms.IntensityMatrix.IntensityMatrix` method
-:meth:`get_ms_at_index(index) <pyms.IntensityMatrix.IntensityMatrix.get_ms_at_index()>`.
-
-For example, the properties of the first MassSpectrum object of an
-:class:`~pyms.IntensityMatrix.IntensityMatrix`, ``im``, can be obtained with;
-
-    >>> ms = im.get_ms_at_index(0)
-    <pyms.Spectrum.MassSpectrum at 0x7f999d210940>
-    >>> len(ms)
-    1101
-    >>> len(ms.mass_list)
-    1101
-    >>> len(ms.mass_spec)
-    1101
-
-The length of all attributes should be the same.
-
-IonChromatogram object
-=======================
-
-.. note:: This example is in :ref:`pyms-demo/31 <demo-31>`
-
-An :class:`~pyms.IonChromatogram.IonChromatogram` object is a
-one dimensional vector containing mass intensities as a function of
-retention time. This can can be either :math:`m/z` channel intensities
-(for example, the ion chromatogram at 73 :math:`m/z `), or cumulative
-intensities over all measured :math:`m/z` (TIC).
-
-An :class:`~pyms.IonChromatogram.IonChromatogram` for the
-TIC and a given mass or index can be obtained as follows:
-
-    >>> data.tic
-    <pyms.IonChromatogram.IonChromatogram at 0x7f99a27bd320>
-    >>> im.get_ic_at_index(0)
-    <pyms.IonChromatogram.IonChromatogram at 0x7f999d220400>
-    >>> im.get_ic_at_mass(73)
-    <pyms.IonChromatogram.IonChromatogram at 0x7f999d246fd0>
-
-This will return, respectively: the TIC; the ion chromatogram of the first
-mass; and the ion chromatogram of the mass closest to 73.
-
-An ion chromatogram object has a method
-:meth:`is_tic() <pyms.IonChromatogram.IonChromatogram.is_tic>`
-which returns ``True`` if the ion chromatogram is a TIC, ``False`` otherwise:
-
-    >>> tic.is_tic()
-    True
-    >>> ic.is_tic()
-    False
+.. note:: This example is in `pyms-demo/jupyter/IonChromatogram.ipynb`.
 
 Writing IonChromatogram object to a file
 --------------------------------------------
@@ -264,7 +99,7 @@ of an :class:`~pyms.IonChromatogram.IonChromatogram`
 object allows the ion chromatogram to be saved to a file:
 
     >>> tic.write("output/tic.dat", minutes=True)
-    >>> ic.write("output/ic.dat", minutes=True)
+    >>> im.get_ic_at_mass(73).write("output/ic.dat", minutes=True)
 
 The flag ``minutes=True`` indicates that retention time will be saved in minutes.
 The ion chromatogram object saved with with the
@@ -360,4 +195,3 @@ The LECO CSV format data can be imported directly into an `~pyms.IntensityMatrix
     >>> iim.size
 
 The line :meth:`IntensityMatrix([0],[0],[[0]]) <pyms.IntensityMatrix.IntensityMatrix>` is required to create an empty :class:`~pyms.IntensityMatrix.IntensityMatrix` object.
-sot

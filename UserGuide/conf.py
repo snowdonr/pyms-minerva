@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# Built rst from jupyter notebooks
+import sys
+sys.path.append(".")
+import ipynb2rst
+
 #### No need to change anything in this file ####
 
 import os
@@ -23,7 +28,6 @@ rst_prolog = f""".. |pkgname| replace:: {name}
 .. |ghurl| replace:: {github_url}
 """
 
-
 project = name
 slug = re.sub(r'\W+', '-', modname.lower())
 version = __version__
@@ -41,6 +45,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinxcontrib.httpdomain',
     'autodocsumm',
+    'nbsphinx',
 ]
 
 templates_path = ['_templates']
