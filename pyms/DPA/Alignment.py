@@ -624,6 +624,82 @@ class Alignment:
 		ms_alignment = ms_alignment.reindex(sorted(ms_alignment.columns), axis=1)
 		
 		return ms_alignment
+	
+	def get_peaks_alignment(self, require_all_expr=True):
+		"""
+		Returns a Pandas dataframe of Peak objects for the aligned peaks
+
+		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
+		:type require_all_expr: bool, optional
+
+		:author: Woon Wai Keen
+		:author: Andrew Isaac
+		:author: Vladimir Likic
+		:author: Dominic Davis-Foster
+		"""
+		
+		peaks_table = []
+		
+		# for each alignment position write alignment's ms
+		for peak_idx in range(len(self.peakpos[0])):
+			peaks = []
+			count_peaks = 0
+			
+			for align_idx in range(len(self.peakpos)):
+				peak = self.peakpos[align_idx][peak_idx]
+				
+				if peak is not None:
+					peaks.append(peak)
+					count_peaks = count_peaks + 1
+				else:
+					peaks.append(None)
+			
+			if (require_all_expr and count_peaks == len(self.expr_code)) or not require_all_expr:
+				peaks_table.append(peaks)
+		
+		peak_alignment = pandas.DataFrame(peaks_table, columns=self.expr_code)
+		peak_alignment = peak_alignment.reindex(sorted(peak_alignment.columns), axis=1)
+		
+		return peak_alignment
+	
+	def get_area_alignment(self, require_all_expr=True):
+		"""
+		Returns a Pandas dataframe of peak areas for the aligned peaks
+
+		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
+		:type require_all_expr: bool, optional
+
+		:author: Woon Wai Keen
+		:author: Andrew Isaac
+		:author: Vladimir Likic
+		:author: Dominic Davis-Foster
+		"""
+		
+		areas_table = []
+		
+		# for each alignment position write alignment's ms
+		for peak_idx in range(len(self.peakpos[0])):
+			areas = []
+			count_areas = 0
+			
+			for align_idx in range(len(self.peakpos)):
+				peak = self.peakpos[align_idx][peak_idx]
+				
+				if peak is not None:
+					area = peak.area
+					areas.append(area)
+					count_areas = count_areas + 1
+				
+				else:
+					areas.append(None)
+			
+			if (require_all_expr and count_areas == len(self.expr_code)) or not require_all_expr:
+				areas_table.append(areas)
+		
+		area_alignment = pandas.DataFrame(areas_table, columns=self.expr_code)
+		area_alignment = area_alignment.reindex(sorted(area_alignment.columns), axis=1)
+		
+		return area_alignment
 
 
 def exprl2alignment(expr_list):

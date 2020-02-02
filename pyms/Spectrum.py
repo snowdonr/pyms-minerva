@@ -32,9 +32,9 @@ from pyms.Base import pymsBaseClass, _list_types
 from pyms.Mixins import MassListMixin
 
 
-class pymsSpectrumBase(pymsBaseClass, MassListMixin):
+class Scan(pymsBaseClass, MassListMixin):
 	"""
-	Base class for mass spectrum or scan
+	Generic object for a single Scan's raw data
 
 	:param mass_list: mass values
 	:type mass_list: list
@@ -43,7 +43,7 @@ class pymsSpectrumBase(pymsBaseClass, MassListMixin):
 
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
-	
+
 	def __init__(self, mass_list, intensity_list):
 		"""
 		Initialise the class
@@ -124,94 +124,6 @@ class pymsSpectrumBase(pymsBaseClass, MassListMixin):
 		
 		return self._intensity_list
 
-
-class MassSpectrum(pymsSpectrumBase):
-	"""
-	Models a binned mass spectrum
-
-	:param mass_list: mass values
-	:type mass_list: list
-	:param intensity_list: intensity values
-	:type intensity_list: list
-
-	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
-	"""
-	
-	def __init__(self, mass_list, intensity_list):
-		"""
-		Initialise the class
-		"""
-		super().__init__(mass_list, intensity_list)
-	
-	@pymsSpectrumBase.intensity_list.setter
-	def intensity_list(self, value):
-		"""
-		Set the intensity values for the spectrum
-		
-		:param value: list of intensity value for each mass in `mass_list`
-		:type value: list
-		"""
-		
-		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
-			raise TypeError("'intensity_list' must be a list of numbers")
-		
-		# if not len(self.mass_list) == len(value):
-		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
-		
-		self._intensity_list = value
-		
-	@pymsSpectrumBase.mass_spec.setter
-	def mass_spec(self, value):
-		"""
-		Set the intensity values for the spectrum
-
-		:param value: list of intensity value for each mass in `mass_list`
-		:type value: list
-		"""
-		
-		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
-			raise TypeError("'intensity_list' must be a list of numbers")
-		
-		# if not len(self.mass_list) == len(value):
-		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
-		
-		self._intensity_list = value
-		
-	@MassListMixin.mass_list.setter
-	def mass_list(self, value):
-		"""
-		Set the mass values for the spectrum
-
-		:param value: list of mass values for the spectrum
-		:type value: list
-		"""
-		
-		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
-			raise TypeError("'mass_list' must be a list of numbers")
-		
-		# if not len(self.mass_list) == len(value):
-		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
-		
-		self._mass_list = value
-
-
-class Scan(pymsSpectrumBase):
-	"""
-	Generic object for a single Scan's raw data
-
-	:param mass_list: mass values
-	:type mass_list: list
-	:param intensity_list: intensity values
-	:type intensity_list: list
-
-	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
-	"""
-	
-	def __init__(self, mass_list, intensity_list):
-		"""
-		Initialise the class
-		"""
-		super().__init__(mass_list, intensity_list)
 	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
@@ -255,4 +167,67 @@ class Scan(pymsSpectrumBase):
 		
 		return self.max_mass
 
+
+class MassSpectrum(Scan):
+	"""
+	Models a binned mass spectrum
+
+	:param mass_list: mass values
+	:type mass_list: list
+	:param intensity_list: intensity values
+	:type intensity_list: list
+
+	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
+	"""
+	
+	@Scan.intensity_list.setter
+	def intensity_list(self, value):
+		"""
+		Set the intensity values for the spectrum
+		
+		:param value: list of intensity value for each mass in `mass_list`
+		:type value: list
+		"""
+		
+		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+			raise TypeError("'intensity_list' must be a list of numbers")
+		
+		# if not len(self.mass_list) == len(value):
+		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
+		
+		self._intensity_list = value
+		
+	@Scan.mass_spec.setter
+	def mass_spec(self, value):
+		"""
+		Set the intensity values for the spectrum
+
+		:param value: list of intensity value for each mass in `mass_list`
+		:type value: list
+		"""
+		
+		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+			raise TypeError("'intensity_list' must be a list of numbers")
+		
+		# if not len(self.mass_list) == len(value):
+		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
+		
+		self._intensity_list = value
+		
+	@MassListMixin.mass_list.setter
+	def mass_list(self, value):
+		"""
+		Set the mass values for the spectrum
+
+		:param value: list of mass values for the spectrum
+		:type value: list
+		"""
+		
+		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+			raise TypeError("'mass_list' must be a list of numbers")
+		
+		# if not len(self.mass_list) == len(value):
+		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
+		
+		self._mass_list = value
 
