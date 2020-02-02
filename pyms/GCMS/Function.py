@@ -52,9 +52,9 @@ def diff(data1, data2):
 	
 	# First, check if two data sets have the same number of retention times.
 	if len(time_list1) != len(time_list2):
-		print(" -> The number of retention time points different.")
-		print(f" First data set: {len(time_list1):d} time points")
-		print(f" Second data set: {len(time_list2):d} time points")
+		print(" The number of retention time points differ.")
+		print(f"	First data set: {len(time_list1):d} time points")
+		print(f"	Second data set: {len(time_list2):d} time points")
 		print(" Data sets are different.")
 		return
 	else:

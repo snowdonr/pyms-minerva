@@ -56,7 +56,7 @@ def mzML_reader(file_name):
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
 	
-	mzml_file = pymzml.run.Reader(file_name)
+	mzml_file = pymzml.run.Reader(str(file_name))
 	
 	try:  # avoid printing from each rank
 		comm = MPI.COMM_WORLD

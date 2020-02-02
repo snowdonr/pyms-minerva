@@ -34,17 +34,20 @@ from pyms.Peak.List.Function import is_peak_list
 from pyms.Utils.IO import prepare_filepath
 
 
-def store_peaks(peak_list, file_name):
+def store_peaks(peak_list, file_name, protocol=1):
     """
-    Store the list of peak objects
+        Store the list of peak objects
 
     :param peak_list: A list of peak objects
     :type peak_list: list of :class:`pyms.Peaks.Class.Peak`
     :param file_name: File name to store peak list
     :type file_name: str or pathlib.Path
-
+    :param protocol:
+    :type protocol:
+    
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions and pathlib support)
+    
     """
     
     if not is_peak_list(peak_list):
@@ -56,7 +59,7 @@ def store_peaks(peak_list, file_name):
     file_name = prepare_filepath(file_name)
 
     fp = file_name.open('wb')
-    pickle.dump(peak_list, fp, 1)
+    pickle.dump(peak_list, fp, protocol)
     fp.close()
 
 
