@@ -1,11 +1,17 @@
 """proc.py
 """
 
-from pyms.GCMS.IO.JCAMP import JCAMP_reader
-from pyms.GCMS.Function import build_intensity_matrix
+# This file has been replaced by jupyter/IntensityMatrix.ipynb
 
-# read the raw data as a GCMS_data object
-jcamp_file = "data/gc01_0812_066.jdx"
+import pathlib
+data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
+# Change this if the data files are stored in a different location
+
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
+from pyms.IntensityMatrix import build_intensity_matrix
+
+# read the raw data
+jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
 
 # IntensityMatrix
@@ -14,17 +20,20 @@ data = JCAMP_reader(jcamp_file)
 # default, float masses with interval (bin interval) of one from min mass
 print("default intensity matrix, bin interval = 1, boundary +/- 0.5")
 im = build_intensity_matrix(data)
+print(im)
 
-print("size of intensity matrix (#scans, #bins):", im.size)
+print(" -> size of intensity matrix (#scans, #bins):", im.size)
 
-print("start mass:", im.min_mass)
-print("end mass:", im.max_mass)
+print(im.mass_list[:10])
+
+print(" -> start mass:", im.min_mass)
+print(" -> end mass:", im.max_mass)
 
 index = im.get_index_of_mass(73.3)
 print("the index of the nearest mass to 73.3m/z is:", index)
 print("the nearest mass to 73.3m/z is:", im.get_mass_at_index(index))
 
-# get the list of masses (bin centers), and print the first ten
-masses = im.get_mass_list()
-print(masses[:10])
+# # get the list of masses (bin centers), and print the first ten
+# masses = im.get_mass_list()
+# print(masses[:10])
 

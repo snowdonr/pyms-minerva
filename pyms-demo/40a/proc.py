@@ -1,6 +1,8 @@
 """proc.py
 """
 
+# This file has been replaced by jupyter/IntensityMatrix_Resizing.ipynb
+
 from pyms.GCMS.IO.ANDI import ANDI_reader
 
 # read the raw data

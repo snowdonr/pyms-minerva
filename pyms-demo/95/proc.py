@@ -1,17 +1,21 @@
+import pathlib
+
+from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
+from pyms.Display import Display
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.TopHat import tophat
-from pyms.Display.Class import Display
 from pyms.Peak.Function import peak_sum_area
-#from pyms.Peak.List.IO import store_peaks
-from pyms.BillerBiemann import BillerBiemann, \
-    rel_threshold, num_ions_threshold
+from pyms.TopHat import tophat
 from pyms.Simulator import gcms_sim, add_gaussv_noise
 
+data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
+# Change this if the data files are stored in a different location
 
- # read in raw data
-andi_file = "data/gc01_0812_066.cdf"
+output_directory = pathlib.Path(".").resolve() / "output"
+
+# read raw data
+andi_file = data_directory / "data/gc01_0812_066.cdf"
 data = ANDI_reader(andi_file)
 
 data.trim(4101, 4350)
@@ -21,15 +25,14 @@ real_im = build_intensity_matrix_i(data)
 
 n_scan, n_mz = real_im.size
 
- # perform necessary pre filtering
+# perform necessary pre filtering
 for ii in range(n_mz):
-    ic = real_im.get_ic_at_index(ii)
-    ic_smooth = savitzky_golay(ic)
-    ic_bc = tophat(ic_smooth, struct="1.5m")
-    real_im.set_ic_at_index(ii, ic_bc)
-    
-    
- # Detect Peaks
+	ic = real_im.get_ic_at_index(ii)
+	ic_smooth = savitzky_golay(ic)
+	ic_bc = tophat(ic_smooth, struct="1.5m")
+	real_im.set_ic_at_index(ii, ic_bc)
+
+# Detect Peaks
 peak_list = BillerBiemann(real_im, points=3, scans=2)
 
 print("Number of peaks found in real data: ", len(peak_list))
@@ -59,10 +62,9 @@ print("Number of filtered peaks in real data: ", len(real_peak_list))
 
 # Set the peak areas
 for peak in real_peak_list:
-    area = peak_sum_area(real_im, peak)
-    peak.area = area
-    
-    
+	area = peak_sum_area(real_im, peak)
+	peak.area = area
+
 # real_peak_list is PyMassSpec' best guess at the true peak list
 
 ################## Run Simulator ######################
@@ -85,13 +87,12 @@ add_gaussv_noise(sim_im, scale, cutoff, prop)
 
 # now apply standard PyMassSpec prefiltering techniques to sim data
 for ii in range(n_mz):
-    ic = sim_im.get_ic_at_index(ii)
-    ic_smooth = savitzky_golay(ic)
-    ic_smooth1 = savitzky_golay(ic_smooth)
-    ic_smooth2 = savitzky_golay(ic_smooth1)
-    ic_bc = tophat(ic_smooth1, struct="1.5m")
-    sim_im.set_ic_at_index(ii, ic_bc)
-
+	ic = sim_im.get_ic_at_index(ii)
+	ic_smooth = savitzky_golay(ic)
+	ic_smooth1 = savitzky_golay(ic_smooth)
+	ic_smooth2 = savitzky_golay(ic_smooth1)
+	ic_bc = tophat(ic_smooth1, struct="1.5m")
+	sim_im.set_ic_at_index(ii, ic_bc)
 
 ### Now detect peaks in the noisy simulated IntensityMatrix
 
@@ -113,9 +114,11 @@ print("Number of filtered peaks in simulated data", len(sim_peak_list))
 ### Now display the ics and the filtered peak list from the simulated data
 ics = []
 for i in range(n_mz):
-    ics.append(sim_im.get_ic_at_index(i))
+	ics.append(sim_im.get_ic_at_index(i))
 
 display = Display()
-display.plot_ics(ics)
+for ic in ics:
+	display.plot_ic(ic)
 display.plot_peaks(sim_peak_list, 'Peaks')
 display.do_plotting('ICs, and PyMassSpec Detected Peaks of Simulated Data')
+display.show_chart()

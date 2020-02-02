@@ -18,10 +18,10 @@ in an interactive session
 
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 
-
-from pyms.Display.Function import plot_ic
+from pyms.Display import Display
+display = Display()
 
 # read the raw data as a GCMS_data object
 andi_file = "data/gc01_0812_066.cdf"
@@ -45,6 +45,6 @@ tic = data.get_tic()
 # save TIC to a file
 
 #Call function to store a plot of the TIC
-plot_ic(tic, line_label = 'TIC', plot_title = 'TIC for gc01_0812_066')
+display.plot_ic(tic, line_label = 'TIC', plot_title = 'TIC for gc01_0812_066')
 
 

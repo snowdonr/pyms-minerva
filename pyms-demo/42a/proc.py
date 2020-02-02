@@ -1,9 +1,10 @@
 """proc.py
 """
+# This file has been replaced by jupyter/BaselineCorrection.ipynb
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Baseline.TopHat import tophat
+from pyms.TopHat import tophat
 
 # read the raw data
 andi_file = "data/gc01_0812_066.cdf"

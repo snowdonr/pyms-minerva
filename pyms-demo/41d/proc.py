@@ -1,8 +1,9 @@
 """proc.py
 """
+# This file has been replaced by jupyter/NoiseSmoothing.ipynb
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.Noise.SavitzkyGolay import savitzky_golay_im
 
 # read the raw data

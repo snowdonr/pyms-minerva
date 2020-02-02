@@ -1,7 +1,7 @@
 """proc.py
 """
 
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Peak.Class import Peak
 

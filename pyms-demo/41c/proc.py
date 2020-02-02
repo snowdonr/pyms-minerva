@@ -1,5 +1,6 @@
 """proc.py
 """
+# This file has been replaced by jupyter/NoiseSmoothing.ipynb
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay

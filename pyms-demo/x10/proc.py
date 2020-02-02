@@ -3,7 +3,7 @@
 
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.Window import window_smooth
 
 # read the raw data as a GCMS_data object

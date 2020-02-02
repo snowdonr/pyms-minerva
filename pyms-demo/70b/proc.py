@@ -18,9 +18,10 @@ in an interactive session
 
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 
-from pyms.Display.Function import plot_ic
+from pyms.Display import Display
+display = Display()
 
 # read the raw data as a GCMS_data object
 andi_file = "data/gc01_0812_066.cdf"
@@ -44,5 +45,5 @@ ic = im.get_ic_at_mass(73)
 
 
 
-plot_ic(ic, line_label = '73', plot_title = 'TIC and ICs for m/z = 73 & 147')
+display.plot_ic(ic, line_label = '73', plot_title = 'TIC and ICs for m/z = 73 & 147')
 

@@ -3,18 +3,20 @@
 #################################################################
 
 from numpy import *
- 
+
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.TopHat import tophat
 
 from pyms.Peak.List.IO import store_peaks
- 
-from pyms.BillerBiemann import BillerBiemann, \
-    rel_threshold, num_ions_threshold
-  
- # read in raw data
+
+from pyms.BillerBiemann import (
+	BillerBiemann,
+	rel_threshold, num_ions_threshold,
+	)
+
+# read in raw data
 andi_file = "gc01_0812_066.cdf"
 data = ANDI_reader(andi_file)
 
@@ -23,24 +25,19 @@ data.trim("500s", "2000s")
 im = build_intensity_matrix_i(data)
 n_scan, n_mz = im.size
 
-
- # perform necessary pre filtering
+# perform necessary pre filtering
 for ii in range(n_mz):
-    ic = im.get_ic_at_index(ii)
-    ic_smooth = savitzky_golay(ic)
-    ic_bc = tophat(ic_smooth, struct="1.5m")
-    im.set_ic_at_index(ii, ic_bc)
-    
-    
- # Detect Peaks
+	ic = im.get_ic_at_index(ii)
+	ic_smooth = savitzky_golay(ic)
+	ic_bc = tophat(ic_smooth, struct="1.5m")
+	im.set_ic_at_index(ii, ic_bc)
+
+# Detect Peaks
 peak_list = BillerBiemann(im, points=9, scans=2)
-
-
 
 print("Number of peaks found: ", len(peak_list))
 
-
- # Filter peaks
+# Filter peaks
 # Filter the peak list,
 # first by removing all intensities in a peak less than a given relative
 # threshold,
@@ -63,8 +60,6 @@ pl = rel_threshold(peak_list, r)
 new_peak_list = num_ions_threshold(pl, n, t)
 
 print("Number of filtered peaks: ", len(new_peak_list))
-
-
 
 # store peak list
 store_peaks(new_peak_list, 'output/peaks.bin')

@@ -1,11 +1,12 @@
 """proc.py
 """
+# This file has been replaced by jupyter/IntensityMatrix_Preprocessing.ipynb
 
 #from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Baseline.TopHat import tophat
+from pyms.TopHat import tophat
 from pyms.Utils.IO import dump_object
 
 # read the raw data as a GCMS_data object

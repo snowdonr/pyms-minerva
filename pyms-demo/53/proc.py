@@ -1,12 +1,12 @@
 """proc.py
 """
-
+# This file has been replaced by jupyter/Peak_Detection.ipynb
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Baseline.TopHat import tophat
+from pyms.TopHat import tophat
 
-from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann, \
+from pyms.BillerBiemann import BillerBiemann, \
     rel_threshold, num_ions_threshold
 
 # read the raw data as a GCMS_data object

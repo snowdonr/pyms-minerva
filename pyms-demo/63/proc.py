@@ -4,8 +4,8 @@
 import os
 
 from pyms.Experiment import load_expr
-from pyms.DPA.Class import PairwiseAlignment
-from pyms.DPA.Function import align_with_tree, exprl2alignment
+from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
+from pyms.DPA.Alignment import exprl2alignment
 from pyms.Peak.List.IO import store_peaks
 
 # define the input experiments list

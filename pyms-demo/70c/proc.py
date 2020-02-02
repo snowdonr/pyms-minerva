@@ -17,10 +17,10 @@ in an interactive session
 """
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 
-from pyms.Display.Function import plot_ms
-
+from pyms.Display import Display
+display = Display()
 # read the raw data as a GCMS_data object
 andi_file = "data/gc01_0812_066.cdf"
 data = ANDI_reader(andi_file)
@@ -43,5 +43,5 @@ ms = im.get_ms_at_index(1024)
 
 
 
-plot_ms(ms, plot_title = 'Mass Spectrum at index 1024')
+display.plot_ms(ms, plot_title = 'Mass Spectrum at index 1024')
 

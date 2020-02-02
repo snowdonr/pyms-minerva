@@ -9,17 +9,15 @@ in the correct location
 """
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.Peak.List.IO import load_peaks
-from pyms.Display.Class import Display
+from pyms.Display import Display
 
 # read the raw data as a GCMS_data object
 andi_file = "data/gc01_0812_066.cdf"
 data = ANDI_reader(andi_file)
 
-
 # IntensityMatrix
-
 
 # default, float masses with interval (bin interval) of one from min mass
 print("default intensity matrix, bin interval = 1, boundary +/- 0.5")
@@ -47,13 +45,13 @@ ics = [ic, ic1, ic2, ic3]
 # this directory to generate the peak list
 peak_list = load_peaks("output/peaks.bin") 
 
-
-
 # Create a new display object, this time plot four ICs 
 # and the TIC, as well as the peak list
 display = Display()
 
 display.plot_tic(tic, 'TIC')
-display.plot_ics(ics, ['191','73','57','55'])
+for ic, label in zip(ics, ['191', '73', '57', '55']):
+	display.plot_ic(ic)
 display.plot_peaks(peak_list, 'Peaks')
 display.do_plotting('TIC, ICs, and PyMS Detected Peaks')
+display.show_chart()

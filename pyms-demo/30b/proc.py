@@ -1,11 +1,16 @@
 """proc.py
 """
+# This file has been replaced by jupyter/IntensityMatrix.ipynb
+
+import pathlib
+data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
+# Change this if the data files are stored in a different location
 
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 
-# read the raw data as a GCMS_data object
-jcamp_file = "data/gc01_0812_066.jdx"
+# read the raw data
+jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
 
 # IntensityMatrix
@@ -16,6 +21,8 @@ print("intensity matrix, bin interval = 0.5, boundary +/- 0.25")
 im = build_intensity_matrix(data, 0.5, 0.25, 0.25)
 
 print(" -> size of intensity matrix (#scans, #bins):", im.size)
+
+print(im.mass_list[:10])
 
 print(" -> start mass:", im.min_mass)
 print(" -> end mass:", im.max_mass)

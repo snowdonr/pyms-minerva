@@ -2,8 +2,10 @@
 """
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix
+from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.Noise.Window import window_smooth_im
+
+# This file has been replaced by jupyter/NoiseSmoothing.ipynb
 
 # read the raw data
 andi_file = "data/gc01_0812_066.cdf"

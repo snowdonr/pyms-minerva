@@ -1,17 +1,20 @@
+import pathlib
+
+from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
+from pyms.Display import Display
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.TopHat import tophat
-from pyms.Display.Class import Display
 from pyms.Peak.Function import peak_sum_area
-#from pyms.Peak.List.IO import store_peaks
-from pyms.BillerBiemann import BillerBiemann, \
-    rel_threshold, num_ions_threshold
-from pyms.Simulator import gcms_sim, add_gaussv_noise
+from pyms.TopHat import tophat
 
+data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
+# Change this if the data files are stored in a different location
 
- # read in raw data
-andi_file = "data/gc01_0812_066.cdf"
+output_directory = pathlib.Path(".").resolve() / "output"
+
+# read raw data
+andi_file = data_directory / "data/gc01_0812_066.cdf"
 data = ANDI_reader(andi_file)
 
 data.trim(4101, 4350)
@@ -90,5 +93,7 @@ for i in range(n_mz):
     ics.append(sim_im.get_ic_at_index(i))
 
 display = Display()
-display.plot_ics(ics)
+for ic in ics:
+    display.plot_ic(ic)
 display.do_plotting('ICs, and PyMassSpec Detected Peaks of Simulated Data')
+display.show_chart()

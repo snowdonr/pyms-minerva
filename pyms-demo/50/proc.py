@@ -1,7 +1,8 @@
 """proc.py
 """
+# This file has been replaced by jupyter/Peak.ipynb
 
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Peak.Class import Peak
 

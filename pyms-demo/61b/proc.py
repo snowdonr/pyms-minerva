@@ -4,13 +4,13 @@
 import os
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
-from pyms.GCMS.Function import build_intensity_matrix_i
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Baseline.TopHat import tophat
+from pyms.TopHat import tophat
 #from pyms.Peak.Class import Peak
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 
-from pyms.Deconvolution.BillerBiemann.Function import BillerBiemann, \
+from pyms.BillerBiemann import BillerBiemann, \
     rel_threshold, num_ions_threshold
 
 from pyms.Experiment import Experiment, store_expr
@@ -23,7 +23,7 @@ base_path = "data/"
 expr_codes = [ "a0806_140", "a0806_141", "a0806_142" ]
 
 # deconvolution and peak list filtering parameters
-points = 9; scans = 2; n = 3; t = 3000; r = 2;
+points = 9; scans = 2; n = 3; t = 3000; r = 2
 
 # loop over all experiments
 for expr_code in expr_codes:
