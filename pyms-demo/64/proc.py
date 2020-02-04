@@ -19,7 +19,7 @@ Gw = 0.30 # gap penalty
 # do the alignment
 print('Aligning expt A')
 expr_list = []
-expr_dir = "../61a/output/"
+expr_dir = "../old demos/61a/output/"
 for expr_code in exprA_codes:
     file_name = os.path.join(expr_dir, expr_code + ".expr")
     expr = load_expr(file_name)
@@ -33,7 +33,7 @@ A1.write_common_ion_csv('output/area2.csv', top_ion_list)
 
 print('Aligning expt B')
 expr_list = []
-expr_dir = "../61b/output/"
+expr_dir = "../old demos/61b/output/"
 for expr_code in exprB_codes:
     file_name = os.path.join(expr_dir, expr_code + ".expr")
     expr = load_expr(file_name)
