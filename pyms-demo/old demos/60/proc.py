@@ -1,6 +1,8 @@
 """proc.py
 """
 
+# This file has been replaced by jupyter/Experiment.ipynb
+
 
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.IntensityMatrix import build_intensity_matrix_i

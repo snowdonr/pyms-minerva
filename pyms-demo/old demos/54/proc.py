@@ -1,6 +1,8 @@
 """proc.py
 """
 
+# This file has been replaced by jupyter/Peak_Filtering_Noise_Analysis.ipynb
+
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
