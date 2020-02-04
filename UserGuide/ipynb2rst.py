@@ -1,24 +1,17 @@
 """
 Convert ipynb notebook to rst
-
-Requires pandoc (sudo apt install pandoc)
 """
 
+import io
 import pathlib
 
 # Import the RST exproter
 from nbconvert import RSTExporter
-from nbconvert.preprocessors import ConvertFiguresPreprocessor
 # Instantiate it
 rst_exporter = RSTExporter()
 # from nbconvert.preprocessors import ExecutePreprocessor
-fig_convert = ConvertFiguresPreprocessor()
 # ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
 # rst_exporter.register_preprocessor(ep, True)
-
-
-import io
-
 
 replacements = {
 		"pyms.GCMS.IO.JCAMP": ":mod:`pyms.GCMS.IO.JCAMP`",
@@ -171,6 +164,3 @@ for notebook in notebooks:
 	# Write rst to file
 	with open(f"{demo_rst_dir/notebook}.rst", "w") as fp:
 		fp.write(body)
-	
-
-
