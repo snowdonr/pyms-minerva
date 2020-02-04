@@ -99,9 +99,9 @@ def download_pandoc(url=None, targetfolder=None, version="latest"):
 	
 	filename = url.split("/")[-1]
 	if os.path.isfile(filename):
-		print("* Using already downloaded file %s" % (filename))
+		print(f"* Using already downloaded file {filename}")
 	else:
-		print("* Downloading pandoc from %s ..." % url)
+		print(f"* Downloading pandoc from {url} ...")
 		# https://stackoverflow.com/questions/30627937/tracebaclk-attributeerroraddinfourl-instance-has-no-attribute-exit
 		response = urlopen(url)
 		with open(filename, 'wb') as out_file:

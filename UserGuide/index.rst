@@ -5,11 +5,12 @@
     :caption: User Guide
     :maxdepth: 2
 
-    gcms_raw_data_model
-    gcms_data_derived_objects
-    data_filtering
-    peak_detection_and_representation
-    peak_alignment_by_dynamic_programming
+    10_gcms_raw_data_model
+    20_gcms_data_derived_objects
+    30_data_filtering
+    40_peak_detection_and_representation
+    50_peak_alignment_by_dynamic_programming
+    60_display
 
 View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 

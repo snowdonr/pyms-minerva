@@ -8,11 +8,16 @@ import pathlib
 
 # Import the RST exproter
 from nbconvert import RSTExporter
+from nbconvert.preprocessors import ConvertFiguresPreprocessor
 # Instantiate it
 rst_exporter = RSTExporter()
 # from nbconvert.preprocessors import ExecutePreprocessor
+fig_convert = ConvertFiguresPreprocessor()
 # ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
 # rst_exporter.register_preprocessor(ep, True)
+
+
+import io
 
 
 replacements = {
@@ -61,7 +66,21 @@ replacements = {
 		"pyms.Peak.Class.Peak.area": ":attr:`~pyms.Peak.Class.Peak.area`",
 		"set_ion_areas()": ":meth:`set_ion_areas() <pyms.Peak.Class.Peak.set_ion_areas>`",
 		"peak_sum_area()": ":meth:`peak_sum_area() <pyms.Peak.Function.Peak.peak_sum_area>`",
-		"pyms.Peak.Function": ":mod:`pyms.Peak.Function`"
+		"pyms.Peak.Function": ":mod:`pyms.Peak.Function`",
+		"Experiment": ":class:`~pyms.Experiment.Experiment`",
+		"Alignment": ":class:`~pyms.DPA.Alignment.Alignment` ",
+		"exprl2alignment()": ":meth:`exprl2alignment() <pyms.DPA.Function.exprl2alignment>`.",
+		"pyms.DPA.PairwiseAlignment.PairwiseAlignment": ":class:`pyms.DPA.PairwiseAlignment.PairwiseAlignment`",
+		"PairwiseAlignment": ":class:`~pyms.DPA.PairwiseAlignment.PairwiseAlignment`",
+		"align_with_tree()": ":meth:`align_with_tree() <pyms.DPA.Alignment.align_with_tree>`",
+		"Display": ":class:`pyms.Display.Display`",
+		"plot_ic()": ":py:meth:`plot_ic() <pyms.Display.plot_ic>`",
+		"plot_peaks()": ":py:meth:`plot_peaks() <pyms.Display.plot_peaks>`",
+		"ClickEventHandler": ":class:`pyms.Display.ClickEventHandler`",
+		"ClickEventHandler(peak_list=new_peak_list)": ":class:`pyms.Display.ClickEventHandler`",
+		
+		
+		
 		
 		}
 
@@ -85,19 +104,39 @@ notebooks = [
 		"Peak_Detection",
 		"Peak_Filtering_Noise_Analysis",
 		"Peak_Area_Estimation",
+		"Experiment",
+		"Multiple_Experiments",
+		"DPA",
+		"Displaying_TIC",
+		"Displaying_Multiple_IC",
+		"Displaying_Mass_Spec",
+		"Displaying_Detected_Peaks",
+		"Display_User_Interaction",
 		]
 
 demo_rst_dir = pathlib.Path("./demo_rst").resolve()
 if not demo_rst_dir.is_dir():
 	demo_rst_dir.mkdir()
+	
+images_dir = pathlib.Path("./graphics").resolve()
+if not images_dir.is_dir():
+	images_dir.mkdir()
 
 for notebook in notebooks:
 	# Convert the notebook to RST format
 	(body, resources) = rst_exporter.from_file(f"../pyms-demo/jupyter/{notebook}.ipynb")
 	for original, replacement in replacements.items():
+		body = body.replace(f"\\|{original}\\|", replacement)
+		
+		# Sometimes trailing slash doesn't get escaped
+		body = body.replace(f"\\|{original}|", replacement)
+		
 		original = original.replace("_", "\\_")
 		body = body.replace(f"\\|{original}\\|", replacement)
-	
+		
+		# Sometimes trailing slash doesn't get escaped
+		body = body.replace(f"\\|{original}|", replacement)
+		
 	for original, replacement in string_replacements.items():
 		body = body.replace(original, replacement)
 	
@@ -113,8 +152,25 @@ for notebook in notebooks:
 		# body = body.replace(".. parsed-literal::", f".. nboutput::", 1)
 		body = body.replace(".. parsed-literal::", f".. parsed-literal::", 1)
 		i += 1
-		
-	# print(body)
+	
+	outputs = resources["outputs"]
+	if outputs:
+		# Embedded images present
+		# Put images in the images_dir
+
+		# Write images to file
+		for name, data in outputs.items():
+			# print(name)
+			# print(data)
+			with io.open(images_dir / f"{notebook}_{name}", 'wb') as f:
+				f.write(data)
+				
+		# Replace `.. image:: output` with `.. image:: {notebook}_output`
+		body = body.replace(".. image:: output", f".. image:: graphics/{notebook}_output")
+
+	# Write rst to file
 	with open(f"{demo_rst_dir/notebook}.rst", "w") as fp:
 		fp.write(body)
+	
+
 

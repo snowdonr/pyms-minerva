@@ -1,5 +1,5 @@
 ****************
-Data filtering
+Data Filtering
 ****************
 
 .. contents:: Table of Contents
