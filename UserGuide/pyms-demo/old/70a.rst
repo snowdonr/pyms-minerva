@@ -1,0 +1,13 @@
+.. _demo-70a:
+
+******
+70a
+******
+
+A simple plot of TIC
+
+:download:`Download Source <../../pyms-demo/70a/proc.py>`
+
+.. literalinclude:: ../../pyms-demo/70a/proc.py
+    :language: python
+    :linenos:
