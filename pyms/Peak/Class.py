@@ -222,9 +222,9 @@ class Peak(pymsBaseClass):
 		mass_list = self._mass_spectrum.mass_list
 		
 		if mass_min < min(mass_list):
-			raise ValueError(f"'mass_min' is less than the smallest mass: {min(mass_list):d}")
+			raise ValueError(f"'mass_min' is less than the smallest mass: {min(mass_list)}")
 		if mass_max > max(mass_list):
-			raise ValueError(f"'mass_max' is greater than the largest mass: {max(mass_list):d}")
+			raise ValueError(f"'mass_max' is greater than the largest mass: {max(mass_list)}")
 		
 		# pre build mass_list and list of indices
 		new_mass_list = []

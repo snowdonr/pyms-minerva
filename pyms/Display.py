@@ -30,8 +30,10 @@ import warnings
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib import figure, axes
+import deprecation
 
 # this package
+from pyms import __version__
 from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
@@ -64,6 +66,9 @@ class Display:
 	:author: Dominic Davis-Foster
 	"""
 	
+	@deprecation.deprecated(
+			"2.2.8", "2.3.0", current_version=__version__,
+			details="Functionality has moved to other functions and classes in this module.")
 	def __init__(self, fig=None, ax=None):
 		"""
 		Initialises an instance of Display class
@@ -87,11 +92,6 @@ class Display:
 		
 		# Container to store plots
 		self.__tic_ic_plots = []
-		
-		# color dictionary for plotting of ics; blue reserved
-		# for TIC
-		self.__col_ic = {0: 'r', 1: 'g', 2: 'k', 3: 'y', 4: 'm', 5: 'c'}
-		self.__colour_count = 0  # counter to keep track of colors
 		
 		# Peak list container
 		self.__peak_list = []
@@ -120,7 +120,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		
 		l = self.ax.legend()
 		
-		self.fig.canvas.draw
+		self.fig.canvas.draw()
 		
 		# If no peak list plot, no mouse click event
 		if len(self.__peak_list) != 0:
@@ -207,27 +207,8 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 			for the list of possible kwargs
 		"""
 		
-		if not isinstance(ic, IonChromatogram):
-			raise TypeError("'ic' must be an IonChromatogram")
-		
-		plot = self.ax.plot(
-			ic.time_list, ic.intensity_array,
-			self.__col_ic[self.__colour_count], **kwargs
-		)
-		
+		plot = plot_ic(self.ax, ic, **kwargs)
 		self.__tic_ic_plots.append(plot)
-		
-		if self.__colour_count == 5:
-			self.__colour_count = 0
-		else:
-			self.__colour_count += 1
-		
-		self.__tic_ic_plots.append(plot)
-		
-		# Set axis ranges
-		self.ax.set_xlim(min(ic.time_list), max(ic.time_list))
-		self.ax.set_ylim(bottom=0)
-		
 		return plot
 	
 	def plot_mass_spec(self, mass_spec, **kwargs):
@@ -250,30 +231,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 			for the list of possible kwargs
 		"""
 		
-		if not isinstance(mass_spec, MassSpectrum):
-			raise TypeError("'mass_spec' must be a MassSpectrum")
-		
-		mass_list = mass_spec.mass_list
-		intensity_list = mass_spec.mass_spec
-		
-		# to set x axis range find minimum and maximum m/z channels
-		max_mz = mass_list[0]
-		min_mz = mass_list[0]
-		
-		for i in range(len(mass_list)):
-			if mass_list[i] > max_mz:
-				max_mz = mass_list[i]
-		
-		for i in range(len(mass_list)):
-			if mass_list[i] < min_mz:
-				min_mz = mass_list[i]
-		
-		plot = self.ax.bar(mass_list, intensity_list, **kwargs)
-		
-		# Set axis ranges
-		self.ax.set_xlim(min_mz, max_mz)
-		self.ax.set_ylim(bottom=0)
-		
+		plot = plot_mass_spec(self.ax, mass_spec, **kwargs)
 		return plot
 	
 	def plot_peaks(self, peak_list, label="Peaks"):
@@ -286,21 +244,13 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param label: label for plot legend (Default "Peaks")
 		:type label: str, optional
 		"""
-		
-		if not is_peak_list(peak_list):
-			raise TypeError("'peak_list' must be a list of Peak objects")
-		
-		time_list = []
-		height_list = []
+
+		plot = plot_peaks(self.ax, peak_list, label)
 		
 		# Copy to self.__peak_list for onclick event handling
 		self.__peak_list = peak_list
 		
-		for peak in peak_list:
-			time_list.append(peak.rt)
-			height_list.append(sum(peak.get_mass_spectrum().mass_spec))
-		
-		self.__tic_ic_plots.append(plt.plot(time_list, height_list, 'o', label=label))
+		return plot
 	
 	def plot_tic(self, tic, minutes=False, **kwargs):
 		"""
@@ -317,7 +267,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 
 			Example::
 
-			>>> plot_tic(im.get_ic_at_index(5), label='IC @ Index 5', linewidth=2)
+			>>> plot_tic(data.tic, label='TIC', linewidth=2)
 
 			See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
 			for the list of possible kwargs
@@ -326,18 +276,8 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		if not isinstance(tic, IonChromatogram) or not tic.is_tic():
 			raise TypeError("'tic' must be an Ion Chromatogram object representing a total ion chromatogram")
 		
-		time_list = tic.time_list
-		if minutes:
-			time_list = [time / 60 for time in time_list]
-		
-		plot = self.ax.plot(time_list, tic.intensity_array, **kwargs)
-		
+		plot = plot_ic(self.ax, tic, minutes, **kwargs)
 		self.__tic_ic_plots.append(plot)
-		
-		# Set axis ranges
-		self.ax.set_xlim(min(tic.time_list), max(tic.time_list))
-		self.ax.set_ylim(bottom=0)
-		
 		return plot
 	
 	def save_chart(self, filepath, filetypes=None):
@@ -357,7 +297,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		if filetypes is None:
 			filetypes = default_filetypes
 		
-		matplotlib.use("Agg")
+		# matplotlib.use("Agg")
 		
 		for filetype in filetypes:
 			# plt.savefig(filepath + ".{}".format(filetype))
@@ -371,7 +311,235 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:author: Dominic Davis-Foster
 		"""
 		
-		matplotlib.use("TkAgg")
+		# matplotlib.use("TkAgg")
 		
 		self.fig.show()
+		input("Press Enter to close the chart")
 		plt.close()
+
+
+def plot_ic(ax, ic, minutes=False, **kwargs):
+	"""
+	Plots an Ion Chromatogram
+	
+	:param ax: The axes to plot the IonChromatogram on
+	:type ax: matplotlib.axes.Axes
+	:param ic: Ion Chromatograms m/z channels for plotting
+	:type ic: pyms.IonChromatogram.IonChromatogram
+
+	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
+		Used to specify properties like a line label (for auto legends),
+		linewidth, antialiasing, marker face color.
+
+		Example::
+
+		>>> plot_ic(im.get_ic_at_index(5), label='IC @ Index 5', linewidth=2)
+
+		See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
+		for the list of possible kwargs
+	"""
+	
+	if not isinstance(ic, IonChromatogram):
+		raise TypeError("'ic' must be an IonChromatogram")
+	
+	time_list = ic.time_list
+	if minutes:
+		time_list = [time / 60 for time in time_list]
+	
+	plot = ax.plot(time_list, ic.intensity_array, **kwargs)
+	
+	# Set axis ranges
+	ax.set_xlim(min(ic.time_list), max(ic.time_list))
+	ax.set_ylim(bottom=0)
+	
+	return plot
+
+
+def plot_mass_spec(ax, mass_spec, **kwargs):
+	"""
+	Plots a Mass Spectrum
+
+	:param ax: The axes to plot the MassSpectrum on
+	:type ax: matplotlib.axes.Axes
+	:param mass_spec: The mass spectrum at a given time/index
+	:type mass_spec: pyms.Spectrum.MassSpectrum
+
+	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
+		Used to specify properties like a line label (for auto legends),
+		linewidth, antialiasing, marker face color.
+
+		Example::
+
+		>>> plot_mass_spec(im.get_ms_at_index(5), linewidth=2)
+		>>>	ax.set_title(f"Mass spec for peak at time {im.get_time_at_index(5):5.2f}")
+
+		See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
+		for the list of possible kwargs
+	"""
+	
+	if not isinstance(mass_spec, MassSpectrum):
+		raise TypeError("'mass_spec' must be a MassSpectrum")
+	
+	mass_list = mass_spec.mass_list
+	intensity_list = mass_spec.mass_spec
+	
+	# to set x axis range find minimum and maximum m/z channels
+	max_mz = mass_list[0]
+	min_mz = mass_list[0]
+	
+	for i in range(len(mass_list)):
+		if mass_list[i] > max_mz:
+			max_mz = mass_list[i]
+	
+	for i in range(len(mass_list)):
+		if mass_list[i] < min_mz:
+			min_mz = mass_list[i]
+	
+	plot = ax.bar(mass_list, intensity_list, **kwargs)
+	
+	# Set axis ranges
+	ax.set_xlim(min_mz, max_mz)
+	ax.set_ylim(bottom=0)
+	
+	return plot
+	
+	
+def plot_peaks(ax, peak_list, label="Peaks", style="o"):
+	"""
+	Plots the locations of peaks as found by PyMassSpec.
+
+	:param ax: The axes to plot the peaks on
+	:type ax: matplotlib.axes.Axes
+	:param peak_list: List of peaks to plot
+	:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
+
+	:param label: label for plot legend (Default "Peaks")
+	:type label: str, optional
+	"""
+	
+	if not is_peak_list(peak_list):
+		raise TypeError("'peak_list' must be a list of Peak objects")
+	
+	time_list = []
+	height_list = []
+	
+	if "line" in style.lower():
+		lines = []
+		for peak in peak_list:
+			lines.append(ax.axvline(x=peak.rt, color="lightgrey", alpha=0.8, linewidth=0.3))
+		
+		return lines
+	
+	else:
+		for peak in peak_list:
+			time_list.append(peak.rt)
+			height_list.append(sum(peak.get_mass_spectrum().intensity_list))
+			# height_list.append(peak.height)
+			# print(peak.height - sum(peak.get_mass_spectrum().intensity_list))
+			print(sum(peak.mass_spectrum.intensity_list))
+		
+		return ax.plot(time_list, height_list, style, label=label)
+
+# TODO: Change order of arguments and use plt.gca() a la pyplot
+
+
+class ClickEventHandler:
+	"""
+	Class to enable clicking clicking of chromatogram to view the intensities top n most intense
+	ions at that peak, and viewing of the mass spectrum with a right click
+	"""
+	
+	def __init__(self, peak_list, fig=None, ax=None, tolerance=0.005, n_intensities=5):
+		if fig is None:
+			self.fig = plt.gcf()
+		else:
+			self.fig = fig
+		
+		if ax is None:
+			self.ax = plt.gca()
+		else:
+			self.ax = ax
+		
+		self.peak_list = peak_list
+		
+		self.ms_fig = None
+		self.ms_ax = None
+		
+		self._min = 1 - tolerance
+		self._max = 1 + tolerance
+		self.n_intensities = n_intensities
+		
+		# If no peak list plot, no mouse click event
+		if len(self.peak_list) != 0:
+			self.cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+		else:
+			self.cid = None
+	
+	def onclick(self, event):
+		"""
+		Finds the n highest intensity m/z channels for the selected peak.
+		The peak is selected by clicking on it.
+		If a button other than the left one is clicked, a new plot of the mass spectrum is displayed.
+
+		:param event: a mouse click by the user
+		"""
+		
+		for peak in self.peak_list:
+			# if event.xdata > 0.9999*peak.rt and event.xdata < 1.0001*peak.rt:
+			if self._min * peak.rt < event.xdata < self._max * peak.rt:
+				intensity_list = peak.get_mass_spectrum().mass_spec
+				mass_list = peak.get_mass_spectrum().mass_list
+				
+				largest = self.get_n_largest(intensity_list)
+				
+				print(f"RT: {peak.rt}")
+				print("Mass\t Intensity")
+				for i in range(self.n_intensities):
+					print(f"{mass_list[largest[i]]}\t {intensity_list[largest[i]]}")
+				
+				# Check if right mouse button pressed, if so plot mass spectrum
+				# Also check that a peak was selected, not just whitespace
+				if event.button == 3 and len(intensity_list) != 0:
+					from pyms.Display import plot_mass_spec
+					
+					if self.ms_fig is None:
+						self.ms_fig, self.ms_ax = plt.subplots(1, 1)
+					else:
+						self.ms_ax.clear()
+					
+					plot_mass_spec(self.ms_ax, peak.get_mass_spectrum())
+					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")
+					self.ms_fig.show()
+				# TODO: Add multiple MS to same plot window and add option to close one of them
+				# TODO: Allow more interaction with MS, e.g. adjusting mass range?
+				return
+		
+		# if the selected point is not close enough to peak
+		print("No Peak at this point")
+	
+	def get_n_largest(self, intensity_list):
+		"""
+		Computes the indices of the largest n ion intensities for writing to console
+
+		:param intensity_list: List of Ion intensities
+		:type intensity_list: list
+
+		:return: Indices of largest n ion intensities
+		:rtype: list
+		"""
+		
+		largest = [0] * self.n_intensities
+		
+		# Find out largest value
+		for i in range(len(intensity_list)):
+			if intensity_list[i] > intensity_list[largest[0]]:
+				largest[0] = i
+		
+		# Now find next four largest values
+		for j in list(range(1, self.n_intensities)):
+			for i in range(len(intensity_list)):
+				# if intensity_list[i] > intensity_list[largest[j]] and intensity_list[i] < intensity_list[largest[j-1]]:
+				if intensity_list[largest[j]] < intensity_list[i] < intensity_list[largest[j - 1]]:
+					largest[j] = i
+		
+		return largest

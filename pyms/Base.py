@@ -43,7 +43,7 @@ class pymsBaseClass:
 	"""
 	Base class
 	"""
-	def dump(self, file_name):
+	def dump(self, file_name, protocol=3):
 		"""
 		Dumps an object to a file through pickle.dump()
 
@@ -60,5 +60,5 @@ class pymsBaseClass:
 		file_name = prepare_filepath(file_name)
 		
 		fp = file_name.open('wb')
-		pickle.dump(self, fp)
+		pickle.dump(self, fp, protocol=protocol)
 		fp.close()
