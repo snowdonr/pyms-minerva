@@ -31,6 +31,7 @@ View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/i
     pyms/GCMS
     pyms/IntensityMatrix
     pyms/IonChromatogram
+    pyms/json
     pyms/Mixins
     pyms/Spectrum
     pyms/Noise

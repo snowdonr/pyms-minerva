@@ -6,7 +6,7 @@ Classes to model Mass Spectra and Scans
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -60,8 +60,8 @@ class Scan(pymsBaseClass, MassListMixin):
 		if not len(mass_list) == len(intensity_list):
 			raise ValueError("'mass_list' is not the same size as 'intensity_list'")
 		
-		self._mass_list = mass_list
-		self._intensity_list = intensity_list
+		self._mass_list = list(mass_list)
+		self._intensity_list = list(intensity_list)
 		self._min_mass = min(mass_list)
 		self._max_mass = max(mass_list)
 	
@@ -99,6 +99,28 @@ class Scan(pymsBaseClass, MassListMixin):
 	
 	def __deepcopy__(self, memodict={}):
 		return self.__copy__()
+		
+	def __dict__(self):
+		print(f"""
+intensity_list: {self.intensity_list},
+mass_list: {self.mass_list},
+min_mass: {self.min_mass},
+max_mass: {self.max_mass},
+""")
+		return {
+				"intensity_list": self.intensity_list,
+				"mass_list": self.mass_list,
+				}
+	
+	def __iter__(self):
+		for key, value in self.__dict__().items():
+			yield key, value
+	
+	def __getstate__(self):
+		return self.__dict__()
+	
+	def __setstate__(self, state):
+		self.__init__(**state)
 	
 	@property
 	def intensity_list(self):
@@ -124,7 +146,6 @@ class Scan(pymsBaseClass, MassListMixin):
 		
 		return self._intensity_list
 
-	
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use :attr:`pyms.Spectrum.Scan.intensity_list` instead")
@@ -166,6 +187,10 @@ class Scan(pymsBaseClass, MassListMixin):
 		"""
 		
 		return self.max_mass
+	
+	@classmethod
+	def from_dict(cls, dictionary):
+		return cls(**dictionary)
 
 
 class MassSpectrum(Scan):
@@ -230,4 +255,3 @@ class MassSpectrum(Scan):
 		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 		
 		self._mass_list = value
-
