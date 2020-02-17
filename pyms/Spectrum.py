@@ -101,12 +101,6 @@ class Scan(pymsBaseClass, MassListMixin):
 		return self.__copy__()
 		
 	def __dict__(self):
-		print(f"""
-intensity_list: {self.intensity_list},
-mass_list: {self.mass_list},
-min_mass: {self.min_mass},
-max_mass: {self.max_mass},
-""")
 		return {
 				"intensity_list": self.intensity_list,
 				"mass_list": self.mass_list,
