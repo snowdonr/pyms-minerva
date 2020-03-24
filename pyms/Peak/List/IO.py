@@ -24,12 +24,12 @@ Functions related to storing and loading a list of Peak objects
 ################################################################################
 
 # stdlib
-import pickle
 import pathlib
+import pickle
 
 # this package
-from pyms.Peak.Class import Peak
 from pyms.Base import _list_types
+from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Utils.IO import prepare_filepath
 

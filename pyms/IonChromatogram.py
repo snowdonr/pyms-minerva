@@ -29,13 +29,13 @@ import pathlib
 import warnings
 
 # 3rd party
-import numpy
 import deprecation
+import numpy
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsBaseClass, _list_types
-from pyms.Mixins import TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin
+from pyms.Base import _list_types, pymsBaseClass
+from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
 
 

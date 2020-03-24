@@ -29,18 +29,16 @@ import pathlib
 from warnings import warn
 
 # 3rd party
-import numpy
 import deprecation
+import numpy
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsBaseClass
-from pyms.Mixins import TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin
-from pyms.Base import _list_types
-from pyms.Utils.IO import save_data
+from pyms.Base import _list_types, pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
+from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, MassListMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum
-
+from pyms.Utils.IO import save_data
 
 ASCII_DAT = 1
 ASCII_CSV = 0
