@@ -1,0 +1,160 @@
+DPA
+
+	numpy
+	pandas
+	Pycluster or Biopython
+	openpyxl
+
+	Base
+	Experiment
+	Peak
+	Utils
+
+Gapfill
+
+	deprecation
+	numpy
+
+	__version__
+	IntensityMatrix
+	Noise
+	TopHat
+	BillerBiemann
+	Peak
+
+
+GCMS
+	numpy
+	deprecation
+	netCDF4
+	pymzml
+
+	__version__
+	Utils
+	Spectrum
+	IonChromatogram
+	Base
+	Mixins
+	Utils
+	Spectrum
+
+Noise
+
+	numpy
+
+	IonChromatogram
+	Utils
+	GCMS
+	IntensityMatrix
+
+Peak
+
+	deprecation
+	numpy
+
+	__version__
+	Base
+	Spectrum
+	IntensityMatrix
+	Utils
+
+
+Utils
+
+	numpy
+
+	Base
+
+
+Base
+
+	numpy
+
+	Utils
+
+BillerBiemann
+	numpy
+
+	Peak
+	Base
+	Spectrum
+	IonChromatogram
+	IntensityMatrix
+
+
+Display
+
+	matplotlib
+	deprecation
+
+	__version__
+	Spectrum
+	IonChromatogram
+	Peak
+
+
+Experiment
+	deprecation
+
+	__version__
+	Base
+	Utils
+	Peak
+
+IntensityMatrix
+
+	deprecation
+	numpy
+
+	__version__
+	Base
+	Mixins
+	Utils
+	IonChromatogram
+	Spectrum
+
+
+IonChromatogram
+
+	numpy
+	deprecation
+
+	__version__
+	Base
+	Mixins
+	Utils
+
+json
+
+	Spectrum
+
+Mixins
+
+	numpy
+	deprecation
+
+	__version__
+
+Simulator
+
+	numpy
+
+	IntensityMatrix
+
+Spectrum
+
+	deprecation
+
+	__version__
+	Base
+	Mixins
+
+TopHat
+
+	numpy
+	scipy
+
+	IntensityMatrix
+	IonChromatogram
+	GCMS
+
