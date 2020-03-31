@@ -6,7 +6,7 @@ Functions to perform Biller and Biemann deconvolution.
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -30,11 +30,11 @@ import copy
 import numpy
 
 # this package
-from pyms.Peak.Class import Peak
 from pyms.Base import _list_types
-from pyms.Spectrum import MassSpectrum
-from pyms.IonChromatogram import IonChromatogram
 from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IonChromatogram import IonChromatogram
+from pyms.Peak.Class import Peak
+from pyms.Spectrum import MassSpectrum
 
 
 #######################
@@ -401,5 +401,3 @@ def sum_maxima(im, points=3, scans=1):
     tic = IonChromatogram(numpy.array(sums), im.time_list)
 
     return tic
-
-

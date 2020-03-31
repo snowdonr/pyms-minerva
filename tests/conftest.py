@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,27 +18,30 @@
 #                                                                           #
 #############################################################################
 
-import pytest
-
+# stdlib
 import os
 import shutil
+from copy import deepcopy
 from pathlib import Path
 
-from pyms.TopHat import tophat
-from pyms.BillerBiemann import BillerBiemann, rel_threshold, num_ions_threshold
-from pyms.IntensityMatrix import build_intensity_matrix, build_intensity_matrix_i
-from pyms.GCMS.IO.JCAMP import JCAMP_reader
-from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
-from pyms.Peak.Class import Peak
-from pyms.Experiment import Experiment
+# 3rs party
+import pytest
 
-from copy import deepcopy
+# pyms
+from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
+from pyms.Experiment import Experiment
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
+from pyms.IntensityMatrix import build_intensity_matrix, build_intensity_matrix_i
+from pyms.Noise.SavitzkyGolay import savitzky_golay
+from pyms.Peak.Class import Peak
+from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
+from pyms.TopHat import tophat
 
 
 @pytest.fixture("session")
 def datadir():
 	return Path(os.path.split(__file__)[0]) / "data"
+
 
 @pytest.fixture("session")
 def outputdir():
@@ -125,6 +128,7 @@ def peak(im_i):
 @pytest.fixture(scope="session")
 def ms(im_i):
 	return deepcopy(im_i.get_ms_at_index(0))
+
 
 @pytest.fixture(scope="session")
 def scan(data):

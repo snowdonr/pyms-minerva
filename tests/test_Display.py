@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,18 +18,19 @@
 #                                                                           #
 #############################################################################
 
-
+# stdlib
 import os
 from pathlib import Path
 
-from .constants import *
-
+# 3rd party
 import pytest
+from matplotlib import axes, figure
 
-from matplotlib import pyplot as plt
-from matplotlib import figure, axes
-
+# pyms
 from pyms.Display import *
+
+# tests
+from .constants import *
 
 baseline = str(Path(os.path.split(__file__)[0]) / "baseline")
 
@@ -53,7 +54,7 @@ def test_Display():
 	assert both_args.fig is fig
 	assert both_args.ax is ax
 	
-	for type in [test_tuple, test_list_strs, test_list_ints, test_string, test_float, test_int, test_dict]:
+	for type in [test_tuple, test_list_strs, test_list_ints, test_string, *test_numbers, test_dict]:
 		with pytest.raises(TypeError):
 			Display(fig=type)
 		with pytest.raises(TypeError):
@@ -125,10 +126,9 @@ def test_plot_ic_title(im_i, test_plot):
 
 
 def test_plot_ic_errors(im_i, test_plot, data, ms):
-	for type in [test_tuple, test_list_strs, test_list_ints, test_string, test_float, test_int, test_dict,
-				 im_i, data, ms]:
+	for obj in [*test_sequences, test_string, *test_numbers, test_dict, im_i, data, ms]:
 		with pytest.raises(TypeError):
-			test_plot.plot_ic(type)
+			test_plot.plot_ic(obj)
 
 
 # Plotting tic with various Line2D options
@@ -164,10 +164,9 @@ def test_plot_tic_linestyle(tic, test_plot):
 
 
 def test_plot_tic_errors(im_i, test_plot, data, ms):
-	for type in [test_tuple, test_list_strs, test_list_ints, test_string, test_float, test_int, test_dict, im_i,
-				 im_i.get_ic_at_index(0), data, ms]:
+	for obj in [*test_sequences, *test_numbers, test_string, test_dict, im_i, im_i.get_ic_at_index(0), data, ms]:
 		with pytest.raises(TypeError):
-			test_plot.plot_tic(type)
+			test_plot.plot_tic(obj)
 
 
 @pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
@@ -203,10 +202,9 @@ def test_plot_mass_spec_linestyle(im_i, test_plot):
 
 
 def test_plot_mass_spec_errors(im_i, test_plot, data, tic):
-	for type in [test_tuple, test_list_strs, test_list_ints, test_string, test_float, test_int, test_dict, im_i,
-				 im_i.get_ic_at_index(0), data, tic]:
+	for obj in [*test_sequences, test_string, *test_numbers, test_dict, im_i, im_i.get_ic_at_index(0), data, tic]:
 		with pytest.raises(TypeError):
-			test_plot.plot_mass_spec(type)
+			test_plot.plot_mass_spec(obj)
 
 
 @pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
@@ -214,8 +212,6 @@ def test_plot_mass_spec_title(im_i, test_plot):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50))
 	test_plot.ax.set_title(f"Mass spec for peak at time {im_i.get_time_at_index(50):5.2f}")
 	return test_plot.fig
-
-
 
 
 def test_do_plotting_warning():

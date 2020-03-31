@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,25 +18,30 @@
 #                                                                           #
 #############################################################################
 
-import pytest
-from tests.constants import *
+# stdlib
 import copy
 
-from pyms.Experiment  import Experiment
-from pyms.Experiment import load_expr, read_expr_list, store_expr
+# 3rd party
+import pytest
+
+# pyms
+from pyms.Experiment import Experiment, load_expr, read_expr_list, store_expr
 from pyms.Peak.Class import Peak
+
+# tests
+from .constants import *
 
 
 def test_Experiment(expr, filtered_peak_list):
 	assert isinstance(expr, Experiment)
 	# Errors
-	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			Experiment(type, filtered_peak_list)
+			Experiment(obj, filtered_peak_list)
 			
-	for type in [test_string, test_int, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, test_int, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			Experiment(test_string, type)
+			Experiment(test_string, obj)
 	
 	
 def test_equality(expr):
@@ -82,36 +87,36 @@ def test_sele_rt_range(expr, filtered_peak_list):
 	expr.sele_rt_range(["6.5m", "21m"])
 	assert expr.peak_list != filtered_peak_list
 
-	for type in [test_string, test_int, test_float, test_dict]:
+	for obj in [test_string, *test_numbers, test_dict]:
 		with pytest.raises(TypeError):
-			expr.sele_rt_range(type)
+			expr.sele_rt_range(obj)
 
-	for type in [test_list_ints, test_list_strs]:
+	for obj in [*test_lists]:
 		with pytest.raises(ValueError):
-			expr.sele_rt_range(type)
+			expr.sele_rt_range(obj)
 
 
 def test_store_expr(expr, outputdir):
 	with pytest.warns(DeprecationWarning):
 		store_expr(str(outputdir/"ELEY_1_SUBTRACT_DEPRECATION.expr"), expr)
 
-	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.warns(DeprecationWarning):
 			with pytest.raises(TypeError):
-				store_expr(type, expr)
+				store_expr(obj, expr)
 
-	for type in [test_int, test_float, test_string, test_dict, test_list_ints, test_list_strs]:
+	for obj in [*test_numbers, test_string, test_dict, *test_lists]:
 		with pytest.warns(DeprecationWarning):
 			with pytest.raises(TypeError):
-				store_expr(test_string, type)
+				store_expr(test_string, obj)
 
 
 def test_store(expr, outputdir):
 	expr.store(outputdir/"ELEY_1_SUBTRACT.expr")
 
-	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			expr.store(type)
+			expr.store(obj)
 
 
 def test_load_expr(filtered_peak_list, datadir, outputdir):
@@ -128,9 +133,9 @@ def test_load_expr(filtered_peak_list, datadir, outputdir):
 	expr.sele_rt_range(["6.5m", "21m"])
 
 	# Errors
-	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			load_expr(type)
+			load_expr(obj)
 
 	with pytest.raises(IOError):
 		load_expr(datadir/"non-existent.expr")
@@ -154,9 +159,9 @@ def test_read_expr_list(filtered_peak_list, datadir):
 	expr.sele_rt_range(["6.5m", "21m"])
 
 	# Errors
-	for type in [test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			read_expr_list(type)
+			read_expr_list(obj)
 	
 	with pytest.raises(IOError):
 		read_expr_list("non-existent.expr")

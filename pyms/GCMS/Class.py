@@ -6,7 +6,7 @@ Class to model GC-MS data
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -26,20 +26,20 @@ Class to model GC-MS data
 # stdlib
 import copy
 import pathlib
-from statistics import stdev, median, mean
+from statistics import mean, median, stdev
 
 # 3rd party
-import numpy
 import deprecation
+import numpy
 
 # this package
 from pyms import __version__
-from pyms.Utils.Time import time_str_secs
-from pyms.Spectrum import Scan
+from pyms.Base import _list_types, pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
-from pyms.Base import pymsBaseClass, _list_types
-from pyms.Mixins import TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
+from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
+from pyms.Spectrum import Scan
 from pyms.Utils.IO import prepare_filepath
+from pyms.Utils.Time import time_str_secs
 from pyms.Spectrum import MassSpectrum
 
 
@@ -106,6 +106,12 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		
 		return len(self._scan_list)
+	
+	def __repr__(self):
+		return f"GCMS_data(rt range {self.min_rt} - {self.max_rt}, time_step {self.time_step}, lenth {len(self)})"
+	
+	def __str__(self):
+		return self.__repr__()
 	
 	def __calc_tic(self):
 		"""
@@ -230,7 +236,8 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 			scan = self._scan_list[ii]
 			n = len(scan)
 			n_list.append(n)
-			if print_scan_n: print(n)
+			if print_scan_n:
+				print(n)
 		mz_mean = mean(n_list)
 		mz_median = median(n_list)
 		print(f" Mean number of m/z values per scan: {mz_mean:.0f}")
@@ -251,6 +258,16 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		return copy.deepcopy(self._scan_list)
 	
 	@property
+	def time_list(self):
+		"""
+		Return a copy of the time list
+
+		:rtype: list of float
+		"""
+		
+		return self._time_list[:]
+	
+	@property
 	def tic(self):
 		"""
 		Returns the total ion chromatogram
@@ -261,6 +278,46 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 		
 		return self._tic
+	
+	@property
+	def min_rt(self):
+		"""
+		Returns the minimum retention time for the data in seconds
+
+		:rtype: float
+		"""
+		
+		return self._min_rt
+	
+	@property
+	def max_rt(self):
+		"""
+		Returns the maximum retention time for the data in seconds
+
+		:rtype: float
+		"""
+		
+		return self._max_rt
+	
+	@property
+	def time_step(self):
+		"""
+		Returns the time step of the data
+
+		:rtype: float
+		"""
+		
+		return self._time_step
+	
+	@property
+	def time_step_std(self):
+		"""
+		Returns the standard deviation of the time step of the data
+
+		:rtype: float
+		"""
+		
+		return self._time_step_std
 	
 	def trim(self, begin=None, end=None):
 		"""
@@ -405,7 +462,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 		file_name = prepare_filepath(file_name)
 		
-		N = len(self._scan_list)
+		# n = len(self._scan_list)
 		
 		print(" -> Writing scans to a file")
 		
@@ -413,8 +470,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		
 		for scan in self._scan_list:
 			intensities = scan.intensity_list
-			for I in intensities:
-				fp.write(f"{I:8.4f}\n")
+			for i in intensities:
+				fp.write(f"{i:8.4f}\n")
 		
 		fp.close()
-

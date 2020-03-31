@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           s#
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,10 +18,14 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
 
+# pyms
 from pyms.Noise.Analysis import window_analyzer
+
+# tests
+from .constants import *
 
 
 def test_window_anlyzer(tic):
@@ -33,16 +37,16 @@ def test_window_anlyzer(tic):
 	assert isinstance(window_analyzer(tic, rand_seed=test_string), float)
 	assert isinstance(window_analyzer(tic, rand_seed=test_float), float)
 	
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(type)
+			window_analyzer(obj)
 	
-	for type in [test_list_ints, test_list_strs, test_dict]:
+	for obj in [*test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, rand_seed=type)
-	for type in [test_float, test_list_ints, test_list_strs, test_dict]:
+			window_analyzer(tic, rand_seed=obj)
+	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, window=type)
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+			window_analyzer(tic, window=obj)
+	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, n_windows=type)
+			window_analyzer(tic, n_windows=obj)

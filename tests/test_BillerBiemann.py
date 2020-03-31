@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,15 +18,16 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
-import copy
 
-from pyms.TopHat import tophat
+# pyms
 from pyms.BillerBiemann import *
+from pyms.Noise.Analysis import window_analyzer
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Class import Peak
-from pyms.Noise.Analysis import window_analyzer
+from pyms.TopHat import tophat
+from tests.constants import *
 
 
 def test_BillerBiemann(im_i):
@@ -57,17 +58,17 @@ def test_BillerBiemann(im_i):
 	assert len(peak_list2) <= len(peak_list)
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			BillerBiemann(type)
+			BillerBiemann(obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			BillerBiemann(im_i, points=type)
+			BillerBiemann(im_i, points=obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			BillerBiemann(im_i, scans=type)
+			BillerBiemann(im_i, scans=obj)
 
 
 def test_rel_threshold(peak_list):
@@ -85,13 +86,13 @@ def test_rel_threshold(peak_list):
 	with pytest.raises(ValueError):
 		rel_threshold(peak_list, percent=0)
 	
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_int, test_tuple]:
+	for obj in [test_string, *test_sequences, test_dict, test_int]:
 		with pytest.raises(TypeError):
-			rel_threshold(type)
+			rel_threshold(obj)
 	
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			rel_threshold(peak_list, percent=type)
+			rel_threshold(peak_list, percent=obj)
 			
 
 def test_num_ions_threshold(peak_list, tic):
@@ -131,17 +132,17 @@ def test_num_ions_threshold(peak_list, tic):
 	assert len(peak_list) <= len(peak_list)
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			num_ions_threshold(type, 5, 100)
+			num_ions_threshold(obj, 5, 100)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			num_ions_threshold(peak_list, type, 100.0)
+			num_ions_threshold(peak_list, obj, 100.0)
 	
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			num_ions_threshold(peak_list, 5, type)
+			num_ions_threshold(peak_list, 5, obj)
 
 
 def test_sum_maxima(im):
@@ -150,17 +151,17 @@ def test_sum_maxima(im):
 	assert new_tic.is_tic()
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			sum_maxima(type)
+			sum_maxima(obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			sum_maxima(im, points=type)
+			sum_maxima(im, points=obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			sum_maxima(im, scans=type)
+			sum_maxima(im, scans=obj)
 
 
 def test_get_maxima_indices():
@@ -168,12 +169,12 @@ def test_get_maxima_indices():
 	
 	# Errors
 	
-	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
+	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_indices(type)
-	for type in [test_string, test_list_ints, test_float, test_list_strs, test_dict, test_tuple]:
+			get_maxima_indices(obj)
+	for obj in [test_string, *test_sequences, test_float, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_indices(test_list_ints, points=type)
+			get_maxima_indices(test_list_ints, points=obj)
 
 
 def test_get_maxima_list(tic):
@@ -185,12 +186,12 @@ def test_get_maxima_list(tic):
 	
 	# Errors
 	
-	for type in [test_string, test_int, test_float, test_list_strs, test_dict, test_list_ints, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_list(type)
-	for type in [test_string, test_list_ints, test_float, test_list_strs, test_dict, test_tuple]:
+			get_maxima_list(obj)
+	for obj in [test_string, *test_sequences, test_float, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_list(tic, points=type)
+			get_maxima_list(tic, points=obj)
 
 
 def test_get_maxima_list_reduced(tic):
@@ -201,18 +202,18 @@ def test_get_maxima_list_reduced(tic):
 	assert maxima_iist[0][0] == 10.5559998751
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_strs, test_dict, test_list_ints, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_list_reduced(type, 0)
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_tuple]:
+			get_maxima_list_reduced(obj, 0)
+	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_list_reduced(tic, mp_rt=type)
-	for type in [test_string, test_list_ints, test_float, test_list_strs, test_dict, test_tuple]:
+			get_maxima_list_reduced(tic, mp_rt=obj)
+	for obj in [test_string, *test_sequences, test_float, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_list_reduced(tic, test_float, points=type)
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_tuple]:
+			get_maxima_list_reduced(tic, test_float, points=obj)
+	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_list_reduced(tic, test_float, window=type)
+			get_maxima_list_reduced(tic, test_float, window=obj)
 
 
 def test_get_maxima_matrix(peak_list, im, tic):
@@ -221,14 +222,14 @@ def test_get_maxima_matrix(peak_list, im, tic):
 	# TODO: value check
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_matrix(type)
+			get_maxima_matrix(obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_matrix(im, points=type)
+			get_maxima_matrix(im, points=obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			get_maxima_matrix(im, scans=type)
+			get_maxima_matrix(im, scans=obj)

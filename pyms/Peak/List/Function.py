@@ -6,7 +6,7 @@ Functions related to Peak modification
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -151,7 +151,7 @@ def fill_peaks(data, peak_list, D, minutes=False):
         spec = peak_list[ii].mass_spectrum.mass_spec
         spec = numpy.array(spec, dtype='d')
         rt = peak_list[ii].rt
-        spec_SS = numpy.sum(spec**2, axis=0)
+        sum_spec_squared = numpy.sum(spec**2, axis=0)
 
         # get neighbour RT's
         if ii > 0:
@@ -184,14 +184,14 @@ def fill_peaks(data, peak_list, D, minutes=False):
         subrts = datatimes[lowii:upii+1]
         subrts = numpy.array(subrts, dtype='d')
 
-        submat_SS = numpy.sum(submat**2, axis=1)
+        sum_summat_squared = numpy.sum(submat**2, axis=1)
 
         # transpose spec (as matrix) for dot product
         spec = numpy.transpose([spec])
         # dot product on rows
 
         toparr = numpy.dot(submat, spec)
-        botarr = numpy.sqrt(spec_SS*submat_SS)
+        botarr = numpy.sqrt(sum_spec_squared*sum_summat_squared)
 
         # convert back to 1-D array
         toparr = toparr.ravel()
@@ -241,7 +241,7 @@ def sele_peaks_by_rt(peaks, rt_range):
     :type peaks: list or tuple or numpy.ndarray
     :param rt_range: A list of two time strings, specifying lower and
            upper retention times
-    :type rt_range: list
+    :type rt_range: list, tuple
     
     :return: A list of peak objects
     :rtype: :class:`list` of :class:`pyms.Peak.Class.Peak`

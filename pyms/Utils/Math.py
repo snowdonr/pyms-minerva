@@ -6,7 +6,7 @@ Provides mathematical functions
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    is_float from on 'jcamp' by Nathan Hagen								   #
 # 	 https://github.com/nzhagen/jcamp										   #
@@ -29,8 +29,7 @@ Provides mathematical functions
 
 # stdlib
 import math
-from statistics import median
-from statistics import stdev as std
+from statistics import median, stdev as std
 
 # 3rd party
 import numpy
@@ -120,11 +119,11 @@ def rmsd(list1, list2):
     if not isinstance(list2, _list_types):
         raise TypeError("'list2' must be a list or array")
 
-    sum = 0.0
+    total = 0.0
     for i in range(len(list1)):
-        sum = sum + (list1[i] - list2[i]) ** 2
-    rmsd = math.sqrt(sum / len(list1))
-    return rmsd
+        total = total + (list1[i] - list2[i]) ** 2
+    _rmsd = math.sqrt(total / len(list1))
+    return _rmsd
 
 
 def mad_based_outlier(data, thresh=3.5):
@@ -145,8 +144,8 @@ def mad_based_outlier(data, thresh=3.5):
     data = numpy.array(data)
     if len(data.shape) == 1:
         data = data[:, None]
-    median = numpy.nanmedian(data)
-    diff = numpy.nansum((data - median) ** 2, dtype=float, axis=-1)
+    _median = numpy.nanmedian(data)
+    diff = numpy.nansum((data - _median) ** 2, dtype=float, axis=-1)
     diff = numpy.sqrt(diff)
     med_abs_deviation = numpy.nanmedian(diff)
     
@@ -175,7 +174,7 @@ def percentile_based_outlier(data, threshold=95):
     # nanpercentile only works in numpy 1.9 and up
     # minval, maxval = numpy.nanpercentile(data, [diff, 100 - diff])
     data = numpy.array(data)
-    minval, maxval = numpy.percentile(numpy.compress(numpy.isnan(data) == False, data), (diff, 100 - diff))
+    minval, maxval = numpy.percentile(numpy.compress(numpy.isnan(data) is False, data), (diff, 100 - diff))
     return (data < minval) | (data > maxval)
 
 

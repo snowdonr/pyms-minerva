@@ -28,7 +28,7 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsBaseClass, _list_types
+from pyms.Base import _list_types, pymsBaseClass
 from pyms.Mixins import MassListMixin
 
 
@@ -198,6 +198,13 @@ class MassSpectrum(Scan):
 
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
+	
+	def __init__(self, mass_list, intensity_list):
+		"""
+		Initialise the class
+		"""
+		
+		Scan.__init__(self, mass_list, intensity_list)
 	
 	@Scan.intensity_list.setter
 	def intensity_list(self, value):

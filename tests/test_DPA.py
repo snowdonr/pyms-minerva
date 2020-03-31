@@ -1,24 +1,47 @@
+#############################################################################
+#                                                                           #
+#    PyMassSpec software for processing of mass-spectrometry data           #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
+#                                                                           #
+#    This program is free software; you can redistribute it and/or modify   #
+#    it under the terms of the GNU General Public License version 2 as      #
+#    published by the Free Software Foundation.                             #
+#                                                                           #
+#    This program is distributed in the hope that it will be useful,        #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of         #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          #
+#    GNU General Public License for more details.                           #
+#                                                                           #
+#    You should have received a copy of the GNU General Public License      #
+#    along with this program; if not, write to the Free Software            #
+#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.              #
+#                                                                           #
+#############################################################################
+
+# stdlib
 import csv
 import math
 import operator
 
+# 3rd party
 import numpy
 import pytest
 
-from tests.constants import *
-
-from pyms.TopHat import tophat
-from pyms.BillerBiemann import BillerBiemann, rel_threshold, num_ions_threshold
-from pyms.IntensityMatrix import build_intensity_matrix_i
+# pyms
+from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
+from pyms.DPA.Alignment import Alignment, exprl2alignment
+from pyms.DPA.PairwiseAlignment import align_with_tree, PairwiseAlignment
+from pyms.Experiment import Experiment, load_expr
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
+from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
-from pyms.Experiment import load_expr, Experiment
-from pyms.DPA.Alignment import Alignment, exprl2alignment
-from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
-from pyms.Peak.List.IO import store_peaks
 from pyms.Peak.List.Function import composite_peak
+from pyms.Peak.List.IO import store_peaks
+from pyms.TopHat import tophat
 
+# tests
+from .constants import *
 
 eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
 geco_codes = ["GECO_1_SUBTRACT", "GECO_2_SUBTRACT", "GECO_3_SUBTRACT", "GECO_4_SUBTRACT", "GECO_5_SUBTRACT"]
@@ -96,7 +119,7 @@ def F1(expr_list):
 def T1(F1):
 	T1 = PairwiseAlignment(F1, Dw, Gw)
 	assert isinstance(T1, PairwiseAlignment)
-
+	
 	return T1
 
 
@@ -114,41 +137,41 @@ def A1(T1):
 
 
 def test_alignment_errors(F1, A1, outputdir):
-	for type in [test_string, test_int, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, test_int, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			PairwiseAlignment(F1, type, Gw)
+			PairwiseAlignment(F1, obj, Gw)
 		with pytest.raises(TypeError):
-			PairwiseAlignment(F1, Dw, type)
+			PairwiseAlignment(F1, Dw, obj)
 	
-	for type in [test_float, test_string, test_int, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [*test_numbers, test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			exprl2alignment(type)
+			exprl2alignment(obj)
 		with pytest.raises(TypeError):
-			PairwiseAlignment(type, Dw, Gw)
+			PairwiseAlignment(obj, Dw, Gw)
 		with pytest.raises(TypeError):
-			Alignment(type)
+			Alignment(obj)
 	
-	for type in [test_float, test_string, test_dict, test_list_strs, test_list_ints]:
+	for obj in [test_float, test_string, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
-			A1.filter_min_peaks(type)
+			A1.filter_min_peaks(obj)
 	
-	for type in [test_float, test_int, test_dict, test_list_strs, test_list_ints]:
+	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			A1.write_csv(type, outputdir / 'alignment_area.csv')
+			A1.write_csv(obj, outputdir / 'alignment_area.csv')
 		with pytest.raises(TypeError):
-			A1.write_csv(outputdir / 'alignment_rt.csv', type)
+			A1.write_csv(outputdir / 'alignment_rt.csv', obj)
 		with pytest.raises(TypeError):
-			A1.write_common_ion_csv(type, A1.common_ion())
+			A1.write_common_ion_csv(obj, A1.common_ion())
 		with pytest.raises(TypeError):
-			A1.write_ion_areas_csv(type)
+			A1.write_ion_areas_csv(obj)
 	
-	for type in [test_float, test_int, test_dict, test_list_strs, test_string]:
+	for obj in [*test_numbers, test_dict, test_list_strs, test_string]:
 		with pytest.raises(TypeError):
-			A1.write_common_ion_csv(outputdir / 'alignent_ion_area.csv', type)
+			A1.write_common_ion_csv(outputdir / 'alignent_ion_area.csv', obj)
 
 
 def test_write_csv(A1, outputdir):
-	A1.write_csv(outputdir/'alignment_rt.csv', outputdir/'alignment_area.csv')
+	A1.write_csv(outputdir / 'alignment_rt.csv', outputdir / 'alignment_area.csv')
 	
 	# Read alignment_rt.csv and alignment_area.csv and check values
 	assert (outputdir / "alignment_rt.csv").exists()
@@ -228,8 +251,8 @@ def test_write_csv(A1, outputdir):
 
 
 def test_write_ion_areas_csv(A1, outputdir):
-	A1.write_ion_areas_csv(outputdir/'alignment_ion_areas.csv')
-	A1.write_ion_areas_csv(outputdir/'alignment_ion_areas_seconds.csv', minutes=False)
+	A1.write_ion_areas_csv(outputdir / 'alignment_ion_areas.csv')
+	A1.write_ion_areas_csv(outputdir / 'alignment_ion_areas_seconds.csv', minutes=False)
 	
 	# Read alignment_ion_areas.csv and check values
 	assert (outputdir / "alignment_ion_areas.csv").exists()
@@ -248,7 +271,6 @@ def test_write_ion_areas_csv(A1, outputdir):
 			peak = A1.peakpos[align_idx][peak_idx]
 			
 			if peak is not None:
-				
 				ia = peak.ion_areas
 				ia.update((mass, math.floor(intensity)) for mass, intensity in ia.items())
 				sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
@@ -257,7 +279,7 @@ def test_write_ion_areas_csv(A1, outputdir):
 				assert seconds_ion_csv[peak_idx + 1][align_idx + 2] == str(sorted_ia)
 				
 				new_peak_list.append(peak)
-				
+		
 		compo_peak = composite_peak(new_peak_list)
 		
 		assert ion_csv[peak_idx + 1][0] == seconds_ion_csv[peak_idx + 1][0] == compo_peak.UID
@@ -272,17 +294,19 @@ def test_write_common_ion_csv(A1, outputdir):
 	assert isinstance(common_ion[0], int)
 	assert common_ion[0] == 77
 	
-	A1.write_common_ion_csv(outputdir/'alignment_common_ion.csv', A1.common_ion())
+	A1.write_common_ion_csv(outputdir / 'alignment_common_ion.csv', A1.common_ion())
 	# TODO: read the csv and check values
-	A1.write_common_ion_csv(outputdir/'alignment_common_ion_seconds.csv', A1.common_ion(), minutes=False)
-	# TODO: read the csv and check values
-	
-	
+	A1.write_common_ion_csv(outputdir / 'alignment_common_ion_seconds.csv', A1.common_ion(), minutes=False)
+
+
+# TODO: read the csv and check values
+
+
 def test_align_2_alignments(A1, datadir, outputdir):
 	expr_list = []
 	
 	for jcamp_file in geco_codes:
-		im = build_intensity_matrix_i(JCAMP_reader(datadir/f"{jcamp_file}.JDX"))
+		im = build_intensity_matrix_i(JCAMP_reader(datadir / f"{jcamp_file}.JDX"))
 		
 		# Intensity matrix size (scans, masses)
 		n_scan, n_mz = im.size
@@ -321,29 +345,27 @@ def test_align_2_alignments(A1, datadir, outputdir):
 	T2 = PairwiseAlignment(F2, Dw, Gw)
 	A2 = align_with_tree(T2, min_peaks=2)
 	
-	#top_ion_list = A2.common_ion()
-	#A2.write_common_ion_csv(outputdir/'area1.csv', top_ion_list)
+	# top_ion_list = A2.common_ion()
+	# A2.write_common_ion_csv(outputdir/'area1.csv', top_ion_list)
 	
 	# between replicates alignment parameters
-	Db = 10.0 # rt modulation
-	Gb = 0.30 # gap penalty
+	Db = 10.0  # rt modulation
+	Gb = 0.30  # gap penalty
 	
 	print('Aligning input {1,2}')
-	T9 = PairwiseAlignment([A1,A2], Db, Gb)
+	T9 = PairwiseAlignment([A1, A2], Db, Gb)
 	A9 = align_with_tree(T9)
 	
-	A9.write_csv(outputdir/'rt.csv', outputdir/'area.csv')
+	A9.write_csv(outputdir / 'rt.csv', outputdir / 'area.csv')
 	
 	aligned_peaks = A9.aligned_peaks()
-	store_peaks(aligned_peaks, outputdir/'peaks.bin')
+	store_peaks(aligned_peaks, outputdir / 'peaks.bin')
 	
 	top_ion_list = A9.common_ion()
-	A9.write_common_ion_csv(outputdir/'area.csv', top_ion_list)
+	A9.write_common_ion_csv(outputdir / 'area.csv', top_ion_list)
 
+# def test_alignment_compare():
+# todo
 
-#def test_alignment_compare():
-	#todo
-	
-#def test_dp()
-	#todo
-
+# def test_dp()
+# todo

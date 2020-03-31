@@ -6,7 +6,7 @@ Class to Display Ion Chromatograms and TIC
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -27,16 +27,17 @@ Class to Display Ion Chromatograms and TIC
 import warnings
 
 # 3rd party
+import deprecation
 import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib import figure, axes
-import deprecation
+from matplotlib import axes, figure
 
 # this package
 from pyms import __version__
-from pyms.Spectrum import MassSpectrum
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
+from pyms.Spectrum import MassSpectrum
+
 
 default_filetypes = ["png", "pdf", "svg"]
 
@@ -116,15 +117,15 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 			return
 		
 		if plot_label is not None:
-			t = self.ax.set_title(plot_label)
+			self.ax.set_title(plot_label)
 		
-		l = self.ax.legend()
+		self.ax.legend()
 		
 		self.fig.canvas.draw()
 		
 		# If no peak list plot, no mouse click event
 		if len(self.__peak_list) != 0:
-			cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+			self.fig.canvas.mpl_connect('button_press_event', self.onclick)
 	
 	# plt.show()
 	
@@ -326,6 +327,8 @@ def plot_ic(ax, ic, minutes=False, **kwargs):
 	:type ax: matplotlib.axes.Axes
 	:param ic: Ion Chromatograms m/z channels for plotting
 	:type ic: pyms.IonChromatogram.IonChromatogram
+	:param minutes: Whether the x-axis should be plotted in minutes. Default False (plotted in seconds)
+	:type minutes: bool, optional
 
 	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 		Used to specify properties like a line label (for auto legends),
@@ -412,9 +415,10 @@ def plot_peaks(ax, peak_list, label="Peaks", style="o"):
 	:type ax: matplotlib.axes.Axes
 	:param peak_list: List of peaks to plot
 	:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
-
 	:param label: label for plot legend (Default "Peaks")
 	:type label: str, optional
+	:param style: The marker style. See `https://matplotlib.org/3.1.1/api/markers_api.html` for a complete list
+	:type style: str
 	"""
 	
 	if not is_peak_list(peak_list):
@@ -500,7 +504,7 @@ class ClickEventHandler:
 				# Check if right mouse button pressed, if so plot mass spectrum
 				# Also check that a peak was selected, not just whitespace
 				if event.button == 3 and len(intensity_list) != 0:
-					from pyms.Display import plot_mass_spec
+					# from pyms.Display import plot_mass_spec
 					
 					if self.ms_fig is None:
 						self.ms_fig, self.ms_ax = plt.subplots(1, 1)

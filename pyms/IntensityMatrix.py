@@ -6,7 +6,7 @@ Class to model Intensity Matrix
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -39,6 +39,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, MassListMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.IO import save_data
+
 
 ASCII_DAT = 1
 ASCII_CSV = 0
@@ -287,8 +288,6 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		# check if the dimension is ok
 		if len(ia) != len(self._intensity_array):
 			raise ValueError("ion chromatogram incompatible with the intensity matrix")
-		else:
-			N = len(ia)
 		
 		# Convert 'ia' to a list. By convention, the attribute
 		# _intensity_array of the class IntensityMatrix is a list
@@ -297,7 +296,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		# produces ten times larger files compared to pickling python
 		# lists.
 		ial = ia.tolist()
-		for i in range(N):
+		for i in range(len(ia)):
 			self._intensity_array[i][ix] = ial[i]
 	
 	def get_ic_at_index(self, ix):
@@ -862,10 +861,10 @@ def __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right):
 
 	# fill the bins
 	intensity_matrix = []
-	for scan in data.scan_list: # use the alias, not the copy (Luke)
+	for scan in data.scan_list:  # use the alias, not the copy (Luke)
 		intensity_list = [0.0] * num_bins
-		masses = scan.mass_list # use the alias, not the copy (Luke)
-		intensities = scan.intensity_list # use the alias, not the copy (Luke)
+		masses = scan.mass_list  # use the alias, not the copy (Luke)
+		intensities = scan.intensity_list  # use the alias, not the copy (Luke)
 		for ii in range(len(masses)):
 			mm = int((masses[ii] + bl - min_mass)/bin_interval)
 			intensity_list[mm] += intensities[ii]
@@ -922,4 +921,3 @@ def __fill_bins_old(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 		intensity_matrix.append(intensity_list)
 
 	return IntensityMatrix(data.get_time_list(), mass_list, intensity_matrix)
-

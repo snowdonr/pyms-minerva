@@ -411,5 +411,3 @@ class Sample:
 			rt_area_dict[rt] = area
 		
 		return rt_area_dict
-
-

@@ -6,7 +6,7 @@ Functions for writing peak alignment to various file formats
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -39,7 +39,7 @@ Please install one of them and try again.""")
 
 from openpyxl import Workbook
 from openpyxl.comments import Comment
-from openpyxl.formatting.rule import ColorScaleRule#, CellIsRule, FormulaRule
+from openpyxl.formatting.rule import ColorScaleRule  # , CellIsRule, FormulaRule
 from openpyxl.styles import PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -48,13 +48,13 @@ from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
 
 
-def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
+def write_mass_hunter_csv(alignment, file_name, top_ion_list):  # , peak_list_name):
 	"""
 	Creates a csv file with UID, common and qualifying ions and their
 		ratios for mass hunter interpretation
 
-	:param algt: Alignment object to write to file
-	:type algt: pyms.DPA.Alignment
+	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
+	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: name of the output file
 	:type file_name: str or pathlib.Path
 
@@ -74,7 +74,10 @@ def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
 		raise ValueError("List of common ions must be supplied")
 	
 	# write headers
-	fp.write('"UID","Common Ion","Qual Ion 1","ratio QI1/CI","Qual Ion 2","ratio QI2/CI","l window delta","r window delta"\n')
+	fp.write(
+			'"UID","Common Ion","Qual Ion 1","ratio QI1/CI","Qual Ion 2",'
+			'"ratio QI2/CI","l window delta","r window delta"\n'
+			)
 	
 	rtsums = []
 	rtcounts = []
@@ -90,7 +93,7 @@ def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
 	rtmax = []
 	rtmin = []
 	
-	for peak_list in algt.peakpos:
+	for peak_list in alignment.peakpos:
 		index = 0
 		for peak in peak_list:
 			# on the first iteration, populate the lists
@@ -184,8 +187,17 @@ def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
 			# shouldn't happen, but does!!
 			q2_ci_ratio = 0.01
 		
-		out_strings.append(
-			f"{peak_UID},{common_ion},{qual_ion_1},{q1_ci_ratio * 100:.1f},{qual_ion_2},{q2_ci_ratio * 100:.1f},{(l_window_delta + 1.5) / 60:.2f},{(r_window_delta + 1.5) / 60:.2f}")
+		out_strings.append(",".join([
+				peak_UID,
+				f"{common_ion}",
+				f"{qual_ion_1}",
+				f"{q1_ci_ratio * 100:.1f}",
+				f"{qual_ion_2}",
+				f"{q2_ci_ratio * 100:.1f}",
+				f"{(l_window_delta + 1.5) / 60:.2f}",
+				f"{(r_window_delta + 1.5) / 60:.2f}",
+				]))
+		
 		index += 1
 	
 	# now write the file
@@ -200,12 +212,12 @@ def write_mass_hunter_csv(algt, file_name, top_ion_list):  # , peak_list_name):
 	fp.close()
 	
 	
-def write_excel(algt, file_name, minutes=True):
+def write_excel(alignment, file_name, minutes=True):
 	"""
 	Writes the alignment to an excel file, with colouring showing possible mis-alignments
 
-	:param algt: Alignment object to write to file
-	:type algt: pyms.DPA.Alignment
+	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
+	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: The name for the retention time alignment file
 	:type file_name: str or pathlib.Path
 	:param minutes: An optional indicator whether to save retention times
@@ -227,18 +239,18 @@ def write_excel(algt, file_name, minutes=True):
 	# create header row
 	ws['A1'] = "UID"
 	ws['B1'] = "RTavg"
-	for i, item in enumerate(algt.expr_code):
+	for i, item in enumerate(alignment.expr_code):
 		currcell = ws.cell(row=1, column=i + 3, value=f"{item}")
 		comment = Comment('sample ' + str(i), 'dave')
 		currcell.comment = comment
 	
 	# for each alignment position write alignment's peak and area
-	for peak_idx in range(len(algt.peakpos[0])):  # loop through peak lists (rows)
+	for peak_idx in range(len(alignment.peakpos[0])):  # loop through peak lists (rows)
 		
 		new_peak_list = []
 		
-		for align_idx in range(len(algt.peakpos)):  # loops through samples (columns)
-			peak = algt.peakpos[align_idx][peak_idx]
+		for align_idx in range(len(alignment.peakpos)):  # loops through samples (columns)
+			peak = alignment.peakpos[align_idx][peak_idx]
 			
 			if peak is not None:
 				
@@ -260,7 +272,7 @@ def write_excel(algt, file_name, minutes=True):
 				
 				# write the peak area and mass spec into the comment for the cell
 				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", 'dave')
-				currcell.number_format
+				# currcell.number_format
 				currcell.comment = comment
 			
 			else:
@@ -268,15 +280,15 @@ def write_excel(algt, file_name, minutes=True):
 				# area = 'NA'
 				currcell = ws.cell(row=2 + peak_idx, column=3 + align_idx, value='NA')
 				comment = Comment("Area: NA", 'dave')
-				currcell.number_format
+				# currcell.number_format
 				currcell.comment = comment
 		
 		compo_peak = composite_peak(new_peak_list)
 		peak_UID = compo_peak.UID
 		peak_UID_string = f'"{peak_UID}"'
 		
-		currcell = ws.cell(row=2 + peak_idx, column=1, value=peak_UID_string)
-		currcell = ws.cell(row=2 + peak_idx, column=2, value=f"{float(compo_peak.rt / 60):.3f}")
+		ws.cell(row=2 + peak_idx, column=1, value=peak_UID_string)
+		ws.cell(row=2 + peak_idx, column=2, value=f"{float(compo_peak.rt / 60):.3f}")
 	
 	# colour the cells in each row based on their RT percentile for that row
 	i = 0
@@ -287,16 +299,16 @@ def write_excel(algt, file_name, minutes=True):
 			start_type='percentile', start_value=1, start_color='E5FFCC',
 			mid_type='percentile', mid_value=50, mid_color='FFFFFF',
 			end_type='percentile', end_value=99, end_color='FFE5CC'
-		))
+			))
 		
 		wb.save(file_name)
 	
 	
-def write_transposed_output(algt, file_name, minutes=True):
+def write_transposed_output(alignment, file_name, minutes=True):
 	"""
 
-	:param algt: :class:`pyms.DPA.Alignment` object to write to file
-	:type algt: :class:`pyms.DPA.Alignment`
+	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
+	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: The name of the file
 		:type file_name: str or pathlib.Path
 	:param minutes:
@@ -321,18 +333,17 @@ def write_transposed_output(algt, file_name, minutes=True):
 	style_outlier = PatternFill(fill_type="solid", fgColor="FFAE19", bgColor="FFAE19")
 	
 	# write column with sample IDs
-	for i, item in enumerate(algt.expr_code):
+	for i, item in enumerate(alignment.expr_code):
 		ws1.cell(column=1, row=i + 3, value=f"{item}")
 		ws2.cell(column=1, row=i + 3, value=f"{item}")
 	
 	# for each alignment position write alignment's peak and area
-	for peak_idx in range(len(algt.peakpos[0])):  # loop through peak lists
+	for peak_idx in range(len(alignment.peakpos[0])):  # loop through peak lists
 		
 		new_peak_list = []  # this will contain a list of tuples of form (peak, col, row), but only non-NA peaks
-		cell_col, cell_row = 0, 0
 		
-		for align_idx in range(len(algt.peakpos)):  # loops through samples
-			peak = algt.peakpos[align_idx][peak_idx]
+		for align_idx in range(len(alignment.peakpos)):  # loops through samples
+			peak = alignment.peakpos[align_idx][peak_idx]
 			cell_col = 2 + peak_idx
 			cell_row = 3 + align_idx
 			
@@ -350,7 +361,7 @@ def write_transposed_output(algt, file_name, minutes=True):
 				
 				# write the RT into the cell in the excel file
 				currcell1 = ws1.cell(column=cell_col, row=cell_row, value=round(rt, 3))
-				currcell2 = ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))
+				ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))
 				
 				# get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them
 				ia = peak.ion_areas
@@ -365,7 +376,7 @@ def write_transposed_output(algt, file_name, minutes=True):
 				# rt = 'NA'
 				# area = 'NA'
 				currcell1 = ws1.cell(column=cell_col, row=cell_row, value='NA')
-				currcell2 = ws2.cell(column=cell_col, row=cell_row, value='NA')
+				ws2.cell(column=cell_col, row=cell_row, value='NA')
 				comment = Comment("Area: NA", 'dave')
 				currcell1.comment = comment
 		

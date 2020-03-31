@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,15 +18,16 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
 
-from tests.constants import *
-from pyms.Peak import Peak
-from pyms.Spectrum import MassSpectrum
-from pyms.Peak.Function import peak_sum_area
+# pyms
+from pyms.Base import _list_types
 from pyms.Peak.List import *
 from pyms.Peak.List.IO import *
-from pyms.Base import _list_types
+
+# tests
+from .constants import *
 
 
 def test_composite_peak(filtered_peak_list, im_i):
@@ -47,9 +48,9 @@ def test_composite_peak(filtered_peak_list, im_i):
 	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 115
 	
-	#area = peak_sum_area(im_i, peak)
-	#peak.area = area
-	#assert peak.area == area
+	# area = peak_sum_area(im_i, peak)
+	# peak.area = area
+	# assert peak.area == area
 
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
 	assert isinstance(peak.mass_spectrum.mass_spec, _list_types)
@@ -61,9 +62,9 @@ def test_composite_peak(filtered_peak_list, im_i):
 	assert peak.UID != uid
 
 	# Errors
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_string, test_tuple, test_int]:
+	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			composite_peak(type)
+			composite_peak(obj)
 
 
 def test_composite_peak_outliers(filtered_peak_list, im_i):
@@ -81,9 +82,9 @@ def test_composite_peak_outliers(filtered_peak_list, im_i):
 	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 161
 	
-	#area = peak_sum_area(im_i, peak)
-	#peak.area = area
-	#assert peak.area == area
+	# area = peak_sum_area(im_i, peak)
+	# peak.area = area
+	# assert peak.area == area
 
 	peak.null_mass(73)
 	index_73 = peak.mass_spectrum.mass_list.index(73)
@@ -98,12 +99,12 @@ def test_fill_peaks(im_i, peak_list):
 	assert is_peak_list(filled_peak_list)
 	
 	# Errors
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_string, test_tuple, test_int]:
+	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			fill_peaks(im_i, type, 10.0)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string, test_tuple, test_int]:
+			fill_peaks(im_i, obj, 10.0)
+	for obj in [test_dict, *test_sequences, test_string, test_int]:
 		with pytest.raises(TypeError):
-			fill_peaks(im_i, peak_list, type)
+			fill_peaks(im_i, peak_list, obj)
 
 
 def test_is_peak_list(peak_list, ms, im_i, data):
@@ -150,27 +151,27 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])
 	
 	# Errors
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_string, test_tuple, test_int]:
+	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			sele_peaks_by_rt(type, ("12m", "13m"))
-	for type in [test_dict, test_float, test_string, test_int]:
+			sele_peaks_by_rt(obj, ("12m", "13m"))
+	for obj in [test_dict, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			sele_peaks_by_rt(filtered_peak_list, type)
-	for type in [test_list_ints, test_list_strs, test_tuple]:
+			sele_peaks_by_rt(filtered_peak_list, obj)
+	for obj in [*test_sequences]:
 		with pytest.raises(ValueError):
-			sele_peaks_by_rt(filtered_peak_list, type)
+			sele_peaks_by_rt(filtered_peak_list, obj)
 
 
 def test_store_peaks(filtered_peak_list, outputdir):
 	store_peaks(filtered_peak_list, outputdir/"filtered_peak_list.dat")
 	
 	# Errors
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_tuple, test_int, test_string]:
+	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			store_peaks(type, outputdir/test_string)
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_tuple, test_int]:
+			store_peaks(obj, outputdir/test_string)
+	for obj in [test_dict, *test_sequences, *test_numbers]:
 		with pytest.raises(TypeError):
-			store_peaks(filtered_peak_list, type)
+			store_peaks(filtered_peak_list, obj)
 
 
 def test_load_peaks(filtered_peak_list, datadir, outputdir):
@@ -178,11 +179,10 @@ def test_load_peaks(filtered_peak_list, datadir, outputdir):
 
 	assert loaded_peak_list == filtered_peak_list
 
-
 	# Errors
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_tuple, test_int]:
+	for obj in [test_dict, *test_sequences, *test_numbers]:
 		with pytest.raises(TypeError):
-			load_peaks(type)
+			load_peaks(obj)
 	with pytest.raises(FileNotFoundError):
 		load_peaks(test_string)
 
@@ -192,4 +192,3 @@ def test_load_peaks(filtered_peak_list, datadir, outputdir):
 		load_peaks(datadir/"test_list_ints.dat")
 	with pytest.raises(IOError):
 		load_peaks(datadir/"test_empty_list.dat")
-

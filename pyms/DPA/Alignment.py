@@ -6,7 +6,7 @@ Classes for peak alignment by dynamic programming
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -548,6 +548,8 @@ class Alignment:
 		:type minutes: BooleanType
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
 		:type require_all_expr: bool, optional
+		
+		:rtype: pandas.DataFrame
 
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
@@ -592,6 +594,8 @@ class Alignment:
 
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
 		:type require_all_expr: bool, optional
+		
+		:rtype: pandas.DataFrame
 
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
@@ -632,6 +636,8 @@ class Alignment:
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
 		:type require_all_expr: bool, optional
 
+		:rtype: pandas.DataFrame
+
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
 		:author: Vladimir Likic
@@ -668,6 +674,8 @@ class Alignment:
 
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
 		:type require_all_expr: bool, optional
+
+		:rtype: pandas.DataFrame
 
 		:author: Woon Wai Keen
 		:author: Andrew Isaac
@@ -707,7 +715,10 @@ def exprl2alignment(expr_list):
 	Converts experiments into alignments
 
 	:param expr_list: The list of experiments to be converted into an alignment objects
-	:type expr_list: list
+	:type expr_list: list of :class:`pyms.Experiment.Experiment`
+	
+	:return: A list of alignment objects for the experiments
+	:rtype: list of :class:`pyms.DPA.Alignment.Alignment`
 
 	:author: Vladimir Likic
 	"""

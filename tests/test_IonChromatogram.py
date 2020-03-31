@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,16 +18,19 @@
 #                                                                           #
 #############################################################################
 
-
+# stdlib
 import copy
 import pickle
 
-import pytest
-from tests.constants import *
-
+# 3rd party
 import numpy
+import pytest
 
+# pyms
 from pyms.IonChromatogram import IonChromatogram
+
+# tests
+from .constants import *
 
 
 def test_IonChromatogram(im, tic):
@@ -45,15 +48,15 @@ def test_IonChromatogram(im, tic):
 	assert tic.is_tic()
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_strs, test_list_ints, test_dict, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(type, tic.time_list)
-	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
+			IonChromatogram(obj, tic.time_list)
+	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, type)
-	for type in [test_string, test_list_strs, test_list_ints, test_dict, test_tuple]:
+			IonChromatogram(tic.intensity_array, obj)
+	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, tic.time_list, mass=type)
+			IonChromatogram(tic.intensity_array, tic.time_list, mass=obj)
 	
 	with pytest.raises(ValueError):
 		IonChromatogram(tic.intensity_array, test_list_ints)
@@ -90,9 +93,9 @@ def test_get_intensity_at_index(tic):
 	assert tic.get_intensity_at_index(test_int) == 421170.0
 	
 	# Errors
-	for type in [test_string, test_float, test_list_strs, test_list_ints, test_dict, test_tuple]:
+	for obj in [test_string, test_float, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			tic.get_intensity_at_index(type)
+			tic.get_intensity_at_index(obj)
 	
 	with pytest.raises(IndexError):
 		tic.get_intensity_at_index(-1)
@@ -175,9 +178,9 @@ def test_write(tic, outputdir):
 		
 	fp.close()
 	
-	for type in [test_dict, test_list_strs, test_list_ints, test_tuple, test_int, test_float]:
+	for obj in [test_dict, *test_sequences, *test_numbers]:
 		with pytest.raises(TypeError):
-			tic.write(type)
+			tic.write(obj)
 
 
 # Inherited Methods from pymsBaseClass
@@ -186,9 +189,9 @@ def test_dump(im_i, outputdir):
 	im_i.dump(outputdir / "im_i_dump.dat")
 	
 	# Errors
-	for type in [test_list_strs, test_dict, test_list_ints, test_tuple, test_int, test_float]:
+	for obj in [*test_sequences, test_dict, *test_numbers]:
 		with pytest.raises(TypeError):
-			im_i.dump(type)
+			im_i.dump(obj)
 	
 	# Read and check values
 	assert (outputdir / "im_i_dump.dat").exists()
@@ -254,9 +257,9 @@ def test_get_index_at_time(tic):
 	assert tic.get_index_at_time(12) == 10
 	
 	# Errors
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_tuple]:
+	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			tic.get_index_at_time(type)
+			tic.get_index_at_time(obj)
 	
 	with pytest.raises(IndexError):
 		tic.get_index_at_time(-1)
@@ -284,5 +287,3 @@ def test_get_time_at_index(tic):
 		tic.get_time_at_index(-1)
 	with pytest.raises(IndexError):
 		tic.get_time_at_index(10000000)
-
-

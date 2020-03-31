@@ -6,7 +6,7 @@ Top-hat baseline corrector
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -31,9 +31,9 @@ import numpy
 from scipy import ndimage
 
 # this package
+from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
-from pyms.GCMS.Function import ic_window_points
 
 
 # default structural element as a fraction of total number of points
@@ -47,7 +47,7 @@ def tophat(ic, struct=None):
     :param ic: The input ion chromatogram
     :type ic: pyms.IonChromatogram.IonChromatogram
     :param struct: Top-hat structural element as time string
-    :type struct: str
+    :type struct: int or str or NoneType, optional
 
     :return: Top-hat corrected ion chromatogram
     :rtype: pyms.IonChromatogram.IonChromatogram

@@ -6,7 +6,7 @@ Time conversion and related functions
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -24,8 +24,8 @@ Time conversion and related functions
 ################################################################################
 
 # stdlib
-import re
 import math
+import re
 
 
 def is_str_num(arg):
@@ -136,4 +136,3 @@ def window_sele_points(ic, window_sele, half_window=False):
             raise ValueError(f"window too small (window={points:d})")
 
     return points
-

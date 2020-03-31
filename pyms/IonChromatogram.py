@@ -6,7 +6,7 @@ Classes to model a GC-MS Ion Chromatogram
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -140,7 +140,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 			ia=numpy.copy(self._intensity_array),
 			time_list=self._time_list[:],
 			mass=copy.copy(self._mass)
-		)
+			)
 	
 	def __deepcopy__(self, memodict={}):
 		return self.__copy__()
@@ -332,4 +332,3 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 				fp.write(f"{time_list[ii]} {self._intensity_array[ii]}\n")
 		
 		fp.close()
-

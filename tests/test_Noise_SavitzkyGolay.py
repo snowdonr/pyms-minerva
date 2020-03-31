@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,12 +18,16 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
 
+# pyms
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay, savitzky_golay_im
+
+# tests
+from .constants import *
 
 
 def test_savitzky_golay(tic):
@@ -51,17 +55,17 @@ def test_savitzky_golay(tic):
 		tic1.mass
 	
 	# Test Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(type)
+			savitzky_golay(obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(tic, degree=type)
+			savitzky_golay(tic, degree=obj)
 	
-	for type in [test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(tic, window=type)
+			savitzky_golay(tic, window=obj)
 		
 
 def test_savitzky_golay_intensity_matrix(im, tic):
@@ -84,17 +88,17 @@ def test_savitzky_golay_intensity_matrix(im, tic):
 	
 	# Test Errors
 	
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(type)
+			savitzky_golay_im(obj)
 	
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(im, degree=type)
+			savitzky_golay_im(im, degree=obj)
 		
-	for type in [test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(im, window=type)
+			savitzky_golay_im(im, window=obj)
 
 
 

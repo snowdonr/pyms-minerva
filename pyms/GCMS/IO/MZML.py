@@ -6,7 +6,7 @@ Functions for reading mzML format data files
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -77,7 +77,9 @@ def mzML_reader(file_name):
 				print(file_n)
 		else:
 			comm.send(file_name, dest=0)
-	except:
+	# TODO: Find specific error
+	except Exception as e:
+		print(e)
 		print(f" -> Reading mzML file '{file_name}'")
 	
 	scan_list = []
@@ -106,4 +108,3 @@ def mzML_reader(file_name):
 	data = GCMS_data(time_list, scan_list)
 	
 	return data
-

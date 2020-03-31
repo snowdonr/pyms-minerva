@@ -6,7 +6,7 @@ General I/O functions
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -25,8 +25,8 @@ General I/O functions
 
 # stdlib
 import gzip
-import pickle
 import pathlib
+import pickle
 
 # 3rd party
 import numpy
@@ -99,7 +99,7 @@ def load_object(file_name):
 	
 	with file_name.open('wb') as fp:
 		return pickle.load(fp)
-	
+
 
 def file_lines(file_name, strip=False):
 	"""
@@ -203,7 +203,8 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 				for jj in range(len(data[ii])):
 					if isinstance(data[ii][jj], (int, float)):
 						fp.write(format_str % (data[ii][jj]))
-						if jj<(len(data[ii]) - 1): fp.write(sep)
+						if jj < (len(data[ii]) - 1):
+							fp.write(sep)
 					else:
 						raise TypeError("'datum' must be a number")
 				fp.write("\n")

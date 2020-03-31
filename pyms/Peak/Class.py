@@ -6,7 +6,7 @@ Provides a class to model signal peak
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -32,9 +32,9 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.Base import pymsBaseClass, _list_types
-from pyms.Spectrum import MassSpectrum
+from pyms.Base import _list_types, pymsBaseClass
 from pyms.IntensityMatrix import IntensityMatrix
+from pyms.Spectrum import MassSpectrum
 
 
 class Peak(pymsBaseClass):
@@ -289,7 +289,11 @@ class Peak(pymsBaseClass):
 			index = self._mass_spectrum.mass_list.index(ion)
 			return self._mass_spectrum.mass_spec[index]
 		except (ValueError, IndexError):
-			raise IndexError(f"'ion' out of range of mass spectrum (range {min(self._mass_spectrum.mass_list)} to {max(self._mass_spectrum.mass_list)})")
+			raise IndexError(
+					f"'ion' out of range of mass spectrum (range "
+					f"{min(self._mass_spectrum.mass_list)} to "
+					f"{max(self._mass_spectrum.mass_list)})"
+					)
 	
 	def get_ion_area(self, ion):
 		"""
@@ -691,9 +695,10 @@ class Peak(pymsBaseClass):
 		
 		return self._UID
 		
-	## TODO: What is this?
 	def find_mass_spectrum(self, data, from_bounds=False):
 		"""
+		TODO: What does this function do?
+		
 		Sets peak mass spectrum from the data.
 		Clears the single ion chromatogram mass.
 

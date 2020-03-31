@@ -6,7 +6,7 @@ Savitzky-Golay noise filter
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -33,7 +33,6 @@ import numpy
 from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
-
 
 __DEFAULT_WINDOW = 7
 __DEFAULT_POLYNOMIAL_DEGREE = 2
@@ -127,7 +126,6 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_D
 
 
 def __calc_coeff(num_points, pol_degree, diff_order=0):
-	
 	"""
 	Calculates filter coefficients for symmetric savitzky-golay filter.
 
@@ -154,25 +152,25 @@ def __calc_coeff(num_points, pol_degree, diff_order=0):
 	"""
 	
 	# setup normal matrix
-	A = numpy.zeros((2*num_points+1, pol_degree+1), float)
-	for i in range(2*num_points+1):
-		for j in range(pol_degree+1):
-			A[i,j] = pow(i-num_points, j)
+	A = numpy.zeros((2 * num_points + 1, pol_degree + 1), float)
+	for i in range(2 * num_points + 1):
+		for j in range(pol_degree + 1):
+			A[i, j] = pow(i - num_points, j)
 	
 	# calculate diff_order-th row of inv(A^T A)
 	ATA = numpy.dot(A.transpose(), A)
-	rhs = numpy.zeros((pol_degree+1,), float)
+	rhs = numpy.zeros((pol_degree + 1,), float)
 	rhs[diff_order] = 1
 	D = numpy.linalg.cholesky(ATA)
 	wvec = __resub(D, rhs)
 	
 	# calculate filter-coefficients
-	coeff = numpy.zeros((2*num_points+1,), float)
-	for n in range(-num_points, num_points+1):
+	coeff = numpy.zeros((2 * num_points + 1,), float)
+	for n in range(-num_points, num_points + 1):
 		x = 0.0
-		for m in range(pol_degree+1):
-			x += wvec[m]*pow(n, m)
-		coeff[n+num_points] = x
+		for m in range(pol_degree + 1):
+			x += wvec[m] * pow(n, m)
+		coeff[n + num_points] = x
 	
 	return coeff
 
@@ -194,22 +192,22 @@ def __resub(D, rhs):
 	"""
 	
 	M = D.shape[0]
-	x1= numpy.zeros((M,),float)
-	x2= numpy.zeros((M,),float)
+	x1 = numpy.zeros((M,), float)
+	x2 = numpy.zeros((M,), float)
 	
 	# resub step 1
 	for l in range(M):
-		sum = rhs[l]
+		total = rhs[l]
 		for n in range(l):
-			sum -= D[l,n]*x1[n]
-		x1[l] = sum/D[l,l]
+			total -= D[l, n] * x1[n]
+		x1[l] = total / D[l, l]
 	
 	# resub step 2
-	for l in range(M-1,-1,-1):
-		sum = x1[l]
-		for n in range(l+1,M):
-			sum -= D[n,l]*x2[n]
-		x2[l] = sum/D[l,l]
+	for l in range(M - 1, -1, -1):
+		total = x1[l]
+		for n in range(l + 1, M):
+			total -= D[n, l] * x2[n]
+		x2[l] = total / D[l, l]
 	
 	return x2
 
@@ -229,7 +227,6 @@ def __smooth(signal, coeff):
 	:copyright: Uwe Schmitt
 	"""
 	
-	N = numpy.size(coeff-1)//2
+	size = numpy.size(coeff - 1) // 2
 	res = numpy.convolve(signal, coeff)
-	return res[N:-N]
-
+	return res[size:-size]

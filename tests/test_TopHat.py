@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,12 +18,16 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
 
+# pyms
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.TopHat import tophat, tophat_im
+
+# tests
+from .constants import *
 
 
 def test_topHat(tic):
@@ -40,15 +44,15 @@ def test_topHat(tic):
 	assert isinstance(tic4, IonChromatogram)
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences]:
 		with pytest.raises(TypeError):
-			tophat(type, "1m")
-	for type in [test_float, test_list_ints, test_list_strs, test_tuple]:
+			tophat(obj, "1m")
+	for obj in [test_float, *test_sequences]:
 		with pytest.raises(TypeError):
-			tophat(tic, type)
-	for type in [test_string]:
+			tophat(tic, obj)
+	for obj in [test_string]:
 		with pytest.raises(ValueError):
-			tophat(tic, type)
+			tophat(tic, obj)
 		
 
 def test_tophat_im(im):
@@ -65,15 +69,15 @@ def test_tophat_im(im):
 	assert isinstance(ic_base_corr, IonChromatogram)
 	
 	# Errors
-	for type in [test_string, test_int, test_float, test_list_ints, test_list_strs, test_tuple]:
+	for obj in [test_string, *test_numbers, *test_sequences]:
 		with pytest.raises(TypeError):
-			tophat_im(type, "1m")
-	for type in [test_float, test_list_ints, test_list_strs, test_tuple]:
+			tophat_im(obj, "1m")
+	for obj in [test_float, *test_sequences]:
 		with pytest.raises(TypeError):
-			tophat_im(im, type)
-	for type in [test_string]:
+			tophat_im(im, obj)
+	for obj in [test_string]:
 		with pytest.raises(ValueError):
-			tophat_im(im, type)
+			tophat_im(im, obj)
 
 # TODO:
 # ic.write("output/ic.dat",minutes=True)

@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,10 +18,14 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
 
+# pyms
 from pyms.Peak.Function import *
+
+# tests
+from .constants import *
 
 
 def test_peak_sum_area(peak, im_i):
@@ -37,30 +41,30 @@ def test_peak_sum_area(peak, im_i):
 	assert area_sum == 10025814.0
 	
 	# Errors
-	for type in [test_int, test_float, test_string, test_dict, test_list_strs, test_list_ints, test_tuple]:
+	for obj in [*test_numbers, test_string, test_dict, *test_sequences]:
 		with pytest.raises(TypeError):
-			peak_sum_area(type, peak)
-	for type in [test_int, test_float, test_string, test_dict, test_list_strs, test_list_ints, test_tuple]:
+			peak_sum_area(obj, peak)
+	for obj in [*test_numbers, test_string, test_dict, *test_sequences]:
 		with pytest.raises(TypeError):
-			peak_sum_area(im_i, type)
-	for type in [test_float, test_string, test_dict, test_list_strs, test_list_ints, test_tuple]:
+			peak_sum_area(im_i, obj)
+	for obj in [test_float, test_string, test_dict, *test_sequences]:
 		with pytest.raises(TypeError):
-			peak_sum_area(im_i, peak, max_bound=type)
+			peak_sum_area(im_i, peak, max_bound=obj)
 	
 
 def test_peak_pt_bounds(peak, im_i):
 	bounds = peak_pt_bounds(im_i, peak)
 	assert isinstance(bounds, tuple)
 	assert len(bounds) == 2
-	assert bounds == (3,3)
+	assert bounds == (3, 3)
 	assert isinstance(bounds[0], int)
 	
-	for type in [test_string, test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak_pt_bounds(type, peak)
-	for type in [test_string, test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+			peak_pt_bounds(obj, peak)
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak_pt_bounds(im_i, type)
+			peak_pt_bounds(im_i, obj)
 
 
 def test_peak_top_ion_areas(peak, im_i):
@@ -72,18 +76,18 @@ def test_peak_top_ion_areas(peak, im_i):
 	assert areas[100] == 4534.0
 	assert isinstance(areas[100], float)
 	
-	for type in [test_string, test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak_top_ion_areas(type, peak)
-	for type in [test_string, test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+			peak_top_ion_areas(obj, peak)
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak_top_ion_areas(im_i, type)
-	for type in [test_string,  test_float, test_dict, test_list_ints, test_list_strs]:
+			peak_top_ion_areas(im_i, obj)
+	for obj in [test_string,  test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak_top_ion_areas(im_i, peak, n_top_ions=type)
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+			peak_top_ion_areas(im_i, peak, n_top_ions=obj)
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak_top_ion_areas(im_i, peak, max_bound=type)
+			peak_top_ion_areas(im_i, peak, max_bound=obj)
 
 
 def test_top_ions_v1(peak):
@@ -95,6 +99,7 @@ def test_top_ions_v2(peak):
 	with pytest.warns(DeprecationWarning):
 		top_ions_v2(peak, 10)
 
+
 def test_ion_area():
 	ion_area_val = ion_area(list(range(100)), 20)
 	assert isinstance(ion_area_val, tuple)
@@ -105,18 +110,18 @@ def test_ion_area():
 	assert ion_area_val[3] is False
 	assert ion_area_val[4] is True
 	
-	for type in [test_string, test_float, test_int, test_dict, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, test_list_strs]:
 		with pytest.raises(TypeError):
-			ion_area(type, 20)
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+			ion_area(obj, 20)
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			ion_area(list(range(100)), type)
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+			ion_area(list(range(100)), obj)
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			ion_area(list(range(100)), 20, max_bound=type)
-	for type in [test_string, test_int, test_dict, test_list_ints, test_list_strs]:
+			ion_area(list(range(100)), 20, max_bound=obj)
+	for obj in [test_string, test_int, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			ion_area(list(range(100)), 20, tol=type)
+			ion_area(list(range(100)), 20, tol=obj)
 
 
 def test_half_area():
@@ -127,15 +132,15 @@ def test_half_area():
 	assert half_area_value[1] == 1
 	assert half_area_value[2] is True
 	
-	for type in [test_string, test_float, test_int, test_dict, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, test_list_strs]:
 		with pytest.raises(TypeError):
-			half_area(type)
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+			half_area(obj)
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			half_area(list(range(100)), max_bound=type)
-	for type in [test_string, test_int, test_dict, test_list_ints, test_list_strs]:
+			half_area(list(range(100)), max_bound=obj)
+	for obj in [test_string, test_int, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			half_area(list(range(100)), tol=type)
+			half_area(list(range(100)), tol=obj)
 
 
 def test_median_bounds(im_i, peak):
@@ -147,16 +152,15 @@ def test_median_bounds(im_i, peak):
 	assert median_bounds_value[0] == 1
 	assert median_bounds_value[1] == 1
 	
-	for type in [test_string, test_float, test_int, test_dict, test_list_strs, test_list_ints]:
+	for obj in [test_string, *test_numbers, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
-			median_bounds(type, peak)
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+			median_bounds(obj, peak)
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			median_bounds(im_i, type)
-	for type in [test_string, test_int, test_dict, test_list_ints, test_list_strs]:
+			median_bounds(im_i, obj)
+	for obj in [test_string, test_int, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			median_bounds(im_i, peak, type)
-
+			median_bounds(im_i, peak, obj)
 
 
 """def test_abundant_ions(filtered_peak_list, im_i):
@@ -178,6 +182,3 @@ def test_median_bounds(im_i, peak):
 			# print the top 5 ions for each peak
 			print(area_dict.keys())
 """
-
-
-

@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,34 +18,41 @@
 #                                                                           #
 #############################################################################
 
-import os
+# stdlib
 import copy
-import types
 import pickle
+import types
 
-import pytest
-from tests.constants import *
-
+# 3rd party
 import numpy
+import pytest
 
-from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i, import_leco_csv, ASCII_CSV, ASCII_DAT
-from pyms.Spectrum import MassSpectrum
+# pyms
+from pyms.IntensityMatrix import (
+	ASCII_CSV, build_intensity_matrix, build_intensity_matrix_i, import_leco_csv,
+	IntensityMatrix,
+	)
 from pyms.IonChromatogram import IonChromatogram
+from pyms.Spectrum import MassSpectrum
+
+# tests
+from .constants import *
+
 
 def test_IntensityMatrix(im):
 	assert isinstance(im, IntensityMatrix)
 	
 	IntensityMatrix(im.time_list, im.mass_list, im.intensity_array)
 	
-	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
+	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IntensityMatrix(type, im.mass_list, im.intensity_array)
-	for type in [test_string, test_int, test_float, test_list_strs, test_dict]:
+			IntensityMatrix(obj, im.mass_list, im.intensity_array)
+	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IntensityMatrix(im.time_list, type, im.intensity_array)
-	for type in [test_string, test_int, test_float, test_dict]:
+			IntensityMatrix(im.time_list, obj, im.intensity_array)
+	for obj in [test_string, *test_numbers, test_dict]:
 		with pytest.raises(TypeError):
-			IntensityMatrix(im.time_list, im.mass_list, type)
+			IntensityMatrix(im.time_list, im.mass_list, obj)
 	with pytest.raises(ValueError):
 		IntensityMatrix(im.time_list, im.mass_list, [test_list_ints])
 	with pytest.raises(ValueError):
@@ -109,11 +116,11 @@ def test_set_ic_at_index(im):
 	assert im.get_ic_at_index(123).time_list == im.get_ic_at_index(0).time_list
 	assert all(numpy.equal(im.get_ic_at_index(123).intensity_array, im.get_ic_at_index(0).intensity_array))
 	
-	for type in [test_dict, test_list_strs, test_list_ints, test_string, test_float]:
+	for obj in [test_dict, test_list_strs, test_list_ints, test_string, test_float]:
 		with pytest.raises(TypeError):
-			im.set_ic_at_index(type, im.get_ic_at_index(0))
+			im.set_ic_at_index(obj, im.get_ic_at_index(0))
 		with pytest.raises(TypeError):
-			im.set_ic_at_index(123, type)
+			im.set_ic_at_index(123, obj)
 	
 	
 def test_get_ic_at_index(im):
@@ -121,9 +128,9 @@ def test_get_ic_at_index(im):
 	
 	# TODO: Check values for IC
 	
-	for type in [test_dict, test_list_strs, test_list_ints, test_string, test_float]:
+	for obj in [test_dict, test_list_strs, test_list_ints, test_string, test_float]:
 		with pytest.raises(TypeError):
-			im.get_ic_at_index(type)
+			im.get_ic_at_index(obj)
 	with pytest.raises(IndexError):
 		im.get_ic_at_index(test_int)
 
@@ -145,9 +152,9 @@ def test_get_ic_at_mass(im):
 	for val in [test_int, 0, test_float]:
 		with pytest.raises(IndexError):
 			im.get_ic_at_mass(val)
-	for type in [test_dict, test_list_strs, test_list_ints, test_string]:
+	for obj in [test_dict, test_list_strs, test_list_ints, test_string]:
 		with pytest.raises(TypeError):
-			im.get_ic_at_mass(type)
+			im.get_ic_at_mass(obj)
 
 
 def test_get_ms_at_index(im):
@@ -164,9 +171,9 @@ def test_get_ms_at_index(im):
 	assert ms.mass_spec[20] == 0.0
 	assert ms.mass_spec[20] == scan[20]
 	
-	for type in [test_dict, test_list_strs, test_list_ints, test_string]:
+	for obj in [test_dict, test_list_strs, test_list_ints, test_string]:
 		with pytest.raises(TypeError):
-			im.get_ms_at_index(type)
+			im.get_ms_at_index(obj)
 
 
 def test_get_scan_at_index(im):
@@ -177,9 +184,9 @@ def test_get_scan_at_index(im):
 	assert scan[123] == 0.0
 	assert scan[20] == 2314.0
 	
-	for type in [test_dict, test_list_strs, test_list_ints, test_string, test_float]:
+	for obj in [test_dict, test_list_strs, test_list_ints, test_string, test_float]:
 		with pytest.raises(TypeError):
-			im.get_scan_at_index(type)
+			im.get_scan_at_index(obj)
 	with pytest.raises(IndexError):
 		im.get_scan_at_index(-1)
 	with pytest.raises(IndexError):
@@ -201,13 +208,13 @@ def test_mass_index(im):
 	assert isinstance(im.get_mass_at_index(index), float)
 	assert im.get_mass_at_index(index) == 73.2516
 	
-	for type in [test_string, test_list_strs, test_list_ints, test_dict]:
+	for obj in [test_string, test_list_strs, test_list_ints, test_dict]:
 		with pytest.raises(TypeError):
-			im.get_index_of_mass(type)
+			im.get_index_of_mass(obj)
 		
-	for type in [test_float, test_string, test_list_strs, test_list_ints, test_dict]:
+	for obj in [test_float, test_string, test_list_strs, test_list_ints, test_dict]:
 		with pytest.raises(TypeError):
-			im.get_mass_at_index(type)
+			im.get_mass_at_index(obj)
 	
 	with pytest.raises(IndexError):
 		im.get_mass_at_index(-1)
@@ -218,13 +225,13 @@ def test_mass_index(im):
 def test_crop_mass(im):
 	im = copy.deepcopy(im)
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			im.crop_mass(type, 200)
+			im.crop_mass(obj, 200)
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			im.crop_mass(100, type)
+			im.crop_mass(100, obj)
 	
 	with pytest.raises(ValueError):
 		im.crop_mass(200, 100)
@@ -242,9 +249,9 @@ def test_crop_mass(im):
 def test_null_mass(im):
 	im = copy.deepcopy(im)
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			im.null_mass(type)
+			im.null_mass(obj)
 	
 	with pytest.raises(IndexError):
 		im.null_mass(500)
@@ -261,9 +268,9 @@ def test_reduce_mass_spectra(im):
 	im = copy.deepcopy(im)
 	# TODO:
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			im.reduce_mass_spectra(type)
+			im.reduce_mass_spectra(obj)
 
 	
 def test_export_ascii(im, outputdir):
@@ -279,9 +286,9 @@ def test_export_ascii(im, outputdir):
 	
 	# TODO check exported files
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_int, test_float]:
+	for obj in [test_dict, *test_lists, *test_numbers]:
 		with pytest.raises(TypeError):
-			im.export_ascii(type)
+			im.export_ascii(obj)
 
 	
 def test_export_leco_csv(im, outputdir):
@@ -292,9 +299,9 @@ def test_export_leco_csv(im, outputdir):
 	
 	im.export_leco_csv(outputdir/"im_leco.csv")
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_int, test_float]:
+	for obj in [test_dict, *test_lists, *test_numbers]:
 		with pytest.raises(TypeError):
-			im.export_leco_csv(type)
+			im.export_leco_csv(obj)
 
 	
 def test_import_leco_csv(im, outputdir):
@@ -308,15 +315,14 @@ def test_import_leco_csv(im, outputdir):
 		for imported2, original2 in zip(imported1, original1):
 			assert f"{imported2:.6e}" == f"{original2:.6e}"
 	
-	
 	# Check size to original
 	print("Output dimensions:", im.size, " Input dimensions:", imported_im.size)
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_int, test_float]:
+	for obj in [test_dict, *test_lists, *test_numbers]:
 		with pytest.raises(TypeError):
-			import_leco_csv(type)
+			import_leco_csv(obj)
 		
-
+		
 def test_IntensityMatrix_custom(data):
 	# IntensityMatrix
 	# must build intensity matrix before accessing any intensity matrix methods.
@@ -356,21 +362,21 @@ def test_IntensityMatrix_custom(data):
 def test_build_intensity_matrix(data):
 	# todo
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_string, test_int, test_float]:
+	for obj in [test_dict, *test_lists, test_string, *test_numbers]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(type)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+			build_intensity_matrix(obj)
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_interval=type)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+			build_intensity_matrix(data, bin_interval=obj)
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_left=type)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+			build_intensity_matrix(data, bin_left=obj)
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_right=type)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+			build_intensity_matrix(data, bin_right=obj)
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, min_mass=type)
+			build_intensity_matrix(data, min_mass=obj)
 	with pytest.raises(ValueError):
 		build_intensity_matrix(data, bin_interval=0)
 
@@ -404,15 +410,15 @@ def test_build_intensity_matrix_i(data, im_i):
 	assert isinstance(masses, list)
 	assert masses[0] == 50
 	
-	for type in [test_dict, test_list_ints, test_list_strs, test_string, test_int, test_float]:
+	for obj in [test_dict, *test_lists, test_string, *test_numbers]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix_i(type)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+			build_intensity_matrix_i(obj)
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix_i(data, bin_left=type)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string]:
+			build_intensity_matrix_i(data, bin_left=obj)
+	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix_i(data, bin_right=type)
+			build_intensity_matrix_i(data, bin_right=obj)
 
 
 # Inherited Methods from pymsBaseClass
@@ -421,9 +427,9 @@ def test_dump(im_i, outputdir):
 	im_i.dump(outputdir / "im_i_dump.dat")
 	
 	# Errors
-	for type in [test_list_strs, test_dict, test_list_ints, test_tuple, test_int, test_float]:
+	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
 		with pytest.raises(TypeError):
-			im_i.dump(type)
+			im_i.dump(obj)
 	
 	# Read and check values
 	assert (outputdir / "im_i_dump.dat").exists()
@@ -538,9 +544,9 @@ def test_get_index_at_time(im):
 	assert im.get_index_at_time(test_int) == 1168
 	assert im.get_index_at_time(test_float) == 11
 	
-	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			im.get_index_at_time(type)
+			im.get_index_at_time(obj)
 	
 	with pytest.raises(IndexError):
 		im.get_index_at_time(-1)
@@ -551,9 +557,9 @@ def test_get_index_at_time(im):
 def test_get_time_at_index(im):
 	assert im.get_time_at_index(test_int) == 1304.15599823
 	
-	for type in [test_string, test_list_ints, test_list_strs, test_dict, test_float]:
+	for obj in [test_string, *test_lists, test_dict, test_float]:
 		with pytest.raises(TypeError):
-			im.get_time_at_index(type)
+			im.get_time_at_index(obj)
 	
 	with pytest.raises(IndexError):
 		im.get_time_at_index(-1)

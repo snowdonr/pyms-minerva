@@ -6,7 +6,7 @@ Functions to fill missing peak objects
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -31,13 +31,12 @@ import pathlib
 import numpy
 
 # this package
+from pyms.BillerBiemann import get_maxima_list_reduced
+from pyms.Gapfill.Class import MissingPeak, Sample
 from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-from pyms.TopHat import tophat
-from pyms.BillerBiemann import get_maxima_list_reduced
 from pyms.Peak.Function import ion_area
-from pyms.Gapfill.Class import MissingPeak, Sample
-
+from pyms.TopHat import tophat
 
 MZML = 1
 NETCDF = 2

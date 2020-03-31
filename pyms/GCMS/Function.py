@@ -6,7 +6,7 @@ Provides conversion and information functions for GC-MS data objects
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -24,12 +24,12 @@ Provides conversion and information functions for GC-MS data objects
 ################################################################################
 
 # stdlib
-import sys
 import math
+import sys
 
 # this package
-from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Math import rmsd
+from pyms.Utils.Time import time_str_secs
 
 
 def diff(data1, data2):
@@ -73,9 +73,7 @@ def diff(data1, data2):
 		# some unexpected problem with data
 		raise ValueError("inconsistency in data detected")
 	
-	N = len(scan_list1)
-	
-	for ii in range(N):
+	for ii in range(len(scan_list1)):
 		scan1 = scan_list1[ii]
 		scan2 = scan_list2[ii]
 		mass_list1 = scan1.get_mass_list()
@@ -94,7 +92,7 @@ def diff(data1, data2):
 	max_mass_rmsd = 0.0
 	max_intensity_rmsd = 0.0
 	
-	for ii in range(N):
+	for ii in range(len(scan_list1)):
 		scan1 = scan_list1[ii]
 		scan2 = scan_list2[ii]
 		mass_list1 = scan1.get_mass_list()

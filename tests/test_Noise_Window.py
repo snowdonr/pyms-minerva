@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,15 +18,18 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
 
-from pyms.IntensityMatrix import build_intensity_matrix_i
-from pyms.Noise.Window import window_smooth_im, window_smooth
-from pyms.IntensityMatrix import IntensityMatrix
+# pyms
+from pyms.IntensityMatrix import build_intensity_matrix_i, IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay
+from pyms.Noise.Window import window_smooth, window_smooth_im
 from pyms.TopHat import tophat
+
+# tests
+from .constants import *
 
 
 def test_window_smooth(tic):
@@ -45,15 +48,15 @@ def test_window_smooth(tic):
 	tic3 = window_smooth(tic, window='7s')
 	assert isinstance(tic3, IonChromatogram)
 	
-	for type in [test_int, test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [*test_numbers, test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(type)
-	for type in [test_float, test_list_ints, test_list_strs, test_dict]:
+			window_smooth(obj)
+	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(tic, window=type)
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+			window_smooth(tic, window=obj)
+	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(tic, use_median=type)
+			window_smooth(tic, use_median=obj)
 
 
 def test_window_smooth_im(im):
@@ -73,15 +76,15 @@ def test_window_smooth_im(im):
 	ic_smooth = im_smooth.get_ic_at_index(73)
 	assert isinstance(ic_smooth, IonChromatogram)
 
-	for type in [test_int, test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+	for obj in [*test_numbers, test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(type)
-	for type in [test_float, test_list_ints, test_list_strs, test_dict]:
+			window_smooth_im(obj)
+	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(im, window=type)
-	for type in [test_string, test_float, test_list_ints, test_list_strs, test_dict]:
+			window_smooth_im(im, window=obj)
+	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(im, use_median=type)
+			window_smooth_im(im, use_median=obj)
 
 
 def test_smooth_im(data):
@@ -89,7 +92,7 @@ def test_smooth_im(data):
 	# (bin size) of one from min mass
 	im = build_intensity_matrix_i(data)
 	
-	off = im.min_mass
+	im.min_mass
 	n_scan, n_mz = im.size
 	
 	# process data

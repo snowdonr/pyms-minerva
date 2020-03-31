@@ -6,7 +6,7 @@ Noise analysis functions
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -29,8 +29,8 @@ import random
 
 # this package
 from pyms.IonChromatogram import IonChromatogram
-from pyms.Utils.Time import window_sele_points
 from pyms.Utils.Math import MAD
+from pyms.Utils.Time import window_sele_points
 
 
 _DEFAULT_WINDOW = 256
@@ -91,8 +91,7 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
 		# only process the window if not analyzed previously
 		if try_pos not in seen_positions:
 			end_slice = try_pos + window_pts
-			slice = ia[try_pos:end_slice]
-			crnt_mad = MAD(slice)
+			crnt_mad = MAD(ia[try_pos:end_slice])
 			if crnt_mad < noise_level:
 				noise_level = crnt_mad
 				# best_window_pos = try_pos
@@ -100,4 +99,3 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
 		seen_positions.append(try_pos)
 	
 	return noise_level
-

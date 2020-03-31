@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,15 +18,18 @@
 #                                                                           #
 #############################################################################
 
-import copy
+# stdlib
 import pickle
 
+# 3rd party
 import pytest
-from tests.constants import *
 
+# pyms
 from pyms.Peak.Function import *
 from pyms.Spectrum import MassSpectrum
-from pyms.Peak import Peak
+
+# tests
+from .constants import *
 
 
 def test_Peak(im_i, peak):
@@ -44,12 +47,12 @@ def test_Peak(im_i, peak):
 	Peak(31.17, ms, minutes=True)
 	
 	# Errors
-	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			Peak(type, ms, minutes=True)
-	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
+			Peak(obj, ms, minutes=True)
+	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			Peak(test_float, type, minutes=False)
+			Peak(test_float, obj, minutes=False)
 
 	Peak(test_float, test_int)
 	Peak(test_float, test_float)
@@ -94,13 +97,13 @@ def test_bounds(peak):
 	# Setter
 	peak.bounds = (11, 12, 13)
 	
-	for type in [test_string, test_int, test_float, test_dict, ["a", "b", "c"], test_tuple]:
+	for obj in [test_string, *test_numbers, test_dict, ["a", "b", "c"], test_tuple]:
 		with pytest.raises(TypeError):
-			peak.bounds = type
+			peak.bounds = obj
 	
-	for type in [test_list_ints, test_list_strs, (1, 2), [1, 2, 3, 4]]:
+	for obj in [*test_lists, (1, 2), [1, 2, 3, 4]]:
 		with pytest.raises(ValueError):
-			peak.bounds = type
+			peak.bounds = obj
 	
 	# Getter
 	assert peak.bounds == (11, 12, 13)
@@ -116,14 +119,14 @@ def test_bounds(peak):
 	assert peak3.bounds == (11, 12, 13)
 	assert isinstance(peak3.bounds, tuple)
 	
-	for type in [test_tuple, test_list_strs, test_string, test_list_ints, test_dict, test_float]:
+	for obj in [*test_sequences,  test_string, test_dict, test_float]:
 		with pytest.raises(TypeError):
-			print(type)
-			peak3.set_bounds(type, 12, 13)
+			print(obj)
+			peak3.set_bounds(obj, 12, 13)
 		with pytest.raises(TypeError):
-			peak3.set_bounds(11, type, 13)
+			peak3.set_bounds(11, obj, 13)
 		with pytest.raises(TypeError):
-			peak3.set_bounds(11, 12, type)
+			peak3.set_bounds(11, 12, obj)
 
 
 def test_crop_mass(peak):
@@ -138,11 +141,11 @@ def test_crop_mass(peak):
 	assert max(peak.mass_spectrum.mass_list) == 200
 
 	# Errors
-	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			peak2.crop_mass(type, 450)
+			peak2.crop_mass(obj, 450)
 		with pytest.raises(TypeError):
-			peak2.crop_mass(450, type)
+			peak2.crop_mass(450, obj)
 	
 	with pytest.raises(ValueError):
 		peak2.crop_mass(100, 0)
@@ -188,12 +191,12 @@ def test_ion_area(peak):
 	assert peak.get_ion_area(1) == 1234
 	
 	# Errors
-	for type in [test_dict, test_list_ints, test_list_strs, test_float, test_string, test_tuple]:
+	for obj in [test_dict, *test_sequences, test_float, test_string]:
 		with pytest.raises(TypeError):
-			peak.set_ion_area(type, test_int)
-	for type in [test_dict, test_list_ints, test_list_strs, test_string, test_tuple]:
+			peak.set_ion_area(obj, test_int)
+	for obj in [test_dict, *test_sequences, test_string]:
 		with pytest.raises(TypeError):
-			peak.set_ion_area(1, type)
+			peak.set_ion_area(1, obj)
 
 
 def test_ion_areas(peak):
@@ -210,9 +213,9 @@ def test_ion_areas(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_ion_areas()
 	
-	for type in [test_int, test_float, test_string, test_list_strs, test_list_ints, tuple]:
+	for obj in [*test_numbers, test_string, test_list_strs, test_list_ints, tuple]:
 		with pytest.raises(TypeError):
-			peak.ion_areas = type
+			peak.ion_areas = obj
 	
 	assert peak.ion_areas == {1: 1234, 2: 1234, 3: 1234}
 
@@ -220,6 +223,7 @@ def test_ion_areas(peak):
 def test_get_mass_spectrum(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_mass_spectrum()
+
 
 # @deprecation.fail_if_not_removed
 def test_get_pt_bounds(peak):
@@ -261,9 +265,9 @@ def test_ic_mass():
 	assert peak.ic_mass == 1234
 	
 	# Errors
-	for type in [test_tuple, test_string, test_list_strs, test_list_ints, test_dict]:
+	for obj in [*test_sequences, test_string, test_dict]:
 		with pytest.raises(TypeError):
-			peak.ic_mass = type
+			peak.ic_mass = obj
 
 
 def test_mass_spectrum(peak, im_i):
@@ -286,9 +290,9 @@ def test_mass_spectrum(peak, im_i):
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
 	assert isinstance(peak.mass_spectrum.mass_spec, list)
 	
-	for type in [test_string, test_int, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak.mass_spectrum = type
+			peak.mass_spectrum = obj
 
 
 def test_null_mass(peak):
@@ -308,9 +312,9 @@ def test_null_mass(peak):
 	# Errors
 	with pytest.raises(NameError):
 		Peak(test_float).null_mass(1)
-	for type in [test_string, test_list_ints, test_list_strs, test_dict]:
+	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			Peak(test_float, peak.mass_spectrum).null_mass(type)
+			Peak(test_float, peak.mass_spectrum).null_mass(obj)
 	with pytest.raises(IndexError):
 		Peak(test_float, peak.mass_spectrum).null_mass(1)
 	with pytest.raises(IndexError):
@@ -385,15 +389,15 @@ def test_top_ions(peak):
 	with pytest.warns(DeprecationWarning):
 		assert top_ions_v1(peak, 10)[0] == 55
 	
-	for type in [test_string, test_float, test_int, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
 			with pytest.warns(DeprecationWarning):
-				top_ions_v1(type)
+				top_ions_v1(obj)
 	
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
 			with pytest.warns(DeprecationWarning):
-				top_ions_v1(peak, type)
+				top_ions_v1(peak, obj)
 	
 	with pytest.warns(DeprecationWarning):
 		assert isinstance(top_ions_v2(peak, 10), list)
@@ -404,24 +408,24 @@ def test_top_ions(peak):
 	with pytest.warns(DeprecationWarning):
 		assert top_ions_v2(peak, 10)[0] == 55
 	
-	for type in [test_string, test_float, test_int, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
 			with pytest.warns(DeprecationWarning):
-				top_ions_v2(type)
+				top_ions_v2(obj)
 	
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
 			with pytest.warns(DeprecationWarning):
-				top_ions_v2(peak, type)
+				top_ions_v2(peak, obj)
 	
 	assert isinstance(peak.top_ions(10), list)
 	assert len(peak.top_ions(10)) == 10
 	assert len(peak.top_ions()) == 5
 	assert peak.top_ions(10)[0] == 55
 	
-	for type in [test_string, test_float, test_dict, test_list_ints, test_list_strs]:
+	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak.top_ions(type)
+			peak.top_ions(obj)
 
 
 # Inherited Methods from pymsBaseClass
@@ -430,9 +434,9 @@ def test_dump(peak, outputdir):
 	peak.dump(outputdir / "Peak_dump.dat")
 	
 	# Errors
-	for type in [test_list_strs, test_dict, test_list_ints, test_tuple, test_int, test_float]:
+	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
 		with pytest.raises(TypeError):
-			peak.dump(type)
+			peak.dump(obj)
 	
 	# Read and check values
 	assert (outputdir / "Peak_dump.dat").exists()

@@ -1,7 +1,7 @@
 #############################################################################
 #                                                                           #
 #    PyMassSpec software for processing of mass-spectrometry data           #
-#    Copyright (C) 2019 Dominic Davis-Foster                                #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                           #
 #                                                                           #
 #    This program is free software; you can redistribute it and/or modify   #
 #    it under the terms of the GNU General Public License version 2 as      #
@@ -18,10 +18,14 @@
 #                                                                           #
 #############################################################################
 
+# 3rd party
 import pytest
-from tests.constants import *
 
+# pyms
 from pyms.Spectrum import Scan
+
+# tests
+from .constants import *
 
 
 def test_Scan(scan):
@@ -32,13 +36,13 @@ def test_Scan(scan):
 	assert isinstance(scan.intensity_list, list)
 	
 	# Errors
-	for type in [test_string, test_int, test_list_strs, test_dict]:
+	for obj in [test_string, test_int, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			Scan(type, scan.intensity_list)
+			Scan(obj, scan.intensity_list)
 	
-	for type in [test_string, test_int, test_list_strs, test_dict]:
+	for obj in [test_string, test_int, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			Scan(scan.mass_list, type)
+			Scan(scan.mass_list, obj)
 	
 	with pytest.raises(ValueError):
 		Scan(scan.mass_list, test_list_ints)
@@ -63,6 +67,7 @@ def test_intensity_list(scan):
 	assert scan.intensity_list[5] == 1381.0
 	assert scan.intensity_list[50] == 673.0
 	assert scan.intensity_list[100] == 1728.0
+	
 	
 def test_mass_list(scan):
 	assert scan.mass_list[5] == 60.9465

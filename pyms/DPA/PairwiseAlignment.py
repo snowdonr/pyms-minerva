@@ -53,8 +53,8 @@ class PairwiseAlignment:
 	"""
 	Models pairwise alignment of alignments
 
-	:param algts: A list of alignments
-	:type algts: list
+	:param alignments: A list of alignments
+	:type alignments: list
 	:param D: Retention time tolerance parameter for pairwise alignments
 	:type D: float
 	:param gap: Gap parameter for pairwise alignments
@@ -64,19 +64,19 @@ class PairwiseAlignment:
 	:author: Vladimir Likic
 	"""
 	
-	def __init__(self, algts, D, gap):
+	def __init__(self, alignments, D, gap):
 		"""
 		Models pairwise alignment of alignments
 		"""
 		
-		if not isinstance(algts, list) or not isinstance(algts[0], Alignment):
-			raise TypeError("'algts' must be a list")
+		if not isinstance(alignments, list) or not isinstance(alignments[0], Alignment):
+			raise TypeError("'alignments' must be a list")
 		if not isinstance(D, float):
 			raise TypeError("'D' must be a float")
 		if not isinstance(gap, float):
 			raise TypeError("'gap' must be a float")
 		
-		self.algts = algts
+		self.alignments = alignments
 		self.D = D
 		self.gap = gap
 		
@@ -92,7 +92,7 @@ class PairwiseAlignment:
 		:author: Vladimir Likic
 		"""
 		
-		n = len(self.algts)
+		n = len(self.alignments)
 		
 		total_n = n * (n - 1) // 2
 		
@@ -103,7 +103,7 @@ class PairwiseAlignment:
 		# Could we parallelize this pairwise alignment loop??
 		for i in range(n - 1):
 			for j in range(i + 1, n):
-				ma = align(self.algts[i], self.algts[j], self.D, self.gap)
+				ma = align(self.alignments[i], self.alignments[j], self.D, self.gap)
 				self.sim_matrix[i, j] = self.sim_matrix[j, i] = ma.similarity
 				total_n = total_n - 1
 				print(f" -> {total_n:d} pairs remaining")
@@ -196,7 +196,7 @@ def score_matrix(a1, a2, D):
 	:author: Andrew Isaac
 	"""
 	
-	sim_score = 0
+	# sim_score = 0
 	
 	score_matrix = numpy.zeros((len(a1.peakalgt), len(a2.peakalgt)))
 	
@@ -214,7 +214,7 @@ def dp(S, gap_penalty):
 		alignment
 
 	:param S: Score matrix
-	:type S: numpy.
+	:type S:
 	:param gap_penalty: Gap penalty
 	:type gap_penalty: float
 
@@ -327,7 +327,7 @@ def position_similarity(pos1, pos2, D):
 	count = 0
 
 	# Attempt to speed up by only calculating 'in-range' values
-	# set tollerance to 1/1000
+	# set tolerance to 1/1000
 	_TOL = 0.001
 	cutoff = D*math.sqrt(-2.0*math.log(_TOL))
 
@@ -551,8 +551,10 @@ def score_matrix_mpi(a1, a2, D):
 		score_matrix_part = numpy.zeros((portion, len(a2.peakalgt)))
 		a1_part = a1.peakalgt[rank * portion:(rank + 1) * portion]
 	else:  # if it's the last strip, prob not full portion
-		score_matrix_part = numpy.zeros((len(a1.peakalgt) - (rank * portion), \
-										 len(a2.peakalgt)))
+		score_matrix_part = numpy.zeros((
+				len(a1.peakalgt) - (rank * portion),
+				len(a2.peakalgt),
+				))
 		a1_part = a1.peakalgt[rank * portion:len(a1.peakalgt)]
 	
 	for i, algt1pos in enumerate(a1_part):
@@ -608,7 +610,7 @@ def align_with_tree(T, min_peaks=1):
 	:author: Vladimir Likic
 	"""
 	
-	print(f" Aligning {len(T.algts):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
+	print(f" Aligning {len(T.alignments):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
 	
 	# For everything else, we align according to the guide tree provided by
 	# Pycluster. From Pycluster documentation:
@@ -618,7 +620,7 @@ def align_with_tree(T, min_peaks=1):
 	#   is one less than the number of items.
 	
 	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
-	As = copy.deepcopy(T.algts) + [None for _ in range(len(T.algts))]
+	As = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]
 	
 	# align the alignments into positions -1, ... ,-(n-1)
 	total = len(T.tree)
@@ -662,7 +664,7 @@ def align_with_tree_mpi(T, min_peaks=1):
 		rank = 0
 	
 	if rank == 0:
-		print(f" Aligning {len(T.algts):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
+		print(f" Aligning {len(T.alignments):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
 	
 	# For everything else, we align according to the guide tree provided by
 	# Pycluster. From Pycluster documentation:
@@ -672,7 +674,7 @@ def align_with_tree_mpi(T, min_peaks=1):
 	#   is one less than the number of items.
 	
 	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
-	As = copy.deepcopy(T.algts) + [None for _ in range(len(T.algts))]
+	As = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]
 	
 	# align the alignments into positions -1, ... ,-(n-1)
 	total = len(T.tree)

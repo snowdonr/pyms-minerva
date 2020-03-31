@@ -6,7 +6,7 @@ Functions for I/O of data in JCAMP-DX format
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    Parts based on 'jcamp' by Nathan Hagen									   #
 # 	 https://github.com/nzhagen/jcamp										   #
@@ -63,7 +63,7 @@ def JCAMP_reader(file_name):
 	time_list = []
 	scan_list = []
 	
-	header_info = {} # Dictionary containing header information
+	header_info = {}  # Dictionary containing header information
 	header_info_fields = [
 		"TITLE",
 		"JCAMP-DX",
@@ -84,14 +84,14 @@ def JCAMP_reader(file_name):
 		"SCAN_RATE_UNITS",  # Units for SCAN_RATE
 		"SCAN_RATE",  # Rate at which scans were acquired
 		"SCAN_DELAY_UNITS",  # Units for SCAN_DELAY
-		"SCAN_DELAY", # Time delay in seconds before first scan acquired
+		"SCAN_DELAY",  # Time delay in seconds before first scan acquired
 		"XUNITS",  # Units for X-Axis e.g. Daltons
 		"DATA_FORMAT",  # e.g. Centroid
 		"DATA TYPE",  # e.g. MASS SPECTRUM
 		"DATA CLASS",  # e.g. NTUPLES
 		"ORIGIN",
 		"OWNER",
-	]
+		]
 	
 	for line in lines_list:
 		

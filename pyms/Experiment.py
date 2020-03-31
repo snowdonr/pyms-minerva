@@ -6,7 +6,7 @@ Models a GC-MS experiment represented by a list of signal peaks
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -24,10 +24,10 @@ Models a GC-MS experiment represented by a list of signal peaks
 ################################################################################
 
 # stdlib
-import os
 import copy
-import pickle
+import os
 import pathlib
+import pickle
 
 # 3rd party
 import deprecation
@@ -287,6 +287,6 @@ def store_expr(file_name, expr):
 	if not os.path.exists(os.path.dirname(file_name)):
 		os.makedirs(os.path.dirname(file_name))
 	
-	fp = open(file_name,'wb')
+	fp = open(file_name, 'wb')
 	pickle.dump(expr, fp, 1)
 	fp.close()
