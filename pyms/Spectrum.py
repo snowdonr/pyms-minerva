@@ -334,6 +334,37 @@ class MassSpectrum(Scan):
 			largest_indices.append(max_int_index)
 		
 		return largest_indices
+	
+	def get_intensity_for_mass(self, mass):
+		"""
+		Returns the intensity for the given mass.
+		
+		:param mass:
+		:type mass:
+		
+		:return:
+		:rtype:
+		"""
+		
+		mass_idx = self._mass_list.index(mass)
+		return self._intensity_list[mass_idx]
+
+	def get_mass_for_intensity(self, intensity):
+		"""
+		Returns the mass for the given intensity.
+		If more than one mass has the given intensity, the first mass is returned.
+		
+		:param intensity:
+		:type intensity:
+		
+		:return:
+		:rtype:
+		"""
+		
+		intensity_idx = self._intensity_list.index(intensity)
+		return self._mass_list[intensity_idx]
+
+	
 
 
 def normalize_mass_spec(mass_spec, max_val=None, inplace=False):
