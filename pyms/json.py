@@ -40,5 +40,5 @@ class PyMassSpecEncoder(JSONEncoder):
 		if isinstance(o, (Scan, MassSpectrum)):
 			return dict(o)
 		else:
-			JSONEncoder.default(self, o)
+			return JSONEncoder.default(self, o)
 
