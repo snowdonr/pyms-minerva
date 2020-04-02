@@ -36,7 +36,7 @@ from matplotlib import axes, figure
 from pyms import __version__
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
-from pyms.Spectrum import MassSpectrum
+from pyms.Spectrum import MassSpectrum, normalize_mass_spec
 
 
 default_filetypes = ["png", "pdf", "svg"]
@@ -340,6 +340,9 @@ def plot_ic(ax, ic, minutes=False, **kwargs):
 
 		See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
 		for the list of possible kwargs
+	
+	:return: A list of Line2D objects representing the plotted data.
+	:rtype: list of :class:`matplotlib.lines.Line2D`
 	"""
 	
 	if not isinstance(ic, IonChromatogram):
@@ -364,8 +367,8 @@ def plot_mass_spec(ax, mass_spec, **kwargs):
 
 	:param ax: The axes to plot the MassSpectrum on
 	:type ax: matplotlib.axes.Axes
-	:param mass_spec: The mass spectrum at a given time/index
-	:type mass_spec: pyms.Spectrum.MassSpectrum
+	:param mass_spec: The mass spectrum to plot
+	:type mass_spec: :class`pyms.Spectrum.MassSpectrum`
 
 	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 		Used to specify properties like a line label (for auto legends),
@@ -378,6 +381,9 @@ def plot_mass_spec(ax, mass_spec, **kwargs):
 
 		See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
 		for the list of possible kwargs
+	
+	:return: Container with all the bars and optionally errorbars.
+	:rtype: :class:`matplotlib.container.BarContainer`
 	"""
 	
 	if not isinstance(mass_spec, MassSpectrum):
@@ -387,8 +393,8 @@ def plot_mass_spec(ax, mass_spec, **kwargs):
 	intensity_list = mass_spec.mass_spec
 	
 	# to set x axis range find minimum and maximum m/z channels
-	max_mz = mass_list[0]
 	min_mz = mass_list[0]
+	max_mz = mass_list[-1]
 	
 	for i in range(len(mass_list)):
 		if mass_list[i] > max_mz:
@@ -401,10 +407,78 @@ def plot_mass_spec(ax, mass_spec, **kwargs):
 	plot = ax.bar(mass_list, intensity_list, **kwargs)
 	
 	# Set axis ranges
-	ax.set_xlim(min_mz, max_mz)
+	ax.set_xlim(min_mz-1, max_mz+1)
 	ax.set_ylim(bottom=0)
 	
 	return plot
+
+
+def plot_head2tail(ax, top_mass_spec, bottom_mass_spec, top_spec_kwargs=None, bottom_spec_kwargs=None):
+	"""
+	Plots two Mass Spectra head to tail
+
+	:param ax: The axes to plot the MassSpectra on
+	:type ax: matplotlib.axes.Axes
+	
+	:param top_mass_spec: The Mass Spectrum to plot on top
+	:type top_mass_spec: :class:`pyms.Spectrum.MassSpectrum`
+	:param bottom_mass_spec: The Mass Spectrum to plot on the bottom
+	:type bottom_mass_spec: :class:`pyms.Spectrum.MassSpectrum` or None, optional
+	:param top_spec_kwargs: A dictionary of keyword arguments for the top mass spectrum.
+		Defaults to red with a line width of 0.5
+	:type top_spec_kwargs: dict, optional
+	:param bottom_spec_kwargs: A dictionary of keyword arguments for the bottom mass spectrum.
+	Defaults to blue with a line width of 0.5
+	:type bottom_spec_kwargs: dict, optional
+	
+	`top_spec_kwargs` and `bottom_spec_kwargs` are used to specify properties like a line label
+		(for auto legends), linewidth, antialiasing, marker face color.
+
+		See https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.lines.Line2D.html
+		for the list of possible kwargs
+	
+	:return: A tuple of container with all the bars and optionally errorbars for the top and bottom spectra.
+	:rtype: tuple of :class:`matplotlib.container.BarContainer`
+	"""
+	
+	if not isinstance(top_mass_spec, MassSpectrum):
+		raise TypeError("'top_mass_spec' must be a MassSpectrum")
+	
+	if not isinstance(bottom_mass_spec, MassSpectrum):
+		raise TypeError("'bottom_mass_spec' must be a MassSpectrum")
+	
+	if top_spec_kwargs is None:
+		top_spec_kwargs = dict(color="red", width=0.5)
+	elif not isinstance(top_spec_kwargs, dict):
+		raise TypeError("'top_spec_kwargs' must be a dictionary of keyword arguments for the top mass spectrum.")
+	
+	if bottom_spec_kwargs is None:
+		bottom_spec_kwargs = dict(color="red", width=0.5)
+	elif not isinstance(bottom_spec_kwargs, dict):
+		raise TypeError("'bottom_spec_kwargs' must be a dictionary of keyword arguments for the bottom mass spectrum.")
+		
+	# Plot a line at y=0 with same width and colour as Spines
+	ax.axhline(y=0, color=ax.spines['bottom'].get_edgecolor(), linewidth=ax.spines['bottom'].get_linewidth())
+	
+	# Normalize the mass spectra
+	top_mass_spec = normalize_mass_spec(top_mass_spec)
+	bottom_mass_spec = normalize_mass_spec(bottom_mass_spec)
+	
+	# Invert bottom mass spec
+	invert_mass_spec(bottom_mass_spec, inplace=True)
+	
+	top_plot = plot_mass_spec(ax, top_mass_spec, **top_spec_kwargs)
+	bottom_plot = plot_mass_spec(ax, bottom_mass_spec, **bottom_spec_kwargs)
+	
+	# Set ylim to 1.1 times max/min values
+	ax.set_ylim(
+			bottom=min(bottom_mass_spec.intensity_list) * 1.1,
+			top=max(top_mass_spec.intensity_list) * 1.1,
+			)
+
+	# ax.spines['bottom'].set_position('zero')
+
+	return top_plot, bottom_plot
 	
 	
 def plot_peaks(ax, peak_list, label="Peaks", style="o"):
@@ -419,6 +493,9 @@ def plot_peaks(ax, peak_list, label="Peaks", style="o"):
 	:type label: str, optional
 	:param style: The marker style. See `https://matplotlib.org/3.1.1/api/markers_api.html` for a complete list
 	:type style: str
+	
+	:return: A list of Line2D objects representing the plotted data.
+	:rtype: list of :class:`matplotlib.lines.Line2D`
 	"""
 	
 	if not is_peak_list(peak_list):
@@ -547,3 +624,26 @@ class ClickEventHandler:
 					largest[j] = i
 		
 		return largest
+
+
+def invert_mass_spec(mass_spec, inplace=False):
+	"""
+	Invert the mass spectrum for display in a head2tail plot.
+
+	:param mass_spec: The Mass Spectrum to normalize
+	:type mass_spec: :class:`pyms.Spectrum.MassSpectrum`
+	:param inplace: Whether the inversion should be applied to the
+		:class:`~pyms.Spectrum.MassSpectrum` object given, or to a copy (default behaviour).
+	:type inplace: bool, optional.
+
+	:return: The normalized mass spectrum
+	:rtype: :class:`pyms.Spectrum.MassSpectrum`
+	"""
+	
+	inverted_intensity_list = [-x for x in mass_spec.intensity_list]
+	
+	if inplace:
+		mass_spec.intensity_list = inverted_intensity_list
+		return mass_spec
+	else:
+		return MassSpectrum(mass_spec.mass_list, inverted_intensity_list)
