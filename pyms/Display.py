@@ -392,6 +392,9 @@ def plot_mass_spec(ax, mass_spec, **kwargs):
 	mass_list = mass_spec.mass_list
 	intensity_list = mass_spec.mass_spec
 	
+	if "width" not in kwargs:
+		kwargs["width"] = 0.5
+	
 	# to set x axis range find minimum and maximum m/z channels
 	min_mz = mass_list[0]
 	max_mz = mass_list[-1]
@@ -453,7 +456,7 @@ def plot_head2tail(ax, top_mass_spec, bottom_mass_spec, top_spec_kwargs=None, bo
 		raise TypeError("'top_spec_kwargs' must be a dictionary of keyword arguments for the top mass spectrum.")
 	
 	if bottom_spec_kwargs is None:
-		bottom_spec_kwargs = dict(color="red", width=0.5)
+		bottom_spec_kwargs = dict(color="blue", width=0.5)
 	elif not isinstance(bottom_spec_kwargs, dict):
 		raise TypeError("'bottom_spec_kwargs' must be a dictionary of keyword arguments for the bottom mass spectrum.")
 		
