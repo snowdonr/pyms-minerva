@@ -256,3 +256,115 @@ class MassSpectrum(Scan):
 		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 		
 		self._mass_list = value
+	
+	def crop(self, min_mz=None, max_mz=None, inplace=False):
+		"""
+		Crop the Mass Spectrum between the given mz values
+		
+		:param min_mz: The minimum mz for the new mass spectrum
+		:type min_mz: int or float, optional
+		:param max_mz: The maximum mz for the new mass spectrum
+		:type max_mz: int or float, optional
+		:param inplace: Whether the cropping should be applied this instance or to a copy (default behaviour).
+		:type inplace: bool, optional
+		
+		:return: The cropped Mass Spectrum
+		:rtype: :class:`pyms.Spectrum.MassSpectrum`
+		"""
+		
+		if min_mz is None:
+			min_mz = self.min_mass
+		
+		if max_mz is None:
+			max_mz = self.max_mass
+			
+		min_mz_idx = self.intensity_list.index(min_mz)
+		max_mz_idx = self.intensity_list.index(max_mz)+1
+		
+		return self.icrop(min_mz_idx, max_mz_idx, inplace)
+		
+	def icrop(self, min_index=0, max_index=-1, inplace=False):
+		"""
+		Crop the Mass Spectrum between the given indices
+		
+		:param min_index: The minimum index for the new mass spectrum
+		:type min_index: int or float, optional
+		:param max_index: The maximum index for the new mass spectrum
+		:type max_index: int or float, optional
+		:param inplace: Whether the cropping should be applied this instance or to a copy (default behaviour).
+		:type inplace: bool, optional
+		
+		:return: The cropped Mass Spectrum
+		:rtype: :class:`pyms.Spectrum.MassSpectrum`
+		"""
+		
+		cropped_intensity_list = self.intensity_list[min_index:max_index]
+		cropped_mass_list = self.mass_list[min_index:max_index]
+		
+		if inplace:
+			self.intensity_list = cropped_intensity_list
+			self.mass_list = cropped_mass_list
+			return self
+		else:
+			return MassSpectrum(
+					intensity_list=cropped_intensity_list,
+					mass_list=cropped_intensity_list,
+					)
+		
+	def n_largest_peaks(self, n):
+		"""
+		Returns the indices of the n largest peaks in the Mass Spectrum
+		
+		:param n: The number of peaks to return the indices for
+		:type n:
+		:return:
+		:rtype:
+		"""
+		
+		# Make copies of the intensity_list
+		intensity_list = self.intensity_list
+		
+		largest_indices = []
+		
+		for i in range(0, n):
+			max_int_index = max(range(len(intensity_list)), key=intensity_list.__getitem__)
+			
+			del intensity_list[max_int_index]
+			
+			largest_indices.append(max_int_index)
+		
+		return largest_indices
+
+
+def normalize_mass_spec(mass_spec, max_val=None, inplace=False):
+	"""
+	Normalize the given Mass Spectrum. If max_val is given, it will be used for the
+	calculations; otherwise, the maximum value will be calculated from the mass spectrum.
+
+	:param mass_spec: The Mass Spectrum to normalize
+	:type mass_spec: :class:`pyms.Spectrum.MassSpectrum`
+	:param max_val: An optional maximum value to use for the calculations. This can be
+		useful when normalizing several mass spectra to each other.
+	:type max_val: int or float
+	:param inplace: Whether the normalization should be applied to the
+		:class:`~pyms.Spectrum.MassSpectrum` object given, or to a copy (default behaviour).
+	:type inplace: bool, optional.
+
+	:return: The normalized mass spectrum
+	:rtype: :class:`pyms.Spectrum.MassSpectrum`
+	"""
+	
+	if max_val is None:
+		max_val = max(mass_spec.intensity_list)
+	
+	max_val = float(max_val)
+	
+	normalized_intensity_list = [(x / max_val) * 100.0 for x in mass_spec.intensity_list]
+	
+	if inplace:
+		mass_spec.intensity_list = normalized_intensity_list
+		return mass_spec
+	else:
+		normalized_mass_spec = MassSpectrum(mass_spec.mass_list, normalized_intensity_list)
+		
+		return normalized_mass_spec
