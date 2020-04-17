@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+# Copyright (C) 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -15,53 +15,44 @@
 
 # This script based on https://github.com/rocky/python-uncompyle6/blob/master/__pkginfo__.py
 
-import os.path
+import pathlib
 
-
-copyright   = """
-2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+copyright = """
+2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
 VERSION = "2.2.15"
 
-modname            = "pyms"
-py_modules		   = None
-entry_points	   = None
-#py_modules         = [modname]
-#entry_points       = {
-#	'console_scripts': [
-#		'package_name=package_name:main',
-#	]}
+modname = "pyms"
+py_modules = None
+entry_points = None
 
-license            = 'GPL2'
 
-short_desc         = 'Python Toolkit for Mass Spectrometry'
+license = 'GPL2'
 
-author             = "Dominic Davis-Foster"
-author_email       = "dominic@davis-foster.co.uk"
-github_username	   = "domdfcoding"
-web                = github_url = f"https://github.com/{github_username}/PyMassSpec"
+short_desc = 'Python Toolkit for Mass Spectrometry'
+
+author = "Dominic Davis-Foster"
+author_email = "dominic@davis-foster.co.uk"
+github_username = "domdfcoding"
+web = github_url = f"https://github.com/{github_username}/PyMassSpec"
 
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>,
 
-
-def get_srcdir():
-	filename = os.path.normcase(os.path.dirname(os.path.abspath(__file__)))
-	return os.path.realpath(filename)
-
-
-srcdir = get_srcdir()
-
-
-def read(*rnames):
-	return open(os.path.join(srcdir, *rnames)).read()
-
-
 # Get info from files; set: long_description
-long_description = (read("README.rst") + '\n')
+if pathlib.Path.cwd().name == "doc-source":
+	print(pathlib.Path.cwd().parent / "README.rst")
+	install_requires = (pathlib.Path.cwd().parent / "requirements.txt").read_text().split("\n")
+	long_description = (pathlib.Path.cwd().parent / "README.rst").read_text() + '\n'
+else:
+	print(pathlib.Path("README.rst"))
+	install_requires = pathlib.Path("requirements.txt").read_text().split("\n")
+	long_description = pathlib.Path("README.rst").read_text() + '\n'
+
 long_description = long_description.replace(":ref:`here <pyms-demo>`.", "`here <pyms_demo_>`__.")
 long_description = long_description.replace(":ref:`here <pyms-demo/data-files>`.", "`here <datafiles_>`__.")
-long_description = long_description.replace(":ref:`Demos and Examples <pyms-demo>`", "`Demos and Examples <pyms_demo_>`__")
+long_description = long_description.replace(":ref:`Demos and Examples <pyms-demo>`",
+											"`Demos and Examples <pyms_demo_>`__")
 long_description = long_description.replace(":ref:`pyms-demo/20a/`", "`pyms-demo/20a/`")
 long_description += """
 
@@ -70,32 +61,29 @@ long_description += """
 
 """
 
-install_requires   = read("requirements.txt").split("\n")
-
-
 classifiers = [
-	# "Development Status :: 4 - Beta",
-	"Development Status :: 5 - Production/Stable",
-	# "Development Status :: 6 - Mature",
-	# "Development Status :: 7 - Inactive",
-	
-	"Operating System :: OS Independent",
-	
-	"Intended Audience :: Developers",
-	"Intended Audience :: Education",
-	"Intended Audience :: End Users/Desktop",
-	"Intended Audience :: Science/Research",
-	
-	"License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-	
-	"Programming Language :: Python :: 3.6",
-	"Programming Language :: Python :: 3.7",
-	"Programming Language :: Python :: 3.8",
-	"Programming Language :: Python :: 3 :: Only",
-	"Programming Language :: Python :: Implementation :: CPython",
-	
-	"Topic :: Education",
-	"Topic :: Scientific/Engineering :: Bio-Informatics",
-	"Topic :: Scientific/Engineering :: Chemistry",
-	"Topic :: Software Development :: Libraries :: Python Modules",
-]
+		# "Development Status :: 4 - Beta",
+		"Development Status :: 5 - Production/Stable",
+		# "Development Status :: 6 - Mature",
+		# "Development Status :: 7 - Inactive",
+		
+		"Operating System :: OS Independent",
+		
+		"Intended Audience :: Developers",
+		"Intended Audience :: Education",
+		"Intended Audience :: End Users/Desktop",
+		"Intended Audience :: Science/Research",
+		
+		"License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+		
+		"Programming Language :: Python :: 3.6",
+		"Programming Language :: Python :: 3.7",
+		"Programming Language :: Python :: 3.8",
+		"Programming Language :: Python :: 3 :: Only",
+		"Programming Language :: Python :: Implementation :: CPython",
+		
+		"Topic :: Education",
+		"Topic :: Scientific/Engineering :: Bio-Informatics",
+		"Topic :: Scientific/Engineering :: Chemistry",
+		"Topic :: Software Development :: Libraries :: Python Modules",
+		]
