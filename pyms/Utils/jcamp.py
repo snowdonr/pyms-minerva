@@ -57,3 +57,14 @@ header_info_fields = [
 		]
 
 xydata_tags = {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE", "PEAK TABLE", "XYPOINTS"}
+
+
+class JcampTagWarning(UserWarning):
+	def __init__(self, tag):
+		self.tag = str(tag)
+	
+	def __repr__(self):
+		return f"JcampTagWarning(Unrecognised tag. tag={self.tag})"
+	
+	def __str__(self):
+		return f"Unrecognised tag {self.tag}."
