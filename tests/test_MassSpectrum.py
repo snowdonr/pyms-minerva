@@ -20,13 +20,14 @@
 
 # stdlib
 import copy
+import pathlib
+import requests
 
 # 3rd party
 import pytest
 
 # pyms
 from pyms.Spectrum import MassSpectrum
-
 # tests
 from .constants import *
 
@@ -109,3 +110,29 @@ def test_mass_list(ms):
 	# for obj in [test_list_ints, test_tuple]:
 	# 	with pytest.raises(ValueError):
 	# 		ms.mass_list = obj
+
+
+def test_from_jcamp():
+	nist_data_dir = pathlib.Path("nist_jdx_files")
+	
+	if not nist_data_dir.exists():
+		nist_data_dir.mkdir(parents=True)
+	
+	# Compounds from nist
+	for cas in [
+			"122-39-4", "71-43-2", "85-98-3",
+			"107-10-8", "50-37-3", "57-13-6",
+			"77-92-9", "118-96-7"
+			]:
+		print(f"Testing CAS {cas}")
+		jcamp_file = nist_data_dir / f"{cas}.jdx"
+		
+		if not jcamp_file.exists():
+			r = requests.get(
+					f"https://webbook.nist.gov/cgi/cbook.cgi?JCAMP=C{cas.replace('-', '')}&Index=0&Type=Mass")
+			jcamp_file.write_bytes(r.content)
+	
+		MassSpectrum.from_jcamp(jcamp_file)
+	
+	# TODO: test jdx files from other sources
+

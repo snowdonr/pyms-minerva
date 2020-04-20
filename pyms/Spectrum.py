@@ -23,6 +23,10 @@ Classes to model Mass Spectra and Scans
 #                                                                              #
 ################################################################################
 
+# stdlib
+import pathlib
+import re
+
 # 3rd party
 import deprecation
 
@@ -30,6 +34,7 @@ import deprecation
 from pyms import __version__
 from pyms.Base import _list_types, pymsBaseClass
 from pyms.Mixins import MassListMixin
+from pyms.Utils.jcamp import xydata_tags
 
 
 class Scan(pymsBaseClass, MassListMixin):
@@ -363,9 +368,65 @@ class MassSpectrum(Scan):
 		
 		intensity_idx = self._intensity_list.index(intensity)
 		return self._mass_list[intensity_idx]
-
 	
+	@classmethod
+	def from_jcamp(cls, file_name):
+		"""
+		Create a MassSpectrum from a JCAMP-DX file
 
+		:param file_name: Path of the file to read
+		:type file_name: str or pathlib.Path
+
+		:return: MassSpectrum
+		:rtype: :class:`pyms.Spectrum.MassSpectrum`
+
+		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster
+		"""
+		
+		if not isinstance(file_name, (str, pathlib.Path)):
+			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		
+		if not isinstance(file_name, pathlib.Path):
+			file_name = pathlib.Path(file_name)
+		
+		print(f" -> Reading JCAMP file '{file_name}'")
+		lines_list = file_name.open('r')
+		xydata = []
+		last_tag = None
+		
+		for line in lines_list:
+			
+			if len(line.strip()):
+				if line.startswith("##"):
+					# key word or information
+					fields = line.split('=', 1)
+					current_tag = fields[0] = fields[0].lstrip("##").upper()
+					last_tag = fields[0]
+					
+					if current_tag.upper().startswith("END"):
+						break
+				
+				else:
+					if last_tag in xydata_tags:
+						line_sub = re.split(",| ", line.strip())
+						for item in line_sub:
+							if not len(item.strip()) == 0:
+								xydata.append(float(item.strip()))
+		
+		# By this point we should have all of the xydata
+		if len(xydata) % 2 == 1:
+			# TODO: This means the data is not in x, y pairs
+			#  Make a better error message
+			raise ValueError("data not in pair !")
+		
+		mass_list = []
+		intensity_list = []
+		for i in range(len(xydata) // 2):
+			mass_list.append(xydata[i * 2])
+			intensity_list.append(xydata[i * 2 + 1])
+		
+		return cls(mass_list, intensity_list)
+		
 
 def normalize_mass_spec(mass_spec, max_val=None, inplace=False):
 	"""

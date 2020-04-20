@@ -37,10 +37,9 @@ from pyms import __version__
 from pyms.Base import _list_types, pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
-from pyms.Spectrum import Scan
+from pyms.Spectrum import Scan, MassSpectrum
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
-from pyms.Spectrum import MassSpectrum
 
 
 class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin):

@@ -33,6 +33,7 @@ import pathlib
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
+from pyms.Utils.jcamp import header_info_fields, xydata_tags
 from pyms.Utils.Math import is_float
 
 
@@ -64,34 +65,6 @@ def JCAMP_reader(file_name):
 	scan_list = []
 	
 	header_info = {}  # Dictionary containing header information
-	header_info_fields = [
-		"TITLE",
-		"JCAMP-DX",
-		"SAMPLE_DESCRIPTION",
-		"DATE",
-		"TIME",
-		"SPECTROMETER_SYSTEM",
-		"EXPERIMENT_NAME",
-		"INLET",
-		"IONIZATION_MODE",  # e.g. EI+
-		"ELECTRON_ENERGY",  # e.g. 70
-		"RESOLUTION",
-		"ACCELERATING_VOLTAGE",  # e.g. 8000
-		"CALIBRATION_FILE",
-		"REFERENCE_FILE",
-		"MASS_RANGE",
-		"SCAN_LAW",  # e.g. Exponential
-		"SCAN_RATE_UNITS",  # Units for SCAN_RATE
-		"SCAN_RATE",  # Rate at which scans were acquired
-		"SCAN_DELAY_UNITS",  # Units for SCAN_DELAY
-		"SCAN_DELAY",  # Time delay in seconds before first scan acquired
-		"XUNITS",  # Units for X-Axis e.g. Daltons
-		"DATA_FORMAT",  # e.g. Centroid
-		"DATA TYPE",  # e.g. MASS SPECTRUM
-		"DATA CLASS",  # e.g. NTUPLES
-		"ORIGIN",
-		"OWNER",
-		]
 	
 	for line in lines_list:
 		
@@ -120,7 +93,7 @@ def JCAMP_reader(file_name):
 					if time_list[-1] != time:
 						time_list.append(time)
 						
-				elif fields[0] in {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE"}:
+				elif fields[0] in xydata_tags:
 					xydata_idx = xydata_idx + 1
 				
 				elif fields[0] in header_info_fields:
@@ -137,16 +110,17 @@ def JCAMP_reader(file_name):
 				# data
 				if page_idx > 1 or xydata_idx > 1:
 					if len(data) % 2 == 1:
+						# TODO: This means the data is not in x, y pairs
+						#  Make a better error message
 						raise ValueError("data not in pair !")
-					# TODO: what does this mean?
-					mass = []
-					intensity = []
+					mass_list = []
+					intensity_list = []
 					for i in range(len(data) // 2):
-						mass.append(data[i * 2])
-						intensity.append(data[i * 2 + 1])
-					if not len(mass) == len(intensity):
-						raise ValueError("len(mass) is not equal to len(intensity)")
-					scan_list.append(Scan(mass, intensity))
+						mass_list.append(data[i * 2])
+						intensity_list.append(data[i * 2 + 1])
+					if not len(mass_list) == len(intensity_list):
+						raise ValueError("len(mass_list) is not equal to len(intensity_list)")
+					scan_list.append(Scan(mass_list, intensity_list))
 					data = []
 					data_sub = line.strip().split(',')
 					for item in data_sub:
@@ -163,6 +137,8 @@ def JCAMP_reader(file_name):
 							data.append(float(item.strip()))
 	
 	if len(data) % 2 == 1:
+		# TODO: This means the data is not in x, y pairs
+		#  Make a better error message
 		raise ValueError("data not in pair !")
 	
 	# get last scan
