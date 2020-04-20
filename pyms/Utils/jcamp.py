@@ -49,7 +49,7 @@ header_info_fields = [
 		"DATA CLASS",  # e.g. NTUPLES
 		"ORIGIN",
 		"OWNER",
-		"CAS REGISTRY NO.",
+		"CAS REGISTRY NO",
 		"$NIST MASS SPEC NO",
 		"MOLFORM",
 		"MW",
