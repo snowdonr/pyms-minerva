@@ -42,6 +42,9 @@ from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
 
 
+MassSpectrum = MassSpectrum  # For legacy imports. Stops PyCharm complaining TODO: Remove eventually
+
+
 class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin):
 	"""
 	Generic object for GC-MS data. Contains raw data
