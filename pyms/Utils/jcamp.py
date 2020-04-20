@@ -49,6 +49,11 @@ header_info_fields = [
 		"DATA CLASS",  # e.g. NTUPLES
 		"ORIGIN",
 		"OWNER",
+		"CAS REGISTRY NO.",
+		"$NIST MASS SPEC NO",
+		"MOLFORM",
+		"MW",
+		"$NIST SOURCE."
 		]
 
 xydata_tags = {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE", "PEAK TABLE", "XYPOINTS"}
