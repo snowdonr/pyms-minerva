@@ -121,6 +121,14 @@ class Scan(pymsBaseClass, MassListMixin):
 	def __setstate__(self, state):
 		self.__init__(**state)
 	
+	def iter_peaks(self):
+		"""
+		Iterate over the peaks in the mass spectrum
+		"""
+		
+		for mz, intensity in zip(self.mass_list, self.intensity_list):
+			yield mz, intensity
+	
 	@property
 	def intensity_list(self):
 		"""
@@ -441,8 +449,7 @@ class MassSpectrum(Scan):
 		if (
 				not isinstance(mz_int_pairs, _list_types)
 				or not isinstance(mz_int_pairs[0], _list_types)
-				or not isinstance(mz_int_pairs[0][0], (int, float))
-				
+				# or not isinstance(mz_int_pairs[0][0], (int, float))
 			):
 			raise TypeError(err_msg)
 		
@@ -452,8 +459,8 @@ class MassSpectrum(Scan):
 		mass_list = []
 		intensity_list = []
 		for mass, intensity in mz_int_pairs:
-			mass_list.append(mass)
-			intensity_list.append(intensity)
+			mass_list.append(float(mass))
+			intensity_list.append(float(intensity))
 	
 		return cls(mass_list, intensity_list)
 		
