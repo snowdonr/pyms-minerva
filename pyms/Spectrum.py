@@ -496,7 +496,7 @@ def normalize_mass_spec(mass_spec, relative_to=None, inplace=False, max_intensit
 			for x in mass_spec.intensity_list]
 	
 	if isinstance(max_intensity, int):
-		normalized_intensity_list = [int(x) for x in normalized_intensity_list]
+		normalized_intensity_list = [round(x) for x in normalized_intensity_list]
 	
 	if inplace:
 		mass_spec.intensity_list = normalized_intensity_list
