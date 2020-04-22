@@ -465,30 +465,38 @@ class MassSpectrum(Scan):
 		return cls(mass_list, intensity_list)
 		
 
-def normalize_mass_spec(mass_spec, max_val=None, inplace=False):
+def normalize_mass_spec(mass_spec, relative_to=None, inplace=False, max_intensity=100):
 	"""
-	Normalize the given Mass Spectrum. If max_val is given, it will be used for the
-	calculations; otherwise, the maximum value will be calculated from the mass spectrum.
+	Normalize the intensities in the given Mass Spectrum to values between 0 and ``max_intensity``,
+	which by default is 100.0.
 
 	:param mass_spec: The Mass Spectrum to normalize
 	:type mass_spec: :class:`pyms.Spectrum.MassSpectrum`
-	:param max_val: An optional maximum value to use for the calculations. This can be
-		useful when normalizing several mass spectra to each other.
-	:type max_val: int or float
+	:param relative_to: The largest intensity in the original data set.
+		If not None the intensities are computed relative to this value.
+		If None the value is calculated from the mass spectrum.
+		This can be useful when normalizing several mass spectra to each other.
+	:type relative_to: int or float
 	:param inplace: Whether the normalization should be applied to the
 		:class:`~pyms.Spectrum.MassSpectrum` object given, or to a copy (default behaviour).
 	:type inplace: bool, optional.
-
+	:param max_intensity: The maximum intensity in the normalized spectrum.
+		If omitted the range 0-100.0 is used.
+		If an integer the normalized intensities will be integers.
+	:type max_intensity: int, float
 	:return: The normalized mass spectrum
 	:rtype: :class:`pyms.Spectrum.MassSpectrum`
 	"""
 	
-	if max_val is None:
-		max_val = max(mass_spec.intensity_list)
+	if relative_to is None:
+		relative_to = max(mass_spec.intensity_list)
 	
-	max_val = float(max_val)
+	normalized_intensity_list = [
+			(x / float(relative_to)) * max_intensity
+			for x in mass_spec.intensity_list]
 	
-	normalized_intensity_list = [(x / max_val) * 100.0 for x in mass_spec.intensity_list]
+	if isinstance(max_intensity, int):
+		normalized_intensity_list = [int(x) for x in normalized_intensity_list]
 	
 	if inplace:
 		mass_spec.intensity_list = normalized_intensity_list
