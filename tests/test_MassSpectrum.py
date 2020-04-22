@@ -136,3 +136,45 @@ def test_from_jcamp():
 	
 	# TODO: test jdx files from other sources
 
+
+def test_from_mz_int_pairs():
+	
+	mz_int_pairs = [
+			(27, 138),	(28, 210),	(32, 59),	(37, 70),	(38, 273),
+			(39, 895),	(40, 141),	(41, 82),	(50, 710),	(51, 2151),
+			(52, 434),	(53, 49),	(57, 41),	(59, 121),	(61, 73),
+			(62, 229),	(63, 703),	(64, 490),	(65, 1106), (66, 932),
+			(67, 68),	(70, 159),	(71, 266),	(72, 297),	(73, 44),
+			(74, 263),	(75, 233),	(76, 330),	(77, 1636),	(78, 294),
+			(84, 1732),	(87, 70),	(88, 86),	(89, 311),	(90, 155),
+			(91, 219),	(92, 160),	(93, 107),	(101, 65),	(102, 111),
+			(103, 99),	(104, 188),	(113, 107),	(114, 120),	(115, 686),
+			(116, 150),	(117, 91),	(126, 46),	(127, 137),	(128, 201),
+			(129, 73),	(130, 69),	(139, 447),	(140, 364),	(141, 584),
+			(142, 279),	(143, 182),	(152, 37),	(153, 60),	(154, 286),
+			(166, 718),
+			(167, 3770),
+			(168, 6825),
+			(169, 9999),
+			(170, 1210),
+			(171, 85),
+			]
+	
+	ms = MassSpectrum.from_mz_int_pairs(mz_int_pairs)
+	
+	assert isinstance(ms, MassSpectrum)
+	assert len(ms) == len(mz_int_pairs)
+	assert ms.intensity_list[6] == 141
+	assert ms.intensity_list[30] == 1732
+	assert ms.mass_list[-1] == 171
+	assert ms.mass_list[2] == 32
+	
+	# Errors
+	for obj in [test_string, test_int, test_list_strs, test_dict, test_list_ints, test_tuple, [("abc", "123")], (["abc", "123"])]:
+		with pytest.raises(TypeError):
+			MassSpectrum.from_mz_int_pairs(obj)
+	
+	for obj in [[(1, 2, 3)], ([1, 2, 3],), [(1,)], ([1],)]:
+		with pytest.raises(ValueError):
+			MassSpectrum.from_mz_int_pairs(obj)
+

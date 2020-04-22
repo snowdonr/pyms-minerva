@@ -426,6 +426,36 @@ class MassSpectrum(Scan):
 			intensity_list.append(xydata[i * 2 + 1])
 		
 		return cls(mass_list, intensity_list)
+	
+	@classmethod
+	def from_mz_int_pairs(cls, mz_int_pairs):
+		"""
+		Construct a MassSpectrum from a list of (m/z, intensity) tuples.
+		
+		:param mz_int_pairs:
+		:type mz_int_pairs: list of tuple
+		"""
+		
+		err_msg = "`mz_int_pairs` must be a list of (m/z, intensity) tuples."
+		
+		if (
+				not isinstance(mz_int_pairs, _list_types)
+				or not isinstance(mz_int_pairs[0], _list_types)
+				or not isinstance(mz_int_pairs[0][0], (int, float))
+				
+			):
+			raise TypeError(err_msg)
+		
+		if not len(mz_int_pairs[0]) == 2:
+			raise ValueError(err_msg)
+		
+		mass_list = []
+		intensity_list = []
+		for mass, intensity in mz_int_pairs:
+			mass_list.append(mass)
+			intensity_list.append(intensity)
+	
+		return cls(mass_list, intensity_list)
 		
 
 def normalize_mass_spec(mass_spec, max_val=None, inplace=False):
