@@ -40,7 +40,7 @@ web = github_url = f"https://github.com/{github_username}/PyMassSpec"
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>,
 
 # Get info from files; set: long_description
-if pathlib.Path.cwd().name == "doc-source":
+if pathlib.Path.cwd().name == "UserGuide":
 	print(pathlib.Path.cwd().parent / "README.rst")
 	install_requires = (pathlib.Path.cwd().parent / "requirements.txt").read_text().split("\n")
 	long_description = (pathlib.Path.cwd().parent / "README.rst").read_text() + '\n'
