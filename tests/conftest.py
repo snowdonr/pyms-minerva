@@ -45,7 +45,10 @@ def datadir():
 
 @pytest.fixture("session")
 def outputdir():
-	return Path(os.path.split(__file__)[0]) / "output"
+	outputdir = Path(os.path.split(__file__)[0]) / "output"
+	if not outputdir.exists():
+		outputdir.mkdir(parents=True)
+	return outputdir
 
 
 @pytest.fixture(scope="session")
