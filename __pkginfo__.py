@@ -21,7 +21,7 @@ copyright = """
 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-VERSION = "2.2.19"
+VERSION = "2.2.20"
 
 modname = "pyms"
 py_modules = None
