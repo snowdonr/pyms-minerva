@@ -570,22 +570,24 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		
 		if fmt:  # dat
 			separator = " "
+			extension = ".dat"
 		else:  # csv
 			separator = ","
+			extension = ".csv"
 		
 		# export 2D matrix of intensities
 		vals = self._intensity_array
-		save_data(f"{root_name}.im.{format}", vals, sep=separator)
+		save_data(f"{root_name}.im.{extension}", vals, sep=separator)
 		
 		# export 1D vector of m/z's, corresponding to rows of
 		# the intensity matrix
 		mass_list = self._mass_list
-		save_data(f"{root_name}.mz.{format}", mass_list, sep=separator)
+		save_data(f"{root_name}.mz.{extension}", mass_list, sep=separator)
 		
 		# export 1D vector of retention times, corresponding to
 		# columns of the intensity matrix
 		time_list = self._time_list
-		save_data(f"{root_name}.rt.{format}", time_list, sep=separator)
+		save_data(f"{root_name}.rt.{extension}", time_list, sep=separator)
 	
 	def export_leco_csv(self, file_name):
 		"""
