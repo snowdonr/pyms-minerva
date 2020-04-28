@@ -25,6 +25,7 @@ from copy import deepcopy
 
 # 3rd party
 import pytest
+import deprecation
 
 # pyms
 from pyms.GCMS.Class import GCMS_data
@@ -174,11 +175,13 @@ def test_equality(andi):
 	assert andi != test_dict
 
 
+@deprecation.fail_if_not_removed
 def test_get_scan_list(andi):
 	with pytest.warns(DeprecationWarning):
 		andi.get_scan_list()
 
 
+@deprecation.fail_if_not_removed
 def test_get_tic(andi):
 	with pytest.warns(DeprecationWarning):
 		andi.get_tic()
@@ -661,6 +664,7 @@ def test_time_list(andi):
 	assert time[0] == 305.582
 
 
+@deprecation.fail_if_not_removed
 def test_get_time_list(andi):
 	with pytest.warns(DeprecationWarning):
 		andi.get_time_list()
@@ -668,11 +672,13 @@ def test_get_time_list(andi):
 
 # Inherited Methods from MaxMinMassMixin
 
+@deprecation.fail_if_not_removed
 def test_get_max_mass(andi):
 	with pytest.warns(DeprecationWarning):
 		andi.get_max_mass()
 
 
+@deprecation.fail_if_not_removed
 def test_get_min_mass(andi):
 	with pytest.warns(DeprecationWarning):
 		andi.get_min_mass()

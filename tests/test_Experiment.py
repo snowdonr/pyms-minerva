@@ -23,6 +23,7 @@ import copy
 
 # 3rd party
 import pytest
+import deprecation
 
 # pyms
 from pyms.Experiment import Experiment, load_expr, read_expr_list, store_expr
@@ -60,6 +61,7 @@ def test_len(expr):
 	assert len(expr) == 641
 
 
+@deprecation.fail_if_not_removed
 def test_get_expr_code(expr):
 	with pytest.warns(DeprecationWarning):
 		expr.get_expr_code()
@@ -70,6 +72,7 @@ def test_expr_code(expr):
 	assert expr.expr_code == "ELEY_1_SUBTRACT"
 
 
+@deprecation.fail_if_not_removed
 def test_get_peak_list(expr):
 	with pytest.warns(DeprecationWarning):
 		expr.get_peak_list()
@@ -96,6 +99,7 @@ def test_sele_rt_range(expr, filtered_peak_list):
 			expr.sele_rt_range(obj)
 
 
+@deprecation.fail_if_not_removed
 def test_store_expr(expr, outputdir):
 	with pytest.warns(DeprecationWarning):
 		store_expr(str(outputdir/"ELEY_1_SUBTRACT_DEPRECATION.expr"), expr)

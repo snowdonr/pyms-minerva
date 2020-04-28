@@ -25,6 +25,7 @@ from copy import deepcopy
 
 # 3rd party
 import pytest
+import deprecation
 
 # pyms
 from pyms.GCMS.Class import GCMS_data
@@ -81,11 +82,13 @@ def test_equality(data):
 	assert data != test_dict
 
 
+@deprecation.fail_if_not_removed
 def test_get_scan_list(data):
 	with pytest.warns(DeprecationWarning):
 		data.get_scan_list()
 
 
+@deprecation.fail_if_not_removed
 def test_get_tic(data):
 	with pytest.warns(DeprecationWarning):
 		data.get_tic()
@@ -354,6 +357,7 @@ def test_time_list(data):
 	assert time[0] == 1.05200003833
 
 
+@deprecation.fail_if_not_removed
 def test_get_time_list(data):
 	with pytest.warns(DeprecationWarning):
 		data.get_time_list()
@@ -361,11 +365,13 @@ def test_get_time_list(data):
 
 # Inherited Methods from MaxMinMassMixin
 
+@deprecation.fail_if_not_removed
 def test_get_max_mass(data):
 	with pytest.warns(DeprecationWarning):
 		data.get_max_mass()
 
 
+@deprecation.fail_if_not_removed
 def test_get_min_mass(data):
 	with pytest.warns(DeprecationWarning):
 		data.get_min_mass()

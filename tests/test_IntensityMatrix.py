@@ -26,6 +26,7 @@ import types
 # 3rd party
 import numpy
 import pytest
+import deprecation
 
 # pyms
 from pyms.IntensityMatrix import (
@@ -73,6 +74,7 @@ def test_equality(im):
 	assert im != test_list_strs
 
 
+@deprecation.fail_if_not_removed
 def test_get_local_size(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_local_size()
@@ -84,6 +86,7 @@ def test_local_size(im):
 	assert im.local_size[0] == 2103
 
 
+@deprecation.fail_if_not_removed
 def test_get_size(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_size()
@@ -450,6 +453,7 @@ def test_time_list(im):
 	assert time[0] == 1.05200003833
 
 
+@deprecation.fail_if_not_removed
 def test_get_time_list(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_time_list()
@@ -457,6 +461,7 @@ def test_get_time_list(im):
 
 # Inherited Methods from MassListMixin
 
+@deprecation.fail_if_not_removed
 def test_get_mass_list(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_mass_list()
@@ -471,6 +476,7 @@ def test_mass_list(im):
 
 # Inherited Methods from MaxMinMassMixin
 
+@deprecation.fail_if_not_removed
 def test_get_min_mass(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_min_mass()
@@ -482,6 +488,7 @@ def test_min_mass(im):
 	assert im.min_mass == 50.2516
 
 
+@deprecation.fail_if_not_removed
 def test_get_max_mass(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_max_mass()
@@ -514,6 +521,7 @@ def test_intensity_matrix(im):
 	assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
 
 
+@deprecation.fail_if_not_removed
 def test_get_intensity_array(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_intensity_array()
@@ -529,6 +537,7 @@ def test_intensity_array_list(im):
 	assert im.intensity_array_list == im.intensity_array.tolist()
 	
 
+@deprecation.fail_if_not_removed
 def test_get_matrix_list(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_matrix_list()

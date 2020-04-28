@@ -25,6 +25,7 @@ import pickle
 # 3rd party
 import numpy
 import pytest
+import deprecation
 
 # pyms
 from pyms.IonChromatogram import IonChromatogram
@@ -103,12 +104,14 @@ def test_get_intensity_at_index(tic):
 		tic.get_intensity_at_index(10000000)
 
 
+@deprecation.fail_if_not_removed
 def test_get_mass(im):
 	ic = im.get_ic_at_index(0)
 	with pytest.warns(DeprecationWarning):
 		ic.get_mass()
 
 
+@deprecation.fail_if_not_removed
 def test_get_time_step(tic):
 	with pytest.warns(DeprecationWarning):
 		tic.get_time_step()
@@ -139,6 +142,7 @@ def test_intensity_array(tic, im):
 	assert tic.intensity_array[2] == 622.0
 
 
+@deprecation.fail_if_not_removed
 def test_set_intensity_array(tic):
 	tic = copy.deepcopy(tic)
 	with pytest.warns(DeprecationWarning):
@@ -209,6 +213,7 @@ def test_time_list(tic):
 	assert len(tic.time_list) == 2103
 
 
+@deprecation.fail_if_not_removed
 def test_get_time_list(tic):
 	with pytest.warns(DeprecationWarning):
 		tic.get_time_list()
@@ -226,6 +231,7 @@ def test_intensity_matrix(im):
 	assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
 
 
+@deprecation.fail_if_not_removed
 def test_get_intensity_array(tic):
 	with pytest.warns(DeprecationWarning):
 		tic.get_intensity_array()
@@ -241,6 +247,7 @@ def test_intensity_array_list(im):
 	assert im.intensity_array_list == im.intensity_array.tolist()
 
 
+@deprecation.fail_if_not_removed
 def test_get_matrix_list(im):
 	with pytest.warns(DeprecationWarning):
 		im.get_matrix_list()

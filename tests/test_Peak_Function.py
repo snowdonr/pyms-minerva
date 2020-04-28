@@ -90,11 +90,13 @@ def test_peak_top_ion_areas(peak, im_i):
 			peak_top_ion_areas(im_i, peak, max_bound=obj)
 
 
+@deprecation.fail_if_not_removed
 def test_top_ions_v1(peak):
 	with pytest.warns(DeprecationWarning):
 		top_ions_v1(peak, 10)
 
 
+@deprecation.fail_if_not_removed
 def test_top_ions_v2(peak):
 	with pytest.warns(DeprecationWarning):
 		top_ions_v2(peak, 10)

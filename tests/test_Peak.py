@@ -157,11 +157,13 @@ def test_crop_mass(peak):
 		peak2.crop_mass(60, 65)
 
 
+@deprecation.fail_if_not_removed
 def test_get_area(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_area()
 
 
+@deprecation.fail_if_not_removed
 def test_get_ic_mass(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_ic_mass()
@@ -220,17 +222,19 @@ def test_ion_areas(peak):
 	assert peak.ion_areas == {1: 1234, 2: 1234, 3: 1234}
 
 
+@deprecation.fail_if_not_removed
 def test_get_mass_spectrum(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_mass_spectrum()
 
 
-# @deprecation.fail_if_not_removed
+@deprecation.fail_if_not_removed
 def test_get_pt_bounds(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_pt_bounds()
 
 
+@deprecation.fail_if_not_removed
 def test_get_rt(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_rt()
@@ -246,6 +250,7 @@ def test_get_third_highest_mz(peak):
 	assert Peak(test_float).get_third_highest_mz() is None
 
 
+@deprecation.fail_if_not_removed
 def test_get_UID(peak):
 	with pytest.warns(DeprecationWarning):
 		peak.get_UID()
