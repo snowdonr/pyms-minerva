@@ -21,6 +21,7 @@ import pathlib
 __all__ = [
 		"__copyright__",
 		"__version__",
+		"modname",
 		"pypi_name",
 		"py_modules",
 		"entry_points",
@@ -38,6 +39,7 @@ __all__ = [
 		"extras_require",
 		"classifiers",
 		"keywords",
+		"import_name",
 		]
 
 __copyright__ = """
@@ -46,22 +48,24 @@ __copyright__ = """
 
 __version__ = "2.2.21"
 
+modname = "pymassspec"
 pypi_name = "pymassspec"
+import_name = "pyms"
 py_modules = []
 entry_points = {
 		"console_scripts": []
 		}
 
-__license__ = "GPL2"
+__license__ = "GNU General Public License v2 (GPLv2)"
 
 short_desc = "Python Toolkit for Mass Spectrometry"
 
 author = "Dominic Davis-Foster"
 author_email = "dominic@davis-foster.co.uk"
 github_username = "domdfcoding"
-web = github_url = f"https://github.com/domdfcoding/pymassspec"
+web = github_url = f"https://github.com/domdfcoding/PyMassSpec"
 project_urls = {
-		"Documentation": f"https://pymassspec.readthedocs.io",  # TODO: Make this link match the package version
+		"Documentation": f"https://PyMassSpec.readthedocs.io",  # TODO: Make this link match the package version
 		"Issue Tracker": f"{github_url}/issues",
 		"Source Code": github_url,
 		}
@@ -70,11 +74,6 @@ repo_root = pathlib.Path(__file__).parent
 
 # Get info from files; set: long_description
 long_description = (repo_root / "README.rst").read_text().replace("2.2.21", __version__) + '\n'
-conda_description = """Python Toolkit for Mass Spectrometry
-
-
-Before installing please ensure you have added the following channels: domdfcoding, conda-forge"""
-__all__.append("conda_description")
 
 install_requires = (repo_root / "requirements.txt").read_text().split('\n')
 extras_require = {'all': []}
@@ -90,12 +89,13 @@ classifiers = [
 		'Topic :: Scientific/Engineering :: Bio-Informatics',
 		'Topic :: Scientific/Engineering :: Chemistry',
 		'Topic :: Software Development :: Libraries :: Python Modules',
-		'Programming Language :: Python :: Implementation :: CPython',
 		'Programming Language :: Python :: 3.6',
+		'Programming Language :: Python :: Implementation :: CPython',
 		'Programming Language :: Python :: 3.7',
 		'Programming Language :: Python :: 3.8',
 		'Programming Language :: Python',
 		'Programming Language :: Python :: 3 :: Only',
+		'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
 
 		]
 

@@ -22,12 +22,6 @@ PyMassSpec
 .. image:: https://img.shields.io/pypi/implementation/pymassspec
     :target: https://pypi.org/project/pymassspec/
     :alt: PyPI - Implementation
-.. image:: https://img.shields.io/conda/v/domdfcoding/pymassspec
-    :alt: Conda
-    :target: https://anaconda.org/domdfcoding/pymassspec
-.. image:: https://img.shields.io/conda/pn/domdfcoding/pymassspec?label=conda%7Cplatform
-    :alt: Conda Platform
-    :target: https://anaconda.org/domdfcoding/pymassspec
 .. image:: https://coveralls.io/repos/github/domdfcoding/PyMassSpec/badge.svg?branch=master
     :target: https://coveralls.io/github/domdfcoding/PyMassSpec?branch=master
     :alt: Coverage
