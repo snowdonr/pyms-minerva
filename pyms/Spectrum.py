@@ -26,6 +26,7 @@ Classes to model Mass Spectra and Scans
 # stdlib
 import pathlib
 import re
+import warnings
 
 # 3rd party
 import deprecation
@@ -54,17 +55,37 @@ class Scan(pymsBaseClass, MassListMixin):
 		Initialise the class
 		"""
 		
-		if not isinstance(mass_list, _list_types) or \
-			not isinstance(mass_list[0], (int, float)):
+		if (
+				not isinstance(mass_list, _list_types) or
+				not isinstance(mass_list[0], (int, float))
+			):
 			raise TypeError("'mass_list' must be a list of numbers")
-		
-		if not isinstance(intensity_list, _list_types) or \
-			not isinstance(intensity_list[0], (int, float)):
+
+		if (
+				not isinstance(intensity_list, _list_types) or
+				not isinstance(intensity_list[0], (int, float))
+			):
 			raise TypeError("'intensity_list' must be a list of numbers")
-		
+
 		if not len(mass_list) == len(intensity_list):
 			raise ValueError("'mass_list' is not the same size as 'intensity_list'")
-		
+
+		mass_list = list(mass_list)
+		intensity_list = list(intensity_list)
+
+		sorted_mass_list = sorted(mass_list)
+
+		if sorted_mass_list != mass_list:
+			# Mass list isn't in ascending order
+			if sorted_mass_list[::-1] == mass_list:
+				# Mass list is in descending order
+				mass_list = mass_list[::-1]
+				intensity_list = intensity_list[::-1]
+			else:
+				warnings.warn("""Unknown sort order for mass list; it doesn't appear to be in either ascending or descending order.
+Please report this at https://github.com/domdfcoding/pymassspec/issues and upload an example data file if possible.
+""")
+
 		self._mass_list = list(mass_list)
 		self._intensity_list = list(intensity_list)
 		self._min_mass = min(mass_list)
