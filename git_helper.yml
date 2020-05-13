@@ -4,6 +4,7 @@ repo_name: PyMassSpec
 pypi_name: pymassspec
 copyright_years: "2019-2020"
 author: "Dominic Davis-Foster"
+rtfd_author: "PyMassSpec Authors"
 email: "dominic@davis-foster.co.uk"
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>
 version: "2.2.21"
@@ -62,3 +63,16 @@ pkginfo_extra:
 additional_ignore:
   - Scribble
   - "*/output"
+
+extra_sphinx_extensions:
+  - 'autodocsumm'
+  - 'nbsphinx'
+
+html_theme_options:  # Must be strings to preserve booleans
+  - "'includehidden': False"
+
+sphinx_conf_preamble:
+  # Built rst from jupyter notebooks
+  - import ipynb2rst
+  - nitpicky = True
+  - "autodoc_default_options = {'autosummary': True}"
