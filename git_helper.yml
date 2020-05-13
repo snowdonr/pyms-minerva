@@ -63,6 +63,7 @@ pkginfo_extra:
 additional_ignore:
   - Scribble
   - "*/output"
+  - "**/nist_jdx_files"
 
 extra_sphinx_extensions:
   - 'autodocsumm'
