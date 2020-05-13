@@ -56,72 +56,54 @@ def ANDI_reader(file_name):
 
 	:param file_name: The path of the ANDI-MS file
 	:type file_name: str or pathlib.Path
-	
+
 	:return: GC-MS data object
 	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
 	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (pathlib support)
+	:author: Dominic Davis-Foster
 	"""
-	
+
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
-	
-	# TODO: use 'point_count' and allow for zero len scans
 
 	rootgrp = Dataset(file_name, "r+", format='NETCDF3_CLASSIC')
 	# TODO: find out if netCDF4 throws specific errors that we can use here
-	
+
 	print(f" -> Reading netCDF file '{file_name}'")
-	
-	# print(rootgrp.variables[__MASS_STRING][:])
-	
+
 	scan_list = []
-	# mass = file.var(__MASS_STRING)  # old pycdf way
-	# intensity = file.var(__INTENSITY_STRING)  #old pycdf way
 	mass = rootgrp.variables[__MASS_STRING][:]
 	intensity = rootgrp.variables[__INTENSITY_STRING][:]
-	
+
+	scan_lengths = rootgrp.variables["point_count"]  # The number of data points in each scan
+
 	mass_values = mass.tolist()
-	mass_list = []
-	mass_previous = mass_values[0]
-	mass_list.append(mass_previous)
 	intensity_values = intensity.tolist()
-	intensity_list = []
-	intensity_previous = intensity_values[0]
-	intensity_list.append(intensity_previous)
-	if not len(mass_values) == len(intensity_values):
-		raise ValueError("length of mass_list is not equal to length of intensity_list !")
-	for i in range(len(mass_values) - 1):
-		# assume masses in ascending order until new scan
-		if mass_previous <= mass_values[i + 1]:
-			# print(mass_values[i+1])
-			mass_list.append(mass_values[i + 1])
-			mass_previous = mass_values[i + 1]
-			intensity_list.append(intensity_values[i + 1])
-			intensity_previous = intensity_values[i + 1]
-		# new scan
-		else:
-			scan_list.append(Scan(mass_list, intensity_list))
-			# print("Added scan")
-			mass_previous = mass_values[i + 1]
-			intensity_previous = intensity_values[i + 1]
-			mass_list = []
-			intensity_list = []
-			mass_list.append(mass_previous)
-			intensity_list.append(intensity_previous)
-	# store final scan
-	scan_list.append(Scan(mass_list, intensity_list))
-	# time = file.var(__TIME_STRING)  #old pycdf way
+
+	if len(mass_values) != len(intensity_values):
+		raise ValueError("The lengths of the mass and intensity lists differ!")
+
+	offset = 0
+	for idx, length in enumerate(scan_lengths):
+		mass_list = mass_values[offset:offset + length]
+		assert len(mass_values[offset:offset + length]) == length
+		intensity_list = intensity_values[offset:offset + length]
+		assert len(intensity_values[offset:offset + length]) == length
+		scan_list.append(Scan(mass_list, intensity_list))
+		offset += length
+
+	assert offset == len(mass_values)
+
 	time = rootgrp.variables[__TIME_STRING][:]
 	time_list = time.tolist()
-	
+
 	# sanity check
 	if not len(time_list) == len(scan_list):
 		raise ValueError("number of time points does not equal the number of scans")
-	
+
 	return GCMS_data(time_list, scan_list)
 
 
