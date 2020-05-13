@@ -18,11 +18,13 @@ if [ $TRAVIS_PYTHON_VERSION == 3.6 ]; then
     conda install anaconda-client
     conda info -a
 
-    conda config --add channels domdfcoding || exit 1
+    conda config --add channels bioconda || exit 1
 
     conda config --add channels conda-forge || exit 1
 
-    conda build conda -c domdfcoding -c conda-forge --output-folder conda/dist --skip-existing
+    conda config --add channels domdfcoding || exit 1
+
+    conda build conda -c bioconda -c conda-forge -c domdfcoding --output-folder conda/dist --skip-existing
 
     for f in conda/dist/noarch/pymassspec-*.tar.bz2; do
       [ -e "$f" ] || continue

@@ -16,8 +16,9 @@ conda_description: 'Python Toolkit for Mass Spectrometry'
 enable_conda: False
 
 conda_channels:
-  - domdfcoding
+  - bioconda
   - conda-forge
+  - domdfcoding
 
 python_deploy_version: 3.6
 
