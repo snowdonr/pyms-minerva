@@ -23,7 +23,7 @@ INSUFFICIENT INFO WILL GET THE ISSUE CLOSED. IT WILL ONLY BE REOPENED AFTER SUFF
 
   * Operating System:
   * Python:
-  * pymassspec:
+  * PyMassSpec:
 
 
 ## Other Additional Information:

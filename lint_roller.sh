@@ -24,8 +24,8 @@ if [ -z "$(git status --porcelain --untracked-files=no)" ] || [ "$1" == "-f" ]; 
   do
     echo "Correcting $error"
 
-    autopep8 --in-place --select "$error" -a --recursive pymassspec/
-    >&2 flake8 --select "$error" pymassspec/
+    autopep8 --in-place --select "$error" -a --recursive pyms/
+    >&2 flake8 --select "$error" pyms/
 
     autopep8 --in-place --select "$error" -a --recursive tests/
     >&2 flake8 --select "$error" tests/
@@ -35,7 +35,7 @@ if [ -z "$(git status --porcelain --untracked-files=no)" ] || [ "$1" == "-f" ]; 
   for warning in "${warnings[@]}"; do
     echo "Searching for $warning"
 
-    >&2 flake8 --select "$warning" pymassspec/
+    >&2 flake8 --select "$warning" pyms/
 
     >&2 flake8 --select "$warning" tests/
   done

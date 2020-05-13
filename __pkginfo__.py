@@ -48,7 +48,7 @@ __copyright__ = """
 
 __version__ = "2.2.21"
 
-modname = "pymassspec"
+modname = "PyMassSpec"
 pypi_name = "pymassspec"
 import_name = "pyms"
 py_modules = []
@@ -60,7 +60,7 @@ __license__ = "GNU General Public License v2 (GPLv2)"
 
 short_desc = "Python Toolkit for Mass Spectrometry"
 
-author = "Dominic Davis-Foster"
+__author__ = author = "Dominic Davis-Foster"
 author_email = "dominic@davis-foster.co.uk"
 github_username = "domdfcoding"
 web = github_url = f"https://github.com/domdfcoding/PyMassSpec"

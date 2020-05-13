@@ -1,4 +1,4 @@
-modname: pymassspec
+modname: PyMassSpec
 import_name: pyms
 repo_name: PyMassSpec
 pypi_name: pymassspec
