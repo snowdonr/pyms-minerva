@@ -164,7 +164,7 @@ def test_write(tic, outputdir):
 
 	fp.close()
 
-	tic.write(outputdir / "tic_minutes.dat",minutes=True, formatting=False)
+	tic.write(outputdir / "tic_minutes.dat", minutes=True, formatting=False)
 
 	fp = (outputdir / "tic_minutes.dat").open()
 

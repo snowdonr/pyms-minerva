@@ -56,14 +56,14 @@ class Scan(pymsBaseClass, MassListMixin):
 		"""
 
 		if (
-				not isinstance(mass_list, _list_types) or
-				not isinstance(mass_list[0], (int, float))
+				not isinstance(mass_list, _list_types)
+				or not isinstance(mass_list[0], (int, float))
 			):
 			raise TypeError("'mass_list' must be a list of numbers")
 
 		if (
-				not isinstance(intensity_list, _list_types) or
-				not isinstance(intensity_list[0], (int, float))
+				not isinstance(intensity_list, _list_types)
+				or not isinstance(intensity_list[0], (int, float))
 			):
 			raise TypeError("'intensity_list' must be a list of numbers")
 
