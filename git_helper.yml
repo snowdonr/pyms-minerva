@@ -1,7 +1,7 @@
 modname: PyMassSpec
 import_name: pyms
 repo_name: PyMassSpec
-pypi_name: pymassspec
+pypi_name: PyMassSpec
 copyright_years: "2019-2020"
 author: "Dominic Davis-Foster"
 rtfd_author: "PyMassSpec Authors"

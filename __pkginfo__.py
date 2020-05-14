@@ -49,7 +49,7 @@ __copyright__ = """
 __version__ = "2.2.21"
 
 modname = "PyMassSpec"
-pypi_name = "pymassspec"
+pypi_name = "PyMassSpec"
 import_name = "pyms"
 py_modules = []
 entry_points = {

@@ -10,17 +10,17 @@ PyMassSpec
 .. image:: https://readthedocs.org/projects/pymassspec/badge/?version=latest
     :target: https://pymassspec.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
-.. image:: https://img.shields.io/pypi/v/pymassspec.svg
-    :target: https://pypi.org/project/pymassspec/
+.. image:: https://img.shields.io/pypi/v/PyMassSpec.svg
+    :target: https://pypi.org/project/PyMassSpec/
     :alt: PyPI
-.. image:: https://img.shields.io/pypi/pyversions/pymassspec.svg
-    :target: https://pypi.org/project/pymassspec/
+.. image:: https://img.shields.io/pypi/pyversions/PyMassSpec.svg
+    :target: https://pypi.org/project/PyMassSpec/
     :alt: PyPI - Python Version
-.. image:: https://img.shields.io/pypi/wheel/pymassspec
-    :target: https://pypi.org/project/pymassspec/
+.. image:: https://img.shields.io/pypi/wheel/PyMassSpec
+    :target: https://pypi.org/project/PyMassSpec/
     :alt: PyPI - Wheel
-.. image:: https://img.shields.io/pypi/implementation/pymassspec
-    :target: https://pypi.org/project/pymassspec/
+.. image:: https://img.shields.io/pypi/implementation/PyMassSpec
+    :target: https://pypi.org/project/PyMassSpec/
     :alt: PyPI - Implementation
 .. image:: https://coveralls.io/repos/github/domdfcoding/PyMassSpec/badge.svg?branch=master
     :target: https://coveralls.io/github/domdfcoding/PyMassSpec?branch=master

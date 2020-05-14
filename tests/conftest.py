@@ -147,7 +147,7 @@ def expr(filtered_peak_list):
 
 # Teardown Function
 def pytest_sessionfinish(session, exitstatus):
-	# try:
-	# 	shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
-	# except FileNotFoundError:
+	try:
+		shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
+	except FileNotFoundError:
 		pass
