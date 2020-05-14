@@ -62,20 +62,20 @@ def BillerBiemann(im, points=3, scans=1):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(im, IntensityMatrix):
         raise TypeError("'im' must be an IntensityMatrix object")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
     if not isinstance(scans, int):
         raise TypeError("'scans' must be an integer")
-    
+
     rt_list = im.time_list
     mass_list = im.mass_list
     peak_list = []
     maxima_im = get_maxima_matrix(im, points, scans)
     numrows = len(maxima_im)
-    
+
     for row in range(numrows):
         if sum(maxima_im[row]) > 0:
             rt = rt_list[row]
@@ -102,12 +102,12 @@ def get_maxima_indices(ion_intensities, points=3):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(ion_intensities, _list_types) or not isinstance(ion_intensities[0], (int, float)):
         raise TypeError("'ion_intensities' must be a List of numbers")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
-    
+
     # find peak inflection points
     # use a 'points' point window
     # for a plateau after a rise, need to check if it is the left edge of
@@ -117,7 +117,7 @@ def get_maxima_indices(ion_intensities, points=3):
     points = int(points)
     half = int(points / 2)
     points = 2 * half + 1  # ensure odd number of points
-    
+
     for index in range(len(ion_intensities) - points + 1):
         left = ion_intensities[index:index + half]
         mid = ion_intensities[index + half]
@@ -135,7 +135,7 @@ def get_maxima_indices(ion_intensities, points=3):
                 centre = int((edge + index + half) / 2)  # mid point
                 peak_point.append(centre)
             edge = -1
-    
+
     return peak_point
 
 
@@ -154,19 +154,19 @@ def get_maxima_list(ic, points=3):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(ic, IonChromatogram):
         raise TypeError("'ic' must be an IonChromatogram object")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
-    
+
     peak_point = get_maxima_indices(ic.intensity_array, points)
     mlist = []
     for index in range(len(peak_point)):
         rt = ic.get_time_at_index(peak_point[index])
         intensity = ic.get_intensity_at_index(peak_point[index])
         mlist.append([rt, intensity])
-    
+
     return mlist
 
 
@@ -191,14 +191,14 @@ def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(ic, IonChromatogram):
         raise TypeError("'ic' must be an IonChromatogram object")
     if not isinstance(mp_rt, (int, float)):
         raise TypeError("'mp_rt' must be an integer")
     # if not isinstance(scans, int):
     #    raise TypeError("'scans' must be an integer")
-    
+
     peak_point = get_maxima_indices(ic.intensity_array, points)
     mlist = []
     for index in range(len(peak_point)):
@@ -208,7 +208,7 @@ def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
             mlist.append([rt, intensity])
         else:
             pass
-    
+
     return mlist
 
 
@@ -229,26 +229,26 @@ def get_maxima_matrix(im, points=3, scans=1):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(im, IntensityMatrix):
         raise TypeError("'im' must be an IntensityMatrix object")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
     if not isinstance(scans, int):
         raise TypeError("'scans' must be an integer")
-    
+
     numrows, numcols = im.size
     # zeroed matrix, size numrows*numcols
     maxima_im = numpy.zeros((numrows, numcols))
     raw_im = im.intensity_array
-    
+
     for col in range(numcols):  # assume all rows have same width
         # 1st, find maxima
         maxima = get_maxima_indices(raw_im[:, col], points)
         # 2nd, fill intensities
         for row in maxima:
             maxima_im[row, col] = raw_im[row, col]
-    
+
     # combine spectra within 'scans' scans.
     half = int(scans / 2)
     for row in range(numrows):
@@ -269,7 +269,7 @@ def get_maxima_matrix(im, points=3, scans=1):
                 for col in range(numcols):
                     maxima_im[row - half + loc, col] += maxima_im[row - half + ii, col]
                     maxima_im[row - half + ii, col] = 0
-    
+
     return maxima_im
 
 
@@ -302,7 +302,7 @@ def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
 
     if copy_peaks:
         pl = copy.deepcopy(pl)
-        
+
     new_pl = []
     for p in pl:
         ms = p.mass_spectrum
@@ -313,7 +313,7 @@ def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
                 ions += 1
         if ions >= n:
             new_pl.append(p)
-    
+
     return new_pl
 
 
@@ -334,18 +334,18 @@ def rel_threshold(pl, percent=2, copy_peaks=True):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(pl, list) or not isinstance(pl[0], Peak):
         raise TypeError("'pl' must be a list of Peak objects")
     if not isinstance(percent, (int, float)):
         raise TypeError("'percent' must be a number > 0")
-    
+
     if percent <= 0:
         raise ValueError("'percent' must be a number > 0")
-    
+
     if copy_peaks:
         pl = copy.deepcopy(pl)
-    
+
     new_pl = []
     for p in pl:
         ms = p.mass_spectrum
@@ -358,7 +358,7 @@ def rel_threshold(pl, percent=2, copy_peaks=True):
         ms.mass_spec = ia
         p.mass_spectrum = ms
         new_pl.append(p)
-    
+
     return new_pl
 
 
@@ -379,19 +379,19 @@ def sum_maxima(im, points=3, scans=1):
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions)
     """
-    
+
     if not isinstance(im, IntensityMatrix):
         raise TypeError("'im' must be an IntensityMatrix object")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
     if not isinstance(scans, int):
         raise TypeError("'scans' must be an integer")
-    
+
     maxima_im = get_maxima_matrix(im, points)
     sums = []
     numrows = len(maxima_im)
-    half = int(scans/2)
-    
+    half = int(scans / 2)
+
     for row in range(numrows):
         val = 0
         for ii in range(scans):

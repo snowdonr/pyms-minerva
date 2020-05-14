@@ -41,6 +41,7 @@ class pymsBaseClass:
 	"""
 	Base class
 	"""
+
 	def dump(self, file_name, protocol=3):
 		"""
 		Dumps an object to a file through pickle.dump()
@@ -53,12 +54,12 @@ class pymsBaseClass:
 		:author: Vladimir Likic
 		:author: Dominic Davis-Foster (pathlib and pickle protocol support)
 		"""
-		
+
 		if not isinstance(file_name, _path_types):
 			raise TypeError("'file_name' must be a string or a pathlib.Path object")
-		
+
 		file_name = prepare_filepath(file_name)
-		
+
 		fp = file_name.open('wb')
 		pickle.dump(self, fp, protocol=protocol)
 		fp.close()

@@ -39,13 +39,13 @@ def test_Display():
 	no_args = Display()
 	assert isinstance(no_args.fig, matplotlib.figure.Figure)
 	assert isinstance(no_args.ax, matplotlib.axes.Axes)
-	
+
 	fig = plt.figure()
 	fig_arg = Display(fig=fig)
 	assert isinstance(fig_arg.fig, matplotlib.figure.Figure)
 	assert isinstance(fig_arg.ax, matplotlib.axes.Axes)
 	assert fig_arg.fig is fig
-	
+
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	both_args = Display(fig=fig, ax=ax)
@@ -53,13 +53,13 @@ def test_Display():
 	assert isinstance(both_args.ax, matplotlib.axes.Axes)
 	assert both_args.fig is fig
 	assert both_args.ax is ax
-	
+
 	for type in [test_tuple, test_list_strs, test_list_ints, test_string, *test_numbers, test_dict]:
 		with pytest.raises(TypeError):
 			Display(fig=type)
 		with pytest.raises(TypeError):
 			Display(fig=fig, ax=type)
-	
+
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	with pytest.raises(TypeError):
@@ -216,10 +216,10 @@ def test_plot_mass_spec_title(im_i, test_plot):
 
 def test_do_plotting_warning():
 	test_plot = Display()
-	
+
 	with pytest.warns(UserWarning) as record:
 		test_plot.do_plotting()
-	
+
 	# check that only one warning was raised
 	assert len(record) == 1
 	# check that the message matches

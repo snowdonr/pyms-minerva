@@ -44,12 +44,12 @@ def store_peaks(peak_list, file_name, protocol=1):
     :type file_name: str or pathlib.Path
     :param protocol:
     :type protocol:
-    
+
     :author: Andrew Isaac
     :author: Dominic Davis-Foster (type assertions and pathlib support)
-    
+
     """
-    
+
     if not is_peak_list(peak_list):
         raise TypeError("'peak_list' must be a list of Peak objects")
 

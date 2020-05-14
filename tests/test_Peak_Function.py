@@ -209,12 +209,12 @@ class Test_median_bounds:
 
 
 """def test_abundant_ions(filtered_peak_list, im_i):
-	
+
 	print("Number of filtered peaks: ", len(filtered_peak_list))
-	
+
 	# find and set areas
 	print("Top 5 most abundant ions for each peak ")
-	
+
 	for peak in filtered_peak_list:
 		rt = peak.rt
 		# Only test interesting sub-set from 29.5 to 32.5 minutes
@@ -222,7 +222,7 @@ class Test_median_bounds:
 			# determine and set ion areas, use default num of ions =5
 			areas_dict = peak_top_ion_areas(im_i, peak)
 			peak.set_ion_areas(areas_dict)
-			
+
 			area_dict = peak.ion_areas
 			# print the top 5 ions for each peak
 			print(area_dict.keys())

@@ -8,7 +8,7 @@ Provides mathematical functions
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
 #    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
-#    is_float from on 'jcamp' by Nathan Hagen								   #
+#    is_float from 'jcamp' by Nathan Hagen								       #
 # 	 https://github.com/nzhagen/jcamp										   #
 # 	 Licensed under the X11 License											   #
 #                                                                              #
@@ -48,7 +48,7 @@ def vector_by_step(start, stop, step):
     :type stop: int or float
     :param step: Step
     :type step: int or float
-   
+
     :return: A list generated
     :rtype: list
 
@@ -91,7 +91,7 @@ def MAD(v):
         d = math.fabs(xi - m)
         m_list.append(d)
 
-    mad = median(m_list)/0.6745
+    mad = median(m_list) / 0.6745
 
     return mad
 
@@ -104,7 +104,7 @@ def rmsd(list1, list2):
     :type list1: list, tuple, or numpy.core.ndarray
     :param list2: Second data set
     :type list2: list, tuple, or numpy.core.ndarray
-    
+
     :return: RMSD value
     :rtype: float
 
@@ -128,19 +128,19 @@ def rmsd(list1, list2):
 
 def mad_based_outlier(data, thresh=3.5):
     """
-    
+
     :param data:
     :type data:
     :param thresh:
     :type thresh:
-    
+
     :return:
     :rtype:
-    
+
     :author: David Kainer
     :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
     """
-    
+
     data = numpy.array(data)
     if len(data.shape) == 1:
         data = data[:, None]
@@ -148,27 +148,27 @@ def mad_based_outlier(data, thresh=3.5):
     diff = numpy.nansum((data - _median) ** 2, dtype=float, axis=-1)
     diff = numpy.sqrt(diff)
     med_abs_deviation = numpy.nanmedian(diff)
-    
+
     modified_z_score = 0.6745 * diff / med_abs_deviation
-    
+
     return modified_z_score > thresh
 
 
 def percentile_based_outlier(data, threshold=95):
     """
-    
+
     :param data:
     :type data:
     :param threshold:
     :type threshold:
-    
+
     :return:
     :rtype:
-    
+
     :author: David Kainer
     :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
     """
-    
+
     data = numpy.array(data)
     diff = (100 - threshold) / 2.0
     # nanpercentile only works in numpy 1.9 and up
@@ -180,21 +180,21 @@ def percentile_based_outlier(data, threshold=95):
 
 def median_outliers(data, m=2.5):
     """
-    
+
     :param data:
     :type data:
     :param m:
     :type m:
-    
+
     :return:
     :rtype:
-    
+
     :author: David Kainer
     :author: eumiro < `https://stackoverflow.com/users/449449/eumiro`_ >
     :author: enjamin Bannier < `https://stackoverflow.com/users/176922/benjamin-bannier`_ >
     :url: `http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list`_
     """
-    
+
     data = numpy.array(data)
     d = numpy.abs(data - numpy.nanmedian(data))
     mdev = numpy.nanmedian(d)
@@ -205,13 +205,13 @@ def median_outliers(data, m=2.5):
 def is_float(s):
     """
     Test if a string, or list of strings, contains a numeric value(s).
-    
+
     :param s: The string or list of strings to test.
     :type s: str, or list of str
     :return: A single boolean or list of boolean values indicating whether each input can be converted into a float.
     :rtype: bool or list of bool
     """
-    
+
     if isinstance(s, tuple) or isinstance(s, list):
         if not all(isinstance(i, str) for i in s):
             raise TypeError("Input {} is not a list of strings".format(s))

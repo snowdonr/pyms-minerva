@@ -43,19 +43,19 @@ def JCAMP_reader(file_name):
 
 	:param file_name: Path of the file to read
 	:type file_name: str or pathlib.Path
-	
+
 	:return: GC-MS data object
 	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
 	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster (pathlib support)
 	"""
-	
+
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
-	
+
 	if not isinstance(file_name, pathlib.Path):
 		file_name = pathlib.Path(file_name)
-	
+
 	print(f" -> Reading JCAMP file '{file_name}'")
 	lines_list = file_name.open('r')
 	data = []
@@ -63,11 +63,11 @@ def JCAMP_reader(file_name):
 	xydata_idx = 0
 	time_list = []
 	scan_list = []
-	
+
 	header_info = {}  # Dictionary containing header information
-	
+
 	for line in lines_list:
-		
+
 		if len(line.strip()) != 0:
 			# prefix = line.find('#')
 			# if prefix == 0:
@@ -76,7 +76,7 @@ def JCAMP_reader(file_name):
 				fields = line.split('=', 1)
 				fields[0] = fields[0].lstrip("##").upper()
 				fields[1] = fields[1].strip()
-				
+
 				if "PAGE" in fields[0]:
 					if "T=" in fields[1]:
 						# PAGE contains retention time starting with T=
@@ -87,15 +87,15 @@ def JCAMP_reader(file_name):
 				elif "RETENTION_TIME" in fields[0]:
 					# OpenChrom style
 					time = float(fields[1])  # rt for the scan to be submitted
-					
+
 					# Check to make sure time is not already in the time list;
 					# Can happen when both ##PAGE and ##RETENTION_TIME are specified
 					if time_list[-1] != time:
 						time_list.append(time)
-						
+
 				elif fields[0] in xydata_tags:
 					xydata_idx = xydata_idx + 1
-				
+
 				elif fields[0] in header_info_fields:
 					if fields[1].isdigit():
 						header_info[fields[0]] = int(fields[1])
@@ -103,7 +103,7 @@ def JCAMP_reader(file_name):
 						header_info[fields[0]] = float(fields[1])
 					else:
 						header_info[fields[0]] = fields[1]
-			
+
 			# elif prefix == -1:
 			else:
 				# Line doesn't start with ##
@@ -135,23 +135,23 @@ def JCAMP_reader(file_name):
 					for item in data_sub:
 						if not len(item.strip()) == 0:
 							data.append(float(item.strip()))
-	
+
 	if len(data) % 2 == 1:
 		# TODO: This means the data is not in x, y pairs
 		#  Make a better error message
 		raise ValueError("data not in pair !")
-	
+
 	# get last scan
 	mass = []
 	intensity = []
 	for i in range(len(data) // 2):
 		mass.append(data[i * 2])
 		intensity.append(data[i * 2 + 1])
-	
+
 	if not len(mass) == len(intensity):
 		raise ValueError("len(mass) is not equal to len(intensity)")
 	scan_list.append(Scan(mass, intensity))
-	
+
 	# sanity check
 	time_len = len(time_list)
 	scan_len = len(scan_list)
@@ -159,7 +159,7 @@ def JCAMP_reader(file_name):
 		print(time_list)
 		print(scan_list)
 		raise ValueError(f"Number of time points ({time_len}) does not equal the number of scans ({scan_len})")
-		
+
 	data = GCMS_data(time_list, scan_list)
-	
+
 	return data

@@ -67,4 +67,3 @@ def is_list_of_dec_nums(arg):
             if not(isinstance(q, list)):
                 return False
     return True
-

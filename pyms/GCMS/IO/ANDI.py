@@ -119,7 +119,7 @@ def ANDI_writer(file_name, im):
 	:author: Andrew Isaac
 	TODO: finish this
 	"""
-	
+
 	# netCDF header info for compatability
 	# attributes
 	# dataset_completeness   0 CHAR     6 C1+C2
@@ -148,7 +148,7 @@ def ANDI_writer(file_name, im):
 	# test_scan_function    20 CHAR    10 Mass Scan
 	# test_scan_law         22 CHAR     7 Linear
 	# test_separation_type  14 CHAR    18 No Chromatography
-	
+
 	# dimensions
 	# _128_byte_string       6    128
 	# _16_byte_string        3     16
@@ -163,7 +163,7 @@ def ANDI_writer(file_name, im):
 	# point_number           9 554826   X
 	# range                  8      2
 	# scan_number           11   9865
-	
+
 	# variables
 	# a_d_coaddition_factor   2 SHORT      0 scan_number(9865)
 	# a_d_sampling_rate      1 DOUBLE     0 scan_number(9865)
@@ -204,38 +204,36 @@ def ANDI_writer(file_name, im):
 	# time_range_min        11 DOUBLE     0 scan_number(9865)
 	# time_values           17 FLOAT      2 point_number(554826)
 	# total_intensity        8 DOUBLE     1 scan_number(9865)
-	
+
 	# variable information
 	# intensity_values attributes
-	
+
 	# name                 idx type   len value
 	# -------------------- --- ----   --- -----
 	# add_offset             1 DOUBLE   1 0.0
 	# scale_factor           2 DOUBLE   1 1.0
 	# units                  0 CHAR    26 Arbitrary Intensity Units
-	
+
 	# mass_values attributes
-	
+
 	# name                 idx type   len value
 	# -------------------- --- ----   --- -----
 	# scale_factor           1 DOUBLE   1 1.0
 	# units                  0 CHAR     4 M/Z
-	
+
 	# time_values attributes
-	
+
 	# name                 idx type   len value
 	# -------------------- --- ----   --- -----
 	# scale_factor           1 DOUBLE   1 1.0
 	# units                  0 CHAR     8 Seconds
-	
+
 	# total_intensity attributes
-	
+
 	# name                 idx type   len value
 	# -------------------- --- ----   --- -----
 	# units                  0 CHAR    26 Arbitrary Intensity Units
-	
 
-	
 	if not isinstance(file_name, str):
 		raise TypeError("'file_name' must be a string")
 	try:
@@ -245,13 +243,13 @@ def ANDI_writer(file_name, im):
 		nc.automode()
 	except CDFError:
 		raise IOError(f"Cannot create file '{file_name}'")
-	
+
 	mass_list = im.get_mass_list()
 	time_list = im.get_time_list()
-	
+
 	# direct access, don't modify
 	intensity_matrix = im.intensity_array
-	
+
 	# compress by ignoring zero intensities
 	# included for consistency with imported netCDF format
 	mass_values = []
@@ -265,17 +263,17 @@ def ANDI_writer(file_name, im):
 				intensity_values.append(intensity_matrix[row][col])
 				pc += 1
 		point_count_values.append(pc)
-	
+
 	# sanity checks
 	if not len(time_list) == len(point_count_values):
 		raise ValueError("number of time points does not equal the number of scans")
-	
+
 	# create dimensions
 	# total number of data points
 	dim_point_number = nc.def_dim(__POINT_NUMBER, len(mass_values))
 	# number of scans
 	dim_scan_number = nc.def_dim(__SCAN_NUMBER, len(point_count_values))
-	
+
 	# create variables
 	# points
 	var_mass_values = nc.def_var(__MASS_STRING, NC.FLOAT, dim_point_number)
@@ -285,7 +283,7 @@ def ANDI_writer(file_name, im):
 	var_time_list = nc.def_var(__TIME_STRING, NC.DOUBLE, dim_scan_number)
 	var_point_count_values = nc.def_var(__POINT_COUNT, NC.INT,
 										dim_scan_number)
-	
+
 	# populate variables
 	# points
 	var_mass_values[:] = mass_values
@@ -293,7 +291,6 @@ def ANDI_writer(file_name, im):
 	# scans
 	var_time_list[:] = time_list
 	var_point_count_values[:] = point_count_values
-	
+
 	# close file
 	nc.close()
-

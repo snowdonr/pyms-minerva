@@ -32,11 +32,11 @@ from .constants import *
 
 def test_topHat(tic):
 	assert isinstance(tic, IonChromatogram)
-	
+
 	# apply noise smoothing and baseline correction
 	tic2 = tophat(tic, struct="1.5m")
 	assert isinstance(tic2, IonChromatogram)
-	
+
 	tic3 = tophat(tic, struct=None)
 	assert isinstance(tic3, IonChromatogram)
 
@@ -48,15 +48,15 @@ def test_tophat_im(im):
 	# Use TopHat baseline correction on all IC's in the IM
 	im_base_corr = tophat_im(im, struct="1.5m")
 	assert isinstance(im_base_corr, IntensityMatrix)
-	
+
 	# find the IC for derivatisation product ion before smoothing
 	ic = im.get_ic_at_index(73)
 	assert isinstance(ic, IonChromatogram)
-	
+
 	# find the IC for derivatisation product ion after smoothing
 	ic_base_corr = im_base_corr.get_ic_at_index(73)
 	assert isinstance(ic_base_corr, IonChromatogram)
-	
+
 
 class TestErrors:
 
@@ -84,7 +84,6 @@ class TestErrors:
 				tophat(tic, struct)
 
 
-
 # TODO:
 # ic.write("output/ic.dat",minutes=True)
 # ic_base_corr.write("output/ic_smooth.dat",minutes=True)
@@ -92,6 +91,3 @@ class TestErrors:
 # tic.write("output/tic.dat",minutes=True)
 # tic1.write("output/tic_smooth.dat",minutes=True)
 # tic2.write("output/tic_smooth_bc.dat",minutes=True)
-
-
-
