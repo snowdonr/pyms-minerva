@@ -40,6 +40,17 @@ from pyms.Spectrum import MassSpectrum
 from .constants import *
 
 
+@pytest.fixture(scope="module")
+def im_leco_filename(im, outputdir):
+	"""
+	Create the im_leco.csv file ahead of time and return the path to it
+	"""
+
+	filename = outputdir / "im_leco.csv"
+	im.export_leco_csv(filename)
+	return filename
+
+
 def test_IntensityMatrix(im):
 	assert isinstance(im, IntensityMatrix)
 	
@@ -293,22 +304,20 @@ def test_export_ascii(im, outputdir):
 		with pytest.raises(TypeError):
 			im.export_ascii(obj)
 
-	
-def test_export_leco_csv(im, outputdir):
+
+@pytest.mark.parametrize("obj", [test_dict, *test_lists, *test_numbers])
+def test_export_leco_csv_errors(im, im_leco_filename, obj):
 	"""
 	Export the entire IntensityMatrix as LECO CSV. This is
 	useful for import into AnalyzerPro
 	"""
-	
-	im.export_leco_csv(outputdir/"im_leco.csv")
-	
-	for obj in [test_dict, *test_lists, *test_numbers]:
-		with pytest.raises(TypeError):
-			im.export_leco_csv(obj)
+
+	with pytest.raises(TypeError):
+		im.export_leco_csv(obj)
 
 	
-def test_import_leco_csv(im, outputdir):
-	imported_im = import_leco_csv(outputdir/"im_leco.csv")
+def test_import_leco_csv(im, im_leco_filename):
+	imported_im = import_leco_csv(im_leco_filename)
 	assert isinstance(imported_im, IntensityMatrix)
 	for imported, original in zip(imported_im.time_list, im.time_list):
 		assert f"{imported:.3f}" == f"{original:.3f}"

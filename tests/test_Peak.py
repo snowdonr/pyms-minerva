@@ -48,9 +48,10 @@ def test_Peak(im_i, peak):
 	
 	# Errors
 	for obj in [test_string, *test_lists, test_dict]:
+
 		with pytest.raises(TypeError):
 			Peak(obj, ms, minutes=True)
-	for obj in [test_string, *test_lists, test_dict]:
+
 		with pytest.raises(TypeError):
 			Peak(test_float, obj, minutes=False)
 
@@ -61,13 +62,13 @@ def test_Peak(im_i, peak):
 def test_equality(peak):
 	assert peak == Peak(peak.rt, peak.mass_spectrum)
 	assert peak != Peak(50, peak.mass_spectrum)
-	assert peak != test_string
-	assert peak != test_int
-	assert peak != test_float
-	assert peak != test_list_strs
-	assert peak != test_list_ints
-	assert peak != test_tuple
-	assert peak != test_dict
+
+
+@pytest.mark.parametrize(
+		"val",
+		[test_list_ints, test_list_strs, test_tuple, test_string, test_int, test_float, test_dict])
+def test_inequality(peak, val):
+	assert peak != val
 
 
 def test_area(im_i, peak):

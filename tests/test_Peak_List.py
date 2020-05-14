@@ -162,33 +162,40 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 			sele_peaks_by_rt(filtered_peak_list, obj)
 
 
-def test_store_peaks(filtered_peak_list, outputdir):
-	store_peaks(filtered_peak_list, outputdir/"filtered_peak_list.dat")
-	
-	# Errors
-	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
+@pytest.fixture(scope="function")
+def peak_list_filename(im, filtered_peak_list, outputdir):
+	filename = outputdir / "filtered_peak_list.dat"
+	store_peaks(filtered_peak_list, filename)
+	return filename
+
+
+class TestStoreLoadPeaks:
+	@pytest.mark.parametrize("obj", [test_dict, *test_sequences, *test_numbers, test_string])
+	def test_store_filename_errors(self, outputdir, obj):
 		with pytest.raises(TypeError):
 			store_peaks(obj, outputdir/test_string)
-	for obj in [test_dict, *test_sequences, *test_numbers]:
+
+	@pytest.mark.parametrize("obj", [test_dict, *test_sequences, *test_numbers])
+	def test_store_peak_list_errors(self, filtered_peak_list, obj):
 		with pytest.raises(TypeError):
 			store_peaks(filtered_peak_list, obj)
 
+	def test_load_peaks(self, filtered_peak_list, datadir, outputdir, peak_list_filename):
+		loaded_peak_list = load_peaks(peak_list_filename)
 
-def test_load_peaks(filtered_peak_list, datadir, outputdir):
-	loaded_peak_list = load_peaks(outputdir/"filtered_peak_list.dat")
+		assert loaded_peak_list == filtered_peak_list
 
-	assert loaded_peak_list == filtered_peak_list
-
-	# Errors
-	for obj in [test_dict, *test_sequences, *test_numbers]:
+	@pytest.mark.parametrize("filename", [test_dict, *test_sequences, *test_numbers])
+	def test_load_filename_errors_1(self, filename):
 		with pytest.raises(TypeError):
-			load_peaks(obj)
-	with pytest.raises(FileNotFoundError):
-		load_peaks(test_string)
+			load_peaks(filename)
 
-	with pytest.raises(IOError):
-		load_peaks(datadir/"not-an-experiment.expr")
-	with pytest.raises(IOError):
-		load_peaks(datadir/"test_list_ints.dat")
-	with pytest.raises(IOError):
-		load_peaks(datadir/"test_empty_list.dat")
+	@pytest.mark.parametrize("filename, expects", [
+			(test_string, FileNotFoundError),
+			("not-an-experiment.expr", IOError),
+			("test_list_ints.dat", IOError),
+			("test_empty_list.dat", IOError),
+			])
+	def test_load_filename_errors_2(self, filename, expects, datadir):
+		with pytest.raises(expects):
+			load_peaks(datadir/filename)

@@ -42,18 +42,7 @@ def test_topHat(tic):
 
 	tic4 = tophat(tic, struct=1234)
 	assert isinstance(tic4, IonChromatogram)
-	
-	# Errors
-	for obj in [test_string, *test_numbers, *test_sequences]:
-		with pytest.raises(TypeError):
-			tophat(obj, "1m")
-	for obj in [test_float, *test_sequences]:
-		with pytest.raises(TypeError):
-			tophat(tic, obj)
-	for obj in [test_string]:
-		with pytest.raises(ValueError):
-			tophat(tic, obj)
-		
+
 
 def test_tophat_im(im):
 	# Use TopHat baseline correction on all IC's in the IM
@@ -68,16 +57,33 @@ def test_tophat_im(im):
 	ic_base_corr = im_base_corr.get_ic_at_index(73)
 	assert isinstance(ic_base_corr, IonChromatogram)
 	
-	# Errors
-	for obj in [test_string, *test_numbers, *test_sequences]:
-		with pytest.raises(TypeError):
-			tophat_im(obj, "1m")
-	for obj in [test_float, *test_sequences]:
-		with pytest.raises(TypeError):
-			tophat_im(im, obj)
-	for obj in [test_string]:
-		with pytest.raises(ValueError):
-			tophat_im(im, obj)
+
+class TestErrors:
+
+	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences])
+	class TestobjErrors:
+		def test_im_errors(self, obj):
+			with pytest.raises(TypeError):
+				tophat_im(obj, "1m")
+
+		def test_ic_errors(self, obj):
+			with pytest.raises(TypeError):
+				tophat(obj, "1m")
+
+	@pytest.mark.parametrize("struct, expects", [
+			(test_float, TypeError),
+			(test_string, ValueError),
+			] + [(struct, TypeError) for struct in test_sequences])
+	class TeststructErrors:
+		def test_im_errors(self, im, struct, expects):
+			with pytest.raises(expects):
+				tophat_im(im, struct)
+
+		def test_ic_errors(self, tic, struct, expects):
+			with pytest.raises(expects):
+				tophat(tic, struct)
+
+
 
 # TODO:
 # ic.write("output/ic.dat",minutes=True)
