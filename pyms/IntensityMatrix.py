@@ -463,8 +463,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		mass_list = self._mass_list
 		new_mass_list = []
 		ii_list = []
-		for ii in range(len(mass_list)):
-			mass = mass_list[ii]
+		for ii, mass in enumerate(mass_list):
 			if mass_min <= mass <= mass_max:
 				new_mass_list.append(mass)
 				ii_list.append(ii)

@@ -144,16 +144,16 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		largest = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 		# Find out largest value
-		for i in range(len(intensity_list)):
-			if intensity_list[i] > intensity_list[largest[0]]:
-				largest[0] = i
+		for idx, intensity in enumerate(intensity_list):
+			if intensity > intensity_list[largest[0]]:
+				largest[0] = idx
 
 		# Now find next four largest values
 		for j in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-			for i in range(len(intensity_list)):
+			for idx, intensity in enumerate(intensity_list):
 				# if intensity_list[i] > intensity_list[largest[j]] and intensity_list[i] < intensity_list[largest[j-1]]:
-				if intensity_list[largest[j]] < intensity_list[i] < intensity_list[largest[j - 1]]:
-					largest[j] = i
+				if intensity_list[largest[j]] < intensity < intensity_list[largest[j - 1]]:
+					largest[j] = idx
 
 		return largest
 
@@ -399,13 +399,13 @@ def plot_mass_spec(ax, mass_spec, **kwargs):
 	min_mz = mass_list[0]
 	max_mz = mass_list[-1]
 
-	for i in range(len(mass_list)):
-		if mass_list[i] > max_mz:
-			max_mz = mass_list[i]
+	for idx, mass in enumerate(mass_list):
+		if mass_list[idx] > max_mz:
+			max_mz = mass_list[idx]
 
-	for i in range(len(mass_list)):
-		if mass_list[i] < min_mz:
-			min_mz = mass_list[i]
+	for idx, mass in enumerate(mass_list):
+		if mass_list[idx] < min_mz:
+			min_mz = mass_list[idx]
 
 	plot = ax.bar(mass_list, intensity_list, **kwargs)
 
@@ -615,16 +615,16 @@ class ClickEventHandler:
 		largest = [0] * self.n_intensities
 
 		# Find out largest value
-		for i in range(len(intensity_list)):
-			if intensity_list[i] > intensity_list[largest[0]]:
-				largest[0] = i
+		for idx, intensity in enumerate(intensity_list):
+			if intensity > intensity_list[largest[0]]:
+				largest[0] = idx
 
 		# Now find next four largest values
 		for j in list(range(1, self.n_intensities)):
-			for i in range(len(intensity_list)):
+			for idx, intensity in enumerate(intensity_list):
 				# if intensity_list[i] > intensity_list[largest[j]] and intensity_list[i] < intensity_list[largest[j-1]]:
-				if intensity_list[largest[j]] < intensity_list[i] < intensity_list[largest[j - 1]]:
-					largest[j] = i
+				if intensity_list[largest[j]] < intensity < intensity_list[largest[j - 1]]:
+					largest[j] = idx
 
 		return largest
 

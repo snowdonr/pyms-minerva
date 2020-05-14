@@ -378,9 +378,9 @@ class Peak(pymsBaseClass):
 			best_ii = 0
 			best2_ii = 0
 			best3_ii = 0
-			for ii in range(len(mass_spec)):
-				if mass_spec[ii] > best:
-					best = mass_spec[ii]
+			for ii, intensity in enumerate(mass_spec):
+				if intensity > best:
+					best = intensity
 					best3_ii = best2_ii
 					best2_ii = best_ii
 					best_ii = ii
