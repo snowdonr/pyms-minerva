@@ -155,7 +155,7 @@ def test_time_step(tic):
 
 
 def test_write(tic, outputdir):
-	tic.write(outputdir / "tic.dat",minutes=False, formatting=False)
+	tic.write(outputdir / "tic.dat", minutes=False, formatting=False)
 
 	fp = (outputdir / "tic.dat").open()
 

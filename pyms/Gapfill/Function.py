@@ -152,7 +152,7 @@ def missing_peak_finder(sample, file_name, points=3, null_ions=None,
 		qual_ion_2 = float(mp.get_qual_ion2())
 
 		ci_ion_chrom = im.get_ic_at_mass(common_ion)
-		print("ci = ",common_ion)
+		print("ci = ", common_ion)
 		qi1_ion_chrom = im.get_ic_at_mass(qual_ion_1)
 		print("qi1 = ", qual_ion_1)
 		qi2_ion_chrom = im.get_ic_at_mass(qual_ion_2)

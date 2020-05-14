@@ -2,7 +2,7 @@ import pytest
 
 from .constants import *
 
-from pyms.DPA.Class import Alignment
+from pyms.DPA.Alignment import Alignment
 
 def test_Alignment(filtered_peak_list):
 	#Alignment(Experiment("ELEY_1_SUBTRACT", filtered_peak_list))

@@ -118,7 +118,7 @@ def JCAMP_reader(file_name):
 					for i in range(len(data) // 2):
 						mass_list.append(data[i * 2])
 						intensity_list.append(data[i * 2 + 1])
-					if not len(mass_list) == len(intensity_list):
+					if len(mass_list) != len(intensity_list):
 						raise ValueError("len(mass_list) is not equal to len(intensity_list)")
 					scan_list.append(Scan(mass_list, intensity_list))
 					data = []
@@ -148,14 +148,14 @@ def JCAMP_reader(file_name):
 		mass.append(data[i * 2])
 		intensity.append(data[i * 2 + 1])
 
-	if not len(mass) == len(intensity):
+	if len(mass) != len(intensity):
 		raise ValueError("len(mass) is not equal to len(intensity)")
 	scan_list.append(Scan(mass, intensity))
 
 	# sanity check
 	time_len = len(time_list)
 	scan_len = len(scan_list)
-	if not time_len == scan_len:
+	if time_len != scan_len:
 		print(time_list)
 		print(scan_list)
 		raise ValueError(f"Number of time points ({time_len}) does not equal the number of scans ({scan_len})")

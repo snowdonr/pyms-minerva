@@ -19,13 +19,16 @@
 #############################################################################
 
 # stdlib
+import copy
 import pickle
 
 # 3rd party
+import deprecation
 import pytest
 
 # pyms
-from pyms.Peak.Function import *
+from pyms.Peak import Peak
+from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
 from pyms.Spectrum import MassSpectrum
 
 # tests
@@ -85,9 +88,9 @@ def test_area(im_i, peak):
 	scan_i = im_i.get_index_at_time(31.17 * 60.0)
 	ms = im_i.get_ms_at_index(scan_i)
 
-	for type in [test_string, test_dict, test_list_strs, test_list_ints]:
+	for obj in [test_string, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
-			Peak(test_float, ms).area = type
+			Peak(test_float, ms).area = obj
 	with pytest.raises(ValueError):
 		Peak(test_float, ms).area = -1
 

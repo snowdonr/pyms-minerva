@@ -24,7 +24,7 @@ The root of the package pyms
 ################################################################################
 
 
-#from pyms import Baseline, Deconvolution, Display, Experiment, Gapfill, GCMS, Noise, Peak, Simulator, Utils
+# from pyms import Baseline, Deconvolution, Display, Experiment, Gapfill, GCMS, Noise, Peak, Simulator, Utils
 
 name = "PyMassSpec"
 __author__ = 'See AUTHORS'

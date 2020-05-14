@@ -29,7 +29,7 @@ Provides mathematical functions
 
 # stdlib
 import math
-from statistics import median, stdev as std
+from statistics import median, stdev as std, mean
 
 # 3rd party
 import numpy
@@ -212,7 +212,7 @@ def is_float(s):
     :rtype: bool or list of bool
     """
 
-    if isinstance(s, tuple) or isinstance(s, list):
+    if isinstance(s, (tuple, list)):
         if not all(isinstance(i, str) for i in s):
             raise TypeError("Input {} is not a list of strings".format(s))
         if len(s) == 0:
