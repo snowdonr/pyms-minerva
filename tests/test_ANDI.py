@@ -41,93 +41,92 @@ def andi(datadir):
 	return ANDI_reader(datadir / "gc01_0812_066.cdf")
 
 
-"""
-@pytest.fixture(scope="module")
-def im_andi(data):
-	# build an intensity matrix object from the data
-	return build_intensity_matrix(data)
-
-
-@pytest.fixture(scope="module")
-def tic_andi(data):
-	# get the TIC
-	return deepcopy(data.tic)
-
-
-@pytest.fixture(scope="module")
-def im_i_andi(data):
-	# build an intensity matrix object from the data
-	return build_intensity_matrix_i(data)
-
-
-@pytest.fixture(scope="function")
-def peak_list(im_i):
-	im_i = deepcopy(im_i)
-
-	# Intensity matrix size (scans, masses)
-	n_scan, n_mz = im_i.size
-
-	# noise filter and baseline correct
-	for ii in range(n_mz):
-		ic = im_i.get_ic_at_index(ii)
-		ic_smooth = savitzky_golay(ic)
-		ic_bc = tophat(ic_smooth, struct="1.5m")
-		im_i.set_ic_at_index(ii, ic_bc)
-
-	# Use Biller and Biemann technique to find apexing ions at a scan
-	# default is maxima over three scans and not to combine with any neighbouring
-	# scan.
-	peak_list = BillerBiemann(im_i, points=9, scans=2)
-	return peak_list
-
-
-@pytest.fixture(scope="function")
-def filtered_peak_list(im_i, peak_list):
-	# peak_list = deepcopy(peak_list)
-	# do peak detection on pre-trimmed data
-	# trim by relative intensity
-	apl = rel_threshold(peak_list, 2, copy_peaks=False)
-
-	# trim by threshold
-	new_peak_list = num_ions_threshold(apl, 3, 30, copy_peaks=False)
-
-	# ignore TMS ions and set mass range
-	for peak in new_peak_list:
-		peak.crop_mass(50, 400)
-		peak.null_mass(73)
-		peak.null_mass(147)
-
-		# find area
-		area = peak_sum_area(im_i, peak)
-		peak.area = area
-		area_dict = peak_top_ion_areas(im_i, peak)
-		peak.ion_areas = area_dict
-
-	return new_peak_list
-
-
-@pytest.fixture(scope="session")
-def peak(im_i):
-	scan_i = im_i.get_index_at_time(31.17 * 60.0)
-	ms = im_i.get_ms_at_index(scan_i)
-	return Peak(12.34, ms)
-
-
-@pytest.fixture(scope="session")
-def ms(im_i):
-	return deepcopy(im_i.get_ms_at_index(0))
-
-
-@pytest.fixture(scope="session")
-def scan(data):
-	# return deepcopy(im_i.get_scan_at_index(0))
-	return deepcopy(data.scan_list[0])
-
-
-@pytest.fixture(scope="function")
-def expr(filtered_peak_list):
-	# create an experiment
-	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)"""
+# @pytest.fixture(scope="module")
+# def im_andi(data):
+# 	# build an intensity matrix object from the data
+# 	return build_intensity_matrix(data)
+#
+#
+# @pytest.fixture(scope="module")
+# def tic_andi(data):
+# 	# get the TIC
+# 	return deepcopy(data.tic)
+#
+#
+# @pytest.fixture(scope="module")
+# def im_i_andi(data):
+# 	# build an intensity matrix object from the data
+# 	return build_intensity_matrix_i(data)
+#
+#
+# @pytest.fixture(scope="function")
+# def peak_list(im_i):
+# 	im_i = deepcopy(im_i)
+#
+# 	# Intensity matrix size (scans, masses)
+# 	n_scan, n_mz = im_i.size
+#
+# 	# noise filter and baseline correct
+# 	for ii in range(n_mz):
+# 		ic = im_i.get_ic_at_index(ii)
+# 		ic_smooth = savitzky_golay(ic)
+# 		ic_bc = tophat(ic_smooth, struct="1.5m")
+# 		im_i.set_ic_at_index(ii, ic_bc)
+#
+# 	# Use Biller and Biemann technique to find apexing ions at a scan
+# 	# default is maxima over three scans and not to combine with any neighbouring
+# 	# scan.
+# 	peak_list = BillerBiemann(im_i, points=9, scans=2)
+# 	return peak_list
+#
+#
+# @pytest.fixture(scope="function")
+# def filtered_peak_list(im_i, peak_list):
+# 	# peak_list = deepcopy(peak_list)
+# 	# do peak detection on pre-trimmed data
+# 	# trim by relative intensity
+# 	apl = rel_threshold(peak_list, 2, copy_peaks=False)
+#
+# 	# trim by threshold
+# 	new_peak_list = num_ions_threshold(apl, 3, 30, copy_peaks=False)
+#
+# 	# ignore TMS ions and set mass range
+# 	for peak in new_peak_list:
+# 		peak.crop_mass(50, 400)
+# 		peak.null_mass(73)
+# 		peak.null_mass(147)
+#
+# 		# find area
+# 		area = peak_sum_area(im_i, peak)
+# 		peak.area = area
+# 		area_dict = peak_top_ion_areas(im_i, peak)
+# 		peak.ion_areas = area_dict
+#
+# 	return new_peak_list
+#
+#
+# @pytest.fixture(scope="session")
+# def peak(im_i):
+# 	scan_i = im_i.get_index_at_time(31.17 * 60.0)
+# 	ms = im_i.get_ms_at_index(scan_i)
+# 	return Peak(12.34, ms)
+#
+#
+# @pytest.fixture(scope="session")
+# def ms(im_i):
+# 	return deepcopy(im_i.get_ms_at_index(0))
+#
+#
+# @pytest.fixture(scope="session")
+# def scan(data):
+# 	# return deepcopy(im_i.get_scan_at_index(0))
+# 	return deepcopy(data.scan_list[0])
+#
+#
+# @pytest.fixture(scope="function")
+# def expr(filtered_peak_list):
+# 	# create an experiment
+# 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)
 
 
 def test_ANDI_reader(datadir):

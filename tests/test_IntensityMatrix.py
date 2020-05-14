@@ -587,10 +587,8 @@ def test_get_time_at_index(im):
 
 
 # TODO; Saving data
-"""
-# save the intensity matrix values to a file
-mat = im.get_matrix_list()
-print("saving intensity matrix intensity values...")
-save_data("output/im.dat", mat)
+# # save the intensity matrix values to a file
+# mat = im.get_matrix_list()
+# print("saving intensity matrix intensity values...")
+# save_data("output/im.dat", mat)
 
-"""
