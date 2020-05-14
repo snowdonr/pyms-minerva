@@ -410,33 +410,27 @@ def merge_alignments(A1, A2, traces):
 
 	for trace in traces:
 
-		if trace == 0:
-			for i in range(len(A1)):
+		if trace in {0, 1}:
+			for i, _ in enumerate(A1):
 				merged[i].append(A1[i][idx1])
-
-			for j in range(len(A2)):
-				merged[1 + i + j].append(A2[j][idx2])
-
-			idx1 = idx1 + 1
-			idx2 = idx2 + 1
-
-		elif trace == 1:
-			for i in range(len(A1)):
-				merged[i].append(A1[i][idx1])
-
-			for j in range(len(A2)):
-				merged[1 + i + j].append(None)
 
 			idx1 = idx1 + 1
 
 		elif trace == 2:
-			for i in range(len(A1)):
+			for i, _ in enumerate(A1):
 				merged[i].append(None)
 
-			for j in range(len(A2)):
-				merged[1 + i + j].append(A2[j][idx2])
+		# ---
+
+		if trace in {0, 2}:
+			for j, peak in enumerate(A2):
+				merged[1 + i + j].append(peak[idx2])
 
 			idx2 = idx2 + 1
+
+		elif trace == 1:
+			for j, _ in enumerate(A2):
+				merged[1 + i + j].append(None)
 
 	ma.peakalgt = numpy.transpose(merged)
 	# sort according to average peak

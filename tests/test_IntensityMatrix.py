@@ -563,27 +563,37 @@ def test_get_index_at_time(im):
 	assert im.get_index_at_time(test_int) == 1168
 	assert im.get_index_at_time(test_float) == 11
 
-	for obj in [test_string, *test_lists, test_dict]:
-		with pytest.raises(TypeError):
-			im.get_index_at_time(obj)
 
-	with pytest.raises(IndexError):
-		im.get_index_at_time(-1)
-	with pytest.raises(IndexError):
-		im.get_index_at_time(1000000)
+@pytest.mark.parametrize("obj, expects", [
+		(test_string, TypeError),
+		(test_dict, TypeError),
+		(test_float, TypeError),
+		(test_list_ints, TypeError),
+		(test_list_strs, TypeError),
+		(-1, IndexError),
+		(1000000, IndexError),
+		])
+def test_get_index_at_time_errors(im, obj, expects):
+	with pytest.raises(expects):
+		im.get_index_at_time(obj)
 
 
 def test_get_time_at_index(im):
 	assert im.get_time_at_index(test_int) == 1304.15599823
 
-	for obj in [test_string, *test_lists, test_dict, test_float]:
-		with pytest.raises(TypeError):
-			im.get_time_at_index(obj)
 
-	with pytest.raises(IndexError):
-		im.get_time_at_index(-1)
-	with pytest.raises(IndexError):
-		im.get_time_at_index(1000000)
+@pytest.mark.parametrize("obj, expects", [
+		(test_string, TypeError),
+		(test_dict, TypeError),
+		(test_float, TypeError),
+		(test_list_ints, TypeError),
+		(test_list_strs, TypeError),
+		(-1, IndexError),
+		(1000000, IndexError),
+		])
+def test_get_time_at_index_errors(im, obj, expects):
+	with pytest.raises(expects):
+		im.get_time_at_index(obj)
 
 
 # TODO; Saving data
