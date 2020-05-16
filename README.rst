@@ -48,14 +48,14 @@ A Python toolkit for processing of chromatography--mass spectrometry data
 
 PyMassSpec is a Python_ package for processing gas chromatography-mass spectrometry data.
 PyMassSpec provides a framework and a set of components for rapid development and testing of methods for processing of chromatography--mass spectrometry data.
-PyMassSpec can be used interactively through the Python shell, or the functions can be collected into scripts when it is preferable to perform data processing in the batch mode.
+PyMassSpec can be used interactively through the Python shell, in a `Jupyter Notebook <https://jupyter.org/>`_, or the functions can be collected into scripts when it is preferable to perform data processing in the batch mode.
 
 |
 
 Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
 Originally by Andrew Isaac, Sean O'Callaghan and Vladimir Likić. The original publication can be found here: https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-115
 
-The original project seems to have been abandoned as there has been no activity in 2 years.
+The original project seems to have been abandoned as there has been no activity since 2017.
 
 |
 
