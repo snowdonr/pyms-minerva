@@ -27,6 +27,7 @@ Class to model Intensity Matrix
 import copy
 import pathlib
 from warnings import warn
+from numbers import Number
 
 # 3rd party
 import deprecation
@@ -343,6 +344,8 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 		if mass is None:
 			return self.tic
+		elif not isinstance(mass, Number):
+			raise TypeError("'mass' must be a number")
 
 		if mass < self._min_mass or mass > self._max_mass:
 			print("min mass: ", self._min_mass, "max mass:", self._max_mass)
@@ -428,6 +431,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 		:author: Andrew Isaac
 		"""
+
+		if not isinstance(mass, Number):
+			raise TypeError("'mass' must be a number")
 
 		best = self._max_mass
 		ix = 0

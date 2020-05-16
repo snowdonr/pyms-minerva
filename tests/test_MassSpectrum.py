@@ -25,6 +25,7 @@ import requests
 
 # 3rd party
 import pytest
+import numpy
 
 # pyms
 from pyms.Spectrum import MassSpectrum
@@ -35,20 +36,20 @@ from .constants import *
 def test_MassSpectrum(ms):
 	assert isinstance(ms, MassSpectrum)
 
-	assert isinstance(ms.mass_list, list)
-	assert isinstance(ms.mass_spec, list)
 
-	# Errors
-	for obj in [test_string, test_int, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			MassSpectrum(obj, ms.mass_spec)
+@pytest.mark.parametrize("obj, expects", [
+		(test_list_ints, ValueError),
+		(test_string, ValueError),
+		(test_list_strs, ValueError),
+		(test_int, TypeError),
+		(test_dict, TypeError),
+		])
+def test_errors(ms, obj, expects):
+	with pytest.raises(expects):
+		MassSpectrum(obj, ms.intensity_list)
 
-	for obj in [test_string, test_int, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			MassSpectrum(ms.mass_list, obj)
-
-	with pytest.raises(ValueError):
-		MassSpectrum(ms.mass_list, test_list_ints)
+	with pytest.raises(expects):
+		MassSpectrum(ms.mass_list, obj)
 
 
 def test_len(ms):
@@ -80,18 +81,24 @@ def test_mass_spec(ms):
 	ms.mass_spec = list(range(len(ms.mass_spec)))
 	assert ms.mass_spec == list(range(len(ms.mass_spec)))
 
-	# Errors
-	for obj in [*test_numbers, test_string, test_dict, test_list_strs]:
-		with pytest.raises(TypeError):
-			ms.mass_spec = obj
-		with pytest.raises(TypeError):
-			ms.intensity_list = obj
-
 	# for type in [test_list_ints, test_tuple]:
 	# 	with pytest.raises(ValueError):
 	# 		ms.mass_spec = type
 	# 	with pytest.raises(ValueError):
 	# 		ms.intensity_list = types
+
+
+@pytest.mark.parametrize("obj, expects", [
+		(test_string, ValueError),
+		(test_dict, TypeError),
+		(test_list_strs, ValueError),
+		])
+def test_mass_spec_errors(ms, obj, expects):
+	with pytest.raises(expects):
+		ms.mass_spec = obj
+
+	with pytest.raises(expects):
+		ms.intensity_list = obj
 
 
 def test_mass_list(ms):
@@ -100,16 +107,21 @@ def test_mass_list(ms):
 	assert ms.mass_list[100] == 150
 
 	ms.mass_list = list(range(len(ms.mass_list)))
-	assert ms.mass_list == list(range(len(ms.mass_list)))
-
-	# Errors
-	for obj in [*test_numbers, test_string, test_dict, test_list_strs]:
-		with pytest.raises(TypeError):
-			ms.mass_list = obj
+	assert list(ms.mass_list) == list(range(len(ms.mass_list)))
 
 	# for obj in [test_list_ints, test_tuple]:
 	# 	with pytest.raises(ValueError):
 	# 		ms.mass_list = obj
+
+
+@pytest.mark.parametrize("obj, expects", [
+		(test_string, ValueError),
+		(test_dict, TypeError),
+		(test_list_strs, ValueError),
+		])
+def test_mass_list_errors(ms, obj, expects):
+	with pytest.raises(expects):
+		ms.mass_list = obj
 
 
 def test_from_jcamp():

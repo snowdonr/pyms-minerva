@@ -567,7 +567,6 @@ def test_get_index_at_time(im):
 @pytest.mark.parametrize("obj, expects", [
 		(test_string, TypeError),
 		(test_dict, TypeError),
-		(test_float, TypeError),
 		(test_list_ints, TypeError),
 		(test_list_strs, TypeError),
 		(-1, IndexError),

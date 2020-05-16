@@ -28,6 +28,7 @@ import copy
 import math
 import operator
 import pathlib
+from numbers import Number
 
 # 3rd party
 import numpy
@@ -386,8 +387,8 @@ class Alignment:
 		if not isinstance(area_file_name, (str, pathlib.Path)):
 			raise TypeError("'area_file_name' must be a string or a pathlib.Path object")
 
-		if not isinstance(top_ion_list, list) or not isinstance(top_ion_list[0], int):
-			raise TypeError("'top_ion_list' must be a list of integers")
+		if not isinstance(top_ion_list, list) or not isinstance(top_ion_list[0], Number):
+			raise TypeError("'top_ion_list' must be a list of numbers")
 
 		area_file_name = prepare_filepath(area_file_name)
 
@@ -457,7 +458,7 @@ class Alignment:
 
 			rt_avg = rtsums[index] / rtcounts[index]
 
-			out_strings.append(f"{peak_UID_string},{rt_avg / 60:.3f},{top_ion_list[index]:d}")
+			out_strings.append(f"{peak_UID_string},{rt_avg / 60:.3f},{top_ion_list[index]:f}")
 
 			for area in area_list:
 				if area is not None:

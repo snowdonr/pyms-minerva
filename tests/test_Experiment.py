@@ -115,16 +115,22 @@ def test_store_expr(expr, outputdir):
 				store_expr(test_string, obj)
 
 
-def test_store(expr, outputdir):
-	expr.store(outputdir / "ELEY_1_SUBTRACT.expr")
+@pytest.fixture(scope="function")
+def expr_filename(expr, outputdir):
+	filename = outputdir / "ELEY_1_SUBTRACT.expr"
+	expr.store(filename)
+	return filename
+
+
+def test_store_errors(expr):
 
 	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
 			expr.store(obj)
 
 
-def test_load_expr(filtered_peak_list, datadir, outputdir):
-	expr = load_expr(outputdir / "ELEY_1_SUBTRACT.expr")
+def test_load_expr(filtered_peak_list, datadir, expr_filename):
+	expr = load_expr(expr_filename)
 	assert isinstance(expr, Experiment)
 
 	assert isinstance(expr.expr_code, str)
@@ -147,7 +153,7 @@ def test_load_expr(filtered_peak_list, datadir, outputdir):
 		load_expr(datadir / "not-an-experiment.expr")
 
 
-def test_read_expr_list(filtered_peak_list, datadir):
+def test_read_expr_list(filtered_peak_list, datadir, expr_filename):
 	expr_list = read_expr_list(datadir / "read_expr_list.txt")
 	assert isinstance(expr_list, list)
 	assert isinstance(expr_list[0], Experiment)

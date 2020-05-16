@@ -27,9 +27,11 @@ Classes to model Mass Spectra and Scans
 import pathlib
 import re
 import warnings
+from collections import Sequence
 
 # 3rd party
 import deprecation
+import numpy
 
 # this package
 from pyms import __version__
@@ -38,14 +40,40 @@ from pyms.Mixins import MassListMixin
 from pyms.Utils.jcamp import xydata_tags
 
 
+def array_as_numeric(array):
+	"""
+	Convert the given numpy array to a numeric data type.
+
+	If the data in the array is already in a numeric data type no changes will be made.
+
+	If ``array`` is a python :class:`~python:collections.Sequence` then it will first be
+	converted to a numpy array.
+
+	:param array:
+	:type array: Sequence or numpy.ndarray
+
+	:return:
+	:rtype: :class:`numpy.ndarray`
+	"""
+
+	if not isinstance(array, numpy.ndarray):
+		array = numpy.array(array)
+
+	if not numpy.issubdtype(array.dtype, numpy.number):
+		# Array doesn't contain numerical data
+		array = array.astype(numpy.float64)
+
+	return array
+
+
 class Scan(pymsBaseClass, MassListMixin):
 	"""
 	Generic object for a single Scan's raw data
 
-	:param mass_list: mass values
-	:type mass_list: list
-	:param intensity_list: intensity values
-	:type intensity_list: list
+	:param mass_list: A sequence of mass values
+	:type mass_list: Sequence[:class:`python:numbers.Number`] or numpy.ndarray
+	:param intensity_list: A sequence intensity values
+	:type intensity_list: Sequence[:class:`python:numbers.Number`] or numpy.ndarray
 
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
@@ -55,23 +83,11 @@ class Scan(pymsBaseClass, MassListMixin):
 		Initialise the class
 		"""
 
-		if (
-				not isinstance(mass_list, _list_types)
-				or not isinstance(mass_list[0], (int, float))
-			):
-			raise TypeError("'mass_list' must be a list of numbers")
+		mass_list = list(array_as_numeric(mass_list))
+		intensity_list = list(array_as_numeric(intensity_list))
 
-		if (
-				not isinstance(intensity_list, _list_types)
-				or not isinstance(intensity_list[0], (int, float))
-			):
-			raise TypeError("'intensity_list' must be a list of numbers")
-
-		if not len(mass_list) == len(intensity_list):
+		if len(mass_list) != len(intensity_list):
 			raise ValueError("'mass_list' is not the same size as 'intensity_list'")
-
-		mass_list = list(mass_list)
-		intensity_list = list(intensity_list)
 
 		sorted_mass_list = sorted(mass_list)
 
@@ -86,10 +102,15 @@ class Scan(pymsBaseClass, MassListMixin):
 Please report this at https://github.com/domdfcoding/pymassspec/issues and upload an example data file if possible.
 """)
 
-		self._mass_list = list(mass_list)
-		self._intensity_list = list(intensity_list)
-		self._min_mass = min(mass_list)
-		self._max_mass = max(mass_list)
+		self._mass_list = mass_list
+		self._intensity_list = intensity_list
+
+		if len(self):
+			self._min_mass = min(mass_list)
+			self._max_mass = max(mass_list)
+		else:
+			self._min_mass = None
+			self._max_mass = None
 
 	def __len__(self):
 		"""
@@ -113,8 +134,10 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		"""
 
 		if isinstance(other, self.__class__):
-			return self._intensity_list == other.intensity_list \
-					and self._mass_list == other.mass_list
+			return (
+					numpy.array_equal(self._intensity_list, other.intensity_list)
+					and numpy.array_equal(self._mass_list, other.mass_list)
+					)
 
 		return NotImplemented
 
@@ -249,13 +272,15 @@ class MassSpectrum(Scan):
 		:type value: list
 		"""
 
-		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
-			raise TypeError("'intensity_list' must be a list of numbers")
+		value = array_as_numeric(value)
+
+		# if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+		# 	raise TypeError("'intensity_list' must be a list of numbers")
 
 		# if not len(self.mass_list) == len(value):
 		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 
-		self._intensity_list = value
+		self._intensity_list = list(value)
 
 	@Scan.mass_spec.setter
 	def mass_spec(self, value):
@@ -266,13 +291,15 @@ class MassSpectrum(Scan):
 		:type value: list
 		"""
 
-		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
-			raise TypeError("'intensity_list' must be a list of numbers")
+		value = array_as_numeric(value)
+
+		# if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+		# 	raise TypeError("'intensity_list' must be a list of numbers")
 
 		# if not len(self.mass_list) == len(value):
 		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 
-		self._intensity_list = value
+		self._intensity_list = list(value)
 
 	@MassListMixin.mass_list.setter
 	def mass_list(self, value):
@@ -283,13 +310,22 @@ class MassSpectrum(Scan):
 		:type value: list
 		"""
 
-		if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
-			raise TypeError("'mass_list' must be a list of numbers")
+		value = array_as_numeric(value)
+
+		# if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+		# 	raise TypeError("'mass_list' must be a list of numbers")
 
 		# if not len(self.mass_list) == len(value):
 		# 	raise ValueError("'mass_list' and 'intensity_list' are not the same size")
 
-		self._mass_list = value
+		self._mass_list = list(value)
+
+		if len(self):
+			self._min_mass = min(value)
+			self._max_mass = max(value)
+		else:
+			self._min_mass = None
+			self._max_mass = None
 
 	def crop(self, min_mz=None, max_mz=None, inplace=False):
 		"""
@@ -340,7 +376,7 @@ class MassSpectrum(Scan):
 			self.mass_list = cropped_mass_list
 			return self
 		else:
-			return MassSpectrum(
+			return self.__class__(
 					intensity_list=cropped_intensity_list,
 					mass_list=cropped_intensity_list,
 					)
@@ -437,7 +473,7 @@ class MassSpectrum(Scan):
 
 				else:
 					if last_tag in xydata_tags:
-						line_sub = re.split(",| ", line.strip())
+						line_sub = re.split(r",| ", line.strip())
 						for item in line_sub:
 							if not len(item.strip()) == 0:
 								xydata.append(float(item.strip()))

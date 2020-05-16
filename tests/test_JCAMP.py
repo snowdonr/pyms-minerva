@@ -24,8 +24,9 @@ import pickle
 from copy import deepcopy
 
 # 3rd party
-import pytest
 import deprecation
+import numpy
+import pytest
 
 # pyms
 from pyms.GCMS.Class import GCMS_data

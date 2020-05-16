@@ -19,6 +19,7 @@
 #############################################################################
 
 # 3rd party
+import numpy
 import pytest
 
 # pyms
@@ -36,7 +37,11 @@ def test_scan(scan):
 
 @pytest.mark.parametrize("obj, expects", [
 		(test_list_ints, ValueError),
-		] + [(obj, TypeError) for obj in [test_string, test_int, test_list_strs, test_dict]])
+		(test_string, ValueError),
+		(test_list_strs, ValueError),
+		(test_int, TypeError),
+		(test_dict, TypeError),
+		])
 def test_errors(scan, obj, expects):
 	with pytest.raises(expects):
 		Scan(obj, scan.intensity_list)
@@ -67,3 +72,8 @@ def test_inequality(scan, val):
 def test_scan_values(scan, index, mass, intensity):
 	assert scan.mass_list[index] == mass
 	assert scan.intensity_list[index] == intensity
+
+
+def test_zero_length():
+	# TODO: finish
+	scan = Scan([], [])

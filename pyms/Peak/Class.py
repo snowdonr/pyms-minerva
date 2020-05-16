@@ -25,6 +25,7 @@ Provides a class to model signal peak
 
 # stdlib
 import copy
+from numbers import Number
 from warnings import warn
 
 # 3rd party
@@ -455,7 +456,7 @@ class Peak(pymsBaseClass):
 		:type value: dict
 		"""
 
-		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], int):
+		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], Number):
 			raise TypeError("'Peak.ion_areas' must be a dictionary of ion:ion_area pairs")
 		self._ion_areas = value
 
