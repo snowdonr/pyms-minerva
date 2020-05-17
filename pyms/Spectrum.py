@@ -71,11 +71,11 @@ class Scan(pymsBaseClass, MassListMixin):
 	Generic object for a single Scan's raw data
 
 	:param mass_list: A sequence of mass values
-	:type mass_list: Sequence[:class:`python:numbers.Number`] or numpy.ndarray
+	:type mass_list: Sequence[:class:`python:numbers.Number`] or :class:`numpy.ndarray`
 	:param intensity_list: A sequence intensity values
-	:type intensity_list: Sequence[:class:`python:numbers.Number`] or numpy.ndarray
+	:type intensity_list: Sequence[:class:`python:numbers.Number`] or :class:`numpy.ndarray`
 
-	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
+	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
 	def __init__(self, mass_list, intensity_list):
@@ -253,7 +253,7 @@ class MassSpectrum(Scan):
 	:param intensity_list: intensity values
 	:type intensity_list: list
 
-	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
+	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
 	def __init__(self, mass_list, intensity_list):
