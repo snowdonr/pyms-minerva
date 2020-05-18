@@ -98,7 +98,9 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 
 def peak_pt_bounds(im, peak):
 	"""
-	Approximate the peak bounds (left and right offsets from apex). :param im: The originating IntensityMatrix object
+	Approximate the peak bounds (left and right offsets from apex).
+
+	:param im: The originating IntensityMatrix object
 	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param peak: The Peak object
 	:type peak: pyms.Peak.Class.Peak

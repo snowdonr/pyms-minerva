@@ -46,7 +46,7 @@ __copyright__ = """
 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-__version__ = "2.2.21"
+__version__ = "2.2.22.b2"
 
 modname = "PyMassSpec"
 pypi_name = "PyMassSpec"
