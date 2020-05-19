@@ -8,11 +8,9 @@ python:
   - '3.8'
 
 install:
-  - sudo apt-get update
 
-  - pip install rst2txt yolk3k
+  - pip install pip  --upgrade
   - pip install coveralls tox tox-travis
-
 
 script:
   - tox
@@ -24,12 +22,12 @@ stages:
   - test
   - deploy_pypi
 
+  - deploy_releases
 
 jobs:
   include:
     - stage: deploy_pypi
       python: "3.6"
-      install: skip
       script: skip
       deploy:
         on:
@@ -41,3 +39,15 @@ jobs:
           secure: c8kiGOCPwUvcXtgyY++1cRqhzxc0HGRolbiHRNZO9N8oOxX79poRvwbI/D0eW94xXWGF9V9MoKhalDvxq/jQ/AU7YMg0qnaQhleBkxSJGvEC3QSxUpiG4JOtuxJIdFXGEuH2chwqY9YLK2XyBT7NFkz8qXBvB3FVb42H7d3SCE5FWURETnq4srJknblEwNKepQeKcRrN4cyrBRbMQrn3nzdU5L0XdaO+Cy9GbCV+vhJyMuUI0YYxnpPZz6/y7X5lqSzxzkXIwaxQAazhQFSKB5vEmR0BF3DZmYl62TDNY6hUtjvrfn0mWQEIXqG8iU7g0wU/XvpqLfyO4+y3604d50gEx3G0y5wpVG7iyllsos6iLKX4spomo1qQGoEkE/Sp8EeNGP3y/iBg3uBEq54CYG5wR9QYUWqOhuh9lziJRhUpq+t1P0FOfkM8cSXGvdr9tCjStrDeac2syLKindVZy1Juc5grdJi5q686SCT7Ts46wRR4YWDxurjzDWyIvMpnRI7OXuEziPgLmeT7jRPNP3TKWcGQNuDFQ1SlPDBgaGIRO85AGpTwImXiRQMlO95emhvCVwvG+3rAvXuRpPkrJvx2XL8trDIPXqGcXkXohw/2n7jbZ4HjCUNNgZZxkyokgVbp5UL1M861KhWjIrylis4ReTt+t66Ab8kB9vSNESM=
         distributions: "sdist bdist_wheel"
         skip_existing: true
+
+
+    - stage: deploy_releases
+      python: "3.6"
+      install:
+        - pip install PyGithub requests
+      script: skip
+      deploy:
+        on:
+          repo: domdfcoding/PyMassSpec
+        provider: script
+        script: python .ci/copy_pypi_2_github.py || travis_terminate 1;

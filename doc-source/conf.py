@@ -18,7 +18,6 @@ import ipynb2rst
 nitpicky = True
 autodoc_default_options = {'autosummary': True}
 
-
 github_url = f"https://github.com/domdfcoding/PyMassSpec"
 
 rst_prolog = f""".. |pkgname| replace:: PyMassSpec
