@@ -70,8 +70,11 @@ def expr_list(datadir, outputdir):
 			im.set_ic_at_index(ii, ic_bc)
 
 		peak_list = BillerBiemann(im, points=9, scans=2)
+
+		print("#")
 		apl = rel_threshold(peak_list, 2)
 		new_peak_list = num_ions_threshold(apl, 3, 3000)
+		print("#")
 
 		# ignore TMS ions and set mass range
 		for peak in new_peak_list:
@@ -90,7 +93,9 @@ def expr_list(datadir, outputdir):
 		# set time range for all experiments
 		expr.sele_rt_range(["6.5m", "21m"])
 
+		print("#")
 		expr.dump(outputdir / f"{jcamp_file}.expr")
+		print("#")
 
 	# Load experiments
 	expr_list = []
