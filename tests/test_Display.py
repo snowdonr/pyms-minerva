@@ -24,10 +24,10 @@ from pathlib import Path
 
 # 3rd party
 import pytest
-from matplotlib import axes, figure
+from matplotlib import axes, figure, pyplot as plt
 
 # pyms
-from pyms.Display import *
+from pyms.Display import Display
 
 # tests
 from .constants import *
@@ -37,28 +37,28 @@ baseline = str(Path(os.path.split(__file__)[0]) / "baseline")
 
 def test_Display():
 	no_args = Display()
-	assert isinstance(no_args.fig, matplotlib.figure.Figure)
-	assert isinstance(no_args.ax, matplotlib.axes.Axes)
+	assert isinstance(no_args.fig, figure.Figure)
+	assert isinstance(no_args.ax, axes.Axes)
 
 	fig = plt.figure()
 	fig_arg = Display(fig=fig)
-	assert isinstance(fig_arg.fig, matplotlib.figure.Figure)
-	assert isinstance(fig_arg.ax, matplotlib.axes.Axes)
+	assert isinstance(fig_arg.fig, figure.Figure)
+	assert isinstance(fig_arg.ax, axes.Axes)
 	assert fig_arg.fig is fig
 
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	both_args = Display(fig=fig, ax=ax)
-	assert isinstance(both_args.fig, matplotlib.figure.Figure)
-	assert isinstance(both_args.ax, matplotlib.axes.Axes)
+	assert isinstance(both_args.fig, figure.Figure)
+	assert isinstance(both_args.ax, axes.Axes)
 	assert both_args.fig is fig
 	assert both_args.ax is ax
 
-	for type in [test_tuple, test_list_strs, test_list_ints, test_string, *test_numbers, test_dict]:
+	for obj in [test_tuple, test_list_strs, test_list_ints, test_string, *test_numbers, test_dict]:
 		with pytest.raises(TypeError):
-			Display(fig=type)
+			Display(fig=obj)
 		with pytest.raises(TypeError):
-			Display(fig=fig, ax=type)
+			Display(fig=fig, ax=obj)
 
 	fig = plt.figure()
 	ax = fig.add_subplot(111)

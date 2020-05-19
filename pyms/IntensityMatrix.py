@@ -242,7 +242,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		Iterate over local column indices
 
 		:return: Current column index
-		:rtype: int
+		:rtype: Iterator[int]
 
 		:author: Luke Hodkinson
 		"""

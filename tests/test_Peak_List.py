@@ -23,8 +23,9 @@ import pytest
 
 # pyms
 from pyms.Base import _list_types
-from pyms.Peak.List import *
-from pyms.Peak.List.IO import *
+from pyms.Peak.List import composite_peak, fill_peaks, Peak, sele_peaks_by_rt
+from pyms.Peak.List.IO import is_peak_list, load_peaks, store_peaks
+from pyms.Spectrum import MassSpectrum
 
 # tests
 from .constants import *

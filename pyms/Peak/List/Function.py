@@ -262,7 +262,7 @@ def sele_peaks_by_rt(peaks, rt_range):
     rt_lo = time_str_secs(rt_range[0])
     rt_hi = time_str_secs(rt_range[1])
 
-    if not rt_lo < rt_hi:
+    if rt_lo <= rt_hi:
         raise ValueError("lower retention time limit must be less than upper")
 
     peaks_sele = []

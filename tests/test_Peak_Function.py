@@ -19,11 +19,14 @@
 #############################################################################
 
 # 3rd party
+import deprecation
 import pytest
 
 # pyms
-from pyms.Peak.Function import *
-
+from pyms.Peak.Function import (
+	half_area, ion_area, median_bounds, peak_pt_bounds, peak_sum_area, peak_top_ion_areas,
+	top_ions_v1, top_ions_v2,
+	)
 # tests
 from .constants import *
 

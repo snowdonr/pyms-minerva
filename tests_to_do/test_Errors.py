@@ -8,9 +8,9 @@ def test_Alignment(filtered_peak_list):
 	#Alignment(Experiment("ELEY_1_SUBTRACT", filtered_peak_list))
 	#Alignment(None)
 	
-	for type in [test_string, *test_numbers, *test_lists, test_dict]:
+	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			Alignment(type)
+			Alignment(obj)
 		
 """
 def test_experiment():

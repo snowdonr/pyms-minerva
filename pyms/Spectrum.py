@@ -105,7 +105,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		self._mass_list = mass_list
 		self._intensity_list = intensity_list
 
-		if len(self):
+		if self:
 			self._min_mass = min(mass_list)
 			self._max_mass = max(mass_list)
 		else:
@@ -122,6 +122,9 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		"""
 
 		return len(self._mass_list)
+
+	def __bool__(self):
+		return bool(self._mass_list)
 
 	def __eq__(self, other):
 		"""
@@ -320,7 +323,7 @@ class MassSpectrum(Scan):
 
 		self._mass_list = list(value)
 
-		if len(self):
+		if self:
 			self._min_mass = min(value)
 			self._max_mass = max(value)
 		else:
@@ -461,7 +464,7 @@ class MassSpectrum(Scan):
 
 		for line in lines_list:
 
-			if len(line.strip()):
+			if line.strip():
 				if line.startswith("##"):
 					# key word or information
 					fields = line.split('=', 1)

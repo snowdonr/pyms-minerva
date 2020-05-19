@@ -18,15 +18,25 @@
 #                                                                           #
 #############################################################################
 
+# stdlib
+import copy
+
 # 3rd party
+import numpy
 import pytest
 
 # pyms
-from pyms.BillerBiemann import *
+from pyms.BillerBiemann import (
+	BillerBiemann, get_maxima_indices, get_maxima_list, get_maxima_list_reduced,
+	get_maxima_matrix, num_ions_threshold, rel_threshold, sum_maxima,
+	)
+from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.Analysis import window_analyzer
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Class import Peak
 from pyms.TopHat import tophat
+
+# tests
 from tests.constants import *
 
 
