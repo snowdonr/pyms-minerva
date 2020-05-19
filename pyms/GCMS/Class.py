@@ -27,6 +27,7 @@ Class to model GC-MS data
 import copy
 import pathlib
 from statistics import mean, median, stdev
+from numbers import Number
 
 # 3rd party
 import deprecation
@@ -34,12 +35,13 @@ import numpy
 
 # this package
 from pyms import __version__
-from pyms.Base import _list_types, pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
-from pyms.Spectrum import Scan, MassSpectrum
+from pyms.Spectrum import MassSpectrum, Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
+from pyms.Utils.Utils import is_sequence, _path_types
 
 
 MassSpectrum = MassSpectrum  # For legacy imports. Stops PyCharm complaining TODO: Remove eventually
@@ -66,11 +68,11 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		Initialize the GC-MS data
 		"""
 
-		if not isinstance(time_list, _list_types) or not isinstance(time_list[0], (int, float)):
-			raise TypeError("'time_list' must be a list of numbers")
+		if not is_sequence(time_list) or not isinstance(time_list[0], Number):
+			raise TypeError("'time_list' must be a Sequence of numbers")
 
-		if not isinstance(scan_list, _list_types) or not isinstance(scan_list[0], Scan):
-			raise TypeError("'scan_list' must be a list of Scan objects")
+		if not is_sequence(scan_list) or not isinstance(scan_list[0], Scan):
+			raise TypeError("'scan_list' must be a Sequence of Scan objects")
 
 		self._time_list = time_list
 		self._scan_list = scan_list
@@ -464,8 +466,8 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		:author: Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, (str, pathlib.Path)):
-			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		if not isinstance(file_name, _path_types):
+			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)
 

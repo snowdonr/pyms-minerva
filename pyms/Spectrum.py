@@ -35,9 +35,11 @@ import numpy
 
 # this package
 from pyms import __version__
-from pyms.Base import _list_types, pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.Mixins import MassListMixin
+from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import xydata_tags
+from pyms.Utils.Utils import is_sequence, _path_types
 
 
 def array_as_numeric(array):
@@ -277,7 +279,7 @@ class MassSpectrum(Scan):
 
 		value = array_as_numeric(value)
 
-		# if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+		# if not isinstance(value, _list_types) or not isinstance(value[0], Number):
 		# 	raise TypeError("'intensity_list' must be a list of numbers")
 
 		# if not len(self.mass_list) == len(value):
@@ -296,7 +298,7 @@ class MassSpectrum(Scan):
 
 		value = array_as_numeric(value)
 
-		# if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+		# if not isinstance(value, _list_types) or not isinstance(value[0], Number):
 		# 	raise TypeError("'intensity_list' must be a list of numbers")
 
 		# if not len(self.mass_list) == len(value):
@@ -315,7 +317,7 @@ class MassSpectrum(Scan):
 
 		value = array_as_numeric(value)
 
-		# if not isinstance(value, _list_types) or not isinstance(value[0], (int, float)):
+		# if not isinstance(value, _list_types) or not isinstance(value[0], Number):
 		# 	raise TypeError("'mass_list' must be a list of numbers")
 
 		# if not len(self.mass_list) == len(value):
@@ -451,11 +453,10 @@ class MassSpectrum(Scan):
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster
 		"""
 
-		if not isinstance(file_name, (str, pathlib.Path)):
-			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		if not isinstance(file_name, _path_types):
+			raise TypeError("'file_name' must be a string or a PathLike object")
 
-		if not isinstance(file_name, pathlib.Path):
-			file_name = pathlib.Path(file_name)
+		file_name = prepare_filepath(file_name, mkdirs=False)
 
 		print(f" -> Reading JCAMP file '{file_name}'")
 		lines_list = file_name.open('r')
@@ -507,9 +508,9 @@ class MassSpectrum(Scan):
 		err_msg = "`mz_int_pairs` must be a list of (m/z, intensity) tuples."
 
 		if (
-				not isinstance(mz_int_pairs, _list_types)
-				or not isinstance(mz_int_pairs[0], _list_types)
-				# or not isinstance(mz_int_pairs[0][0], (int, float))
+				not is_sequence(mz_int_pairs)
+				or not is_sequence(mz_int_pairs[0])
+				# or not isinstance(mz_int_pairs[0][0], Number)
 			):
 			raise TypeError(err_msg)
 

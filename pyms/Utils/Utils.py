@@ -23,6 +23,51 @@ General utility functions
 #                                                                              #
 ################################################################################
 
+# stdlib
+import os
+import pathlib
+from collections import Sequence
+
+# 3rd party
+import numpy
+
+_list_types = (Sequence, numpy.core.ndarray)
+_path_types = (str, os.PathLike, pathlib.Path)
+
+
+def is_sequence(obj):
+    """
+    Returns whether the object is a Sequence and not a string
+
+    :param obj:
+    :type obj:
+
+    :return:
+    :rtype: bool
+    """
+
+    return isinstance(obj, _list_types) and not isinstance(obj, str)
+
+
+def is_sequence_of(obj, of):
+    """
+    Returns whether the object is a Sequence and not a string of the given type
+
+    :param obj:
+    :type obj: any
+    :param of:
+    :type of: any
+
+    :return:
+    :rtype: bool
+    """
+
+    return (
+            isinstance(obj, _list_types)
+            and not isinstance(obj, str)
+            and all(isinstance(x, of) for x in obj)
+            )
+
 
 def is_positive_int(arg):
     """

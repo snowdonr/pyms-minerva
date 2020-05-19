@@ -33,9 +33,10 @@ import deprecation
 
 # this package
 from pyms import __version__
-from pyms.Base import _list_types, pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Spectrum import MassSpectrum
+from pyms.Utils.Utils import is_sequence
 
 
 class Peak(pymsBaseClass):
@@ -63,10 +64,10 @@ class Peak(pymsBaseClass):
 		Models a signal peak
 		"""
 
-		if not isinstance(rt, (int, float)):
+		if not isinstance(rt, Number):
 			raise TypeError("'rt' must be a number")
 
-		if ms and not isinstance(ms, MassSpectrum) and not isinstance(ms, (int, float)):
+		if ms and not isinstance(ms, MassSpectrum) and not isinstance(ms, Number):
 			raise TypeError("'ms' must be a number or a MassSpectrum object")
 
 		if minutes:
@@ -160,7 +161,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(value, (int, float)):
+		if not isinstance(value, Number):
 			raise TypeError("'Peak.area' must be a positive number")
 		elif value <= 0:
 			raise ValueError("'Peak.area' must be a positive number")
@@ -191,7 +192,7 @@ class Peak(pymsBaseClass):
 		:type value: list
 		"""
 
-		if not isinstance(value, _list_types):
+		if not is_sequence(value):
 			raise TypeError("'Peak.bounds' must be a list")
 
 		if len(value) != 3:
@@ -427,7 +428,7 @@ class Peak(pymsBaseClass):
 		:type value: float
 		"""
 
-		if not isinstance(value, (int, float)):
+		if not isinstance(value, Number):
 			raise TypeError("'Peak.ic_mass' must be a number")
 		self._ic_mass = value
 		# clear mass spectrum
@@ -531,7 +532,7 @@ class Peak(pymsBaseClass):
 		if self._mass_spectrum is None:
 			raise NameError("mass spectrum not set for this peak")
 
-		if not isinstance(mass, (int, float)):
+		if not isinstance(mass, Number):
 			raise TypeError("'mass' must be a number")
 
 		mass_list = self._mass_spectrum.mass_list
@@ -576,7 +577,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(area, (int, float)):
+		if not isinstance(area, Number):
 			raise TypeError("'area' must be a positive number")
 		elif area <= 0:
 			raise ValueError("'area' must be a positive number")
@@ -628,7 +629,7 @@ class Peak(pymsBaseClass):
 		if not isinstance(ion, int):
 			raise TypeError("'ion' must be an integer")
 
-		if not isinstance(area, (int, float)):
+		if not isinstance(area, Number):
 			raise TypeError("'area' must be a number")
 
 		self._ion_areas[ion] = area

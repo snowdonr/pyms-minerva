@@ -28,6 +28,7 @@ import deprecation
 # pyms
 from pyms.Experiment import Experiment, load_expr, read_expr_list, store_expr
 from pyms.Peak.Class import Peak
+from pyms.Utils.Utils import is_sequence_of
 
 # tests
 from .constants import *
@@ -80,7 +81,7 @@ def test_get_peak_list(expr):
 
 def test_peak_list(expr, filtered_peak_list):
 	assert isinstance(expr.peak_list, list)
-	assert isinstance(expr.peak_list[0], Peak)
+	assert is_sequence_of(filtered_peak_list, Peak)
 	assert expr.peak_list == filtered_peak_list
 
 
@@ -137,7 +138,7 @@ def test_load_expr(filtered_peak_list, datadir, expr_filename):
 	assert expr.expr_code == "ELEY_1_SUBTRACT"
 
 	assert isinstance(expr.peak_list, list)
-	assert isinstance(expr.peak_list[0], Peak)
+	assert is_sequence_of(expr.peak_list, Peak)
 
 	assert expr.peak_list == filtered_peak_list
 	expr.sele_rt_range(["6.5m", "21m"])
@@ -156,14 +157,14 @@ def test_load_expr(filtered_peak_list, datadir, expr_filename):
 def test_read_expr_list(filtered_peak_list, datadir, expr_filename):
 	expr_list = read_expr_list(datadir / "read_expr_list.txt")
 	assert isinstance(expr_list, list)
-	assert isinstance(expr_list[0], Experiment)
+	assert is_sequence_of(expr_list, Experiment)
 
 	expr = expr_list[0]
 	assert isinstance(expr.expr_code, str)
 	assert expr.expr_code == "ELEY_1_SUBTRACT"
 
 	assert isinstance(expr.peak_list, list)
-	assert isinstance(expr.peak_list[0], Peak)
+	assert is_sequence_of(expr.peak_list, Peak)
 	assert expr.peak_list == filtered_peak_list
 
 	expr.sele_rt_range(["6.5m", "21m"])

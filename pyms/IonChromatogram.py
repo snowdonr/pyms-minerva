@@ -27,6 +27,7 @@ Classes to model a GC-MS Ion Chromatogram
 import copy
 import pathlib
 import warnings
+from numbers import Number
 
 # 3rd party
 import deprecation
@@ -34,9 +35,10 @@ import numpy
 
 # this package
 from pyms import __version__
-from pyms.Base import _list_types, pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
+from pyms.Utils.Utils import _path_types, is_sequence
 
 
 class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
@@ -70,13 +72,13 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		if not isinstance(ia, numpy.ndarray):
 			raise TypeError("'ia' must be a numpy array")
 
-		if not isinstance(time_list, _list_types) or not isinstance(time_list[0], (int, float)):
+		if not is_sequence(time_list) or not all(isinstance(time, Number) for time in time_list):
 			raise TypeError("'time_list' must be a list of numbers")
 
 		if len(ia) != len(time_list):
 			raise ValueError("Intensity array and time list differ in length")
 
-		if mass and not isinstance(mass, (int, float)):
+		if mass and not isinstance(mass, Number):
 			raise TypeError("'mass' must be a number")
 
 		self._intensity_array = ia
@@ -207,8 +209,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		:author: Vladimir Likic
 		"""
 
-		if not isinstance(ia, _list_types):
-			raise TypeError("'intensity_array' must be a list, tuple or numpy.ndarray")
+		if not is_sequence(ia):
+			raise TypeError("'intensity_array' must be a Sequence")
 
 		if not isinstance(ia, numpy.ndarray):
 			ia = numpy.array(ia)
@@ -255,8 +257,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		:author: Vladimir Likic
 		"""
 
-		if not isinstance(ia, _list_types):
-			raise TypeError("'intensity_array' must be a list, tuple or numpy.ndarray")
+		if not is_sequence(ia):
+			raise TypeError("'intensity_array' must be a Sequence")
 
 		if not isinstance(ia, numpy.ndarray):
 			ia = numpy.array(ia)
@@ -312,8 +314,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, (str, pathlib.Path)):
-			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		if not isinstance(file_name, _path_types):
+			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)
 

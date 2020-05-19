@@ -142,14 +142,17 @@ def A1(T1):
 	return A1
 
 
-def test_alignment_errors(F1, A1, outputdir):
-	for obj in [test_string, test_int, *test_sequences, test_dict]:
+class Test_alignment_Errors:
+
+	@pytest.mark.parametrize("obj", [test_string, test_int, *test_sequences, test_dict])
+	def test_alignments_errors(self, F1, obj):
 		with pytest.raises(TypeError):
 			PairwiseAlignment(F1, obj, Gw)
 		with pytest.raises(TypeError):
 			PairwiseAlignment(F1, Dw, obj)
 
-	for obj in [*test_numbers, test_string, *test_sequences, test_dict]:
+	@pytest.mark.parametrize("obj", [*test_numbers, test_string, *test_sequences, test_dict])
+	def test_expr_errors(self, obj):
 		with pytest.raises(TypeError):
 			exprl2alignment(obj)
 		with pytest.raises(TypeError):
@@ -157,11 +160,13 @@ def test_alignment_errors(F1, A1, outputdir):
 		with pytest.raises(TypeError):
 			Alignment(obj)
 
-	for obj in [test_float, test_string, test_dict, test_list_strs, test_list_ints]:
+	@pytest.mark.parametrize("obj", [test_float, test_string, test_dict, test_list_strs, test_list_ints])
+	def test_min_peaks_errors(self, A1, obj):
 		with pytest.raises(TypeError):
 			A1.filter_min_peaks(obj)
 
-	for obj in [*test_numbers, test_dict, *test_lists]:
+	@pytest.mark.parametrize("obj", [*test_numbers, test_dict, *test_lists])
+	def test_file_name_errors(self, A1, obj, outputdir):
 		with pytest.raises(TypeError):
 			A1.write_csv(obj, outputdir / 'alignment_area.csv')
 		with pytest.raises(TypeError):
@@ -171,7 +176,8 @@ def test_alignment_errors(F1, A1, outputdir):
 		with pytest.raises(TypeError):
 			A1.write_ion_areas_csv(obj)
 
-	for obj in [*test_numbers, test_dict, test_list_strs, test_string]:
+	@pytest.mark.parametrize("obj", [*test_numbers, test_dict, test_list_strs, test_string])
+	def test_top_ion_list_errors(self, A1, obj, outputdir):
 		with pytest.raises(TypeError):
 			A1.write_common_ion_csv(outputdir / 'alignent_ion_area.csv', obj)
 

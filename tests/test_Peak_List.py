@@ -22,7 +22,7 @@
 import pytest
 
 # pyms
-from pyms.Base import _list_types
+from pyms.Utils.Utils import _list_types, _path_types
 from pyms.Peak.List import composite_peak, fill_peaks, Peak, sele_peaks_by_rt
 from pyms.Peak.List.IO import is_peak_list, load_peaks, store_peaks
 from pyms.Spectrum import MassSpectrum
@@ -54,7 +54,7 @@ def test_composite_peak(filtered_peak_list, im_i):
 	# assert peak.area == area
 
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
-	assert isinstance(peak.mass_spectrum.mass_spec, _list_types)
+	assert isinstance(peak.mass_spectrum.mass_spec, list)
 	peak.null_mass(73)
 	index_73 = peak.mass_spectrum.mass_list.index(73)
 	assert peak.mass_spectrum.mass_spec[index_73] == 0

@@ -21,6 +21,7 @@
 # stdlib
 import copy
 import pickle
+from numbers import Number
 
 # 3rd party
 import deprecation
@@ -176,7 +177,7 @@ def test_get_ic_mass(peak):
 def test_get_int_of_ion(peak):
 	assert peak.get_int_of_ion(100) == 3888.0
 	assert peak.get_int_of_ion(200) == 0.0
-	assert isinstance(peak.get_int_of_ion(100), (int, float))
+	assert isinstance(peak.get_int_of_ion(100), Number)
 
 	with pytest.raises(IndexError):
 		peak.get_int_of_ion(1)
@@ -192,8 +193,8 @@ def test_ion_area(peak):
 	peak.set_ion_area(1, 1234)
 	peak.set_ion_area(2, 1234.56)
 
-	assert isinstance(peak.get_ion_area(1), (int, float))
-	assert isinstance(peak.get_ion_area(2), (int, float))
+	assert isinstance(peak.get_ion_area(1), Number)
+	assert isinstance(peak.get_ion_area(2), Number)
 	assert peak.get_ion_area(1) == 1234
 
 	# Errors
@@ -263,7 +264,7 @@ def test_get_UID(peak):
 def test_ic_mass():
 	peak = Peak(12.34, 55)
 	uid = peak.UID
-	assert isinstance(peak.ic_mass, (int, float))
+	assert isinstance(peak.ic_mass, Number)
 	assert peak.ic_mass == 55
 	peak.ic_mass = 12
 	assert peak.mass_spectrum is None

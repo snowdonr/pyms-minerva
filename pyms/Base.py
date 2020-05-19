@@ -27,14 +27,9 @@ Base for PyMassSpec classes
 import pathlib
 import pickle
 
-# 3rd party
-import numpy
-
 # this package
 from pyms.Utils.IO import prepare_filepath
-
-_list_types = (list, tuple, numpy.core.ndarray)
-_path_types = (str, pathlib.Path)
+from pyms.Utils.Utils import _path_types
 
 
 class pymsBaseClass:
@@ -56,7 +51,7 @@ class pymsBaseClass:
 		"""
 
 		if not isinstance(file_name, _path_types):
-			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)
 

@@ -30,11 +30,11 @@ import math
 import numpy
 
 # this package
-from pyms.Base import _list_types
 from pyms.Peak import Peak
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Math import median_outliers
 from pyms.Utils.Time import time_str_secs
+from pyms.Utils.Utils import is_sequence, is_sequence_of
 
 
 def composite_peak(peak_list, ignore_outliers=False):
@@ -230,7 +230,7 @@ def is_peak_list(peaks):
     :author: Dominic Davis-Foster
     """
 
-    return isinstance(peaks, _list_types) and all(isinstance(peak, Peak) for peak in peaks)
+    return is_sequence_of(peaks, Peak)
 
 
 def sele_peaks_by_rt(peaks, rt_range):
@@ -241,7 +241,7 @@ def sele_peaks_by_rt(peaks, rt_range):
     :type peaks: list or tuple or numpy.ndarray
     :param rt_range: A list of two time strings, specifying lower and
            upper retention times
-    :type rt_range: list, tuple
+    :type rt_range: Sequence[str]
 
     :return: A list of peak objects
     :rtype: :class:`list` of :class:`pyms.Peak.Class.Peak`
@@ -250,8 +250,8 @@ def sele_peaks_by_rt(peaks, rt_range):
     if not is_peak_list(peaks):
         raise TypeError("'peaks' not a peak list")
 
-    if not isinstance(rt_range, _list_types):
-        raise TypeError("'rt_range' not a list")
+    if not is_sequence(rt_range):
+        raise TypeError("'rt_range' not a Sequence")
     else:
         if len(rt_range) != 2:
             raise ValueError("'rt_range' must have exactly two elements")
@@ -262,7 +262,7 @@ def sele_peaks_by_rt(peaks, rt_range):
     rt_lo = time_str_secs(rt_range[0])
     rt_hi = time_str_secs(rt_range[1])
 
-    if rt_lo <= rt_hi:
+    if rt_lo >= rt_hi:
         raise ValueError("lower retention time limit must be less than upper")
 
     peaks_sele = []

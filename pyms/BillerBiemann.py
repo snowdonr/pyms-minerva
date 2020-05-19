@@ -25,15 +25,17 @@ Functions to perform Biller and Biemann deconvolution.
 
 # stdlib
 import copy
+from numbers import Number
 
 # 3rd party
 import numpy
 
 # this package
-from pyms.Base import _list_types
+from pyms.Utils.Utils import is_sequence_of
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.Class import Peak
+from pyms.Peak.List.Function import is_peak_list
 from pyms.Spectrum import MassSpectrum
 
 
@@ -103,8 +105,8 @@ def get_maxima_indices(ion_intensities, points=3):
     :author: Dominic Davis-Foster (type assertions)
     """
 
-    if not isinstance(ion_intensities, _list_types) or not isinstance(ion_intensities[0], (int, float)):
-        raise TypeError("'ion_intensities' must be a List of numbers")
+    if not is_sequence_of(ion_intensities, Number):
+        raise TypeError("'ion_intensities' must be a List of Numbers")
     if not isinstance(points, int):
         raise TypeError("'points' must be an integer")
 
@@ -194,22 +196,22 @@ def get_maxima_list_reduced(ic, mp_rt, points=13, window=3):
 
     if not isinstance(ic, IonChromatogram):
         raise TypeError("'ic' must be an IonChromatogram object")
-    if not isinstance(mp_rt, (int, float)):
+    if not isinstance(mp_rt, Number):
         raise TypeError("'mp_rt' must be an integer")
     # if not isinstance(scans, int):
     #    raise TypeError("'scans' must be an integer")
 
     peak_point = get_maxima_indices(ic.intensity_array, points)
-    mlist = []
+    maxima_list = []
     for index in range(len(peak_point)):
         rt = ic.get_time_at_index(peak_point[index])
         if (rt > float(mp_rt) - window) and (rt < float(mp_rt) + window):
             intensity = ic.get_intensity_at_index(peak_point[index])
-            mlist.append([rt, intensity])
+            maxima_list.append([rt, intensity])
         else:
             pass
 
-    return mlist
+    return maxima_list
 
 
 def get_maxima_matrix(im, points=3, scans=1):
@@ -293,11 +295,11 @@ def num_ions_threshold(pl, n, cutoff, copy_peaks=True):
     :author: Dominic Davis-Foster (type assertions)
     """
 
-    if not isinstance(pl, list) or not isinstance(pl[0], Peak):
+    if not is_peak_list(pl):
         raise TypeError("'pl' must be a list of Peak objects")
     if not isinstance(n, int):
         raise TypeError("'n' must be an integer")
-    if not isinstance(cutoff, (int, float)):
+    if not isinstance(cutoff, Number):
         raise TypeError("'cutoff' must be a number")
 
     if copy_peaks:
@@ -335,7 +337,7 @@ def rel_threshold(pl, percent=2, copy_peaks=True):
     :author: Dominic Davis-Foster (type assertions)
     """
 
-    if not isinstance(pl, list) or not isinstance(pl[0], Peak):
+    if not is_peak_list(pl):
         raise TypeError("'pl' must be a list of Peak objects")
     if not isinstance(percent, (int, float)):
         raise TypeError("'percent' must be a number > 0")

@@ -44,7 +44,7 @@ except ModuleNotFoundError:
 Please install one of them and try again.""")
 
 # this package
-from pyms.Base import _list_types
+from pyms.Utils.Utils import is_sequence
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
@@ -724,8 +724,8 @@ def exprl2alignment(expr_list):
 	:author: Vladimir Likic
 	"""
 
-	if not isinstance(expr_list, _list_types):
-		raise TypeError("the argument is not a list")
+	if not is_sequence(expr_list):
+		raise TypeError("'expr_list' must be a Sequence")
 
 	alignments = []
 

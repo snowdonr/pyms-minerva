@@ -21,6 +21,7 @@
 # stdlib
 import copy
 import pickle
+from numbers import Number
 
 # 3rd party
 import numpy
@@ -122,7 +123,7 @@ def test_mass(tic, im):
 		tic.mass
 
 	ic = im.get_ic_at_index(0)
-	assert isinstance(ic.mass, (int, float))
+	assert isinstance(ic.mass, Number)
 	assert ic.mass == 50.2516
 
 

@@ -31,12 +31,14 @@ import pathlib
 import numpy
 
 # this package
+from pyms.Base import _path_types
 from pyms.BillerBiemann import get_maxima_list_reduced
 from pyms.Gapfill.Class import MissingPeak, Sample
 from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import ion_area
 from pyms.TopHat import tophat
+from pyms.Utils.IO import prepare_filepath
 
 MZML = 1
 NETCDF = 2
@@ -58,11 +60,10 @@ def file2matrix(file_name):
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
 
-	if not isinstance(file_name, (str, pathlib.Path)):
-		raise TypeError("'file_name' must be a string or a pathlib.Path object")
+	if not isinstance(file_name, _path_types):
+		raise TypeError("'file_name' must be a string or a PathLike object")
 
-	if not isinstance(file_name, pathlib.Path):
-		file_name = pathlib.Path(file_name)
+	file_name = prepare_filepath(file_name, mkdirs=False)
 
 	with file_name.open() as fp:
 		reader = csv.reader(fp, delimiter=",", quotechar='"')

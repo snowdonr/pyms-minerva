@@ -37,6 +37,7 @@ from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
 from pyms.Utils.IO import prepare_filepath
+from pyms.Utils.Utils import _path_types
 
 
 class Experiment(pymsBaseClass):
@@ -184,8 +185,8 @@ class Experiment(pymsBaseClass):
 		:author: Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, (str, pathlib.Path)):
-			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		if not isinstance(file_name, _path_types):
+			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)
 
@@ -207,11 +208,10 @@ def read_expr_list(file_name):
 	:author: Vladimir Likic
 	"""
 
-	if not isinstance(file_name, (str, pathlib.Path)):
-		raise TypeError("'file_name' must be a string or a pathlib.Path object")
+	if not isinstance(file_name, _path_types):
+		raise TypeError("'file_name' must be a string or a PathLike object")
 
-	if not isinstance(file_name, pathlib.Path):
-		file_name = pathlib.Path(file_name)
+	file_name = prepare_filepath(file_name, mkdirs=False)
 
 	fp = file_name.open()
 
@@ -245,11 +245,10 @@ def load_expr(file_name):
 	:author: Dominic Davis-Foster (type assertions and pathlib support)
 	"""
 
-	if not isinstance(file_name, (str, pathlib.Path)):
-		raise TypeError("'file_name' must be a string or a pathlib.Path object")
+	if not isinstance(file_name, _path_types):
+		raise TypeError("'file_name' must be a string or a PathLike object")
 
-	if not isinstance(file_name, pathlib.Path):
-		file_name = pathlib.Path(file_name)
+	file_name = prepare_filepath(file_name, mkdirs=False)
 
 	fp = file_name.open('rb')
 	expr = pickle.load(fp)

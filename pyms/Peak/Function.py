@@ -26,6 +26,7 @@ Functions related to Peak modification
 # stdlib
 import copy
 from math import ceil
+from numbers import Number
 from statistics import median
 
 # 3rd party
@@ -34,9 +35,9 @@ from numpy import percentile
 
 # this package
 from pyms import __version__
-from pyms.Base import _list_types
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
+from pyms.Utils.Utils import is_sequence
 
 
 def peak_sum_area(im, peak, single_ion=False, max_bound=0):
@@ -294,7 +295,7 @@ def ion_area(ia, apex, max_bound=0, tol=0.5):
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
+	if not isinstance(ia, list) or not isinstance(ia[0], Number):
 		raise TypeError("'ia' must be a list of numbers")
 	if not isinstance(apex, int):
 		raise TypeError("'apex' must be an integer")
@@ -335,7 +336,7 @@ def half_area(ia, max_bound=0, tol=0.5):
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
+	if not isinstance(ia, list) or not isinstance(ia[0], Number):
 		raise TypeError("'ia' must be a list of numbers")
 	if not isinstance(max_bound, int):
 		raise TypeError("'max_bound' must be an integer")
@@ -408,7 +409,7 @@ def median_bounds(im, peak, shared=True):
 	apex = im.get_index_at_time(rt)
 	# check if RT based index is similar to stored index
 	tmp = peak.bounds
-	if isinstance(tmp, _list_types) and apex - 1 < tmp[1] < apex + 1:
+	if is_sequence(tmp) and apex - 1 < tmp[1] < apex + 1:
 		apex = tmp[1]
 
 	# get peak masses with non-zero intensity

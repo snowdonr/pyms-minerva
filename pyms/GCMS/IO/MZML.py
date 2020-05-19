@@ -37,6 +37,7 @@ except ModuleNotFoundError:
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
+from pyms.Base import _path_types
 
 
 def mzML_reader(file_name):
@@ -53,8 +54,8 @@ def mzML_reader(file_name):
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
 
-	if not isinstance(file_name, (str, pathlib.Path)):
-		raise TypeError("'file_name' must be a string or a pathlib.Path object")
+	if not isinstance(file_name, _path_types):
+		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	mzml_file = pymzml.run.Reader(str(file_name))
 

@@ -26,6 +26,7 @@ Mixins for pyms Classes
 # stdlib
 import math
 from warnings import warn
+from numbers import Number
 
 # 3rd party
 import deprecation
@@ -270,7 +271,7 @@ class GetIndexTimeMixin:
 		:author: Vladimir Likic
 		"""
 
-		if not isinstance(time, (int, float)):
+		if not isinstance(time, Number):
 			raise TypeError("'time' must be a number")
 
 		if (time < self._min_rt) or (time > self._max_rt):

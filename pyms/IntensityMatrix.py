@@ -26,8 +26,8 @@ Class to model Intensity Matrix
 # stdlib
 import copy
 import pathlib
-from warnings import warn
 from numbers import Number
+from warnings import warn
 
 # 3rd party
 import deprecation
@@ -35,12 +35,12 @@ import numpy
 
 # this package
 from pyms import __version__
-from pyms.Base import _list_types, pymsBaseClass
+from pyms.Base import pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, MassListMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum
-from pyms.Utils.IO import save_data
-
+from pyms.Utils.IO import prepare_filepath, save_data
+from pyms.Utils.Utils import _path_types, is_sequence
 
 ASCII_DAT = 1
 ASCII_CSV = 0
@@ -68,22 +68,22 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		"""
 
 		# sanity check
-		if not isinstance(time_list, _list_types) or not isinstance(time_list[0], (int, float)):
-			raise TypeError("'time_list' must be a list of numbers")
+		if not is_sequence(time_list) or not isinstance(time_list[0], Number):
+			raise TypeError("'time_list' must be a Sequence of Numbers")
 
-		if not isinstance(mass_list, _list_types) or not isinstance(mass_list[0], (int, float)):
-			raise TypeError("'mass_list' must be a list of numbers")
+		if not is_sequence(mass_list) or not isinstance(mass_list[0], Number):
+			raise TypeError("'mass_list' must be a Sequence of Numbers")
 
-		if not isinstance(intensity_array, numpy.ndarray):
-			if not isinstance(intensity_array, _list_types) \
-					or not isinstance(intensity_array[0], _list_types) \
-					or not isinstance(intensity_array[0][0], (int, float)):
+		if not is_sequence(intensity_array) \
+					or not is_sequence(intensity_array[0]) \
+					or not isinstance(intensity_array[0][0], Number):
 				raise TypeError("'intensity_array' must be a list, of a list, of numbers")
 
+		if not isinstance(intensity_array, numpy.ndarray):
 			intensity_array = numpy.array(intensity_array)
 
-			if not len(time_list) == len(intensity_array):
-				raise ValueError("'time_list' is not the same length as 'intensity_array'")
+		if not len(time_list) == len(intensity_array):
+			raise ValueError("'time_list' is not the same length as 'intensity_array'")
 
 		if not len(mass_list) == len(intensity_array[0]):
 			raise ValueError("'mass_list' is not the same size as 'intensity_array'")
@@ -456,7 +456,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(mass_min, (int, float)) or not isinstance(mass_max, (int, float)):
+		if not isinstance(mass_min, Number) or not isinstance(mass_max, Number):
 			raise TypeError("'mass_min' and 'mass_max' must be numbers")
 		if mass_min >= mass_max:
 			raise ValueError("'mass_min' must be less than 'mass_max'")
@@ -497,8 +497,8 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(mass, (int, float)):
-			raise TypeError("'mass' must be numbers")
+		if not isinstance(mass, Number):
+			raise TypeError("'mass' must be a Number")
 		if mass < self._min_mass or mass > self._max_mass:
 			raise IndexError(f"'mass' not in mass range: {self._min_mass:.3f} to {self._max_mass:.3f}")
 
@@ -519,7 +519,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Vladimir Likic
 		"""
 
-		if not isinstance(n_intensities, (int, float)):
+		if not isinstance(n_intensities, Number):
 			raise TypeError("'n_intensities' must be a number")
 
 		# loop over all mass spectral scans
@@ -603,11 +603,10 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:authors: Andrew Isaac, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, (str, pathlib.Path)):
-			raise TypeError("'file_name' must be a string or a pathlib.Path object")
+		if not isinstance(file_name, _path_types):
+			raise TypeError("'file_name' must be a string or a PathLike object")
 
-		if not isinstance(file_name, pathlib.Path):
-			file_name = pathlib.Path(file_name)
+		file_name = prepare_filepath(file_name, mkdirs=False)
 
 		if not file_name.parent.is_dir():
 			file_name.parent.mkdir(parents=True)
@@ -629,7 +628,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		# write header
 		fp.write("\"Scan\",\"Time\"")
 		for ii in mass_list:
-			if isinstance(ii, (int, float)):
+			if isinstance(ii, Number):
 				fp.write(f",\"{int(ii):d}\"")
 			else:
 				raise TypeError("mass list datum not a number")
@@ -639,7 +638,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		for ii, time_ in enumerate(time_list):
 			fp.write(f"{ii},{time_:#.6e}")
 			for jj in range(len(vals[ii])):
-				if isinstance(vals[ii][jj], (int, float)):
+				if isinstance(vals[ii][jj], Number):
 					fp.write(f",{vals[ii][jj]:#.6e}")
 				else:
 					raise TypeError("datum not a number")
@@ -661,11 +660,10 @@ def import_leco_csv(file_name):
 	:authors: Andrew Isaac, Dominic Davis-Foster (pathlib support)
 	"""
 
-	if not isinstance(file_name, (str, pathlib.Path)):
-		raise TypeError("'file_name' must be a string or a pathlib.Path object")
+	if not isinstance(file_name, _path_types):
+		raise TypeError("'file_name' must be a string or a PathLike object")
 
-	if not isinstance(file_name, pathlib.Path):
-		file_name = pathlib.Path(file_name)
+	file_name = prepare_filepath(file_name, mkdirs=False)
 
 	lines_list = file_name.open('r')
 	data = []
@@ -771,9 +769,9 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 		raise TypeError("'data' must be a GCMS_data object")
 	if bin_interval <= 0:
 		raise ValueError("The bin interval must be larger than zero.")
-	if not isinstance(bin_left, (int, float)):
+	if not isinstance(bin_left, Number):
 		raise TypeError("'bin_left' must be a number.")
-	if not isinstance(bin_right, (int, float)):
+	if not isinstance(bin_right, Number):
 		raise TypeError("'bin_right' must be a number.")
 
 	if not min_mass:
@@ -806,9 +804,9 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 
 	if not isinstance(data, GCMS_data):
 		raise TypeError("'data' must be a GCMS_data object")
-	if not isinstance(bin_left, (int, float)):
+	if not isinstance(bin_left, Number):
 		raise TypeError("'bin_left' must be a number.")
-	if not isinstance(bin_right, (int, float)):
+	if not isinstance(bin_right, Number):
 		raise TypeError("'bin_right' must be a number.")
 
 	min_mass = data.min_mass

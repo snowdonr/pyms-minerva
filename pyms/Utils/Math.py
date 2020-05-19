@@ -30,12 +30,13 @@ Provides mathematical functions
 # stdlib
 import math
 from statistics import median, stdev as std, mean
+from numbers import Number
 
 # 3rd party
 import numpy
 
 # this package
-from pyms.Base import _list_types
+from pyms.Utils.Utils import is_sequence
 
 
 def vector_by_step(start, stop, step):
@@ -55,7 +56,7 @@ def vector_by_step(start, stop, step):
     :author: Vladimir Likic
     """
 
-    if not isinstance(start, (int, float)) or not isinstance(stop, (int, float)) or not isinstance(step, (int, float)):
+    if not isinstance(start, Number) or not isinstance(stop, Number) or not isinstance(step, Number):
         raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
 
     v = []
@@ -81,8 +82,8 @@ def MAD(v):
     :author: Vladimir Likic
     """
 
-    if not isinstance(v, _list_types):
-        raise TypeError("'v' must be a list or array")
+    if not is_sequence(v):
+        raise TypeError("'v' must be a Sequence")
 
     m = median(v)
     m_list = []
@@ -113,11 +114,11 @@ def rmsd(list1, list2):
     :author: Vladimir Likic
     """
 
-    if not isinstance(list1, _list_types):
-        raise TypeError("'list1' must be a list or array")
+    if not is_sequence(list1):
+        raise TypeError("'list1' must be a Sequence")
 
-    if not isinstance(list2, _list_types):
-        raise TypeError("'list2' must be a list or array")
+    if not is_sequence(list2):
+        raise TypeError("'list2' must be a Sequence")
 
     total = 0.0
     for i in range(len(list1)):
