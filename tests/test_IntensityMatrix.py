@@ -88,7 +88,6 @@ class TestIntensityMatrix:
 		with pytest.raises(expects):
 			IntensityMatrix(im.time_list, im.mass_list, obj)
 
-
 	# Inherited Methods from pymsBaseClass
 
 	def test_dump(self, im_i, outputdir):
@@ -105,7 +104,6 @@ class TestIntensityMatrix:
 		assert loaded_im_i == im_i
 		assert len(loaded_im_i) == len(im_i)
 
-
 	# Inherited Methods from TimeListMixin
 
 	def test_time_list(self, im):
@@ -117,12 +115,10 @@ class TestIntensityMatrix:
 		assert isinstance(time[0], float)
 		assert time[0] == 1.05200003833
 
-
 	@deprecation.fail_if_not_removed
 	def test_get_time_list(self, im):
 		with pytest.warns(DeprecationWarning):
 			im.get_time_list()
-
 
 	# Inherited Methods from MassListMixin
 
@@ -131,13 +127,11 @@ class TestIntensityMatrix:
 		with pytest.warns(DeprecationWarning):
 			im.get_mass_list()
 
-
 	def test_mass_list(self, im):
 		# get the list of masses (bin centers), and print the first ten
 		assert isinstance(im.mass_list, list)
 		assert isinstance(im.mass_list[0], float)
 		assert im.mass_list[0] == 50.2516
-
 
 	# Inherited Methods from MaxMinMassMixin
 
@@ -146,24 +140,20 @@ class TestIntensityMatrix:
 		with pytest.warns(DeprecationWarning):
 			im.get_min_mass()
 
-
 	def test_min_mass(self, im):
 		# start mass
 		assert isinstance(im.min_mass, float)
 		assert im.min_mass == 50.2516
-
 
 	@deprecation.fail_if_not_removed
 	def test_get_max_mass(self, im):
 		with pytest.warns(DeprecationWarning):
 			im.get_max_mass()
 
-
 	def test_max_mass(self, im):
 		# end mass
 		assert isinstance(im.max_mass, float)
 		assert im.max_mass == 499.2516
-
 
 	# Inherited Methods from IntensityArrayMixin
 
@@ -175,7 +165,6 @@ class TestIntensityMatrix:
 		assert im.intensity_array[2][3] == 1216.0
 		print(im.intensity_array)
 
-
 	def test_intensity_matrix(self, im):
 		assert isinstance(im.intensity_matrix, numpy.ndarray)
 		assert isinstance(im.intensity_matrix[0], numpy.ndarray)
@@ -185,32 +174,27 @@ class TestIntensityMatrix:
 		assert im.intensity_matrix[0][0] == im.intensity_array[0][0]
 		assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
 
-
 	@deprecation.fail_if_not_removed
 	def test_get_intensity_array(self, im):
 		with pytest.warns(DeprecationWarning):
 			im.get_intensity_array()
 
-
 	def test_intensity_array_list(self, im):
 		assert isinstance(im.intensity_array_list, list)
-		assert isinstance(im.intensity_array_list[0], list)
-		assert isinstance(im.intensity_array_list[0][0], float)
+		assert all(isinstance(x, list) for x in im.intensity_array_list)
+		assert all(isinstance(x, float) for x in im.intensity_array_list[0])
 		assert im.intensity_array_list[0][0] == 0.0
 		assert im.intensity_array_list[2][3] == 1216.0
 		assert im.intensity_array[0][0] == im.intensity_array_list[0][0]
 		assert im.intensity_array_list == im.intensity_array.tolist()
-
 
 	@deprecation.fail_if_not_removed
 	def test_get_matrix_list(self, im):
 		with pytest.warns(DeprecationWarning):
 			im.get_matrix_list()
 
-
 	def test_matrix_list(self, im):
 		assert isinstance(im.matrix_list, numpy.ndarray)
-
 
 	# Inherited methods from GetIndexTimeMixin
 
@@ -258,24 +242,20 @@ class TestIntensityMatrix:
 		assert im != test_list_ints
 		assert im != test_list_strs
 
-
 	@deprecation.fail_if_not_removed
 	def test_get_local_size(self, im):
 		with pytest.warns(DeprecationWarning):
 			im.get_local_size()
-
 
 	def test_local_size(self, im):
 		assert isinstance(im.local_size, tuple)
 		assert isinstance(im.local_size[0], int)
 		assert im.local_size[0] == 2103
 
-
 	@deprecation.fail_if_not_removed
 	def test_get_size(self, im):
 		with pytest.warns(DeprecationWarning):
 			im.get_size()
-
 
 	def test_size(self, im):
 		# size of intensity matrix (#scans, #bins)
@@ -283,20 +263,17 @@ class TestIntensityMatrix:
 		assert isinstance(im.size[0], int)
 		assert im.size == (2103, 450)
 
-
 	def test_iter_ms_indices(self, im):
 		iter_ms = im.iter_ms_indices()
 		assert isinstance(iter_ms, types.GeneratorType)
 		for index, scan in enumerate(iter_ms):
 			assert scan == index
 
-
 	def test_iter_ic_indices(self, im):
 		iter_ic = im.iter_ic_indices()
 		assert isinstance(iter_ic, types.GeneratorType)
 		for index, intensity in enumerate(iter_ic):
 			assert intensity == index
-
 
 	def test_set_ic_at_index(self, im):
 		im = copy.deepcopy(im)
@@ -311,7 +288,6 @@ class TestIntensityMatrix:
 			with pytest.raises(TypeError):
 				im.set_ic_at_index(123, obj)
 
-
 	def test_get_ic_at_index(self, im):
 		ic = im.get_ic_at_index(123)
 
@@ -322,7 +298,6 @@ class TestIntensityMatrix:
 				im.get_ic_at_index(obj)
 		with pytest.raises(IndexError):
 			im.get_ic_at_index(test_int)
-
 
 	def test_get_ic_at_mass(self, im):
 		# TODO: im.get_ic_at_mass() # Broken
@@ -345,7 +320,6 @@ class TestIntensityMatrix:
 			with pytest.raises(TypeError):
 				im.get_ic_at_mass(obj)
 
-
 	def test_get_ms_at_index(self, im):
 		ms = im.get_ms_at_index(123)
 		assert isinstance(ms, MassSpectrum)
@@ -364,7 +338,6 @@ class TestIntensityMatrix:
 			with pytest.raises(TypeError):
 				im.get_ms_at_index(obj)
 
-
 	def test_get_scan_at_index(self, im):
 		scan = im.get_scan_at_index(test_int)
 
@@ -380,7 +353,6 @@ class TestIntensityMatrix:
 			im.get_scan_at_index(-1)
 		with pytest.raises(IndexError):
 			im.get_scan_at_index(1000000)
-
 
 	def test_mass_index(self, im):
 		"""
@@ -410,7 +382,6 @@ class TestIntensityMatrix:
 		with pytest.raises(IndexError):
 			im.get_mass_at_index(1000000)
 
-
 	def test_crop_mass(self, im):
 		im = copy.deepcopy(im)
 
@@ -434,7 +405,6 @@ class TestIntensityMatrix:
 
 		im.crop_mass(101.5, 149.5)
 
-
 	def test_null_mass(self, im):
 		im = copy.deepcopy(im)
 
@@ -451,7 +421,6 @@ class TestIntensityMatrix:
 
 		# TODO: Check that the nulling worked
 		print(sum(im.get_ic_at_mass(120).intensity_array))
-
 
 	def test_reduce_mass_spectra(self, im):
 		im = copy.deepcopy(im)
@@ -483,8 +452,6 @@ class Test_export_ascii:
 			im.export_ascii(obj)
 
 
-
-
 class Test_leco_csv:
 	def test_import_leco_csv(self, im, im_leco_filename):
 		imported_im = import_leco_csv(im_leco_filename)
@@ -499,7 +466,6 @@ class Test_leco_csv:
 
 		# Check size to original
 		print("Output dimensions:", im.size, " Input dimensions:", imported_im.size)
-
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_lists, *test_numbers])
 	def test_import_leco_csv_errors(self, im, im_leco_filename, obj):

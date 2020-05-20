@@ -38,7 +38,7 @@ from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import _path_types, is_sequence
+from pyms.Utils.Utils import is_path, is_sequence
 
 
 class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
@@ -314,7 +314,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, _path_types):
+		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)

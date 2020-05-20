@@ -46,7 +46,7 @@ from openpyxl.utils import get_column_letter
 # this package
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
-from pyms.Base import _path_types
+from pyms.Utils.Utils import is_path
 
 
 def write_mass_hunter_csv(alignment, file_name, top_ion_list):  # , peak_list_name):
@@ -64,7 +64,7 @@ def write_mass_hunter_csv(alignment, file_name, top_ion_list):  # , peak_list_na
 	:type top_ion_list: list
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name)
@@ -228,7 +228,7 @@ def write_excel(alignment, file_name, minutes=True):
 	:author: David Kainer
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name)
@@ -316,7 +316,7 @@ def write_transposed_output(alignment, file_name, minutes=True):
 	:type minutes: bool
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name)

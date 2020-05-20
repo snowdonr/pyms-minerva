@@ -37,7 +37,7 @@ from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import _path_types
+from pyms.Utils.Utils import is_path
 
 
 class Experiment(pymsBaseClass):
@@ -185,7 +185,7 @@ class Experiment(pymsBaseClass):
 		:author: Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, _path_types):
+		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)
@@ -208,7 +208,7 @@ def read_expr_list(file_name):
 	:author: Vladimir Likic
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
@@ -245,7 +245,7 @@ def load_expr(file_name):
 	:author: Dominic Davis-Foster (type assertions and pathlib support)
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name, mkdirs=False)

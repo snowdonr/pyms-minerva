@@ -25,8 +25,8 @@ Mixins for pyms Classes
 
 # stdlib
 import math
-from warnings import warn
 from numbers import Number
+from warnings import warn
 
 # 3rd party
 import deprecation

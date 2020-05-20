@@ -29,7 +29,7 @@ import pickle
 
 # this package
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import _path_types
+from pyms.Utils.Utils import is_path
 
 
 class pymsBaseClass:
@@ -50,7 +50,7 @@ class pymsBaseClass:
 		:author: Dominic Davis-Foster (pathlib and pickle protocol support)
 		"""
 
-		if not isinstance(file_name, _path_types):
+		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)

@@ -39,7 +39,7 @@ from pyms.Base import pymsBaseClass
 from pyms.Mixins import MassListMixin
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import xydata_tags
-from pyms.Utils.Utils import is_sequence, _path_types
+from pyms.Utils.Utils import is_path, is_sequence
 
 
 def array_as_numeric(array):
@@ -453,7 +453,7 @@ class MassSpectrum(Scan):
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster
 		"""
 
-		if not isinstance(file_name, _path_types):
+		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name, mkdirs=False)

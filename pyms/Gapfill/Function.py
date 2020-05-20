@@ -31,7 +31,7 @@ import pathlib
 import numpy
 
 # this package
-from pyms.Base import _path_types
+from pyms.Utils.Utils import is_path
 from pyms.BillerBiemann import get_maxima_list_reduced
 from pyms.Gapfill.Class import MissingPeak, Sample
 from pyms.IntensityMatrix import build_intensity_matrix_i
@@ -60,7 +60,7 @@ def file2matrix(file_name):
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name, mkdirs=False)

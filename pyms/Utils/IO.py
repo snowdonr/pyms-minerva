@@ -30,7 +30,7 @@ import pickle
 from numbers import Number
 
 # this package
-from pyms.Utils.Utils import _list_types, _path_types
+from pyms.Utils.Utils import _list_types
 
 
 def prepare_filepath(file_name, mkdirs=True):
@@ -72,9 +72,9 @@ def dump_object(obj, file_name):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
-	from pyms.Base import _path_types
+	from pyms.Utils.Utils import is_path
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name)
@@ -96,9 +96,9 @@ def load_object(file_name):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
-	from pyms.Base import _path_types
+	from pyms.Utils.Utils import is_path
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name)
@@ -124,8 +124,9 @@ def file_lines(file_name, strip=False):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
+	from pyms.Utils.Utils import is_path
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
@@ -174,7 +175,9 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
 
-	if not isinstance(file_name, _path_types):
+	from pyms.Utils.Utils import is_path
+
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name)
@@ -203,20 +206,20 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 			data_is_matrix = 1
 
 		if data_is_matrix:
-			for ii in range(len(data)):
+			for x_value in data:
 				fp.write(prepend)
-				for jj in range(len(data[ii])):
-					if isinstance(data[ii][jj], Number):
-						fp.write(format_str % (data[ii][jj]))
-						if jj < (len(data[ii]) - 1):
+				for jj, y_value in enumerate(x_value):
+					if isinstance(y_value, Number):
+						fp.write(format_str % y_value)
+						if jj < (len(x_value) - 1):
 							fp.write(sep)
 					else:
 						raise TypeError("'datum' must be a number")
 				fp.write("\n")
 		else:
-			for ii in range(len(data)):
+			for x_value in data:
 				fp.write(prepend)
-				fp.write(format_str % (data[ii]))
+				fp.write(format_str % x_value)
 				fp.write("\n")
 
 	if compressed:

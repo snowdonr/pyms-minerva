@@ -62,7 +62,7 @@ def add_gaussc_noise_ic(ic, scale):
     :param ic: The ion Chromatogram
     :type ic: pyms.IonChromatogram.IonChromatogram
     :param scale: The scale of the normal distribution
-    :type scale: int
+    :type scale: float
 
     :author: Sean O'Callaghan
     """

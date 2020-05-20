@@ -28,6 +28,7 @@ import copy
 import pathlib
 from numbers import Number
 from warnings import warn
+import enum
 
 # 3rd party
 import deprecation
@@ -40,10 +41,19 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, MassListMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.IO import prepare_filepath, save_data
-from pyms.Utils.Utils import _path_types, is_sequence
+from pyms.Utils.Utils import _path_types, is_sequence_of, is_sequence, is_path
 
-ASCII_DAT = 1
-ASCII_CSV = 0
+
+class AsciiFiletypes(enum.Enum):
+	ASCII_DAT = 1
+	ASCII_CSV = 0
+
+	def __int__(self):
+		return self.value
+
+
+ASCII_DAT = AsciiFiletypes.ASCII_DAT
+ASCII_CSV = AsciiFiletypes.ASCII_CSV
 
 
 class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin):
@@ -68,16 +78,14 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		"""
 
 		# sanity check
-		if not is_sequence(time_list) or not isinstance(time_list[0], Number):
+		if not is_sequence_of(time_list, Number):
 			raise TypeError("'time_list' must be a Sequence of Numbers")
 
-		if not is_sequence(mass_list) or not isinstance(mass_list[0], Number):
+		if not is_sequence_of(mass_list, Number):
 			raise TypeError("'mass_list' must be a Sequence of Numbers")
 
-		if not is_sequence(intensity_array) \
-					or not is_sequence(intensity_array[0]) \
-					or not isinstance(intensity_array[0][0], Number):
-				raise TypeError("'intensity_array' must be a list, of a list, of numbers")
+		if not is_sequence(intensity_array) or not is_sequence_of(intensity_array[0], Number):
+			raise TypeError("'intensity_array' must be a Sequence, of Sequences, of Numbers")
 
 		if not isinstance(intensity_array, numpy.ndarray):
 			intensity_array = numpy.array(intensity_array)
@@ -523,10 +531,10 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			raise TypeError("'n_intensities' must be a number")
 
 		# loop over all mass spectral scans
-		for ii in range(len(self._intensity_array)):
+		for ii, intensity_list in enumerate(self._intensity_array):
 
 			# get the next mass spectrum as list of intensities
-			intensity_list = self._intensity_array[ii]
+			# intensity_list = self._intensity_array[ii]
 			n = len(intensity_list)
 
 			# get the indices of top N intensities
@@ -603,7 +611,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:authors: Andrew Isaac, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, _path_types):
+		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name, mkdirs=False)
@@ -660,7 +668,7 @@ def import_leco_csv(file_name):
 	:authors: Andrew Isaac, Dominic Davis-Foster (pathlib support)
 	"""
 
-	if not isinstance(file_name, _path_types):
+	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name, mkdirs=False)

@@ -69,7 +69,7 @@ def tophat(ic, struct=None):
     #    print(" -> Top-hat: structural element is %d point(s)" % ( struct_pts ))
 
     str_el = numpy.repeat([1], struct_pts)
-    ia = ndimage.white_tophat(ia, None, str_el)
+    ia = ndimage.white_tophat(ia, footprint=str_el)
 
     ic_bc = copy.deepcopy(ic)
     ic_bc.intensity_array = ia
@@ -81,7 +81,7 @@ def tophat_im(im, struct=None):
     """
     Top-hat baseline correction on Intensity Matrix
 
-        Wraps around the TopHat function above
+    Wraps around the TopHat function above
 
     :param im: The input Intensity Matrix
     :type im: pyms.IntensityMatrix.IntensityMatrix

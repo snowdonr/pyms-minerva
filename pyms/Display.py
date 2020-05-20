@@ -520,7 +520,7 @@ def plot_peaks(ax, peak_list, label="Peaks", style="o"):
 			height_list.append(sum(peak.get_mass_spectrum().intensity_list))
 			# height_list.append(peak.height)
 			# print(peak.height - sum(peak.get_mass_spectrum().intensity_list))
-			print(sum(peak.mass_spectrum.intensity_list))
+			# print(sum(peak.mass_spectrum.intensity_list))
 
 		return ax.plot(time_list, height_list, style, label=label)
 

@@ -26,8 +26,8 @@ Class to model GC-MS data
 # stdlib
 import copy
 import pathlib
-from statistics import mean, median, stdev
 from numbers import Number
+from statistics import mean, median, stdev
 
 # 3rd party
 import deprecation
@@ -41,8 +41,7 @@ from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum, Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
-from pyms.Utils.Utils import is_sequence, _path_types
-
+from pyms.Utils.Utils import is_path, is_sequence_of
 
 MassSpectrum = MassSpectrum  # For legacy imports. Stops PyCharm complaining TODO: Remove eventually
 
@@ -68,10 +67,10 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		Initialize the GC-MS data
 		"""
 
-		if not is_sequence(time_list) or not isinstance(time_list[0], Number):
+		if not is_sequence_of(time_list, Number):
 			raise TypeError("'time_list' must be a Sequence of numbers")
 
-		if not is_sequence(scan_list) or not isinstance(scan_list[0], Scan):
+		if not is_sequence_of(scan_list, Scan):
 			raise TypeError("'scan_list' must be a Sequence of Scan objects")
 
 		self._time_list = time_list
@@ -89,9 +88,6 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		:rtype: bool
 		"""
-
-		# self._time_step = time_step
-		# self._time_step_std = time_step_std
 
 		if isinstance(other, self.__class__):
 			return self.scan_list == other.scan_list \
@@ -145,7 +141,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		:author: Vladimir Likic
 		"""
 
-		# calculate the time step, its spreak, and along the way
+		# calculate the time step, its spread, and along the way
 		# check that retention times are increasing
 		time_diff_list = []
 
@@ -154,7 +150,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 				break
 			t2 = self._time_list[index + 1]
 			if not t2 > t1:
-				raise ValueError("problem with retention times detected")
+				raise ValueError("Retention times are not in ascending order!")
 			time_diff = t2 - t1
 			time_diff_list.append(time_diff)
 
@@ -466,7 +462,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		:author: Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(file_name, _path_types):
+		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)

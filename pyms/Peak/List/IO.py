@@ -28,10 +28,10 @@ import pathlib
 import pickle
 
 # this package
-from pyms.Utils.Utils import is_sequence, _path_types
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Utils.IO import prepare_filepath
+from pyms.Utils.Utils import is_path, is_sequence
 
 
 def store_peaks(peak_list, file_name, protocol=1):
@@ -53,7 +53,7 @@ def store_peaks(peak_list, file_name, protocol=1):
     if not is_peak_list(peak_list):
         raise TypeError("'peak_list' must be a list of Peak objects")
 
-    if not isinstance(file_name, _path_types):
+    if not is_path(file_name):
         raise TypeError("'file_name' must be a string or a PathLike object")
 
     file_name = prepare_filepath(file_name)
@@ -77,7 +77,7 @@ def load_peaks(file_name):
     :author: Dominic Davis-Foster (pathlib support)
     """
 
-    if not isinstance(file_name, _path_types):
+    if not is_path(file_name):
         raise TypeError("'file_name' must be a string or a PathLike object")
 
     file_name = prepare_filepath(file_name, mkdirs=False)
