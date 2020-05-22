@@ -108,7 +108,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		return len(self._scan_list)
 
 	def __repr__(self):
-		return f"GCMS_data(rt range {self.min_rt} - {self.max_rt}, time_step {self.time_step}, lenth {len(self)})"
+		return f"GCMS_data(rt range {self.min_rt} - {self.max_rt}, time_step {self.time_step}, length {len(self)})"
 
 	def __str__(self):
 		return self.__repr__()
