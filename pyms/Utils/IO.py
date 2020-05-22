@@ -124,6 +124,7 @@ def file_lines(file_name, strip=False):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
+
 	from pyms.Utils.Utils import is_path
 
 	if not is_path(file_name):

@@ -13,7 +13,7 @@ license: 'GPLv2'
 short_desc: 'Python Toolkit for Mass Spectrometry'
 conda_description: 'Python Toolkit for Mass Spectrometry'
 
-enable_conda: False
+#enable_conda: False
 
 conda_channels:
   - bioconda

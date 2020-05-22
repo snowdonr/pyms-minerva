@@ -64,8 +64,10 @@ def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 
 	if not isinstance(im, IntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
+
 	if not isinstance(peak, Peak):
 		raise TypeError("'peak' must be a Peak object")
+
 	if not isinstance(max_bound, int):
 		raise TypeError("'max_bound' must be an integer")
 

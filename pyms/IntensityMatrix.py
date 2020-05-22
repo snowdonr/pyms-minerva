@@ -41,7 +41,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, MassListMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.IO import prepare_filepath, save_data
-from pyms.Utils.Utils import _path_types, is_sequence_of, is_sequence, is_path
+from pyms.Utils.Utils import is_sequence_of, is_sequence, is_path
 
 
 class AsciiFiletypes(enum.Enum):
@@ -571,14 +571,10 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:authors: Milica Ng, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
 
-		if not isinstance(root_name, (str, pathlib.Path)):
+		if not is_path(root_name):
 			raise TypeError("'root_name' must be a string or a pathlib.Path object")
 
-		if not isinstance(root_name, pathlib.Path):
-			root_name = pathlib.Path(root_name)
-
-		if not root_name.parent.is_dir():
-			root_name.parent.mkdir(parents=True)
+		root_name = prepare_filepath(root_name, mkdirs=True)
 
 		if fmt:  # dat
 			separator = " "
@@ -775,12 +771,15 @@ def build_intensity_matrix(data, bin_interval=1, bin_left=0.5, bin_right=0.5, mi
 
 	if not isinstance(data, GCMS_data):
 		raise TypeError("'data' must be a GCMS_data object")
+
 	if bin_interval <= 0:
 		raise ValueError("The bin interval must be larger than zero.")
+
 	if not isinstance(bin_left, Number):
-		raise TypeError("'bin_left' must be a number.")
+		raise TypeError("'bin_left' must be a Number.")
+
 	if not isinstance(bin_right, Number):
-		raise TypeError("'bin_right' must be a number.")
+		raise TypeError("'bin_right' must be a Number.")
 
 	if not min_mass:
 		min_mass = data.min_mass
@@ -795,10 +794,8 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 
 	:param data: Raw GCMS data
 	:type data: pyms.GCMS.Class.GCMS_data
-
 	:param bin_left: left bin boundary offset (default 0.3)
 	:type bin_left: float
-
 	:param bin_right: right bin boundary offset (default 0.7)
 	:type bin_right: float
 
@@ -812,8 +809,10 @@ def build_intensity_matrix_i(data, bin_left=0.3, bin_right=0.7):
 
 	if not isinstance(data, GCMS_data):
 		raise TypeError("'data' must be a GCMS_data object")
+
 	if not isinstance(bin_left, Number):
 		raise TypeError("'bin_left' must be a number.")
+
 	if not isinstance(bin_right, Number):
 		raise TypeError("'bin_right' must be a number.")
 

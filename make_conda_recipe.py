@@ -64,7 +64,7 @@ requirements:
 
 test:
   imports:
-    - {modname}
+    - {import_name}
 
 about:
   home: "{web}"

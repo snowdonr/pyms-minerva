@@ -31,12 +31,12 @@ from numbers import Number
 import numpy
 
 # this package
-from pyms.Utils.Utils import is_sequence_of
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Spectrum import MassSpectrum
+from pyms.Utils.Utils import is_sequence_of
 
 
 #######################

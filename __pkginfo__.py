@@ -74,6 +74,11 @@ repo_root = pathlib.Path(__file__).parent
 
 # Get info from files; set: long_description
 long_description = (repo_root / "README.rst").read_text().replace("2.2.21", __version__) + '\n'
+conda_description = """Python Toolkit for Mass Spectrometry
+
+
+Before installing please ensure you have added the following channels: bioconda, conda-forge, domdfcoding"""
+__all__.append("conda_description")
 
 install_requires = (repo_root / "requirements.txt").read_text().split('\n')
 extras_require = {'all': []}
