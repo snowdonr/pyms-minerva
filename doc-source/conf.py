@@ -42,7 +42,7 @@ extensions = [
 		'sphinxcontrib.httpdomain',
 		"sphinxcontrib.extras_require",
 		"sphinx.ext.todo",
-		"sphinxemoji.sphinxemojii",
+		"sphinxemoji.sphinxemoji",
 		'autodocsumm',
 'nbsphinx',
 
