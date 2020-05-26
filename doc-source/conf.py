@@ -16,7 +16,6 @@ from __pkginfo__ import __version__
 
 import ipynb2rst
 nitpicky = True
-autodoc_default_options = {'autosummary': True}
 
 github_url = f"https://github.com/domdfcoding/PyMassSpec"
 
@@ -30,7 +29,7 @@ author = "PyMassSpec Authors"
 project = "PyMassSpec"
 slug = re.sub(r'\W+', '-', project.lower())
 release = version = __version__
-copyright = "Copyright 2019-2020 Dominic Davis-Foster"
+copyright = "2019-2020 Dominic Davis-Foster"
 language = 'en'
 package_root = "pyms"
 
@@ -43,6 +42,7 @@ extensions = [
 		"sphinxcontrib.extras_require",
 		"sphinx.ext.todo",
 		"sphinxemoji.sphinxemoji",
+		"sphinx_autodoc_typehints",
 		'autodocsumm',
 'nbsphinx',
 

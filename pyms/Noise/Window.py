@@ -63,8 +63,10 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, use_median=False):
 
     if not isinstance(ic, IonChromatogram):
         raise TypeError("'ic' must be an IonChromatogram object")
+
     if not isinstance(window, (int, str)):
         raise TypeError("'window' must be a int or string")
+
     if not isinstance(use_median, bool):
         raise TypeError("'median' must be a Boolean")
 

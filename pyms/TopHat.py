@@ -59,6 +59,7 @@ def tophat(ic, struct=None):
 
     if not isinstance(ic, IonChromatogram):
         raise TypeError("'ic' must be an IonChromatogram object")
+
     ia = copy.deepcopy(ic.intensity_array)
 
     if struct:

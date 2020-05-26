@@ -62,8 +62,10 @@ def savitzky_golay(ic, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGR
 
 	if not isinstance(ic, IonChromatogram):
 		raise TypeError("'ic' must be an IonChromatogram object")
+
 	if not isinstance(window, (int, str)):
 		raise TypeError("'window' must be either an int or a string")
+
 	if not isinstance(degree, int):
 		raise TypeError("'degree' must be an integer")
 
@@ -108,8 +110,10 @@ def savitzky_golay_im(im, window=__DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_D
 
 	if not isinstance(im, IntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
+
 	if not isinstance(window, (int, str)):
 		raise TypeError("'window' must be either an int or a string")
+
 	if not isinstance(degree, int):
 		raise TypeError("'degree' must be an integer")
 

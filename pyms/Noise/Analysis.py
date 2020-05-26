@@ -63,8 +63,10 @@ def window_analyzer(ic, window=_DEFAULT_WINDOW, n_windows=_DEFAULT_N_WINDOWS, ra
 
 	if not isinstance(ic, IonChromatogram):
 		raise TypeError("'ic' must be an IonChromatogram object")
+
 	if not isinstance(window, (int, str)):
 		raise TypeError("'window' must be a int or string")
+
 	if not isinstance(n_windows, int):
 		raise TypeError("'n_windows' must be an integer")
 

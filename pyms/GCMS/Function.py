@@ -68,6 +68,7 @@ def diff(data1, data2):
 
 	scan_list1 = data1.get_scan_list()
 	scan_list2 = data2.get_scan_list()
+
 	if not len(scan_list1) == len(scan_list2):
 		# since the number of rention times are the same, this indicated
 		# some unexpected problem with data

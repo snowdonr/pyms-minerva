@@ -242,7 +242,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 		:param peak_list: List of peaks to plot
 		:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
 
-		:param label: label for plot legend (Default "Peaks")
+		:param label: label for plot legend. Default ``Peaks``
 		:type label: str, optional
 		"""
 
@@ -259,7 +259,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 
 		:param tic: Total Ion Chromatogram
 		:type tic: :class:`pyms.IonChromatogram.IonChromatogram`
-		:param minutes: Whether to show the time in minutes (Default False)
+		:param minutes: Whether to show the time in minutes. Default ``False``
 		:type minutes: bool, optional
 
 		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
@@ -492,7 +492,7 @@ def plot_peaks(ax, peak_list, label="Peaks", style="o"):
 	:type ax: matplotlib.axes.Axes
 	:param peak_list: List of peaks to plot
 	:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
-	:param label: label for plot legend (Default "Peaks")
+	:param label: label for plot legend. Default ``Peaks``
 	:type label: str, optional
 	:param style: The marker style. See `https://matplotlib.org/3.1.1/api/markers_api.html` for a complete list
 	:type style: str

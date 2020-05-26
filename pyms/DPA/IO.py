@@ -57,7 +57,7 @@ def write_mass_hunter_csv(alignment, file_name, top_ion_list):  # , peak_list_na
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
 	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: name of the output file
-	:type file_name: str or pathlib.Path
+	:type file_name: str or os.PathLike
 
 	:param top_ion_list: a list of the common ions for each peak in the
 		averaged peak list for the alignment
@@ -96,6 +96,7 @@ def write_mass_hunter_csv(alignment, file_name, top_ion_list):  # , peak_list_na
 
 	for peak_list in alignment.peakpos:
 		index = 0
+
 		for peak in peak_list:
 			# on the first iteration, populate the lists
 			if len(areas) < len(peak_list):
@@ -220,7 +221,7 @@ def write_excel(alignment, file_name, minutes=True):
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
 	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: The name for the retention time alignment file
-	:type file_name: str or pathlib.Path
+	:type file_name: str or os.PathLike
 	:param minutes: An optional indicator whether to save retention times
 		in minutes. If False, retention time will be saved in seconds
 	:type minutes: bool, optional
@@ -311,7 +312,7 @@ def write_transposed_output(alignment, file_name, minutes=True):
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
 	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: The name of the file
-		:type file_name: str or pathlib.Path
+		:type file_name: str or os.PathLike
 	:param minutes:
 	:type minutes: bool
 	"""
