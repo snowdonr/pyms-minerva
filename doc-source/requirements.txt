@@ -5,8 +5,8 @@ jupyter
 nbconvert
 nbsphinx
 pypandoc
-sphinx
-sphinx-autodoc-typehints
+sphinx >=3.0.3
+sphinx-autodoc-typehints >=1.10.3
 sphinx_rtd_theme
-sphinxcontrib-httpdomain
-sphinxemoji
+sphinxcontrib-httpdomain >=1.7.0
+sphinxemoji >=0.1.5

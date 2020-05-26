@@ -44,8 +44,7 @@ extensions = [
 		"sphinxemoji.sphinxemoji",
 		"sphinx_autodoc_typehints",
 		'autodocsumm',
-'nbsphinx',
-
+		'nbsphinx',
 		]
 
 sphinxemoji_style = 'twemoji'
@@ -62,7 +61,7 @@ pygments_style = 'default'
 
 intersphinx_mapping = {
 		'rtd': ('https://docs.readthedocs.io/en/latest/', None),
-		'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
+		'sphinx': ('https://www.sphinx-doc.org/en/stable/', None),
 		'python': ('https://docs.python.org/3/', None),
 		"NumPy": ('https://numpy.org/doc/stable/', None),
 		"SciPy": ('https://docs.scipy.org/doc/scipy/reference', None),
@@ -72,32 +71,29 @@ intersphinx_mapping = {
 		"Django": ('https://docs.djangoproject.com/en/dev/', 'https://docs.djangoproject.com/en/dev/_objects/'),
 		"sarge": ('https://sarge.readthedocs.io/en/latest/', None),
 		"attrs": ('https://www.attrs.org/en/stable/', None),
-
 		}
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = {
-		'logo_only': False,  # True will show just the logo
 		'includehidden': False,
-
+		'logo_only': False,
 		}
 html_theme_path = ["../.."]
 # html_logo = "logo/pyms.png"
 html_show_sourcelink = False  # True will show link to source
 
 html_context = {
-		# Github Settings
-		"display_github": True,  # Integrate GitHub
-		"github_user": "domdfcoding",  # Username
-		"github_repo": "PyMassSpec",  # Repo name
-		"github_version": "master",  # Version
-		"conf_py_path": "/",  # Path in the checkout to the docs root
+		'display_github': True,
+		'github_user': 'domdfcoding',
+		'github_repo': 'PyMassSpec',
+		'github_version': 'master',
+		'conf_py_path': '/',
 		}
 
 htmlhelp_basename = slug
 
 latex_documents = [
-		('index', '{0}.tex'.format(slug), project, author, 'manual'),
+		('index', f'{slug}.tex', project, author, 'manual'),
 		]
 
 man_pages = [

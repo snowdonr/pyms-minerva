@@ -71,7 +71,7 @@ extra_sphinx_extensions:
   - 'nbsphinx'
 
 html_theme_options:  # Must be strings to preserve booleans
-  - "'includehidden': False"
+  includehidden: False
 
 sphinx_conf_preamble:
   # Built rst from jupyter notebooks
