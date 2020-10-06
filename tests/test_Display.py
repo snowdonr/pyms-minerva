@@ -29,6 +29,8 @@ from matplotlib import pyplot as plt  # type: ignore
 
 # this package
 from pyms.Display import Display
+
+# this package
 from .constants import *
 
 baseline = str(Path(os.path.split(__file__)[0]) / "baseline")

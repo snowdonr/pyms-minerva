@@ -27,6 +27,8 @@ from numbers import Number
 # 3rd party
 import numpy  # type: ignore
 import pytest  # type: ignore
+
+# this package
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.DPA.Alignment import Alignment, exprl2alignment
 from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
@@ -38,6 +40,8 @@ from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Peak.List.Function import composite_peak
 from pyms.Peak.List.IO import store_peaks
 from pyms.TopHat import tophat
+
+# this package
 from .constants import *
 
 eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]

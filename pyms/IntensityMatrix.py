@@ -168,10 +168,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 		if isinstance(other, self.__class__):
 			return (
-					self.time_list == other.time_list
-					and self.mass_list == other.mass_list
+					self.time_list == other.time_list and self.mass_list == other.mass_list
 					and numpy.array_equal(self.intensity_array, other.intensity_array)
-			)
+					)
 
 		return NotImplemented
 

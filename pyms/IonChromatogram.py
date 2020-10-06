@@ -131,9 +131,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		if isinstance(other, self.__class__):
 			return (
 					self.time_list == other.time_list
-					and all(numpy.equal(self.intensity_array, other.intensity_array))
-					and self.mass == other.mass
-			)
+					and all(numpy.equal(self.intensity_array, other.intensity_array)) and self.mass == other.mass
+					)
 
 		return NotImplemented
 

@@ -43,7 +43,7 @@ for ii in range(n_mz):
     ic_smooth = savitzky_golay(ic)
     ic_bc = tophat(ic_smooth, struct="1.5m")
     im.set_ic_at_index(ii, ic_bc)
-    
+
 # Detect Peaks
 peak_list = BillerBiemann(im, points=15, scans=3)
 print("Number of peaks found: ", len(peak_list))
@@ -73,7 +73,7 @@ print("Peak areas")
 print("UID, RT, height, area")
 for peak in new_peak_list:
     rt = peak.rt
-    
+
     # determine and set area
     area = peak_sum_area(im, peak)
     peak.area = area
@@ -96,7 +96,7 @@ ic_list = []
 for m in range(n_mz):
     ic_list.append(im.get_ic_at_index(m))
 
-# Create a new display object, this time plot the ICs 
+# Create a new display object, this time plot the ICs
 # and the TIC, as well as the peak list
 display = Display()
 display.plot_tic(tic_bc, 'TIC BC')

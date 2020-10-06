@@ -107,12 +107,9 @@ class Peak(pymsBaseClass):
 
 		if isinstance(other, self.__class__):
 			return (
-					self.UID == other.UID
-					and self.bounds == other.bounds
-					and self.rt == other.rt
-					and self.mass_spectrum == other.mass_spectrum
-					and self.area == other.area
-			)
+					self.UID == other.UID and self.bounds == other.bounds and self.rt == other.rt
+					and self.mass_spectrum == other.mass_spectrum and self.area == other.area
+					)
 
 		return NotImplemented
 
