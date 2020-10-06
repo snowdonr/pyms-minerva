@@ -26,14 +26,12 @@ Functions to fill missing peak objects
 # stdlib
 import csv
 import pathlib
+from typing import List, Optional, Union
 
 # 3rd party
-from typing import Union, Optional, List
-
 import numpy  # type: ignore
 
 # this package
-from pyms.Utils.Utils import is_path
 from pyms.BillerBiemann import get_maxima_list_reduced
 from pyms.Gapfill.Class import MissingPeak, Sample
 from pyms.IntensityMatrix import build_intensity_matrix_i
@@ -41,6 +39,16 @@ from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import ion_area
 from pyms.TopHat import tophat
 from pyms.Utils.IO import prepare_filepath
+from pyms.Utils.Utils import is_path
+
+__all__ = [
+		"file2matrix",
+		"missing_peak_finder",
+		"mp_finder",
+		"transposed",
+		"write_filled_csv",
+		"write_filled_rt_csv",
+		]
 
 MZML = 1
 NETCDF = 2
@@ -83,8 +91,16 @@ def file2matrix(file_name: Union[str, pathlib.Path]) -> numpy.ndarray:
 	return numpy.array(matrix)
 
 
-def missing_peak_finder(sample: Sample, file_name: str, points: int = 3, null_ions: Optional[List] = None,
-						crop_ions: Optional[List] = None, threshold: int = 1000, rt_window: float = 1, filetype: int = MZML):
+def missing_peak_finder(
+		sample: Sample,
+		file_name: str,
+		points: int = 3,
+		null_ions: Optional[List] = None,
+		crop_ions: Optional[List] = None,
+		threshold: int = 1000,
+		rt_window: float = 1,
+		filetype: int = MZML,
+		):
 	"""
 	Integrates raw data around missing peak locations to fill NAs in the data matrix
 
@@ -120,11 +136,15 @@ def missing_peak_finder(sample: Sample, file_name: str, points: int = 3, null_io
 	print("Sample:", sample.get_name(), "File:", file_name)
 
 	if filetype.lower() == 'cdf':
+		# this package
 		from pyms.GCMS.IO.ANDI import ANDI_reader
 		data = ANDI_reader(file_name)
+
 	elif filetype.lower() == 'mzml':
+		# this package
 		from pyms.GCMS.IO.MZML import mzML_reader
 		data = mzML_reader(file_name)
+
 	else:
 		print("file type not valid")
 
@@ -173,9 +193,7 @@ def missing_peak_finder(sample: Sample, file_name: str, points: int = 3, null_io
 
 		rt_window_points = points_1 - points_2
 
-		maxima_list = get_maxima_list_reduced(
-			ci_ion_chrom, mp_rt, rt_window_points
-		)
+		maxima_list = get_maxima_list_reduced(ci_ion_chrom, mp_rt, rt_window_points)
 
 		large_peaks = []
 
@@ -280,7 +298,11 @@ def transposed(lists: List[List]) -> List[List]:
 	return map(lambda *row: list(row), *lists)
 
 
-def write_filled_csv(sample_list: Sample, area_file: Union[str, pathlib.Path], filled_area_file: Union[str, pathlib.Path]):
+def write_filled_csv(
+		sample_list: Sample,
+		area_file: Union[str, pathlib.Path],
+		filled_area_file: Union[str, pathlib.Path],
+		):
 	"""
 	creates a new area_ci.csv file, replacing NAs with values from the sample_list objects where possible
 
@@ -356,7 +378,11 @@ def write_filled_csv(sample_list: Sample, area_file: Union[str, pathlib.Path], f
 	fp_new.close()
 
 
-def write_filled_rt_csv(sample_list: Sample, rt_file: Union[str, pathlib.Path], filled_rt_file: Union[str, pathlib.Path]):
+def write_filled_rt_csv(
+		sample_list: Sample,
+		rt_file: Union[str, pathlib.Path],
+		filled_rt_file: Union[str, pathlib.Path],
+		):
 	"""
 	creates a new rt.csv file, replacing NAs with values from the sample_list objects where possible
 
