@@ -48,6 +48,8 @@ __all__ = [
 		"transposed",
 		"write_filled_csv",
 		"write_filled_rt_csv",
+		"MZML",
+		"NETCDF",
 		]
 
 MZML = 1
@@ -60,14 +62,10 @@ def file2matrix(file_name: Union[str, pathlib.Path]) -> numpy.ndarray:
 	Convert a .csv file to a numpy array
 
 	:param file_name: Filename (.csv) to convert (area.csv, area_ci.csv)
-	:type file_name: str or os.PathLike
 
 	:return: Data matrix
-	:rtype: :class:`numpy.array`
 
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):
@@ -105,24 +103,17 @@ def missing_peak_finder(
 	Integrates raw data around missing peak locations to fill NAs in the data matrix
 
 	:param sample: The sample object containing missing peaks
-	:type sample: :class:`pyms.Gapfill.Class.Sample`
-
 	:param file_name: Name of the raw data file
-	:type file_name: str
-	:param points: Peak finding - Peak if maxima over 'points' number of scans. Default ``3``
-	:type points: int, optional
+	:param points: Peak finding - Peak if maxima over 'points' number of scans.
 	:param  null_ions: Ions to be deleted in the matrix. Default ``[73, 147]``
-	:type null_ions: list, optional
 	:param crop_ions: Range of Ions to be considered. Default ``[50, 540]``
-	:type crop_ions: list, optional
-	:param threshold: Minimum intensity of IonChromatogram allowable to fill. Default ``1000``
-	:type threshold: int, optional
-	:param  rt_window: Window in seconds around average RT to look for. Default ``1``
-	:type rt_window: float, optional
-	:param filetype: either `MZML` (default) or `NETCDF`
-	:type filetype: int, optional
+	:param threshold: Minimum intensity of IonChromatogram allowable to fill.
+	:param  rt_window: Window in seconds around average RT to look for.
+	:param filetype: either ``MZML`` (default) or ``NETCDF``
 
 	:author: Sean O'Callaghan
+
+	.. TODO:: Enum for filetype
 	"""
 
 	if not null_ions:
@@ -280,26 +271,23 @@ def mp_finder(input_matrix: List) -> Sample:
 
 def transposed(lists: List[List]) -> List[List]:
 	"""
-	transposes a list of lists
+	Transposes a list of lists.
 
-	:param lists: the list of lists to be transposed
-	:type lists: list
+	:param lists: the list of lists to be transposed.
 
-	:return: transposed list of lists
-	:rtype: :class:`list` of lists
+	:return: transposed list of lists.
 
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
+	:authors: Jairus Bowne, Sean O'Callaghan
 	"""
 
 	if not lists:
 		return []
 
-	return map(lambda *row: list(row), *lists)
+	return list(map(lambda *row: list(row), *lists))
 
 
 def write_filled_csv(
-		sample_list: Sample,
+		sample_list: List[Sample],
 		area_file: Union[str, pathlib.Path],
 		filled_area_file: Union[str, pathlib.Path],
 		):
@@ -307,15 +295,10 @@ def write_filled_csv(
 	creates a new area_ci.csv file, replacing NAs with values from the sample_list objects where possible
 
 	:param sample_list: A list of samples
-	:type sample_list: :class:`list` of :class:`pyms.Gapfill.Class.Sample` objects
 	:param area_file: the file 'area_ci.csv' from PyMassSpec output
-	:type area_file: str or pathlib.Path
 	:param filled_area_file: the new output file which has NA values replaced
-	:type filled_area_file: str or pathlib.Path
 
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(filled_area_file):
@@ -379,7 +362,7 @@ def write_filled_csv(
 
 
 def write_filled_rt_csv(
-		sample_list: Sample,
+		sample_list: List[Sample],
 		rt_file: Union[str, pathlib.Path],
 		filled_rt_file: Union[str, pathlib.Path],
 		):
@@ -387,15 +370,10 @@ def write_filled_rt_csv(
 	creates a new rt.csv file, replacing NAs with values from the sample_list objects where possible
 
 	:param sample_list: A list of samples
-	:type sample_list: :class:`list` of :class:`pyms.Gapfill.Class.Sample` objects
 	:param rt_file: the file 'rt.csv' from PyMassSpec output
-	:type rt_file: str or pathlib.Path
 	:param filled_rt_file: the new output file which has NA values replaced
-	:type filled_rt_file: str or pathlib.Path
 
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not isinstance(filled_rt_file, (str, pathlib.Path)):

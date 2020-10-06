@@ -62,20 +62,17 @@ __all__ = ["write_mass_hunter_csv", "write_excel", "write_transposed_output"]
 def write_mass_hunter_csv(
 		alignment: Alignment,
 		file_name: Union[str, pathlib.Path],
-		top_ion_list: List,
+		top_ion_list: List[float],
 		):  # , peak_list_name):
 	"""
 	Creates a csv file with UID, common and qualifying ions and their
 		ratios for mass hunter interpretation
 
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
-	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: name of the output file
-	:type file_name: str or os.PathLike
 
 	:param top_ion_list: a list of the common ions for each peak in the
 		averaged peak list for the alignment
-	:type top_ion_list: list
 	"""
 
 	if not is_path(file_name):
@@ -239,12 +236,9 @@ def write_excel(
 	Writes the alignment to an excel file, with colouring showing possible mis-alignments
 
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
-	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: The name for the retention time alignment file
-	:type file_name: str or os.PathLike
 	:param minutes: An optional indicator whether to save retention times
-		in minutes. If False, retention time will be saved in seconds
-	:type minutes: bool, optional
+		in minutes. If :py:obj:`False`, retention time will be saved in seconds
 
 	:author: David Kainer
 	"""
@@ -335,15 +329,12 @@ def write_excel(
 		wb.save(file_name)
 
 
-def write_transposed_output(alignment: Alignment, file_name: Union[str, pathlib.Path], minutes: bool = True):
+def write_transposed_output(alignment: Alignment, file_name: Union[str, pathlib.Path], minutes: bool = True,):
 	"""
 
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
-	:type alignment: :class:`pyms.DPA.Alignment.Alignment`
 	:param file_name: The name of the file
-		:type file_name: str or os.PathLike
 	:param minutes:
-	:type minutes: bool
 	"""
 
 	if not is_path(file_name):

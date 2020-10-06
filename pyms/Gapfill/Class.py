@@ -24,7 +24,7 @@ Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
 ################################################################################
 
 # stdlib
-from typing import Dict
+from typing import Dict, List, Optional
 
 # 3rd party
 import deprecation  # type: ignore
@@ -41,20 +41,14 @@ class MissingPeak:
 	matrix fom PyMassSpec.
 
 	:param common_ion: Common ion for the peak across samples in an experiment
-	:type common_ion: int
 	:param qual_ion_1:
-	:type qual_ion_1:
 	:param qual_ion_2:
-	:type qual_ion_2:
 	:param rt: Retention time of the peak. Default ``0.0``
-	:type rt: float, optional
 
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
-	:author: Dominic Davis-Foster (properties)
+	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (properties)
 	"""
 
-	def __init__(self, common_ion: int, qual_ion_1, qual_ion_2, rt=0.0) -> float:
+	def __init__(self, common_ion: int, qual_ion_1, qual_ion_2, rt: float = 0.0):
 		"""
 		Initialise MissingPeak Class
 		"""
@@ -63,8 +57,8 @@ class MissingPeak:
 		self.__qual_1 = qual_ion_1
 		self.__qual_2 = qual_ion_2
 		self.__rt = rt
-		self.__exact_rt = 'na'
-		self.__common_ion_area = 'na'
+		self.__exact_rt = None
+		self.__common_ion_area = None
 
 	@property
 	def common_ion(self) -> int:
@@ -72,7 +66,6 @@ class MissingPeak:
 		Returns the common ion for the peak object across an experiment
 
 		:return: Common ion for the peak
-		:rtype: int
 
 		:author: Jairus Bowne
 		"""
@@ -85,7 +78,6 @@ class MissingPeak:
 		Returns the common ion area
 
 		:return: The area of the common ion
-		:rtype: int
 		"""
 
 		return self.__common_ion_area
@@ -96,29 +88,26 @@ class MissingPeak:
 		sets the common ion area calculated by the gap fill algorithm
 
 		:param common_ion_area: The area of the common ion
-		:type common_ion_area: int
 		"""
 
 		self.__common_ion_area = common_ion_area
 
 	@property
-	def exact_rt(self) -> float:
+	def exact_rt(self) -> Optional[float]:
 		"""
 		Returns the retention time of the peak
 
 		:return: the retention time of the peak
-		:rtype: float
 		"""
 
 		return self.__exact_rt
 
 	@exact_rt.setter
-	def exact_rt(self, rt) -> float:
+	def exact_rt(self, rt: Optional[float]):
 		"""
 		Sets the retention time of a peak
 
 		:param rt: The retention time of the apex of the peak
-		:type rt: float
 		"""
 
 		self.__exact_rt = rt
@@ -134,7 +123,6 @@ class MissingPeak:
 		Returns the common ion for the peak object across an experiment
 
 		:return: Common ion for the peak
-		:rtype: int
 
 		:author: Jairus Bowne
 		"""
@@ -152,7 +140,6 @@ class MissingPeak:
 		returns the common ion area
 
 		:return common_ion_area: The area of the common ion
-		:rtype: int
 		"""
 		return self.common_ion_area
 
@@ -167,7 +154,6 @@ class MissingPeak:
 		returns the retention time of the peak
 
 		:return: the retention time of the peak
-		:rtype: float
 		"""
 
 		return self.exact_rt
@@ -180,10 +166,9 @@ class MissingPeak:
 			)
 	def get_qual_ion1(self) -> int:
 		"""
-		Returns the top (most abundant) ion for the peak object
+		Returns the top (most abundant) ion for the peak object.
 
 		:return: Most abundant ion
-		:rtype: int
 
 		:author: Jairus Bowne
 		"""
@@ -201,7 +186,6 @@ class MissingPeak:
 		Returns the second most abundant ion for the peak object
 
 		:return: Second most abundant ion
-		:rtype: int
 
 		:author: Jairus Bowne
 		"""
@@ -219,7 +203,6 @@ class MissingPeak:
 		returns the retention time of the peak
 
 		:return: the retention time of the peak
-		:rtype: float
 		"""
 		return self.rt
 
@@ -229,7 +212,6 @@ class MissingPeak:
 		Returns the top (most abundant) ion for the peak object
 
 		:return: Most abundant ion
-		:rtype: int
 
 		:author: Jairus Bowne
 		"""
@@ -248,7 +230,6 @@ class MissingPeak:
 		Returns the second most abundant ion for the peak object
 
 		:return: Second most abundant ion
-		:rtype: int
 
 		:author: Jairus Bowne
 		"""
@@ -267,7 +248,6 @@ class MissingPeak:
 		returns the retention time of the peak
 
 		:return: the retention time of the peak
-		:rtype: float
 		"""
 
 		return self.__rt
@@ -282,8 +262,7 @@ class MissingPeak:
 		"""
 		sets the common ion area calculated by the gap fill algorithm.
 
-		:param common_ion_area: The area of the common ion
-		:type common_ion_area: int
+		:param common_ion_area: The area of the common ion.
 		"""
 
 		self.common_ion_area = common_ion_area
@@ -298,8 +277,7 @@ class MissingPeak:
 		"""
 		sets the retention time of a peak
 
-		:param rt: The retention time of the apex of the peak
-		:type rt: float
+		:param rt: The retention time of the apex of the peak.
 		"""
 
 		self.__exact_rt = rt
@@ -310,13 +288,10 @@ class Sample:
 	A collection of MissingPeak objects
 
 	:param sample_name: the experiment code/name
-	:type sample_name: str
 
 	:param matrix_position: position along x-axis where sample is located
-	:type matrix_position: int
 
-	:author: Sean O'Callaghan
-	:author: Dominic Davis-Foster (properties)
+	:authors: Sean O'Callaghan, Dominic Davis-Foster (properties)
 	"""
 
 	def __init__(self, sample_name: str, matrix_position: int):
@@ -328,7 +303,7 @@ class Sample:
 		self.__matrix_position = matrix_position
 		self.__missing_peak_list = []
 
-	def add_missing_peak(self, missing_peak):
+	def add_missing_peak(self, missing_peak) -> None:
 		"""
 		Add a new MissingPeak object to the Sample
 
@@ -346,7 +321,7 @@ class Sample:
 			current_version=__version__,
 			details="Use :attr:`pyms.Gapfill.Class.Sample.missing_peaks` instead",
 			)
-	def get_missing_peaks(self) -> MissingPeak:
+	def get_missing_peaks(self) -> List[MissingPeak]:
 		"""
 		Returns a list of the MissingPeak objects in the Sample object
 
@@ -361,12 +336,11 @@ class Sample:
 			current_version=__version__,
 			details="Use :attr:`pyms.Gapfill.Class.Sample.rt_areas` instead",
 			)
-	def get_mp_rt_area_dict(self) -> Dict:
+	def get_mp_rt_area_dict(self) -> Dict[float, float]:
 		"""
-		Returns a dictionary containing rt:area pairs
+		Returns a dictionary containing ``rt : area`` pairs
 
 		:return: a dict containing rt:area pairs
-		:rtype: dict
 		"""
 
 		rt_area_dict = {}
@@ -378,12 +352,11 @@ class Sample:
 
 		return rt_area_dict
 
-	def get_mp_rt_exact_rt_dict(self) -> dict:
+	def get_mp_rt_exact_rt_dict(self) -> Dict[float, float]:
 		"""
-		Returns a dictionary containing average_rt:exact_rt pairs
+		Returns a dictionary containing ``average_rt : exact_rt`` pairs.
 
 		:return: a dict of average_rt:exact_rt pairs
-		:rtype: dict
 		"""
 
 		rt_exact_rt_dict = {}
@@ -403,42 +376,31 @@ class Sample:
 			)
 	def get_name(self) -> str:
 		"""
-		Returns the sample name
-
-		:return: The name of the sample
-		:rtype: str
+		Returns the name of the sample.
 		"""
 
 		return self.__sample_name
 
 	@property
-	def missing_peaks(self) -> MissingPeak:
+	def missing_peaks(self) -> List[MissingPeak]:
 		"""
 		Returns a list of the MissingPeak objects in the Sample object
-
-		:return: list of the missing peaks
-		:rtype: :class:`list` of :class:`pyms.Gapfill.Class.MissingPeak` objects
 		"""
+
 		return self.__missing_peak_list
 
 	@property
 	def name(self) -> str:
 		"""
-		Returns the sample name
-
-		:return: The name of the sample
-		:rtype: str
+		Returns name of the sample.
 		"""
 
 		return self.__sample_name
 
 	@property
-	def rt_areas(self) -> Dict:
+	def rt_areas(self) -> Dict[float, float]:
 		"""
-		returns a dictionary containing rt:area pairs
-
-		:return: a dict containing rt:area pairs
-		:rtype: dict
+		returns a dictionary containing ``rt : area`` pairs.
 		"""
 
 		rt_area_dict = {}

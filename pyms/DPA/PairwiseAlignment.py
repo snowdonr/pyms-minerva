@@ -75,14 +75,10 @@ class PairwiseAlignment:
 	Models pairwise alignment of alignments
 
 	:param alignments: A list of alignments
-	:type alignments: list
 	:param D: Retention time tolerance parameter for pairwise alignments
-	:type D: float
 	:param gap: Gap parameter for pairwise alignments
-	:type gap: float
 
-	:author: Woon Wai Keen
-	:author: Vladimir Likic
+	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
 	def __init__(self, alignments: List[Alignment], D: float, gap: float):
@@ -107,12 +103,11 @@ class PairwiseAlignment:
 		self._dist_matrix()
 		self._guide_tree()
 
-	def _sim_matrix(self):
+	def _sim_matrix(self) -> None:
 		"""
-		Calculates the similarity matrix for the set of alignments
+		Calculates the similarity matrix for the set of alignments.
 
-		:author: Woon Wai Keen
-		:author: Vladimir Likic
+		:authors: Woon Wai Keen, Vladimir Likic
 		"""
 
 		n = len(self.alignments)
@@ -131,12 +126,11 @@ class PairwiseAlignment:
 				total_n = total_n - 1
 				print(f" -> {total_n:d} pairs remaining")
 
-	def _dist_matrix(self):
+	def _dist_matrix(self) -> None:
 		"""
-		Converts similarity matrix into a distance matrix
+		Converts similarity matrix into a distance matrix.
 
-		:author: Woon Wai Keen
-		:author: Vladimir Likic
+		:authors: Woon Wai Keen, Vladimir Likic
 		"""
 
 		# change similarity matrix entries (i,j) to max{matrix}-(i,j)
@@ -147,12 +141,11 @@ class PairwiseAlignment:
 		for i in range(len(self.dist_matrix)):
 			self.dist_matrix[i, i] = 0
 
-	def _guide_tree(self):
+	def _guide_tree(self) -> None:
 		"""
-		Build a guide tree from the distance matrix
+		Build a guide tree from the distance matrix.
 
-		:author: Woon Wai Keen
-		:author: Vladimir Likic
+		:authors: Woon Wai Keen, Vladimir Likic
 		"""
 
 		n = len(self.dist_matrix)
@@ -167,19 +160,13 @@ def align(a1: Alignment, a2: Alignment, D: float, gap: float) -> Alignment:
 	Aligns two alignments
 
 	:param a1: The first alignment
-	:type a1: pyms.Peak.List.Class.Alignment
 	:param a2: The second alignment
-	:type a2: pyms.Peak.List.Class.Alignment
 	:param D: Retention time tolerance
-	:type D: float
 	:param gap: Gap penalty
-	:type gap: float
 
 	:return: Aligned alignments
-	:rtype: pyms.Peak.List.Class.Alignment
 
-	:author: Woon Wai Keen
-	:author: Vladimir Likic
+	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
 	# comm = MPI.COMM_WORLD
@@ -206,16 +193,12 @@ def score_matrix(a1: Alignment, a2: Alignment, D: float) -> numpy.ndarray:
 	Calculates the score matrix between two alignments
 
 	:param a1: The first alignment
-	:type a1: pyms.DPA.Alignment.Alignment
 	:param a2: The second alignment
-	:type a2: pyms.DPA.Alignment.Alignment
 	:param D: Retention time tolerance
-	:type D: float
 
 	:return: Aligned alignments
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
+	:authors: Qiao Wang, Andrew Isaac
 	"""
 
 	# sim_score = 0
@@ -232,26 +215,22 @@ def score_matrix(a1: Alignment, a2: Alignment, D: float) -> numpy.ndarray:
 
 def dp(S, gap_penalty: float) -> Dict:
 	"""
-	Solves optimal path in score matrix based on global sequence
-		alignment
+	Solves optimal path in score matrix based on global sequence alignment.
 
 	:param S: Score matrix
-	:type S:
 	:param gap_penalty: Gap penalty
-	:type gap_penalty: float
 
 	:return: A dictionary of results
-	:rtype: dict
 
 	:author: Tim Erwin
 	"""
+
 	# comm = MPI.COMM_WORLD
 	# rank = comm.Get_rank()
 	# print " In DP.py, I am rank", rank
 
 	try:
 		row_length = len(S[:, 0])
-
 	except IndexError:
 		raise IndexError('Zero length alignment found: Samples with no peaks cannot be aligned')
 
@@ -259,10 +238,12 @@ def dp(S, gap_penalty: float) -> Dict:
 
 	# D contains the score of the optimal alignment
 	D = numpy.zeros((row_length + 1, col_length + 1), dtype='d')
+
 	for i in range(1, row_length + 1):
 		D[i, 0] = gap_penalty * i
 	for j in range(1, col_length + 1):
 		D[0, j] = gap_penalty * j
+
 	D[0, 0] = 0.0
 	D[1:(row_length + 1), 1:(col_length + 1)] = S.copy()
 
@@ -333,18 +314,12 @@ def position_similarity(pos1, pos2, D) -> float:
 	A score of 0 is best and 1 is worst.
 
 	:param pos1: The position of the first alignment
-	:type pos1:
 	:param pos2: The position of the second alignment
-	:type pos2:
 	:param D: Retention time tolerance
-	:type D:
 
 	:return: The similarity value for the current position
-	:rtype: float
 
-	:author: Qiao Wang
-	:author: Vladimir Likic
-	:author: Andrew Isaac
+	:authors: Qiao Wang, Vladimir Likic, Andrew Isaac
 	"""
 
 	score = 0.0
@@ -404,23 +379,17 @@ Use `IntensityMatrix.crop_mass()` to set same length for all Mass Spectra"""
 	return score
 
 
-def merge_alignments(A1, A2, traces):
+def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 	"""
 	Merges two alignments with gaps added in from DP traceback
 
 	:param A1: First alignment
-	:type A1:
 	:param A2: Second alignment
-	:type A2:
 	:param traces: DP traceback
-	:type traces:
 
 	:return: A single alignment from A1 and A2
-	:rtype:
 
-	:author: Woon Wai Keen
-	:author: Vladimir Likic
-	:author: Qiao Wang
+	:authors: Woon Wai Keen, Vladimir Likic, Qiao Wang
 	"""
 
 	# Create object to hold new merged alignment and fill in its expr_codes
@@ -472,22 +441,17 @@ def merge_alignments(A1, A2, traces):
 	return ma
 
 
-def alignment_similarity(traces, score_matrix, gap):
+def alignment_similarity(traces, score_matrix, gap: float):
 	"""
-	Calculates similarity score between two alignments (new method)
+	Calculates similarity score between two alignments (new method).
 
-	:param traces: Traceback from DP algorithm
-	:type traces:
-	:param score_matrix: Score matrix of the two alignments
-	:type score_matrix:
-	:param gap: Gap penalty
-	:type gap:
+	:param traces: Traceback from DP algorithm.
+	:param score_matrix: Score matrix of the two alignments.
+	:param gap: Gap penalty.
 
 	:return: Similarity score (i.e. more similar => higher score)
-	:rtype:
 
-	:author: Woon Wai Keen
-	:author: Vladimir Likic
+	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
 	score_matrix = 1. - score_matrix
@@ -520,12 +484,7 @@ def alignment_compare(x, y):
 	A helper function for sorting peak positions in a alignment
 
 	:param x:
-	:type x:
 	:param y:
-	:type y:
-
-	:return:
-	:rtype:
 	"""
 
 	x = [_.rt for _ in filter(None, x)]
@@ -544,18 +503,13 @@ def score_matrix_mpi(a1: Alignment, a2: Alignment, D: float) -> Alignment:
 	"""
 	Calculates the score matrix between two alignments
 
-	:param a1: The first alignment
-	:type a1: :class:`pyms.DPA.Class.Alignment`
-	:param a2: The second alignment
-	:type a2: :class:`pyms.DPA.Alignment..Alignment`
-	:param D: Retention time tolerance
-	:type D: float
+	:param a1: The first alignment.
+	:param a2: The second alignment.
+	:param D: Retention time tolerance.
 
 	:return: Aligned alignments
-	:rtype: :class:`pyms.DPA.Alignment..Alignment`
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
+	:authors: Qiao Wang, Andrew Isaac
 	"""
 
 	# sim_score = 0
@@ -622,15 +576,11 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 	Aligns a list of alignments using the supplied guide tree
 
 	:param T: The pairwise alignment object
-	:type T: pyms.DPA.PairwiseAlignment.PairwiseAlignment
 	:param min_peaks:
-	:type min_peaks: int
 
 	:return: The final alignment consisting of aligned input alignments
-	:rtype: pyms.DPA.Alignment.Alignment
 
-	:author: Woon Wai Keen
-	:author: Vladimir Likic
+	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
 	print(f" Aligning {len(T.alignments):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
@@ -665,20 +615,16 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 	return final_algt
 
 
-def align_with_tree_mpi(T: Alignment, min_peaks=1) -> Alignment:
+def align_with_tree_mpi(T: Alignment, min_peaks: int = 1) -> Alignment:
 	"""
 	Aligns a list of alignments using the supplied guide tree
 
 	:param T: The pairwise alignment object
-	:type T: :class:`pyms.DPA.Class.PairwiseAlignment`
 	:param min_peaks:
-	:type min_peaks:
 
 	:return: The final alignment consisting of aligned input alignments
-	:rtype: :class:`pyms.DPA.Class.Alignment`
 
-	:author: Woon Wai Keen
-	:author: Vladimir Likic
+	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
 	try:

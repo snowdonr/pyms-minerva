@@ -29,7 +29,7 @@ import math
 import operator
 import pathlib
 from numbers import Number
-from typing import Dict, List, Union
+from typing import Dict, List, Sequence, Union
 
 # 3rd party
 import numpy  # type: ignore
@@ -66,15 +66,11 @@ class Alignment:
 	Models an alignment of peak lists
 
 	:param expr: The experiment to be converted into an alignment object
-	:type expr: pyms.Experiment.Experiment
 
-	:author: Woon Wai Keen
-	:author: Qiao Wang
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (type assertions and pathlib support)
+	:authors: Woon Wai Keen, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and pathlib support)
 	"""
 
-	def __init__(self, expr):
+	def __init__(self, expr: Experiment):
 
 		if expr is None:
 			self.peakpos = []
@@ -93,7 +89,7 @@ class Alignment:
 			self.expr_code = [expr.expr_code]
 			self.similarity = None
 
-	def __len__(self):
+	def __len__(self) -> int:
 		"""
 		Returns the length of the alignment, defined as the number of
 		peak positions in the alignment
@@ -104,17 +100,15 @@ class Alignment:
 
 		return len(self.peakalgt)
 
-	def aligned_peaks(self, minutes: bool = False) -> List:
+	def aligned_peaks(self, minutes: bool = False) -> List[Peak]:
 		"""
 		Returns a list of Peak objects where each peak has the combined spectra
-			and average retention time of all peaks that aligned.
+		and average retention time of all peaks that aligned.
 
 		:param minutes: An optional indicator of whether retention times are in
-		minutes. If False, retention time are in seconds
-		:type minutes: bool, optional
+			minutes. If False, retention time are in seconds
 
 		:return: A list of composite peaks based on the alignment.
-		:rtype: list
 
 		:author: Andrew Isaac
 		"""
@@ -140,12 +134,11 @@ class Alignment:
 
 		return peak_list
 
-	def common_ion(self) -> List:
+	def common_ion(self) -> List[float]:
 		"""
 		Calculates a common ion among the peaks of an aligned peak
 
 		:return: A list of the highest intensity common ion for all aligned peaks
-		:rtype: list
 
 		:author: Sean O'Callaghan
 		"""
@@ -226,13 +219,12 @@ class Alignment:
 
 	def filter_min_peaks(self, min_peaks: int):
 		"""
-		Filters alignment positions that have less peaks than 'min_peaks'
+		Filters alignment positions that have less peaks than ``min_peaks``.
 
 		This function is useful only for within state alignment.
 
 		:param min_peaks: Minimum number of peaks required for the alignment
-			position to survive filtering
-		:type min_peaks: int
+			position to survive filtering.
 
 		:author: Qiao Wang
 		"""
@@ -251,17 +243,16 @@ class Alignment:
 		self.peakpos = numpy.transpose(self.peakalgt)
 
 	@staticmethod
-	def get_highest_mz_ion(ion_dict: Dict) -> int:
+	def get_highest_mz_ion(ion_dict: Dict[float: int]) -> int:
 		"""
-		Returns the preferred ion for quantitiation
-			Looks at the list of candidate ions, selects those which have
-			highest occurrence, and selects the heaviest of those
+		Returns the preferred ion for quantitiation.
+
+		Looks at the list of candidate ions, selects those which have
+		highest occurrence, and selects the heaviest of those.
 
 		:param ion_dict: a dictionary of mz value: number of occurrences
-		:type ion_dict: dict
 
 		:return ion: The ion to use
-		:rtype: int
 		"""
 
 		max_occurrences = max(ion_dict.values())
@@ -286,18 +277,12 @@ class Alignment:
 		retention times and the other containing the alignment of peak areas.
 
 		:param rt_file_name: The name for the retention time alignment file
-		:type rt_file_name: str or pathlib.Path
 		:param area_file_name: The name for the areas alignment file
-		:type area_file_name: str or pathlib.Path
 		:param minutes: An optional indicator whether to save retention times
-			in minutes. If False, retention time will be saved in seconds
-		:type minutes: bool, optional
+			in minutes. If :py:obj:`False`, retention time will be saved in seconds.
 
-		:author: Woon Wai Keen
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: David Kainer
-		:author: Dominic Davis-Foster (pathlib support)
+		:authors: Woon Wai Keen, Andrew Isaac, Vladimir Likic, David Kainer,
+			Dominic Davis-Foster (pathlib support)
 		"""
 
 		if not isinstance(rt_file_name, (str, pathlib.Path)):
@@ -384,7 +369,7 @@ class Alignment:
 	def write_common_ion_csv(
 			self,
 			area_file_name: Union[str, pathlib.Path],
-			top_ion_list: List,
+			top_ion_list: Sequence[float],
 			minutes: bool = True,
 			):
 		"""
@@ -394,21 +379,15 @@ class Alignment:
 		retention times and the other containing the alignment of peak areas.
 
 		:param area_file_name: The name for the areas alignment file
-		:type area_file_name: str or os.PathLike
 		:param top_ion_list: A list of the highest intensity common ion along the aligned peaks
-		:type top_ion_list: ~collections.abc.Sequence
 		:param minutes: An optional indicator whether to save retention times
-			in minutes. If False, retention time will be saved in seconds
-		:type minutes: bool, optional
+			in minutes. If :py:obj:`False`, retention time will be saved in seconds.
 
-		:author: Woon Wai Keen
-		:author: Andrew Isaac
-		:author: Sean O'Callaghan
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster (pathlib support)
+		:authors: Woon Wai Keen, Andrew Isaac, Sean O'Callaghan, Vladimir Likic,
+			Dominic Davis-Foster (pathlib support)
+
+		.. TODO:: minutes currently does nothing
 		"""
-
-		# TODO: minutes currently does nothing
 
 		if not is_path(area_file_name):
 			raise TypeError("'area_file_name' must be a string or a PathLike object")
@@ -503,15 +482,12 @@ class Alignment:
 
 	def write_ion_areas_csv(self, ms_file_name: Union[str, pathlib.Path], minutes: bool = True):
 		"""
-		Write Ion Areas to CSV File
+		Write Ion Areas to CSV File.
 
 		:param ms_file_name: The name of the file
-		:type ms_file_name: str, PathLike
 		:param minutes:
-		:type minutes: bool
 
-		:author: David Kainer
-		:author: Dominic Davis-Foster (pathlib support)
+		:authors: David Kainer, Dominic Davis-Foster (pathlib support)
 		"""
 
 		if not is_path(ms_file_name):
@@ -565,22 +541,15 @@ class Alignment:
 
 				fp1.write("\n")
 
-	def get_peak_alignment(self, minutes: bool = True, require_all_expr: bool = True) -> DataFrame:
+	def get_peak_alignment(self, minutes: bool = True, require_all_expr: bool = True,) -> DataFrame:
 		"""
 		Returns a Pandas dataframe of aligned retention times
 
 		:param minutes: An optional indicator whether to return retention times
-			in minutes. If False, retention time will be returned in seconds
-		:type minutes: BooleanType
+			in minutes. If :py:obj:`False`, retention time will be returned in seconds.
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
-		:type require_all_expr: bool, optional
 
-		:rtype: pandas.DataFrame
-
-		:author: Woon Wai Keen
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster
+		:authors: Woon Wai Keen, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster
 		"""
 
 		rt_table = []
@@ -619,14 +588,8 @@ class Alignment:
 		Returns a Pandas dataframe of mass spectra for the aligned peaks
 
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
-		:type require_all_expr: bool, optional
 
-		:rtype: pandas.DataFrame
-
-		:author: Woon Wai Keen
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster
+		:authors: Woon Wai Keen, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster
 		"""
 
 		ms_table = []
@@ -659,14 +622,8 @@ class Alignment:
 		Returns a Pandas dataframe of Peak objects for the aligned peaks
 
 		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame, Default True
-		:type require_all_expr: bool, optional
 
-		:rtype: pandas.DataFrame
-
-		:author: Woon Wai Keen
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster
+		:authors: Woon Wai Keen, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster
 		"""
 
 		peaks_table = []
@@ -697,16 +654,10 @@ class Alignment:
 		"""
 		Returns a Pandas dataframe of peak areas for the aligned peaks
 
-		:param require_all_expr: Whether the peak must be present in all experiments to be included in the data frame.
-			Default ``True``
-		:type require_all_expr: bool, optional
+		:param require_all_expr: Whether the peak must be present in all experiments
+			to be included in the data frame.
 
-		:rtype: pandas.DataFrame
-
-		:author: Woon Wai Keen
-		:author: Andrew Isaac
-		:author: Vladimir Likic
-		:author: Dominic Davis-Foster
+		:authors: Woon Wai Keen, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster
 		"""
 
 		areas_table = []
@@ -737,13 +688,11 @@ class Alignment:
 
 def exprl2alignment(expr_list: List[Experiment]) -> List[Alignment]:
 	"""
-	Converts experiments into alignments
+	Converts experiments into alignments.
 
-	:param expr_list: The list of experiments to be converted into an alignment objects
-	:type expr_list: list of :class:`pyms.Experiment.Experiment`
+	:param expr_list: The list of experiments to be converted into an alignment objects.
 
-	:return: A list of alignment objects for the experiments
-	:rtype: list of :class:`pyms.DPA.Alignment.Alignment`
+	:return: A list of alignment objects for the experiments.
 
 	:author: Vladimir Likic
 	"""
