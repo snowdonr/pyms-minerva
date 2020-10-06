@@ -25,10 +25,9 @@ from copy import deepcopy
 # 3rd party
 import deprecation  # type: ignore
 import pytest  # type: ignore
-
-# pyms
 from pytest_regressions.file_regression import FileRegressionFixture
 
+# this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.IonChromatogram import IonChromatogram
@@ -333,6 +332,7 @@ def test_write_intensities_stream(andi, outputdir, file_regression: FileRegressi
 
 # Inherited Methods from pymsBaseClass
 
+
 def test_dump(andi, outputdir):
 	andi.dump(outputdir / "ANDI_dump.dat")
 
@@ -349,6 +349,7 @@ def test_dump(andi, outputdir):
 
 
 # Inherited Methods from TimeListMixin
+
 
 def test_time_list(andi):
 	time = andi.time_list
@@ -367,6 +368,7 @@ def test_get_time_list(andi):
 
 
 # Inherited Methods from MaxMinMassMixin
+
 
 @deprecation.fail_if_not_removed
 def test_get_max_mass(andi):
@@ -393,6 +395,7 @@ def test_min_mass(andi):
 
 
 # Inherited Methods from GetIndexTimeMixin
+
 
 def test_get_index_at_time(andi):
 	# index of 400sec in time_list
@@ -422,11 +425,11 @@ def test_get_time_at_index(andi):
 	with pytest.raises(IndexError):
 		andi.get_time_at_index(1000000)
 
+
 # Test GCMS.Function
 
 # def test_diff(data):
 # TODO
-
 
 # def test_ic_window_points(data):
 # todo

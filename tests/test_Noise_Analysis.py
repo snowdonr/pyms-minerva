@@ -21,10 +21,10 @@
 # 3rd party
 import pytest  # type: ignore
 
-# pyms
+# this package
 from pyms.Noise.Analysis import window_analyzer
 
-# tests
+# this package
 from .constants import *
 
 

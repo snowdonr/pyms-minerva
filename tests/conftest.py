@@ -24,10 +24,10 @@ import shutil
 from copy import deepcopy
 from pathlib import Path
 
-# 3rs party
+# 3rd party
 import pytest  # type: ignore
 
-# pyms
+# this package
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.Experiment import Experiment
 from pyms.GCMS.IO.JCAMP import JCAMP_reader

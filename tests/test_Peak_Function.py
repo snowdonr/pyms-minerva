@@ -22,12 +22,19 @@
 import deprecation  # type: ignore
 import pytest  # type: ignore
 
-# pyms
+# this package
 from pyms.Peak.Function import (
-	half_area, ion_area, median_bounds, peak_pt_bounds, peak_sum_area, peak_top_ion_areas,
-	top_ions_v1, top_ions_v2,
-	)
-# tests
+		half_area,
+		ion_area,
+		median_bounds,
+		peak_pt_bounds,
+		peak_sum_area,
+		peak_top_ion_areas,
+		top_ions_v1,
+		top_ions_v2
+		)
+
+# this package
 from .constants import *
 
 

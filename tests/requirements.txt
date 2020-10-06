@@ -1,11 +1,11 @@
 coverage>=5.1
 coverage_pyver_pragma>=0.0.5
-coveralls
+coveralls>=2.1.2
 pytest>=6.0.0
 pytest-cov>=2.8.1
-pytest-mpl
+pytest-mpl>=0.11
 pytest-randomly>=3.3.1
 pytest-rerunfailures>=9.0
 pytest-timeout>=1.4.2
-pytest_regressions
+pytest_regressions>=2.0.1
 pytz>=2019.1

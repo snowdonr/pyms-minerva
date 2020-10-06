@@ -27,12 +27,12 @@ from numbers import Number
 import deprecation  # type: ignore
 import pytest  # type: ignore
 
-# pyms
+# this package
 from pyms.Peak import Peak
 from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
 from pyms.Spectrum import MassSpectrum
 
-# tests
+# this package
 from .constants import *
 
 
@@ -69,8 +69,8 @@ def test_equality(peak):
 
 
 @pytest.mark.parametrize(
-		"val",
-		[test_list_ints, test_list_strs, test_tuple, test_string, test_int, test_float, test_dict])
+		"val", [test_list_ints, test_list_strs, test_tuple, test_string, test_int, test_float, test_dict]
+		)
 def test_inequality(peak, val):
 	assert peak != val
 
@@ -439,6 +439,7 @@ def test_top_ions(peak):
 
 
 # Inherited Methods from pymsBaseClass
+
 
 def test_dump(peak, outputdir):
 	peak.dump(outputdir / "Peak_dump.dat")

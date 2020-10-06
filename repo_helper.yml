@@ -79,3 +79,6 @@ sphinx_conf_preamble:
   # Built rst from jupyter notebooks
   - import ipynb2rst
   - nitpicky = True
+
+exclude_files:
+  - pre_commit

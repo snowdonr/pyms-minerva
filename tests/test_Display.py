@@ -24,12 +24,11 @@ from pathlib import Path
 
 # 3rd party
 import pytest  # type: ignore
-from matplotlib import axes, figure, pyplot as plt  # type: ignore
+from matplotlib import axes, figure
+from matplotlib import pyplot as plt  # type: ignore
 
-# pyms
+# this package
 from pyms.Display import Display
-
-# tests
 from .constants import *
 
 baseline = str(Path(os.path.split(__file__)[0]) / "baseline")

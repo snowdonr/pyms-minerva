@@ -22,15 +22,13 @@
 import copy
 
 # 3rd party
-import pytest  # type: ignore
 import deprecation  # type: ignore
+import pytest  # type: ignore
 
-# pyms
 from pyms.Experiment import Experiment, load_expr, read_expr_list, store_expr
 from pyms.Peak.Class import Peak
 from pyms.Utils.Utils import is_sequence_of
 
-# tests
 from .constants import *
 
 

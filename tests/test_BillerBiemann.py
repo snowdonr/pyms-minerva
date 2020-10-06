@@ -25,18 +25,22 @@ import copy
 import numpy  # type: ignore
 import pytest  # type: ignore
 
-# pyms
+# this package
 from pyms.BillerBiemann import (
-	BillerBiemann, get_maxima_indices, get_maxima_list, get_maxima_list_reduced,
-	get_maxima_matrix, num_ions_threshold, rel_threshold, sum_maxima,
-	)
+		BillerBiemann,
+		get_maxima_indices,
+		get_maxima_list,
+		get_maxima_list_reduced,
+		get_maxima_matrix,
+		num_ions_threshold,
+		rel_threshold,
+		sum_maxima
+		)
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.Analysis import window_analyzer
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Class import Peak
 from pyms.TopHat import tophat
-
-# tests
 from tests.constants import *
 
 
@@ -115,6 +119,7 @@ class Test_rel_threshold:
 
 
 class Test_num_ions_threshold:
+
 	def test_num_ions_threshold(self, peak_list, tic):
 		"""
 		Filter the peak list, first by removing all intensities in a peak less
@@ -168,6 +173,7 @@ class Test_num_ions_threshold:
 
 
 class Test_sum_maxima:
+
 	def test_sum_maxima(self, im):
 		new_tic = sum_maxima(im)
 		assert isinstance(new_tic, IonChromatogram)
@@ -190,6 +196,7 @@ class Test_sum_maxima:
 
 
 class Test_get_maxima_indices:
+
 	@pytest.mark.skip(reason="TODO")
 	def test_get_maxima_indices(self):
 		# TODO: main test
@@ -207,13 +214,13 @@ class Test_get_maxima_indices:
 
 
 class Test_get_maxima_list:
+
 	def test_get_maxima_list(self, tic):
 		maxima_iist = get_maxima_list(tic)
 		assert isinstance(maxima_iist, list)
 		assert isinstance(maxima_iist[0], list)
 		assert isinstance(maxima_iist[0][0], float)
 		assert maxima_iist[0][0] == 2.10800014436
-
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
 	def test_ic_errors(self, obj):
@@ -227,6 +234,7 @@ class Test_get_maxima_list:
 
 
 class Test_get_maxima_list_reduced:
+
 	def test_get_maxima_list_reduced(self, tic):
 		maxima_list = get_maxima_list_reduced(tic, 12.34)
 		assert isinstance(maxima_list, list)
@@ -260,6 +268,7 @@ class Test_get_maxima_list_reduced:
 
 
 class Test_get_maxima_matrix:
+
 	def test_get_maxima_matrix(self, peak_list, im, tic):
 		maxima_matrix = get_maxima_matrix(im)
 		assert isinstance(maxima_matrix, numpy.ndarray)

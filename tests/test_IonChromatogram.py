@@ -24,14 +24,14 @@ import pickle
 from numbers import Number
 
 # 3rd party
+import deprecation  # type: ignore
 import numpy  # type: ignore
 import pytest  # type: ignore
-import deprecation  # type: ignore
 
-# pyms
+# this package
 from pyms.IonChromatogram import IonChromatogram
 
-# tests
+# this package
 from .constants import *
 
 
@@ -131,7 +131,9 @@ def test_intensity_array(tic, im):
 	tic = copy.deepcopy(tic)
 
 	assert isinstance(tic.intensity_array, numpy.ndarray)
-	assert all(numpy.equal(IonChromatogram(tic.intensity_array, tic.time_list).intensity_array, tic.intensity_array))
+	assert all(
+			numpy.equal(IonChromatogram(tic.intensity_array, tic.time_list).intensity_array, tic.intensity_array)
+			)
 
 	ic = im.get_ic_at_index(0)
 	tic.intensity_array = ic.intensity_array
@@ -190,6 +192,7 @@ def test_write(tic, outputdir):
 
 # Inherited Methods from pymsBaseClass
 
+
 def test_dump(im_i, outputdir):
 	im_i.dump(outputdir / "im_i_dump.dat")
 
@@ -207,6 +210,7 @@ def test_dump(im_i, outputdir):
 
 # Inherited Methods from TimeListMixin
 
+
 def test_time_list(tic):
 	assert isinstance(tic.time_list, list)
 	assert isinstance(tic.time_list[0], float)
@@ -221,6 +225,7 @@ def test_get_time_list(tic):
 
 
 # Inherited Methods from IntensityArrayMixin
+
 
 def test_intensity_matrix(im):
 	assert isinstance(im.intensity_matrix, numpy.ndarray)
@@ -259,6 +264,7 @@ def test_matrix_list(im):
 
 
 # Inherited methods from GetIndexTimeMixin
+
 
 def test_get_index_at_time(tic):
 	assert isinstance(tic.get_index_at_time(12), int)

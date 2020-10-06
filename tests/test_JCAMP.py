@@ -25,18 +25,16 @@ from copy import deepcopy
 
 # 3rd party
 import deprecation  # type: ignore
-import numpy  # type: ignore
 import pytest  # type: ignore
-
-# pyms
 from pytest_regressions.file_regression import FileRegressionFixture
 
+# this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import Scan
 
-# tests
+# this package
 from .constants import *
 
 
@@ -51,7 +49,7 @@ def test_JCAMP_reader(pyms_datadir):
 
 
 # def test_JCAMP_OpenChrom_reader(pyms_datadir):
-	# todo
+# todo
 
 
 def test_GCMS_data(data):
@@ -243,6 +241,7 @@ def test_write_intensities_stream(data, outputdir, file_regression: FileRegressi
 
 # Inherited Methods from pymsBaseClass
 
+
 def test_dump(data, outputdir):
 	data.dump(outputdir / "JCAMP_dump.dat")
 
@@ -259,6 +258,7 @@ def test_dump(data, outputdir):
 
 
 # Inherited Methods from TimeListMixin
+
 
 def test_time_list(data):
 	time = data.time_list
@@ -277,6 +277,7 @@ def test_get_time_list(data):
 
 
 # Inherited Methods from MaxMinMassMixin
+
 
 @deprecation.fail_if_not_removed
 def test_get_max_mass(data):
@@ -303,6 +304,7 @@ def test_min_mass(data):
 
 
 # Inherited Methods from GetIndexTimeMixin
+
 
 def test_get_index_at_time(data):
 	# index of 400sec in time_list
@@ -332,11 +334,11 @@ def test_get_time_at_index(data):
 	with pytest.raises(IndexError):
 		data.get_time_at_index(1000000)
 
+
 # Test GCMS.Function
 
 # def test_diff(data):
 # TODO
-
 
 # def test_ic_window_points(data):
 # todo

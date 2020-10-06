@@ -34,8 +34,7 @@ def _get_pandoc_urls(version="latest"):
 	:return: str version: actual pandoc version. (e.g. "lastest" will be resolved to the actual one)
 	"""
 	# url to pandoc download page
-	url = "https://github.com/jgm/pandoc/releases/" + \
-                   ("tag/" if version != "latest" else "") + version
+	url = f"https://github.com/jgm/pandoc/releases/{('tag/' if version != 'latest' else '')}{version}"
 	# read the HTML content
 	response = urlopen(url)
 	content = response.read()

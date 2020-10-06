@@ -26,13 +26,10 @@ from numbers import Number
 
 # 3rd party
 import numpy  # type: ignore
-
 import pytest  # type: ignore
-
-# pyms
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.DPA.Alignment import Alignment, exprl2alignment
-from pyms.DPA.PairwiseAlignment import align_with_tree, PairwiseAlignment
+from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
 from pyms.Experiment import Experiment, load_expr
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IntensityMatrix import build_intensity_matrix_i
@@ -41,8 +38,6 @@ from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Peak.List.Function import composite_peak
 from pyms.Peak.List.IO import store_peaks
 from pyms.TopHat import tophat
-
-# tests
 from .constants import *
 
 eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
@@ -376,6 +371,7 @@ def test_align_2_alignments(A1, pyms_datadir, outputdir):
 
 	top_ion_list = A9.common_ion()
 	A9.write_common_ion_csv(outputdir / 'area.csv', top_ion_list)
+
 
 # def test_alignment_compare():
 # todo

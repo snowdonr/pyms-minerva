@@ -21,11 +21,13 @@
 # 3rd party
 import pytest  # type: ignore
 
+# this package
 # pyms
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay, savitzky_golay_im
 
+# this package
 # tests
 from .constants import *
 

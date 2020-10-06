@@ -24,19 +24,22 @@ import pickle
 import types
 
 # 3rd party
+import deprecation  # type: ignore
 import numpy  # type: ignore
 import pytest  # type: ignore
-import deprecation  # type: ignore
 
-# pyms
+# this package
 from pyms.IntensityMatrix import (
-	ASCII_CSV, build_intensity_matrix, build_intensity_matrix_i, import_leco_csv,
-	IntensityMatrix,
-	)
+		ASCII_CSV,
+		IntensityMatrix,
+		build_intensity_matrix,
+		build_intensity_matrix_i,
+		import_leco_csv
+		)
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import MassSpectrum
 
-# tests
+# this package
 from .constants import *
 
 
@@ -52,6 +55,7 @@ def im_leco_filename(im, outputdir):
 
 
 class TestIntensityMatrix:
+
 	def test_creation(self, im):
 		assert isinstance(im, IntensityMatrix)
 
@@ -64,10 +68,7 @@ class TestIntensityMatrix:
 			(test_dict, TypeError),
 			]
 
-	@pytest.mark.parametrize("obj, expects", [
-			(test_list_strs, TypeError),
-			*args
-			])
+	@pytest.mark.parametrize("obj, expects", [(test_list_strs, TypeError), *args])
 	def test_time_list_errors(self, obj, im, expects):
 		with pytest.raises(expects):
 			IntensityMatrix(obj, im.mass_list, im.intensity_array)
@@ -202,14 +203,17 @@ class TestIntensityMatrix:
 		assert im.get_index_at_time(test_int) == 1168
 		assert im.get_index_at_time(test_float) == 11
 
-	@pytest.mark.parametrize("obj, expects", [
-			(test_string, TypeError),
-			(test_dict, TypeError),
-			(test_list_ints, TypeError),
-			(test_list_strs, TypeError),
-			(-1, IndexError),
-			(1000000, IndexError),
-			])
+	@pytest.mark.parametrize(
+			"obj, expects",
+			[
+					(test_string, TypeError),
+					(test_dict, TypeError),
+					(test_list_ints, TypeError),
+					(test_list_strs, TypeError),
+					(-1, IndexError),
+					(1000000, IndexError),
+					]
+			)
 	def test_get_index_at_time_errors(self, im, obj, expects):
 		with pytest.raises(expects):
 			im.get_index_at_time(obj)
@@ -217,15 +221,18 @@ class TestIntensityMatrix:
 	def test_get_time_at_index(self, im):
 		assert im.get_time_at_index(test_int) == 1304.15599823
 
-	@pytest.mark.parametrize("obj, expects", [
-			(test_string, TypeError),
-			(test_dict, TypeError),
-			(test_float, TypeError),
-			(test_list_ints, TypeError),
-			(test_list_strs, TypeError),
-			(-1, IndexError),
-			(1000000, IndexError),
-			])
+	@pytest.mark.parametrize(
+			"obj, expects",
+			[
+					(test_string, TypeError),
+					(test_dict, TypeError),
+					(test_float, TypeError),
+					(test_list_ints, TypeError),
+					(test_list_strs, TypeError),
+					(-1, IndexError),
+					(1000000, IndexError),
+					]
+			)
 	def test_get_time_at_index_errors(self, im, obj, expects):
 		with pytest.raises(expects):
 			im.get_time_at_index(obj)
@@ -453,6 +460,7 @@ class Test_export_ascii:
 
 
 class Test_leco_csv:
+
 	def test_import_leco_csv(self, im, im_leco_filename):
 		imported_im = import_leco_csv(im_leco_filename)
 		assert isinstance(imported_im, IntensityMatrix)

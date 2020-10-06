@@ -21,13 +21,13 @@
 # 3rd party
 import pytest  # type: ignore
 
-# pyms
-from pyms.Utils.Utils import _list_types, _path_types
-from pyms.Peak.List import composite_peak, fill_peaks, Peak, sele_peaks_by_rt
+# this package
+from pyms.Peak.Class import Peak
+from pyms.Peak.List import composite_peak, fill_peaks, sele_peaks_by_rt
 from pyms.Peak.List.IO import is_peak_list, load_peaks, store_peaks
 from pyms.Spectrum import MassSpectrum
 
-# tests
+# this package
 from .constants import *
 
 
@@ -171,6 +171,7 @@ def peak_list_filename(im, filtered_peak_list, outputdir):
 
 
 class TestStoreLoadPeaks:
+
 	@pytest.mark.parametrize("obj", [test_dict, *test_sequences, *test_numbers, test_string])
 	def test_store_filename_errors(self, outputdir, obj):
 		with pytest.raises(TypeError):
@@ -191,12 +192,15 @@ class TestStoreLoadPeaks:
 		with pytest.raises(TypeError):
 			load_peaks(filename)
 
-	@pytest.mark.parametrize("filename, expects", [
-			(test_string, FileNotFoundError),
-			("not-an-experiment.expr", IOError),
-			("test_list_ints.dat", IOError),
-			("test_empty_list.dat", IOError),
-			])
+	@pytest.mark.parametrize(
+			"filename, expects",
+			[
+					(test_string, FileNotFoundError),
+					("not-an-experiment.expr", IOError),
+					("test_list_ints.dat", IOError),
+					("test_empty_list.dat", IOError),
+					]
+			)
 	def test_load_filename_errors_2(self, filename, expects, pyms_datadir):
 		with pytest.raises(expects):
 			load_peaks(pyms_datadir / filename)

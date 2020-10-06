@@ -21,14 +21,14 @@
 # 3rd party
 import pytest  # type: ignore
 
-# pyms
-from pyms.IntensityMatrix import build_intensity_matrix_i, IntensityMatrix
+# this package
+from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix_i
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Noise.Window import window_smooth, window_smooth_im
 from pyms.TopHat import tophat
 
-# tests
+# this package
 from .constants import *
 
 
