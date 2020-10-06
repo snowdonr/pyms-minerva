@@ -38,6 +38,8 @@ from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Utils import is_sequence
 
+__all__ = ["Peak"]
+
 
 class Peak(pymsBaseClass):
 	"""
@@ -104,11 +106,13 @@ class Peak(pymsBaseClass):
 		"""
 
 		if isinstance(other, self.__class__):
-			return self.UID == other.UID \
-					and self.bounds == other.bounds \
-					and self.rt == other.rt \
-					and self.mass_spectrum == other.mass_spectrum \
+			return (
+					self.UID == other.UID
+					and self.bounds == other.bounds
+					and self.rt == other.rt
+					and self.mass_spectrum == other.mass_spectrum
 					and self.area == other.area
+			)
 
 		return NotImplemented
 
@@ -251,9 +255,12 @@ class Peak(pymsBaseClass):
 		# update UID
 		self.make_UID()
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.area` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.area` instead",
+			)
 	def get_area(self):
 		"""
 		Gets the area under the peak
@@ -266,9 +273,12 @@ class Peak(pymsBaseClass):
 
 		return self.area
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead",
+			)
 	def get_ic_mass(self):
 		"""
 		Returns the mass for a single ion chromatogram peak
@@ -315,9 +325,12 @@ class Peak(pymsBaseClass):
 		except KeyError:
 			return None
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead",
+			)
 	def get_ion_areas(self):
 		"""
 		Returns a copy of the ion areas dict containing ion:ion area pairs
@@ -327,9 +340,12 @@ class Peak(pymsBaseClass):
 
 		return self.ion_areas
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead",
+			)
 	def get_mass_spectrum(self):
 		"""
 		Returns the mass spectrum at the apex of the peak
@@ -339,9 +355,12 @@ class Peak(pymsBaseClass):
 
 		return self.mass_spectrum
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead",
+			)
 	def get_pt_bounds(self):
 		"""
 		Returns the peak boundaries in points
@@ -355,9 +374,12 @@ class Peak(pymsBaseClass):
 
 		return self.bounds
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.rt` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.rt` instead",
+			)
 	def get_rt(self):
 		"""
 		Returns the retention time
@@ -391,9 +413,12 @@ class Peak(pymsBaseClass):
 
 			return int(mass_list[best3_ii])
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.UID` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.UID` instead",
+			)
 	def get_UID(self):
 		"""
 		Return the unique peak ID (UID), either:
@@ -566,9 +591,12 @@ class Peak(pymsBaseClass):
 
 		return self._rt
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.area` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.area` instead",
+			)
 	def set_area(self, area):
 		"""
 		Sets the area under the peak
@@ -597,9 +625,12 @@ class Peak(pymsBaseClass):
 
 		self.bounds = (left, apex, right)
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead",
+			)
 	def set_ic_mass(self, mz):
 		"""
 		Sets the mass for a single ion chromatogram peak.
@@ -636,9 +667,12 @@ class Peak(pymsBaseClass):
 
 		self._ion_areas[ion] = area
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead",
+			)
 	def set_ion_areas(self, ion_areas):
 		"""
 		Set the ion:ion area pair dictionary
@@ -649,9 +683,12 @@ class Peak(pymsBaseClass):
 
 		self.ion_areas = ion_areas
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead",
+			)
 	def set_mass_spectrum(self, ms):
 		"""
 		Sets the mass spectrum.
@@ -669,9 +706,12 @@ class Peak(pymsBaseClass):
 		self._ic_mass = None
 		self.make_UID()
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead",
+			)
 	def set_pt_bounds(self, pt_bounds):
 		"""
 		Sets peak boundaries in points
@@ -763,6 +803,7 @@ class Peak(pymsBaseClass):
 			top_ions.append(entry[1])
 
 		return top_ions
+
 	#
 	# def __dict__(self):
 	#

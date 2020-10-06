@@ -28,11 +28,14 @@ import math
 import re
 from typing import Union
 
+# this package
 from pyms.IonChromatogram import IonChromatogram
+
+__all__ = ["is_str_num", "time_str_secs", "window_sele_points"]
 
 
 def is_str_num(arg):
-    """
+	"""
     Determines if the argument is a string in the format of a number
 
     The number can be an integer, or alternatively floating point in scientific
@@ -47,13 +50,13 @@ def is_str_num(arg):
     :author: Gyro Funch (from Active State Python Cookbook)
     """
 
-    num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
+	num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
 
-    return num_re.match(str(arg))
+	return num_re.match(str(arg))
 
 
 def time_str_secs(time_str):
-    """
+	"""
     Resolves time string of the form "<NUMBER>s" or "<NUMBER>m" and returns the time in seconds
 
     :param time_str: A time string, which must be of the form
@@ -66,29 +69,29 @@ def time_str_secs(time_str):
     :author: Vladimir Likic
     """
 
-    if not isinstance(time_str, str):
-        raise TypeError("'time_str' must be a string")
+	if not isinstance(time_str, str):
+		raise TypeError("'time_str' must be a string")
 
-    time_number = time_str[:-1]
-    time_spec = time_str[-1].lower()
+	time_number = time_str[:-1]
+	time_spec = time_str[-1].lower()
 
-    if not is_str_num(time_number):
-        print(f" --> received time string '{time_number}'")
-        raise ValueError("improper time string")
+	if not is_str_num(time_number):
+		print(f" --> received time string '{time_number}'")
+		raise ValueError("improper time string")
 
-    if time_spec not in ["s", "m"]:
-        raise ValueError("time string must end with either 's' or 'm'")
+	if time_spec not in ["s", "m"]:
+		raise ValueError("time string must end with either 's' or 'm'")
 
-    time = float(time_number)
+	time = float(time_number)
 
-    if time_spec == "m":
-        time = time * 60.0
+	if time_spec == "m":
+		time = time * 60.0
 
-    return time
+	return time
 
 
-def window_sele_points(ic: IonChromatogram, window_sele: Union[int,str], half_window: bool = False) -> int:
-    """
+def window_sele_points(ic: IonChromatogram, window_sele: Union[int, str], half_window: bool = False) -> int:
+	"""
     Converts window selection parameter into points based
         on the time step in an ion chromatogram
 
@@ -111,31 +114,31 @@ def window_sele_points(ic: IonChromatogram, window_sele: Union[int,str], half_wi
     :author: Vladimir Likic
     """
 
-    if not isinstance(window_sele, int) and not isinstance(window_sele, str):
-        raise TypeError("'window' must be an integer or a string")
+	if not isinstance(window_sele, int) and not isinstance(window_sele, str):
+		raise TypeError("'window' must be an integer or a string")
 
-    if isinstance(window_sele, int):
-        if half_window:
-            if window_sele % 2 == 0:
-                raise TypeError("window must be an odd number of points")
-            else:
-                points = int(math.floor(window_sele * 0.5))
-        else:
-            points = window_sele
-    else:
-        time = time_str_secs(window_sele)
-        time_step = ic.get_time_step()
+	if isinstance(window_sele, int):
+		if half_window:
+			if window_sele % 2 == 0:
+				raise TypeError("window must be an odd number of points")
+			else:
+				points = int(math.floor(window_sele * 0.5))
+		else:
+			points = window_sele
+	else:
+		time = time_str_secs(window_sele)
+		time_step = ic.get_time_step()
 
-        if half_window:
-            time = time * 0.5
+		if half_window:
+			time = time * 0.5
 
-        points = int(math.floor(time / time_step))
+		points = int(math.floor(time / time_step))
 
-    if half_window:
-        if points < 1:
-            raise ValueError(f"window too small (half window={points:d})")
-    else:
-        if points < 2:
-            raise ValueError(f"window too small (window={points:d})")
+	if half_window:
+		if points < 1:
+			raise ValueError(f"window too small (half window={points:d})")
+	else:
+		if points < 2:
+			raise ValueError(f"window too small (window={points:d})")
 
-    return points
+	return points

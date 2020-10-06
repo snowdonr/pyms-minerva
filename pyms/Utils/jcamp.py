@@ -22,6 +22,7 @@ Constants required for reading JCAMP files
 #                                                                              #
 ################################################################################
 
+__all__ = ["JcampTagWarning"]
 
 header_info_fields = [
 		"TITLE",
@@ -61,6 +62,7 @@ xydata_tags = {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE", "PEAK TABLE", "XY
 
 
 class JcampTagWarning(UserWarning):
+
 	def __init__(self, tag):
 		self.tag = str(tag)
 

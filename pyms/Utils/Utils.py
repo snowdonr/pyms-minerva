@@ -26,13 +26,13 @@ General utility functions
 # stdlib
 import os
 import pathlib
-from collections import Sequence
 from decimal import Decimal
+from typing import Any, Sequence
 
 # 3rd party
-from typing import Any
-
 import numpy  # type: ignore
+
+__all__ = ["is_path", "is_sequence", "is_sequence_of", "is_positive_int", "is_list_of_dec_nums"]
 
 _list_types = (Sequence, numpy.core.ndarray)
 _path_types = (str, os.PathLike, pathlib.Path)
@@ -82,11 +82,7 @@ def is_sequence_of(obj: Any, of: Any) -> bool:
 	:rtype: bool
 	"""
 
-	return (
-			isinstance(obj, _list_types)
-			and not isinstance(obj, str)
-			and all(isinstance(x, of) for x in obj)
-	)
+	return isinstance(obj, _list_types) and not isinstance(obj, str) and all(isinstance(x, of) for x in obj)
 
 
 def is_positive_int(arg: str) -> bool:

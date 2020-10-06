@@ -39,6 +39,17 @@ from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
 from pyms.Utils.Utils import is_sequence
 
+__all__ = [
+		"peak_sum_area",
+		"peak_pt_bounds",
+		"peak_top_ion_areas",
+		"top_ions_v1",
+		"top_ions_v2",
+		"ion_area",
+		"half_area",
+		"median_bounds"
+		]
+
 
 def peak_sum_area(im, peak, single_ion=False, max_bound=0):
 	"""
@@ -202,9 +213,12 @@ def peak_top_ion_areas(im, peak, n_top_ions=5, max_bound=0):
 	return ion_areas
 
 
-@deprecation.deprecated(deprecated_in="2.0.0", removed_in="2.2.0",
-						current_version=__version__,
-						details="Use :func:`pyms.Peak.Function.top_ions_v2` instead")
+@deprecation.deprecated(
+		deprecated_in="2.0.0",
+		removed_in="2.2.0",
+		current_version=__version__,
+		details="Use :func:`pyms.Peak.Function.top_ions_v2` instead",
+		)
 def top_ions_v1(peak, num_ions=5):
 	"""
 	Computes the highest 5 intensity ions
@@ -243,9 +257,12 @@ def top_ions_v1(peak, num_ions=5):
 	return top_ions
 
 
-@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-						current_version=__version__,
-						details="Use :meth:`pyms.Peak.Class.Peak.top_ions` instead")
+@deprecation.deprecated(
+		deprecated_in="2.1.2",
+		removed_in="2.2.0",
+		current_version=__version__,
+		details="Use :meth:`pyms.Peak.Class.Peak.top_ions` instead",
+		)
 def top_ions_v2(peak, num_ions=5):
 	"""
 	Computes the highest #num_ions intensity ions.

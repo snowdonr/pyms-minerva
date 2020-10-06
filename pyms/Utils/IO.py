@@ -28,14 +28,15 @@ import gzip
 import pathlib
 import pickle
 from numbers import Number
-from pyms.Utils.Utils import is_path
+from typing import Any, List, Union
+
 # this package
-from typing import Union, Any, List
+from pyms.Utils.Utils import _list_types, is_path
 
-from pyms.Utils.Utils import _list_types
+__all__ = ["prepare_filepath", "dump_object", "load_object", "file_lines", "save_data"]
 
 
-def prepare_filepath(file_name: Union [str, pathlib.Path], mkdirs: bool = True) -> pathlib.Path:
+def prepare_filepath(file_name: Union[str, pathlib.Path], mkdirs: bool = True) -> pathlib.Path:
 	"""
 	Convert string filename into pathlib.Path object and create parent directories if required
 
@@ -62,7 +63,7 @@ def prepare_filepath(file_name: Union [str, pathlib.Path], mkdirs: bool = True) 
 	return file_name
 
 
-def dump_object(obj: Any, file_name: Union[str, pathlib.Path]) :
+def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
 	"""
 	Dumps an object to a file through pickle.dump()
 
@@ -153,7 +154,14 @@ def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List
 	return lines
 
 
-def save_data(file_name: Union[str, pathlib.Path],data: List, format_str: str = "%.6f", prepend: str = "", sep: str = " ", compressed: bool = False):
+def save_data(
+		file_name: Union[str, pathlib.Path],
+		data: List,
+		format_str: str = "%.6f",
+		prepend: str = "",
+		sep: str = " ",
+		compressed: bool = False,
+		):
 	"""
 	Saves a list of numbers or a list of lists of numbers to a file with specific formatting
 

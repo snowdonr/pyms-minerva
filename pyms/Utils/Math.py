@@ -29,20 +29,33 @@ Provides mathematical functions
 
 # stdlib
 import math
-from statistics import median, stdev as std, mean
 from numbers import Number
+from statistics import mean, median
+from statistics import stdev as std
+from typing import List, Sequence, Union
 
 # 3rd party
-
 import numpy  # type: ignore
-from typing import Union, List, Sequence
 
 # this package
 from pyms.Utils.Utils import is_sequence
 
+__all__ = [
+		"vector_by_step",
+		"MAD",
+		"rmsd",
+		"mad_based_outlier",
+		"percentile_based_outlier",
+		"median_outliers",
+		"is_float",
+		"mean",
+		"median",
+		"std",
+		]
+
 
 def vector_by_step(start: float, stop: float, step: float) -> List:
-    """
+	"""
     Generates a list by using start, stop, and step values
 
     :param start: Initial value
@@ -58,21 +71,21 @@ def vector_by_step(start: float, stop: float, step: float) -> List:
     :author: Vladimir Likic
     """
 
-    if not isinstance(start, Number) or not isinstance(stop, Number) or not isinstance(step, Number):
-        raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
+	if not isinstance(start, Number) or not isinstance(stop, Number) or not isinstance(step, Number):
+		raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
 
-    v = []
+	v = []
 
-    p = start
-    while p < stop:
-        v.append(p)
-        p = p + step
+	p = start
+	while p < stop:
+		v.append(p)
+		p = p + step
 
-    return v
+	return v
 
 
 def MAD(v: Union[Sequence, numpy.ndarray]) -> float:
-    """
+	"""
     Median absolute deviation
 
     :param v: List of values to calculate the median absolute deviation of
@@ -84,23 +97,23 @@ def MAD(v: Union[Sequence, numpy.ndarray]) -> float:
     :author: Vladimir Likic
     """
 
-    if not is_sequence(v):
-        raise TypeError("'v' must be a Sequence")
+	if not is_sequence(v):
+		raise TypeError("'v' must be a Sequence")
 
-    m = median(v)
-    m_list = []
+	m = median(v)
+	m_list = []
 
-    for xi in v:
-        d = math.fabs(xi - m)
-        m_list.append(d)
+	for xi in v:
+		d = math.fabs(xi - m)
+		m_list.append(d)
 
-    mad = median(m_list) / 0.6745
+	mad = median(m_list) / 0.6745
 
-    return mad
+	return mad
 
 
 def rmsd(list1: Union[Sequence, numpy.ndarray], list2: Union[Sequence, numpy.ndarray]) -> float:
-    """
+	"""
     Calculates RMSD for the 2 lists
 
     :param list1: First data set
@@ -116,21 +129,21 @@ def rmsd(list1: Union[Sequence, numpy.ndarray], list2: Union[Sequence, numpy.nda
     :author: Vladimir Likic
     """
 
-    if not is_sequence(list1):
-        raise TypeError("'list1' must be a Sequence")
+	if not is_sequence(list1):
+		raise TypeError("'list1' must be a Sequence")
 
-    if not is_sequence(list2):
-        raise TypeError("'list2' must be a Sequence")
+	if not is_sequence(list2):
+		raise TypeError("'list2' must be a Sequence")
 
-    total = 0.0
-    for i in range(len(list1)):
-        total = total + (list1[i] - list2[i]) ** 2
-    _rmsd = math.sqrt(total / len(list1))
-    return _rmsd
+	total = 0.0
+	for i in range(len(list1)):
+		total = total + (list1[i] - list2[i])**2
+	_rmsd = math.sqrt(total / len(list1))
+	return _rmsd
 
 
 def mad_based_outlier(data, thresh=3.5):
-    """
+	"""
 
     :param data:
     :type data:
@@ -144,21 +157,21 @@ def mad_based_outlier(data, thresh=3.5):
     :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
     """
 
-    data = numpy.array(data)
-    if len(data.shape) == 1:
-        data = data[:, None]
-    _median = numpy.nanmedian(data)
-    diff = numpy.nansum((data - _median) ** 2, dtype=float, axis=-1)
-    diff = numpy.sqrt(diff)
-    med_abs_deviation = numpy.nanmedian(diff)
+	data = numpy.array(data)
+	if len(data.shape) == 1:
+		data = data[:, None]
+	_median = numpy.nanmedian(data)
+	diff = numpy.nansum((data - _median)**2, dtype=float, axis=-1)
+	diff = numpy.sqrt(diff)
+	med_abs_deviation = numpy.nanmedian(diff)
 
-    modified_z_score = 0.6745 * diff / med_abs_deviation
+	modified_z_score = 0.6745 * diff / med_abs_deviation
 
-    return modified_z_score > thresh
+	return modified_z_score > thresh
 
 
 def percentile_based_outlier(data, threshold=95):
-    """
+	"""
 
     :param data:
     :type data:
@@ -172,17 +185,17 @@ def percentile_based_outlier(data, threshold=95):
     :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
     """
 
-    data = numpy.array(data)
-    diff = (100 - threshold) / 2.0
-    # nanpercentile only works in numpy 1.9 and up
-    # minval, maxval = numpy.nanpercentile(data, [diff, 100 - diff])
-    data = numpy.array(data)
-    minval, maxval = numpy.percentile(numpy.compress(numpy.isnan(data) is False, data), (diff, 100 - diff))
-    return (data < minval) | (data > maxval)
+	data = numpy.array(data)
+	diff = (100 - threshold) / 2.0
+	# nanpercentile only works in numpy 1.9 and up
+	# minval, maxval = numpy.nanpercentile(data, [diff, 100 - diff])
+	data = numpy.array(data)
+	minval, maxval = numpy.percentile(numpy.compress(numpy.isnan(data) is False, data), (diff, 100 - diff))
+	return (data < minval) | (data > maxval)
 
 
 def median_outliers(data, m=2.5):
-    """
+	"""
 
     :param data:
     :type data:
@@ -198,15 +211,15 @@ def median_outliers(data, m=2.5):
     :url: `http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list`_
     """
 
-    data = numpy.array(data)
-    d = numpy.abs(data - numpy.nanmedian(data))
-    mdev = numpy.nanmedian(d)
-    s = d / mdev if mdev else 0.
-    return s > m
+	data = numpy.array(data)
+	d = numpy.abs(data - numpy.nanmedian(data))
+	mdev = numpy.nanmedian(d)
+	s = d / mdev if mdev else 0.
+	return s > m
 
 
-def is_float(s: Union[str,List[str]]) -> Union[bool, List[bool]]:
-    """
+def is_float(s: Union[str, List[str]]) -> Union[bool, List[bool]]:
+	"""
     Test if a string, or list of strings, contains a numeric value(s).
 
     :param s: The string or list of strings to test.
@@ -215,26 +228,26 @@ def is_float(s: Union[str,List[str]]) -> Union[bool, List[bool]]:
     :rtype: bool or list of bool
     """
 
-    if isinstance(s, (tuple, list)):
-        if not all(isinstance(i, str) for i in s):
-            raise TypeError(f"Input {s} is not a list of strings")
+	if isinstance(s, (tuple, list)):
+		if not all(isinstance(i, str) for i in s):
+			raise TypeError(f"Input {s} is not a list of strings")
 
-        if len(s) == 0:
-            raise ValueError(f'Input {s} is empty')
-        else:
-            return_list = [True] * len(s)
-            for i in range(0, len(s)):
-                try:
-                    float(s[i])
-                except ValueError:
-                    return_list[i] = False
-        return return_list
-    else:
-        if not isinstance(s, str):
-            raise TypeError(f"Input '{s}' is not a string")
+		if len(s) == 0:
+			raise ValueError(f'Input {s} is empty')
+		else:
+			return_list = [True] * len(s)
+			for i in range(0, len(s)):
+				try:
+					float(s[i])
+				except ValueError:
+					return_list[i] = False
+		return return_list
+	else:
+		if not isinstance(s, str):
+			raise TypeError(f"Input '{s}' is not a string")
 
-        try:
-            float(s)
-            return True
-        except ValueError:
-            return False
+		try:
+			float(s)
+			return True
+		except ValueError:
+			return False
