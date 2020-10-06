@@ -2,7 +2,7 @@
 PyMassSpec
 ************
 
-.. start shields 
+.. start shields
 
 .. list-table::
 	:stub-columns: 1
@@ -19,12 +19,12 @@ PyMassSpec
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained|
 	* - Other
-	  - |license| |language| |requires|
+	  - |license| |language| |requires| |pre_commit|
 
 .. |docs| image:: https://img.shields.io/readthedocs/pymassspec/latest?logo=read-the-docs
 	:target: https://pymassspec.readthedocs.io/en/latest/?badge=latest
-	:alt: Documentation Status
-	
+	:alt: Documentation Build Status
+
 .. |docs_check| image:: https://github.com/domdfcoding/PyMassSpec/workflows/Docs%20Check/badge.svg
 	:target: https://github.com/domdfcoding/PyMassSpec/actions?query=workflow%3A%22Docs+Check%22
 	:alt: Docs Check Status
@@ -57,7 +57,7 @@ PyMassSpec
 	:target: https://pypi.org/project/PyMassSpec/
 	:alt: PyPI - Package Version
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/PyMassSpec
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/PyMassSpec?logo=python&logoColor=white
 	:target: https://pypi.org/project/PyMassSpec/
 	:alt: PyPI - Supported Python Versions
 
@@ -70,16 +70,16 @@ PyMassSpec
 	:alt: PyPI - Wheel
 
 .. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/PyMassSpec?logo=anaconda
-	:alt: Conda - Package Version
 	:target: https://anaconda.org/domdfcoding/PyMassSpec
+	:alt: Conda - Package Version
 
 .. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/PyMassSpec?label=conda%7Cplatform
-	:alt: Conda - Platform
 	:target: https://anaconda.org/domdfcoding/PyMassSpec
+	:alt: Conda - Platform
 
 .. |license| image:: https://img.shields.io/github/license/domdfcoding/PyMassSpec
-	:alt: License
 	:target: https://github.com/domdfcoding/PyMassSpec/blob/master/LICENSE
+	:alt: License
 
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/PyMassSpec
 	:alt: GitHub top language
@@ -94,6 +94,10 @@ PyMassSpec
 
 .. |maintained| image:: https://img.shields.io/maintenance/yes/2020
 	:alt: Maintenance
+
+.. |pre_commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+	:target: https://github.com/pre-commit/pre-commit
+	:alt: pre-commit
 
 .. end shields
 
