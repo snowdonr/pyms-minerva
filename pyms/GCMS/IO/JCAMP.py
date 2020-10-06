@@ -29,17 +29,17 @@ Functions for I/O of data in JCAMP-DX format
 
 # stdlib
 import os
-import pathlib
-
-# this package
 from typing import Union
 
+# this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import header_info_fields, xydata_tags
 from pyms.Utils.Math import is_float
 from pyms.Utils.Utils import is_path
+
+__all__ = ["JCAMP_reader"]
 
 
 def JCAMP_reader(file_name: Union[str, os.PathLike]) -> GCMS_data:

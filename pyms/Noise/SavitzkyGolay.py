@@ -25,10 +25,9 @@ Savitzky-Golay noise filter
 
 # stdlib
 import copy
-
-# 3rd party
 from typing import Union
 
+# 3rd party
 import numpy  # type: ignore
 
 # this package
@@ -36,11 +35,17 @@ from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
+__all__ = ["savitzky_golay", "savitzky_golay_im"]
+
 __DEFAULT_WINDOW = 7
 __DEFAULT_POLYNOMIAL_DEGREE = 2
 
 
-def savitzky_golay(ic: IonChromatogram, window: Union[int, str] = __DEFAULT_WINDOW, degree=__DEFAULT_POLYNOMIAL_DEGREE) -> IonChromatogram:
+def savitzky_golay(
+		ic: IonChromatogram,
+		window: Union[int, str] = __DEFAULT_WINDOW,
+		degree=__DEFAULT_POLYNOMIAL_DEGREE,
+		) -> IonChromatogram:
 	"""
 	Applies Savitzky-Golay filter on ion chromatogram
 
@@ -88,7 +93,11 @@ def savitzky_golay(ic: IonChromatogram, window: Union[int, str] = __DEFAULT_WIND
 	return ic_denoise
 
 
-def savitzky_golay_im(im: IntensityMatrix, window: Union[int, str] = __DEFAULT_WINDOW, degree: int = __DEFAULT_POLYNOMIAL_DEGREE) -> IntensityMatrix:
+def savitzky_golay_im(
+		im: IntensityMatrix,
+		window: Union[int, str] = __DEFAULT_WINDOW,
+		degree: int = __DEFAULT_POLYNOMIAL_DEGREE,
+		) -> IntensityMatrix:
 	"""
 	Applies Savitzky-Golay filter on Intensity Matrix
 
@@ -165,13 +174,13 @@ def __calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy
 
 	# calculate diff_order-th row of inv(A^T A)
 	ATA = numpy.dot(A.transpose(), A)
-	rhs = numpy.zeros((pol_degree + 1,), float)
+	rhs = numpy.zeros((pol_degree + 1), float)
 	rhs[diff_order] = 1
 	D = numpy.linalg.cholesky(ATA)
 	wvec = __resub(D, rhs)
 
 	# calculate filter-coefficients
-	coeff = numpy.zeros((2 * num_points + 1,), float)
+	coeff = numpy.zeros((2 * num_points + 1), float)
 	for n in range(-num_points, num_points + 1):
 		x = 0.0
 		for m in range(pol_degree + 1):
@@ -198,8 +207,8 @@ def __resub(D, rhs):
 	"""
 
 	M = D.shape[0]
-	x1 = numpy.zeros((M,), float)
-	x2 = numpy.zeros((M,), float)
+	x1 = numpy.zeros((M, ), float)
+	x2 = numpy.zeros((M, ), float)
 
 	# resub step 1
 	for l in range(M):

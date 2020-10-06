@@ -28,15 +28,14 @@ import copy
 import pathlib
 from numbers import Number
 from statistics import mean, median, stdev
+from typing import Any, List, Optional, Union
 
 # 3rd party
-from typing import List, Any, Union, Optional
-
 import deprecation  # type: ignore
 import numpy  # type: ignore
 
 # this package
-from pyms import __version__, Spectrum
+from pyms import Spectrum, __version__
 from pyms.Base import pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
@@ -44,6 +43,8 @@ from pyms.Spectrum import MassSpectrum, Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
 from pyms.Utils.Utils import is_path, is_sequence_of
+
+__all__ = ["GCMS_data"]
 
 MassSpectrum = MassSpectrum  # For legacy imports. Stops PyCharm complaining TODO: Remove eventually
 
@@ -92,8 +93,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		"""
 
 		if isinstance(other, self.__class__):
-			return self.scan_list == other.scan_list \
-					and self.time_list == other.time_list
+			return self.scan_list == other.scan_list and self.time_list == other.time_list
 
 		return NotImplemented
 
@@ -190,9 +190,12 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self._min_mass = mini
 		self._max_mass = maxi
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.GCMS.Class.scan_list` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.GCMS.Class.scan_list` instead",
+			)
 	def get_scan_list(self) -> Spectrum.Scan:
 		"""
 		Return a list of the scan objects
@@ -206,9 +209,12 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		return self.scan_list
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.GCMS.Class.tic` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.GCMS.Class.tic` instead",
+			)
 	def get_tic(self) -> IonChromatogram:
 		"""
 		Returns the total ion chromatogram
@@ -326,7 +332,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		return self._time_step_std
 
-	def trim(self, begin : Optional[Union[int, str]] = None, end : Optional[Union[int, str]] = None):
+	def trim(self, begin: Optional[Union[int, str]] = None, end: Optional[Union[int, str]] = None):
 		"""
 		trims data in the time domain
 

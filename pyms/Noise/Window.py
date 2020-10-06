@@ -26,10 +26,9 @@ Moving window noise filter
 # stdlib
 import copy
 from statistics import median
-
-# 3rd party
 from typing import Union
 
+# 3rd party
 import numpy  # type: ignore
 
 # this package
@@ -37,12 +36,17 @@ from pyms.GCMS.Function import ic_window_points
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
+__all__ = ["window_smooth", "window_smooth_im"]
 
 __DEFAULT_WINDOW = 3
 
 
-def window_smooth(ic: IonChromatogram, window: Union[int,str] = __DEFAULT_WINDOW, use_median: bool = False) -> IonChromatogram:
-    """
+def window_smooth(
+		ic: IonChromatogram,
+		window: Union[int, str] = __DEFAULT_WINDOW,
+		use_median: bool = False,
+		) -> IonChromatogram:
+	"""
     Applies window smoothing on ion chromatogram
 
     :param ic: The input ion chromatogram
@@ -63,32 +67,36 @@ def window_smooth(ic: IonChromatogram, window: Union[int,str] = __DEFAULT_WINDOW
     :author: Dominic Davis-Foster (type assertions)
     """
 
-    if not isinstance(ic, IonChromatogram):
-        raise TypeError("'ic' must be an IonChromatogram object")
+	if not isinstance(ic, IonChromatogram):
+		raise TypeError("'ic' must be an IonChromatogram object")
 
-    if not isinstance(window, (int, str)):
-        raise TypeError("'window' must be a int or string")
+	if not isinstance(window, (int, str)):
+		raise TypeError("'window' must be a int or string")
 
-    if not isinstance(use_median, bool):
-        raise TypeError("'median' must be a Boolean")
+	if not isinstance(use_median, bool):
+		raise TypeError("'median' must be a Boolean")
 
-    ia = ic.intensity_array
+	ia = ic.intensity_array
 
-    wing_length = ic_window_points(ic, window, half_window=True)
+	wing_length = ic_window_points(ic, window, half_window=True)
 
-    if use_median:
-        ia_denoise = __median_window(ia, wing_length)
-    else:
-        ia_denoise = __mean_window(ia, wing_length)
+	if use_median:
+		ia_denoise = __median_window(ia, wing_length)
+	else:
+		ia_denoise = __mean_window(ia, wing_length)
 
-    ic_denoise = copy.deepcopy(ic)
-    ic_denoise.intensity_array = ia_denoise
+	ic_denoise = copy.deepcopy(ic)
+	ic_denoise.intensity_array = ia_denoise
 
-    return ic_denoise
+	return ic_denoise
 
 
-def window_smooth_im(im: IntensityMatrix, window: Union[int,str] = __DEFAULT_WINDOW, use_median: bool = False) -> IntensityMatrix:
-    """
+def window_smooth_im(
+		im: IntensityMatrix,
+		window: Union[int, str] = __DEFAULT_WINDOW,
+		use_median: bool = False,
+		) -> IntensityMatrix:
+	"""
     Applies window smoothing on Intensity Matrix
 
               Simply wraps around the window smooth function above
@@ -108,23 +116,23 @@ def window_smooth_im(im: IntensityMatrix, window: Union[int,str] = __DEFAULT_WIN
     :author: Vladimir Likic
     """
 
-    if not isinstance(im, IntensityMatrix):
-        raise TypeError("'im' must be an IntensityMatrix object")
+	if not isinstance(im, IntensityMatrix):
+		raise TypeError("'im' must be an IntensityMatrix object")
 
-    n_scan, n_mz = im.size
+	n_scan, n_mz = im.size
 
-    im_smooth = copy.deepcopy(im)
+	im_smooth = copy.deepcopy(im)
 
-    for ii in range(n_mz):
-        ic = im_smooth.get_ic_at_index(ii)
-        ic_smooth = window_smooth(ic, window, use_median)
-        im_smooth.set_ic_at_index(ii, ic_smooth)
+	for ii in range(n_mz):
+		ic = im_smooth.get_ic_at_index(ii)
+		ic_smooth = window_smooth(ic, window, use_median)
+		im_smooth.set_ic_at_index(ii, ic_smooth)
 
-    return im_smooth
+	return im_smooth
 
 
 def __mean_window(ia: numpy.core.ndarray, wing_length: int) -> numpy.core.ndarray:
-    """
+	"""
     Applies mean-window averaging on the array of intensities.
 
     :param ia: Intensity array
@@ -139,24 +147,24 @@ def __mean_window(ia: numpy.core.ndarray, wing_length: int) -> numpy.core.ndarra
     :author: Vladimir Likic
     """
 
-    ia_denoise = numpy.repeat([0], ia.size)
+	ia_denoise = numpy.repeat([0], ia.size)
 
-    index = 0
-    end = ia.size - 1
+	index = 0
+	end = ia.size - 1
 
-    while index <= end:
-        left = index - wing_length
-        right = index + wing_length + 1
-        if left < 0:
-            left = 0
-        ia_denoise[index] = ia[left:right].mean()
-        index = index + 1
+	while index <= end:
+		left = index - wing_length
+		right = index + wing_length + 1
+		if left < 0:
+			left = 0
+		ia_denoise[index] = ia[left:right].mean()
+		index = index + 1
 
-    return ia_denoise
+	return ia_denoise
 
 
 def __median_window(ia: IntensityMatrix, wing_length: int) -> numpy.ndarray:
-    """
+	"""
     Applies median-window averaging on the array of intensities.
 
     :param ia: Intensity array
@@ -171,17 +179,17 @@ def __median_window(ia: IntensityMatrix, wing_length: int) -> numpy.ndarray:
     :author: Vladimir Likic
     """
 
-    ia_denoise = numpy.repeat([0], ia.size)
+	ia_denoise = numpy.repeat([0], ia.size)
 
-    index = 0
-    end = ia.size - 1
+	index = 0
+	end = ia.size - 1
 
-    while index <= end:
-        left = index - wing_length
-        right = index + wing_length + 1
-        if left < 0:
-            left = 0
-        ia_denoise[index] = median(ia[left:right])
-        index = index + 1
+	while index <= end:
+		left = index - wing_length
+		right = index + wing_length + 1
+		if left < 0:
+			left = 0
+		ia_denoise[index] = median(ia[left:right])
+		index = index + 1
 
-    return ia_denoise
+	return ia_denoise

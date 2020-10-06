@@ -25,21 +25,23 @@ Functions for reading mzML format data files
 
 # stdlib
 import pathlib
-
-# 3rd party
 from typing import Union
 
+# 3rd party
 import pymzml  # type: ignore
 
 try:
+	# 3rd party
 	from mpi4py import MPI  # type: ignore
 except ModuleNotFoundError:
 	pass
 
 # this package
+from pyms.Base import is_path
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
-from pyms.Base import is_path
+
+__all__ = ["mzML_reader"]
 
 
 def mzML_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:

@@ -26,14 +26,15 @@ Provides conversion and information functions for GC-MS data objects
 # stdlib
 import math
 import sys
-
-# this package
 from typing import Union
 
+# this package
 from pyms import IonChromatogram
 from pyms.GCMS.Class import GCMS_data
 from pyms.Utils.Math import rmsd
 from pyms.Utils.Time import time_str_secs
+
+__all__ = ["diff", "ic_window_points"]
 
 
 def diff(data1: GCMS_data, data2: GCMS_data):
