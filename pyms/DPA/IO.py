@@ -26,34 +26,44 @@ Functions for writing peak alignment to various file formats
 # stdlib
 import operator
 import pathlib
+from typing import List, Union
 
-# 3rd party
-from typing import Union, List
-
+# this package
 from pyms.DPA.Alignment import Alignment
 
 try:
-	from Pycluster import treecluster   # type: ignore
+	# 3rd party
+	from Pycluster import treecluster  # type: ignore
 except ModuleNotFoundError:
 	try:
-		from Bio.Cluster import treecluster   # type: ignore
+		# 3rd party
+		from Bio.Cluster import treecluster  # type: ignore
 	except ModuleNotFoundError:
-		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
-Please install one of them and try again.""")
+		raise ModuleNotFoundError(
+				"""Neither PyCluster or BioPython is installed.
+Please install one of them and try again."""
+				) from None
 
-from openpyxl import Workbook   # type: ignore
-from openpyxl.comments import Comment   # type: ignore
+# 3rd party
+from openpyxl import Workbook  # type: ignore
+from openpyxl.comments import Comment  # type: ignore
 from openpyxl.formatting.rule import ColorScaleRule  # , CellIsRule, FormulaRule   # type: ignore
-from openpyxl.styles import PatternFill   # type: ignore
-from openpyxl.utils import get_column_letter   # type: ignore
+from openpyxl.styles import PatternFill  # type: ignore
+from openpyxl.utils import get_column_letter  # type: ignore
 
 # this package
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path
 
+__all__ = ["write_mass_hunter_csv", "write_excel", "write_transposed_output"]
 
-def write_mass_hunter_csv(alignment: Alignment, file_name: Union[str, pathlib.Path], top_ion_list: List):  # , peak_list_name):
+
+def write_mass_hunter_csv(
+		alignment: Alignment,
+		file_name: Union[str, pathlib.Path],
+		top_ion_list: List,
+		):  # , peak_list_name):
 	"""
 	Creates a csv file with UID, common and qualifying ions and their
 		ratios for mass hunter interpretation
@@ -93,7 +103,7 @@ def write_mass_hunter_csv(alignment: Alignment, file_name: Union[str, pathlib.Pa
 	#            [align1_peak2, ................................]
 	#              .............................................
 	#            [align1_peakm,....................,alignn_peakm]  ]
-	areas = []   # type: ignore
+	areas = []  # type: ignore
 	new_peak_lists = []  # type: ignore
 	rtmax = []
 	rtmin = []
@@ -193,16 +203,18 @@ def write_mass_hunter_csv(alignment: Alignment, file_name: Union[str, pathlib.Pa
 			# shouldn't happen, but does!!
 			q2_ci_ratio = 0.01
 
-		out_strings.append(",".join([
-				peak_UID,
-				f"{common_ion}",
-				f"{qual_ion_1}",
-				f"{q1_ci_ratio * 100:.1f}",
-				f"{qual_ion_2}",
-				f"{q2_ci_ratio * 100:.1f}",
-				f"{(l_window_delta + 1.5) / 60:.2f}",
-				f"{(r_window_delta + 1.5) / 60:.2f}",
-				]))
+		out_strings.append(
+				",".join([
+						peak_UID,
+						f"{common_ion}",
+						f"{qual_ion_1}",
+						f"{q1_ci_ratio * 100:.1f}",
+						f"{qual_ion_2}",
+						f"{q2_ci_ratio * 100:.1f}",
+						f"{(l_window_delta + 1.5) / 60:.2f}",
+						f"{(r_window_delta + 1.5) / 60:.2f}",
+						])
+				)
 
 		index += 1
 
@@ -218,7 +230,11 @@ def write_mass_hunter_csv(alignment: Alignment, file_name: Union[str, pathlib.Pa
 	fp.close()
 
 
-def write_excel(alignment :Alignment, file_name: Union[str, pathlib.Path], minutes: bool = True):
+def write_excel(
+		alignment: Alignment,
+		file_name: Union[str, pathlib.Path],
+		minutes: bool = True,
+		):
 	"""
 	Writes the alignment to an excel file, with colouring showing possible mis-alignments
 
@@ -301,11 +317,20 @@ def write_excel(alignment :Alignment, file_name: Union[str, pathlib.Path], minut
 	for row in ws.rows:
 		i += 1
 		cell_range = ("{0}" + str(i) + ":{1}" + str(i)).format(get_column_letter(3), get_column_letter(len(row)))
-		ws.conditional_formatting.add(cell_range, ColorScaleRule(
-			start_type='percentile', start_value=1, start_color='E5FFCC',
-			mid_type='percentile', mid_value=50, mid_color='FFFFFF',
-			end_type='percentile', end_value=99, end_color='FFE5CC'
-			))
+		ws.conditional_formatting.add(
+				cell_range,
+				ColorScaleRule(
+						start_type='percentile',
+						start_value=1,
+						start_color='E5FFCC',
+						mid_type='percentile',
+						mid_value=50,
+						mid_color='FFFFFF',
+						end_type='percentile',
+						end_value=99,
+						end_color='FFE5CC'
+						),
+				)
 
 		wb.save(file_name)
 

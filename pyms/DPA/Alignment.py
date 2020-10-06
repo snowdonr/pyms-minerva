@@ -29,31 +29,36 @@ import math
 import operator
 import pathlib
 from numbers import Number
+from typing import Dict, List, Union
 
 # 3rd party
-from typing import List, Union, Dict
-
 import numpy  # type: ignore
 import pandas  # type: ignore
-from pandas import DataFrame
+from pandas import DataFrame  # type: ignore
 
+# this package
 from pyms.Peak import Peak
 
 try:
+	# 3rd party
 	from Pycluster import treecluster  # type: ignore
 except ModuleNotFoundError:
 	try:
+		# 3rd party
 		from Bio.Cluster import treecluster  # type: ignore
 	except ModuleNotFoundError:
-		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
-Please install one of them and try again.""")
+		raise ModuleNotFoundError(
+				"""Neither PyCluster or BioPython is installed.
+Please install one of them and try again."""
+				) from None
 
 # this package
-from pyms.Utils.Utils import is_sequence
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import is_path, is_sequence_of
+from pyms.Utils.Utils import is_path, is_sequence, is_sequence_of
+
+__all__ = ["Alignment", "exprl2alignment"]
 
 
 class Alignment:
@@ -268,7 +273,12 @@ class Alignment:
 
 		return max(most_freq_mzs)
 
-	def write_csv(self, rt_file_name: Union[str, pathlib.Path], area_file_name: Union[str, pathlib.Path], minutes: bool = True):
+	def write_csv(
+			self,
+			rt_file_name: Union[str, pathlib.Path],
+			area_file_name: Union[str, pathlib.Path],
+			minutes: bool = True,
+			):
 		"""
 		Writes the alignment to CSV files
 
@@ -371,7 +381,12 @@ class Alignment:
 		fp1.close()
 		fp2.close()
 
-	def write_common_ion_csv(self, area_file_name: Union[str, pathlib.Path], top_ion_list: List, minutes: bool = True):
+	def write_common_ion_csv(
+			self,
+			area_file_name: Union[str, pathlib.Path],
+			top_ion_list: List,
+			minutes: bool = True,
+			):
 		"""
 		Writes the alignment to CSV files
 
@@ -422,7 +437,7 @@ class Alignment:
 			#            [align1_peak2, ................................]
 			#              .............................................
 			#            [align1_peakm,....................,alignn_peakm]  ]
-			areas: List[List]=[]
+			areas: List[List] = []
 			new_peak_lists: List[List[Peak]] = []
 
 			for peak_list in self.peakpos:

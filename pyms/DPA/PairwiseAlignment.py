@@ -25,31 +25,49 @@ Classes for peak alignment by dynamic programming
 
 # stdlib
 import copy
-import math
 import functools
+import math
+from typing import Dict, List
 
 # 3rd party
-from typing import List, Dict
-
-import numpy   # type: ignore
+import numpy  # type: ignore
 
 try:
-	from mpi4py import MPI   # type: ignore
+	# 3rd party
+	from mpi4py import MPI  # type: ignore
 except ModuleNotFoundError:
 	pass
 
 try:
-	from Pycluster import treecluster   # type: ignore
+	# 3rd party
+	from Pycluster import treecluster  # type: ignore
 except ModuleNotFoundError:
 	try:
-		from Bio.Cluster import treecluster   # type: ignore
+		# 3rd party
+		from Bio.Cluster import treecluster  # type: ignore
 	except ModuleNotFoundError:
-		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
-Please install one of them and try again.""")
+		raise ModuleNotFoundError(
+				"""Neither PyCluster or BioPython is installed.
+Please install one of them and try again."""
+				) from None
 
 # this package
 from pyms.DPA.Alignment import Alignment
 from pyms.Utils.Utils import is_sequence_of
+
+__all__ = [
+		"PairwiseAlignment",
+		"align",
+		"score_matrix",
+		"dp",
+		"position_similarity",
+		"merge_alignments",
+		"alignment_similarity",
+		"alignment_compare",
+		"score_matrix_mpi",
+		"align_with_tree",
+		"align_with_tree_mpi",
+		]
 
 
 class PairwiseAlignment:
@@ -364,8 +382,10 @@ def position_similarity(pos1, pos2, D) -> float:
 						try:
 							top = numpy.dot(mass_spect1, mass_spect2)
 						except ValueError:
-							raise ValueError("""Mass Spectra are of different lengths.
-Use `IntensityMatrix.crop_mass()` to set same length for all Mass Spectra""")
+							raise ValueError(
+									"""Mass Spectra are of different lengths.
+Use `IntensityMatrix.crop_mass()` to set same length for all Mass Spectra"""
+									)
 
 						bot = numpy.sqrt(mass_spect1_sum * mass_spect2_sum)
 						if bot > 0:
@@ -571,9 +591,7 @@ def score_matrix_mpi(a1: Alignment, a2: Alignment, D: float) -> Alignment:
 		score_matrix[0:portion] = score_matrix_part
 		for i in range(1, size):
 			if i == size - 1:
-				recv_buffer = numpy.zeros(
-					(len(a1.peakalgt) - (i * portion), len(a2.peakalgt))
-				)
+				recv_buffer = numpy.zeros((len(a1.peakalgt) - (i * portion), len(a2.peakalgt)))
 				comm.Recv(recv_buffer, i)
 				score_matrix[i * portion:len(a1.peakalgt)] = recv_buffer
 			else:
