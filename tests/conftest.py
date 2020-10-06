@@ -38,12 +38,12 @@ from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.TopHat import tophat
 
 
-@pytest.fixture("session")
-def datadir():
+@pytest.fixture(scope="session")
+def pyms_datadir():
 	return Path(os.path.split(__file__)[0]) / "data"
 
 
-@pytest.fixture("session")
+@pytest.fixture(scope="session")
 def outputdir():
 	outputdir = Path(os.path.split(__file__)[0]) / "output"
 	if not outputdir.exists():
@@ -52,9 +52,9 @@ def outputdir():
 
 
 @pytest.fixture(scope="session")
-def data(datadir):
+def data(pyms_datadir):
 	print("data")
-	return JCAMP_reader(datadir / "ELEY_1_SUBTRACT.JDX")
+	return JCAMP_reader(pyms_datadir / "ELEY_1_SUBTRACT.JDX")
 
 
 @pytest.fixture(scope="session")

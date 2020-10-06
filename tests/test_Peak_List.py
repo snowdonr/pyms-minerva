@@ -181,7 +181,7 @@ class TestStoreLoadPeaks:
 		with pytest.raises(TypeError):
 			store_peaks(filtered_peak_list, obj)
 
-	def test_load_peaks(self, filtered_peak_list, datadir, outputdir, peak_list_filename):
+	def test_load_peaks(self, filtered_peak_list, pyms_datadir, outputdir, peak_list_filename):
 		loaded_peak_list = load_peaks(peak_list_filename)
 
 		assert loaded_peak_list == filtered_peak_list
@@ -197,6 +197,6 @@ class TestStoreLoadPeaks:
 			("test_list_ints.dat", IOError),
 			("test_empty_list.dat", IOError),
 			])
-	def test_load_filename_errors_2(self, filename, expects, datadir):
+	def test_load_filename_errors_2(self, filename, expects, pyms_datadir):
 		with pytest.raises(expects):
-			load_peaks(datadir / filename)
+			load_peaks(pyms_datadir / filename)

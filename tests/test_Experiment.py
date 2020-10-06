@@ -130,7 +130,7 @@ def test_store_errors(expr):
 			expr.store(obj)
 
 
-def test_load_expr(filtered_peak_list, datadir, expr_filename):
+def test_load_expr(filtered_peak_list, pyms_datadir, expr_filename):
 	expr = load_expr(expr_filename)
 	assert isinstance(expr, Experiment)
 
@@ -149,13 +149,13 @@ def test_load_expr(filtered_peak_list, datadir, expr_filename):
 			load_expr(obj)
 
 	with pytest.raises(IOError):
-		load_expr(datadir / "non-existent.expr")
+		load_expr(pyms_datadir / "non-existent.expr")
 	with pytest.raises(IOError):
-		load_expr(datadir / "not-an-experiment.expr")
+		load_expr(pyms_datadir / "not-an-experiment.expr")
 
 
-def test_read_expr_list(filtered_peak_list, datadir, expr_filename):
-	expr_list = read_expr_list(datadir / "read_expr_list.txt")
+def test_read_expr_list(filtered_peak_list, pyms_datadir, expr_filename):
+	expr_list = read_expr_list(pyms_datadir / "read_expr_list.txt")
 	assert isinstance(expr_list, list)
 	assert is_sequence_of(expr_list, Experiment)
 

@@ -54,11 +54,11 @@ Gw = 0.30  # gap penalty
 
 
 @pytest.fixture(scope="module")
-def expr_list(datadir, outputdir):
+def expr_list(pyms_datadir, outputdir):
 	# Create experiment files
 	for jcamp_file in eley_codes:
 
-		im = build_intensity_matrix_i(JCAMP_reader(datadir / f"{jcamp_file}.JDX"))
+		im = build_intensity_matrix_i(JCAMP_reader(pyms_datadir / f"{jcamp_file}.JDX"))
 
 		# Intensity matrix size (scans, masses)
 		n_scan, n_mz = im.size
@@ -315,11 +315,11 @@ def test_write_common_ion_csv(A1, outputdir):
 # TODO: read the csv and check values
 
 
-def test_align_2_alignments(A1, datadir, outputdir):
+def test_align_2_alignments(A1, pyms_datadir, outputdir):
 	expr_list = []
 
 	for jcamp_file in geco_codes:
-		im = build_intensity_matrix_i(JCAMP_reader(datadir / f"{jcamp_file}.JDX"))
+		im = build_intensity_matrix_i(JCAMP_reader(pyms_datadir / f"{jcamp_file}.JDX"))
 
 		# Intensity matrix size (scans, masses)
 		n_scan, n_mz = im.size
