@@ -25,10 +25,9 @@ Provides functions for simulation of GCMS data
 
 # stdlib
 import math
-
-# 3rd party
 from typing import List
 
+# 3rd party
 import numpy  # type: ignore
 
 # this package
@@ -36,9 +35,19 @@ from pyms import Peak
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
+__all__ = [
+		"add_gaussc_noise",
+		"add_gaussc_noise_ic",
+		"add_gaussv_noise",
+		"add_gaussv_noise_ic",
+		"chromatogram",
+		"gaussian",
+		"gcms_sim",
+		]
+
 
 def add_gaussc_noise(im: IntensityMatrix, scale: float):
-    """
+	"""
     Adds noise to an IntensityMatrix object
 
     :param im: the intensity matrix object
@@ -50,16 +59,16 @@ def add_gaussc_noise(im: IntensityMatrix, scale: float):
     :author: Sean O'Callaghan
     """
 
-    n_scan, n_mz = im.size
+	n_scan, n_mz = im.size
 
-    for i in range(n_mz):
-        ic = im.get_ic_at_index(i)
-        add_gaussc_noise_ic(ic, scale)
-        im.set_ic_at_index(i, ic)
+	for i in range(n_mz):
+		ic = im.get_ic_at_index(i)
+		add_gaussc_noise_ic(ic, scale)
+		im.set_ic_at_index(i, ic)
 
 
-def add_gaussc_noise_ic(ic: IonChromatogram,  scale: float):
-    """
+def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
+	"""
     Adds noise drawn from a normal distribution with constant scale to an ion chromatogram
 
     :param ic: The ion Chromatogram
@@ -70,14 +79,14 @@ def add_gaussc_noise_ic(ic: IonChromatogram,  scale: float):
     :author: Sean O'Callaghan
     """
 
-    noise = numpy.random.normal(0.0, scale, (len(ic)))
+	noise = numpy.random.normal(0.0, scale, (len(ic)))
 
-    i_array_with_noise = ic.get_intensity_array() + noise
-    ic.set_intensity_array(i_array_with_noise)
+	i_array_with_noise = ic.get_intensity_array() + noise
+	ic.set_intensity_array(i_array_with_noise)
 
 
 def add_gaussv_noise(im: IntensityMatrix, scale: float, cutoff: int, prop: float):
-    """
+	"""
     adds noise to an IntensityMatrix object
 
     :param im: the intensity matrix object
@@ -96,16 +105,16 @@ def add_gaussv_noise(im: IntensityMatrix, scale: float, cutoff: int, prop: float
     :author: Sean O'Callaghan
     """
 
-    n_scan, n_mz = im.size
+	n_scan, n_mz = im.size
 
-    for i in range(n_mz):
-        ic = im.get_ic_at_index(i)
-        add_gaussv_noise_ic(ic, scale, cutoff, prop)
-        im.set_ic_at_index(i, ic)
+	for i in range(n_mz):
+		ic = im.get_ic_at_index(i)
+		add_gaussv_noise_ic(ic, scale, cutoff, prop)
+		im.set_ic_at_index(i, ic)
 
 
 def add_gaussv_noise_ic(ic: IonChromatogram, scale: int, cutoff: int, prop: float):
-    """
+	"""
     Adds noise to an ic. The noise value is drawn from a normal
     distribution, the scale of this distribution depends on the
     value of the ic at the point where the noise is being added
@@ -125,23 +134,23 @@ def add_gaussv_noise_ic(ic: IonChromatogram, scale: int, cutoff: int, prop: floa
     :author: Sean O'Callaghan
     """
 
-    noise = numpy.zeros(len(ic))
+	noise = numpy.zeros(len(ic))
 
-    i_array = ic.get_intensity_array()
-    # time_list = ic.get_time_list()
+	i_array = ic.get_intensity_array()
+	# time_list = ic.get_time_list()
 
-    for i in range(len(ic)):
-        if i_array[i] < cutoff:
-            noise[i] = numpy.random.normal(0.0, scale, 1)
-        else:
-            noise[i] = numpy.random.normal(0.0, scale * i_array[i] * prop, 1)
+	for i in range(len(ic)):
+		if i_array[i] < cutoff:
+			noise[i] = numpy.random.normal(0.0, scale, 1)
+		else:
+			noise[i] = numpy.random.normal(0.0, scale * i_array[i] * prop, 1)
 
-    i_array_with_noise = noise + i_array
-    ic.set_intensity_array(i_array_with_noise)
+	i_array_with_noise = noise + i_array
+	ic.set_intensity_array(i_array_with_noise)
 
 
-def chromatogram(n_scan: int, x_zero: int, sigma: float,peak_scale: float) -> List:
-    """
+def chromatogram(n_scan: int, x_zero: int, sigma: float, peak_scale: float) -> List:
+	"""
     Returns a simulated ion chromatogram of a pure component
     The ion chromatogram contains a single gaussian peak.
 
@@ -160,18 +169,18 @@ def chromatogram(n_scan: int, x_zero: int, sigma: float,peak_scale: float) -> Li
     :author: Sean O'Callaghan
     """
 
-    ic = numpy.zeros(n_scan, 'd')
+	ic = numpy.zeros(n_scan, 'd')
 
-    for i in range(n_scan):
-        x = float(i)
+	for i in range(n_scan):
+		x = float(i)
 
-        ic[i] = gaussian(x, x_zero, sigma, peak_scale)
+		ic[i] = gaussian(x, x_zero, sigma, peak_scale)
 
-    return ic
+	return ic
 
 
 def gaussian(point: float, mean: int, sigma: float, scale: float) -> float:
-    """
+	"""
     calculates a point on a gaussian density function
 
     f = s*exp(-((x-x0)^2)/(2*w^2));
@@ -191,11 +200,11 @@ def gaussian(point: float, mean: int, sigma: float, scale: float) -> float:
     :author: Sean O'Callaghan
     """
 
-    return scale * math.exp((-(point - mean) ** 2) / (2 * (sigma ** 2)))
+	return scale * math.exp((-(point - mean)**2) / (2 * (sigma**2)))
 
 
 def gcms_sim(time_list: List, mass_list: List, peak_list: Peak) -> IntensityMatrix:
-    """
+	"""
     Simulator of GCMS data
 
     :param time_list: the list of scan times
@@ -211,27 +220,27 @@ def gcms_sim(time_list: List, mass_list: List, peak_list: Peak) -> IntensityMatr
     :author: Sean O'Callaghan
     """
 
-    n_mz = len(mass_list)
-    n_scan = len(time_list)
+	n_mz = len(mass_list)
+	n_scan = len(time_list)
 
-    t1 = time_list[0]
-    period = time_list[1] - t1
+	t1 = time_list[0]
+	period = time_list[1] - t1
 
-    # initialise a 2D numpy array for intensity matrix
-    i_array = numpy.zeros((n_scan, n_mz), 'd')
+	# initialise a 2D numpy array for intensity matrix
+	i_array = numpy.zeros((n_scan, n_mz), 'd')
 
-    for peak in peak_list:
-        print("-", end='')
-        index = int((peak.rt - t1) / period)
-        height = sum(peak.get_mass_spectrum().mass_spec)
-        # standard deviation = area/(height * sqrt(2/pi))
-        sigma = peak.area / (height * (math.sqrt(2 * math.pi)))
-        print("width", sigma)
-        for i in range(len(peak.get_mass_spectrum().mass_list)):
-            ion_height = peak.get_mass_spectrum().mass_spec[i]
-            ic = chromatogram(n_scan, index, sigma, ion_height)
-            i_array[:, i] += ic
+	for peak in peak_list:
+		print("-", end='')
+		index = int((peak.rt - t1) / period)
+		height = sum(peak.get_mass_spectrum().mass_spec)
+		# standard deviation = area/(height * sqrt(2/pi))
+		sigma = peak.area / (height * (math.sqrt(2 * math.pi)))
+		print("width", sigma)
+		for i in range(len(peak.get_mass_spectrum().mass_list)):
+			ion_height = peak.get_mass_spectrum().mass_spec[i]
+			ic = chromatogram(n_scan, index, sigma, ion_height)
+			i_array[:, i] += ic
 
-    im = IntensityMatrix(time_list, mass_list, i_array)
+	im = IntensityMatrix(time_list, mass_list, i_array)
 
-    return im
+	return im

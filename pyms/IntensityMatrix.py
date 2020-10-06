@@ -27,10 +27,11 @@ Class to model Intensity Matrix
 import copy
 import pathlib
 from numbers import Number
-from typing import List, Any, Iterator, Union, Optional
+from typing import Any, Iterator, List, Optional, Union
 from warnings import warn
 
 # 3rd party
+import aenum  # type: ignore
 import deprecation  # type: ignore
 import numpy  # type: ignore
 
@@ -44,7 +45,14 @@ from pyms.Spectrum import MassSpectrum
 from pyms.Utils.IO import prepare_filepath, save_data
 from pyms.Utils.Utils import is_path, is_sequence, is_sequence_of
 
-import aenum  # type: ignore
+__all__ = [
+		"AsciiFiletypes",
+		"IntensityMatrix",
+		"import_leco_csv",
+		"build_intensity_matrix",
+		"build_intensity_matrix_i",
+		]
+
 
 class AsciiFiletypes(aenum.Enum):
 	"""
@@ -116,6 +124,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 		# Try to include parallelism.
 		try:
+			# 3rd party
 			from mpi4py import MPI  # type: ignore
 			comm = MPI.COMM_WORLD
 			num_ranks = comm.Get_size()
@@ -158,15 +167,20 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		"""
 
 		if isinstance(other, self.__class__):
-			return self.time_list == other.time_list \
-					and self.mass_list == other.mass_list \
+			return (
+					self.time_list == other.time_list
+					and self.mass_list == other.mass_list
 					and numpy.array_equal(self.intensity_array, other.intensity_array)
+			)
 
 		return NotImplemented
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details=f"Use :class:`pyms.IntensityMatrix.IntensityMatrix.local_size` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details=f"Use :class:`pyms.IntensityMatrix.IntensityMatrix.local_size` instead",
+			)
 	def get_local_size(self) -> Any:
 		"""
 		Gets the local size of intensity matrix.
@@ -197,9 +211,12 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		# If serial call the regular routine.
 		return self.size
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details=f"Use :class:`pyms.IntensityMatrix.IntensityMatrix.size` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details=f"Use :class:`pyms.IntensityMatrix.IntensityMatrix.size` instead",
+			)
 	def get_size(self) -> Any:
 		"""
 		Gets the size of intensity matrix
@@ -559,7 +576,11 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 			self._intensity_array[ii] = intensity_list_new
 
-	def export_ascii(self, root_name: Union[str, pathlib.Path], fmt: Union[AsciiFiletypes, int] = AsciiFiletypes.ASCII_DAT):
+	def export_ascii(
+			self,
+			root_name: Union[str, pathlib.Path],
+			fmt: Union[AsciiFiletypes, int] = AsciiFiletypes.ASCII_DAT,
+			):
 		"""
 		Exports the intensity matrix, retention time vector, and m/z vector to the ascii format.
 
@@ -753,7 +774,13 @@ def import_leco_csv(file_name: Union[str, pathlib.Path]) -> IntensityMatrix:
 	return IntensityMatrix(time_list, mass_list, data)
 
 
-def build_intensity_matrix(data: GCMS_data, bin_interval: float = 1, bin_left: float = 0.5, bin_right: float = 0.5, min_mass: Optional[bool] = None) -> bool:
+def build_intensity_matrix(
+		data: GCMS_data,
+		bin_interval: float = 1,
+		bin_left: float = 0.5,
+		bin_right: float = 0.5,
+		min_mass: Optional[bool] = None,
+		) -> bool:
 	"""
 	Sets the full intensity matrix with flexible bins
 
@@ -774,6 +801,7 @@ def build_intensity_matrix(data: GCMS_data, bin_interval: float = 1, bin_left: f
 	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 	"""
 
+	# this package
 	from pyms.GCMS.Class import GCMS_data
 
 	if not isinstance(data, GCMS_data):
@@ -812,6 +840,7 @@ def build_intensity_matrix_i(data: GCMS_data, bin_left: float = 0.3, bin_right: 
 	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 	"""
 
+	# this package
 	from pyms.GCMS.Class import GCMS_data
 
 	if not isinstance(data, GCMS_data):
@@ -833,7 +862,14 @@ def build_intensity_matrix_i(data: GCMS_data, bin_left: float = 0.3, bin_right: 
 	return __fill_bins(data, min_mass, max_mass, 1, bin_left, bin_right)
 
 
-def __fill_bins(data: GCMS_data, min_mass: float, max_mass: float, bin_interval: Union[int, float], bin_left: float, bin_right: float) -> IntensityMatrix:
+def __fill_bins(
+		data: GCMS_data,
+		min_mass: float,
+		max_mass: float,
+		bin_interval: Union[int, float],
+		bin_left: float,
+		bin_right: float,
+		) -> IntensityMatrix:
 	"""
 	Fills the intensity values for all bins
 
@@ -891,7 +927,14 @@ def __fill_bins(data: GCMS_data, min_mass: float, max_mass: float, bin_interval:
 	return IntensityMatrix(data.time_list, mass_list, intensity_matrix)
 
 
-def __fill_bins_old(data: GCMS_data, min_mass: float, max_mass: float, bin_interval: float, bin_left: float, bin_right: float) -> IntensityMatrix:
+def __fill_bins_old(
+		data: GCMS_data,
+		min_mass: float,
+		max_mass: float,
+		bin_interval: float,
+		bin_left: float,
+		bin_right: float,
+		) -> IntensityMatrix:
 	"""
 	Fills the intensity values for all bins
 

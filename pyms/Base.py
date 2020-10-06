@@ -26,12 +26,13 @@ Base for PyMassSpec classes
 # stdlib
 import pathlib
 import pickle
-
-# this package
 from typing import Union
 
+# this package
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path
+
+__all__ = ["pymsBaseClass"]
 
 
 class pymsBaseClass:

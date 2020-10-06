@@ -28,19 +28,20 @@ import copy
 import os
 import pathlib
 import pickle
-
-# 3rd party
 from typing import Any, List, Union
 
+# 3rd party
 import deprecation  # type: ignore
 
 # this package
 from pyms import __version__
-from pyms.Peak.Class import Peak
 from pyms.Base import pymsBaseClass
+from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path, is_sequence
+
+__all__ = ["Experiment", "read_expr_list", "load_expr", "store_expr"]
 
 
 class Experiment(pymsBaseClass):
@@ -121,9 +122,12 @@ class Experiment(pymsBaseClass):
 
 		return self._expr_code
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Experiment.Experiment.expr_code` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Experiment.Experiment.expr_code` instead",
+			)
 	def get_expr_code(self) -> str:
 		"""
 		Returns the expr_code of the experiment
@@ -133,9 +137,12 @@ class Experiment(pymsBaseClass):
 
 		return self.expr_code
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Experiment.Experiment.peak_list` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Experiment.Experiment.peak_list` instead",
+			)
 	def get_peak_list(self) -> List[Peak]:
 		"""
 		Returns the peak list
@@ -169,9 +176,12 @@ class Experiment(pymsBaseClass):
 		peaks_sele = sele_peaks_by_rt(self._peak_list, rt_range)
 		self._peak_list = peaks_sele
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :meth:`pyms.Experiment.Experiment.dump` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :meth:`pyms.Experiment.Experiment.dump` instead",
+			)
 	def store(self, file_name: str):
 		"""
 		stores an experiment to a file
@@ -255,9 +265,12 @@ def load_expr(file_name: Union[str, pathlib.Path]) -> Experiment:
 	return expr
 
 
-@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-						current_version=__version__,
-						details="Use :meth:`pyms.Experiment.Experiment.store` instead")
+@deprecation.deprecated(
+		deprecated_in="2.1.2",
+		removed_in="2.2.0",
+		current_version=__version__,
+		details="Use :meth:`pyms.Experiment.Experiment.store` instead",
+		)
 def store_expr(file_name: str, expr: Experiment):
 	"""
 	Stores an experiment to a file

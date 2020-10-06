@@ -25,25 +25,32 @@ Class to Display Ion Chromatograms and TIC
 
 # stdlib
 import warnings
+from typing import Dict, List, Optional, Tuple
 
 # 3rd party
-from typing import Optional, List, Dict, Tuple
-
 import deprecation  # type: ignore
 import matplotlib  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
 from matplotlib import axes, figure
-
-# this package
 from matplotlib.axes import Axes  # type: ignore
 from matplotlib.container import BarContainer  # type: ignore
 from matplotlib.lines import Line2D  # type: ignore
 
-from pyms import __version__, Peak
+# this package
+from pyms import Peak, __version__
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Spectrum import MassSpectrum, normalize_mass_spec
 
+__all__ = [
+		"Display",
+		"plot_ic",
+		"plot_mass_spec",
+		"plot_head2tail",
+		"plot_peaks",
+		"ClickEventHandler",
+		"invert_mass_spec",
+		]
 
 default_filetypes = ["png", "pdf", "svg"]
 
@@ -74,8 +81,11 @@ class Display:
 	"""
 
 	@deprecation.deprecated(
-			"2.2.8", "2.3.0", current_version=__version__,
-			details="Functionality has moved to other functions and classes in this module.")
+			"2.2.8",
+			"2.3.0",
+			current_version=__version__,
+			details="Functionality has moved to other functions and classes in this module.",
+			)
 	def __init__(self, fig=None, ax=None):
 		"""
 		Initialises an instance of Display class
@@ -118,8 +128,11 @@ class Display:
 
 		# if no plots have been created advise user
 		if len(self.__tic_ic_plots) == 0:
-			warnings.warn("""No plots have been created.
-Please call a plotting function before calling 'do_plotting()'""", UserWarning)
+			warnings.warn(
+					"""No plots have been created.
+Please call a plotting function before calling 'do_plotting()'""",
+					UserWarning,
+					)
 			return
 
 		if plot_label is not None:
@@ -308,7 +321,7 @@ Please call a plotting function before calling 'do_plotting()'""", UserWarning)
 
 		for filetype in filetypes:
 			# plt.savefig(filepath + ".{}".format(filetype))
-			self.fig.savefig(filepath + ".{}".format(filetype))
+			self.fig.savefig(filepath + f".{filetype}")
 		plt.close()
 
 	def show_chart(self):
@@ -422,7 +435,13 @@ def plot_mass_spec(ax: Axes, mass_spec: MassSpectrum, **kwargs) -> BarContainer:
 	return plot
 
 
-def plot_head2tail(ax: Axes, top_mass_spec: MassSpectrum, bottom_mass_spec: MassSpectrum, top_spec_kwargs: Optional[Dict] = None, bottom_spec_kwargs: Optional[Dict] = None) -> Tuple[BarContainer]:
+def plot_head2tail(
+		ax: Axes,
+		top_mass_spec: MassSpectrum,
+		bottom_mass_spec: MassSpectrum,
+		top_spec_kwargs: Optional[Dict] = None,
+		bottom_spec_kwargs: Optional[Dict] = None,
+		) -> Tuple[BarContainer]:
 	"""
 	Plots two Mass Spectra head to tail
 
@@ -464,7 +483,9 @@ def plot_head2tail(ax: Axes, top_mass_spec: MassSpectrum, bottom_mass_spec: Mass
 	if bottom_spec_kwargs is None:
 		bottom_spec_kwargs = dict(color="blue", width=0.5)
 	elif not isinstance(bottom_spec_kwargs, dict):
-		raise TypeError("'bottom_spec_kwargs' must be a dictionary of keyword arguments for the bottom mass spectrum.")
+		raise TypeError(
+				"'bottom_spec_kwargs' must be a dictionary of keyword arguments for the bottom mass spectrum."
+				)
 
 	# Plot a line at y=0 with same width and colour as Spines
 	ax.axhline(y=0, color=ax.spines['bottom'].get_edgecolor(), linewidth=ax.spines['bottom'].get_linewidth())
@@ -529,6 +550,7 @@ def plot_peaks(ax: Axes, peak_list: List[Peak], label: str = "Peaks", style: str
 			# print(sum(peak.mass_spectrum.intensity_list))
 
 		return ax.plot(time_list, height_list, style, label=label)
+
 
 # TODO: Change order of arguments and use plt.gca() a la pyplot
 

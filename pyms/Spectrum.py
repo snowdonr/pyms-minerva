@@ -27,12 +27,10 @@ Classes to model Mass Spectra and Scans
 import pathlib
 import re
 import warnings
-from collections.abc import Sequence
+from numbers import Number
+from typing import Any, List, Optional, Sequence, Tuple, Union
 
 # 3rd party
-from numbers import Number
-from typing import Union, Any, List, Optional, Tuple
-
 import deprecation  # type: ignore
 import numpy  # type: ignore
 
@@ -44,6 +42,8 @@ from pyms.Mixins import MassListMixin
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import xydata_tags
 from pyms.Utils.Utils import is_path, is_sequence
+
+__all__ = ["array_as_numeric", "Scan", "MassSpectrum", "normalize_mass_spec"]
 
 
 def array_as_numeric(array: Union[Sequence, numpy.ndarray]) -> numpy.ndarray:
@@ -84,7 +84,11 @@ class Scan(pymsBaseClass, MassListMixin):
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
-	def __init__(self, mass_list: Union[Sequence[Number], numpy.ndarray], intensity_list: Union[Sequence[Number, numpy.ndarray]]):
+	def __init__(
+			self,
+			mass_list: Union[Sequence[Number], numpy.ndarray],
+			intensity_list: Union[Sequence[Number, numpy.ndarray]],
+			):
 		"""
 		Initialise the class
 		"""
@@ -104,9 +108,11 @@ class Scan(pymsBaseClass, MassListMixin):
 				mass_list = mass_list[::-1]
 				intensity_list = intensity_list[::-1]
 			else:
-				warnings.warn("""Unknown sort order for mass list; it doesn't appear to be in either ascending or descending order.
+				warnings.warn(
+						"""Unknown sort order for mass list; it doesn't appear to be in either ascending or descending order.
 Please report this at https://github.com/domdfcoding/pymassspec/issues and upload an example data file if possible.
-""")
+"""
+						)
 
 		self._mass_list = mass_list
 		self._intensity_list = intensity_list
@@ -206,9 +212,12 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 		return self._intensity_list
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Spectrum.Scan.intensity_list` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Spectrum.Scan.intensity_list` instead",
+			)
 	def get_intensity_list(self) -> List:
 		"""
 		Returns the intensities for the current scan
@@ -220,9 +229,12 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 		return self.intensity_list
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Spectrum.Scan.min_mass` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Spectrum.Scan.min_mass` instead",
+			)
 	def get_min_mass(self) -> float:
 		"""
 		Returns the minimum m/z value in the scan
@@ -234,9 +246,12 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 		return self.min_mass
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.Spectrum.Scan.max_mass` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.Spectrum.Scan.max_mass` instead",
+			)
 	def get_max_mass(self) -> float:
 		"""
 		Returns the maximum m/z value in the scan
@@ -336,7 +351,12 @@ class MassSpectrum(Scan):
 			self._min_mass = None
 			self._max_mass = None
 
-	def crop(self, min_mz: Optional[float] = None, max_mz: Optional[float] = None, inplace: bool = False) -> MassSpectrum:
+	def crop(
+			self,
+			min_mz: Optional[float] = None,
+			max_mz: Optional[float] = None,
+			inplace: bool = False,
+			) -> MassSpectrum:
 		"""
 		Crop the Mass Spectrum between the given mz values
 
@@ -512,10 +532,9 @@ class MassSpectrum(Scan):
 		err_msg = "`mz_int_pairs` must be a list of (m/z, intensity) tuples."
 
 		if (
-				not is_sequence(mz_int_pairs)
-				or not is_sequence(mz_int_pairs[0])
+				not is_sequence(mz_int_pairs) or not is_sequence(mz_int_pairs[0])
 				# or not isinstance(mz_int_pairs[0][0], Number)
-			):
+				):
 			raise TypeError(err_msg)
 
 		if not len(mz_int_pairs[0]) == 2:
@@ -530,7 +549,12 @@ class MassSpectrum(Scan):
 		return cls(mass_list, intensity_list)
 
 
-def normalize_mass_spec(mass_spec: MassSpectrum, relative_to: Optional[float] = None, inplace: bool = False, max_intensity: float = 100) -> MassSpectrum:
+def normalize_mass_spec(
+		mass_spec: MassSpectrum,
+		relative_to: Optional[float] = None,
+		inplace: bool = False,
+		max_intensity: float = 100,
+		) -> MassSpectrum:
 	"""
 	Normalize the intensities in the given Mass Spectrum to values between 0 and ``max_intensity``,
 	which by default is 100.0.
@@ -556,9 +580,7 @@ def normalize_mass_spec(mass_spec: MassSpectrum, relative_to: Optional[float] = 
 	if relative_to is None:
 		relative_to = max(mass_spec.intensity_list)
 
-	normalized_intensity_list = [
-			(x / float(relative_to)) * max_intensity
-			for x in mass_spec.intensity_list]
+	normalized_intensity_list = [(x / float(relative_to)) * max_intensity for x in mass_spec.intensity_list]
 
 	if isinstance(max_intensity, int):
 		normalized_intensity_list = [round(x) for x in normalized_intensity_list]

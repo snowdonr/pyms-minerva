@@ -28,10 +28,9 @@ import copy
 import pathlib
 import warnings
 from numbers import Number
+from typing import Any, List, Optional, Union
 
 # 3rd party
-from typing import Union, List, Optional, Any
-
 import deprecation  # type: ignore
 import numpy  # type: ignore
 
@@ -41,6 +40,8 @@ from pyms.Base import pymsBaseClass
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path, is_sequence
+
+__all__ = ["IonChromatogram"]
 
 
 class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
@@ -59,7 +60,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
 
-	def __init__(self, i: numpy.ndarray, time_list: List, mass:Optional[float] = None):
+	def __init__(self, ia: numpy.ndarray, time_list: List, mass: Optional[float] = None):
 		"""
 		:param ia: Ion chromatogram intensity values
 		:type ia: numpy.array
@@ -128,23 +129,25 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		"""
 
 		if isinstance(other, self.__class__):
-			return self.time_list == other.time_list \
-					and all(numpy.equal(self.intensity_array, other.intensity_array)) \
+			return (
+					self.time_list == other.time_list
+					and all(numpy.equal(self.intensity_array, other.intensity_array))
 					and self.mass == other.mass
+			)
 
 		return NotImplemented
 
-	def __copy__(self) -> IonChromatogram:
+	def __copy__(self) -> "IonChromatogram":
 		"""
 		Returns a new IonChromatogram containing a copy of the data in this object
 
 		:rtype: pyms.IonChromatogram.IonChromatogram
 		"""
 		return IonChromatogram(
-			ia=numpy.copy(self._intensity_array),
-			time_list=self._time_list[:],
-			mass=copy.copy(self._mass)
-			)
+				ia=numpy.copy(self._intensity_array),
+				time_list=self._time_list[:],
+				mass=copy.copy(self._mass),
+				)
 
 	def __deepcopy__(self, memodict={}):
 		return self.__copy__()
@@ -170,9 +173,12 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self._intensity_array[ix]
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.IonChromatogram.IonChromatogram.mass` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.mass` instead",
+			)
 	def get_mass(self) -> int:
 		"""
 		Returns the m/z channel of the IC
@@ -185,9 +191,12 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self.mass
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.IonChromatogram.IonChromatogram.time_step` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.time_step` instead",
+			)
 	def get_time_step(self) -> float:
 		"""
 		Returns the time step
@@ -246,9 +255,12 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self._mass
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use :attr:`pyms.IonChromatogram.IonChromatogram.intensity_array` instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.intensity_array` instead",
+			)
 	def set_intensity_array(self, ia: numpy.ndarray):
 		"""
 		Sets the value for the intensity array
@@ -300,7 +312,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return time_step
 
-	def write(self, file_name : Union[str, pathlib.Path], minutes: bool = False, formatting: bool = True):
+	def write(self, file_name: Union[str, pathlib.Path], minutes: bool = False, formatting: bool = True):
 		"""
 		Writes the ion chromatogram to the specified file
 

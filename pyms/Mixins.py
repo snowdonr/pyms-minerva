@@ -36,11 +36,17 @@ import numpy  # type: ignore
 # this package
 from pyms import __version__
 
+__all__ = ["MaxMinMassMixin", "MassListMixin", "TimeListMixin", "IntensityArrayMixin", "GetIndexTimeMixin"]
+
 
 class MaxMinMassMixin:
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'max_mass' attribute instead")
+
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use 'max_mass' attribute instead",
+			)
 	def get_max_mass(self) -> float:
 		"""
 		Get the max mass value
@@ -55,9 +61,12 @@ class MaxMinMassMixin:
 
 		return self.max_mass
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'min_mass' attribute instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use 'min_mass' attribute instead",
+			)
 	def get_min_mass(self) -> float:
 		"""
 		Get the min mass value over all scans
@@ -116,9 +125,12 @@ class MassListMixin(MaxMinMassMixin):
 
 		return self._mass_list[:]
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'mass_list' attribute instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use 'mass_list' attribute instead",
+			)
 	def get_mass_list(self) -> List:
 		"""
 		Returns a list of the masses
@@ -151,9 +163,12 @@ class TimeListMixin:
 
 		return self._time_list[:]
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'time_list' attribute instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use 'time_list' attribute instead",
+			)
 	def get_time_list(self) -> List:
 		"""
 		Returns a copy of the time list
@@ -198,9 +213,12 @@ class IntensityArrayMixin:
 
 		return numpy.copy(self._intensity_array)
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details="Use 'intensity_array' attribute instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details="Use 'intensity_array' attribute instead",
+			)
 	def get_intensity_array(self) -> numpy.ndarray:
 		"""
 		Returns the entire intensity array
@@ -227,9 +245,12 @@ class IntensityArrayMixin:
 
 		return self._intensity_array.tolist()
 
-	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
-							current_version=__version__,
-							details=f"Use 'matrix_list' attribute instead")
+	@deprecation.deprecated(
+			deprecated_in="2.1.2",
+			removed_in="2.2.0",
+			current_version=__version__,
+			details=f"Use 'matrix_list' attribute instead",
+			)
 	def get_matrix_list(self) -> List:
 		"""
 		Returns a copy of the intensity matrix as a list of lists of floats
@@ -257,6 +278,7 @@ class IntensityArrayMixin:
 
 
 class GetIndexTimeMixin:
+
 	def get_index_at_time(self, time: float) -> int:
 		"""
 		Returns the nearest index corresponding to the given time
@@ -276,7 +298,9 @@ class GetIndexTimeMixin:
 			raise TypeError("'time' must be a number")
 
 		if (time < self._min_rt) or (time > self._max_rt):
-			raise IndexError(f"time {time:.2f} is out of bounds (min: {self._min_rt:.2f}, max: {self._max_rt:.2f})")
+			raise IndexError(
+					f"time {time:.2f} is out of bounds (min: {self._min_rt:.2f}, max: {self._max_rt:.2f})"
+					)
 
 		time_list = self._time_list
 		time_diff_min = self._max_rt
