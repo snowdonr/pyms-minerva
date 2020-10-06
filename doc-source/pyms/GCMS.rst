@@ -68,5 +68,3 @@
 	:members:
 	:inherited-members:
 	:autosummary:
-
-

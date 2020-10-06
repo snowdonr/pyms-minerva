@@ -2,11 +2,11 @@ autodocsumm>=0.2.0
 default_values>=0.2.0
 domdf_sphinx_theme>=0.1.0
 extras_require>=0.2.0
-jupyter
-nbconvert
-nbsphinx
+jupyter>=1.0.0
+nbconvert>=6.0.7
+nbsphinx>=0.7.1
 Pillow>=6.0.0
-pypandoc
+pypandoc>=1.5
 seed_intersphinx_mapping>=0.1.1
 sphinx>=3.0.3
 sphinx-copybutton>=0.2.12

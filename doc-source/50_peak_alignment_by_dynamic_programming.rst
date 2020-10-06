@@ -67,4 +67,3 @@ References
 ============
 
 .. [1] Robinson MD, De Souza DP, Keen WW, Saunders EC, McConville MJ, Speed TP, and Likic VA. A dynamic programming approach for the alignment of signal peaks in multiple gas chromatography-mass spectrometry experiments. `BMC Bioinformatics`, 8:419, 2007
-
