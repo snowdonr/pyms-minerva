@@ -29,18 +29,20 @@ import math
 import functools
 
 # 3rd party
-import numpy
+from typing import List, Dict
+
+import numpy   # type: ignore
 
 try:
-	from mpi4py import MPI
+	from mpi4py import MPI   # type: ignore
 except ModuleNotFoundError:
 	pass
 
 try:
-	from Pycluster import treecluster
+	from Pycluster import treecluster   # type: ignore
 except ModuleNotFoundError:
 	try:
-		from Bio.Cluster import treecluster
+		from Bio.Cluster import treecluster   # type: ignore
 	except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
@@ -65,7 +67,7 @@ class PairwiseAlignment:
 	:author: Vladimir Likic
 	"""
 
-	def __init__(self, alignments, D, gap):
+	def __init__(self, alignments: List[Alignment], D: float, gap: float):
 		"""
 		Models pairwise alignment of alignments
 		"""
@@ -142,7 +144,7 @@ class PairwiseAlignment:
 		print("Done")
 
 
-def align(a1, a2, D, gap):
+def align(a1: Alignment, a2: Alignment, D: float, gap: float) -> Alignment:
 	"""
 	Aligns two alignments
 
@@ -181,7 +183,7 @@ def align(a1, a2, D, gap):
 	return ma
 
 
-def score_matrix(a1, a2, D):
+def score_matrix(a1: Alignment, a2: Alignment, D: float) -> numpy.ndarray:
 	"""
 	Calculates the score matrix between two alignments
 
@@ -193,7 +195,6 @@ def score_matrix(a1, a2, D):
 	:type D: float
 
 	:return: Aligned alignments
-	:rtype: pyms.DPA.Alignment.Alignment
 
 	:author: Qiao Wang
 	:author: Andrew Isaac
@@ -211,7 +212,7 @@ def score_matrix(a1, a2, D):
 	return score_matrix
 
 
-def dp(S, gap_penalty):
+def dp(S, gap_penalty: float) -> Dict:
 	"""
 	Solves optimal path in score matrix based on global sequence
 		alignment
@@ -308,7 +309,7 @@ def dp(S, gap_penalty):
 	return {'p': p, 'q': q, 'trace': trace, 'matches': matches, 'D': D, 'phi': trace_matrix}
 
 
-def position_similarity(pos1, pos2, D):
+def position_similarity(pos1, pos2, D) -> float:
 	"""
 	Calculates the similarity between the two alignment positions.
 	A score of 0 is best and 1 is worst.
@@ -519,7 +520,7 @@ def alignment_compare(x, y):
 		return 1
 
 
-def score_matrix_mpi(a1, a2, D):
+def score_matrix_mpi(a1: Alignment, a2: Alignment, D: float) -> Alignment:
 	"""
 	Calculates the score matrix between two alignments
 
@@ -598,14 +599,14 @@ def score_matrix_mpi(a1, a2, D):
 	return score_matrix
 
 
-def align_with_tree(T, min_peaks=1):
+def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 	"""
 	Aligns a list of alignments using the supplied guide tree
 
 	:param T: The pairwise alignment object
 	:type T: pyms.DPA.PairwiseAlignment.PairwiseAlignment
 	:param min_peaks:
-	:type min_peaks:
+	:type min_peaks: int
 
 	:return: The final alignment consisting of aligned input alignments
 	:rtype: pyms.DPA.Alignment.Alignment
@@ -646,7 +647,7 @@ def align_with_tree(T, min_peaks=1):
 	return final_algt
 
 
-def align_with_tree_mpi(T, min_peaks=1):
+def align_with_tree_mpi(T: Alignment, min_peaks=1) -> Alignment:
 	"""
 	Aligns a list of alignments using the supplied guide tree
 

@@ -24,24 +24,29 @@ Classes to model Mass Spectra and Scans
 ################################################################################
 
 # stdlib
+import pathlib
 import re
 import warnings
 from collections.abc import Sequence
 
 # 3rd party
-import deprecation
-import numpy
+from numbers import Number
+from typing import Union, Any, List, Optional, Tuple
+
+import deprecation  # type: ignore
+import numpy  # type: ignore
 
 # this package
 from pyms import __version__
 from pyms.Base import pymsBaseClass
+from pyms.GCMS.Class import MassSpectrum
 from pyms.Mixins import MassListMixin
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import xydata_tags
 from pyms.Utils.Utils import is_path, is_sequence
 
 
-def array_as_numeric(array):
+def array_as_numeric(array: Union[Sequence, numpy.ndarray]) -> numpy.ndarray:
 	"""
 	Convert the given numpy array to a numeric data type.
 
@@ -79,7 +84,7 @@ class Scan(pymsBaseClass, MassListMixin):
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
-	def __init__(self, mass_list, intensity_list):
+	def __init__(self, mass_list: Union[Sequence[Number], numpy.ndarray], intensity_list: Union[Sequence[Number, numpy.ndarray]]):
 		"""
 		Initialise the class
 		"""
@@ -113,7 +118,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 			self._min_mass = None
 			self._max_mass = None
 
-	def __len__(self):
+	def __len__(self) -> int:
 		"""
 		Returns the length of the object
 
@@ -127,7 +132,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 	def __bool__(self):
 		return bool(self._mass_list)
 
-	def __eq__(self, other):
+	def __eq__(self, other: Any) -> bool:
 		"""
 		Return whether this object is equal to another object
 
@@ -178,7 +183,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 			yield mz, intensity
 
 	@property
-	def intensity_list(self):
+	def intensity_list(self) -> List:
 		"""
 		Returns a copy of the intensity list
 
@@ -190,7 +195,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		return self._intensity_list[:]
 
 	@property
-	def mass_spec(self):
+	def mass_spec(self) -> List:
 		"""
 		Returns the intensity list
 
@@ -204,7 +209,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use :attr:`pyms.Spectrum.Scan.intensity_list` instead")
-	def get_intensity_list(self):
+	def get_intensity_list(self) -> List:
 		"""
 		Returns the intensities for the current scan
 
@@ -218,7 +223,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use :attr:`pyms.Spectrum.Scan.min_mass` instead")
-	def get_min_mass(self):
+	def get_min_mass(self) -> float:
 		"""
 		Returns the minimum m/z value in the scan
 
@@ -232,7 +237,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 	@deprecation.deprecated(deprecated_in="2.1.2", removed_in="2.2.0",
 							current_version=__version__,
 							details="Use :attr:`pyms.Spectrum.Scan.max_mass` instead")
-	def get_max_mass(self):
+	def get_max_mass(self) -> float:
 		"""
 		Returns the maximum m/z value in the scan
 
@@ -260,7 +265,7 @@ class MassSpectrum(Scan):
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
-	def __init__(self, mass_list, intensity_list):
+	def __init__(self, mass_list: List, intensity_list: List):
 		"""
 		Initialise the class
 		"""
@@ -268,7 +273,7 @@ class MassSpectrum(Scan):
 		Scan.__init__(self, mass_list, intensity_list)
 
 	@Scan.intensity_list.setter
-	def intensity_list(self, value):
+	def intensity_list(self, value: List):
 		"""
 		Set the intensity values for the spectrum
 
@@ -287,7 +292,7 @@ class MassSpectrum(Scan):
 		self._intensity_list = list(value)
 
 	@Scan.mass_spec.setter
-	def mass_spec(self, value):
+	def mass_spec(self, value: List):
 		"""
 		Set the intensity values for the spectrum
 
@@ -306,7 +311,7 @@ class MassSpectrum(Scan):
 		self._intensity_list = list(value)
 
 	@MassListMixin.mass_list.setter
-	def mass_list(self, value):
+	def mass_list(self, value: List):
 		"""
 		Set the mass values for the spectrum
 
@@ -331,7 +336,7 @@ class MassSpectrum(Scan):
 			self._min_mass = None
 			self._max_mass = None
 
-	def crop(self, min_mz=None, max_mz=None, inplace=False):
+	def crop(self, min_mz: Optional[float] = None, max_mz: Optional[float] = None, inplace: bool = False) -> MassSpectrum:
 		"""
 		Crop the Mass Spectrum between the given mz values
 
@@ -357,7 +362,7 @@ class MassSpectrum(Scan):
 
 		return self.icrop(min_mz_idx, max_mz_idx, inplace)
 
-	def icrop(self, min_index=0, max_index=-1, inplace=False):
+	def icrop(self, min_index: [float] = 0, max_index: [float] = -1, inplace: bool = False) -> MassSpectrum:
 		"""
 		Crop the Mass Spectrum between the given indices
 
@@ -439,7 +444,7 @@ class MassSpectrum(Scan):
 		return self._mass_list[intensity_idx]
 
 	@classmethod
-	def from_jcamp(cls, file_name):
+	def from_jcamp(cls, file_name: Union[str, pathlib.Path]) -> MassSpectrum:
 		"""
 		Create a MassSpectrum from a JCAMP-DX file
 
@@ -496,7 +501,7 @@ class MassSpectrum(Scan):
 		return cls(mass_list, intensity_list)
 
 	@classmethod
-	def from_mz_int_pairs(cls, mz_int_pairs):
+	def from_mz_int_pairs(cls, mz_int_pairs: List[Tuple[float, float]]):
 		"""
 		Construct a MassSpectrum from a list of (m/z, intensity) tuples.
 
@@ -525,7 +530,7 @@ class MassSpectrum(Scan):
 		return cls(mass_list, intensity_list)
 
 
-def normalize_mass_spec(mass_spec, relative_to=None, inplace=False, max_intensity=100):
+def normalize_mass_spec(mass_spec: MassSpectrum, relative_to: Optional[float] = None, inplace: bool = False, max_intensity: float = 100) -> MassSpectrum:
 	"""
 	Normalize the intensities in the given Mass Spectrum to values between 0 and ``max_intensity``,
 	which by default is 100.0.

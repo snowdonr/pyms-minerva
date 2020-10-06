@@ -28,7 +28,9 @@ import copy
 from statistics import median
 
 # 3rd party
-import numpy
+from typing import Union
+
+import numpy  # type: ignore
 
 # this package
 from pyms.GCMS.Function import ic_window_points
@@ -39,7 +41,7 @@ from pyms.IonChromatogram import IonChromatogram
 __DEFAULT_WINDOW = 3
 
 
-def window_smooth(ic, window=__DEFAULT_WINDOW, use_median=False):
+def window_smooth(ic: IonChromatogram, window: Union[int,str] = __DEFAULT_WINDOW, use_median: bool = False) -> IonChromatogram:
     """
     Applies window smoothing on ion chromatogram
 
@@ -85,7 +87,7 @@ def window_smooth(ic, window=__DEFAULT_WINDOW, use_median=False):
     return ic_denoise
 
 
-def window_smooth_im(im, window=__DEFAULT_WINDOW, use_median=False):
+def window_smooth_im(im: IntensityMatrix, window: Union[int,str] = __DEFAULT_WINDOW, use_median: bool = False) -> IntensityMatrix:
     """
     Applies window smoothing on Intensity Matrix
 
@@ -121,7 +123,7 @@ def window_smooth_im(im, window=__DEFAULT_WINDOW, use_median=False):
     return im_smooth
 
 
-def __mean_window(ia, wing_length):
+def __mean_window(ia: numpy.core.ndarray, wing_length: int) -> numpy.core.ndarray:
     """
     Applies mean-window averaging on the array of intensities.
 
@@ -153,7 +155,7 @@ def __mean_window(ia, wing_length):
     return ia_denoise
 
 
-def __median_window(ia, wing_length):
+def __median_window(ia: IntensityMatrix, wing_length: int) -> numpy.ndarray:
     """
     Applies median-window averaging on the array of intensities.
 

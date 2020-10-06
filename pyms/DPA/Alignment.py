@@ -31,14 +31,19 @@ import pathlib
 from numbers import Number
 
 # 3rd party
-import numpy
-import pandas
+from typing import List, Union, Dict
+
+import numpy  # type: ignore
+import pandas  # type: ignore
+from pandas import DataFrame
+
+from pyms.Peak import Peak
 
 try:
-	from Pycluster import treecluster
+	from Pycluster import treecluster  # type: ignore
 except ModuleNotFoundError:
 	try:
-		from Bio.Cluster import treecluster
+		from Bio.Cluster import treecluster  # type: ignore
 	except ModuleNotFoundError:
 		raise ModuleNotFoundError("""Neither PyCluster or BioPython is installed.
 Please install one of them and try again.""")
@@ -94,7 +99,7 @@ class Alignment:
 
 		return len(self.peakalgt)
 
-	def aligned_peaks(self, minutes=False):
+	def aligned_peaks(self, minutes: bool = False) -> List:
 		"""
 		Returns a list of Peak objects where each peak has the combined spectra
 			and average retention time of all peaks that aligned.
@@ -130,7 +135,7 @@ class Alignment:
 
 		return peak_list
 
-	def common_ion(self):
+	def common_ion(self) -> List:
 		"""
 		Calculates a common ion among the peaks of an aligned peak
 
@@ -147,7 +152,7 @@ class Alignment:
 		# each dictionary contains the
 		# top ions and their frequency for each peak
 		# in the alignment
-		list_of_top_ion_dicts = []
+		list_of_top_ion_dicts: List = []
 		empty_count_list = []
 
 		for peak_list in self.peakpos:
@@ -214,7 +219,7 @@ class Alignment:
 
 		return top_ion_list
 
-	def filter_min_peaks(self, min_peaks):
+	def filter_min_peaks(self, min_peaks: int):
 		"""
 		Filters alignment positions that have less peaks than 'min_peaks'
 
@@ -241,7 +246,7 @@ class Alignment:
 		self.peakpos = numpy.transpose(self.peakalgt)
 
 	@staticmethod
-	def get_highest_mz_ion(ion_dict):
+	def get_highest_mz_ion(ion_dict: Dict) -> int:
 		"""
 		Returns the preferred ion for quantitiation
 			Looks at the list of candidate ions, selects those which have
@@ -263,7 +268,7 @@ class Alignment:
 
 		return max(most_freq_mzs)
 
-	def write_csv(self, rt_file_name, area_file_name, minutes=True):
+	def write_csv(self, rt_file_name: Union[str, pathlib.Path], area_file_name: Union[str, pathlib.Path], minutes: bool = True):
 		"""
 		Writes the alignment to CSV files
 
@@ -366,7 +371,7 @@ class Alignment:
 		fp1.close()
 		fp2.close()
 
-	def write_common_ion_csv(self, area_file_name, top_ion_list, minutes=True):
+	def write_common_ion_csv(self, area_file_name: Union[str, pathlib.Path], top_ion_list: List, minutes: bool = True):
 		"""
 		Writes the alignment to CSV files
 
@@ -417,8 +422,8 @@ class Alignment:
 			#            [align1_peak2, ................................]
 			#              .............................................
 			#            [align1_peakm,....................,alignn_peakm]  ]
-			areas = []
-			new_peak_lists = []
+			areas: List[List]=[]
+			new_peak_lists: List[List[Peak]] = []
 
 			for peak_list in self.peakpos:
 				index = 0
@@ -481,7 +486,7 @@ class Alignment:
 			for row in out_strings:
 				fp.write(row + "\n")
 
-	def write_ion_areas_csv(self, ms_file_name, minutes=True):
+	def write_ion_areas_csv(self, ms_file_name: Union[str, pathlib.Path], minutes: bool = True):
 		"""
 		Write Ion Areas to CSV File
 
@@ -545,7 +550,7 @@ class Alignment:
 
 				fp1.write("\n")
 
-	def get_peak_alignment(self, minutes=True, require_all_expr=True):
+	def get_peak_alignment(self, minutes: bool = True, require_all_expr: bool = True) -> DataFrame:
 		"""
 		Returns a Pandas dataframe of aligned retention times
 
@@ -594,7 +599,7 @@ class Alignment:
 
 		return rt_alignment
 
-	def get_ms_alignment(self, require_all_expr=True):
+	def get_ms_alignment(self, require_all_expr: bool = True) -> DataFrame:
 		"""
 		Returns a Pandas dataframe of mass spectra for the aligned peaks
 
@@ -634,7 +639,7 @@ class Alignment:
 
 		return ms_alignment
 
-	def get_peaks_alignment(self, require_all_expr=True):
+	def get_peaks_alignment(self, require_all_expr: bool = True) -> DataFrame:
 		"""
 		Returns a Pandas dataframe of Peak objects for the aligned peaks
 
@@ -673,7 +678,7 @@ class Alignment:
 
 		return peak_alignment
 
-	def get_area_alignment(self, require_all_expr=True):
+	def get_area_alignment(self, require_all_expr: bool = True) -> DataFrame:
 		"""
 		Returns a Pandas dataframe of peak areas for the aligned peaks
 
@@ -715,7 +720,7 @@ class Alignment:
 		return area_alignment
 
 
-def exprl2alignment(expr_list):
+def exprl2alignment(expr_list: List[Experiment]) -> List[Alignment]:
 	"""
 	Converts experiments into alignments
 

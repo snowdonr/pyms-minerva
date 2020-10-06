@@ -28,12 +28,14 @@ import gzip
 import pathlib
 import pickle
 from numbers import Number
-
+from pyms.Utils.Utils import is_path
 # this package
+from typing import Union, Any, List
+
 from pyms.Utils.Utils import _list_types
 
 
-def prepare_filepath(file_name, mkdirs=True):
+def prepare_filepath(file_name: Union [str, pathlib.Path], mkdirs: bool = True) -> pathlib.Path:
 	"""
 	Convert string filename into pathlib.Path object and create parent directories if required
 
@@ -60,7 +62,7 @@ def prepare_filepath(file_name, mkdirs=True):
 	return file_name
 
 
-def dump_object(obj, file_name):
+def dump_object(obj: Any, file_name: Union[str, pathlib.Path]) :
 	"""
 	Dumps an object to a file through pickle.dump()
 
@@ -72,7 +74,6 @@ def dump_object(obj, file_name):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
-	from pyms.Utils.Utils import is_path
 
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
@@ -83,7 +84,7 @@ def dump_object(obj, file_name):
 		pickle.dump(obj, fp)
 
 
-def load_object(file_name):
+def load_object(file_name: Union[str, pathlib.Path]):
 	"""
 	Loads an object previously dumped with dump_object()
 
@@ -96,7 +97,6 @@ def load_object(file_name):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
-	from pyms.Utils.Utils import is_path
 
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
@@ -107,7 +107,7 @@ def load_object(file_name):
 		return pickle.load(fp)
 
 
-def file_lines(file_name, strip=False):
+def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List:
 	"""
 	Returns lines from a file, as a list
 
@@ -124,8 +124,6 @@ def file_lines(file_name, strip=False):
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
-
-	from pyms.Utils.Utils import is_path
 
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
@@ -155,7 +153,7 @@ def file_lines(file_name, strip=False):
 	return lines
 
 
-def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compressed=False):
+def save_data(file_name: Union[str, pathlib.Path],data: List, format_str: str = "%.6f", prepend: str = "", sep: str = " ", compressed: bool = False):
 	"""
 	Saves a list of numbers or a list of lists of numbers to a file with specific formatting
 
@@ -175,8 +173,6 @@ def save_data(file_name, data, format_str="%.6f", prepend="", sep=" ", compresse
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster (pathlib support)
 	"""
-
-	from pyms.Utils.Utils import is_path
 
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
