@@ -43,27 +43,22 @@ def window_analyzer(
 		ic: IonChromatogram,
 		window: Union[int, str] = _DEFAULT_WINDOW,
 		n_windows: int = _DEFAULT_N_WINDOWS,
-		rand_seed: Union[int, str, None] = None,
+		rand_seed: Union[int, float, str, None] = None,
 		) -> float:
 	"""
 	A simple estimator of the signal noise based on randomly placed windows and
-	median absolute deviation
+	median absolute deviation.
 
 	The noise value is estimated by repeatedly and picking random windows
 	(of a specified width) and calculating median absolute deviation (MAD).
 	The noise estimate is given by the minimum MAD.
 
-	:param ic: An IonChromatogram object
-	:type ic: pyms.IonChromatogram.IonChromatogram
-	:param window: Window width selection
-	:type window: int or str, optional
-	:param n_windows: The number of windows to calculate
-	:type n_windows: int, optional
-	:param rand_seed: Seed for random number generator
-	:type rand_seed: str or int or float, optional
+	:param ic: An IonChromatogram object.
+	:param window: Window width selection.
+	:param n_windows: The number of windows to calculate.
+	:param rand_seed: Seed for random number generator.
 
-	:return: The noise estimate
-	:rtype: float
+	:return: The noise estimate.
 
 	:author: Vladimir Likic
 	"""

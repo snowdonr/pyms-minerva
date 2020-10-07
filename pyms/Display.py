@@ -254,7 +254,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		plot = plot_mass_spec(self.ax, mass_spec, **kwargs)
 		return plot
 
-	def plot_peaks(self, peak_list: List[Peak], label: str = "Peaks"):
+	def plot_peaks(self, peak_list: List[Peak.Peak], label: str = "Peaks"):
 		"""
 		Plots the locations of peaks as found by PyMassSpec.
 
@@ -511,7 +511,7 @@ def plot_head2tail(
 	return top_plot, bottom_plot
 
 
-def plot_peaks(ax: Axes, peak_list: List[Peak], label: str = "Peaks", style: str = "o") -> List[Line2D]:
+def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style: str = "o") -> List[Line2D]:
 	"""
 	Plots the locations of peaks as found by PyMassSpec.
 

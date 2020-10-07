@@ -48,16 +48,13 @@ __all__ = [
 
 def add_gaussc_noise(im: IntensityMatrix, scale: float):
 	"""
-    Adds noise to an IntensityMatrix object
+	Adds noise to an IntensityMatrix object
 
-    :param im: the intensity matrix object
-    :type im: pyms.IntensityMatrix.IntensityMatrix
+	:param im: the intensity matrix object
+	:param scale: the scale of the normal distribution from which the noise is drawn
 
-    :param scale: the scale of the normal distribution from which the noise is drawn
-    :type scale: float
-
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	n_scan, n_mz = im.size
 
@@ -69,15 +66,13 @@ def add_gaussc_noise(im: IntensityMatrix, scale: float):
 
 def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
 	"""
-    Adds noise drawn from a normal distribution with constant scale to an ion chromatogram
+	Adds noise drawn from a normal distribution with constant scale to an ion chromatogram
 
-    :param ic: The ion Chromatogram
-    :type ic: pyms.IonChromatogram.IonChromatogram
-    :param scale: The scale of the normal distribution
-    :type scale: float
+	:param ic: The ion Chromatogram
+	:param scale: The scale of the normal distribution
 
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	noise = numpy.random.normal(0.0, scale, (len(ic)))
 
@@ -85,25 +80,25 @@ def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
 	ic.set_intensity_array(i_array_with_noise)
 
 
-def add_gaussv_noise(im: IntensityMatrix, scale: float, cutoff: int, prop: float):
+def add_gaussv_noise(
+		im: IntensityMatrix,
+		scale: float,
+		cutoff: int,
+		prop: float,
+		):
 	"""
-    adds noise to an IntensityMatrix object
+	Adds noise to an IntensityMatrix object
 
-    :param im: the intensity matrix object
-    :type im: pyms.IntensityMatrix.IntensityMatrix
-    :param scale: the scale of the normal distribution from which the noise is drawn
-    :type scale: float
-    :param cutoff: The level below which the intensity of the ic at that point
-        has no effect on the scale of the noise distribution
-    :type cutoff: int
-    :param scale: The scale of the normal distribution for ic values
-    :type scale: int
-    :param prop: For intensity values above the cutoff, the scale is
-        multiplied by the ic value multiplied by prop
-    :type prop: float
+	:param im: the intensity matrix object
+	:param scale: the scale of the normal distribution from which the noise is drawn
+	:param cutoff: The level below which the intensity of the ic at that point
+		has no effect on the scale of the noise distribution
+	:param scale: The scale of the normal distribution for ic values
+	:param prop: For intensity values above the cutoff, the scale is
+		multiplied by the ic value multiplied by ``prop``.
 
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	n_scan, n_mz = im.size
 
@@ -113,26 +108,27 @@ def add_gaussv_noise(im: IntensityMatrix, scale: float, cutoff: int, prop: float
 		im.set_ic_at_index(i, ic)
 
 
-def add_gaussv_noise_ic(ic: IonChromatogram, scale: int, cutoff: int, prop: float):
+def add_gaussv_noise_ic(
+		ic: IonChromatogram,
+		scale: int,
+		cutoff: int,
+		prop: float,
+		):
 	"""
-    Adds noise to an ic. The noise value is drawn from a normal
-    distribution, the scale of this distribution depends on the
-    value of the ic at the point where the noise is being added
+	Adds noise to an ic. The noise value is drawn from a normal
+	distribution, the scale of this distribution depends on the
+	value of the ic at the point where the noise is being added
 
-    :param ic: The IonChromatogram
-    :type ic: pyms.IonChromatogram.IonChromatogram
-    :param cutoff: The level below which the intensity of the ic at that point
-        has no effect on the scale of the noise distribution
-    :type cutoff: int
-    :param scale: The scale of the normal distribution for ic values below the cutoff
-        is modified for values above the cutoff
-    :type scale: int
-    :param prop: For ic values above the cutoff, the scale is multiplied by the ic
-        value multiplied by prop
-    :type prop: float
+	:param ic: The IonChromatogram
+	:param cutoff: The level below which the intensity of the ic at that point
+		has no effect on the scale of the noise distribution
+	:param scale: The scale of the normal distribution for ic values below the cutoff
+		is modified for values above the cutoff
+	:param prop: For ic values above the cutoff, the scale is multiplied by the ic
+		value multiplied by ``prop``.
 
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	noise = numpy.zeros(len(ic))
 
@@ -149,25 +145,23 @@ def add_gaussv_noise_ic(ic: IonChromatogram, scale: int, cutoff: int, prop: floa
 	ic.set_intensity_array(i_array_with_noise)
 
 
-def chromatogram(n_scan: int, x_zero: int, sigma: float, peak_scale: float) -> List:
+def chromatogram(
+		n_scan: int,
+		x_zero: int,
+		sigma: float,
+		peak_scale: float,
+		) -> numpy.ndarray:
 	"""
-    Returns a simulated ion chromatogram of a pure component
-    The ion chromatogram contains a single gaussian peak.
+	Returns a simulated ion chromatogram of a pure component
+	The ion chromatogram contains a single gaussian peak.
 
-    :param n_scan: the number of scans
-    :type n_scan: int
-    :param x_zero: The apex of the peak
-    :type x_zero: int
-    :param sigma: The standard deviation of the distribution
-    :type sigma: float
-    :param: peak_scale: the intensity of the peak at the apex
-    :type peak_scale: float
+	:param n_scan: the number of scans
+	:param x_zero: The apex of the peak
+	:param sigma: The standard deviation of the distribution
+	:param peak_scale: the intensity of the peak at the apex
 
-    :return: a list of intensities
-    :rtype: list
-
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	ic = numpy.zeros(n_scan, 'd')
 
@@ -181,44 +175,39 @@ def chromatogram(n_scan: int, x_zero: int, sigma: float, peak_scale: float) -> L
 
 def gaussian(point: float, mean: int, sigma: float, scale: float) -> float:
 	"""
-    calculates a point on a gaussian density function
+	calculates a point on a gaussian density function
 
-    f = s*exp(-((x-x0)^2)/(2*w^2));
+	``f = s*exp(-((x-x0)^2)/(2*w^2))``
 
-    :param point: The point currently being computed
-    :type point: float
-    :param mean: The apex of the peak
-    :type mean: int
-    :param sigma: The standard deviation of the gaussian
-    :type sigma: float
-    :param scale: The height of the apex
-    :type scale: float
+	:param point: The point currently being computed
+	:param mean: The apex of the peak
+	:param sigma: The standard deviation of the gaussian
+	:param scale: The height of the apex
 
-    :return: a single value from a normal distribution
-    :rtype: float
+	:return: a single value from a normal distribution
 
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	return scale * math.exp((-(point - mean)**2) / (2 * (sigma**2)))
 
 
-def gcms_sim(time_list: List, mass_list: List, peak_list: Peak) -> IntensityMatrix:
+def gcms_sim(
+		time_list: List[float],
+		mass_list: List[float],
+		peak_list: List[Peak],
+		) -> IntensityMatrix:
 	"""
-    Simulator of GCMS data
+	Simulator of GCMS data
 
-    :param time_list: the list of scan times
-    :type time_list: list
-    :param mass_list: the list of m/z channels
-    :type mass_list: list
-    :param peak_list: A list of peaks
-    :type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
+	:param time_list: the list of scan times
+	:param mass_list: the list of m/z channels
+	:param peak_list: A list of peaks
 
-    :return: A simulated Intensity Matrix object
-    :rtype: pyms.IntensityMatrix.IntensityMatrix
+	:return: A simulated Intensity Matrix object
 
-    :author: Sean O'Callaghan
-    """
+	:author: Sean O'Callaghan
+	"""
 
 	n_mz = len(mass_list)
 	n_scan = len(time_list)

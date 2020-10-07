@@ -26,7 +26,7 @@ Functions related to storing and loading a list of Peak objects
 # stdlib
 import pathlib
 import pickle
-from typing import Union
+from typing import List, Sequence, Union
 
 # this package
 from pyms.Peak.Class import Peak
@@ -37,20 +37,19 @@ from pyms.Utils.Utils import is_path, is_sequence
 __all__ = ["store_peaks", "load_peaks"]
 
 
-def store_peaks(peak_list: Peak, file_name: Union[str, pathlib.Path], protocol=1):
+def store_peaks(
+		peak_list: Sequence[Peak],
+		file_name: Union[str, pathlib.Path],
+		protocol: int = 1,
+		):
 	"""
 	Store the list of peak objects
 
 	:param peak_list: A list of peak objects
-	:type peak_list: list of :class:`pyms.Peaks.Class.Peak`
 	:param file_name: File name to store peak list
-	:type file_name: str or os.PathLike
-	:param protocol:
-	:type protocol:
+	:param protocol: The :mod:`pickle` protocol to use.
 
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (type assertions and pathlib support)
-
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions and pathlib support)
 	"""
 
 	if not is_peak_list(peak_list):
@@ -66,19 +65,16 @@ def store_peaks(peak_list: Peak, file_name: Union[str, pathlib.Path], protocol=1
 	fp.close()
 
 
-def load_peaks(file_name: Union[str, pathlib.Path]) -> Peak:
+def load_peaks(file_name: Union[str, pathlib.Path]) -> List[Peak]:
 	"""
-    Loads the peak_list stored with 'store_peaks'
+	Loads the peak_list stored with :func:`~.store_peaks`.
 
-    :param file_name: File name of peak list
-    :type file_name: str or os.PathLike
+	:param file_name: File name of peak list
 
-    :return: The list of Peak objects
-    :rtype: :class:`list` of :class:`pyms.Peak.Class.Peak`
+	:return: The list of Peak objects
 
-    :author: Andrew Isaac
-    :author: Dominic Davis-Foster (pathlib support)
-    """
+	:authors: Andrew Isaac, Dominic Davis-Foster (pathlib support)
+	"""
 
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")

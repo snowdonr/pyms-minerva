@@ -53,16 +53,6 @@ repo_root = pathlib.Path(__file__).parent
 install_requires = (repo_root / "requirements.txt").read_text(encoding="utf-8").split('\n')
 extras_require = {'all': []}
 
-long_description = long_description.replace(':ref:`here <pyms-demo>`.', '`here <pyms_demo_>`__.')
-long_description = long_description.replace(':ref:`here <pyms-demo/data-files>`.', '`here <datafiles_>`__.')
-long_description = long_description.replace(':ref:`Demos and Examples <pyms-demo>`', '`Demos and Examples <pyms_demo_>`__')
-long_description = long_description.replace(':ref:`pyms-demo/20a/`', '`pyms-demo/20a/`')
-long_description += '''
-
-.. _pyms_demo: https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo
-.. _datafiles: https://pymassspec.readthedocs.io/en/master/pyms-demo/data-files.html
-'''
-
 conda_description = """Python Toolkit for Mass Spectrometry
 
 

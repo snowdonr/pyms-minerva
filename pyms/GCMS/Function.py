@@ -42,13 +42,9 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 	Compares two GCMS_data objects
 
 	:param data1: GCMS data set 1
-	:type data1: pyms.GCMS.Class.GCMS_data
 	:param data2: GCMS data set 2
-	:type data2: pyms.GCMS.Class.GCMS_data
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Vladimir Likic
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 	"""
 
 	# get time attributes
@@ -116,20 +112,21 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 	print(f"   Max intensity RMSD: {max_intensity_rmsd:.2e}")
 
 
-def ic_window_points(ic: IonChromatogram, window_sele: Union[int, str], half_window: bool = False):
+def ic_window_points(
+		ic: IonChromatogram,
+		window_sele: Union[int, str],
+		half_window: bool = False,
+		):
 	"""
 	Converts the window selection parameter into points based on the
 	time step in an ion chromatogram.
 
 	:param ic: ion chromatogram object relevant for the conversion
-	:type ic: pyms.IO.Class.IonChromatogram
 	:param window_sele: The window selection parameter. This can be an
 		integer or time string. If integer, taken as the number of points.
-		If a string, must of the form "<NUMBER>s" or "<NUMBER>m",
+		If a string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``,
 		specifying a time in seconds or minutes, respectively
-	:type window_sele: int or str
 	:param half_window: Specifies whether to return half-window
-	:type half_window: bool, optional
 
 	:author: Vladimir Likic
 	"""

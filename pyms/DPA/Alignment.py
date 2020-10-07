@@ -243,7 +243,7 @@ class Alignment:
 		self.peakpos = numpy.transpose(self.peakalgt)
 
 	@staticmethod
-	def get_highest_mz_ion(ion_dict: Dict[float: int]) -> int:
+	def get_highest_mz_ion(ion_dict: Dict[float, int]) -> int:
 		"""
 		Returns the preferred ion for quantitiation.
 
@@ -541,7 +541,11 @@ class Alignment:
 
 				fp1.write("\n")
 
-	def get_peak_alignment(self, minutes: bool = True, require_all_expr: bool = True,) -> DataFrame:
+	def get_peak_alignment(
+			self,
+			minutes: bool = True,
+			require_all_expr: bool = True,
+			) -> DataFrame:
 		"""
 		Returns a Pandas dataframe of aligned retention times
 

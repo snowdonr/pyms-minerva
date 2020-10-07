@@ -133,7 +133,7 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	assert uid == '68-54-26-722.30'
 
 	assert peak.get_third_highest_mz() == 50
-	assert peak.bounds == [0, 683, 0]
+	assert peak.bounds == (0, 683, 0)
 	assert peak.get_int_of_ion(100) == 0.0
 	assert peak.rt == 722.299976349
 	assert peak.ic_mass is None

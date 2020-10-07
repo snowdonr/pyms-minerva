@@ -28,7 +28,7 @@ import copy
 import pathlib
 import warnings
 from numbers import Number
-from typing import Any, List, Optional, Union
+from typing import Any, List, Optional, Sequence, Union
 
 # 3rd party
 import deprecation  # type: ignore
@@ -49,29 +49,22 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	Models an ion chromatogram
 
 	An ion chromatogram is a set of intensities as a function of retention time.
-	This can can be either m/z channel intensities (for example, ion
-	chromatograms at m/z=65), or cumulative intensities over all measured m/z.
+	This can can be either *m/z* channel intensities (for example, ion
+	chromatograms at *m/z*=65), or cumulative intensities over all measured *m/z*.
 	In the latter case the ion chromatogram is total ion chromatogram (TIC).
 
 	The nature of an IonChromatogram object can be revealed by inspecting
-	the value of the attribute 'mass'. This is set to the m/z value of the
-	ion chromatogram, or to ``None`` for TIC.
+	the value of the attribute 'mass'. This is set to the *m/z* value of the
+	ion chromatogram, or to :py:obj:`None` for TIC.
+
+	:param ia: Ion chromatogram intensity values
+	:param time_list: A list of ion chromatogram retention times
+	:param mass: Mass of ion chromatogram (:py:obj:`None` if TIC)
 
 	:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
 	"""
 
-	def __init__(self, ia: numpy.ndarray, time_list: List, mass: Optional[float] = None):
-		"""
-		:param ia: Ion chromatogram intensity values
-		:type ia: numpy.array
-		:param time_list: A list of ion chromatogram retention times
-		:type time_list: list
-		:param mass: Mass of ion chromatogram (Null if TIC)
-		:type mass: int or float
-
-		:author: Lewis Lee, Vladimir Likic
-		"""
-
+	def __init__(self, ia: numpy.ndarray, time_list: List[float], mass: Optional[float] = None):
 		if not isinstance(ia, numpy.ndarray):
 			raise TypeError("'ia' must be a numpy array")
 
@@ -103,12 +96,11 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self._intensity_array.size
 
-	def __sub__(self, other: IonChromatogram):
+	def __sub__(self, other: "IonChromatogram") -> "IonChromatogram":
 		"""
 		Subtracts another IC from the current one
 
 		:param other: Another IC
-		:type other: pyms.GCMS.IonChromatogram
 		"""
 
 		ia_for_sub = other.intensity_array
@@ -123,9 +115,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Return whether this IonChromatogram object is equal to another object
 
 		:param other: The other object to test equality with
-		:type other: object
-
-		:rtype: bool
 		"""
 
 		if isinstance(other, self.__class__):
@@ -139,9 +128,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	def __copy__(self) -> "IonChromatogram":
 		"""
 		Returns a new IonChromatogram containing a copy of the data in this object
-
-		:rtype: pyms.IonChromatogram.IonChromatogram
 		"""
+
 		return IonChromatogram(
 				ia=numpy.copy(self._intensity_array),
 				time_list=self._time_list[:],
@@ -156,10 +144,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Returns intensity at given index
 
 		:param ix: An index
-		:type ix: int
 
 		:return: Intensity value
-		:rtype: float
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -178,7 +164,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 			current_version=__version__,
 			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.mass` instead",
 			)
-	def get_mass(self) -> int:
+	def get_mass(self) -> float:
 		"""
 		Returns the m/z channel of the IC
 
@@ -201,7 +187,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Returns the time step
 
 		:return: Time step
-		:rtype: float
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -214,7 +199,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Sets the value for the intensity array
 
 		:param ia: An array of new intensity values
-		:type ia: list or tuple or numpy.ndarray
 
 		:author: Vladimir Likic
 		"""
@@ -231,8 +215,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		"""
 		Returns whether the ion chromatogram is a total ion chromatogram (TIC)
 
-		:rtype: bool
-
 		:authors: Lewis Lee, Vladimir Likic
 		"""
 
@@ -244,7 +226,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Returns the m/z channel of the IC
 
 		:return: m/z channel of the IC
-		:rtype: int or float
 
 		:author: Sean O'Callaghan
 		"""
@@ -265,7 +246,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Sets the value for the intensity array
 
 		:param ia: An array of new intensity values
-		:type ia: numpy.ndarray
 
 		:author: Vladimir Likic
 		"""
@@ -284,7 +264,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Returns the time step
 
 		:return: Time step
-		:rtype: float
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -296,7 +275,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Calculates the time step
 
 		:return: Time step value
-		:rtype: float
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -316,13 +294,8 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		Writes the ion chromatogram to the specified file
 
 		:param file_name: The name of the output file
-		:type file_name: str or os.PathLike
-		:param minutes: A boolean value indicating whether to write
-			time in minutes
-		:type minutes: bool
-		:param formatting: A boolean value indicating whether to
-			format the numbers in the output. Default ``True``
-		:type minutes: bool
+		:param minutes: A boolean value indicating whether to write time in minutes
+		:param formatting: Whether to format the numbers in the output.
 
 		:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""

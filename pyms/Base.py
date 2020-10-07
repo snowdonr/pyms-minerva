@@ -45,9 +45,7 @@ class pymsBaseClass:
 		Dumps an object to a file through :func:`pickle.dump()`
 
 		:param file_name: Filename to save the dump as
-		:type file_name: str or os.PathLike
-		:param protocol: The pickle protocol to use. Default ``3``
-		:type protocol: int, optional
+		:param protocol: The pickle protocol to use.
 
 		:authors: Vladimir Likic, Dominic Davis-Foster (pathlib and pickle protocol support)
 		"""

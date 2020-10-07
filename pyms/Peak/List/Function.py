@@ -25,12 +25,13 @@ Functions related to Peak modification
 
 # stdlib
 import math
-from typing import List, Sequence, Union
+from typing import List, Optional, Sequence, Union
 
 # 3rd party
 import numpy  # type: ignore
 
 # this package
+from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Math import median_outliers
@@ -40,21 +41,17 @@ from pyms.Utils.Utils import is_sequence, is_sequence_of
 __all__ = ["composite_peak", "fill_peaks", "is_peak_list", "sele_peaks_by_rt"]
 
 
-def composite_peak(peak_list: List, ignore_outliers: bool = False) -> Peak:
+def composite_peak(peak_list: List[Peak], ignore_outliers: bool = False) -> Optional[Peak]:
 	"""
-    Create a peak that consists of a composite spectrum from all spectra in the list of peaks.
+	Create a peak that consists of a composite spectrum from all spectra in the list of peaks.
 
-    :param peak_list: A list of peak objects
-    :type peak_list: list
-    :param ignore_outliers:
-    :type ignore_outliers: bool, optional
+	:param peak_list: A list of peak objects
+	:param ignore_outliers:
 
-    :return: The composite peak
-    :type: pyms.Peak.Class.Peak
+	:return: The composite peak
 
-    :author: Andrew Isaac
-    :author: Dominic Davis-Foster (type assertions)
-    """
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
+	"""
 
 	if not is_peak_list(peak_list):
 		raise TypeError("'peak_list' must be a list of Peak objects")
@@ -106,28 +103,27 @@ def composite_peak(peak_list: List, ignore_outliers: bool = False) -> Peak:
 		return None
 
 
-def fill_peaks(data, peak_list: List, D: float, minutes: bool = False) -> Peak:
+def fill_peaks(
+		data: IntensityMatrix,
+		peak_list: List[Peak],
+		D: float,
+		minutes: bool = False,
+		) -> List[Peak]:
 	"""
-    Gets the best matching Retention Time and spectra from 'data' for each peak
-    in the peak list.
+	Gets the best matching Retention Time and spectra from 'data' for each peak
+	in the peak list.
 
-    :param data: A data IntensityMatrix that has the same mass range as the
-        peaks in the peak list
-    :type data: pyms.IntensityMatrix.IntensityMatrix
-    :param peak_list: A list of peak objects
-    :type peak_list: list
-    :param D: Peak width standard deviation in seconds.
-        Determines search window width.
-    :type D: float
-    :param minutes: Return retention time as minutes
-    :type minutes: bool, optional
+	:param data: A data IntensityMatrix that has the same mass range as the
+		peaks in the peak list
+	:param peak_list: A list of peak objects
+	:param D: Peak width standard deviation in seconds.
+		Determines search window width.
+	:param minutes: Return retention time as minutes
 
-    :return: List of Peak Objects
-    :type: list of :class:`pyms.Peak.Class.Peak`
+	:return: List of Peak Objects
 
-    :author: Andrew Isaac
-    :author: Dominic Davis-Foster (type assertions)
-    """
+	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
+	"""
 
 	if not is_peak_list(peak_list):
 		raise TypeError("'peak_list' must be a list of Peak objects")
@@ -221,35 +217,30 @@ def fill_peaks(data, peak_list: List, D: float, minutes: bool = False) -> Peak:
 	return new_peak_list
 
 
-def is_peak_list(peaks: List) -> bool:
+def is_peak_list(peaks: List[Peak]) -> bool:
 	"""
-    Returns True if 'peaks' is a valid peak list, False otherwise
+	Returns whether ``peaks`` is a valid peak list.
 
-    :param peaks: A list of peak objects
-    :type peaks: list
+	:param peaks: A list of peak objects
 
-    :return: A boolean indicator
-    :rtype: bool
-
-    :author: Dominic Davis-Foster
-    """
+	:author: Dominic Davis-Foster
+	"""
 
 	return is_sequence_of(peaks, Peak)
 
 
-def sele_peaks_by_rt(peaks: Union[Sequence, numpy.ndarray], rt_range: Sequence[str]) -> Peak:
+def sele_peaks_by_rt(
+		peaks: Union[Sequence[Peak], numpy.ndarray],
+		rt_range: Sequence[str],
+		) -> List[Peak]:
 	"""
-    Selects peaks from a retention time range
+	Selects peaks from a retention time range.
 
-    :param peaks: A list of peak objects
-    :type peaks: list or tuple or numpy.ndarray
-    :param rt_range: A list of two time strings, specifying lower and
-           upper retention times
-    :type rt_range: ~collections.abc.Sequence[str]
+	:param peaks: A list of peak objects
+	:param rt_range: A list of two time strings, specifying lower and upper retention times.
 
-    :return: A list of peak objects
-    :rtype: :class:`list` of :class:`pyms.Peak.Class.Peak`
-    """
+	:return: A list of peak objects
+	"""
 
 	if not is_peak_list(peaks):
 		raise TypeError("'peaks' must be a Sequence of Peak objects")

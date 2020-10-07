@@ -2,6 +2,12 @@
 PyMassSpec
 ************
 
+.. start short_desc
+
+**Python Toolkit for Mass Spectrometry**
+
+.. end short_desc
+
 .. start shields
 
 .. list-table::
@@ -101,8 +107,6 @@ PyMassSpec
 
 .. end shields
 
-A Python toolkit for processing of chromatography--mass spectrometry data
-
 PyMassSpec is a Python_ package for processing gas chromatography-mass spectrometry data.
 PyMassSpec provides a framework and a set of components for rapid development and testing of methods for processing of chromatography--mass spectrometry data.
 PyMassSpec can be used interactively through the Python shell, in a `Jupyter Notebook <https://jupyter.org/>`_, or the functions can be collected into scripts when it is preferable to perform data processing in the batch mode.
@@ -137,7 +141,7 @@ The directory structure of PyMassSpec is as follows:
     │
     ├── tests: pytest tests
     │
-    └── UserGuide: Sphinx source for documentation
+    └── doc-source: Sphinx source for documentation
 
 Features
 =========
@@ -174,16 +178,16 @@ Usage
 A tutorial illustrating various PyMassSpec features in detail is provided
 in subsequent chapters of this User Guide. The commands executed
 interactively are grouped together by example, and can be found
-:ref:`here <pyms-demo>`.
+:ref:`here <pyms_demo_>`__.
 
 .. If you are viewing this source, the examples can be found in the pyms-demo directory, and the data files in pyms-data
 
 The data used in the PyMassSpec documentation and examples is available
-:ref:`here <pyms-demo/data-files>`.
+:ref:`here <datafiles_>`__.
 
-In the ":ref:`Demos and Examples <pyms-demo>`" section there
+In the ":ref:`Demos and Examples <pyms_demo_>`__" section there
 is a page corresponding to each example, coded with the chapter number
-(ie. ":ref:`pyms-demo/20a/`" corresponds to the Example 20a, from Chapter 2).
+(ie. "``pyms-demo/20a/``" corresponds to the Example 20a, from Chapter 2).
 
 Each example has a script named 'proc.py' which contains the commands given in the example.
 These scripts can be run with the following command:
@@ -259,3 +263,5 @@ detailed description.
 .. _`file an issue`: https://github.com/domdfcoding/pymassspec/issues
 .. _Python: https://www.python.org/
 .. _GPL: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+.. _pyms_demo: https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo
+.. _datafiles: https://pymassspec.readthedocs.io/en/master/pyms-demo/data-files.html

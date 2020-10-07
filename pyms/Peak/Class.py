@@ -26,6 +26,7 @@ Provides a class to model signal peak
 # stdlib
 import copy
 from numbers import Number
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 from warnings import warn
 
 # 3rd party
@@ -43,25 +44,25 @@ __all__ = ["Peak"]
 
 class Peak(pymsBaseClass):
 	"""
-	Models a signal peak
+	Models a signal peak.
 
 	:param rt: Retention time
-	:type rt: int or float
 	:param ms: Either an ion mass, a mass spectrum or None
-	:type ms: int or float or class`pyms.Spectrum.MassSpectrum`, optional
-	:param minutes: Retention time units flag. If True, retention time
-		is in minutes; if False retention time is in seconds
-	:type minutes: bool, optional
+	:param minutes: Retention time units flag. If :py:obj:`True`, retention time
+		is in minutes; if :py:obj:`False` retention time is in seconds.
 	:param outlier: Whether the peak is an outlier
-	:type outlier: bool, optional
 
-	:author: Vladimir Likic
-	:author: Andrew Isaac
-	:author: Dominic Davis-Foster (type assertions and properties)
-	:author: David Kainer (outlier flag)
+	:authors: Vladimir Likic, Andrew Isaac,
+		Dominic Davis-Foster (type assertions and properties), David Kainer (outlier flag)
 	"""
 
-	def __init__(self, rt=0.0, ms=None, minutes=False, outlier=False):
+	def __init__(
+			self,
+			rt: Union[int, float] = 0.0,
+			ms: Union[int, float, MassSpectrum, None] = None,
+			minutes: bool = False,
+			outlier: bool = False,
+			):
 		"""
 		Models a signal peak
 		"""
@@ -95,14 +96,11 @@ class Peak(pymsBaseClass):
 
 		self.make_UID()
 
-	def __eq__(self, other):
+	def __eq__(self, other: Any) -> bool:
 		"""
 		Return whether this Peak object is equal to another object
 
 		:param other: The other object to test equality with
-		:type other: object
-
-		:rtype: bool
 		"""
 
 		if isinstance(other, self.__class__):
@@ -139,12 +137,9 @@ class Peak(pymsBaseClass):
 	# 	return self.__copy__()
 
 	@property
-	def area(self):
+	def area(self) -> float:
 		"""
-		Gets the area under the peak
-
-		:return: The peak area
-		:rtype: float
+		The area under the peak.
 
 		:author: Andrew Isaac
 		"""
@@ -152,12 +147,11 @@ class Peak(pymsBaseClass):
 		return self._area
 
 	@area.setter
-	def area(self, value):
+	def area(self, value: float):
 		"""
-		Sets the area under the peak
+		Sets the area under the peak.
 
 		:param value: The peak area
-		:type value: float
 
 		:author: Andrew Isaac
 		"""
@@ -170,13 +164,12 @@ class Peak(pymsBaseClass):
 		self._area = value
 
 	@property
-	def bounds(self):
+	def bounds(self) -> Tuple[float, float, float]:
 		"""
-		Gets peak boundaries in points
+		The peak boundaries in points.
 
-		:return: A list containing left, apex, and right
-			peak boundaries in points, left and right are offsets
-		:rtype: list
+		:return: A 3-element tuple containing the left, apex, and right
+			peak boundaries in points. Left and right are offsets.
 
 		:author: Andrew Isaac
 		"""
@@ -184,13 +177,12 @@ class Peak(pymsBaseClass):
 		return self._pt_bounds
 
 	@bounds.setter
-	def bounds(self, value):
+	def bounds(self, value: Tuple[float, float, float]):
 		"""
 		Sets peak boundaries in points
 
-		:param value: A list containing left, apex, and right
-			peak boundaries in points, left and right are offsets
-		:type value: ~collections.abc.Sequence
+		:param value: A 3-element tuple containing the left, apex, and right
+			peak boundaries in points. Left and right are offsets.
 		"""
 
 		if not is_sequence(value):
@@ -203,16 +195,14 @@ class Peak(pymsBaseClass):
 			if not isinstance(item, int):
 				raise TypeError(f"'Peak.bounds' element #{index} must be an integer")
 
-		self._pt_bounds = value
+		self._pt_bounds = tuple(value)
 
-	def crop_mass(self, mass_min, mass_max):
+	def crop_mass(self, mass_min: float, mass_max: float):
 		"""
 		Crops mass spectrum
 
 		:param mass_min: Minimum mass value
-		:type mass_min: Number
 		:param mass_max: Maximum mass value
-		:type mass_max: Number
 
 		:author: Andrew Isaac
 		"""
@@ -258,12 +248,9 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.area` instead",
 			)
-	def get_area(self):
+	def get_area(self) -> float:
 		"""
-		Gets the area under the peak
-
-		:return: The peak area
-		:rtype: float
+		Returns the area under the peak
 
 		:author: Andrew Isaac
 		"""
@@ -276,24 +263,20 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead",
 			)
-	def get_ic_mass(self):
+	def get_ic_mass(self) -> float:
 		"""
 		Returns the mass for a single ion chromatogram peak
-
-		:rtype: float or int
 		"""
 
 		return self.ic_mass
 
-	def get_int_of_ion(self, ion):
+	def get_int_of_ion(self, ion: int) -> float:
 		"""
 		Returns the intensity of a given ion
 
 		:param ion: The m/z value of the ion of interest
-		:type ion: int
 
 		:return: The intensity of the given ion in this peak
-		:rtype: int
 		"""
 
 		try:
@@ -306,7 +289,7 @@ class Peak(pymsBaseClass):
 					f"{max(self._mass_spectrum.mass_list)})"
 					)
 
-	def get_ion_area(self, ion):
+	def get_ion_area(self, ion: int) -> Optional[float]:
 		"""
 		Returns the area of a single ion chromatogram under the peak
 
@@ -328,11 +311,9 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead",
 			)
-	def get_ion_areas(self):
+	def get_ion_areas(self) -> Dict:
 		"""
 		Returns a copy of the ion areas dict containing ion:ion area pairs
-
-		:rtype: dict
 		"""
 
 		return self.ion_areas
@@ -343,11 +324,9 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead",
 			)
-	def get_mass_spectrum(self):
+	def get_mass_spectrum(self) -> MassSpectrum:
 		"""
 		Returns the mass spectrum at the apex of the peak
-
-		:rtype: pyms.Spectrum.MassSpectrum
 		"""
 
 		return self.mass_spectrum
@@ -358,13 +337,12 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead",
 			)
-	def get_pt_bounds(self):
+	def get_pt_bounds(self) -> Tuple[float, float, float]:
 		"""
 		Returns the peak boundaries in points
 
-		:return: A list containing left, apex, and right peak boundaries in
-			points, left and right are offsets
-		:rtype: list
+		:return: A 3-element tuple containing the left, apex, and right
+			peak boundaries in points. Left and right are offsets.
 
 		:author: Andrew Isaac
 		"""
@@ -377,20 +355,16 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.rt` instead",
 			)
-	def get_rt(self):
+	def get_rt(self) -> float:
 		"""
 		Returns the retention time
-
-		:rtype: float
 		"""
 
 		return self.rt
 
-	def get_third_highest_mz(self):
+	def get_third_highest_mz(self) -> int:
 		"""
-		Returns the mz value with the third highest intensity
-
-		:rtype: int
+		Returns the *m/z* value with the third highest intensity.
 		"""
 
 		if self._mass_spectrum is not None:
@@ -416,7 +390,7 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.UID` instead",
 			)
-	def get_UID(self):
+	def get_UID(self) -> str:
 		"""
 		Return the unique peak ID (UID), either:
 
@@ -424,7 +398,6 @@ class Peak(pymsBaseClass):
 		- the single mass as an integer and the retention time.
 
 		:return: UID string
-		:rtype: str
 
 		:author: Andrew Isaac
 		"""
@@ -432,40 +405,38 @@ class Peak(pymsBaseClass):
 		return self.UID
 
 	@property
-	def ic_mass(self):
+	def ic_mass(self) -> float:
 		"""
-		Gets the mass for a single ion chromatogram peak
+		The mass for a single ion chromatogram peak.
 
 		:return: The mass of the single ion chromatogram that the peak is from
-		:rtype: float or int
 		"""
 
 		return self._ic_mass
 
 	@ic_mass.setter
-	def ic_mass(self, value):
+	def ic_mass(self, value: float):
 		"""
-		Sets the mass for a single ion chromatogram peak
-			Clears the mass spectrum
+		Sets the mass for a single ion chromatogram peak and clears the mass spectrum.
 
 		:param value: The mass of the ion chromatogram that the peak is from
-		:type value: float
 		"""
 
 		if not isinstance(value, Number):
 			raise TypeError("'Peak.ic_mass' must be a number")
+
 		self._ic_mass = value
 		# clear mass spectrum
 		self._mass_spectrum = None
 		self.make_UID()
 
 	@property
-	def ion_areas(self):
+	def ion_areas(self) -> Dict:
 		"""
 		Returns a copy of the ion areas dict
 
-		:return: The dictionary of ion:ion area pairs
-		:rtype: dict
+		:return: The dictionary of ``ion: ion area`` pairs
+
 		"""
 		if len(self._ion_areas) == 0:
 			raise ValueError("no ion areas set")
@@ -473,23 +444,23 @@ class Peak(pymsBaseClass):
 		return copy.deepcopy(self._ion_areas)
 
 	@ion_areas.setter
-	def ion_areas(self, value):
+	def ion_areas(self, value: Dict):
 		"""
-		Sets the ion:ion area pair dictionary
+		Sets the ``ion: ion area`` pairs dictionary
 
 		:param value: The dictionary of ion:ion_area pairs
-		:type value: dict
 		"""
 
 		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], Number):
 			raise TypeError("'Peak.ion_areas' must be a dictionary of ion:ion_area pairs")
+
 		self._ion_areas = value
 
-	def make_UID(self):
+	def make_UID(self) -> None:
 		"""
 		Create a unique peak ID (UID), either:
 
-		- Integer masses of top two intensities and their ratio (as Mass1-Mass2-Ratio*100); or
+		- Integer masses of top two intensities and their ratio (as ``Mass1-Mass2-Ratio*100``); or
 		- the single mass as an integer and the retention time.
 
 		:author: Andrew Isaac
@@ -515,24 +486,19 @@ class Peak(pymsBaseClass):
 			self._UID = f"{self._rt:.2f}"
 
 	@property
-	def mass_spectrum(self):
+	def mass_spectrum(self) -> MassSpectrum:
 		"""
-		Gets the mass spectrum at the apex of the peak
-
-		:return: The mass spectrum at the apex of the peak
-		:rtype: pyms.Spectrum.MassSpectrum
+		The mass spectrum at the apex of the peak.
 		"""
 
 		return copy.copy(self._mass_spectrum)
 
 	@mass_spectrum.setter
-	def mass_spectrum(self, value):
+	def mass_spectrum(self, value: MassSpectrum):
 		"""
-		Sets the mass spectrum
-			Clears the mass for a single ion chromatogram peak
+		Sets the mass spectrum for the apex of the peak.
 
-		:param value: The mass spectrum at the apex of the peak
-		:rtype: pyms.Spectrum.MassSpectrum
+		Clears the mass for a single ion chromatogram peak.
 		"""
 
 		if not isinstance(value, MassSpectrum):
@@ -543,12 +509,11 @@ class Peak(pymsBaseClass):
 		self._ic_mass = None
 		self.make_UID()
 
-	def null_mass(self, mass):
+	def null_mass(self, mass: float):
 		"""
 		Ignore given mass in spectra
 
 		:param mass: Mass value to remove
-		:type mass: int or float
 
 		:author: Andrew Isaac
 		"""
@@ -578,12 +543,9 @@ class Peak(pymsBaseClass):
 		self.make_UID()
 
 	@property
-	def rt(self):
+	def rt(self) -> float:
 		"""
-		Return the retention time
-
-		:return: Retention time
-		:rtype: float
+		The retention time of the peak.
 		"""
 
 		return self._rt
@@ -594,12 +556,11 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.area` instead",
 			)
-	def set_area(self, area):
+	def set_area(self, area: float):
 		"""
 		Sets the area under the peak
 
 		:param area: The peak area
-		:type area: float
 
 		:author: Andrew Isaac
 		"""
@@ -611,9 +572,9 @@ class Peak(pymsBaseClass):
 
 		self._area = area
 
-	def set_bounds(self, left, apex, right):
+	def set_bounds(self, left: float, apex: float, right: float):
 		"""
-		Sets peak boundaries in points
+		Sets peak boundaries in points.
 
 		:param left: Left peak boundary, in points offset from apex
 		:param apex: Apex of the peak, in points
@@ -628,30 +589,28 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead",
 			)
-	def set_ic_mass(self, mz):
+	def set_ic_mass(self, mz: float):
 		"""
 		Sets the mass for a single ion chromatogram peak.
 		Clears the mass spectrum.
 
 		:param mz: The mass of the ion chromatogram that the peak is from
-		:type mz: float
 		"""
 
 		if not isinstance(mz, (float, int)):
 			raise TypeError("'mz' must be a number")
+
 		self._ic_mass = mz
 		# clear mass spectrum
 		self._mass_spectrum = None
 		self.make_UID()
 
-	def set_ion_area(self, ion, area):
+	def set_ion_area(self, ion: int, area: float):
 		"""
 		sets the area for a single ion
 
 		:param ion: the ion whose area is being entered
-		:type ion: int
 		:param area: the area under the IC of ion
-		:type area: int or float
 
 		:author: Sean O'Callaghan
 		"""
@@ -670,12 +629,11 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead",
 			)
-	def set_ion_areas(self, ion_areas):
+	def set_ion_areas(self, ion_areas: Dict):
 		"""
 		Set the ion:ion area pair dictionary
 
-		:param ion_areas: The dictionary of ion:ion_area pairs
-		:type ion_areas: dict
+		:param ion_areas: The dictionary of ``ion: ion_area`` pairs
 		"""
 
 		self.ion_areas = ion_areas
@@ -686,13 +644,13 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead",
 			)
-	def set_mass_spectrum(self, ms):
+	def set_mass_spectrum(self, ms: MassSpectrum):
 		"""
 		Sets the mass spectrum.
+
 		Clears the mass for a single ion chromatogram peak.
 
 		:param ms: The mass spectrum at the apex of the peak
-		:type ms: pyms.Spectrum.MassSpectrum
 		"""
 
 		if not isinstance(ms, MassSpectrum):
@@ -709,13 +667,12 @@ class Peak(pymsBaseClass):
 			current_version=__version__,
 			details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead",
 			)
-	def set_pt_bounds(self, pt_bounds):
+	def set_pt_bounds(self, pt_bounds: Tuple[float, float, float]):
 		"""
 		Sets peak boundaries in points
 
-		:param pt_bounds: A list containing left, apex, and right
-			peak boundaries in points, left and right are offsets
-		:type pt_bounds: list
+		:param pt_bounds: A 3-element tuple containing the left, apex, and right
+			peak boundaries in points. Left and right are offsets.
 		"""
 
 		self.bounds = pt_bounds
@@ -725,29 +682,26 @@ class Peak(pymsBaseClass):
 		"""
 		Return the unique peak ID (UID), either:
 
-		- Integer masses of top two intensities and their ratio (as Mass1-Mass2-Ratio*100); or
+		- Integer masses of top two intensities and their ratio (as ``Mass1-Mass2-Ratio*100``); or
 		- the single mass as an integer and the retention time.
 
 		:return: UID string
-		:rtype: str
 
 		:author: Andrew Isaac
 		"""
 
 		return self._UID
 
-	def find_mass_spectrum(self, data, from_bounds=False):
+	def find_mass_spectrum(self, data: IntensityMatrix, from_bounds: float = False):
 		"""
 		TODO: What does this function do?
 
-		Sets peak mass spectrum from the data.
+		Sets the peak's mass spectrum from the data.
 		Clears the single ion chromatogram mass.
 
 		:param data: An IntensityMatrix object
-		:type data: pyms.IntensityMatrix.IntensityMatrix
 		:param from_bounds: Indicator whether to use the attribute 'pt_bounds'
 			or to find the peak apex from the peak retention time
-		:type from_bounds: bool
 		"""
 
 		if not isinstance(data, IntensityMatrix):
@@ -769,18 +723,15 @@ class Peak(pymsBaseClass):
 		self._ic_mass = None
 		self.make_UID()
 
-	def top_ions(self, num_ions=5):
+	def top_ions(self, num_ions: int = 5) -> List[float]:
 		"""
 		Computes the highest #num_ions intensity ions
 
 		:param num_ions: The number of ions to be recorded
-		:type num_ions: int
 
-		:return: A list of the #num_ions highest intensity ions, default 5
-		:rtype: list, optional
+		:return: A list of the ions with the highest intensity.
 
-		:author: Sean O'Callaghan
-		:author: Dominic Davis-Foster (type assertions)
+		:authors: Sean O'Callaghan, Dominic Davis-Foster (type assertions)
 		"""
 
 		if not isinstance(num_ions, int):

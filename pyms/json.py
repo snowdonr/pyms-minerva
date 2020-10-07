@@ -28,7 +28,7 @@ import sdjson
 # this package
 from pyms.Spectrum import MassSpectrum, Scan
 
-__all__ = ["PyMassSpecEncoder", "encode_scan", "encode_mass_spec"]
+__all__ = ["PyMassSpecEncoder"]
 
 
 class PyMassSpecEncoder(sdjson.JSONEncoder):

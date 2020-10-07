@@ -47,7 +47,7 @@ Please install one of them and try again."""
 # 3rd party
 from openpyxl import Workbook  # type: ignore
 from openpyxl.comments import Comment  # type: ignore
-from openpyxl.formatting.rule import ColorScaleRule  # , CellIsRule, FormulaRule   # type: ignore
+from openpyxl.formatting.rule import ColorScaleRule  # type: ignore  # , CellIsRule, FormulaRule   # type: ignore
 from openpyxl.styles import PatternFill  # type: ignore
 from openpyxl.utils import get_column_letter  # type: ignore
 
@@ -329,7 +329,11 @@ def write_excel(
 		wb.save(file_name)
 
 
-def write_transposed_output(alignment: Alignment, file_name: Union[str, pathlib.Path], minutes: bool = True,):
+def write_transposed_output(
+		alignment: Alignment,
+		file_name: Union[str, pathlib.Path],
+		minutes: bool = True,
+		):
 	"""
 
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file

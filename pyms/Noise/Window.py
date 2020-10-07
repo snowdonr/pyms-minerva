@@ -38,34 +38,29 @@ from pyms.IonChromatogram import IonChromatogram
 
 __all__ = ["window_smooth", "window_smooth_im"]
 
-__DEFAULT_WINDOW = 3
+_DEFAULT_WINDOW = 3
 
 
 def window_smooth(
 		ic: IonChromatogram,
-		window: Union[int, str] = __DEFAULT_WINDOW,
+		window: Union[int, str] = _DEFAULT_WINDOW,
 		use_median: bool = False,
 		) -> IonChromatogram:
 	"""
-    Applies window smoothing on ion chromatogram
+	Applies window smoothing on ion chromatogram.
 
-    :param ic: The input ion chromatogram
-    :type ic: pyms.IonChromatogram.IonChromatogram
-    :param window: The window selection parameter. This can be an integer
-        or time string. If integer, taken as the number of points. If a
-        string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
-        a time in seconds or minutes, respectively
-    :type window: int or str, optional
-    :param use_median: An indicator whether the mean or median window smoothing
-        to be used
-    :type use_median: bool, optional
+	:param ic: The input ion chromatogram
+	:param window: The window selection parameter. This can be an integer
+		or time string. If integer, taken as the number of points. If a
+		string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``, specifying
+		a time in seconds or minutes, respectively
+	:param use_median: An indicator whether the mean or median window smoothing
+		to be used
 
-    :return: Smoothed ion chromatogram
-    :rtype: pyms.IonChromatogram.IonChromatogram
+	:return: Smoothed ion chromatogram
 
-    :author: Vladimir Likic
-    :author: Dominic Davis-Foster (type assertions)
-    """
+	:authors: Vladimir Likic, Dominic Davis-Foster (type assertions)
+	"""
 
 	if not isinstance(ic, IonChromatogram):
 		raise TypeError("'ic' must be an IonChromatogram object")
@@ -93,28 +88,24 @@ def window_smooth(
 
 def window_smooth_im(
 		im: IntensityMatrix,
-		window: Union[int, str] = __DEFAULT_WINDOW,
+		window: Union[int, str] = _DEFAULT_WINDOW,
 		use_median: bool = False,
 		) -> IntensityMatrix:
 	"""
-    Applies window smoothing on Intensity Matrix
+	Applies window smoothing on Intensity Matrix.
 
-              Simply wraps around the window smooth function above
+	Simply wraps around the window smooth function above.
 
-    :param im: The input Intensity Matrix
-    :type im: pyms.IntensityMatrix.IntensityMatrix
-    :param window: The window selection parameter.
-    :type window: int or str, optional
-    :param use_median: An indicator whether the mean or median window smoothing
-        to be used
-    :type use_median: bool, optional
+	:param im: The input Intensity Matrix
+	:param window: The window selection parameter.
+	:param use_median: If :py:obj:`True` median window smoothing will be used.
+		If :py:obj:`False` (default) mean window smoothing will be used
+	:no-default use_median
 
-    :return: Smoothed Intensity Matrix
-    :rtype: pyms.IntensityMatrix.IntensityMatrix
+	:return: Smoothed Intensity Matrix
 
-    :author: Sean O'Callaghan
-    :author: Vladimir Likic
-    """
+	:authors: Sean O'Callaghan, Vladimir Likic
+	"""
 
 	if not isinstance(im, IntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
@@ -131,21 +122,18 @@ def window_smooth_im(
 	return im_smooth
 
 
-def __mean_window(ia: numpy.core.ndarray, wing_length: int) -> numpy.core.ndarray:
+def __mean_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
 	"""
-    Applies mean-window averaging on the array of intensities.
+	Applies mean-window averaging on the array of intensities.
 
-    :param ia: Intensity array
-    :type ia: numpy.core.ndarray
-    :param wing_length: An integer value representing the number of
-        points on either side of a point in the ion chromatogram
-    :type wing_length: int
+	:param ia: Intensity array
+	:param wing_length: The number of points on either side of a point
+		in the ion chromatogram.
 
-    :return: Smoothed intensity array
-    :rtype: numpy.core.ndarray
+	:return: Smoothed intensity array
 
-    :author: Vladimir Likic
-    """
+	:author: Vladimir Likic
+	"""
 
 	ia_denoise = numpy.repeat([0], ia.size)
 
@@ -163,21 +151,18 @@ def __mean_window(ia: numpy.core.ndarray, wing_length: int) -> numpy.core.ndarra
 	return ia_denoise
 
 
-def __median_window(ia: IntensityMatrix, wing_length: int) -> numpy.ndarray:
+def __median_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
 	"""
-    Applies median-window averaging on the array of intensities.
+	Applies median-window averaging on the array of intensities.
 
-    :param ia: Intensity array
-    :type ia: numpy.core.ndarray
-    :param wing_length: An integer value representing the number of
-        points on either side of a point in the ion chromatogram
-    :type wing_length: int
+	:param ia: Intensity array
+	:param wing_length: An integer value representing the number of
+		points on either side of a point in the ion chromatogram
 
-    :return: Smoothed intensity array
-    :rtype: numpy.core.ndarray
+	:return: Smoothed intensity array
 
-    :author: Vladimir Likic
-    """
+	:author: Vladimir Likic
+	"""
 
 	ia_denoise = numpy.repeat([0], ia.size)
 

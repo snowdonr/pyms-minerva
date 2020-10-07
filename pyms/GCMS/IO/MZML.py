@@ -49,13 +49,10 @@ def mzML_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
 	A reader for mzML files
 
 	:param file_name: The name of the mzML file
-	:type file_name: str or os.PathLike
 
 	:return: GC-MS data object
-	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
-	:author: Sean O'Callaghan
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):

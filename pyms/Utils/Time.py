@@ -34,40 +34,38 @@ from pyms.IonChromatogram import IonChromatogram
 __all__ = ["is_str_num", "time_str_secs", "window_sele_points"]
 
 
-def is_str_num(arg):
+def is_str_num(arg: str) -> bool:
 	"""
-    Determines if the argument is a string in the format of a number
+	Determines if the argument is a string in the format of a number
 
-    The number can be an integer, or alternatively floating point in scientific
-    or engineering format.
+	The number can be an integer, or alternatively floating point in scientific
+	or engineering format.
 
-    :param arg: A string to be evaluate as a number
-    :type arg: str
+	:param arg: A string to be evaluate as a number
 
-    :return: A boolean indicator True or False
-    :rtype:  bool
+	:return: A boolean indicator True or False
 
-    :author: Gyro Funch (from Active State Python Cookbook)
-    """
+	:author: Gyro Funch (from Active State Python Cookbook)
+	"""
 
 	num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
 
-	return num_re.match(str(arg))
+	if num_re.match(str(arg)):
+		return True
+	return False
 
 
-def time_str_secs(time_str):
+def time_str_secs(time_str: str) -> float:
 	"""
-    Resolves time string of the form "<NUMBER>s" or "<NUMBER>m" and returns the time in seconds
+	Resolves time string of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'`` and returns the time in seconds
 
-    :param time_str: A time string, which must be of the form
-        "<NUMBER>s" or "<NUMBER>m" where "<NUMBER>" is a valid number
-    :type time_str: str
+	:param time_str: A time string, which must be of the form
+		``'<NUMBER>s'`` or ``'<NUMBER>m'`` where ``'<NUMBER>'`` is a valid number
 
-    :return: Time in seconds
-    :rtype: float
+	:return: Time in seconds
 
-    :author: Vladimir Likic
-    """
+	:author: Vladimir Likic
+	"""
 
 	if not isinstance(time_str, str):
 		raise TypeError("'time_str' must be a string")
@@ -92,27 +90,23 @@ def time_str_secs(time_str):
 
 def window_sele_points(ic: IonChromatogram, window_sele: Union[int, str], half_window: bool = False) -> int:
 	"""
-    Converts window selection parameter into points based
-        on the time step in an ion chromatogram
+	Converts window selection parameter into points based
+	on the time step in an ion chromatogram
 
-    :param ic: ion chromatogram object relevant for the conversion
-    :type ic: pyms.IonChromatogram.IonChromatogram
+	:param ic: ion chromatogram object relevant for the conversion
 
-    :param window_sele: The window selection parameter. This can be
-        an integer or time string. If integer, taken as the number
-        of points. If a string, must of the form "<NUMBER>s" or
-        "<NUMBER>m", specifying a time in seconds or minutes,
-        respectively
-    :type window_sele: int or str
+	:param window_sele: The window selection parameter. This can be
+		an integer or time string. If integer, taken as the number
+		of points. If a string, must of the form ``'<NUMBER>s'`` or
+		``'<NUMBER>m'``, specifying a time in seconds or minutes,
+		respectively
 
-    :param half_window: Specifies whether to return half-window
-    :type half_window: bool
+	:param half_window: Specifies whether to return half-window
 
-    :return: The number of points in the window
-    :rtype: int
+	:return: The number of points in the window
 
-    :author: Vladimir Likic
-    """
+	:author: Vladimir Likic
+	"""
 
 	if not isinstance(window_sele, int) and not isinstance(window_sele, str):
 		raise TypeError("'window' must be an integer or a string")

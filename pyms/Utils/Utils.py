@@ -26,27 +26,22 @@ General utility functions
 # stdlib
 import os
 import pathlib
-from decimal import Decimal
 from typing import Any, Sequence
 
 # 3rd party
 import numpy  # type: ignore
 
-__all__ = ["is_path", "is_sequence", "is_sequence_of", "is_positive_int", "is_list_of_dec_nums"]
+__all__ = ["is_path", "is_sequence", "is_sequence_of"]
 
 _list_types = (Sequence, numpy.core.ndarray)
 _path_types = (str, os.PathLike, pathlib.Path)
 
 
-def is_path(obj):
+def is_path(obj: Any) -> bool:
 	"""
 	Returns whether the object represents a filesystem path
 
 	:param obj:
-	:type obj:
-
-	:return:
-	:rtype:
 	"""
 
 	if isinstance(obj, _path_types):
@@ -55,15 +50,12 @@ def is_path(obj):
 		return hasattr(obj, " __fspath__")
 
 
-def is_sequence(obj):
+def is_sequence(obj) -> bool:
 	"""
-	Returns whether the object is a :class:`~collections.abc.Sequence`, and not a string
+	Returns whether the object is a :class:`~collections.abc.Sequence`,
+	and not a string.
 
 	:param obj:
-	:type obj:
-
-	:return:
-	:rtype: bool
 	"""
 
 	return isinstance(obj, _list_types) and not isinstance(obj, str)
@@ -71,52 +63,11 @@ def is_sequence(obj):
 
 def is_sequence_of(obj: Any, of: Any) -> bool:
 	"""
-	Returns whether the object is a :class:`~collections.abc.Sequence`, and not a string, of the given type
+	Returns whether the object is a :class:`~collections.abc.Sequence`,
+	and not a string, of the given type.
 
 	:param obj:
-	:type obj: any
 	:param of:
-	:type of: any
-
-	:return:
-	:rtype: bool
 	"""
 
 	return isinstance(obj, _list_types) and not isinstance(obj, str) and all(isinstance(x, of) for x in obj)
-
-
-def is_positive_int(arg: str) -> bool:
-	"""
-	Determines if the argument is an integer greater than zero
-
-	:param arg: A string to be evaluate as a positive integer
-	:type arg: types.str
-
-	:return: A boolean indicator True or False
-	:rtype:  bool
-
-	:author: Milica Ng
-	"""
-
-	if not isinstance(arg, int):
-		return False
-	elif not (arg > 0):
-		return False
-	else:
-		return True
-
-
-def is_list_of_dec_nums(arg: str) -> bool:
-	"""
-	Determines if the argument is a list of decimal numbers
-
-	:param arg: A string to be evaluate as a list of decimal numbers
-	:type arg: str
-
-	:return: A boolean indicator True or False
-	:rtype:  bool
-
-	:author: Milica Ng
-	"""
-
-	return is_sequence_of(arg, (float, Decimal))

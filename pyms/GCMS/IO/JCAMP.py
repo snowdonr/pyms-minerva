@@ -47,12 +47,11 @@ def JCAMP_reader(file_name: Union[str, os.PathLike]) -> GCMS_data:
 	Generic reader for JCAMP DX files
 
 	:param file_name: Path of the file to read
-	:type file_name: str or os.PathLike
 
 	:return: GC-MS data object
-	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
-	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster (pathlib support)
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer,
+		Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):

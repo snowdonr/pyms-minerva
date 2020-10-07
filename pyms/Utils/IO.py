@@ -36,17 +36,19 @@ from pyms.Utils.Utils import _list_types, is_path
 __all__ = ["prepare_filepath", "dump_object", "load_object", "file_lines", "save_data"]
 
 
-def prepare_filepath(file_name: Union[str, pathlib.Path], mkdirs: bool = True) -> pathlib.Path:
+def prepare_filepath(
+		file_name: Union[str, pathlib.Path],
+		mkdirs: bool = True,
+		) -> pathlib.Path:
 	"""
-	Convert string filename into pathlib.Path object and create parent directories if required
+	Convert string filename into pathlib.Path object and
+	create parent directories if required.
 
 	:param file_name: file_name to process
-	:type file_name: str or os.PathLike
-	:param mkdirs: Whether the parent directory of the file should be created if it doesn't exist. Default True.
-	:type mkdirs: bool, optional
+	:param mkdirs: Whether the parent directory of the file should
+		be created if it doesn't exist.
 
 	:return: file_name
-	:rtype: pathlib.Path
 
 	:author: Dominic Davis-Foster
 	"""
@@ -68,12 +70,9 @@ def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
 	Dumps an object to a file through pickle.dump()
 
 	:param obj: Object to be dumped
-	:type obj: any
 	:param file_name: Name of the file for the object dump
-	:type file_name: str or os.PathLike
 
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):
@@ -85,18 +84,16 @@ def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
 		pickle.dump(obj, fp)
 
 
-def load_object(file_name: Union[str, pathlib.Path]):
+def load_object(file_name: Union[str, pathlib.Path]) -> object:
 	"""
 	Loads an object previously dumped with dump_object()
 
 	:param file_name: Name of the object dump file
-	:type file_name: str or os.PathLike
 
 	:return: Object contained in the file 'file_name'
 	:rtype: An instance of an arbitrary class
 
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):
@@ -108,22 +105,18 @@ def load_object(file_name: Union[str, pathlib.Path]):
 		return pickle.load(fp)
 
 
-def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List:
+def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List[str]:
 	"""
 	Returns lines from a file, as a list
 
 	:param file_name: Name of a file
-	:type file_name: str or os.PathLike
 	:param strip: If True, lines are pre-processed. Newline characters are
 		removed, leading and trailing whitespaces are removed, and lines
 		starting with '#' are discarded
-	:type strip: bool, optional
 
 	:return: A list of lines
-	:rtype: list
 
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):
@@ -156,7 +149,7 @@ def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List
 
 def save_data(
 		file_name: Union[str, pathlib.Path],
-		data: List,
+		data: Union[List[float], List[List]],
 		format_str: str = "%.6f",
 		prepend: str = "",
 		sep: str = " ",
@@ -166,20 +159,13 @@ def save_data(
 	Saves a list of numbers or a list of lists of numbers to a file with specific formatting
 
 	:param file_name: Name of a file
-	:type file_name: str or os.PathLike
 	:param data: A list of numbers, or a list of lists
-	:type data: list
 	:param format_str: A format string for individual entries
-	:type format_str: str
 	:param prepend: A string, printed before each row
-	:type prepend: str
 	:param sep: A string, printed after each number
-	:type sep: str
-	:param compressed: A boolean. If True, the output will be gzipped
-	:type compressed: bool
+	:param compressed: If :py:obj:`True`, the output will be gzipped.
 
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster (pathlib support)
+	:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
 	"""
 
 	if not is_path(file_name):

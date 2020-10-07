@@ -43,7 +43,7 @@ except ModuleNotFoundError:
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
 
-__all__ = ["ANDI_reader", "ANDI_writer"]
+__all__ = ["ANDI_reader"]
 
 # netCDF dimension names
 __POINT_NUMBER = "point_number"
@@ -61,15 +61,10 @@ def ANDI_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
 	A reader for ANDI-MS NetCDF files
 
 	:param file_name: The path of the ANDI-MS file
-	:type file_name: str or os.PathLike
 
 	:return: GC-MS data object
-	:rtype: :class:`pyms.GCMS.Class.GCMS_data`
 
-	:author: Qiao Wang
-	:author: Andrew Isaac
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, Dominic Davis-Foster
 	"""
 
 	if not isinstance(file_name, (str, pathlib.Path)):
@@ -118,12 +113,11 @@ def ANDI_writer(file_name: str, im: IntensityMatrix):
 	A writer for ANDI-MS NetCDF files
 
 	:param file_name: The name of the ANDI-MS file
-	:type file_name: str
 	:param im: The IntensityMatrix
-	:type file_name: pyms.IntensityMatrix.IntensityMatrix
 
 	:author: Andrew Isaac
-	TODO: finish this
+
+	.. TODO:: finish this
 	"""
 
 	# netCDF header info for compatability

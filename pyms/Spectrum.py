@@ -27,8 +27,7 @@ Classes to model Mass Spectra and Scans
 import pathlib
 import re
 import warnings
-from numbers import Number
-from typing import Any, List, Optional, Sequence, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Sequence, Tuple, Union
 
 # 3rd party
 import deprecation  # type: ignore
@@ -37,7 +36,6 @@ import numpy  # type: ignore
 # this package
 from pyms import __version__
 from pyms.Base import pymsBaseClass
-from pyms.GCMS.Class import MassSpectrum
 from pyms.Mixins import MassListMixin
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import xydata_tags
@@ -56,10 +54,6 @@ def array_as_numeric(array: Union[Sequence, numpy.ndarray]) -> numpy.ndarray:
 	converted to a numpy array.
 
 	:param array:
-	:type array: Sequence or numpy.ndarray
-
-	:return:
-	:rtype: :class:`numpy.ndarray`
 	"""
 
 	if not isinstance(array, numpy.ndarray):
@@ -77,22 +71,16 @@ class Scan(pymsBaseClass, MassListMixin):
 	Generic object for a single Scan's raw data
 
 	:param mass_list: A sequence of mass values
-	:type mass_list: ~collections.abc.Sequence[numbers.Number] or numpy.ndarray
 	:param intensity_list: A sequence intensity values
-	:type intensity_list: ~collections.abc.Sequence[numbers.Number] or numpy.ndarray
 
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
 	def __init__(
 			self,
-			mass_list: Union[Sequence[Number], numpy.ndarray],
-			intensity_list: Union[Sequence[Number, numpy.ndarray]],
+			mass_list: Union[Sequence[float], numpy.ndarray],
+			intensity_list: Union[Sequence[float], numpy.ndarray],
 			):
-		"""
-		Initialise the class
-		"""
-
 		mass_list = list(array_as_numeric(mass_list))
 		intensity_list = list(array_as_numeric(intensity_list))
 
@@ -128,14 +116,12 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		"""
 		Returns the length of the object
 
-		:rtype: int
-
 		:authors: Andrew Isaac, Qiao Wang, Vladimir Likic
 		"""
 
 		return len(self._mass_list)
 
-	def __bool__(self):
+	def __bool__(self) -> bool:
 		return bool(self._mass_list)
 
 	def __eq__(self, other: Any) -> bool:
@@ -143,9 +129,6 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		Return whether this object is equal to another object
 
 		:param other: The other object to test equality with
-		:type other: object
-
-		:rtype: bool
 		"""
 
 		if isinstance(other, self.__class__):
@@ -156,31 +139,34 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 		return NotImplemented
 
-	def __copy__(self):
-		"""Returns a copy of the object"""
+	def __copy__(self) -> "Scan":
+		"""
+		Returns a copy of the object
+		"""
 
 		return self.__class__(self._mass_list[:], self._intensity_list[:])
 
-	def __deepcopy__(self, memodict={}):
+	def __deepcopy__(self, memodict={}) -> "Scan":
 		return self.__copy__()
 
-	def __dict__(self):
+	@property
+	def __dict__(self) -> Dict[str, List[float]]:
 		return {
 				"intensity_list": self.intensity_list,
 				"mass_list": self.mass_list,
 				}
 
 	def __iter__(self):
-		for key, value in self.__dict__().items():
+		for key, value in self.__dict__.items():
 			yield key, value
 
 	def __getstate__(self):
-		return self.__dict__()
+		return self.__dict__
 
 	def __setstate__(self, state):
 		self.__init__(**state)
 
-	def iter_peaks(self):
+	def iter_peaks(self) -> Iterator[Tuple[float, float]]:
 		"""
 		Iterate over the peaks in the mass spectrum
 		"""
@@ -193,8 +179,6 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		"""
 		Returns a copy of the intensity list
 
-		:rtype: list
-
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
 
@@ -204,8 +188,6 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 	def mass_spec(self) -> List:
 		"""
 		Returns the intensity list
-
-		:rtype: list
 
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
@@ -239,8 +221,6 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		"""
 		Returns the minimum m/z value in the scan
 
-		:rtype: float
-
 		:author: Andrew Isaac
 		"""
 
@@ -255,8 +235,6 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 	def get_max_mass(self) -> float:
 		"""
 		Returns the maximum m/z value in the scan
-
-		:rtype: float
 
 		:author: Andrew Isaac
 		"""
@@ -273,27 +251,24 @@ class MassSpectrum(Scan):
 	Models a binned mass spectrum
 
 	:param mass_list: mass values
-	:type mass_list: list
 	:param intensity_list: intensity values
-	:type intensity_list: list
 
 	:authors: Andrew Isaac, Qiao Wang, Vladimir Likic, Dominic Davis-Foster
 	"""
 
-	def __init__(self, mass_list: List, intensity_list: List):
-		"""
-		Initialise the class
-		"""
-
+	def __init__(
+			self,
+			mass_list: Union[Sequence[float], numpy.ndarray],
+			intensity_list: Union[Sequence[float], numpy.ndarray],
+			):
 		Scan.__init__(self, mass_list, intensity_list)
 
 	@Scan.intensity_list.setter
-	def intensity_list(self, value: List):
+	def intensity_list(self, value: List[float]):
 		"""
 		Set the intensity values for the spectrum
 
-		:param value: list of intensity value for each mass in `mass_list`
-		:type value: list
+		:param value: list of intensity value for each mass in ``mass_list``
 		"""
 
 		value = array_as_numeric(value)
@@ -307,12 +282,11 @@ class MassSpectrum(Scan):
 		self._intensity_list = list(value)
 
 	@Scan.mass_spec.setter
-	def mass_spec(self, value: List):
+	def mass_spec(self, value: List[float]):
 		"""
 		Set the intensity values for the spectrum
 
 		:param value: list of intensity value for each mass in `mass_list`
-		:type value: list
 		"""
 
 		value = array_as_numeric(value)
@@ -326,12 +300,11 @@ class MassSpectrum(Scan):
 		self._intensity_list = list(value)
 
 	@MassListMixin.mass_list.setter
-	def mass_list(self, value: List):
+	def mass_list(self, value: List[float]):
 		"""
 		Set the mass values for the spectrum
 
 		:param value: list of mass values for the spectrum
-		:type value: list
 		"""
 
 		value = array_as_numeric(value)
@@ -356,19 +329,15 @@ class MassSpectrum(Scan):
 			min_mz: Optional[float] = None,
 			max_mz: Optional[float] = None,
 			inplace: bool = False,
-			) -> MassSpectrum:
+			) -> "MassSpectrum":
 		"""
 		Crop the Mass Spectrum between the given mz values
 
 		:param min_mz: The minimum mz for the new mass spectrum
-		:type min_mz: int or float, optional
 		:param max_mz: The maximum mz for the new mass spectrum
-		:type max_mz: int or float, optional
 		:param inplace: Whether the cropping should be applied this instance or to a copy (default behaviour).
-		:type inplace: bool, optional
 
 		:return: The cropped Mass Spectrum
-		:rtype: :class:`pyms.Spectrum.MassSpectrum`
 		"""
 
 		if min_mz is None:
@@ -382,7 +351,12 @@ class MassSpectrum(Scan):
 
 		return self.icrop(min_mz_idx, max_mz_idx, inplace)
 
-	def icrop(self, min_index: [float] = 0, max_index: [float] = -1, inplace: bool = False) -> MassSpectrum:
+	def icrop(
+			self,
+			min_index: [float] = 0,
+			max_index: [float] = -1,
+			inplace: bool = False,
+			) -> "MassSpectrum":
 		"""
 		Crop the Mass Spectrum between the given indices
 
@@ -410,14 +384,11 @@ class MassSpectrum(Scan):
 					mass_list=cropped_intensity_list,
 					)
 
-	def n_largest_peaks(self, n):
+	def n_largest_peaks(self, n: int):
 		"""
 		Returns the indices of the n largest peaks in the Mass Spectrum
 
 		:param n: The number of peaks to return the indices for
-		:type n:
-		:return:
-		:rtype:
 		"""
 
 		# Make copies of the intensity_list
@@ -434,45 +405,35 @@ class MassSpectrum(Scan):
 
 		return largest_indices
 
-	def get_intensity_for_mass(self, mass):
+	def get_intensity_for_mass(self, mass: float) -> float:
 		"""
 		Returns the intensity for the given mass.
 
 		:param mass:
-		:type mass:
-
-		:return:
-		:rtype:
 		"""
 
 		mass_idx = self._mass_list.index(mass)
 		return self._intensity_list[mass_idx]
 
-	def get_mass_for_intensity(self, intensity):
+	def get_mass_for_intensity(self, intensity: float) -> float:
 		"""
 		Returns the mass for the given intensity.
 		If more than one mass has the given intensity, the first mass is returned.
 
 		:param intensity:
-		:type intensity:
-
-		:return:
-		:rtype:
 		"""
 
 		intensity_idx = self._intensity_list.index(intensity)
 		return self._mass_list[intensity_idx]
 
 	@classmethod
-	def from_jcamp(cls, file_name: Union[str, pathlib.Path]) -> MassSpectrum:
+	def from_jcamp(cls, file_name: Union[str, pathlib.Path]) -> "MassSpectrum":
 		"""
 		Create a MassSpectrum from a JCAMP-DX file
 
 		:param file_name: Path of the file to read
-		:type file_name: str or os.PathLike
 
 		:return: MassSpectrum
-		:rtype: :class:`pyms.Spectrum.MassSpectrum`
 
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic, David Kainer, Dominic Davis-Foster
 		"""
@@ -526,7 +487,6 @@ class MassSpectrum(Scan):
 		Construct a MassSpectrum from a list of (m/z, intensity) tuples.
 
 		:param mz_int_pairs:
-		:type mz_int_pairs: list of tuple
 		"""
 
 		err_msg = "`mz_int_pairs` must be a list of (m/z, intensity) tuples."
@@ -560,21 +520,17 @@ def normalize_mass_spec(
 	which by default is 100.0.
 
 	:param mass_spec: The Mass Spectrum to normalize
-	:type mass_spec: :class:`pyms.Spectrum.MassSpectrum`
 	:param relative_to: The largest intensity in the original data set.
 		If not None the intensities are computed relative to this value.
 		If None the value is calculated from the mass spectrum.
 		This can be useful when normalizing several mass spectra to each other.
-	:type relative_to: int or float
 	:param inplace: Whether the normalization should be applied to the
 		:class:`~pyms.Spectrum.MassSpectrum` object given, or to a copy (default behaviour).
-	:type inplace: bool, optional.
 	:param max_intensity: The maximum intensity in the normalized spectrum.
 		If omitted the range 0-100.0 is used.
 		If an integer the normalized intensities will be integers.
-	:type max_intensity: int, float
+
 	:return: The normalized mass spectrum
-	:rtype: :class:`pyms.Spectrum.MassSpectrum`
 	"""
 
 	if relative_to is None:

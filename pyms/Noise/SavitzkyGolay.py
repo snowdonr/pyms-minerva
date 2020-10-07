@@ -37,34 +37,28 @@ from pyms.IonChromatogram import IonChromatogram
 
 __all__ = ["savitzky_golay", "savitzky_golay_im"]
 
-__DEFAULT_WINDOW = 7
-__DEFAULT_POLYNOMIAL_DEGREE = 2
+_DEFAULT_WINDOW = 7
+_DEFAULT_POLYNOMIAL_DEGREE = 2
 
 
 def savitzky_golay(
 		ic: IonChromatogram,
-		window: Union[int, str] = __DEFAULT_WINDOW,
-		degree=__DEFAULT_POLYNOMIAL_DEGREE,
+		window: Union[int, str] = _DEFAULT_WINDOW,
+		degree: int = _DEFAULT_POLYNOMIAL_DEGREE,
 		) -> IonChromatogram:
 	"""
-	Applies Savitzky-Golay filter on ion chromatogram
+	Applies Savitzky-Golay filter on ion chromatogram.
 
 	:param ic: The input ion chromatogram
-	:type ic: pyms.IonChromatogram.IonChromatogram
 	:param window: The window selection parameter. This can be an integer
 		or time string. If integer, taken as the number of points. If a
-		string, must of the form "<NUMBER>s" or "<NUMBER>m", specifying
+		string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``, specifying
 		a time in seconds or minutes, respectively
-	:type window: int or str, optional
 	:param degree: degree of the fitting polynomial for the Savitzky-Golay filter
-	:type degree: int, optional
 
 	:return: Smoothed ion chromatogram
-	:rtype: pyms.IonChromatogram.IonChromatogram
 
-	:author: Uwe Schmitt
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster
+	:authors: Uwe Schmitt, Vladimir Likic, Dominic Davis-Foster
 	"""
 
 	if not isinstance(ic, IonChromatogram):
@@ -95,8 +89,8 @@ def savitzky_golay(
 
 def savitzky_golay_im(
 		im: IntensityMatrix,
-		window: Union[int, str] = __DEFAULT_WINDOW,
-		degree: int = __DEFAULT_POLYNOMIAL_DEGREE,
+		window: Union[int, str] = _DEFAULT_WINDOW,
+		degree: int = _DEFAULT_POLYNOMIAL_DEGREE,
 		) -> IntensityMatrix:
 	"""
 	Applies Savitzky-Golay filter on Intensity Matrix
@@ -104,19 +98,14 @@ def savitzky_golay_im(
 	Simply wraps around the Savitzky Golay function above
 
 	:param im: The input IntensityMatrix
-	:type im: pyms.IntensityMatrix.IntensityMatrix
 	:param window: The window selection parameter.
-	:type window: int or str, optional
 	:param degree: degree of the fitting polynomial for the Savitzky-Golay
 		filter
-	:type degree: int, optional
 
 	:return: Smoothed IntensityMatrix
 	:rtype: pyms.IntensityMatrix.IntensityMatrix
 
-	:author: Sean O'Callaghan
-	:author: Vladimir Likic
-	:author: Dominic Davis-Foster
+	:authors: Sean O'Callaghan, Vladimir Likic, Dominic Davis-Foster
 	"""
 
 	if not isinstance(im, IntensityMatrix):
@@ -144,26 +133,24 @@ def __calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy
 	"""
 	Calculates filter coefficients for symmetric savitzky-golay filter.
 
-	See Section 14.8: Savitzky-Golay Smoothing Filters in
+	.. seealso::
+
+		Section 14.8: Savitzky-Golay Smoothing Filters in
 		Numerical Recipes in C, Second Edition (1992)
 		by Press, W.H., Teukolsky, S.A., Vetterling, W.T., Flannery, B.P.
+
 		Published by Cambridge University Press
 
 	:param num_points: Means that 2*num_points+1 values contribute to the smoother
-	:type num_points: int
 	:param pol_degree: The degree of fitting polynomial
-	:type pol_degree: int
 	:param diff_order: The degree of implicit differentiation.  0 means
 		that filter results in smoothing of function, 1 means that filter
 		results in smoothing the first derivative of function, and so on.
-		Always use 0
-	:type diff_order: int, optional
+		Always use ``0``
 
 	:return: Filter coefficients
-	:rtype: numpy.ndarray
 
 	:author: Uwe Schmitt
-	:copyright: Uwe Schmitt
 	"""
 
 	# setup normal matrix
@@ -197,13 +184,9 @@ def __resub(D, rhs):
 	D is lower triangle-matrix from cholesky-decomposition
 
 	:param D:
-	:type D:
-
 	:param rhs:
-	:type rhs:
 
 	:author: Uwe Schmitt
-	:copyright: Uwe Schmitt
 	"""
 
 	M = D.shape[0]
@@ -227,19 +210,14 @@ def __resub(D, rhs):
 	return x2
 
 
-def __smooth(signal, coeff):
+def __smooth(signal: numpy.ndarray, coeff: numpy.ndarray) -> numpy.ndarray:
 	"""
-	Applies coefficients calculated by __calc_coeff()
-		to signal
-
+	Applies coefficients calculated by :func:`~.__calc_coeff()` to signal.
 
 	:param signal:
-	:type signal:
 	:param coeff:
-	:type coeff:
 
 	:author: Uwe Schmitt
-	:copyright: Uwe Schmitt
 	"""
 
 	size = numpy.size(coeff - 1) // 2

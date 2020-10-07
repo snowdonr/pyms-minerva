@@ -32,7 +32,7 @@ import math
 from numbers import Number
 from statistics import mean, median
 from statistics import stdev as std
-from typing import List, Sequence, Union
+from typing import List, Sequence, Union, overload
 
 # 3rd party
 import numpy  # type: ignore
@@ -54,22 +54,16 @@ __all__ = [
 		]
 
 
-def vector_by_step(start: float, stop: float, step: float) -> List:
+def vector_by_step(start: float, stop: float, step: float) -> List[float]:
 	"""
-    Generates a list by using start, stop, and step values
+	Generates a list by using start, stop, and step values
 
-    :param start: Initial value
-    :type start: int or float
-    :param stop: Max value
-    :type stop: int or float
-    :param step: Step
-    :type step: int or float
+	:param start: Initial value
+	:param stop: Max value
+	:param step: Step
 
-    :return: A list generated
-    :rtype: list
-
-    :author: Vladimir Likic
-    """
+	:author: Vladimir Likic
+	"""
 
 	if not isinstance(start, Number) or not isinstance(stop, Number) or not isinstance(step, Number):
 		raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
@@ -86,16 +80,14 @@ def vector_by_step(start: float, stop: float, step: float) -> List:
 
 def MAD(v: Union[Sequence, numpy.ndarray]) -> float:
 	"""
-    Median absolute deviation
+	Median absolute deviation
 
-    :param v: List of values to calculate the median absolute deviation of
-    :type v: list, tuple, or numpy.core.ndarray
+	:param v: List of values to calculate the median absolute deviation of
 
-    :return: median absolute deviation
-    :rtype: float
+	:return: median absolute deviation
 
-    :author: Vladimir Likic
-    """
+	:author: Vladimir Likic
+	"""
 
 	if not is_sequence(v):
 		raise TypeError("'v' must be a Sequence")
@@ -114,20 +106,15 @@ def MAD(v: Union[Sequence, numpy.ndarray]) -> float:
 
 def rmsd(list1: Union[Sequence, numpy.ndarray], list2: Union[Sequence, numpy.ndarray]) -> float:
 	"""
-    Calculates RMSD for the 2 lists
+	Calculates RMSD for the 2 lists
 
-    :param list1: First data set
-    :type list1: list, tuple, or numpy.core.ndarray
-    :param list2: Second data set
-    :type list2: list, tuple, or numpy.core.ndarray
+	:param list1: First data set
+	:param list2: Second data set
 
-    :return: RMSD value
-    :rtype: float
+	:return: RMSD value
 
-    :author: Qiao Wang
-    :author: Andrew Isaac
-    :author: Vladimir Likic
-    """
+	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
+	"""
 
 	if not is_sequence(list1):
 		raise TypeError("'list1' must be a Sequence")
@@ -142,20 +129,15 @@ def rmsd(list1: Union[Sequence, numpy.ndarray], list2: Union[Sequence, numpy.nda
 	return _rmsd
 
 
-def mad_based_outlier(data, thresh=3.5):
+def mad_based_outlier(data, thresh: float = 3.5):
 	"""
 
-    :param data:
-    :type data:
-    :param thresh:
-    :type thresh:
+	:param data:
+	:param thresh:
 
-    :return:
-    :rtype:
-
-    :author: David Kainer
-    :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
-    """
+	:author: David Kainer
+	:url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
+	"""
 
 	data = numpy.array(data)
 	if len(data.shape) == 1:
@@ -170,20 +152,15 @@ def mad_based_outlier(data, thresh=3.5):
 	return modified_z_score > thresh
 
 
-def percentile_based_outlier(data, threshold=95):
+def percentile_based_outlier(data, threshold: int = 95):
 	"""
 
-    :param data:
-    :type data:
-    :param threshold:
-    :type threshold:
+	:param data:
+	:param threshold:
 
-    :return:
-    :rtype:
-
-    :author: David Kainer
-    :url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
-    """
+	:author: David Kainer
+	:url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
+	"""
 
 	data = numpy.array(data)
 	diff = (100 - threshold) / 2.0
@@ -194,22 +171,17 @@ def percentile_based_outlier(data, threshold=95):
 	return (data < minval) | (data > maxval)
 
 
-def median_outliers(data, m=2.5):
+def median_outliers(data, m: float = 2.5):
 	"""
 
-    :param data:
-    :type data:
-    :param m:
-    :type m:
+	:param data:
+	:param m:
 
-    :return:
-    :rtype:
-
-    :author: David Kainer
-    :author: eumiro < `https://stackoverflow.com/users/449449/eumiro`_ >
-    :author: enjamin Bannier < `https://stackoverflow.com/users/176922/benjamin-bannier`_ >
-    :url: `http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list`_
-    """
+	:author: David Kainer
+	:author: eumiro < `https://stackoverflow.com/users/449449/eumiro`_ >
+	:author: enjamin Bannier < `https://stackoverflow.com/users/176922/benjamin-bannier`_ >
+	:url: `http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list`_
+	"""
 
 	data = numpy.array(data)
 	d = numpy.abs(data - numpy.nanmedian(data))
@@ -218,15 +190,24 @@ def median_outliers(data, m=2.5):
 	return s > m
 
 
+@overload
+def is_float(s: str) -> bool:
+	...
+
+
+@overload
+def is_float(s: List[str]) -> List[bool]:
+	...
+
+
 def is_float(s: Union[str, List[str]]) -> Union[bool, List[bool]]:
 	"""
-    Test if a string, or list of strings, contains a numeric value(s).
+	Test if a string, or list of strings, contains a numeric value(s).
 
-    :param s: The string or list of strings to test.
-    :type s: str, or list of str
-    :return: A single boolean or list of boolean values indicating whether each input can be converted into a float.
-    :rtype: bool or list of bool
-    """
+	:param s: The string or list of strings to test.
+
+	:return: A single boolean or list of boolean values indicating whether each input can be converted into a float.
+	"""
 
 	if isinstance(s, (tuple, list)):
 		if not all(isinstance(i, str) for i in s):
