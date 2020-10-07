@@ -26,7 +26,7 @@ import types
 # 3rd party
 import deprecation  # type: ignore
 import numpy  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.IntensityMatrix import (

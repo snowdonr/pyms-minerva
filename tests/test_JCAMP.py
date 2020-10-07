@@ -19,13 +19,11 @@
 #############################################################################
 
 # stdlib
-import csv
 import pickle
 from copy import deepcopy
 
 # 3rd party
-import deprecation  # type: ignore
-import pytest  # type: ignore
+import pytest
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package

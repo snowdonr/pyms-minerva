@@ -23,7 +23,7 @@ import copy
 import pathlib
 
 # 3rd party
-import pytest  # type: ignore
+import pytest
 import requests
 
 # this package

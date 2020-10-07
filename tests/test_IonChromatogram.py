@@ -24,9 +24,8 @@ import pickle
 from numbers import Number
 
 # 3rd party
-import deprecation  # type: ignore
 import numpy  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.IonChromatogram import IonChromatogram

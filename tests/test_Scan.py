@@ -20,7 +20,7 @@
 
 # 3rd party
 import numpy  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.Spectrum import Scan

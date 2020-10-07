@@ -23,8 +23,8 @@ import os
 from pathlib import Path
 
 # 3rd party
-import pytest  # type: ignore
-from matplotlib import axes, figure
+import pytest
+from matplotlib import axes, figure  # type: ignore
 from matplotlib import pyplot as plt  # type: ignore
 
 # this package

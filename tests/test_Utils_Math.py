@@ -6,7 +6,9 @@ from decimal import Decimal
 from fractions import Fraction
 
 # 3rd party
-import pytest  # type: ignore
+from typing import List
+
+import pytest
 
 # this package
 from pyms.Utils import Math
@@ -135,13 +137,6 @@ class TestMean:
 
 class TestMedian:
 
-	def prepare_data(self):
-		"""Overload method from UnivariateCommonMixin."""
-		data = super().prepare_data()
-		if len(data) % 2 != 1:
-			data.append(2)
-		return data
-
 	def test_even_ints(self):
 		# Test median with an even number of int data points.
 		data = [1, 2, 3, 4, 5, 6]
@@ -208,7 +203,7 @@ class TestStdev:
 
 	def test_ints(self):
 		# Test sample variance with int data.
-		data = [4, 7, 13, 16]
+		data: List[int] = [4, 7, 13, 16]
 		exact = math.sqrt(30)
 		assert statistics.stdev(data) == exact
 		assert Math.std(data) == exact

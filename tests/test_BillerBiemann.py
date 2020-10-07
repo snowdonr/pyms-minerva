@@ -23,7 +23,7 @@ import copy
 
 # 3rd party
 import numpy  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.BillerBiemann import (
@@ -252,17 +252,17 @@ class Test_get_maxima_list_reduced:
 			get_maxima_list_reduced(obj, 0)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict])
-	def test__errors(self, obj, tic):
+	def test_mp_rt_errors(self, obj, tic):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(tic, mp_rt=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_float, test_dict])
-	def test__errors(self, obj, tic):
+	def test_points_errors(self, obj, tic):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(tic, test_float, points=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict])
-	def test__errors(self, obj, tic):
+	def test_window_errors(self, obj, tic):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(tic, test_float, window=obj)
 
@@ -275,16 +275,16 @@ class Test_get_maxima_matrix:
 		# TODO: value check
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test__errors(self, obj):
+	def test_im_errors(self, obj):
 		with pytest.raises(TypeError):
 			get_maxima_matrix(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test__errors(self, obj, im):
+	def test_points_errors(self, obj, im):
 		with pytest.raises(TypeError):
 			get_maxima_matrix(im, points=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test__errors(self, obj, im):
+	def test_scans_errors(self, obj, im):
 		with pytest.raises(TypeError):
 			get_maxima_matrix(im, scans=obj)

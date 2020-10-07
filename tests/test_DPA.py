@@ -26,7 +26,7 @@ from numbers import Number
 
 # 3rd party
 import numpy  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
@@ -217,6 +217,7 @@ def test_write_csv(A1, outputdir):
 				new_peak_list.append(peak)
 
 		compo_peak = composite_peak(new_peak_list)
+		assert compo_peak is not None
 
 		assert rt_csv[peak_idx + 1][0] == area_csv[peak_idx + 1][0] == compo_peak.UID
 
@@ -257,6 +258,8 @@ def test_write_csv(A1, outputdir):
 
 		compo_peak = composite_peak(new_peak_list)
 
+		assert compo_peak is not None
+
 		assert rt_csv[peak_idx + 1][0] == area_csv[peak_idx + 1][0] == compo_peak.UID
 
 		assert rt_csv[peak_idx + 1][1] == area_csv[peak_idx + 1][1] == f"{float(compo_peak.rt):.3f}"
@@ -293,6 +296,7 @@ def test_write_ion_areas_csv(A1, outputdir):
 				new_peak_list.append(peak)
 
 		compo_peak = composite_peak(new_peak_list)
+		assert compo_peak is not None
 
 		assert ion_csv[peak_idx + 1][0] == seconds_ion_csv[peak_idx + 1][0] == compo_peak.UID
 

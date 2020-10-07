@@ -26,7 +26,6 @@ Class to model Intensity Matrix
 # stdlib
 import copy
 import pathlib
-from numbers import Number
 from typing import Any, Iterator, List, Optional, Tuple, Union
 from warnings import warn
 

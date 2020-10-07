@@ -25,7 +25,7 @@ from numbers import Number
 
 # 3rd party
 import deprecation  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.Peak import Peak

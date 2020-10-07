@@ -23,7 +23,7 @@ import copy
 
 # 3rd party
 import deprecation  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from pyms.Experiment import Experiment, load_expr, read_expr_list, store_expr

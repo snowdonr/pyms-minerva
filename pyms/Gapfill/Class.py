@@ -26,12 +26,6 @@ Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
 # stdlib
 from typing import Dict, List, Optional
 
-# 3rd party
-import deprecation  # type: ignore
-
-# this package
-from pyms import __version__
-
 __all__ = ["MissingPeak", "Sample"]
 
 
