@@ -75,8 +75,8 @@ for peak in real_peak_list:
 # The mass_list and time_list are the same for the real
 # data and the simulated data.
 
-time_list = real_im.get_time_list()
-mass_list = real_im.get_mass_list()
+time_list = real_im.time_list
+mass_list = real_im.mass_list
 
 sim_im = gcms_sim(time_list, mass_list, real_peak_list)
 # sim_im is an IntensityMatrix object

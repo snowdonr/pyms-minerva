@@ -62,21 +62,9 @@ def test_len(expr):
 	assert len(expr) == 641
 
 
-@deprecation.fail_if_not_removed
-def test_get_expr_code(expr):
-	with pytest.warns(DeprecationWarning):
-		expr.get_expr_code()
-
-
 def test_expr_code(expr):
 	assert isinstance(expr.expr_code, str)
 	assert expr.expr_code == "ELEY_1_SUBTRACT"
-
-
-@deprecation.fail_if_not_removed
-def test_get_peak_list(expr):
-	with pytest.warns(DeprecationWarning):
-		expr.get_peak_list()
 
 
 def test_peak_list(expr, filtered_peak_list):

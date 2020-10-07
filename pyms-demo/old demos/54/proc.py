@@ -27,7 +27,7 @@ data = ANDI_reader(andi_file)
 
 # estimate noise level from the TIC, used later to
 # discern true signal peaks
-tic = data.get_tic()
+tic = data.tic
 noise_level = window_analyzer(tic)
 
 print(" Building intensity matrix ...",)

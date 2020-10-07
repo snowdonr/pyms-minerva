@@ -27,15 +27,12 @@ Classes to model a GC-MS Ion Chromatogram
 import copy
 import pathlib
 import warnings
-from numbers import Number
 from typing import Any, List, Optional, Sequence, Union
 
 # 3rd party
-import deprecation  # type: ignore
 import numpy  # type: ignore
 
 # this package
-from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
@@ -68,18 +65,18 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		if not isinstance(ia, numpy.ndarray):
 			raise TypeError("'ia' must be a numpy array")
 
-		if not is_sequence(time_list) or not all(isinstance(time, Number) for time in time_list):
+		if not is_sequence(time_list) or not all(isinstance(time, (int, float)) for time in time_list):
 			raise TypeError("'time_list' must be a list of numbers")
 
 		if len(ia) != len(time_list):
 			raise ValueError("Intensity array and time list differ in length")
 
-		if mass and not isinstance(mass, Number):
+		if mass is not None and not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be a number")
 
 		self._intensity_array = ia
 		self._time_list = time_list
-		self._mass = mass
+		self._mass: Optional[float] = mass
 		self._time_step = self.__calc_time_step()
 		self._min_rt = min(time_list)
 		self._max_rt = max(time_list)
@@ -158,42 +155,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self._intensity_array[ix]
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.mass` instead",
-			)
-	def get_mass(self) -> float:
-		"""
-		Returns the m/z channel of the IC
-
-		:return: m/z channel of the IC
-		:rtype: int
-
-		:author: Sean O'Callaghan
-		"""
-
-		return self.mass
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.time_step` instead",
-			)
-	def get_time_step(self) -> float:
-		"""
-		Returns the time step
-
-		:return: Time step
-
-		:authors: Lewis Lee, Vladimir Likic
-		"""
-
-		return self._time_step
-
-	@IntensityArrayMixin.intensity_array.setter
+	@IntensityArrayMixin.intensity_array.setter  # type: ignore
 	def intensity_array(self, ia: Union[Sequence, numpy.ndarray]):
 		"""
 		Sets the value for the intensity array
@@ -221,7 +183,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		return self._mass is None
 
 	@property
-	def mass(self) -> float:
+	def mass(self) -> Optional[float]:
 		"""
 		Returns the m/z channel of the IC
 
@@ -234,29 +196,6 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 			warnings.warn("TIC has no m/z label", Warning)
 
 		return self._mass
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.IonChromatogram.IonChromatogram.intensity_array` instead",
-			)
-	def set_intensity_array(self, ia: numpy.ndarray):
-		"""
-		Sets the value for the intensity array
-
-		:param ia: An array of new intensity values
-
-		:author: Vladimir Likic
-		"""
-
-		if not is_sequence(ia):
-			raise TypeError("'intensity_array' must be a Sequence")
-
-		if not isinstance(ia, numpy.ndarray):
-			ia = numpy.array(ia)
-
-		self._intensity_array = ia
 
 	@property
 	def time_step(self) -> float:

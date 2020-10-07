@@ -91,13 +91,13 @@ def BillerBiemann(im: IntensityMatrix, points: int = 3, scans: int = 1) -> List[
 			rt = rt_list[row]
 			ms = MassSpectrum(mass_list, maxima_im[row])
 			peak = Peak(rt, ms)
-			peak.bounds = [0, row, 0]  # store IM index for convenience
+			peak.bounds = (0, row, 0)  # store IM index for convenience
 			peak_list.append(peak)
 
 	return peak_list
 
 
-def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: int = 3) -> List[float]:
+def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: int = 3) -> List[int]:
 	"""
 	Find local maxima.
 
@@ -342,7 +342,9 @@ def rel_threshold(pl: List[Peak], percent: float = 2, copy_peaks: bool = True) -
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not is_peak_list(pl):
+	peak_list = pl
+
+	if not is_peak_list(peak_list):
 		raise TypeError("'pl' must be a list of Peak objects")
 	if not isinstance(percent, (int, float)):
 		raise TypeError("'percent' must be a number > 0")
@@ -351,11 +353,14 @@ def rel_threshold(pl: List[Peak], percent: float = 2, copy_peaks: bool = True) -
 		raise ValueError("'percent' must be a number > 0")
 
 	if copy_peaks:
-		pl = copy.deepcopy(pl)
+		peak_list = copy.deepcopy(peak_list)
 
-	new_pl = []
-	for p in pl:
-		ms = p.mass_spectrum
+	new_peak_list = []
+	for peak in peak_list:
+		ms = peak.mass_spectrum
+		if ms is None:
+			raise ValueError("The peak has no mass spectrum.")
+
 		ia = ms.mass_spec
 		# assume max(ia) big so /100 1st
 		cutoff = (max(ia) / 100.0) * float(percent)
@@ -363,10 +368,10 @@ def rel_threshold(pl: List[Peak], percent: float = 2, copy_peaks: bool = True) -
 			if ia[i] < cutoff:
 				ia[i] = 0
 		ms.mass_spec = ia
-		p.mass_spectrum = ms
-		new_pl.append(p)
+		peak.mass_spectrum = ms
+		new_peak_list.append(peak)
 
-	return new_pl
+	return new_peak_list
 
 
 def sum_maxima(im: IntensityMatrix, points: int = 3, scans: int = 1) -> IonChromatogram:

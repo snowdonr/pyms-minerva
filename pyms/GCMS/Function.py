@@ -48,8 +48,8 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 	"""
 
 	# get time attributes
-	time_list1 = data1.get_time_list()
-	time_list2 = data2.get_time_list()
+	time_list1 = data1.time_list
+	time_list2 = data2.time_list
 
 	# First, check if two data sets have the same number of retention times.
 	if len(time_list1) != len(time_list2):
@@ -67,8 +67,8 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 	print(" Checking for consistency in scan lengths ...", end='')
 	sys.stdout.flush()
 
-	scan_list1 = data1.get_scan_list()
-	scan_list2 = data2.get_scan_list()
+	scan_list1 = data1.scan_list
+	scan_list2 = data2.scan_list
 
 	if not len(scan_list1) == len(scan_list2):
 		# since the number of rention times are the same, this indicated
@@ -78,8 +78,8 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 	for ii in range(len(scan_list1)):
 		scan1 = scan_list1[ii]
 		scan2 = scan_list2[ii]
-		mass_list1 = scan1.get_mass_list()
-		mass_list2 = scan2.get_mass_list()
+		mass_list1 = scan1.mass_list
+		mass_list2 = scan2.mass_list
 		if len(mass_list1) != len(mass_list2):
 			print(f"\n Different number of points detected in scan no. {ii:d}")
 			print(" Data sets are different.")
@@ -97,10 +97,10 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 	for ii in range(len(scan_list1)):
 		scan1 = scan_list1[ii]
 		scan2 = scan_list2[ii]
-		mass_list1 = scan1.get_mass_list()
-		mass_list2 = scan2.get_mass_list()
-		intensity_list1 = scan1.get_intensity_list()
-		intensity_list2 = scan2.get_intensity_list()
+		mass_list1 = scan1.mass_list
+		mass_list2 = scan2.mass_list
+		intensity_list1 = scan1.intensity_list
+		intensity_list2 = scan2.intensity_list
 		mass_rmsd = rmsd(mass_list1, mass_list2)
 		if mass_rmsd > max_mass_rmsd:
 			max_mass_rmsd = mass_rmsd
@@ -113,7 +113,7 @@ def diff(data1: GCMS_data, data2: GCMS_data):
 
 
 def ic_window_points(
-		ic: IonChromatogram,
+		ic: IonChromatogram.IonChromatogram,
 		window_sele: Union[int, str],
 		half_window: bool = False,
 		):

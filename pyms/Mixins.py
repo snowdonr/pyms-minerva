@@ -26,15 +26,11 @@ Mixins for PyMassSpec Classes
 # stdlib
 import math
 from numbers import Number
-from typing import List
+from typing import List, Optional
 from warnings import warn
 
 # 3rd party
-import deprecation  # type: ignore
 import numpy  # type: ignore
-
-# this package
-from pyms import __version__
 
 __all__ = [
 		"MaxMinMassMixin",
@@ -46,39 +42,11 @@ __all__ = [
 
 
 class MaxMinMassMixin:
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use 'max_mass' attribute instead",
-			)
-	def get_max_mass(self) -> float:
-		"""
-		Returns the maximum mass value over all scans.
-
-		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
-		"""
-
-		return self.max_mass
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use 'min_mass' attribute instead",
-			)
-	def get_min_mass(self) -> float:
-		"""
-		Returns the mininum mass value over all scans.
-
-		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
-		"""
-
-		return self.min_mass
+	_min_mass: Optional[float]
+	_max_mass: Optional[float]
 
 	@property
-	def min_mass(self) -> float:
+	def min_mass(self) -> Optional[float]:
 		"""
 		Returns the minimum *m/z* value in the spectrum
 
@@ -88,7 +56,7 @@ class MaxMinMassMixin:
 		return self._min_mass
 
 	@property
-	def max_mass(self) -> float:
+	def max_mass(self) -> Optional[float]:
 		"""
 		Returns the maximum *m/z* value in the spectrum
 
@@ -99,6 +67,7 @@ class MaxMinMassMixin:
 
 
 class MassListMixin(MaxMinMassMixin):
+	_mass_list: List[float]
 
 	@property
 	def mass_list(self) -> List[float]:
@@ -110,23 +79,9 @@ class MassListMixin(MaxMinMassMixin):
 
 		return self._mass_list[:]
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use 'mass_list' attribute instead",
-			)
-	def get_mass_list(self) -> List[float]:
-		"""
-		Returns a list of the masses
-
-		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
-		"""
-
-		return self.mass_list
-
 
 class TimeListMixin:
+	_time_list: List[float]
 
 	@property
 	def time_list(self) -> List[float]:
@@ -140,25 +95,9 @@ class TimeListMixin:
 
 		return self._time_list[:]
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use 'time_list' attribute instead",
-			)
-	def get_time_list(self) -> List[float]:
-		"""
-		Returns a copy of the time list
-
-		:return: List of retention times
-
-		:author: Andrew Isaac
-		"""
-
-		return self.time_list
-
 
 class IntensityArrayMixin:
+	_intensity_array: numpy.ndarray
 
 	@property
 	def intensity_array(self) -> numpy.ndarray:
@@ -187,23 +126,6 @@ class IntensityArrayMixin:
 
 		return numpy.copy(self._intensity_array)
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use 'intensity_array' attribute instead",
-			)
-	def get_intensity_array(self) -> numpy.ndarray:
-		"""
-		Returns the entire intensity array
-
-		:return: Intensity array
-
-		:authors: Lewis Lee, Vladimir Likic
-		"""
-
-		return self.intensity_array
-
 	@property
 	def intensity_array_list(self) -> List[List[float]]:
 		"""
@@ -214,25 +136,7 @@ class IntensityArrayMixin:
 		:author: Andrew Isaac
 		"""
 
-		return self._intensity_array.tolist()
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details=f"Use 'matrix_list' attribute instead",
-			)
-	def get_matrix_list(self) -> numpy.ndarray:
-		"""
-		Returns a copy of the intensity matrix as a list of lists of floats
-
-		:return: Matrix of intensity values
-		:rtype: list
-
-		:author: Andrew Isaac
-		"""
-
-		return self.intensity_array
+		return self._intensity_array.tolist()  # type: ignore
 
 	@property
 	def matrix_list(self) -> numpy.ndarray:
@@ -248,6 +152,9 @@ class IntensityArrayMixin:
 
 
 class GetIndexTimeMixin:
+	_min_rt: float
+	_max_rt: float
+	_time_list: List[float]
 
 	def get_index_at_time(self, time: float) -> int:
 		"""
@@ -258,6 +165,10 @@ class GetIndexTimeMixin:
 		:return: Nearest index corresponding to given time
 
 		:authors: Lewis Lee, Tim Erwin, Vladimir Likic
+
+		.. versionchanged:: 2.3.0
+
+			Now returns ``-1`` if no index is found.
 		"""
 
 		if not isinstance(time, Number):
@@ -270,7 +181,7 @@ class GetIndexTimeMixin:
 
 		time_list = self._time_list
 		time_diff_min = self._max_rt
-		ix_match = None
+		ix_match = -1
 
 		for ix in range(len(time_list)):
 

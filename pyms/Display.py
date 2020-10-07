@@ -191,8 +191,8 @@ Please call a plotting function before calling 'do_plotting()'""",
 		for peak in self.__peak_list:
 			# if event.xdata > 0.9999*peak.rt and event.xdata < 1.0001*peak.rt:
 			if 0.9999 * peak.rt < event.xdata < 1.0001 * peak.rt:
-				intensity_list = peak.get_mass_spectrum().mass_spec
-				mass_list = peak.get_mass_spectrum().mass_list
+				intensity_list = peak.mass_spectrum.mass_spec
+				mass_list = peak.mass_spectrum.mass_list
 
 		largest = self.get_5_largest(intensity_list)
 
@@ -544,9 +544,9 @@ def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style
 	else:
 		for peak in peak_list:
 			time_list.append(peak.rt)
-			height_list.append(sum(peak.get_mass_spectrum().intensity_list))
+			height_list.append(sum(peak.mass_spectrum.intensity_list))
 			# height_list.append(peak.height)
-			# print(peak.height - sum(peak.get_mass_spectrum().intensity_list))
+			# print(peak.height - sum(peak.mass_spectrum.intensity_list))
 			# print(sum(peak.mass_spectrum.intensity_list))
 
 		return ax.plot(time_list, height_list, style, label=label)
@@ -599,8 +599,8 @@ class ClickEventHandler:
 		for peak in self.peak_list:
 			# if event.xdata > 0.9999*peak.rt and event.xdata < 1.0001*peak.rt:
 			if self._min * peak.rt < event.xdata < self._max * peak.rt:
-				intensity_list = peak.get_mass_spectrum().mass_spec
-				mass_list = peak.get_mass_spectrum().mass_list
+				intensity_list = peak.mass_spectrum.mass_spec
+				mass_list = peak.mass_spectrum.mass_list
 
 				largest = self.get_n_largest(intensity_list)
 
@@ -619,7 +619,7 @@ class ClickEventHandler:
 					else:
 						self.ms_ax.clear()
 
-					plot_mass_spec(self.ms_ax, peak.get_mass_spectrum())
+					plot_mass_spec(self.ms_ax, peak.mass_spectrum)
 					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")
 					self.ms_fig.show()
 				# TODO: Add multiple MS to same plot window and add option to close one of them

@@ -31,11 +31,9 @@ from statistics import mean, median, stdev
 from typing import Any, List, Optional, TypeVar, Union
 
 # 3rd party
-import deprecation  # type: ignore
 import numpy  # type: ignore
 
 # this package
-from pyms import Spectrum, __version__
 from pyms.Base import pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
@@ -162,47 +160,17 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		for scan in self._scan_list:
 
 			tmp_mini = scan.min_mass
-			if tmp_mini is not None:
+			if tmp_mini is not None and mini is not None:
 				if tmp_mini < mini:
 					mini = tmp_mini
 
 			tmp_maxi = scan.max_mass
-			if tmp_maxi is not None:
+			if tmp_maxi is not None and maxi is not None:
 				if tmp_maxi > maxi:
 					maxi = tmp_maxi
 
 		self._min_mass = mini
 		self._max_mass = maxi
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.GCMS.Class.scan_list` instead",
-			)
-	def get_scan_list(self) -> List[Scan]:
-		"""
-		Returns a list of the scan objects.
-
-		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
-		"""
-
-		return self.scan_list
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.GCMS.Class.tic` instead",
-			)
-	def get_tic(self) -> IonChromatogram:
-		"""
-		Returns the total ion chromatogram.
-
-		:author: Andrew Isaac
-		"""
-
-		return self.tic
 
 	def info(self, print_scan_n: bool = False):
 		"""
@@ -330,7 +298,10 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 			first_scan = begin - 1
 		elif isinstance(begin, str):
 			time = time_str_secs(begin)
-			first_scan = self.get_index_at_time(time) + 1
+			scan_ = self.get_index_at_time(time)
+			if scan_ is None:
+				raise TypeError("invalid 'begin' argument")
+			first_scan = scan_= 1
 		else:
 			raise TypeError("invalid 'begin' argument")
 
@@ -340,7 +311,10 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 			last_scan = end
 		elif isinstance(end, str):
 			time = time_str_secs(end)
-			last_scan = self.get_index_at_time(time) + 1
+			scan_ = self.get_index_at_time(time)
+			if scan_ is None:
+				raise TypeError("invalid 'end' argument")
+			last_scan = scan_ + 1
 		else:
 			raise TypeError("invalid 'end' argument")
 

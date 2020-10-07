@@ -80,10 +80,9 @@ def file2matrix(file_name: Union[str, pathlib.Path]) -> numpy.ndarray:
 			newrow = []
 			for each in row:
 				try:
-					each = float(each)
+					newrow.append(float(each))
 				except:
 					pass
-				newrow.append(each)
 			matrix.append(newrow)
 
 	return numpy.array(matrix)
@@ -124,14 +123,14 @@ def missing_peak_finder(
 	# TODO: some error checks on null and crop ions
 
 	# TODO: a for root,files,dirs in os.path.walk(): loop
-	print("Sample:", sample.get_name(), "File:", file_name)
+	print("Sample:", sample.name, "File:", file_name)
 
-	if filetype.lower() == 'cdf':
+	if filetype == NETCDF:
 		# this package
 		from pyms.GCMS.IO.ANDI import ANDI_reader
 		data = ANDI_reader(file_name)
 
-	elif filetype.lower() == 'mzml':
+	elif filetype == MZML:
 		# this package
 		from pyms.GCMS.IO.MZML import mzML_reader
 		data = mzML_reader(file_name)
@@ -158,12 +157,12 @@ def missing_peak_finder(
 		ic_base = tophat(ic_smooth, struct="1.5m")
 		im.set_ic_at_index(ii, ic_base)
 
-	for mp in sample.get_missing_peaks():
+	for mp in sample.missing_peaks:
 
 		mp_rt = mp.rt
-		common_ion = mp.get_ci()
-		qual_ion_1 = float(mp.get_qual_ion1())
-		qual_ion_2 = float(mp.get_qual_ion2())
+		common_ion = mp.common_ion
+		qual_ion_1 = float(mp.qual_ion1)
+		qual_ion_2 = float(mp.qual_ion2)
 
 		ci_ion_chrom = im.get_ic_at_mass(common_ion)
 		print("ci = ", common_ion)
@@ -204,7 +203,7 @@ def missing_peak_finder(
 		areas = []
 		for peak in large_peaks:
 			apex = ci_ion_chrom.get_index_at_time(peak[0])
-			ia = ci_ion_chrom.get_intensity_array().tolist()
+			ia = ci_ion_chrom.intensity_array.tolist()
 			area, left, right, l_share, r_share = ion_area(ia, apex, 0)
 			areas.append(area)
 
@@ -213,27 +212,25 @@ def missing_peak_finder(
 		areas.sort()
 		if len(areas) > 0:
 			biggest_area = areas[-1]
-			mp.set_ci_area(biggest_area)
-			mp.set_exact_rt(f"{float(mp_rt) / 60.0:.3f}")
+			mp.common_ion_area = biggest_area
+			# mp.exact_rt = f"{float(mp_rt) / 60.0:.3f}"
+			mp.exact_rt = float(mp_rt) / 60.0
 			print("found area:", biggest_area, "at rt:", mp_rt)
 		else:
 			print("Missing peak at rt = ", mp_rt)
-			mp.set_ci_area('na')
+			mp.common_ion_area = None
 
 
-def mp_finder(input_matrix: List) -> Sample:
+def mp_finder(input_matrix: List) -> List[Sample]:
 	"""
 	Finds the 'NA's in the transformed area_ci.csv file and makes
 	:class:`pyms.Gapfill.Class.Sample` objects with them
 
 	:param input_matrix: Data matrix derived from the area_ci.csv file
-	:type input_matrix: list
 
 	:return: list of Samples
-	:rtype: :class:`list` of :class:`pyms.Gapfill.Class.Sample` objects
 
-	:author: Jairus Bowne
-	:author: Sean O'Callaghan
+	:authors: Jairus Bowne, Sean O'Callaghan
 	"""
 
 	sample_list = []
@@ -331,15 +328,15 @@ def write_filled_csv(
 		new_line = []
 		new_line.append(sample_name)
 		for sample in sample_list:
-			if sample_name in sample.get_name():
-				rt_area_dict = sample.get_mp_rt_area_dict()
+			if sample_name in sample.name:
+				rt_area_dict = sample.rt_areas
 				# print rt_area_dict
 
 		for i, part in enumerate(line[1:]):
 			# print part
 			if part == 'NA':
 				try:
-					area = rt_area_dict[str(rt_list[i])]
+					area = rt_area_dict[rt_list[i]]
 					new_line.append(area)
 				except KeyError:
 					pass
@@ -391,7 +388,7 @@ def write_filled_rt_csv(
 	invert_old_matrix = zip(*old_matrix)
 
 	uid_list = invert_old_matrix[0][1:]
-	rt_list = []
+	rt_list: List[str] = []
 	for uid in uid_list:
 		rt = uid.split('-')[-1]
 		rt_list.append(rt)
@@ -406,14 +403,14 @@ def write_filled_rt_csv(
 
 		new_line = [sample_name]
 		for sample in sample_list:
-			if sample_name in sample.get_name():
+			if sample_name in sample.name:
 
 				rt_exact_rt_dict = sample.get_mp_rt_exact_rt_dict()
 
 		for i, part in enumerate(line[1:]):
 			if part == 'NA':
 				try:
-					rt_new = rt_exact_rt_dict[str(rt_list[i])]
+					rt_new = rt_exact_rt_dict[float(rt_list[i])]
 					new_line.append(rt_new)
 				except KeyError:
 					pass

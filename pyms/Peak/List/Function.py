@@ -58,7 +58,7 @@ def composite_peak(peak_list: List[Peak], ignore_outliers: bool = False) -> Opti
 
 	first = True
 	count = 0
-	avg_rt = 0
+	avg_rt = 0.0
 	# new_ms = None
 
 	# DK: first mark peaks in the list that are outliers by RT, but only if there are more than 3 peaks in the list
@@ -72,13 +72,17 @@ def composite_peak(peak_list: List[Peak], ignore_outliers: bool = False) -> Opti
 
 			for i, val in enumerate(is_outlier):
 				if val:
-					peak_list[i].isoutlier = True
+					peak_list[i].is_outlier = True
 
 	# DK: the average RT and average mass spec for the compound peak is now calculated from peaks that are NOT outliers.
 	# This should improve the ability to order peaks and figure out badly aligned entries
 	for peak in peak_list:
 		if peak is not None and ((ignore_outliers and not peak.is_outlier) or not ignore_outliers):
 			ms = peak.mass_spectrum
+
+			if ms is None:
+				raise ValueError("The peak has no mass spectrum.")
+
 			spec = numpy.array(ms.mass_spec, dtype='d')
 			if first:
 				avg_spec = numpy.zeros(len(ms.mass_spec), dtype='d')
@@ -144,11 +148,16 @@ def fill_peaks(
 	datatimes = data.time_list
 	minrt = min(datatimes)
 	maxrt = max(datatimes)
-	rtl = 0
-	rtr = 0
+	rtl = 0.0
+	rtr = 0.0
 	new_peak_list = []
 	for ii in range(len(peak_list)):
-		spec = peak_list[ii].mass_spectrum.mass_spec
+		mass_spec = peak_list[ii].mass_spectrum
+		
+		if mass_spec is None:
+			raise ValueError("The peak has no mass spectrum.")
+		
+		spec = mass_spec.mass_spec
 		spec = numpy.array(spec, dtype='d')
 		rt = peak_list[ii].rt
 		sum_spec_squared = numpy.sum(spec**2, axis=0)
@@ -200,7 +209,7 @@ def fill_peaks(
 		cosarr = toparr / botarr
 
 		# RT weight of each scan
-		rtimearr = numpy.exp(-((subrts - rt) / float(Dclose))**2 / 2.0)
+		rtimearr = numpy.exp(-((subrts - rt) / float(Dclose))**2 / 2.0)  # type: ignore
 
 		# weighted scores
 		scorearr = cosarr * rtimearr
@@ -217,7 +226,7 @@ def fill_peaks(
 	return new_peak_list
 
 
-def is_peak_list(peaks: List[Peak]) -> bool:
+def is_peak_list(peaks: Sequence[Peak]) -> bool:
 	"""
 	Returns whether ``peaks`` is a valid peak list.
 

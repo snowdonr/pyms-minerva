@@ -25,8 +25,7 @@ Provides a class to model signal peak
 
 # stdlib
 import copy
-from numbers import Number
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any, cast, Dict, List, Optional, Tuple, Union
 from warnings import warn
 
 # 3rd party
@@ -56,6 +55,9 @@ class Peak(pymsBaseClass):
 		Dominic Davis-Foster (type assertions and properties), David Kainer (outlier flag)
 	"""
 
+	_mass_spectrum: Optional[MassSpectrum]
+	_ic_mass: Optional[float]
+
 	def __init__(
 			self,
 			rt: Union[int, float] = 0.0,
@@ -67,10 +69,10 @@ class Peak(pymsBaseClass):
 		Models a signal peak
 		"""
 
-		if not isinstance(rt, Number):
+		if not isinstance(rt, (int, float)):
 			raise TypeError("'rt' must be a number")
 
-		if ms and not isinstance(ms, MassSpectrum) and not isinstance(ms, Number):
+		if ms and not isinstance(ms, MassSpectrum) and not isinstance(ms, (int, float)):
 			raise TypeError("'ms' must be a number or a MassSpectrum object")
 
 		if minutes:
@@ -79,9 +81,9 @@ class Peak(pymsBaseClass):
 		# basic peak attributes
 		self.is_outlier = outlier
 		self._rt = float(rt)
-		self._pt_bounds = None
-		self._area = None
-		self._ion_areas = {}
+		self._pt_bounds: Optional[Tuple[int, int, int]] = None
+		self._area: Optional[float] = None
+		self._ion_areas: Dict[int, float] = {}
 
 		# these two attributes are required for
 		# setting the peak mass spectrum
@@ -137,7 +139,7 @@ class Peak(pymsBaseClass):
 	# 	return self.__copy__()
 
 	@property
-	def area(self) -> float:
+	def area(self) -> Optional[float]:
 		"""
 		The area under the peak.
 
@@ -156,7 +158,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(value, Number):
+		if not isinstance(value, (int, float)):
 			raise TypeError("'Peak.area' must be a positive number")
 		elif value <= 0:
 			raise ValueError("'Peak.area' must be a positive number")
@@ -164,7 +166,7 @@ class Peak(pymsBaseClass):
 		self._area = value
 
 	@property
-	def bounds(self) -> Tuple[float, float, float]:
+	def bounds(self) -> Optional[Tuple[int, int, int]]:
 		"""
 		The peak boundaries in points.
 
@@ -177,7 +179,7 @@ class Peak(pymsBaseClass):
 		return self._pt_bounds
 
 	@bounds.setter
-	def bounds(self, value: Tuple[float, float, float]):
+	def bounds(self, value: Tuple[int, int, int]):
 		"""
 		Sets peak boundaries in points
 
@@ -195,7 +197,7 @@ class Peak(pymsBaseClass):
 			if not isinstance(item, int):
 				raise TypeError(f"'Peak.bounds' element #{index} must be an integer")
 
-		self._pt_bounds = tuple(value)
+		self._pt_bounds = cast(Tuple[int, int, int], tuple(value[:3]))
 
 	def crop_mass(self, mass_min: float, mass_max: float):
 		"""
@@ -207,7 +209,10 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(mass_min, Number) or not isinstance(mass_max, Number):
+		if self._mass_spectrum is None:
+			raise ValueError("Cannot crop the mass range of a single ion peak.")
+
+		if not isinstance(mass_min, (int, float)) or not isinstance(mass_max, (int, float)):
 			raise TypeError("'mass_min' and 'mass_max' must be numbers")
 
 		if mass_min >= mass_max:
@@ -242,34 +247,6 @@ class Peak(pymsBaseClass):
 		# update UID
 		self.make_UID()
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.area` instead",
-			)
-	def get_area(self) -> float:
-		"""
-		Returns the area under the peak
-
-		:author: Andrew Isaac
-		"""
-
-		return self.area
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead",
-			)
-	def get_ic_mass(self) -> float:
-		"""
-		Returns the mass for a single ion chromatogram peak
-		"""
-
-		return self.ic_mass
-
 	def get_int_of_ion(self, ion: int) -> float:
 		"""
 		Returns the intensity of a given ion
@@ -278,6 +255,9 @@ class Peak(pymsBaseClass):
 
 		:return: The intensity of the given ion in this peak
 		"""
+
+		if self._mass_spectrum is None:
+			raise ValueError("Cannot use 'get_int_of_ion' with a single ion peak.")
 
 		try:
 			index = self._mass_spectrum.mass_list.index(ion)
@@ -318,51 +298,7 @@ class Peak(pymsBaseClass):
 
 		return self.ion_areas
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead",
-			)
-	def get_mass_spectrum(self) -> MassSpectrum:
-		"""
-		Returns the mass spectrum at the apex of the peak
-		"""
-
-		return self.mass_spectrum
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead",
-			)
-	def get_pt_bounds(self) -> Tuple[float, float, float]:
-		"""
-		Returns the peak boundaries in points
-
-		:return: A 3-element tuple containing the left, apex, and right
-			peak boundaries in points. Left and right are offsets.
-
-		:author: Andrew Isaac
-		"""
-
-		return self.bounds
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.rt` instead",
-			)
-	def get_rt(self) -> float:
-		"""
-		Returns the retention time
-		"""
-
-		return self.rt
-
-	def get_third_highest_mz(self) -> int:
+	def get_third_highest_mz(self) -> Optional[int]:
 		"""
 		Returns the *m/z* value with the third highest intensity.
 		"""
@@ -384,28 +320,10 @@ class Peak(pymsBaseClass):
 
 			return int(mass_list[best3_ii])
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.UID` instead",
-			)
-	def get_UID(self) -> str:
-		"""
-		Return the unique peak ID (UID), either:
-
-		- Integer masses of top two intensities and their ratio (as Mass1-Mass2-Ratio*100); or
-		- the single mass as an integer and the retention time.
-
-		:return: UID string
-
-		:author: Andrew Isaac
-		"""
-
-		return self.UID
+		return None
 
 	@property
-	def ic_mass(self) -> float:
+	def ic_mass(self) -> Optional[float]:
 		"""
 		The mass for a single ion chromatogram peak.
 
@@ -422,7 +340,7 @@ class Peak(pymsBaseClass):
 		:param value: The mass of the ion chromatogram that the peak is from
 		"""
 
-		if not isinstance(value, Number):
+		if not isinstance(value, (int, float)):
 			raise TypeError("'Peak.ic_mass' must be a number")
 
 		self._ic_mass = value
@@ -451,7 +369,7 @@ class Peak(pymsBaseClass):
 		:param value: The dictionary of ion:ion_area pairs
 		"""
 
-		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], Number):
+		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], (int, float)):
 			raise TypeError("'Peak.ion_areas' must be a dictionary of ion:ion_area pairs")
 
 		self._ion_areas = value
@@ -486,7 +404,7 @@ class Peak(pymsBaseClass):
 			self._UID = f"{self._rt:.2f}"
 
 	@property
-	def mass_spectrum(self) -> MassSpectrum:
+	def mass_spectrum(self) -> Optional[MassSpectrum]:
 		"""
 		The mass spectrum at the apex of the peak.
 		"""
@@ -521,7 +439,7 @@ class Peak(pymsBaseClass):
 		if self._mass_spectrum is None:
 			raise NameError("mass spectrum not set for this peak")
 
-		if not isinstance(mass, Number):
+		if not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be a number")
 
 		mass_list = self._mass_spectrum.mass_list
@@ -550,29 +468,7 @@ class Peak(pymsBaseClass):
 
 		return self._rt
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.area` instead",
-			)
-	def set_area(self, area: float):
-		"""
-		Sets the area under the peak
-
-		:param area: The peak area
-
-		:author: Andrew Isaac
-		"""
-
-		if not isinstance(area, Number):
-			raise TypeError("'area' must be a positive number")
-		elif area <= 0:
-			raise ValueError("'area' must be a positive number")
-
-		self._area = area
-
-	def set_bounds(self, left: float, apex: float, right: float):
+	def set_bounds(self, left: int, apex: int, right: int):
 		"""
 		Sets peak boundaries in points.
 
@@ -582,28 +478,6 @@ class Peak(pymsBaseClass):
 		"""
 
 		self.bounds = (left, apex, right)
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.ic_mass` instead",
-			)
-	def set_ic_mass(self, mz: float):
-		"""
-		Sets the mass for a single ion chromatogram peak.
-		Clears the mass spectrum.
-
-		:param mz: The mass of the ion chromatogram that the peak is from
-		"""
-
-		if not isinstance(mz, (float, int)):
-			raise TypeError("'mz' must be a number")
-
-		self._ic_mass = mz
-		# clear mass spectrum
-		self._mass_spectrum = None
-		self.make_UID()
 
 	def set_ion_area(self, ion: int, area: float):
 		"""
@@ -618,64 +492,10 @@ class Peak(pymsBaseClass):
 		if not isinstance(ion, int):
 			raise TypeError("'ion' must be an integer")
 
-		if not isinstance(area, Number):
+		if not isinstance(area, (int, float)):
 			raise TypeError("'area' must be a number")
 
 		self._ion_areas[ion] = area
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.ion_areas` instead",
-			)
-	def set_ion_areas(self, ion_areas: Dict):
-		"""
-		Set the ion:ion area pair dictionary
-
-		:param ion_areas: The dictionary of ``ion: ion_area`` pairs
-		"""
-
-		self.ion_areas = ion_areas
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.mass_spectrum` instead",
-			)
-	def set_mass_spectrum(self, ms: MassSpectrum):
-		"""
-		Sets the mass spectrum.
-
-		Clears the mass for a single ion chromatogram peak.
-
-		:param ms: The mass spectrum at the apex of the peak
-		"""
-
-		if not isinstance(ms, MassSpectrum):
-			raise TypeError("'ms' must be a MassSpectrum object")
-
-		self._mass_spectrum = ms
-		# clear ion mass
-		self._ic_mass = None
-		self.make_UID()
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Peak.Class.Peak.bounds` instead",
-			)
-	def set_pt_bounds(self, pt_bounds: Tuple[float, float, float]):
-		"""
-		Sets peak boundaries in points
-
-		:param pt_bounds: A 3-element tuple containing the left, apex, and right
-			peak boundaries in points. Left and right are offsets.
-		"""
-
-		self.bounds = pt_bounds
 
 	@property
 	def UID(self):
@@ -736,6 +556,9 @@ class Peak(pymsBaseClass):
 
 		if not isinstance(num_ions, int):
 			raise TypeError("'n_top_ions' must be an integer")
+
+		if self.mass_spectrum is None:
+			raise ValueError("Cannot retrieve the top_ions of a single ion peak.")
 
 		intensity_list = self.mass_spectrum.mass_spec
 		mass_list = self.mass_spectrum.mass_list

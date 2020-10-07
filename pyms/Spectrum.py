@@ -27,14 +27,12 @@ Classes to model Mass Spectra and Scans
 import pathlib
 import re
 import warnings
-from typing import Any, Dict, Iterator, List, Optional, Sequence, Tuple, Union
+from typing import Any, Iterator, List, Optional, Sequence, Tuple, Union
 
 # 3rd party
-import deprecation  # type: ignore
 import numpy  # type: ignore
 
 # this package
-from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.Mixins import MassListMixin
 from pyms.Utils.IO import prepare_filepath
@@ -150,7 +148,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		return self.__copy__()
 
 	@property
-	def __dict__(self) -> Dict[str, List[float]]:
+	def __dict__(self):
 		return {
 				"intensity_list": self.intensity_list,
 				"mass_list": self.mass_list,
@@ -164,7 +162,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		return self.__dict__
 
 	def __setstate__(self, state):
-		self.__init__(**state)
+		self.__init__(**state)  # type: ignore
 
 	def iter_peaks(self) -> Iterator[Tuple[float, float]]:
 		"""
@@ -194,53 +192,6 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 		return self._intensity_list
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Spectrum.Scan.intensity_list` instead",
-			)
-	def get_intensity_list(self) -> List:
-		"""
-		Returns the intensities for the current scan
-
-		:rtype: list
-
-		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
-		"""
-
-		return self.intensity_list
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Spectrum.Scan.min_mass` instead",
-			)
-	def get_min_mass(self) -> float:
-		"""
-		Returns the minimum m/z value in the scan
-
-		:author: Andrew Isaac
-		"""
-
-		return self.min_mass
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Spectrum.Scan.max_mass` instead",
-			)
-	def get_max_mass(self) -> float:
-		"""
-		Returns the maximum m/z value in the scan
-
-		:author: Andrew Isaac
-		"""
-
-		return self.max_mass
-
 	@classmethod
 	def from_dict(cls, dictionary):
 		return cls(**dictionary)
@@ -263,7 +214,7 @@ class MassSpectrum(Scan):
 			):
 		Scan.__init__(self, mass_list, intensity_list)
 
-	@Scan.intensity_list.setter
+	@Scan.intensity_list.setter  # type: ignore
 	def intensity_list(self, value: List[float]):
 		"""
 		Set the intensity values for the spectrum
@@ -281,7 +232,7 @@ class MassSpectrum(Scan):
 
 		self._intensity_list = list(value)
 
-	@Scan.mass_spec.setter
+	@Scan.mass_spec.setter  # type: ignore
 	def mass_spec(self, value: List[float]):
 		"""
 		Set the intensity values for the spectrum
@@ -299,7 +250,7 @@ class MassSpectrum(Scan):
 
 		self._intensity_list = list(value)
 
-	@MassListMixin.mass_list.setter
+	@MassListMixin.mass_list.setter  # type: ignore
 	def mass_list(self, value: List[float]):
 		"""
 		Set the mass values for the spectrum
@@ -353,22 +304,18 @@ class MassSpectrum(Scan):
 
 	def icrop(
 			self,
-			min_index: [float] = 0,
-			max_index: [float] = -1,
+			min_index: int = 0,
+			max_index: int = -1,
 			inplace: bool = False,
 			) -> "MassSpectrum":
 		"""
 		Crop the Mass Spectrum between the given indices
 
 		:param min_index: The minimum index for the new mass spectrum
-		:type min_index: int or float, optional
 		:param max_index: The maximum index for the new mass spectrum
-		:type max_index: int or float, optional
 		:param inplace: Whether the cropping should be applied this instance or to a copy (default behaviour).
-		:type inplace: bool, optional
 
 		:return: The cropped Mass Spectrum
-		:rtype: :class:`pyms.Spectrum.MassSpectrum`
 		"""
 
 		cropped_intensity_list = self.intensity_list[min_index:max_index]

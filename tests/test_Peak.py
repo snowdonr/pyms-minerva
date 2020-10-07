@@ -116,7 +116,7 @@ def test_bounds(peak):
 	peak2 = Peak(test_float)
 	peak2.bounds = [11, 12, 13]
 	assert peak2.bounds == (11, 12, 13)
-	assert isinstance(peak2.bounds, list)
+	assert isinstance(peak2.bounds, tuple)
 
 	# set_bounds
 	peak3 = Peak(test_float)
@@ -162,18 +162,6 @@ def test_crop_mass(peak):
 		peak2.crop_mass(60, 65)
 
 
-@deprecation.fail_if_not_removed
-def test_get_area(peak):
-	with pytest.warns(DeprecationWarning):
-		peak.get_area()
-
-
-@deprecation.fail_if_not_removed
-def test_get_ic_mass(peak):
-	with pytest.warns(DeprecationWarning):
-		peak.get_ic_mass()
-
-
 def test_get_int_of_ion(peak):
 	assert peak.get_int_of_ion(100) == 3888.0
 	assert peak.get_int_of_ion(200) == 0.0
@@ -215,9 +203,6 @@ def test_ion_areas(peak):
 	peak.ion_areas = {1: 1234, 2: 1234, 3: 1234}
 
 	with pytest.warns(DeprecationWarning):
-		peak.set_ion_areas(peak.ion_areas)
-
-	with pytest.warns(DeprecationWarning):
 		peak.get_ion_areas()
 
 	for obj in [*test_numbers, test_string, test_list_strs, test_list_ints, tuple]:
@@ -230,19 +215,7 @@ def test_ion_areas(peak):
 @deprecation.fail_if_not_removed
 def test_get_mass_spectrum(peak):
 	with pytest.warns(DeprecationWarning):
-		peak.get_mass_spectrum()
-
-
-@deprecation.fail_if_not_removed
-def test_get_pt_bounds(peak):
-	with pytest.warns(DeprecationWarning):
-		peak.get_pt_bounds()
-
-
-@deprecation.fail_if_not_removed
-def test_get_rt(peak):
-	with pytest.warns(DeprecationWarning):
-		peak.get_rt()
+		peak.mass_spectrum
 
 
 def test_get_third_highest_mz(peak):
@@ -255,10 +228,6 @@ def test_get_third_highest_mz(peak):
 	assert Peak(test_float).get_third_highest_mz() is None
 
 
-@deprecation.fail_if_not_removed
-def test_get_UID(peak):
-	with pytest.warns(DeprecationWarning):
-		peak.get_UID()
 
 
 def test_ic_mass():
@@ -334,32 +303,6 @@ def test_null_mass(peak):
 def test_rt(peak):
 	assert isinstance(peak.rt, float)
 	assert peak.rt == 12.34
-
-
-def test_set_area(peak):
-	peak = copy.copy(peak)
-
-	with pytest.warns(DeprecationWarning):
-		peak.set_area(1234)
-
-
-def test_set_ic_mass(peak):
-	peak = copy.deepcopy(peak)
-	with pytest.warns(DeprecationWarning):
-		peak.set_ic_mass(12)
-
-
-def test_set_mass_spectrum(peak, im_i):
-	peak = copy.deepcopy(peak)
-	with pytest.warns(DeprecationWarning):
-		peak.set_mass_spectrum(im_i.get_ms_at_index(123))
-
-
-def test_set_pt_bounds(peak):
-	peak = copy.copy(peak)
-
-	with pytest.warns(DeprecationWarning):
-		peak.set_pt_bounds((1, 2, 3))
 
 
 def test_UID(peak):

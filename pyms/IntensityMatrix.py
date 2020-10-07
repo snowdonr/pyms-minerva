@@ -31,11 +31,12 @@ from typing import Any, Iterator, List, Optional, Tuple, Union
 from warnings import warn
 
 # 3rd party
-import aenum  # type: ignore
 import deprecation  # type: ignore
 import numpy  # type: ignore
 
 # this package
+from enum_tools import document_enum, IntEnum
+
 from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.GCMS.Class import GCMS_data
@@ -56,17 +57,14 @@ __all__ = [
 		]
 
 
-class AsciiFiletypes(aenum.Enum):
+@document_enum
+class AsciiFiletypes(IntEnum):
 	"""
 	Enumeration of supported ASCII filetypes for :meth:`~pyms.IntensityMatrix.IntensityMatrix.export_ascii`.
 	"""
 
-	_init_ = 'value __doc__'
-	ASCII_DAT = 1, "Tab-delimited ASCII file"
-	ASCII_CSV = 0, "Comma-separated values file"
-
-	def __int__(self):
-		return self.value
+	ASCII_DAT = 1  # doc: Tab-delimited ASCII file
+	ASCII_CSV = 0  # doc: Comma-separated values file
 
 
 ASCII_DAT = AsciiFiletypes.ASCII_DAT
@@ -84,6 +82,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions and properties)
 	"""
 
+	_min_mass: float
+	_max_mass: float
+
 	def __init__(
 			self,
 			time_list: List[float],
@@ -91,14 +92,14 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			intensity_array: Union[List[List[float]], numpy.ndarray],
 			):
 		# sanity check
-		if not is_sequence_of(time_list, Number):
-			raise TypeError("'time_list' must be a Sequence of Numbers")
+		if not is_sequence_of(time_list, (int, float)):
+			raise TypeError("'time_list' must be a Sequence of numbers")
 
-		if not is_sequence_of(mass_list, Number):
-			raise TypeError("'mass_list' must be a Sequence of Numbers")
+		if not is_sequence_of(mass_list, (int, float)):
+			raise TypeError("'mass_list' must be a Sequence of numbers")
 
-		if not is_sequence(intensity_array) or not is_sequence_of(intensity_array[0], Number):
-			raise TypeError("'intensity_array' must be a Sequence, of Sequences, of Numbers")
+		if not is_sequence(intensity_array) or not is_sequence_of(intensity_array[0], (int, float)):
+			raise TypeError("'intensity_array' must be a Sequence, of Sequences, of numbers")
 
 		if not isinstance(intensity_array, numpy.ndarray):
 			intensity_array = numpy.array(intensity_array)
@@ -337,7 +338,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 		return IonChromatogram(ic_ia, rt, mass)
 
-	def get_ic_at_mass(self, mass: Optional[int] = None):
+	def get_ic_at_mass(self, mass: Optional[float] = None):
 		"""
 		Returns the ion chromatogram for the nearest binned mass to the specified mass.
 
@@ -352,7 +353,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 		if mass is None:
 			return self.tic
-		elif not isinstance(mass, Number):
+		elif not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be a number")
 
 		if mass < self._min_mass or mass > self._max_mass:
@@ -432,7 +433,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(mass, Number):
+		if not isinstance(mass, (int, float)):
 			raise TypeError("'mass' must be a number")
 
 		best = self._max_mass
@@ -454,8 +455,8 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(mass_min, Number) or not isinstance(mass_max, Number):
-			raise TypeError("'mass_min' and 'mass_max' must be Numbers")
+		if not isinstance(mass_min, (int, float)) or not isinstance(mass_max, (int, float)):
+			raise TypeError("'mass_min' and 'mass_max' must be numbers")
 		if mass_min >= mass_max:
 			raise ValueError("'mass_min' must be less than 'mass_max'")
 		if mass_min < self._min_mass:
@@ -494,8 +495,8 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(mass, Number):
-			raise TypeError("'mass' must be a Number")
+		if not isinstance(mass, (int, float)):
+			raise TypeError("'mass' must be a number")
 		if mass < self._min_mass or mass > self._max_mass:
 			raise IndexError(f"'mass' not in mass range: {self._min_mass:.3f} to {self._max_mass:.3f}")
 
@@ -515,7 +516,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:author: Vladimir Likic
 		"""
 
-		if not isinstance(n_intensities, Number):
+		if not isinstance(n_intensities, (int, float)):
 			raise TypeError("'n_intensities' must be a number")
 
 		# loop over all mass spectral scans
@@ -621,7 +622,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		# write header
 		fp.write("\"Scan\",\"Time\"")
 		for ii in mass_list:
-			if isinstance(ii, Number):
+			if isinstance(ii, (int, float)):
 				fp.write(f",\"{int(ii):d}\"")
 			else:
 				raise TypeError("mass list datum not a number")
@@ -631,7 +632,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		for ii, time_ in enumerate(time_list):
 			fp.write(f"{ii},{time_:#.6e}")
 			for jj in range(len(vals[ii])):
-				if isinstance(vals[ii][jj], Number):
+				if isinstance(vals[ii][jj], (int, float)):
 					fp.write(f",{vals[ii][jj]:#.6e}")
 				else:
 					raise TypeError("datum not a number")
@@ -738,7 +739,7 @@ def build_intensity_matrix(
 		bin_interval: float = 1,
 		bin_left: float = 0.5,
 		bin_right: float = 0.5,
-		min_mass: Optional[bool] = None,
+		min_mass: Optional[float] = None,
 		) -> IntensityMatrix:
 	"""
 	Sets the full intensity matrix with flexible bins
@@ -763,15 +764,20 @@ def build_intensity_matrix(
 	if bin_interval <= 0:
 		raise ValueError("The bin interval must be larger than zero.")
 
-	if not isinstance(bin_left, Number):
-		raise TypeError("'bin_left' must be a Number.")
+	if not isinstance(bin_left, (int, float)):
+		raise TypeError("'bin_left' must be a number.")
 
-	if not isinstance(bin_right, Number):
-		raise TypeError("'bin_right' must be a Number.")
+	if not isinstance(bin_right, (int, float)):
+		raise TypeError("'bin_right' must be a number.")
 
 	if not min_mass:
 		min_mass = data.min_mass
 	max_mass = data.max_mass
+
+	if max_mass is None:
+		raise ValueError("'max_mass' cannot be None")
+	if min_mass is None:
+		raise ValueError("'min_mass' cannot be None")
 
 	return __fill_bins(data, min_mass, max_mass, bin_interval, bin_left, bin_right)
 
@@ -799,14 +805,19 @@ def build_intensity_matrix_i(
 	if not isinstance(data, GCMS_data):
 		raise TypeError("'data' must be a GCMS_data object")
 
-	if not isinstance(bin_left, Number):
+	if not isinstance(bin_left, (int, float)):
 		raise TypeError("'bin_left' must be a number.")
 
-	if not isinstance(bin_right, Number):
+	if not isinstance(bin_right, (int, float)):
 		raise TypeError("'bin_right' must be a number.")
 
 	min_mass = data.min_mass
 	max_mass = data.max_mass
+
+	if max_mass is None:
+		raise ValueError("'max_mass' cannot be None")
+	if min_mass is None:
+		raise ValueError("'min_mass' cannot be None")
 
 	# Calculate integer min mass based on right boundary
 	bin_right = abs(bin_right)
@@ -910,14 +921,14 @@ def __fill_bins_old(
 
 	# fill the bins
 	intensity_matrix = []
-	for scan in data.get_scan_list():
+	for scan in data.scan_list:
 		intensity_list = [0.0] * num_bins
-		masses = scan.get_mass_list()
-		intensities = scan.get_intensity_list()
+		masses = scan.mass_list
+		intensities = scan.intensity_list
 		for mm in range(num_bins):
 			for ii in range(len(scan)):
 				if mass_list[mm] - bin_left <= masses[ii] < mass_list[mm] + bin_right:
 					intensity_list[mm] += intensities[ii]
 		intensity_matrix.append(intensity_list)
 
-	return IntensityMatrix(data.get_time_list(), mass_list, intensity_matrix)
+	return IntensityMatrix(data.time_list, mass_list, intensity_matrix)

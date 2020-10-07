@@ -29,7 +29,7 @@ import math
 import operator
 import pathlib
 from numbers import Number
-from typing import Dict, List, Sequence, Union
+from typing import Dict, List, Optional, Sequence, Union
 
 # 3rd party
 import numpy  # type: ignore
@@ -70,7 +70,11 @@ class Alignment:
 	:authors: Woon Wai Keen, Qiao Wang, Vladimir Likic, Dominic Davis-Foster (type assertions and pathlib support)
 	"""
 
-	def __init__(self, expr: Experiment):
+	peakpos: List[List[Peak]]
+	expr_code: List[str]
+	peakalgt: List[List[Peak]]
+
+	def __init__(self, expr: Optional[Experiment]):
 
 		if expr is None:
 			self.peakpos = []
@@ -81,11 +85,11 @@ class Alignment:
 			if not isinstance(expr, Experiment):
 				raise TypeError("'expr' must be an 'Experiment' object")
 
-			# for peak in expr.get_peak_list():
-			#    if peak.get_area() == None or peak.get_area() <= 0:
+			# for peak in expr.peak_list:
+			#    if peak.area() == None or peak.area() <= 0:
 			#        error("All peaks must have an area for alignment")
 			self.peakpos = [copy.deepcopy(expr.peak_list)]
-			self.peakalgt = numpy.transpose(self.peakpos)
+			self.peakalgt = numpy.transpose(self.peakpos).tolist()  # type: ignore
 			self.expr_code = [expr.expr_code]
 			self.similarity = None
 
@@ -100,7 +104,7 @@ class Alignment:
 
 		return len(self.peakalgt)
 
-	def aligned_peaks(self, minutes: bool = False) -> List[Peak]:
+	def aligned_peaks(self, minutes: bool = False) -> Sequence[Optional[Peak]]:
 		"""
 		Returns a list of Peak objects where each peak has the combined spectra
 		and average retention time of all peaks that aligned.
@@ -151,7 +155,7 @@ class Alignment:
 		# top ions and their frequency for each peak
 		# in the alignment
 		list_of_top_ion_dicts: List = []
-		empty_count_list = []
+		empty_count_list: List[int] = []
 
 		for peak_list in self.peakpos:
 			# (re)initialise the peak index
@@ -240,10 +244,10 @@ class Alignment:
 				filtered_list.append(self.peakalgt[pos])
 
 		self.peakalgt = filtered_list
-		self.peakpos = numpy.transpose(self.peakalgt)
+		self.peakpos = numpy.transpose(self.peakalgt).tolist()
 
 	@staticmethod
-	def get_highest_mz_ion(ion_dict: Dict[float, int]) -> int:
+	def get_highest_mz_ion(ion_dict: Dict[float, int]) -> float:
 		"""
 		Returns the preferred ion for quantitiation.
 
@@ -332,6 +336,8 @@ class Alignment:
 					areas.append(None)
 
 			compo_peak = composite_peak(new_peak_list)
+			if compo_peak is None:
+				continue
 
 			# write to retention times file
 			fp1.write(compo_peak.UID)
@@ -369,7 +375,7 @@ class Alignment:
 	def write_common_ion_csv(
 			self,
 			area_file_name: Union[str, pathlib.Path],
-			top_ion_list: Sequence[float],
+			top_ion_list: Sequence[int],
 			minutes: bool = True,
 			):
 		"""
@@ -407,7 +413,7 @@ class Alignment:
 			# write headers
 			fp.write(",".join(header) + "\n")
 
-			rtsums = []
+			rtsums: List[float] = []
 			rtcounts = []
 
 			# The following two arrays will become list of lists
@@ -458,6 +464,9 @@ class Alignment:
 				# write initial info:
 				# peak unique id, peak average rt
 				compo_peak = composite_peak(new_peak_lists[index])
+				if compo_peak is None:
+					continue
+
 				peak_UID = compo_peak.UID
 				peak_UID_string = f'"{peak_UID}"'
 
@@ -524,6 +533,8 @@ class Alignment:
 						new_peak_list.append(peak)
 
 				compo_peak = composite_peak(new_peak_list)
+				if compo_peak is None:
+					continue
 
 				# write to ms file
 				fp1.write(compo_peak.UID)
@@ -533,11 +544,11 @@ class Alignment:
 				else:
 					fp1.write(f"|{compo_peak.rt:.3f}")
 
-				for ia in ias:
-					if ia is None:
+				for intensity_array in ias:
+					if intensity_array is None:
 						fp1.write("|NA")
 					else:
-						fp1.write(f"|{ia}")
+						fp1.write(f"|{intensity_array}")
 
 				fp1.write("\n")
 
@@ -569,9 +580,9 @@ class Alignment:
 				if peak is not None:
 
 					if minutes:
-						rt = peak.get_rt() / 60.0
+						rt = peak.rt / 60.0
 					else:
-						rt = peak.get_rt()
+						rt = peak.rt
 
 					rts.append(rt)
 					countrt = countrt + 1
@@ -607,7 +618,7 @@ class Alignment:
 				peak = self.peakpos[align_idx][peak_idx]
 
 				if peak is not None:
-					ms = peak.get_mass_spectrum()
+					ms = peak.mass_spectrum
 					specs.append(ms)
 					countms = countms + 1
 				else:

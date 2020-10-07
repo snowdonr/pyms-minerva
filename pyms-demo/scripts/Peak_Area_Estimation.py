@@ -6,7 +6,7 @@
 # The |Peak| object does not contain any information about the width or area of
 # the peak when it is first created. This information can be added after the
 # instantiation of a Peak object. The area of the peak can be set with the
-# attribute |pyms.Peak.Class.Peak.area|, or with the method |set_ion_areas()|.
+# attribute |pyms.Peak.Class.Peak.area|.
 #
 # The total peak area can by obtained by the |peak_sum_area()| function in
 # |pyms.Peak.Function|. The function determines the total area as the sum of the

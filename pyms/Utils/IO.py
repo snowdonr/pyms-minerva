@@ -28,7 +28,7 @@ import gzip
 import pathlib
 import pickle
 from numbers import Number
-from typing import Any, List, Union
+from typing import Any, cast, List, Union
 
 # this package
 from pyms.Utils.Utils import _list_types, is_path
@@ -149,7 +149,7 @@ def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List
 
 def save_data(
 		file_name: Union[str, pathlib.Path],
-		data: Union[List[float], List[List]],
+		data: Union[List[float], List[List[float]]],
 		format_str: str = "%.6f",
 		prepend: str = "",
 		sep: str = " ",
@@ -185,19 +185,21 @@ def save_data(
 	with file_name.open("w") as fp:
 
 		# decide whether data is a vector or matrix
-		if isinstance(data[0], Number):
+		if isinstance(data[0], (int, float)):
 			for item in data:
-				if not isinstance(item, Number):
+				if not isinstance(item, (int, float)):
 					raise TypeError("not all elements of the list are numbers")
-			data_is_matrix = 0
+			for x_value in data:
+				fp.write(prepend)
+				fp.write(format_str % x_value)
+				fp.write("\n")
+
 		else:
 			for item in data:
 				if not isinstance(item, _list_types):
 					raise TypeError("not all elements of the list are lists")
-			data_is_matrix = 1
 
-		if data_is_matrix:
-			for x_value in data:
+			for x_value in cast(List[List[float]], data):
 				fp.write(prepend)
 				for jj, y_value in enumerate(x_value):
 					if isinstance(y_value, Number):
@@ -206,11 +208,6 @@ def save_data(
 							fp.write(sep)
 					else:
 						raise TypeError("'datum' must be a number")
-				fp.write("\n")
-		else:
-			for x_value in data:
-				fp.write(prepend)
-				fp.write(format_str % x_value)
 				fp.write("\n")
 
 	if compressed:

@@ -62,7 +62,7 @@ __all__ = ["write_mass_hunter_csv", "write_excel", "write_transposed_output"]
 def write_mass_hunter_csv(
 		alignment: Alignment,
 		file_name: Union[str, pathlib.Path],
-		top_ion_list: List[float],
+		top_ion_list: List[int],
 		):  # , peak_list_name):
 	"""
 	Creates a csv file with UID, common and qualifying ions and their
@@ -91,7 +91,7 @@ def write_mass_hunter_csv(
 			'"ratio QI2/CI","l window delta","r window delta"\n'
 			)
 
-	rtsums = []
+	rtsums: List[float] = []
 	rtcounts = []
 
 	# The following two arrays will become list of lists
@@ -159,6 +159,9 @@ def write_mass_hunter_csv(
 		# write initial info:
 		# peak unique id, peak average rt
 		compo_peak = composite_peak(new_peak_lists[index])
+		if compo_peak is None:
+			continue
+
 		compo_peaks.append(compo_peak)
 		peak_UID = compo_peak.UID
 		peak_UID_string = f'"{peak_UID}"'
@@ -180,8 +183,6 @@ def write_mass_hunter_csv(
 			pass
 
 		ci_intensity = compo_peak.get_int_of_ion(common_ion)
-		if ci_intensity is None:
-			print("No Ci for peak", index)
 		q1_intensity = compo_peak.get_int_of_ion(qual_ion_1)
 		q2_intensity = compo_peak.get_int_of_ion(qual_ion_2)
 
@@ -284,7 +285,7 @@ def write_excel(
 				# get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them
 				ia = peak.ion_areas
 				ia.update((mass, int(intensity / 1000)) for mass, intensity in ia.items())
-				sorted_ia = sorted(ia.iteritems(), key=operator.itemgetter(1), reverse=True)
+				sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
 
 				# write the peak area and mass spec into the comment for the cell
 				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", 'dave')
@@ -300,11 +301,13 @@ def write_excel(
 				currcell.comment = comment
 
 		compo_peak = composite_peak(new_peak_list)
-		peak_UID = compo_peak.UID
-		peak_UID_string = f'"{peak_UID}"'
 
-		ws.cell(row=2 + peak_idx, column=1, value=peak_UID_string)
-		ws.cell(row=2 + peak_idx, column=2, value=f"{float(compo_peak.rt / 60):.3f}")
+		if compo_peak is not None:
+			peak_UID = compo_peak.UID
+			peak_UID_string = f'"{peak_UID}"'
+
+			ws.cell(row=2 + peak_idx, column=1, value=peak_UID_string)
+			ws.cell(row=2 + peak_idx, column=2, value=f"{float(compo_peak.rt / 60):.3f}")
 
 	# colour the cells in each row based on their RT percentile for that row
 	i = 0
@@ -386,13 +389,13 @@ def write_transposed_output(
 				new_peak_list.append((peak, cell_col, cell_row))
 
 				# write the RT into the cell in the excel file
-				currcell1 = ws1.cell(column=cell_col, row=cell_row, value=round(rt, 3))
-				ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))
+				currcell1 = ws1.cell(column=cell_col, row=cell_row, value=round(rt, 3))  # type: ignore
+				ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))  # type: ignore
 
 				# get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them
 				ia = peak.ion_areas
 				ia.update((mass, int(intensity / 1000)) for mass, intensity in ia.items())
-				sorted_ia = sorted(ia.iteritems(), key=operator.itemgetter(1), reverse=True)
+				sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
 
 				# write the peak area and mass spec into the comment for the cell
 				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", 'dave')
@@ -409,16 +412,17 @@ def write_transposed_output(
 		# this method will create the compo peak, and also mark outlier peaks with a bool is_outlier
 		compo_peak = composite_peak(list(p[0] for p in new_peak_list))
 
-		ws1.cell(column=2 + peak_idx, row=1, value=f'"{compo_peak.UID}"')
-		ws1.cell(column=2 + peak_idx, row=2, value=f"{float(compo_peak.rt / 60):.3f}")
-		ws2.cell(column=2 + peak_idx, row=1, value=f'"{compo_peak.UID}"')
-		ws2.cell(column=2 + peak_idx, row=2, value=f"{float(compo_peak.rt / 60):.3f}")
+		if compo_peak is not None:
+			ws1.cell(column=2 + peak_idx, row=1, value=f'"{compo_peak.UID}"')
+			ws1.cell(column=2 + peak_idx, row=2, value=f"{float(compo_peak.rt / 60):.3f}")
+			ws2.cell(column=2 + peak_idx, row=1, value=f'"{compo_peak.UID}"')
+			ws2.cell(column=2 + peak_idx, row=2, value=f"{float(compo_peak.rt / 60):.3f}")
 
-		# highlight outlier cells in the current peak list
-		for p in new_peak_list:
-			if p[0].isoutlier:
-				# ws[ get_column_letter(p[1]) + str(p[2]) ].style = style_outlier
-				ws1.cell(column=p[1], row=p[2]).fill = style_outlier
-				ws2.cell(column=p[1], row=p[2]).fill = style_outlier
+			# highlight outlier cells in the current peak list
+			for p in new_peak_list:
+				if p[0].is_outlier:
+					# ws[ get_column_letter(p[1]) + str(p[2]) ].style = style_outlier
+					ws1.cell(column=p[1], row=p[2]).fill = style_outlier
+					ws2.cell(column=p[1], row=p[2]).fill = style_outlier
 
 	wb.save(file_name)

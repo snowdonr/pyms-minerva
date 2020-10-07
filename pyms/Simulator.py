@@ -76,13 +76,13 @@ def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
 
 	noise = numpy.random.normal(0.0, scale, (len(ic)))
 
-	i_array_with_noise = ic.get_intensity_array() + noise
-	ic.set_intensity_array(i_array_with_noise)
+	i_array_with_noise = ic.intensity_array + noise
+	ic.intensity_array = i_array_with_noise
 
 
 def add_gaussv_noise(
 		im: IntensityMatrix,
-		scale: float,
+		scale: int,
 		cutoff: int,
 		prop: float,
 		):
@@ -132,8 +132,8 @@ def add_gaussv_noise_ic(
 
 	noise = numpy.zeros(len(ic))
 
-	i_array = ic.get_intensity_array()
-	# time_list = ic.get_time_list()
+	i_array = ic.intensity_array
+	# time_list = ic.time_list
 
 	for i in range(len(ic)):
 		if i_array[i] < cutoff:
@@ -142,7 +142,7 @@ def add_gaussv_noise_ic(
 			noise[i] = numpy.random.normal(0.0, scale * i_array[i] * prop, 1)
 
 	i_array_with_noise = noise + i_array
-	ic.set_intensity_array(i_array_with_noise)
+	ic.intensity_array = i_array_with_noise
 
 
 def chromatogram(
@@ -195,7 +195,7 @@ def gaussian(point: float, mean: int, sigma: float, scale: float) -> float:
 def gcms_sim(
 		time_list: List[float],
 		mass_list: List[float],
-		peak_list: List[Peak],
+		peak_list: List[Peak.Peak],
 		) -> IntensityMatrix:
 	"""
 	Simulator of GCMS data
@@ -221,12 +221,17 @@ def gcms_sim(
 	for peak in peak_list:
 		print("-", end='')
 		index = int((peak.rt - t1) / period)
-		height = sum(peak.get_mass_spectrum().mass_spec)
+
+		if peak.mass_spectrum is None:
+			raise ValueError("The peak has no mass spectrum.")
+
+		height = sum(peak.mass_spectrum.mass_spec)
 		# standard deviation = area/(height * sqrt(2/pi))
-		sigma = peak.area / (height * (math.sqrt(2 * math.pi)))
+		sigma: float = peak.area / (height * (math.sqrt(2 * math.pi)))  # type: ignore
 		print("width", sigma)
-		for i in range(len(peak.get_mass_spectrum().mass_list)):
-			ion_height = peak.get_mass_spectrum().mass_spec[i]
+
+		for i in range(len(peak.mass_spectrum.mass_list)):
+			ion_height = peak.mass_spectrum.mass_spec[i]
 			ic = chromatogram(n_scan, index, sigma, ion_height)
 			i_array[:, i] += ic
 

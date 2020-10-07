@@ -244,8 +244,8 @@ def ANDI_writer(file_name: str, im: IntensityMatrix):
 	except CDFError:
 		raise IOError(f"Cannot create file '{file_name}'")
 
-	mass_list = im.get_mass_list()
-	time_list = im.get_time_list()
+	mass_list = im.mass_list
+	time_list = im.time_list
 
 	# direct access, don't modify
 	intensity_matrix = im.intensity_array

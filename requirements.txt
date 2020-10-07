@@ -9,3 +9,4 @@ pandas>=1.0.0
 pymzml>=2.2.1
 scipy>=1.2.1
 sdjson>=0.2.3
+enum_tools

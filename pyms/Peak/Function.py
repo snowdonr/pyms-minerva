@@ -26,9 +26,8 @@ Functions related to Peak modification
 # stdlib
 import copy
 from math import ceil
-from numbers import Number
 from statistics import median
-from typing import Dict, List, Tuple, Union, overload
+from typing import Dict, List, Tuple, Union
 
 # 3rd party
 import deprecation  # type: ignore
@@ -50,26 +49,6 @@ __all__ = [
 		"half_area",
 		"median_bounds"
 		]
-
-
-@overload
-def peak_sum_area(
-		im: IntensityMatrix,
-		peak: Peak,
-		single_ion: bool = True,
-		max_bound: int = ...,
-		) -> Tuple[float, Dict[float, float]]:
-	...
-
-
-@overload
-def peak_sum_area(
-		im: IntensityMatrix,
-		peak: Peak,
-		single_ion: bool = False,
-		max_bound: int = ...,
-		) -> float:
-	...
 
 
 def peak_sum_area(
@@ -102,11 +81,15 @@ def peak_sum_area(
 	if not isinstance(max_bound, int):
 		raise TypeError("'max_bound' must be an integer")
 
-	sum_area = 0
+	sum_area = 0.0
 	# Use internal values (not copy)
 	# mat = im.matrix_list
 	mat = im.intensity_array
 	ms = peak.mass_spectrum
+
+	if ms is None:
+		raise ValueError("The peak has no mass spectrum.")
+
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
 
@@ -152,6 +135,10 @@ def peak_pt_bounds(im: IntensityMatrix, peak: Peak) -> Tuple[int, int]:
 	# mat = im.matrix_list
 	mat = im.intensity_array
 	ms = peak.mass_spectrum
+
+	if ms is None:
+		raise ValueError("The peak has no mass spectrum.")
+
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
 
@@ -250,6 +237,9 @@ def top_ions_v1(peak: Peak, num_ions: int = 5) -> List[float]:
 
 	if not isinstance(num_ions, int):
 		raise TypeError("'n_top_ions' must be an integer")
+	
+	if peak.mass_spectrum is None:
+		raise ValueError("The peak has no mass spectrum.")
 
 	intensity_list = peak.mass_spectrum.mass_spec
 	mass_list = peak.mass_spectrum.mass_list
@@ -290,6 +280,9 @@ def top_ions_v2(peak: Peak, num_ions: int = 5) -> List[float]:
 	if not isinstance(num_ions, int):
 		raise TypeError("'n_top_ions' must be an integer")
 
+	if peak.mass_spectrum is None:
+		raise ValueError("The peak has no mass spectrum.")
+
 	intensity_list = peak.mass_spectrum.mass_spec
 	mass_list = peak.mass_spectrum.mass_list
 
@@ -326,7 +319,7 @@ def ion_area(
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(ia, list) or not isinstance(ia[0], Number):
+	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
 		raise TypeError("'ia' must be a list of numbers")
 	if not isinstance(apex, int):
 		raise TypeError("'apex' must be an integer")
@@ -367,7 +360,7 @@ def half_area(
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(ia, list) or not isinstance(ia[0], Number):
+	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
 		raise TypeError("'ia' must be a list of numbers")
 	if not isinstance(max_bound, int):
 		raise TypeError("'max_bound' must be an integer")
@@ -436,6 +429,10 @@ def median_bounds(im: IntensityMatrix, peak: Peak, shared: bool = True) -> Tuple
 
 	mat = im.intensity_array
 	ms = peak.mass_spectrum
+
+	if ms is None:
+		raise ValueError("The peak has no mass spectrum.")
+
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
 	# check if RT based index is similar to stored index
@@ -460,8 +457,8 @@ def median_bounds(im: IntensityMatrix, peak: Peak, shared: bool = True) -> Tuple
 
 	# return medians
 	# NB if shared=True, lists maybe empty
-	l_med = 0
-	r_med = 0
+	l_med = 0.0
+	r_med = 0.0
 	if len(left_list) > 0:
 		l_med = median(left_list)
 	if len(right_list) > 0:

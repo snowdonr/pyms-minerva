@@ -121,7 +121,7 @@ def window_sele_points(ic: IonChromatogram, window_sele: Union[int, str], half_w
 			points = window_sele
 	else:
 		time = time_str_secs(window_sele)
-		time_step = ic.get_time_step()
+		time_step = ic.time_step
 
 		if half_window:
 			time = time * 0.5

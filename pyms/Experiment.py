@@ -111,32 +111,6 @@ class Experiment(pymsBaseClass):
 
 		return self._expr_code
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Experiment.Experiment.expr_code` instead",
-			)
-	def get_expr_code(self) -> str:
-		"""
-		Returns the expr_code of the experiment
-		"""
-
-		return self.expr_code
-
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :attr:`pyms.Experiment.Experiment.peak_list` instead",
-			)
-	def get_peak_list(self) -> List[Peak]:
-		"""
-		Returns the peak list
-		"""
-
-		return self.peak_list
-
 	@property
 	def peak_list(self) -> List[Peak]:
 		"""

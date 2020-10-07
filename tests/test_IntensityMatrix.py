@@ -116,17 +116,7 @@ class TestIntensityMatrix:
 		assert isinstance(time[0], float)
 		assert time[0] == 1.05200003833
 
-	@deprecation.fail_if_not_removed
-	def test_get_time_list(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_time_list()
-
 	# Inherited Methods from MassListMixin
-
-	@deprecation.fail_if_not_removed
-	def test_get_mass_list(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_mass_list()
 
 	def test_mass_list(self, im):
 		# get the list of masses (bin centers), and print the first ten
@@ -136,20 +126,10 @@ class TestIntensityMatrix:
 
 	# Inherited Methods from MaxMinMassMixin
 
-	@deprecation.fail_if_not_removed
-	def test_get_min_mass(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_min_mass()
-
 	def test_min_mass(self, im):
 		# start mass
 		assert isinstance(im.min_mass, float)
 		assert im.min_mass == 50.2516
-
-	@deprecation.fail_if_not_removed
-	def test_get_max_mass(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_max_mass()
 
 	def test_max_mass(self, im):
 		# end mass
@@ -175,11 +155,6 @@ class TestIntensityMatrix:
 		assert im.intensity_matrix[0][0] == im.intensity_array[0][0]
 		assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
 
-	@deprecation.fail_if_not_removed
-	def test_get_intensity_array(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_intensity_array()
-
 	def test_intensity_array_list(self, im):
 		assert isinstance(im.intensity_array_list, list)
 		assert all(isinstance(x, list) for x in im.intensity_array_list)
@@ -188,11 +163,6 @@ class TestIntensityMatrix:
 		assert im.intensity_array_list[2][3] == 1216.0
 		assert im.intensity_array[0][0] == im.intensity_array_list[0][0]
 		assert im.intensity_array_list == im.intensity_array.tolist()
-
-	@deprecation.fail_if_not_removed
-	def test_get_matrix_list(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_matrix_list()
 
 	def test_matrix_list(self, im):
 		assert isinstance(im.matrix_list, numpy.ndarray)
@@ -591,6 +561,6 @@ def test_build_intensity_matrix_i(data, im_i):
 
 # TODO; Saving data
 # # save the intensity matrix values to a file
-# mat = im.get_matrix_list()
+# mat = im.matrix_list
 # print("saving intensity matrix intensity values...")
 # save_data("output/im.dat", mat)

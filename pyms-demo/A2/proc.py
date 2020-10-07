@@ -81,16 +81,16 @@ for peak in new_peak_list:
     # print some details
     UID = peak.UID
     # height as sum of the intensities of the apexing ions
-    height = sum(peak.get_mass_spectrum().mass_spec.tolist())
+    height = sum(peak.mass_spectrum.mass_spec.tolist())
     print(UID + f", {rt:.2f}, {height:.2f}, {peak.area:.2f}")
 
 # TIC from raw data
-tic = data.get_tic()
+tic = data.tic
 # baseline correction for TIC
 tic_bc = tophat(tic, struct="1.5m")
 
 # Get Ion Chromatograms for all m/z channels
-n_mz = len(im.get_mass_list())
+n_mz = len(im.mass_list)
 ic_list = []
 
 for m in range(n_mz):

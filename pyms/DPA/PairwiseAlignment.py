@@ -32,6 +32,8 @@ from typing import Dict, List
 # 3rd party
 import numpy  # type: ignore
 
+from pyms.Peak import Peak
+
 try:
 	# 3rd party
 	from mpi4py import MPI  # type: ignore
@@ -66,7 +68,7 @@ __all__ = [
 		"alignment_compare",
 		"score_matrix_mpi",
 		"align_with_tree",
-		"align_with_tree_mpi",
+		# "align_with_tree_mpi",
 		]
 
 
@@ -398,9 +400,7 @@ def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 
 	# create empty lists of dimension |A1| + |A2|
 	dimension = len(A1.peakpos) + len(A2.peakpos)
-	merged = [[] for _ in range(dimension)]
-	A1 = A1.peakpos
-	A2 = A2.peakpos
+	merged: List[List[Peak]] = [[] for _ in range(dimension)]
 
 	idx1 = idx2 = 0
 
@@ -411,26 +411,26 @@ def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 	for trace in traces:
 
 		if trace in {0, 1}:
-			for i, _ in enumerate(A1):
-				merged[i].append(A1[i][idx1])
+			for i, _ in enumerate(A1.peakpos):
+				merged[i].append(A1.peakpos[i][idx1])
 
 			idx1 = idx1 + 1
 
 		elif trace == 2:
-			for i, _ in enumerate(A1):
-				merged[i].append(None)
+			for i, _ in enumerate(A1.peakpos):
+				merged[i].append(None)  # type: ignore
 
 		# ---
 
 		if trace in {0, 2}:
-			for j, peak in enumerate(A2):
+			for j, peak in enumerate(A2.peakpos):
 				merged[1 + i + j].append(peak[idx2])
 
 			idx2 = idx2 + 1
 
 		elif trace == 1:
-			for j, _ in enumerate(A2):
-				merged[1 + i + j].append(None)
+			for j, _ in enumerate(A2.peakpos):
+				merged[1 + i + j].append(None)  # type: ignore
 
 	ma.peakalgt = numpy.transpose(merged)
 	# sort according to average peak
@@ -593,7 +593,7 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 	#   is one less than the number of items.
 
 	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
-	As = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]
+	As: List[Alignment] = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]  # type: ignore
 
 	# align the alignments into positions -1, ... ,-(n-1)
 	total = len(T.tree)
@@ -606,7 +606,7 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 		print(f" -> {total:d} item(s) remaining")
 
 	# the final alignment is in the root. Filter min peaks and return
-	final_algt = As[index]
+	final_algt: Alignment = As[index]
 
 	# useful for within state alignment only
 	if min_peaks > 1:
@@ -614,53 +614,53 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 
 	return final_algt
 
-
-def align_with_tree_mpi(T: Alignment, min_peaks: int = 1) -> Alignment:
-	"""
-	Aligns a list of alignments using the supplied guide tree
-
-	:param T: The pairwise alignment object
-	:param min_peaks:
-
-	:return: The final alignment consisting of aligned input alignments
-
-	:authors: Woon Wai Keen, Vladimir Likic
-	"""
-
-	try:
-		rank = MPI.COMM_WORLD.Get_rank()
-	except:
-		rank = 0
-
-	if rank == 0:
-		print(f" Aligning {len(T.alignments):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
-
-	# For everything else, we align according to the guide tree provided by
-	# Pycluster. From Pycluster documentation:
-	#   Each item and subnode is represented by an integer. For hierarchical
-	#   clustering of n items, we number the original items {0, ... , n-1},
-	#   nodes are numbered {-1, ... , -(n-1)}. Note that the number of nodes
-	#   is one less than the number of items.
-
-	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
-	As = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]
-
-	# align the alignments into positions -1, ... ,-(n-1)
-	total = len(T.tree)
-	index = 0
-
-	for node in T.tree[:]:
-		index = index - 1
-		As[index] = align(As[node.left], As[node.right], T.D, T.gap)
-		total = total - 1
-		if rank == 0:
-			print(f" -> {total:d} item(s) remaining")
-
-	# the final alignment is in the root. Filter min peaks and return
-	final_algt = As[index]
-
-	# useful for within state alignment only
-	if min_peaks > 1:
-		final_algt.filter_min_peaks(min_peaks)
-
-	return final_algt
+#
+# def align_with_tree_mpi(T: Alignment, min_peaks: int = 1) -> Alignment:
+# 	"""
+# 	Aligns a list of alignments using the supplied guide tree
+#
+# 	:param T: The pairwise alignment object
+# 	:param min_peaks:
+#
+# 	:return: The final alignment consisting of aligned input alignments
+#
+# 	:authors: Woon Wai Keen, Vladimir Likic
+# 	"""
+#
+# 	try:
+# 		rank = MPI.COMM_WORLD.Get_rank()
+# 	except:
+# 		rank = 0
+#
+# 	if rank == 0:
+# 		print(f" Aligning {len(T.alignments):d} items with guide tree (D={T.D:.2f}, gap={T.gap:.2f})")
+#
+# 	# For everything else, we align according to the guide tree provided by
+# 	# Pycluster. From Pycluster documentation:
+# 	#   Each item and subnode is represented by an integer. For hierarchical
+# 	#   clustering of n items, we number the original items {0, ... , n-1},
+# 	#   nodes are numbered {-1, ... , -(n-1)}. Note that the number of nodes
+# 	#   is one less than the number of items.
+#
+# 	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
+# 	As = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]
+#
+# 	# align the alignments into positions -1, ... ,-(n-1)
+# 	total = len(T.tree)
+# 	index = 0
+#
+# 	for node in T.tree[:]:
+# 		index = index - 1
+# 		As[index] = align(As[node.left], As[node.right], T.D, T.gap)
+# 		total = total - 1
+# 		if rank == 0:
+# 			print(f" -> {total:d} item(s) remaining")
+#
+# 	# the final alignment is in the root. Filter min peaks and return
+# 	final_algt = As[index]
+#
+# 	# useful for within state alignment only
+# 	if min_peaks > 1:
+# 		final_algt.filter_min_peaks(min_peaks)
+#
+# 	return final_algt
