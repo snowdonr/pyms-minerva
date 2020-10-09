@@ -109,6 +109,7 @@ class Peak(pymsBaseClass):
 			return (
 					self.UID == other.UID and self.bounds == other.bounds and self.rt == other.rt
 					and self.mass_spectrum == other.mass_spectrum and self.area == other.area
+					and self.ic_mass == other.ic_mass
 					)
 
 		return NotImplemented
