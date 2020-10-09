@@ -58,4 +58,4 @@ repos:
    rev: v0.3.0
    hooks:
     - id: yapf-isort
-      exclude: ^(doc-source/conf|__pkginfo__|make_conda_recipe|setup)\.py$
+      exclude: ^(pyms-demo/.*/.*|doc-source/conf|__pkginfo__|make_conda_recipe|setup)\.py$

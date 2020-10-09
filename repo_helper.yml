@@ -70,4 +70,4 @@ sphinx_conf_preamble:
   - nitpicky = True
 
 exclude_files:
-  - pre_commit
+  - pre-commit
