@@ -39,7 +39,7 @@ from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum, Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
-from pyms.Utils.Utils import is_path, is_sequence_of
+from pyms.Utils.Utils import is_number, is_path, is_sequence_of
 
 __all__ = ["GCMS_data", "IntStr"]
 
@@ -293,20 +293,20 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		# process 'begin' and 'end'
 		if begin is None:
 			first_scan = 0
-		elif isinstance(begin, (int, float)):
+		elif is_number(begin):
 			first_scan = begin - 1
 		elif isinstance(begin, str):
 			time = time_str_secs(begin)
 			scan_ = self.get_index_at_time(time)
 			if scan_ is None:
 				raise TypeError("invalid 'begin' argument")
-			first_scan = scan_ = 1
+			first_scan = scan_ + 1
 		else:
 			raise TypeError("invalid 'begin' argument")
 
 		if end is None:
 			last_scan = N - 1
-		elif isinstance(end, (int, float)):
+		elif is_number(end):
 			last_scan = end
 		elif isinstance(end, str):
 			time = time_str_secs(end)

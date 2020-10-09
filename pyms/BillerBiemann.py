@@ -36,7 +36,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Spectrum import MassSpectrum
-from pyms.Utils.Utils import is_sequence_of
+from pyms.Utils.Utils import is_number, is_sequence_of
 
 __all__ = [
 		"BillerBiemann",
@@ -197,8 +197,8 @@ def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13,
 	if not isinstance(ic, IonChromatogram):
 		raise TypeError("'ic' must be an IonChromatogram object")
 
-	if not isinstance(mp_rt, int):
-		raise TypeError("'mp_rt' must be an integer")
+	if not is_number(mp_rt):
+		raise TypeError("'mp_rt' must be a number")
 
 	# if not isinstance(scans, int):
 	#	raise TypeError("'scans' must be an integer")
@@ -305,7 +305,7 @@ def num_ions_threshold(pl: List, n: int, cutoff: float, copy_peaks: bool = True)
 	if not isinstance(n, int):
 		raise TypeError("'n' must be an integer")
 
-	if not isinstance(cutoff, (int, float)):
+	if not is_number(cutoff):
 		raise TypeError("'cutoff' must be a number")
 
 	if copy_peaks:
@@ -345,7 +345,7 @@ def rel_threshold(pl: List[Peak], percent: float = 2, copy_peaks: bool = True) -
 
 	if not is_peak_list(peak_list):
 		raise TypeError("'pl' must be a list of Peak objects")
-	if not isinstance(percent, (int, float)):
+	if not is_number(percent):
 		raise TypeError("'percent' must be a number > 0")
 
 	if percent <= 0:

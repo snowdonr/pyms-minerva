@@ -39,6 +39,8 @@ __all__ = [
 		"GetIndexTimeMixin",
 		]
 
+from pydash import is_number
+
 
 class MaxMinMassMixin:
 	_min_mass: Optional[float]
@@ -170,7 +172,7 @@ class GetIndexTimeMixin:
 			Now returns ``-1`` if no index is found.
 		"""
 
-		if not isinstance(time, (int, float)):
+		if not is_number(time):
 			raise TypeError("'time' must be a number")
 
 		if (time < self._min_rt) or (time > self._max_rt):

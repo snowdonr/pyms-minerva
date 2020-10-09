@@ -30,7 +30,7 @@ import pickle
 from typing import Any, List, Union, cast
 
 # this package
-from pyms.Utils.Utils import _list_types, is_path
+from pyms.Utils.Utils import _list_types, is_number, is_path
 
 __all__ = ["prepare_filepath", "dump_object", "load_object", "file_lines", "save_data"]
 
@@ -184,9 +184,9 @@ def save_data(
 	with file_name.open("w") as fp:
 
 		# decide whether data is a vector or matrix
-		if isinstance(data[0], (int, float)):
+		if is_number(data[0]):
 			for item in data:
-				if not isinstance(item, (int, float)):
+				if not is_number(item):
 					raise TypeError("not all elements of the list are numbers")
 			for x_value in data:
 				fp.write(prepend)
@@ -201,7 +201,7 @@ def save_data(
 			for x_value in cast(List[List[float]], data):
 				fp.write(prepend)
 				for jj, y_value in enumerate(x_value):
-					if isinstance(y_value, (int, float)):
+					if is_number(y_value):
 						fp.write(format_str % y_value)
 						if jj < (len(x_value) - 1):
 							fp.write(sep)

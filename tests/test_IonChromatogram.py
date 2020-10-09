@@ -30,6 +30,7 @@ import pytest
 from pyms.IonChromatogram import IonChromatogram
 
 # this package
+from pyms.Utils.Utils import is_number
 from .constants import *
 
 
@@ -108,7 +109,7 @@ def test_mass(tic, im):
 		tic.mass
 
 	ic = im.get_ic_at_index(0)
-	assert isinstance(ic.mass, (int, float))
+	assert is_number(ic.mass)
 	assert ic.mass == 50.2516
 
 

@@ -41,6 +41,7 @@ from pyms.Peak.List.IO import store_peaks
 from pyms.TopHat import tophat
 
 # this package
+from pyms.Utils.Utils import is_number
 from .constants import *
 
 eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
@@ -306,7 +307,7 @@ def test_write_ion_areas_csv(A1, outputdir):
 def test_write_common_ion_csv(A1, outputdir):
 	common_ion = A1.common_ion()
 	assert isinstance(common_ion, list)
-	assert isinstance(common_ion[0], (int, float))
+	assert is_number(common_ion[0])
 	assert common_ion[0] == 77
 
 	A1.write_common_ion_csv(outputdir / 'alignment_common_ion.csv', A1.common_ion())

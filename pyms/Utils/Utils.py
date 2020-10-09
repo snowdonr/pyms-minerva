@@ -71,3 +71,8 @@ def is_sequence_of(obj: Any, of: Any) -> bool:
 	"""
 
 	return isinstance(obj, _list_types) and not isinstance(obj, str) and all(isinstance(x, of) for x in obj)
+
+
+def is_number(obj: Any) -> bool:
+
+	return isinstance(obj, (int, float, numpy.signedinteger))

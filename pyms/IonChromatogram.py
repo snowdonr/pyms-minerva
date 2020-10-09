@@ -36,7 +36,7 @@ import numpy  # type: ignore
 from pyms.Base import pymsBaseClass
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import is_path, is_sequence
+from pyms.Utils.Utils import is_number, is_path, is_sequence
 
 __all__ = ["IonChromatogram"]
 
@@ -65,13 +65,13 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		if not isinstance(ia, numpy.ndarray):
 			raise TypeError("'ia' must be a numpy array")
 
-		if not is_sequence(time_list) or not all(isinstance(time, (int, float)) for time in time_list):
+		if not is_sequence(time_list) or not all(is_number(time) for time in time_list):
 			raise TypeError("'time_list' must be a list of numbers")
 
 		if len(ia) != len(time_list):
 			raise ValueError("Intensity array and time list differ in length")
 
-		if mass is not None and not isinstance(mass, (int, float)):
+		if mass is not None and not is_number(mass):
 			raise TypeError("'mass' must be a number")
 
 		self._intensity_array = ia

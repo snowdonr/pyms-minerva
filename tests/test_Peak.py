@@ -32,6 +32,7 @@ from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
 from pyms.Spectrum import MassSpectrum
 
 # this package
+from pyms.Utils.Utils import is_number
 from .constants import *
 
 
@@ -163,7 +164,7 @@ def test_crop_mass(peak):
 def test_get_int_of_ion(peak):
 	assert peak.get_int_of_ion(100) == 3888.0
 	assert peak.get_int_of_ion(200) == 0.0
-	assert isinstance(peak.get_int_of_ion(100), (int, float))
+	assert is_number(peak.get_int_of_ion(100))
 
 	with pytest.raises(IndexError):
 		peak.get_int_of_ion(1)
@@ -179,8 +180,8 @@ def test_ion_area(peak):
 	peak.set_ion_area(1, 1234)
 	peak.set_ion_area(2, 1234.56)
 
-	assert isinstance(peak.get_ion_area(1), (int, float))
-	assert isinstance(peak.get_ion_area(2), (int, float))
+	assert is_number(peak.get_ion_area(1))
+	assert is_number(peak.get_ion_area(2))
 	assert peak.get_ion_area(1) == 1234
 
 	# Errors
@@ -210,12 +211,6 @@ def test_ion_areas(peak):
 	assert peak.ion_areas == {1: 1234, 2: 1234, 3: 1234}
 
 
-@deprecation.fail_if_not_removed
-def test_get_mass_spectrum(peak):
-	with pytest.warns(DeprecationWarning):
-		peak.mass_spectrum
-
-
 def test_get_third_highest_mz(peak):
 	assert peak.get_third_highest_mz() == 59
 	assert isinstance(peak.get_third_highest_mz(), int)
@@ -229,7 +224,7 @@ def test_get_third_highest_mz(peak):
 def test_ic_mass():
 	peak = Peak(12.34, 55)
 	uid = peak.UID
-	assert isinstance(peak.ic_mass, (int, float))
+	assert is_number(peak.ic_mass)
 	assert peak.ic_mass == 55
 	peak.ic_mass = 12
 	assert peak.mass_spectrum is None

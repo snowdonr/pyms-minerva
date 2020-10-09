@@ -38,7 +38,7 @@ from typing_extensions import Literal
 from pyms import __version__
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
-from pyms.Utils.Utils import is_sequence
+from pyms.Utils.Utils import is_number, is_sequence
 
 __all__ = [
 		"peak_sum_area",
@@ -340,7 +340,7 @@ def ion_area(
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
+	if not isinstance(ia, list) or not is_number(ia[0]):
 		raise TypeError("'ia' must be a list of numbers")
 	if not isinstance(apex, int):
 		raise TypeError("'apex' must be an integer")
@@ -381,7 +381,7 @@ def half_area(
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(ia, list) or not isinstance(ia[0], (int, float)):
+	if not isinstance(ia, list) or not is_number(ia[0]):
 		raise TypeError("'ia' must be a list of numbers")
 	if not isinstance(max_bound, int):
 		raise TypeError("'max_bound' must be an integer")

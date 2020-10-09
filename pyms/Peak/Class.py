@@ -36,7 +36,7 @@ from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Spectrum import MassSpectrum
-from pyms.Utils.Utils import is_sequence
+from pyms.Utils.Utils import is_number, is_sequence
 
 __all__ = ["Peak"]
 
@@ -69,10 +69,10 @@ class Peak(pymsBaseClass):
 		Models a signal peak
 		"""
 
-		if not isinstance(rt, (int, float)):
+		if not is_number(rt):
 			raise TypeError("'rt' must be a number")
 
-		if ms and not isinstance(ms, MassSpectrum) and not isinstance(ms, (int, float)):
+		if ms and not isinstance(ms, MassSpectrum) and not is_number(ms):
 			raise TypeError("'ms' must be a number or a MassSpectrum object")
 
 		if minutes:
@@ -159,7 +159,7 @@ class Peak(pymsBaseClass):
 		:author: Andrew Isaac
 		"""
 
-		if not isinstance(value, (int, float)):
+		if not is_number(value):
 			raise TypeError("'Peak.area' must be a positive number")
 		elif value <= 0:
 			raise ValueError("'Peak.area' must be a positive number")
@@ -213,7 +213,7 @@ class Peak(pymsBaseClass):
 		if self._mass_spectrum is None:
 			raise ValueError("Cannot crop the mass range of a single ion peak.")
 
-		if not isinstance(mass_min, (int, float)) or not isinstance(mass_max, (int, float)):
+		if not is_number(mass_min) or not is_number(mass_max):
 			raise TypeError("'mass_min' and 'mass_max' must be numbers")
 
 		if mass_min >= mass_max:
@@ -341,7 +341,7 @@ class Peak(pymsBaseClass):
 		:param value: The mass of the ion chromatogram that the peak is from
 		"""
 
-		if not isinstance(value, (int, float)):
+		if not is_number(value):
 			raise TypeError("'Peak.ic_mass' must be a number")
 
 		self._ic_mass = value
@@ -370,7 +370,7 @@ class Peak(pymsBaseClass):
 		:param value: The dictionary of ion:ion_area pairs
 		"""
 
-		if not isinstance(value, dict) or not isinstance(list(value.keys())[0], (int, float)):
+		if not isinstance(value, dict) or not is_number(list(value.keys())[0]):
 			raise TypeError("'Peak.ion_areas' must be a dictionary of ion:ion_area pairs")
 
 		self._ion_areas = value
@@ -440,7 +440,7 @@ class Peak(pymsBaseClass):
 		if self._mass_spectrum is None:
 			raise NameError("mass spectrum not set for this peak")
 
-		if not isinstance(mass, (int, float)):
+		if not is_number(mass):
 			raise TypeError("'mass' must be a number")
 
 		mass_list = self._mass_spectrum.mass_list
@@ -493,7 +493,7 @@ class Peak(pymsBaseClass):
 		if not isinstance(ion, int):
 			raise TypeError("'ion' must be an integer")
 
-		if not isinstance(area, (int, float)):
+		if not is_number(area):
 			raise TypeError("'area' must be a number")
 
 		self._ion_areas[ion] = area
