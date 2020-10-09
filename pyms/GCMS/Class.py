@@ -26,7 +26,6 @@ Class to model GC-MS data
 # stdlib
 import copy
 import pathlib
-from numbers import Number
 from statistics import mean, median, stdev
 from typing import Any, List, Optional, TypeVar, Union
 
@@ -63,7 +62,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	"""
 
 	def __init__(self, time_list: List[float], scan_list: List[Scan]):
-		if not is_sequence_of(time_list, Number):
+		if not is_sequence_of(time_list, (int, float)):
 			raise TypeError("'time_list' must be a Sequence of numbers")
 
 		if not is_sequence_of(scan_list, Scan):

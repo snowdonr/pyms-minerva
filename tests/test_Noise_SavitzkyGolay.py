@@ -59,15 +59,15 @@ def test_savitzky_golay(tic):
 	# Test Errors
 	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(obj)
+			savitzky_golay(obj)  # type: ignore
 
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(tic, degree=obj)
+			savitzky_golay(tic, degree=obj)  # type: ignore
 
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(tic, window=obj)
+			savitzky_golay(tic, window=obj)  # type: ignore
 
 
 def test_savitzky_golay_intensity_matrix(im, tic):
@@ -92,12 +92,12 @@ def test_savitzky_golay_intensity_matrix(im, tic):
 
 	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(obj)
+			savitzky_golay_im(obj)  # type: ignore
 
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(im, degree=obj)
+			savitzky_golay_im(im, degree=obj)  # type: ignore
 
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(im, window=obj)
+			savitzky_golay_im(im, window=obj)  # type: ignore

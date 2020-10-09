@@ -27,7 +27,6 @@ General I/O functions
 import gzip
 import pathlib
 import pickle
-from numbers import Number
 from typing import Any, cast, List, Union
 
 # this package
@@ -202,7 +201,7 @@ def save_data(
 			for x_value in cast(List[List[float]], data):
 				fp.write(prepend)
 				for jj, y_value in enumerate(x_value):
-					if isinstance(y_value, Number):
+					if isinstance(y_value, (int, float)):
 						fp.write(format_str % y_value)
 						if jj < (len(x_value) - 1):
 							fp.write(sep)

@@ -40,7 +40,7 @@ def test_JCAMP_reader(pyms_datadir):
 	# Errors
 	for obj in [*test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			JCAMP_reader(obj)
+			JCAMP_reader(obj)  # type: ignore
 
 	with pytest.raises(FileNotFoundError):
 		JCAMP_reader(test_string)
@@ -58,11 +58,11 @@ def test_GCMS_data(data):
 	# Errors
 	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(obj, data.scan_list)
+			GCMS_data(obj, data.scan_list)  # type: ignore
 
 	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(data.time_list, obj)
+			GCMS_data(data.time_list, obj)  # type: ignore
 
 
 def test_len(data):

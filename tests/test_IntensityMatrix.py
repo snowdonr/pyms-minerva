@@ -502,21 +502,21 @@ def test_build_intensity_matrix(data):
 
 	for obj in [test_dict, *test_lists, test_string, *test_numbers]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(obj)
+			build_intensity_matrix(obj)  # type: ignore
 	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_interval=obj)
+			build_intensity_matrix(data, bin_interval=obj)  # type: ignore
 	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_left=obj)
+			build_intensity_matrix(data, bin_left=obj)  # type: ignore
 	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_right=obj)
+			build_intensity_matrix(data, bin_right=obj)  # type: ignore
 	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix(data, min_mass=obj)
+			build_intensity_matrix(data, min_mass=obj)  # type: ignore
 	with pytest.raises(ValueError):
-		build_intensity_matrix(data, bin_interval=0)
+		build_intensity_matrix(data, bin_interval=0)  # type: ignore
 
 
 def test_build_intensity_matrix_i(data, im_i):
@@ -550,13 +550,13 @@ def test_build_intensity_matrix_i(data, im_i):
 
 	for obj in [test_dict, *test_lists, test_string, *test_numbers]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix_i(obj)
+			build_intensity_matrix_i(obj)  # type: ignore
 	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix_i(data, bin_left=obj)
+			build_intensity_matrix_i(data, bin_left=obj)  # type: ignore
 	for obj in [test_dict, *test_lists, test_string]:
 		with pytest.raises(TypeError):
-			build_intensity_matrix_i(data, bin_right=obj)
+			build_intensity_matrix_i(data, bin_right=obj)  # type: ignore
 
 
 # TODO; Saving data

@@ -27,13 +27,15 @@ Functions related to Peak modification
 import copy
 from math import ceil
 from statistics import median
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, overload, Tuple, Union
 
 # 3rd party
 import deprecation  # type: ignore
 from numpy import percentile  # type: ignore
 
 # this package
+from typing_extensions import Literal
+
 from pyms import __version__
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
@@ -49,6 +51,24 @@ __all__ = [
 		"half_area",
 		"median_bounds"
 		]
+
+
+@overload
+def peak_sum_area(
+		im: IntensityMatrix,
+		peak: Peak,
+		single_ion: Literal[True],
+		max_bound: int = ...,
+		) -> Tuple[float, Dict[float, float]]: ...
+
+
+@overload
+def peak_sum_area(
+		im: IntensityMatrix,
+		peak: Peak,
+		single_ion: Literal[False] = ...,
+		max_bound: int = ...,
+		) -> float: ...
 
 
 def peak_sum_area(

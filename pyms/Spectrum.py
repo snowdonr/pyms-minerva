@@ -429,7 +429,7 @@ class MassSpectrum(Scan):
 		return cls(mass_list, intensity_list)
 
 	@classmethod
-	def from_mz_int_pairs(cls, mz_int_pairs: List[Tuple[float, float]]):
+	def from_mz_int_pairs(cls, mz_int_pairs: Sequence[Tuple[float, float]]):
 		"""
 		Construct a MassSpectrum from a list of (m/z, intensity) tuples.
 

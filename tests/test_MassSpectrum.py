@@ -236,8 +236,8 @@ def test_from_mz_int_pairs():
 	# Errors
 	for obj in [test_string, test_int, test_list_strs, test_dict, test_list_ints, test_tuple, (["abc", "123"])]:
 		with pytest.raises(TypeError):
-			MassSpectrum.from_mz_int_pairs(obj)
+			MassSpectrum.from_mz_int_pairs(obj)  # type: ignore
 
 	for obj in [[(1, 2, 3)], ([1, 2, 3], ), [(1, )], ([1], ), [("abc", "123")]]:
 		with pytest.raises(ValueError):
-			MassSpectrum.from_mz_int_pairs(obj)
+			MassSpectrum.from_mz_int_pairs(obj)  # type: ignore

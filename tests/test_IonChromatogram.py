@@ -21,7 +21,6 @@
 # stdlib
 import copy
 import pickle
-from numbers import Number
 
 # 3rd party
 import numpy  # type: ignore
@@ -51,16 +50,16 @@ def test_IonChromatogram(im, tic):
 	# Errors
 	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(obj, tic.time_list)
+			IonChromatogram(obj, tic.time_list)  # type: ignore
 	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, obj)
+			IonChromatogram(tic.intensity_array, obj)  # type: ignore
 	for obj in [test_string, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, tic.time_list, mass=obj)
+			IonChromatogram(tic.intensity_array, tic.time_list, mass=obj)  # type: ignore
 
 	with pytest.raises(ValueError):
-		IonChromatogram(tic.intensity_array, test_list_ints)
+		IonChromatogram(tic.intensity_array, test_list_ints)  # type: ignore
 
 
 def test_len(tic):
@@ -109,7 +108,7 @@ def test_mass(tic, im):
 		tic.mass
 
 	ic = im.get_ic_at_index(0)
-	assert isinstance(ic.mass, Number)
+	assert isinstance(ic.mass, (int, float))
 	assert ic.mass == 50.2516
 
 

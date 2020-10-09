@@ -29,7 +29,6 @@ Provides mathematical functions
 
 # stdlib
 import math
-from numbers import Number
 from statistics import mean, median
 from statistics import stdev as std
 from typing import List, Sequence, Union, overload

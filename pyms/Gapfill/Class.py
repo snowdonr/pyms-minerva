@@ -146,7 +146,7 @@ class Sample:
 
 		self._missing_peak_list.append(missing_peak)
 
-	def get_mp_rt_exact_rt_dict(self) -> Dict[float, float]:
+	def get_mp_rt_exact_rt_dict(self) -> Dict[float, Optional[float]]:
 		"""
 		Returns a dictionary containing ``average_rt : exact_rt`` pairs.
 
@@ -179,7 +179,7 @@ class Sample:
 		return self._sample_name
 
 	@property
-	def rt_areas(self) -> Dict[float, float]:
+	def rt_areas(self) -> Dict[float, Optional[float]]:
 		"""
 		returns a dictionary containing ``rt : area`` pairs.
 		"""

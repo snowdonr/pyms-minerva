@@ -25,7 +25,6 @@ Mixins for PyMassSpec Classes
 
 # stdlib
 import math
-from numbers import Number
 from typing import List, Optional
 from warnings import warn
 
@@ -171,7 +170,7 @@ class GetIndexTimeMixin:
 			Now returns ``-1`` if no index is found.
 		"""
 
-		if not isinstance(time, Number):
+		if not isinstance(time, (int, float)):
 			raise TypeError("'time' must be a number")
 
 		if (time < self._min_rt) or (time > self._max_rt):

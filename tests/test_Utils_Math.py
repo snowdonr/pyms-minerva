@@ -199,7 +199,7 @@ class TestStdev:
 	def test_single_value(self):
 		for x in (81, 203.74, 3.9e14, Fraction(5, 21), Decimal('35.719')):
 			with pytest.raises(statistics.StatisticsError):
-				statistics.stdev([x])
+				statistics.stdev([x])  # type: ignore
 
 	def test_ints(self):
 		# Test sample variance with int data.

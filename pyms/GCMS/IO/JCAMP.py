@@ -28,8 +28,8 @@ Functions for I/O of data in JCAMP-DX format
 ################################################################################
 
 # stdlib
-import os
-from typing import Union
+from pathlib import Path
+from typing import Any, List, MutableMapping, Union
 
 # this package
 from pyms.GCMS.Class import GCMS_data
@@ -42,7 +42,7 @@ from pyms.Utils.Utils import is_path
 __all__ = ["JCAMP_reader"]
 
 
-def JCAMP_reader(file_name: Union[str, os.PathLike]) -> GCMS_data:
+def JCAMP_reader(file_name: Union[str, Path]) -> GCMS_data:
 	"""
 	Generic reader for JCAMP DX files
 
@@ -61,13 +61,13 @@ def JCAMP_reader(file_name: Union[str, os.PathLike]) -> GCMS_data:
 
 	print(f" -> Reading JCAMP file '{file_name}'")
 	lines_list = file_name.open('r')
-	data = []
+	data: List[float] = []
 	page_idx = 0
 	xydata_idx = 0
 	time_list = []
 	scan_list = []
 
-	header_info = {}  # Dictionary containing header information
+	header_info: MutableMapping[Any, Any] = {}  # Dictionary containing header information
 
 	for line in lines_list:
 
@@ -163,6 +163,4 @@ def JCAMP_reader(file_name: Union[str, os.PathLike]) -> GCMS_data:
 		print(scan_list)
 		raise ValueError(f"Number of time points ({time_len}) does not equal the number of scans ({scan_len})")
 
-	data = GCMS_data(time_list, scan_list)
-
-	return data
+	return GCMS_data(time_list, scan_list)

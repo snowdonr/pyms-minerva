@@ -25,7 +25,6 @@ Functions to perform Biller and Biemann deconvolution.
 
 # stdlib
 import copy
-from numbers import Number
 from typing import List, Sequence, Union
 
 # 3rd party
@@ -109,8 +108,8 @@ def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not is_sequence_of(ion_intensities, Number):
-		raise TypeError("'ion_intensities' must be a List of Numbers")
+	if not is_sequence_of(ion_intensities, (int, float)):
+		raise TypeError("'ion_intensities' must be a List of numbers")
 
 	if not isinstance(points, int):
 		raise TypeError("'points' must be an integer")
@@ -198,7 +197,7 @@ def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13,
 	if not isinstance(ic, IonChromatogram):
 		raise TypeError("'ic' must be an IonChromatogram object")
 
-	if not isinstance(mp_rt, Number):
+	if not isinstance(mp_rt, int):
 		raise TypeError("'mp_rt' must be an integer")
 
 	# if not isinstance(scans, int):
@@ -306,8 +305,8 @@ def num_ions_threshold(pl: List, n: int, cutoff: float, copy_peaks: bool = True)
 	if not isinstance(n, int):
 		raise TypeError("'n' must be an integer")
 
-	if not isinstance(cutoff, Number):
-		raise TypeError("'cutoff' must be a Number")
+	if not isinstance(cutoff, (int, float)):
+		raise TypeError("'cutoff' must be a number")
 
 	if copy_peaks:
 		pl = copy.deepcopy(pl)

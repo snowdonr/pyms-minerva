@@ -28,7 +28,6 @@ import copy
 import math
 import operator
 import pathlib
-from numbers import Number
 from typing import Dict, List, Optional, Sequence, Union
 
 # 3rd party
@@ -375,7 +374,7 @@ class Alignment:
 	def write_common_ion_csv(
 			self,
 			area_file_name: Union[str, pathlib.Path],
-			top_ion_list: Sequence[int],
+			top_ion_list: Sequence[float],
 			minutes: bool = True,
 			):
 		"""
@@ -398,8 +397,8 @@ class Alignment:
 		if not is_path(area_file_name):
 			raise TypeError("'area_file_name' must be a string or a PathLike object")
 
-		if not is_sequence_of(top_ion_list, Number):
-			raise TypeError("'top_ion_list' must be a Sequence of Numbers")
+		if not is_sequence_of(top_ion_list, (int, float)):
+			raise TypeError("'top_ion_list' must be a Sequence of numbers")
 
 		area_file_name = prepare_filepath(area_file_name)
 

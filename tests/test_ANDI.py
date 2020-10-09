@@ -24,7 +24,7 @@ from copy import deepcopy
 
 # 3rd party
 import pytest
-from pytest_regressions.file_regression import FileRegressionFixture  # type: ignore
+from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
 from pyms.GCMS.Class import GCMS_data
@@ -132,10 +132,10 @@ def test_ANDI_reader(pyms_datadir):
 	# Errors
 	for obj in [*test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			ANDI_reader(obj)
+			ANDI_reader(obj)  # type: ignore
 
 	with pytest.raises(FileNotFoundError):
-		ANDI_reader(test_string)
+		ANDI_reader(test_string)  # type: ignore
 
 
 # def test_ANDI_OpenChrom_reader(pyms_datadir):
@@ -150,11 +150,11 @@ def test_GCMS_data(andi):
 	# Errors
 	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(obj, andi.scan_list)
+			GCMS_data(obj, andi.scan_list)  # type: ignore
 
 	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(andi.time_list, obj)
+			GCMS_data(andi.time_list, obj)  # type: ignore
 
 
 def test_len(andi):

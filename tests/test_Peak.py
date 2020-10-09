@@ -21,7 +21,6 @@
 # stdlib
 import copy
 import pickle
-from numbers import Number
 
 # 3rd party
 import deprecation  # type: ignore
@@ -54,10 +53,9 @@ def test_Peak(im_i, peak):
 	for obj in [test_string, *test_lists, test_dict]:
 
 		with pytest.raises(TypeError):
-			Peak(obj, ms, minutes=True)
-
+			Peak(obj, ms, minutes=True)  # type: ignore
 		with pytest.raises(TypeError):
-			Peak(test_float, obj, minutes=False)
+			Peak(test_float, obj, minutes=False)  # type: ignore
 
 	Peak(test_float, test_int)
 	Peak(test_float, test_float)
@@ -91,9 +89,9 @@ def test_area(im_i, peak):
 
 	for obj in [test_string, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
-			Peak(test_float, ms).area = obj
+			Peak(test_float, ms).area = obj  # type: ignore
 	with pytest.raises(ValueError):
-		Peak(test_float, ms).area = -1
+		Peak(test_float, ms).area = -1  # type: ignore
 
 
 def test_bounds(peak):
@@ -104,11 +102,11 @@ def test_bounds(peak):
 
 	for obj in [test_string, *test_numbers, test_dict, ["a", "b", "c"], test_tuple]:
 		with pytest.raises(TypeError):
-			peak.bounds = obj
+			peak.bounds = obj  # type: ignore
 
 	for obj in [*test_lists, (1, 2), [1, 2, 3, 4]]:
 		with pytest.raises(ValueError):
-			peak.bounds = obj
+			peak.bounds = obj  # type: ignore
 
 	# Getter
 	assert peak.bounds == (11, 12, 13)
@@ -127,11 +125,11 @@ def test_bounds(peak):
 	for obj in [*test_sequences, test_string, test_dict, test_float]:
 		with pytest.raises(TypeError):
 			print(obj)
-			peak3.set_bounds(obj, 12, 13)
+			peak3.set_bounds(obj, 12, 13)  # type: ignore
 		with pytest.raises(TypeError):
-			peak3.set_bounds(11, obj, 13)
+			peak3.set_bounds(11, obj, 13)  # type: ignore
 		with pytest.raises(TypeError):
-			peak3.set_bounds(11, 12, obj)
+			peak3.set_bounds(11, 12, obj)  # type: ignore
 
 
 def test_crop_mass(peak):
@@ -165,7 +163,7 @@ def test_crop_mass(peak):
 def test_get_int_of_ion(peak):
 	assert peak.get_int_of_ion(100) == 3888.0
 	assert peak.get_int_of_ion(200) == 0.0
-	assert isinstance(peak.get_int_of_ion(100), Number)
+	assert isinstance(peak.get_int_of_ion(100), (int, float))
 
 	with pytest.raises(IndexError):
 		peak.get_int_of_ion(1)
@@ -181,8 +179,8 @@ def test_ion_area(peak):
 	peak.set_ion_area(1, 1234)
 	peak.set_ion_area(2, 1234.56)
 
-	assert isinstance(peak.get_ion_area(1), Number)
-	assert isinstance(peak.get_ion_area(2), Number)
+	assert isinstance(peak.get_ion_area(1), (int, float))
+	assert isinstance(peak.get_ion_area(2), (int, float))
 	assert peak.get_ion_area(1) == 1234
 
 	# Errors
@@ -233,7 +231,7 @@ def test_get_third_highest_mz(peak):
 def test_ic_mass():
 	peak = Peak(12.34, 55)
 	uid = peak.UID
-	assert isinstance(peak.ic_mass, Number)
+	assert isinstance(peak.ic_mass, (int, float))
 	assert peak.ic_mass == 55
 	peak.ic_mass = 12
 	assert peak.mass_spectrum is None
@@ -290,14 +288,14 @@ def test_null_mass(peak):
 
 	# Errors
 	with pytest.raises(NameError):
-		Peak(test_float).null_mass(1)
+		Peak(test_float).null_mass(1)  # type: ignore
 	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			Peak(test_float, peak.mass_spectrum).null_mass(obj)
+			Peak(test_float, peak.mass_spectrum).null_mass(obj)  # type: ignore
 	with pytest.raises(IndexError):
-		Peak(test_float, peak.mass_spectrum).null_mass(1)
+		Peak(test_float, peak.mass_spectrum).null_mass(1)  # type: ignore
 	with pytest.raises(IndexError):
-		Peak(test_float, peak.mass_spectrum).null_mass(10000)
+		Peak(test_float, peak.mass_spectrum).null_mass(10000)  # type: ignore
 
 
 def test_rt(peak):

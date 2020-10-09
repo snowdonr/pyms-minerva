@@ -25,7 +25,7 @@ Functions related to Peak modification
 
 # stdlib
 import math
-from typing import List, Optional, Sequence, Union
+from typing import Any, List, Optional, Sequence, Union
 
 # 3rd party
 import numpy  # type: ignore
@@ -226,11 +226,9 @@ def fill_peaks(
 	return new_peak_list
 
 
-def is_peak_list(peaks: Sequence[Peak]) -> bool:
+def is_peak_list(peaks: Any) -> bool:
 	"""
 	Returns whether ``peaks`` is a valid peak list.
-
-	:param peaks: A list of peak objects
 
 	:author: Dominic Davis-Foster
 	"""

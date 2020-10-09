@@ -83,7 +83,7 @@ class Peak(pymsBaseClass):
 		self._rt = float(rt)
 		self._pt_bounds: Optional[Tuple[int, int, int]] = None
 		self._area: Optional[float] = None
-		self._ion_areas: Dict[int, float] = {}
+		self._ion_areas: Dict[float, float] = {}
 
 		# these two attributes are required for
 		# setting the peak mass spectrum
@@ -269,7 +269,7 @@ class Peak(pymsBaseClass):
 					f"{max(self._mass_spectrum.mass_list)})"
 					)
 
-	def get_ion_area(self, ion: int) -> Optional[float]:
+	def get_ion_area(self, ion: float) -> Optional[float]:
 		"""
 		Returns the area of a single ion chromatogram under the peak
 

@@ -39,14 +39,14 @@ def test_window_anlyzer(tic):
 
 	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(obj)
+			window_analyzer(obj)  # type: ignore
 
 	for obj in [*test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, rand_seed=obj)
+			window_analyzer(tic, rand_seed=obj)  # type: ignore
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, window=obj)
+			window_analyzer(tic, window=obj)  # type: ignore
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, n_windows=obj)
+			window_analyzer(tic, n_windows=obj)  # type: ignore

@@ -206,7 +206,8 @@ Please call a plotting function before calling 'do_plotting()'""",
 		# Check if a button other than left was pressed, if so plot mass spectrum
 		# Also check that a peak was selected, not just whitespace
 		if event.button != 1 and len(intensity_list) != 0:
-			self.plot_mass_spec(event.xdata, mass_list, intensity_list)
+			# self.plot_mass_spec(event.xdata, mass_list, intensity_list)
+			self.plot_mass_spec(MassSpectrum(mass_list, intensity_list))
 
 	def plot_ic(self, ic: IonChromatogram, **kwargs):
 		"""
@@ -441,7 +442,7 @@ def plot_head2tail(
 		bottom_mass_spec: MassSpectrum,
 		top_spec_kwargs: Optional[Dict] = None,
 		bottom_spec_kwargs: Optional[Dict] = None,
-		) -> Tuple[BarContainer]:
+		) -> Tuple[BarContainer, BarContainer]:
 	"""
 	Plots two Mass Spectra head to tail
 
@@ -617,10 +618,10 @@ class ClickEventHandler:
 					if self.ms_fig is None:
 						self.ms_fig, self.ms_ax = plt.subplots(1, 1)
 					else:
-						self.ms_ax.clear()
+						self.ms_ax.clear()  # type: ignore
 
 					plot_mass_spec(self.ms_ax, peak.mass_spectrum)
-					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")
+					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")  # type: ignore
 					self.ms_fig.show()
 				# TODO: Add multiple MS to same plot window and add option to close one of them
 				# TODO: Allow more interaction with MS, e.g. adjusting mass range?

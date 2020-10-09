@@ -50,13 +50,13 @@ def test_window_smooth(tic):
 
 	for obj in [*test_numbers, test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(obj)
+			window_smooth(obj)  # type: ignore
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(tic, window=obj)
+			window_smooth(tic, window=obj)  # type: ignore
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(tic, use_median=obj)
+			window_smooth(tic, use_median=obj)  # type: ignore
 
 
 def test_window_smooth_im(im):
@@ -78,13 +78,13 @@ def test_window_smooth_im(im):
 
 	for obj in [*test_numbers, test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(obj)
+			window_smooth_im(obj)  # type: ignore
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(im, window=obj)
+			window_smooth_im(im, window=obj)  # type: ignore
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(im, use_median=obj)
+			window_smooth_im(im, use_median=obj)  # type: ignore
 
 
 def test_smooth_im(data):

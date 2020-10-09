@@ -65,7 +65,7 @@ def test_composite_peak(filtered_peak_list, im_i):
 	# Errors
 	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			composite_peak(obj)
+			composite_peak(obj)  # type: ignore
 
 
 def test_composite_peak_outliers(filtered_peak_list, im_i):
@@ -102,10 +102,10 @@ def test_fill_peaks(im_i, peak_list):
 	# Errors
 	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			fill_peaks(im_i, obj, 10.0)
+			fill_peaks(im_i, obj, 10.0)  # type: ignore
 	for obj in [test_dict, *test_sequences, test_string, test_int]:
 		with pytest.raises(TypeError):
-			fill_peaks(im_i, peak_list, obj)
+			fill_peaks(im_i, peak_list, obj)  # type: ignore
 
 
 def test_is_peak_list(peak_list, ms, im_i, data):
@@ -147,20 +147,20 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	assert peak.UID != uid
 
 	with pytest.raises(TypeError):
-		sele_peaks_by_rt(filtered_peak_list, [1.2, 3.4])
+		sele_peaks_by_rt(filtered_peak_list, [1.2, 3.4])  # type: ignore
 	with pytest.raises(ValueError):
-		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])
+		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])  # type: ignore
 
 	# Errors
 	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			sele_peaks_by_rt(obj, ("12m", "13m"))
+			sele_peaks_by_rt(obj, ("12m", "13m"))  # type: ignore
 	for obj in [test_dict, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			sele_peaks_by_rt(filtered_peak_list, obj)
+			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore
 	for obj in [*test_sequences]:
 		with pytest.raises(ValueError):
-			sele_peaks_by_rt(filtered_peak_list, obj)
+			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore
 
 
 @pytest.fixture(scope="function")

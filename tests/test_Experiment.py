@@ -39,11 +39,11 @@ def test_Experiment(expr, filtered_peak_list):
 	# Errors
 	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			Experiment(obj, filtered_peak_list)
+			Experiment(obj, filtered_peak_list)  # type: ignore
 
 	for obj in [test_string, test_int, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			Experiment(test_string, obj)
+			Experiment(test_string, obj)  # type: ignore
 
 
 def test_equality(expr):
@@ -134,7 +134,7 @@ def test_load_expr(filtered_peak_list, pyms_datadir, expr_filename):
 	# Errors
 	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			load_expr(obj)
+			load_expr(obj)  # type: ignore
 
 	with pytest.raises(IOError):
 		load_expr(pyms_datadir / "non-existent.expr")
@@ -160,11 +160,11 @@ def test_read_expr_list(filtered_peak_list, pyms_datadir, expr_filename):
 	# Errors
 	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			read_expr_list(obj)
+			read_expr_list(obj)  # type: ignore
 
 	with pytest.raises(IOError):
 		read_expr_list("non-existent.expr")
-	with pytest.raises((IOError, UnicodeDecodeError)):
+	with pytest.raises((IOError, UnicodeDecodeError)):  # type: ignore
 		read_expr_list("not-an-experiment.expr")
-	with pytest.raises(IOError):
+	with pytest.raises(IOError):  # type: ignore
 		read_expr_list("__init__.py")

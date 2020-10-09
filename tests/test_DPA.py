@@ -22,7 +22,6 @@
 import csv
 import math
 import operator
-from numbers import Number
 
 # 3rd party
 import numpy  # type: ignore
@@ -307,7 +306,7 @@ def test_write_ion_areas_csv(A1, outputdir):
 def test_write_common_ion_csv(A1, outputdir):
 	common_ion = A1.common_ion()
 	assert isinstance(common_ion, list)
-	assert isinstance(common_ion[0], Number)
+	assert isinstance(common_ion[0], (int, float))
 	assert common_ion[0] == 77
 
 	A1.write_common_ion_csv(outputdir / 'alignment_common_ion.csv', A1.common_ion())
