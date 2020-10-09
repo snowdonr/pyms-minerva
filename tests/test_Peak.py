@@ -30,9 +30,9 @@ import pytest
 from pyms.Peak import Peak
 from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
 from pyms.Spectrum import MassSpectrum
+from pyms.Utils.Utils import is_number
 
 # this package
-from pyms.Utils.Utils import is_number
 from .constants import *
 
 

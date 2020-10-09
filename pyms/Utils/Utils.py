@@ -26,21 +26,17 @@ General utility functions
 # stdlib
 import os
 import pathlib
-from typing import Any, Sequence, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Sequence
 
 # 3rd party
 import numpy  # type: ignore
 
-
 __all__ = ["is_path", "is_sequence", "is_sequence_of"]
-
 
 if TYPE_CHECKING:
 	signedinteger = int
 else:
 	signedinteger = numpy.signedinteger
-
-
 
 _list_types = (Sequence, numpy.core.ndarray)
 _path_types = (str, os.PathLike, pathlib.Path)

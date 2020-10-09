@@ -28,9 +28,9 @@ import pytest
 
 # this package
 from pyms.IonChromatogram import IonChromatogram
+from pyms.Utils.Utils import is_number
 
 # this package
-from pyms.Utils.Utils import is_number
 from .constants import *
 
 

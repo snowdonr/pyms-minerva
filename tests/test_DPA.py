@@ -39,9 +39,9 @@ from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.Peak.List.Function import composite_peak
 from pyms.Peak.List.IO import store_peaks
 from pyms.TopHat import tophat
+from pyms.Utils.Utils import is_number
 
 # this package
-from pyms.Utils.Utils import is_number
 from .constants import *
 
 eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]

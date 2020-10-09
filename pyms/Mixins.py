@@ -30,6 +30,7 @@ from warnings import warn
 
 # 3rd party
 import numpy  # type: ignore
+from pydash import is_number
 
 __all__ = [
 		"MaxMinMassMixin",
@@ -38,8 +39,6 @@ __all__ = [
 		"IntensityArrayMixin",
 		"GetIndexTimeMixin",
 		]
-
-from pydash import is_number
 
 
 class MaxMinMassMixin:
