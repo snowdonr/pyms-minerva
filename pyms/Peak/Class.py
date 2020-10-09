@@ -25,7 +25,7 @@ Provides a class to model signal peak
 
 # stdlib
 import copy
-from typing import Any, cast, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union, cast
 from warnings import warn
 
 # 3rd party

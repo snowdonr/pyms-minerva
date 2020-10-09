@@ -300,7 +300,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 			scan_ = self.get_index_at_time(time)
 			if scan_ is None:
 				raise TypeError("invalid 'begin' argument")
-			first_scan = scan_= 1
+			first_scan = scan_ = 1
 		else:
 			raise TypeError("invalid 'begin' argument")
 

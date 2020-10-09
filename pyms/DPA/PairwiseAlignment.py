@@ -32,6 +32,7 @@ from typing import Dict, List
 # 3rd party
 import numpy  # type: ignore
 
+# this package
 from pyms.Peak import Peak
 
 try:
@@ -67,8 +68,7 @@ __all__ = [
 		"alignment_similarity",
 		"alignment_compare",
 		"score_matrix_mpi",
-		"align_with_tree",
-		# "align_with_tree_mpi",
+		"align_with_tree",  # "align_with_tree_mpi",
 		]
 
 
@@ -613,6 +613,7 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 		final_algt.filter_min_peaks(min_peaks)
 
 	return final_algt
+
 
 #
 # def align_with_tree_mpi(T: Alignment, min_peaks: int = 1) -> Alignment:

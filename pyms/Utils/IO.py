@@ -27,7 +27,7 @@ General I/O functions
 import gzip
 import pathlib
 import pickle
-from typing import Any, cast, List, Union
+from typing import Any, List, Union, cast
 
 # this package
 from pyms.Utils.Utils import _list_types, is_path

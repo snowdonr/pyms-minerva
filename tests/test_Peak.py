@@ -226,8 +226,6 @@ def test_get_third_highest_mz(peak):
 	assert Peak(test_float).get_third_highest_mz() is None
 
 
-
-
 def test_ic_mass():
 	peak = Peak(12.34, 55)
 	uid = peak.UID

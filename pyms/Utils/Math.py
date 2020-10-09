@@ -64,7 +64,11 @@ def vector_by_step(start: float, stop: float, step: float) -> List[float]:
 	:author: Vladimir Likic
 	"""
 
-	if not isinstance(start, (int, float)) or not isinstance(stop, (int, float)) or not isinstance(step, (int, float)):
+	if (
+			not isinstance(start, (int, float))
+			or not isinstance(stop, (int, float))
+			or not isinstance(step, (int, float))
+		):
 		raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
 
 	v = []

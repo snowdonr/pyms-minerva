@@ -350,6 +350,7 @@ def test_time_list(andi):
 
 # Inherited Methods from MaxMinMassMixin
 
+
 def test_max_mass(andi):
 	# maximum mass found in all data
 	assert isinstance(andi.max_mass, float)

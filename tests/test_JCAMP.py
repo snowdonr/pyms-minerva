@@ -258,6 +258,7 @@ def test_time_list(data):
 
 # Inherited Methods from MaxMinMassMixin
 
+
 def test_max_mass(data):
 	# maximum mass found in all data
 	assert isinstance(data.max_mass, float)

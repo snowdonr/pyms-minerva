@@ -27,15 +27,14 @@ Functions related to Peak modification
 import copy
 from math import ceil
 from statistics import median
-from typing import Dict, List, overload, Tuple, Union
+from typing import Dict, List, Tuple, Union, overload
 
 # 3rd party
 import deprecation  # type: ignore
 from numpy import percentile  # type: ignore
-
-# this package
 from typing_extensions import Literal
 
+# this package
 from pyms import __version__
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
@@ -59,7 +58,8 @@ def peak_sum_area(
 		peak: Peak,
 		single_ion: Literal[True],
 		max_bound: int = ...,
-		) -> Tuple[float, Dict[float, float]]: ...
+		) -> Tuple[float, Dict[float, float]]:
+	...  # pragma: no cover
 
 
 @overload
@@ -68,7 +68,8 @@ def peak_sum_area(
 		peak: Peak,
 		single_ion: Literal[False] = ...,
 		max_bound: int = ...,
-		) -> float: ...
+		) -> float:
+	...  # pragma: no cover
 
 
 def peak_sum_area(
@@ -257,7 +258,7 @@ def top_ions_v1(peak: Peak, num_ions: int = 5) -> List[float]:
 
 	if not isinstance(num_ions, int):
 		raise TypeError("'n_top_ions' must be an integer")
-	
+
 	if peak.mass_spectrum is None:
 		raise ValueError("The peak has no mass spectrum.")
 

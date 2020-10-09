@@ -32,10 +32,9 @@ from warnings import warn
 # 3rd party
 import deprecation  # type: ignore
 import numpy  # type: ignore
+from enum_tools import IntEnum, document_enum
 
 # this package
-from enum_tools import document_enum, IntEnum
-
 from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.GCMS.Class import GCMS_data

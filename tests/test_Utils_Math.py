@@ -4,10 +4,9 @@ import random
 import statistics
 from decimal import Decimal
 from fractions import Fraction
-
-# 3rd party
 from typing import List
 
+# 3rd party
 import pytest
 
 # this package

@@ -153,10 +153,10 @@ def fill_peaks(
 	new_peak_list = []
 	for ii in range(len(peak_list)):
 		mass_spec = peak_list[ii].mass_spectrum
-		
+
 		if mass_spec is None:
 			raise ValueError("The peak has no mass spectrum.")
-		
+
 		spec = mass_spec.mass_spec
 		spec = numpy.array(spec, dtype='d')
 		rt = peak_list[ii].rt
