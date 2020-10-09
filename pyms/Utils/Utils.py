@@ -26,15 +26,25 @@ General utility functions
 # stdlib
 import os
 import pathlib
-from typing import Any, Sequence
+from typing import Any, Sequence, TYPE_CHECKING
 
 # 3rd party
 import numpy  # type: ignore
 
+
 __all__ = ["is_path", "is_sequence", "is_sequence_of"]
+
+
+if TYPE_CHECKING:
+	signedinteger = int
+else:
+	signedinteger = numpy.signedinteger
+
+
 
 _list_types = (Sequence, numpy.core.ndarray)
 _path_types = (str, os.PathLike, pathlib.Path)
+_number_types = (int, float, signedinteger)
 
 
 def is_path(obj: Any) -> bool:
@@ -75,4 +85,4 @@ def is_sequence_of(obj: Any, of: Any) -> bool:
 
 def is_number(obj: Any) -> bool:
 
-	return isinstance(obj, (int, float, numpy.signedinteger))
+	return isinstance(obj, _number_types)

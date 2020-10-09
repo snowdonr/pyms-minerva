@@ -55,7 +55,7 @@ Please install one of them and try again."""
 from pyms.Experiment import Experiment
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import is_path, is_sequence, is_sequence_of
+from pyms.Utils.Utils import _number_types, is_path, is_sequence, is_sequence_of
 
 __all__ = ["Alignment", "exprl2alignment"]
 
@@ -397,8 +397,8 @@ class Alignment:
 		if not is_path(area_file_name):
 			raise TypeError("'area_file_name' must be a string or a PathLike object")
 
-		if not is_sequence_of(top_ion_list, (int, float)):
-			raise TypeError("'top_ion_list' must be a Sequence of numbers")
+		if not is_sequence_of(top_ion_list, _number_types):
+			raise TypeError(f"'top_ion_list' must be a Sequence of numbers")
 
 		area_file_name = prepare_filepath(area_file_name)
 

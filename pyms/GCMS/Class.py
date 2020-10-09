@@ -39,7 +39,7 @@ from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum, Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
-from pyms.Utils.Utils import is_number, is_path, is_sequence_of
+from pyms.Utils.Utils import _number_types, is_number, is_path, is_sequence_of
 
 __all__ = ["GCMS_data", "IntStr"]
 
@@ -62,7 +62,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	"""
 
 	def __init__(self, time_list: List[float], scan_list: List[Scan]):
-		if not is_sequence_of(time_list, (int, float)):
+		if not is_sequence_of(time_list, _number_types):
 			raise TypeError("'time_list' must be a Sequence of numbers")
 
 		if not is_sequence_of(scan_list, Scan):
@@ -159,12 +159,12 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		for scan in self._scan_list:
 
 			tmp_mini = scan.min_mass
-			if tmp_mini is not None and mini is not None:
+			if tmp_mini is not None:
 				if tmp_mini < mini:
 					mini = tmp_mini
 
 			tmp_maxi = scan.max_mass
-			if tmp_maxi is not None and maxi is not None:
+			if tmp_maxi is not None:
 				if tmp_maxi > maxi:
 					maxi = tmp_maxi
 

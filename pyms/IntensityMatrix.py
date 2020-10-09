@@ -42,7 +42,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, MassListMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.IO import prepare_filepath, save_data
-from pyms.Utils.Utils import is_number, is_path, is_sequence, is_sequence_of
+from pyms.Utils.Utils import _number_types, is_number, is_path, is_sequence, is_sequence_of
 
 __all__ = [
 		"AsciiFiletypes",
@@ -90,10 +90,10 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			intensity_array: Union[List[List[float]], numpy.ndarray],
 			):
 		# sanity check
-		if not is_sequence_of(time_list, (int, float)):
+		if not is_sequence_of(time_list, _number_types):
 			raise TypeError("'time_list' must be a Sequence of numbers")
 
-		if not is_sequence_of(mass_list, (int, float)):
+		if not is_sequence_of(mass_list, _number_types):
 			raise TypeError("'mass_list' must be a Sequence of numbers")
 
 		if not is_sequence(intensity_array) or not is_sequence_of(intensity_array[0], (int, float)):

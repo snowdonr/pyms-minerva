@@ -36,7 +36,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list
 from pyms.Spectrum import MassSpectrum
-from pyms.Utils.Utils import is_number, is_sequence_of
+from pyms.Utils.Utils import _number_types, is_number, is_sequence_of
 
 __all__ = [
 		"BillerBiemann",
@@ -108,7 +108,7 @@ def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not is_sequence_of(ion_intensities, (int, float)):
+	if not is_sequence_of(ion_intensities, _number_types):
 		raise TypeError("'ion_intensities' must be a List of numbers")
 
 	if not isinstance(points, int):
