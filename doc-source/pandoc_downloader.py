@@ -9,6 +9,7 @@ MIT Licensed
 # stdlib
 import os
 import os.path
+import pathlib
 import platform
 import re
 import shutil
@@ -104,17 +105,15 @@ def download_pandoc(url=None, targetfolder=None, version="latest"):
 
 	if targetfolder is None:
 		targetfolder = "~/bin"
-	targetfolder = os.path.expanduser(targetfolder)
+	targetfolder = pathlib.Path(targetfolder).expanduser()
 
 	# Make sure target folder exists...
-	try:
-		os.makedirs(targetfolder)
-	except OSError:
-		pass  # dir already exists...
+	if not targetfolder.is_dir():
+		targetfolder.mkdir(parents=True)
 
 	print(f"* Unpacking {filename} to tempfolder...")
 
-	tempfolder = tempfile.mkdtemp()
+	tempfolder = pathlib.Path(tempfile.mkdtemp())
 	cur_wd = os.getcwd()
 	filename = os.path.abspath(filename)
 	try:
@@ -131,19 +130,22 @@ def download_pandoc(url=None, targetfolder=None, version="latest"):
 		elif "data.tar.bz" in dir_listing:
 			cmd = ["tar", "xjf", "data.tar.bz"]
 		else:
-			raise FileNotFoundError(f"`data` archive not found. Files in the download are:\n{dir_listing}")
+			raise FileNotFoundError(f"'data' archive not found. Files in the download are:\n{dir_listing}")
 
 		subprocess.check_call(cmd)
-		# pandoc and pandoc-citeproc are in ./usr/bin subfolder
-		for exe in ["pandoc", "pandoc-citeproc"]:
-			src = os.path.join(tempfolder, "usr", "bin", exe)
-			dst = os.path.join(targetfolder, exe)
-			print(f"* Copying {exe} to {targetfolder} ...")
-			shutil.copyfile(src, dst)
-			_make_executable(dst)
-		src = os.path.join(tempfolder, "usr", "share", "doc", "pandoc", "copyright")
-		dst = os.path.join(targetfolder, "copyright.pandoc")
-		print("* Copying copyright to %s ..." % (targetfolder))
+		src = tempfolder / "usr" / "bin" / "pandoc"
+		dst = targetfolder / "pandoc"
+
+		if not dst.parent.is_dir():
+			dst.parent.mkdir(parents=True)
+
+		print(f"* Copying 'pandoc' to {str(targetfolder)!r} ...")
+		shutil.copyfile(src, dst)
+		_make_executable(dst)
+
+		src = tempfolder / "usr" / "share" / "doc" / "pandoc" / "copyright"
+		dst = targetfolder / "copyright.pandoc"
+		print(f"* Copying copyright to {str(targetfolder)!r} ...")
 		shutil.copyfile(src, dst)
 	finally:
 		os.chdir(cur_wd)

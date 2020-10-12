@@ -6,7 +6,7 @@ Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -35,8 +35,8 @@ class MissingPeak:
 	matrix fom PyMassSpec.
 
 	:param common_ion: Common ion for the peak across samples in an experiment.
-	:param qual_ion_1:
-	:param qual_ion_2:
+	:param qual_ion_1: The top (most abundant) ion for the peak object
+	:param qual_ion_2: The second most abundant ion for the peak object
 	:param rt: Retention time of the peak.
 
 	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster
@@ -48,7 +48,7 @@ class MissingPeak:
 	#: The retention time of the apex of the peak
 	exact_rt: Optional[float]
 
-	def __init__(self, common_ion: int, qual_ion_1, qual_ion_2, rt: float = 0.0):
+	def __init__(self, common_ion: int, qual_ion_1: int, qual_ion_2: int, rt: float = 0.0):
 		self.__common_ion = common_ion
 		self.__qual_1 = qual_ion_1
 		self.__qual_2 = qual_ion_2
@@ -117,20 +117,15 @@ class MissingPeak:
 
 class Sample:
 	"""
-	A collection of MissingPeak objects
+	A collection of MissingPeak objects.
 
-	:param sample_name: the experiment code/name
-
-	:param matrix_position: position along x-axis where sample is located
+	:param sample_name: the experiment code/name.
+	:param matrix_position: position along x-axis where sample is located.
 
 	:authors: Sean O'Callaghan, Dominic Davis-Foster (properties)
 	"""
 
 	def __init__(self, sample_name: str, matrix_position: int):
-		"""
-		A collection of MissingPeak objects
-		"""
-
 		self._sample_name = sample_name
 		self._matrix_position = matrix_position
 		self._missing_peak_list: List[MissingPeak] = []
@@ -142,15 +137,13 @@ class Sample:
 		:param missing_peak: The missing peak object to be added
 		"""
 
-		# TODO: Do some checking here!!!
+		# TODO: Do some checking here
 
 		self._missing_peak_list.append(missing_peak)
 
 	def get_mp_rt_exact_rt_dict(self) -> Dict[float, Optional[float]]:
 		"""
 		Returns a dictionary containing ``average_rt : exact_rt`` pairs.
-
-		:return: a dict of average_rt:exact_rt pairs
 		"""
 
 		rt_exact_rt_dict = {}

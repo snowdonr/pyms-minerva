@@ -374,7 +374,7 @@ def test_align_2_alignments(A1, pyms_datadir, outputdir):
 
 	A9.write_csv(outputdir / 'rt.csv', outputdir / 'area.csv')
 
-	aligned_peaks = A9.aligned_peaks()
+	aligned_peaks = list(filter(None, A9.aligned_peaks()))
 	store_peaks(aligned_peaks, outputdir / 'peaks.bin')
 
 	top_ion_list = A9.common_ion()

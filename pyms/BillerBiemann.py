@@ -25,7 +25,7 @@ Functions to perform Biller and Biemann deconvolution.
 
 # stdlib
 import copy
-from typing import List, Sequence, Union
+from typing import List, Sequence, Tuple, Union
 
 # 3rd party
 import numpy  # type: ignore
@@ -59,9 +59,9 @@ __all__ = [
 
 def BillerBiemann(im: IntensityMatrix, points: int = 3, scans: int = 1) -> List[Peak]:
 	"""
-	Deconvolution based on the algorithm of Biller and Biemann (1974)
+	Deconvolution based on the algorithm of Biller and Biemann (1974).
 
-	:param im: An :class:`~pyms.IntensityMatrix.IntensityMatrix` object
+	:param im:
 	:param points: Number of scans over which to consider a maxima to be a peak.
 	:param scans: Number of scans to combine peaks from to compensate for spectra skewing.
 
@@ -100,7 +100,7 @@ def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: 
 	"""
 	Find local maxima.
 
-	:param ion_intensities: A list of intensities for a single ion
+	:param ion_intensities: A list of intensities for a single ion.
 	:param points: Number of scans over which to consider a maxima to be a peak.
 
 	:return: A list of scan indices
@@ -147,15 +147,12 @@ def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: 
 
 def get_maxima_list(ic: IonChromatogram, points: int = 3) -> List[List[float]]:
 	"""
-	List of retention time and intensity of local maxima for ion
+	List of retention time and intensity of local maxima for ion.
 
-	:param ic: An :class:`~pyms.IonChromatogram.IonChromatogram` object
-	:type ic: ~pyms.IonChromatogram.IonChromatogram
-	:param points: Number of scans over which to consider a maxima to be a peak. Default ``3``
-	:type points: int
+	:param ic:
+	:param points: Number of scans over which to consider a maxima to be a peak.
 
-	:return: A list of retention time and intensity of local maxima for ion
-	:rtype: list
+	:return: A list of retention time and intensity of local maxima for ion.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
@@ -177,19 +174,20 @@ def get_maxima_list(ic: IonChromatogram, points: int = 3) -> List[List[float]]:
 	return mlist
 
 
-def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13, window: int = 3) -> List:
+def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13, window: int = 3,) -> List[Tuple[float, float]]:
 	"""
 	List of retention time and intensity of local maxima for ion.
 
 	| Only peaks around a specific retention time are recorded.
 	| Created for use with gap filling algorithm.
 
-	:param ic: An :class:`~pyms.IonChromatogram.IonChromatogram` object
+	:param ic:
 	:param mp_rt: The retention time of the missing peak
-	:param points: Number of scans over which to consider a maxima to be a peak. Default ``13``
-	:param window: The window around the ``mp_rt`` where peaks should be recorded. Default ``3``
+	:param points: Number of scans over which to consider a maxima to be a peak.
+	:param window: The window around the ``mp_rt`` where peaks should be recorded.
 
-	:return: A list of retention time and intensity of local maxima for ion
+	:return: A list of 2-element tuple containing the retention time and
+		intensity of local maxima for each ion.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
@@ -200,9 +198,6 @@ def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13,
 	if not is_number(mp_rt):
 		raise TypeError("'mp_rt' must be a number")
 
-	# if not isinstance(scans, int):
-	#	raise TypeError("'scans' must be an integer")
-
 	peak_point = get_maxima_indices(ic.intensity_array, points)
 	maxima_list = []
 
@@ -211,7 +206,7 @@ def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13,
 
 		if (rt > float(mp_rt) - window) and (rt < float(mp_rt) + window):
 			intensity = ic.get_intensity_at_index(peak_point[index])
-			maxima_list.append([rt, intensity])
+			maxima_list.append((rt, intensity))
 		else:
 			pass
 
@@ -220,13 +215,13 @@ def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13,
 
 def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> numpy.ndarray:
 	"""
-	Get matrix of local maxima for each ion
+	Get matrix of local maxima for each ion.
 
-	:param im: An :class:`~pyms.IntensityMatrix.IntensityMatrix`` object
-	:param points: Number of scans over which to consider a maxima to be a peak. Default ``3``
-	:param scans: Number of scans to combine peaks from to compensate for spectra skewing. Default ``1``
+	:param im:
+	:param points: Number of scans over which to consider a maxima to be a peak.
+	:param scans: Number of scans to combine peaks from to compensate for spectra skewing.
 
-	:return: A matrix of each ion and scan and intensity at ion peaks
+	:return: A matrix of each ion and scan and intensity at ion peaks.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
@@ -280,21 +275,16 @@ def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> n
 	return maxima_im
 
 
-def num_ions_threshold(pl: List, n: int, cutoff: float, copy_peaks: bool = True) -> List:
+def num_ions_threshold(pl: Sequence[Peak], n: int, cutoff: float, copy_peaks: bool = True,) -> List[Peak]:
 	"""
-	Remove Peaks where there are less than a given number of ion intensities above the given threshold
+	Remove Peaks where there are less than a given number of ion intensities above the given threshold.
 
-	:param pl: A list of Peak objects
-	:type pl: list
-	:param n: Minimum number of ions that must have intensities above the cutoff
-	:type n: int
-	:param cutoff: The minimum intensity threshold
-	:type cutoff: int or float
-	:param copy_peaks: Whether a the returned peak list should contain copies of the peaks. Default ``False``
-	:type copy_peaks: bool, optional
+	:param pl:
+	:param n: Minimum number of ions that must have intensities above the cutoff.
+	:param cutoff: The minimum intensity threshold.
+	:param copy_peaks: Whether the returned peak list should contain copies of the peaks.
 
-	:return: A new list of Peak objects
-	:rtype: list
+	:return: A new list of Peak objects.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
@@ -325,18 +315,17 @@ def num_ions_threshold(pl: List, n: int, cutoff: float, copy_peaks: bool = True)
 	return new_pl
 
 
-def rel_threshold(pl: List[Peak], percent: float = 2, copy_peaks: bool = True) -> List:
+def rel_threshold(pl: Sequence[Peak], percent: float = 2, copy_peaks: bool = True) -> List[Peak]:
 	"""
 	Remove ions with relative intensities less than the given relative
 	percentage of the maximum intensity.
 
-	:param pl: A list of Peak objects
+	:param pl:
 	:param percent: Threshold for relative percentage of intensity.
 	:default percent: ``2%``
 	:param copy_peaks: Whether the returned peak list should contain copies of the peaks.
 
-	:return: A new list of Peak objects with threshold ions
-	:rtype: list
+	:return: A new list of Peak objects with threshold ions.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
@@ -375,13 +364,13 @@ def rel_threshold(pl: List[Peak], percent: float = 2, copy_peaks: bool = True) -
 
 def sum_maxima(im: IntensityMatrix, points: int = 3, scans: int = 1) -> IonChromatogram:
 	"""
-	Reconstruct the TIC as sum of maxima
+	Reconstruct the TIC as sum of maxima.
 
-	:param im: An :class:`~pyms.IntensityMatrix.IntensityMatrix` object
+	:param im:
 	:param points: Peak if maxima over 'points' number of scans.
 	:param scans: Number of scans to combine peaks from to compensate for spectra skewing.
 
-	:return: The reconstructed TIC
+	:return: The reconstructed TIC.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""

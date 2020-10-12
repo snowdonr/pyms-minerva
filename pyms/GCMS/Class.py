@@ -27,19 +27,21 @@ Class to model GC-MS data
 import copy
 import pathlib
 from statistics import mean, median, stdev
-from typing import Any, List, Optional, TypeVar, Union
+from typing import cast, List, Optional, Sequence, TypeVar, Union
 
 # 3rd party
 import numpy  # type: ignore
 
 # this package
+from domdf_python_tools.doctools import prettify_docstrings
+
 from pyms.Base import pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin
 from pyms.Spectrum import MassSpectrum, Scan
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Time import time_str_secs
-from pyms.Utils.Utils import _number_types, is_number, is_path, is_sequence_of
+from pyms.Utils.Utils import _number_types, is_path, is_sequence_of, signedinteger
 
 __all__ = ["GCMS_data", "IntStr"]
 
@@ -48,37 +50,38 @@ MassSpectrum = MassSpectrum  # For legacy imports. Stops PyCharm complaining TOD
 IntStr = TypeVar("IntStr", int, str)
 
 
+@prettify_docstrings
 class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin):
 	"""
 	Generic object for GC-MS data.
 
 	Contains the raw data as a list of scans and a list of times.
 
-	:param time_list: List of scan retention times
-	:param scan_list: List of Scan objects
+	:param time_list: Scan retention times.
+	:param scan_list:
 
 	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic,
 		Dominic Davis-Foster (type assertions and properties)
 	"""
 
-	def __init__(self, time_list: List[float], scan_list: List[Scan]):
+	def __init__(self, time_list: Sequence[float], scan_list: Sequence[Scan]):
 		if not is_sequence_of(time_list, _number_types):
 			raise TypeError("'time_list' must be a Sequence of numbers")
 
 		if not is_sequence_of(scan_list, Scan):
 			raise TypeError("'scan_list' must be a Sequence of Scan objects")
 
-		self._time_list = time_list
-		self._scan_list = scan_list
+		self._time_list = list(time_list)
+		self._scan_list = list(scan_list)
 		self.__set_time()
 		self.__set_min_max_mass()
 		self.__calc_tic()
 
-	def __eq__(self, other: Any) -> bool:
+	def __eq__(self, other) -> bool:
 		"""
 		Return whether this GCMS_data object is equal to another object.
 
-		:param other: The other object to test equality with
+		:param other: The other object to test equality with.
 		"""
 
 		if isinstance(other, self.__class__):
@@ -89,8 +92,6 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	def __len__(self) -> int:
 		"""
 		Returns the length of the data object, defined as the number of scans.
-
-		:return: Number of scans
 
 		:author: Vladimir Likic
 		"""
@@ -103,7 +104,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	def __str__(self) -> str:
 		return self.__repr__()
 
-	def __calc_tic(self):
+	def __calc_tic(self) -> None:
 		"""
 		Calculate the total ion chromatogram.
 
@@ -119,7 +120,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		self._tic = tic
 
-	def __set_time(self):
+	def __set_time(self) -> None:
 		"""
 		Sets time-related properties of the data.
 
@@ -147,7 +148,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self._min_rt = min(self._time_list)
 		self._max_rt = max(self._time_list)
 
-	def __set_min_max_mass(self):
+	def __set_min_max_mass(self) -> None:
 		"""
 		Sets the min and max mass value.
 
@@ -159,19 +160,19 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		for scan in self._scan_list:
 
 			tmp_mini = scan.min_mass
-			if tmp_mini is not None:
+			if tmp_mini is not None and mini is not None:
 				if tmp_mini < mini:
 					mini = tmp_mini
 
 			tmp_maxi = scan.max_mass
-			if tmp_maxi is not None:
+			if tmp_maxi is not None and maxi is not None:
 				if tmp_maxi > maxi:
 					maxi = tmp_maxi
 
 		self._min_mass = mini
 		self._max_mass = maxi
 
-	def info(self, print_scan_n: bool = False):
+	def info(self, print_scan_n: bool = False) -> None:
 		"""
 		Prints some information about the data.
 
@@ -293,8 +294,8 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		# process 'begin' and 'end'
 		if begin is None:
 			first_scan = 0
-		elif is_number(begin):
-			first_scan = begin - 1
+		elif isinstance(begin, (int, signedinteger)):
+			first_scan = cast(int, begin) - 1
 		elif isinstance(begin, str):
 			time = time_str_secs(begin)
 			scan_ = self.get_index_at_time(time)
@@ -306,8 +307,8 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		if end is None:
 			last_scan = N - 1
-		elif is_number(end):
-			last_scan = end
+		elif isinstance(end, (int, signedinteger)):
+			last_scan = cast(int, end)
 		elif isinstance(end, str):
 			time = time_str_secs(end)
 			scan_ = self.get_index_at_time(time)
@@ -348,7 +349,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		Writes the entire raw data to two CSV files:
 
 		- :file:`{<file_root>}.I.csv`, containing the intensities; and
-		- :file:`{<file_root>}.mz.csv`, containing the corresponding m/z values.
+		- :file:`{<file_root>}.mz.csv`, containing the corresponding *m/z* values.
 
 		In general these are not two-dimensional matrices, because different
 		scans may have different numbers of *m/z* values recorded.

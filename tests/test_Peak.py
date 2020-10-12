@@ -113,7 +113,7 @@ def test_bounds(peak):
 	assert peak.bounds == (11, 12, 13)
 	assert isinstance(peak.bounds, tuple)
 	peak2 = Peak(test_float)
-	peak2.bounds = [11, 12, 13]
+	peak2.bounds = [11, 12, 13]  # type: ignore
 	assert peak2.bounds == (11, 12, 13)
 	assert isinstance(peak2.bounds, tuple)
 
@@ -201,9 +201,6 @@ def test_ion_areas(peak):
 
 	peak.ion_areas = {1: 1234, 2: 1234, 3: 1234}
 
-	with pytest.warns(DeprecationWarning):
-		peak.get_ion_areas()
-
 	for obj in [*test_numbers, test_string, test_list_strs, test_list_ints, tuple]:
 		with pytest.raises(TypeError):
 			peak.ion_areas = obj
@@ -237,7 +234,7 @@ def test_ic_mass():
 	# Errors
 	for obj in [*test_sequences, test_string, test_dict]:
 		with pytest.raises(TypeError):
-			peak.ic_mass = obj
+			peak.ic_mass = obj  # type: ignore
 
 
 def test_mass_spectrum(peak, im_i):

@@ -6,7 +6,7 @@ Classes for peak alignment by dynamic programming
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -41,21 +41,9 @@ try:
 except ModuleNotFoundError:
 	pass
 
-try:
-	# 3rd party
-	from Pycluster import treecluster  # type: ignore
-except ModuleNotFoundError:
-	try:
-		# 3rd party
-		from Bio.Cluster import treecluster  # type: ignore
-	except ModuleNotFoundError:
-		raise ModuleNotFoundError(
-				"""Neither PyCluster or BioPython is installed.
-Please install one of them and try again."""
-				) from None
-
 # this package
 from pyms.DPA.Alignment import Alignment
+from pyms.DPA.clustering import treecluster
 from pyms.Utils.Utils import is_sequence_of
 
 __all__ = [

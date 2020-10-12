@@ -224,5 +224,6 @@ def test_do_plotting_warning():
 	# check that only one warning was raised
 	assert len(record) == 1
 	# check that the message matches
-	assert record[0].message.args[0] == """No plots have been created.
+	args = record[0].message.args  # type: ignore
+	assert args[0] == """No plots have been created.
 Please call a plotting function before calling 'do_plotting()'"""

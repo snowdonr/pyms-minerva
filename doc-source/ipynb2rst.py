@@ -112,7 +112,7 @@ replacements = {
 		"set_ion_areas()":
 				":meth:`set_ion_areas() <pyms.Peak.Class.Peak.set_ion_areas>`",
 		"peak_sum_area()":
-				":meth:`peak_sum_area() <pyms.Peak.Function.Peak.peak_sum_area>`",
+				":meth:`peak_sum_area() <pyms.Peak.Function.peak_sum_area>`",
 		"pyms.Peak.Function":
 				":mod:`pyms.Peak.Function`",
 		"Experiment":

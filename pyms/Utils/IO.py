@@ -30,6 +30,8 @@ import pickle
 from typing import Any, List, Union, cast
 
 # this package
+from domdf_python_tools.stringlist import StringList
+
 from pyms.Utils.Utils import _list_types, is_number, is_path
 
 __all__ = ["prepare_filepath", "dump_object", "load_object", "file_lines", "save_data"]
@@ -181,35 +183,34 @@ def save_data(
 	if not isinstance(sep, str):
 		raise TypeError("'sep' must be a string")
 
-	with file_name.open("w") as fp:
+	buf = StringList()
 
-		# decide whether data is a vector or matrix
-		if is_number(data[0]):
-			for item in data:
-				if not is_number(item):
-					raise TypeError("not all elements of the list are numbers")
-			for x_value in data:
-				fp.write(prepend)
-				fp.write(format_str % x_value)
-				fp.write("\n")
+	# decide whether data is a vector or matrix
+	if is_number(data[0]):
+		for item in data:
+			if not is_number(item):
+				raise TypeError("not all elements of the list are numbers")
+		for x_value in data:
+			buf.append(prepend + (format_str % x_value))
 
-		else:
-			for item in data:
-				if not isinstance(item, _list_types):
-					raise TypeError("not all elements of the list are lists")
+	else:
+		for item in data:
+			if not isinstance(item, _list_types):
+				raise TypeError("not all elements of the list are lists")
 
-			for x_value in cast(List[List[float]], data):
-				fp.write(prepend)
-				for jj, y_value in enumerate(x_value):
-					if is_number(y_value):
-						fp.write(format_str % y_value)
-						if jj < (len(x_value) - 1):
-							fp.write(sep)
-					else:
-						raise TypeError("'datum' must be a number")
-				fp.write("\n")
+		for x_value in cast(List[List[float]], data):
+			line = [prepend]
+			for jj, y_value in enumerate(x_value):
+				if is_number(y_value):
+					line.append(format_str % y_value)
+					if jj < (len(x_value) - 1):
+						line.append(sep)
+				else:
+					raise TypeError("'datum' must be a number")
+			buf.append(''.join(line))
 
 	if compressed:
-		with file_name.open() as f_in:
-			with gzip.open(str(file_name) + '.gz', 'wb') as f_out:
-				f_out.writelines(f_in)
+		with gzip.open(file_name, "wt") as fp:
+			fp.write(str(buf))
+	else:
+		file_name.write_text(str(buf))

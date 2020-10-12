@@ -28,22 +28,6 @@ import operator
 import pathlib
 from typing import List, Union
 
-# this package
-from pyms.DPA.Alignment import Alignment
-
-try:
-	# 3rd party
-	from Pycluster import treecluster  # type: ignore
-except ModuleNotFoundError:
-	try:
-		# 3rd party
-		from Bio.Cluster import treecluster  # type: ignore
-	except ModuleNotFoundError:
-		raise ModuleNotFoundError(
-				"""Neither PyCluster or BioPython is installed.
-Please install one of them and try again."""
-				) from None
-
 # 3rd party
 from openpyxl import Workbook  # type: ignore
 from openpyxl.comments import Comment  # type: ignore
@@ -52,6 +36,7 @@ from openpyxl.styles import PatternFill  # type: ignore
 from openpyxl.utils import get_column_letter  # type: ignore
 
 # this package
+from pyms.DPA.Alignment import Alignment
 from pyms.Peak.List.Function import composite_peak
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path
@@ -66,13 +51,13 @@ def write_mass_hunter_csv(
 		):  # , peak_list_name):
 	"""
 	Creates a csv file with UID, common and qualifying ions and their
-		ratios for mass hunter interpretation
+	ratios for mass hunter interpretation.
 
-	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
-	:param file_name: name of the output file
+	:param alignment: alignment object to write to file
+	:param file_name: name of the output file.
 
 	:param top_ion_list: a list of the common ions for each peak in the
-		averaged peak list for the alignment
+		averaged peak list for the alignment.
 	"""
 
 	if not is_path(file_name):
@@ -234,12 +219,12 @@ def write_excel(
 		minutes: bool = True,
 		):
 	"""
-	Writes the alignment to an excel file, with colouring showing possible mis-alignments
+	Writes the alignment to an excel file, with colouring showing possible mis-alignments.
 
-	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file
-	:param file_name: The name for the retention time alignment file
-	:param minutes: An optional indicator whether to save retention times
-		in minutes. If :py:obj:`False`, retention time will be saved in seconds
+	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file.
+	:param file_name: The name for the retention time alignment file.
+	:param minutes: Whether to save retention times in minutes.
+		If :py:obj:`False`, retention time will be saved in seconds.
 
 	:author: David Kainer
 	"""

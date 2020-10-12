@@ -39,7 +39,7 @@ The total area is the sum of the areas of each of the individual ions in the pea
 While this approach produces broadly accurate results, it can result in errors where neighbouring peaks or unfiltered noise add to the peak in some way.
 
 One alternative to this approach is to pick a single ion which is common to a particular peak (compound), and to report only the area of this ion for each occurrence of that peak in the alignment.
-Using the method :meth:`common_ion() <pyms.DPA.Alignment.Alignment.common_ion>` of the class :class:`~pyms.DPA.Alignment.Alignment`, |pkgname| can select an ion for each aligned peak which is both abundant and occurs most often for that peak.
+Using the method :meth:`common_ion() <pyms.DPA.Alignment.Alignment.common_ion>` of the class :class:`~pyms.DPA.Alignment.Alignment`, ``PyMassSpec`` can select an ion for each aligned peak which is both abundant and occurs most often for that peak.
 We call this the 'Common Ion Algorithm' (CIA).
 
 To use this method it is essential that the individual ion

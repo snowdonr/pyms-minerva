@@ -6,7 +6,7 @@ Moving window noise filter
 #                                                                              #
 #    PyMassSpec software for processing of mass-spectrometry data              #
 #    Copyright (C) 2005-2012 Vladimir Likic                                    #
-#    Copyright (C) 2019 Dominic Davis-Foster                                   #
+#    Copyright (C) 2019-2020 Dominic Davis-Foster                              #
 #                                                                              #
 #    This program is free software; you can redistribute it and/or modify      #
 #    it under the terms of the GNU General Public License version 2 as         #
@@ -49,13 +49,12 @@ def window_smooth(
 	"""
 	Applies window smoothing on ion chromatogram.
 
-	:param ic: The input ion chromatogram
+	:param ic:
 	:param window: The window selection parameter. This can be an integer
-		or time string. If integer, taken as the number of points. If a
-		string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``, specifying
+		or time string. If an integer, taken as the number of points. If a
+		string, must be in the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``, specifying
 		a time in seconds or minutes, respectively
-	:param use_median: An indicator whether the mean or median window smoothing
-		to be used
+	:param use_median: Whether to use the the mean or median window smoothing.
 
 	:return: Smoothed ion chromatogram
 
@@ -96,11 +95,10 @@ def window_smooth_im(
 
 	Simply wraps around the window smooth function above.
 
-	:param im: The input Intensity Matrix
+	:param im:
 	:param window: The window selection parameter.
 	:param use_median: If :py:obj:`True` median window smoothing will be used.
-		If :py:obj:`False` (default) mean window smoothing will be used
-	:no-default use_median
+		If :py:obj:`False` mean window smoothing will be used.
 
 	:return: Smoothed Intensity Matrix
 

@@ -47,16 +47,16 @@ def savitzky_golay(
 		degree: int = _DEFAULT_POLYNOMIAL_DEGREE,
 		) -> IonChromatogram:
 	"""
-	Applies Savitzky-Golay filter on ion chromatogram.
+	Applies Savitzky-Golay filter on an ion chromatogram.
 
-	:param ic: The input ion chromatogram
+	:param ic: The input ion chromatogram.
 	:param window: The window selection parameter. This can be an integer
-		or time string. If integer, taken as the number of points. If a
-		string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``, specifying
-		a time in seconds or minutes, respectively
-	:param degree: degree of the fitting polynomial for the Savitzky-Golay filter
+		or time string. If an integer, taken as the number of points. If a
+		string, must be the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``, specifying
+		a time in seconds or minutes, respectively.
+	:param degree: degree of the fitting polynomial for the Savitzky-Golay filter.
 
-	:return: Smoothed ion chromatogram
+	:return: Smoothed ion chromatogram.
 
 	:authors: Uwe Schmitt, Vladimir Likic, Dominic Davis-Foster
 	"""
@@ -93,17 +93,15 @@ def savitzky_golay_im(
 		degree: int = _DEFAULT_POLYNOMIAL_DEGREE,
 		) -> IntensityMatrix:
 	"""
-	Applies Savitzky-Golay filter on Intensity Matrix
+	Applies Savitzky-Golay filter on Intensity Matrix.
 
-	Simply wraps around the Savitzky Golay function above
+	Simply wraps around the Savitzky Golay function above.
 
-	:param im: The input IntensityMatrix
+	:param im:
 	:param window: The window selection parameter.
-	:param degree: degree of the fitting polynomial for the Savitzky-Golay
-		filter
+	:param degree: degree of the fitting polynomial for the Savitzky-Golay filter.
 
-	:return: Smoothed IntensityMatrix
-	:rtype: pyms.IntensityMatrix.IntensityMatrix
+	:return: Smoothed IntensityMatrix.
 
 	:authors: Sean O'Callaghan, Vladimir Likic, Dominic Davis-Foster
 	"""

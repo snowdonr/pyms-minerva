@@ -42,12 +42,12 @@ __all__ = ["IonChromatogram"]
 
 
 class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
-	"""
+	r"""
 	Models an ion chromatogram
 
 	An ion chromatogram is a set of intensities as a function of retention time.
 	This can can be either *m/z* channel intensities (for example, ion
-	chromatograms at *m/z*=65), or cumulative intensities over all measured *m/z*.
+	chromatograms at ``m/z = 65``\), or cumulative intensities over all measured *m/z*.
 	In the latter case the ion chromatogram is total ion chromatogram (TIC).
 
 	The nature of an IonChromatogram object can be revealed by inspecting

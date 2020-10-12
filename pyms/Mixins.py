@@ -30,7 +30,7 @@ from warnings import warn
 
 # 3rd party
 import numpy  # type: ignore
-from pydash import is_number
+from pyms.Utils.Utils import is_number
 
 __all__ = [
 		"MaxMinMassMixin",

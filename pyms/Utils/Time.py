@@ -34,21 +34,20 @@ from pyms.IonChromatogram import IonChromatogram
 __all__ = ["is_str_num", "time_str_secs", "window_sele_points"]
 
 
+num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
+
+
 def is_str_num(arg: str) -> bool:
 	"""
-	Determines if the argument is a string in the format of a number
+	Returns whether the argument is a string in the format of a number.
 
-	The number can be an integer, or alternatively floating point in scientific
+	The number can be an integer, or alternatively a floating point number in scientific
 	or engineering format.
 
 	:param arg: A string to be evaluate as a number
 
-	:return: A boolean indicator True or False
-
 	:author: Gyro Funch (from Active State Python Cookbook)
 	"""
-
-	num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
 
 	if num_re.match(str(arg)):
 		return True
@@ -96,7 +95,7 @@ def window_sele_points(ic: IonChromatogram, window_sele: Union[int, str], half_w
 	:param ic: ion chromatogram object relevant for the conversion
 
 	:param window_sele: The window selection parameter. This can be
-		an integer or time string. If integer, taken as the number
+		an integer or time string. If an integer, taken as the number
 		of points. If a string, must of the form ``'<NUMBER>s'`` or
 		``'<NUMBER>m'``, specifying a time in seconds or minutes,
 		respectively

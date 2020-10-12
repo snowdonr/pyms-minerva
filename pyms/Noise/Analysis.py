@@ -53,7 +53,7 @@ def window_analyzer(
 	(of a specified width) and calculating median absolute deviation (MAD).
 	The noise estimate is given by the minimum MAD.
 
-	:param ic: An IonChromatogram object.
+	:param ic:
 	:param window: Window width selection.
 	:param n_windows: The number of windows to calculate.
 	:param rand_seed: Seed for random number generator.

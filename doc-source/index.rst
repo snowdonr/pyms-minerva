@@ -149,27 +149,18 @@ Features
 Installation
 ==============
 
-PyMassSpec can be installed with the following command:
+.. start installation
 
-.. code-block:: bash
+.. installation:: PyMassSpec
+	:pypi:
+	:github:
+	:anaconda:
+	:conda-channels: bioconda, conda-forge, domdfcoding
 
-	$ pip --user install PyMassSpec
-
-This will also install the following dependencies:
-
-.. code-block:: bash
-
-	numpy >= 1.16.2
-	scipy >= 1.2.1
-	pymzml >= 2.2.1
-	matplotlib >= 3.0.2
-	openpyxl >= 2.6.2
-	netCDF4 >= 1.5.0
-	biopython >= 1.74
-	deprecation >= 2.0.6
+.. end installation
 
 
-PyMassSpec can also make use of 'mpi4py' if it is installed. See https://mpi4py.readthedocs.io/en/stable/ for further information.
+.. PyMassSpec can also make use of 'mpi4py' if it is installed. See https://mpi4py.readthedocs.io/en/stable/ for further information.
 
 
 Usage
@@ -183,7 +174,7 @@ interactively are grouped together by example, and can be found
 .. If you are viewing this source, the examples can be found in the pyms-demo directory, and the data files in pyms-data
 
 The data used in the PyMassSpec documentation and examples is available
-:ref:`here <pyms-demo/data-files>`.
+:ref:`here <PyMassSpec test and example data files>`.
 
 In the ":ref:`Demos and Examples <pyms-demo>`" section there
 is a page corresponding to each example, coded with the chapter number
@@ -300,7 +291,6 @@ Installation
 	:maxdepth: 2
 	:caption: Documentation
 
-	pyms/documentation
 	pyms/Base
 	pyms/BillerBiemann
 	pyms/Display
@@ -325,41 +315,20 @@ Installation
 	:maxdepth: 2
 	:caption: Demos and Examples
 
-	../../pyms-demo/introduction
+	pyms-demo/introduction
 	pyms-demo/data-files
 
 .. toctree::
 	:hidden:
 
-	pyms-demo/20a
-	pyms-demo/20b
-	pyms-demo/20c
-	pyms-demo/20d
-	pyms-demo/30a
-	pyms-demo/30b
-	pyms-demo/30c
-	pyms-demo/31
+	pyms-demo/20e
 	pyms-demo/32
-	pyms-demo/40a
-	pyms-demo/40b
-	pyms-demo/41a
-	pyms-demo/41b
-	pyms-demo/42a
-	pyms-demo/42b
-	pyms-demo/43
-	pyms-demo/50
-	pyms-demo/51
-	pyms-demo/52
-	pyms-demo/53
-	pyms-demo/54
-	pyms-demo/60
-	pyms-demo/61a
-	pyms-demo/61b
-	pyms-demo/62
-	pyms-demo/63
+	pyms-demo/55
+	pyms-demo/56
 	pyms-demo/64
 	pyms-demo/70a
 	pyms-demo/70b
+	pyms-demo/70c
 	pyms-demo/71
 	pyms-demo/90
 	pyms-demo/91

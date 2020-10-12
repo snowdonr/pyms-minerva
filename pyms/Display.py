@@ -61,9 +61,9 @@ class Display:
 	:class:`pyms.IonChromatogram.IonChromatogram` using :mod:`matplotlib.pyplot`.
 
 	:param fig: figure object to use
-	:type fig: matplotlib.figure.Figure, optional
+	:type fig: matplotlib.figure.Figure
 	:param ax: axes object to use
-	:type ax: matplotlib.axes.Axes, optional
+	:type ax: matplotlib.axes.Axes
 
 	If ``fig`` is not given then ``fig`` and ``ax`` default to:
 
@@ -123,7 +123,6 @@ class Display:
 		:meth:`~pyms.Display.Display.plot_peaks`
 
 		:param plot_label: Label for the plot to show e.g. the data origin
-		:type plot_label: str, optional
 		"""
 
 		# if no plots have been created advise user
@@ -260,10 +259,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		Plots the locations of peaks as found by PyMassSpec.
 
 		:param peak_list: List of peaks to plot
-		:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
-
-		:param label: label for plot legend. Default ``Peaks``
-		:type label: str, optional
+		:param label: label for plot legend.
 		"""
 
 		plot = plot_peaks(self.ax, peak_list, label)
@@ -278,9 +274,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		Plots a Total Ion Chromatogram
 
 		:param tic: Total Ion Chromatogram
-		:type tic: :class:`pyms.IonChromatogram.IonChromatogram`
-		:param minutes: Whether to show the time in minutes. Default ``False``
-		:type minutes: bool, optional
+		:param minutes: Whether to show the time in minutes.
 
 		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
@@ -306,9 +300,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		Save the chart to the given path with the given filetypes
 
 		:param filepath: Path and filename to save the chart as. Should not include extension
-		:type filepath: str
 		:param filetypes: List of filetypes to use
-		:type filetypes: :class:`list` of :class:`str`, optional
 
 		:author: Dominic Davis-Foster
 		"""
@@ -348,7 +340,6 @@ def plot_ic(ax: matplotlib.axes.Axes, ic: IonChromatogram, minutes: bool = False
 	:param ic: Ion Chromatograms m/z channels for plotting
 	:type ic: pyms.IonChromatogram.IonChromatogram
 	:param minutes: Whether the x-axis should be plotted in minutes. Default False (plotted in seconds)
-	:type minutes: bool, optional
 
 	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 		Used to specify properties like a line label (for auto legends),
@@ -455,10 +446,8 @@ def plot_head2tail(
 	:type bottom_mass_spec: :class:`pyms.Spectrum.MassSpectrum` or None, optional
 	:param top_spec_kwargs: A dictionary of keyword arguments for the top mass spectrum.
 		Defaults to red with a line width of 0.5
-	:type top_spec_kwargs: dict, optional
 	:param bottom_spec_kwargs: A dictionary of keyword arguments for the bottom mass spectrum.
 	Defaults to blue with a line width of 0.5
-	:type bottom_spec_kwargs: dict, optional
 
 	`top_spec_kwargs` and `bottom_spec_kwargs` are used to specify properties like a line label
 		(for auto legends), linewidth, antialiasing, marker face color.
@@ -520,10 +509,8 @@ def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style
 	:type ax: matplotlib.axes.Axes
 	:param peak_list: List of peaks to plot
 	:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
-	:param label: label for plot legend. Default ``Peaks``
-	:type label: str, optional
+	:param label: label for plot legend.
 	:param style: The marker style. See `https://matplotlib.org/3.1.1/api/markers_api.html` for a complete list
-	:type style: str
 
 	:return: A list of Line2D objects representing the plotted data.
 	:rtype: list of :class:`matplotlib.lines.Line2D`
@@ -666,7 +653,6 @@ def invert_mass_spec(mass_spec: MassSpectrum, inplace: bool = False) -> MassSpec
 	:type mass_spec: :class:`pyms.Spectrum.MassSpectrum`
 	:param inplace: Whether the inversion should be applied to the
 		:class:`~pyms.Spectrum.MassSpectrum` object given, or to a copy (default behaviour).
-	:type inplace: bool, optional.
 
 	:return: The normalized mass spectrum
 	:rtype: :class:`pyms.Spectrum.MassSpectrum`

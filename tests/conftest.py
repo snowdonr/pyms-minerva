@@ -144,10 +144,10 @@ def expr(filtered_peak_list):
 	# create an experiment
 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)
 
-
-# Teardown Function
-def pytest_sessionfinish(session, exitstatus):
-	try:
-		shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
-	except FileNotFoundError:
-		pass
+#
+# # Teardown Function
+# def pytest_sessionfinish(session, exitstatus):
+# 	try:
+# 		shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
+# 	except FileNotFoundError:
+# 		pass

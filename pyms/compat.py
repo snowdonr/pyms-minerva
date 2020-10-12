@@ -1,5 +1,5 @@
 """
-Base for PyMassSpec classes
+Cross version compatibility helpers.
 """
 
 ################################################################################
@@ -22,39 +22,3 @@ Base for PyMassSpec classes
 #    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 #
 #                                                                              #
 ################################################################################
-
-# stdlib
-import pathlib
-import pickle
-from typing import Union
-
-# this package
-from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import is_path
-
-__all__ = ["pymsBaseClass"]
-
-
-class pymsBaseClass:
-	"""
-	Base class
-	"""
-
-	def dump(self, file_name: Union[str, pathlib.Path], protocol: int = 3):
-		"""
-		Dumps an object to a file through :func:`pickle.dump()`.
-
-		:param file_name: Filename to save the dump as.
-		:param protocol: The pickle protocol to use.
-
-		:authors: Vladimir Likic, Dominic Davis-Foster (pathlib and pickle protocol support)
-		"""
-
-		if not is_path(file_name):
-			raise TypeError("'file_name' must be a string or a PathLike object")
-
-		file_name = prepare_filepath(file_name)
-
-		fp = file_name.open('wb')
-		pickle.dump(self, fp, protocol=protocol)
-		fp.close()

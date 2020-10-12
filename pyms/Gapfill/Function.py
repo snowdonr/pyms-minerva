@@ -24,12 +24,11 @@ Functions to fill missing peak objects
 ################################################################################
 
 # stdlib
-import csv
 import pathlib
 from typing import List, Optional, Union
 
-# 3rd party
-import numpy  # type: ignore
+from enum_tools import IntEnum
+import pandas  # type: ignore
 
 # this package
 from pyms.BillerBiemann import get_maxima_list_reduced
@@ -41,31 +40,43 @@ from pyms.TopHat import tophat
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path
 
+
 __all__ = [
-		"file2matrix",
+		"file2dataframe",
 		"missing_peak_finder",
 		"mp_finder",
-		"transposed",
 		"write_filled_csv",
 		"write_filled_rt_csv",
 		"MZML",
 		"NETCDF",
+		"MissingPeakFiletype",
 		]
 
-MZML = 1
-NETCDF = 2
 
-
-# .csv reader (cloned from gcqc project)
-def file2matrix(file_name: Union[str, pathlib.Path]) -> numpy.ndarray:
+class MissingPeakFiletype(IntEnum):
 	"""
-	Convert a .csv file to a numpy array
+	Flag to indicate the filetype for :func:`pyms.Gapfill.Function.missing_peak_finder`.
 
-	:param file_name: Filename (.csv) to convert (area.csv, area_ci.csv)
+	.. versionadded:: 2.3.0
+	"""
 
-	:return: Data matrix
+	MZML = 1
+	NETCDF = 2
+
+
+MZML = MissingPeakFiletype.MZML
+NETCDF = MissingPeakFiletype.NETCDF
+
+
+def file2dataframe(file_name: Union[str, pathlib.Path]) -> pandas.DataFrame:
+	"""
+	Convert a .csv file to a pandas DataFrame.
+
+	:param file_name: CSV file to read.
 
 	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
+
+	.. versionadded:: 2.3.0
 	"""
 
 	if not is_path(file_name):
@@ -73,19 +84,12 @@ def file2matrix(file_name: Union[str, pathlib.Path]) -> numpy.ndarray:
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
 
-	with file_name.open() as fp:
-		reader = csv.reader(fp, delimiter=",", quotechar='"')
-		matrix = []
-		for row in reader:
-			newrow = []
-			for each in row:
-				try:
-					newrow.append(float(each))
-				except:
-					pass
-			matrix.append(newrow)
-
-	return numpy.array(matrix)
+	return pandas.read_csv(
+			file_name,
+			delimiter=",",
+			quotechar='"',
+			header=0,
+			)
 
 
 def missing_peak_finder(
@@ -96,7 +100,7 @@ def missing_peak_finder(
 		crop_ions: Optional[List] = None,
 		threshold: int = 1000,
 		rt_window: float = 1,
-		filetype: int = MZML,
+		filetype: MissingPeakFiletype = MZML,
 		):
 	"""
 	Integrates raw data around missing peak locations to fill NAs in the data matrix
@@ -104,15 +108,15 @@ def missing_peak_finder(
 	:param sample: The sample object containing missing peaks
 	:param file_name: Name of the raw data file
 	:param points: Peak finding - Peak if maxima over 'points' number of scans.
-	:param  null_ions: Ions to be deleted in the matrix. Default ``[73, 147]``
-	:param crop_ions: Range of Ions to be considered. Default ``[50, 540]``
+	:param null_ions: Ions to be deleted in the matrix.
+	:default null_ions: ``[73, 147]``
+	:param crop_ions: Range of Ions to be considered.
+	:default crop_ions: ``[50, 540]``
 	:param threshold: Minimum intensity of IonChromatogram allowable to fill.
-	:param  rt_window: Window in seconds around average RT to look for.
-	:param filetype: either ``MZML`` (default) or ``NETCDF``
+	:param rt_window: Window in seconds around average RT to look for.
+	:param filetype:
 
 	:author: Sean O'Callaghan
-
-	.. TODO:: Enum for filetype
 	"""
 
 	if not null_ions:
@@ -222,13 +226,13 @@ def missing_peak_finder(
 
 
 def mp_finder(input_matrix: List) -> List[Sample]:
-	"""
-	Finds the 'NA's in the transformed area_ci.csv file and makes
+	r"""
+	Finds the ``'NA'``\s in the transformed ``area_ci.csv`` file and makes
 	:class:`pyms.Gapfill.Class.Sample` objects with them
 
-	:param input_matrix: Data matrix derived from the area_ci.csv file
+	:param input_matrix: Data matrix derived from the ``area_ci.csv`` file.
 
-	:return: list of Samples
+	:rtype:
 
 	:authors: Jairus Bowne, Sean O'Callaghan
 	"""
@@ -266,36 +270,19 @@ def mp_finder(input_matrix: List) -> List[Sample]:
 	return sample_list
 
 
-def transposed(lists: List[List]) -> List[List]:
-	"""
-	Transposes a list of lists.
-
-	:param lists: the list of lists to be transposed.
-
-	:return: transposed list of lists.
-
-	:authors: Jairus Bowne, Sean O'Callaghan
-	"""
-
-	if not lists:
-		return []
-
-	return list(map(lambda *row: list(row), *lists))
-
-
 def write_filled_csv(
 		sample_list: List[Sample],
 		area_file: Union[str, pathlib.Path],
 		filled_area_file: Union[str, pathlib.Path],
 		):
-	"""
-	creates a new area_ci.csv file, replacing NAs with values from the sample_list objects where possible
+	r"""
+	Creates a new ``area_ci.csv`` file, replacing NAs with values from the sample_list objects where possible.
 
-	:param sample_list: A list of samples
-	:param area_file: the file 'area_ci.csv' from PyMassSpec output
-	:param filled_area_file: the new output file which has NA values replaced
+	:param sample_list:
+	:param area_file: The file ``'area_ci.csv'`` from PyMassSpec output.
+	:param filled_area_file: the new output file which has ``'NA'``\s values replaced.
 
-	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
+	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster
 	"""
 
 	if not is_path(filled_area_file):
@@ -303,59 +290,31 @@ def write_filled_csv(
 
 	filled_area_file = prepare_filepath(filled_area_file)
 
-	old_matrix = file2matrix(area_file)
+	df = file2dataframe(area_file)
 
-	# Invert it to be a little more efficient
-	invert_old_matrix = zip(*old_matrix)
-	# print invert_old_matrix[0:5]
-
-	uid_list = invert_old_matrix[0][1:]
-	rt_list = []
+	uid_list: List[str] = df["UID"]
+	rt_list: List[float] = []
 	for uid in uid_list:
 		rt = uid.split('-')[-1]
-		rt_list.append(rt)
+		rt_list.append(float(rt))
 
-	# print(rt_list)
+	for sample_name in df.columns[3:]:
 
-	# start setting up the output file
-	invert_new_matrix = []
-	for line in invert_old_matrix[0:2]:
-		invert_new_matrix.append(line)
-
-	for line in invert_old_matrix[3:]:
-		sample_name = line[0]
-
-		new_line = []
-		new_line.append(sample_name)
 		for sample in sample_list:
 			if sample_name in sample.name:
 				rt_area_dict = sample.rt_areas
-				# print rt_area_dict
+				break
+		else:
+			raise ValueError(f"Sample {sample_name!r} not found in sample_list.")
 
-		for i, part in enumerate(line[1:]):
-			# print part
+		for i, part in enumerate(df[sample_name]):
 			if part == 'NA':
 				try:
-					area = rt_area_dict[rt_list[i]]
-					new_line.append(area)
+					df[sample_name][i] = rt_area_dict[rt_list[i]]
 				except KeyError:
 					pass
-			else:
-				new_line.append(part)
 
-		invert_new_matrix.append(new_line)
-
-	fp_new = filled_area_file.open('w')
-
-	#    new_matrix = numpy.empty(matrix_size)
-	new_matrix = transposed(invert_new_matrix)
-
-	for i, line in enumerate(new_matrix):
-		for j, part in enumerate(line):
-			fp_new.write(f"{part},")
-		fp_new.write("\n")
-
-	fp_new.close()
+	df.to_csv(filled_area_file, index=False, na_rep="NA")
 
 
 def write_filled_rt_csv(
@@ -363,71 +322,42 @@ def write_filled_rt_csv(
 		rt_file: Union[str, pathlib.Path],
 		filled_rt_file: Union[str, pathlib.Path],
 		):
-	"""
-	creates a new rt.csv file, replacing NAs with values from the sample_list objects where possible
+	r"""
+	creates a new rt.csv file, replacing ``'NA'``\s with values from the sample_list objects where possible.
 
-	:param sample_list: A list of samples
-	:param rt_file: the file 'rt.csv' from PyMassSpec output
-	:param filled_rt_file: the new output file which has NA values replaced
+	:param sample_list: A list of samples.
+	:param rt_file: the file ``rt.csv`` from PyMassSpec output.
+	:param filled_rt_file: the new output file which has ``NA`` values replaced.
 
-	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
+	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster
 	"""
 
 	if not isinstance(filled_rt_file, (str, pathlib.Path)):
 		raise TypeError("'filled_rt_file' must be a string or a pathlib.Path object")
 
-	if not isinstance(filled_rt_file, pathlib.Path):
-		filled_rt_file = pathlib.Path(filled_rt_file)
+	filled_rt_file = prepare_filepath(filled_rt_file)
 
-	if not filled_rt_file.parent.is_dir():
-		filled_rt_file.parent.mkdir(parents=True)
+	df = file2dataframe(rt_file)
 
-	old_matrix = file2matrix(rt_file)
-
-	# Invert it to be a little more efficent
-	invert_old_matrix = zip(*old_matrix)
-
-	uid_list = invert_old_matrix[0][1:]
+	uid_list: List[str] = df["UID"]
 	rt_list: List[str] = []
 	for uid in uid_list:
 		rt = uid.split('-')[-1]
 		rt_list.append(rt)
 
-	# start setting up the output file
-	invert_new_matrix = []
-	for line in invert_old_matrix[0:1]:
-		invert_new_matrix.append(line)
-
-	for line in invert_old_matrix[2:]:
-		sample_name = line[0]
-
-		new_line = [sample_name]
+	for sample_name in df.columns[3:]:
 		for sample in sample_list:
 			if sample_name in sample.name:
-
 				rt_exact_rt_dict = sample.get_mp_rt_exact_rt_dict()
+				break
+		else:
+			raise ValueError(f"Sample {sample_name!r} not found in sample_list.")
 
-		for i, part in enumerate(line[1:]):
+		for i, part in enumerate(df[sample_name]):
 			if part == 'NA':
 				try:
-					rt_new = rt_exact_rt_dict[float(rt_list[i])]
-					new_line.append(rt_new)
+					df[sample_name][i] = rt_exact_rt_dict[float(rt_list[i])]
 				except KeyError:
 					pass
 
-			else:
-				new_line.append(part)
-
-		invert_new_matrix.append(new_line)
-
-	fp_new = open(filled_rt_file, 'w')
-
-	# new_matrix = numpy.empty(matrix_size)
-	new_matrix = transposed(invert_new_matrix)
-
-	for i, line in enumerate(new_matrix):
-		for j, part in enumerate(line):
-			fp_new.write(f"{str(part),}")
-		fp_new.write("\n")
-
-	fp_new.close()
+	df.to_csv(filled_rt_file, index=False, na_rep="NA")

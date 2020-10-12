@@ -123,7 +123,7 @@ def ic_window_points(
 
 	:param ic: ion chromatogram object relevant for the conversion
 	:param window_sele: The window selection parameter. This can be an
-		integer or time string. If integer, taken as the number of points.
+		integer or time string. If an integer, taken as the number of points.
 		If a string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``,
 		specifying a time in seconds or minutes, respectively
 	:param half_window: Specifies whether to return half-window

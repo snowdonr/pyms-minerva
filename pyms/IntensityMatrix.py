@@ -75,7 +75,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	:param time_list: Retention time values
 	:param mass_list: Binned mass values
-	:param intensity_array: Binned intensity values per scan
+	:param intensity_array: List of lists of binned intensity values per scan
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions and properties)
 	"""
@@ -361,6 +361,20 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		ix = self.get_index_of_mass(mass)
 
 		return self.get_ic_at_index(ix)
+
+	@property
+	def tic(self) -> IonChromatogram:
+		"""
+		Returns the TIC of the intensity matrix.
+
+		.. versionadded:: 2.3.0
+		"""
+
+		intensity_list = []
+		for i in range(len(self._intensity_array)):
+			intensity_list.append(sum(self._intensity_array[i]))
+
+		return IonChromatogram(numpy.array(intensity_list), copy.deepcopy(self._time_list), None)
 
 	def get_ms_at_index(self, ix: int) -> MassSpectrum:
 		"""

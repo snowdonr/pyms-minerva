@@ -135,7 +135,7 @@ def mad_based_outlier(data, thresh: float = 3.5):
 	:param thresh:
 
 	:author: David Kainer
-	:url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
+	:url: http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data
 	"""
 
 	data = numpy.array(data)
@@ -158,7 +158,7 @@ def percentile_based_outlier(data, threshold: int = 95):
 	:param threshold:
 
 	:author: David Kainer
-	:url: `http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data`_
+	:url: http://stackoverflow.com/questions/22354094/pythonic-way-of-detecting-outliers-in-one-dimensional-observation-data
 	"""
 
 	data = numpy.array(data)
@@ -177,9 +177,9 @@ def median_outliers(data, m: float = 2.5):
 	:param m:
 
 	:author: David Kainer
-	:author: eumiro < `https://stackoverflow.com/users/449449/eumiro`_ >
-	:author: enjamin Bannier < `https://stackoverflow.com/users/176922/benjamin-bannier`_ >
-	:url: `http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list`_
+	:author: eumiro (https://stackoverflow.com/users/449449/eumiro)
+	:author: Benjamin Bannier (https://stackoverflow.com/users/176922/benjamin-bannier)
+	:url: http://stackoverflow.com/questions/11686720/is-there-a-numpy-builtin-to-reject-outliers-from-a-list
 	"""
 
 	data = numpy.array(data)

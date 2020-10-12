@@ -59,6 +59,8 @@ additional_ignore:
 extra_sphinx_extensions:
   - 'autodocsumm'
   - 'nbsphinx'
+  - 'enum_tools.autoenum'
+  - sphinx.ext.autosectionlabel
 
 html_theme_options:  # Must be strings to preserve booleans
   includehidden: False
@@ -67,6 +69,7 @@ sphinx_conf_preamble:
   # Built rst from jupyter notebooks
   - import ipynb2rst
   - nitpicky = True
+  - "exclude_patterns = ['../pyms-demo/old/', 'demo_rst/reading_andi.rst', 'chapter09.rst', 'chapter10.rst']"
 
 exclude_files:
   - pre-commit

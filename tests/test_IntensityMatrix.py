@@ -40,7 +40,7 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import MassSpectrum
 
 # this package
-from .constants import *
+from tests.constants import *
 
 
 @pytest.fixture(scope="module")

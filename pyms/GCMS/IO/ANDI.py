@@ -1,5 +1,5 @@
 """
-Functions for reading manufacturer specific ANDI-MS data files
+Functions for reading ANDI-MS data files.
 """
 
 ################################################################################
@@ -29,9 +29,6 @@ from typing import Union
 
 # 3rd party
 from netCDF4 import Dataset  # type: ignore
-
-# this package
-from pyms import IntensityMatrix
 
 try:
 	# 3rd party

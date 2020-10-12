@@ -41,24 +41,20 @@ from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path, is_sequence
 
-__all__ = ["Experiment", "read_expr_list", "load_expr", "store_expr"]
+__all__ = ["Experiment", "read_expr_list", "load_expr"]
 
 
 class Experiment(pymsBaseClass):
 	"""
-	Models an experiment object
+	Models an experiment.
 
 	:param expr_code: A unique identifier for the experiment.
-	:param peak_list: A list of peak objects
+	:param peak_list:
 
 	:author: Vladimir Likic, Andrew Isaac,  Dominic Davis-Foster (type assertions, properties and pathlib support)
 	"""
 
 	def __init__(self, expr_code: str, peak_list: Sequence[Peak]):
-		"""
-		Models an experiment
-		"""
-
 		if not isinstance(expr_code, str):
 			raise TypeError("'expr_code' must be a string")
 
@@ -68,7 +64,7 @@ class Experiment(pymsBaseClass):
 		self._expr_code = expr_code
 		self._peak_list = list(peak_list)
 
-	def __eq__(self, other: Any) -> bool:
+	def __eq__(self, other) -> bool:
 		"""
 		Return whether this Experiment object is equal to another object.
 
@@ -82,23 +78,21 @@ class Experiment(pymsBaseClass):
 
 	def __len__(self) -> int:
 		"""
-		Returns the number of peaks in the Experiment
+		Returns the number of peaks in the Experiment.
 		"""
 
 		return len(self.peak_list)
 
 	def __copy__(self) -> "Experiment":
 		"""
-		Returns a new Experiment object containing a copy of the data in this object
+		Returns a new Experiment object containing a copy of the data in this object.
 		"""
 
 		return Experiment(copy.copy(self._expr_code), copy.copy(self.peak_list))
 
 	def __deepcopy__(self, memodict={}) -> "Experiment":
 		"""
-		Returns a new Experiment object containing a copy of the data in this object
-
-		:rtype: pyms.Experiment.Experiment
+		Returns a new Experiment object containing a copy of the data in this object.
 		"""
 
 		return self.__copy__()
@@ -106,7 +100,7 @@ class Experiment(pymsBaseClass):
 	@property
 	def expr_code(self) -> str:
 		"""
-		Returns the expr_code of the experiment
+		Returns the expr_code of the experiment.
 		"""
 
 		return self._expr_code
@@ -123,7 +117,7 @@ class Experiment(pymsBaseClass):
 		"""
 		Discards all peaks which have the retention time outside the specified range
 
-		:param rt_range: Min, max retention time given as a list [rt_min, rt_max]
+		:param rt_range: Min, max retention time given as a sequence ``[rt_min, rt_max]``.
 		"""
 
 		if not is_sequence(rt_range):
@@ -132,38 +126,14 @@ class Experiment(pymsBaseClass):
 		peaks_sele = sele_peaks_by_rt(self._peak_list, rt_range)
 		self._peak_list = peaks_sele
 
-	@deprecation.deprecated(
-			deprecated_in="2.1.2",
-			removed_in="2.2.0",
-			current_version=__version__,
-			details="Use :meth:`pyms.Experiment.Experiment.dump` instead",
-			)
-	def store(self, file_name: Union[str, pathlib.Path]):
-		"""
-		stores an experiment to a file
-
-		:param file_name: The name of the file
-
-		:author: Vladimir Likic, Andrew Isaac, Dominic Davis-Foster (pathlib support)
-		"""
-
-		if not is_path(file_name):
-			raise TypeError("'file_name' must be a string or a PathLike object")
-
-		file_name = prepare_filepath(file_name)
-
-		fp = file_name.open('wb')
-		pickle.dump(self, fp, 1)
-		fp.close()
-
 
 def read_expr_list(file_name: Union[str, pathlib.Path]) -> List[Experiment]:
 	"""
-	Reads the set of experiment files and returns a list of :class:`pyms.Experiment.Experiment` objects
+	Reads the set of experiment files and returns a list of :class:`pyms.Experiment.Experiment` objects.
 
-	:param file_name: The name of the file which lists experiment dump file names, one file per line
+	:param file_name: The name of the file which lists experiment dump file names, one file per line.
 
-	:return: A list of Experiment instances
+	:return: A list of Experiment instances.
 
 	:author: Vladimir Likic
 	"""
@@ -192,11 +162,11 @@ def read_expr_list(file_name: Union[str, pathlib.Path]) -> List[Experiment]:
 
 def load_expr(file_name: Union[str, pathlib.Path]) -> Experiment:
 	"""
-	Loads an experiment saved with :meth:`pyms.Experiment.store_expr`
+	Loads an experiment saved with :meth:`pyms.Experiment.Experiment.dump`.
 
-	:param file_name: Experiment file name
+	:param file_name: Experiment file name.
 
-	:return: The loaded experiment
+	:return: The loaded experiment.
 
 	:author: Vladimir Likic, Andrew Isaac, Dominic Davis-Foster (type assertions and pathlib support)
 	"""
@@ -214,33 +184,3 @@ def load_expr(file_name: Union[str, pathlib.Path]) -> Experiment:
 		raise IOError("The loaded file is not an experiment file")
 
 	return expr
-
-
-@deprecation.deprecated(
-		deprecated_in="2.1.2",
-		removed_in="2.2.0",
-		current_version=__version__,
-		details="Use :meth:`pyms.Experiment.Experiment.store` instead",
-		)
-def store_expr(file_name: str, expr: Experiment):
-	"""
-	Stores an experiment to a file
-
-	:param file_name: The name of the file
-	:param expr: An experiment object
-
-	:author: Vladimir Likic, Andrew Isaac, Dominic Davis-Foster (type assertions)
-	"""
-
-	if not isinstance(expr, Experiment):
-		raise TypeError("'expr' must be an Experiment object")
-
-	if not isinstance(file_name, str):
-		raise TypeError("'file_name' must be a string")
-
-	if not os.path.exists(os.path.dirname(file_name)):
-		os.makedirs(os.path.dirname(file_name))
-
-	fp = open(file_name, 'wb')
-	pickle.dump(expr, fp, 1)
-	fp.close()
