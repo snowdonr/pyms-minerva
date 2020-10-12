@@ -29,9 +29,10 @@ import pathlib
 import pickle
 from typing import Any, List, Union, cast
 
-# this package
+# 3rd party
 from domdf_python_tools.stringlist import StringList
 
+# this package
 from pyms.Utils.Utils import _list_types, is_number, is_path
 
 __all__ = ["prepare_filepath", "dump_object", "load_object", "file_lines", "save_data"]

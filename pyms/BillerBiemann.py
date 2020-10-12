@@ -174,7 +174,12 @@ def get_maxima_list(ic: IonChromatogram, points: int = 3) -> List[List[float]]:
 	return mlist
 
 
-def get_maxima_list_reduced(ic: IonChromatogram, mp_rt: float, points: int = 13, window: int = 3,) -> List[Tuple[float, float]]:
+def get_maxima_list_reduced(
+		ic: IonChromatogram,
+		mp_rt: float,
+		points: int = 13,
+		window: int = 3,
+		) -> List[Tuple[float, float]]:
 	"""
 	List of retention time and intensity of local maxima for ion.
 
@@ -275,7 +280,12 @@ def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> n
 	return maxima_im
 
 
-def num_ions_threshold(pl: Sequence[Peak], n: int, cutoff: float, copy_peaks: bool = True,) -> List[Peak]:
+def num_ions_threshold(
+		pl: Sequence[Peak],
+		n: int,
+		cutoff: float,
+		copy_peaks: bool = True,
+		) -> List[Peak]:
 	"""
 	Remove Peaks where there are less than a given number of ion intensities above the given threshold.
 

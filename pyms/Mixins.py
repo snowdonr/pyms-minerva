@@ -30,6 +30,8 @@ from warnings import warn
 
 # 3rd party
 import numpy  # type: ignore
+
+# this package
 from pyms.Utils.Utils import is_number
 
 __all__ = [

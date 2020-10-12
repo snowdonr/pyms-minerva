@@ -27,8 +27,9 @@ Functions to fill missing peak objects
 import pathlib
 from typing import List, Optional, Union
 
-from enum_tools import IntEnum
+# 3rd party
 import pandas  # type: ignore
+from enum_tools import IntEnum
 
 # this package
 from pyms.BillerBiemann import get_maxima_list_reduced
@@ -39,7 +40,6 @@ from pyms.Peak.Function import ion_area
 from pyms.TopHat import tophat
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import is_path
-
 
 __all__ = [
 		"file2dataframe",

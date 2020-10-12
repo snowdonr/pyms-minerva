@@ -1,9 +1,12 @@
-from domdf_python_tools.paths import PathPlus
+# stdlib
 import tempfile
 
+# 3rd party
+from domdf_python_tools.paths import PathPlus
 from pytest_regressions.file_regression import FileRegressionFixture
 
-from pyms.Gapfill.Function import file2dataframe, write_filled_csv
+# this package
+from pyms.Gapfill.Function import file2dataframe
 
 
 def test_file2dataframe(file_regression: FileRegressionFixture):

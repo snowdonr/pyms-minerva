@@ -33,7 +33,6 @@ from pyms.IonChromatogram import IonChromatogram
 
 __all__ = ["is_str_num", "time_str_secs", "window_sele_points"]
 
-
 num_re = re.compile(r'^[-+]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][-+]?[0-9]+)?$')
 
 

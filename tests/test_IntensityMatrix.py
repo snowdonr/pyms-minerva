@@ -38,8 +38,6 @@ from pyms.IntensityMatrix import (
 		)
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import MassSpectrum
-
-# this package
 from tests.constants import *
 
 

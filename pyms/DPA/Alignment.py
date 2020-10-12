@@ -108,7 +108,6 @@ class Alignment:
 		.. TODO:: minutes currently does nothing
 		"""
 
-
 		# for all peaks found
 		peak_list = []
 

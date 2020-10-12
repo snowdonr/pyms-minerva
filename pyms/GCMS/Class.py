@@ -27,14 +27,13 @@ Class to model GC-MS data
 import copy
 import pathlib
 from statistics import mean, median, stdev
-from typing import cast, List, Optional, Sequence, TypeVar, Union
+from typing import List, Optional, Sequence, TypeVar, Union, cast
 
 # 3rd party
 import numpy  # type: ignore
-
-# this package
 from domdf_python_tools.doctools import prettify_docstrings
 
+# this package
 from pyms.Base import pymsBaseClass
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Mixins import GetIndexTimeMixin, MaxMinMassMixin, TimeListMixin

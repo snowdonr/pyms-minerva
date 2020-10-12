@@ -185,9 +185,10 @@ def peak_pt_bounds(im: IntensityMatrix, peak: Peak) -> Tuple[int, int]:
 
 def peak_top_ion_areas(
 		im: IntensityMatrix,
-						peak: Peak,
-						n_top_ions: int = 5,
-						max_bound: int = 0,) -> Dict[float, float]:
+		peak: Peak,
+		n_top_ions: int = 5,
+		max_bound: int = 0,
+		) -> Dict[float, float]:
 	"""
 	Calculate and return the ion areas of the five most
 	abundant ions in the peak.
