@@ -27,7 +27,7 @@ Functions related to Peak modification
 import copy
 from math import ceil
 from statistics import median
-from typing import Dict, List, Tuple, Union, overload
+from typing import cast, Dict, List, Sequence, Tuple, Union, overload
 
 # 3rd party
 import deprecation  # type: ignore
@@ -259,9 +259,6 @@ def top_ions_v1(peak: Peak, num_ions: int = 5) -> List[float]:
 	if not isinstance(num_ions, int):
 		raise TypeError("'n_top_ions' must be an integer")
 
-	if peak.mass_spectrum is None:
-		raise ValueError("The peak has no mass spectrum.")
-
 	intensity_list = peak.mass_spectrum.mass_spec
 	mass_list = peak.mass_spectrum.mass_list
 
@@ -300,9 +297,6 @@ def top_ions_v2(peak: Peak, num_ions: int = 5) -> List[float]:
 		raise TypeError("'peak' must be a Peak object")
 	if not isinstance(num_ions, int):
 		raise TypeError("'n_top_ions' must be an integer")
-
-	if peak.mass_spectrum is None:
-		raise ValueError("The peak has no mass spectrum.")
 
 	intensity_list = peak.mass_spectrum.mass_spec
 	mass_list = peak.mass_spectrum.mass_list
@@ -447,16 +441,14 @@ def median_bounds(im: IntensityMatrix, peak: Peak, shared: bool = True) -> Tuple
 	mat = im.intensity_array
 	ms = peak.mass_spectrum
 
-	if ms is None:
-		raise ValueError("The peak has no mass spectrum.")
-
 	rt = peak.rt
 	apex = im.get_index_at_time(rt)
-	# check if RT based index is similar to stored index
-	tmp = peak.bounds
 
-	if is_sequence(tmp) and apex - 1 < tmp[1] < apex + 1:
-		apex = tmp[1]
+	# check if RT based index is similar to stored index
+	if is_sequence(peak.bounds):
+		bounds = cast(Sequence, peak.bounds)
+		if apex - 1 < bounds[1] < apex + 1:
+			apex = bounds[1]
 
 	# get peak masses with non-zero intensity
 	mass_ii = [ii for ii in range(len(ms.mass_list)) if ms.mass_spec[ii] > 0]

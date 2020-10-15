@@ -222,9 +222,6 @@ def gcms_sim(
 		print("-", end='')
 		index = int((peak.rt - t1) / period)
 
-		if peak.mass_spectrum is None:
-			raise ValueError("The peak has no mass spectrum.")
-
 		height = sum(peak.mass_spectrum.mass_spec)
 		# standard deviation = area/(height * sqrt(2/pi))
 		sigma: float = peak.area / (height * (math.sqrt(2 * math.pi)))  # type: ignore

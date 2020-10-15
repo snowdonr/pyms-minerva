@@ -44,7 +44,6 @@ def test_composite_peak(filtered_peak_list, im_i):
 	assert peak.bounds is None
 	assert peak.get_int_of_ion(100) == 3.603215488138507
 	assert peak.rt == 47.727200388899995
-	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 115
 
 	# area = peak_sum_area(im_i, peak)
@@ -78,7 +77,6 @@ def test_composite_peak_outliers(filtered_peak_list, im_i):
 	assert peak.bounds is None
 	assert peak.get_int_of_ion(100) == 7.1236965120460285
 	assert peak.rt == 39.0680015087
-	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 161
 
 	# area = peak_sum_area(im_i, peak)
@@ -134,7 +132,6 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	assert peak.bounds == (0, 683, 0)
 	assert peak.get_int_of_ion(100) == 0.0
 	assert peak.rt == 722.299976349
-	assert peak.ic_mass is None
 	assert peak.top_ions(10)[0] == 133
 
 	peak.null_mass(73)

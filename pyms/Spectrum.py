@@ -455,6 +455,11 @@ class MassSpectrum(Scan):
 
 		return cls(mass_list, intensity_list)
 
+	def __bool__(self) -> bool:
+		if self.mass_list or self.mass_spec:
+			return True
+		return False
+
 
 def normalize_mass_spec(
 		mass_spec: MassSpectrum,

@@ -28,6 +28,7 @@ import pytest
 
 # this package
 from pyms.Peak import Peak
+from pyms.Peak.Class import ICPeak
 from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Utils import is_number
@@ -57,7 +58,9 @@ def test_Peak(im_i, peak):
 			Peak(test_float, obj, minutes=False)  # type: ignore
 
 	Peak(test_float, test_int)
+	ICPeak(test_float, test_int)
 	Peak(test_float, test_float)
+	ICPeak(test_float, test_float)
 
 
 def test_equality(peak):
@@ -210,19 +213,16 @@ def test_get_third_highest_mz(peak):
 	assert peak.get_third_highest_mz() == 59
 	assert isinstance(peak.get_third_highest_mz(), int)
 
-	assert Peak(test_float, test_float).get_third_highest_mz() is None
-
-	# with pytest.raises(AttributeError):
-	assert Peak(test_float).get_third_highest_mz() is None
+	with pytest.raises(ValueError, match="Mass spectrum is unset."):
+		Peak(test_float).get_third_highest_mz()
 
 
 def test_ic_mass():
-	peak = Peak(12.34, 55)
+	peak = ICPeak(12.34, 55)
 	uid = peak.UID
 	assert is_number(peak.ic_mass)
 	assert peak.ic_mass == 55
 	peak.ic_mass = 12
-	assert peak.mass_spectrum is None
 	assert peak.UID != uid
 	assert peak.ic_mass == 12
 
@@ -241,16 +241,17 @@ def test_mass_spectrum(peak, im_i):
 
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
 	assert peak.mass_spectrum == ms
-	assert peak.ic_mass is None
 
 	peak = Peak(test_float)
-	assert peak.mass_spectrum is None
+	assert peak.mass_spectrum == MassSpectrum([], [])
+	assert not peak.mass_spectrum
 	peak.mass_spectrum = ms
 	assert peak.mass_spectrum == ms
-	assert peak.ic_mass is None
 
 	peak = Peak(test_float)
-	assert peak.mass_spectrum is None
+	assert peak.mass_spectrum == MassSpectrum([], [])
+	assert not peak.mass_spectrum
+
 	peak.mass_spectrum = ms
 	assert isinstance(peak.mass_spectrum, MassSpectrum)
 	assert isinstance(peak.mass_spectrum.mass_spec, list)
@@ -275,7 +276,7 @@ def test_null_mass(peak):
 	assert peak.UID != uid
 
 	# Errors
-	with pytest.raises(NameError):
+	with pytest.raises(ValueError, match="Mass spectrum is unset."):
 		Peak(test_float).null_mass(1)  # type: ignore
 	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):

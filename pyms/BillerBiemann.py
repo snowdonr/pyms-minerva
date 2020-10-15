@@ -356,8 +356,8 @@ def rel_threshold(pl: Sequence[Peak], percent: float = 2, copy_peaks: bool = Tru
 	new_peak_list = []
 	for peak in peak_list:
 		ms = peak.mass_spectrum
-		if ms is None:
-			raise ValueError("The peak has no mass spectrum.")
+		# if ms is None:
+		# 	raise ValueError("The peak has no mass spectrum.")
 
 		ia = ms.mass_spec
 		# assume max(ia) big so /100 1st
