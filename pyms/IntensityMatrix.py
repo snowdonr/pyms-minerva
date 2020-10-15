@@ -578,13 +578,14 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			raise TypeError("'root_name' must be a string or a pathlib.Path object")
 
 		root_name = prepare_filepath(root_name, mkdirs=True)
+		fmt = AsciiFiletypes(fmt)
 
-		if fmt:  # dat
+		if fmt is AsciiFiletypes.ASCII_DAT:
 			separator = " "
-			extension = ".dat"
-		else:  # csv
+			extension = "dat"
+		elif fmt is AsciiFiletypes.ASCII_CSV:
 			separator = ","
-			extension = ".csv"
+			extension = "csv"
 
 		# export 2D matrix of intensities
 		vals = self._intensity_array
