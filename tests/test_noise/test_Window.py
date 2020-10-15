@@ -27,8 +27,6 @@ from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Noise.Window import window_smooth, window_smooth_im
 from pyms.TopHat import tophat
-
-# this package
 from tests.constants import *
 
 

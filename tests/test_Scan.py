@@ -74,6 +74,7 @@ def test_scan_values(scan, index, mass, intensity):
 	assert scan.mass_list[index] == mass
 	assert scan.intensity_list[index] == intensity
 
+
 #
 # def test_zero_length():
 # 	# TODO: finish

@@ -23,8 +23,6 @@ import pytest
 
 # this package
 from pyms.Noise.Analysis import window_analyzer
-
-# this package
 from tests.constants import *
 
 

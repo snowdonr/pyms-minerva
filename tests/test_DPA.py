@@ -22,17 +22,15 @@
 import csv
 import math
 import operator
-
-# 3rd party
 import pathlib
 import tempfile
 
+# 3rd party
 import numpy  # type: ignore
 import pytest
-
-# this package
 from pytest_regressions.file_regression import FileRegressionFixture
 
+# this package
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.DPA.Alignment import Alignment, exprl2alignment
 from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
@@ -232,7 +230,10 @@ def test_write_csv(A1, tmp_pathplus):
 
 		assert rt_csv[peak_idx + 1][1] == area_csv[peak_idx + 1][1] == f"{float(compo_peak.rt / 60):.3f}"
 
-	A1.write_csv(tmp_pathplus / 'alignment_rt_seconds.csv', tmp_pathplus / 'alignment_area_seconds.csv', minutes=False)
+	A1.write_csv(
+			tmp_pathplus / 'alignment_rt_seconds.csv', tmp_pathplus / 'alignment_area_seconds.csv',
+			minutes=False,
+			)
 
 	# Read alignment_rt_seconds.csv and alignment_area_seconds.csv and check values
 	assert (tmp_pathplus / "alignment_rt_seconds.csv").exists()
@@ -321,10 +322,14 @@ def test_write_common_ion_csv(A1, tmp_pathplus, file_regression: FileRegressionF
 
 	# read the csv and check values
 	A1.write_common_ion_csv(tmp_pathplus / 'alignment_common_ion.csv', A1.common_ion())
-	file_regression.check((tmp_pathplus / "alignment_common_ion.csv").read_text(), encoding="UTF-8", extension="_alignment_common_ion.csv")
+	file_regression.check((tmp_pathplus / "alignment_common_ion.csv").read_text(),
+							encoding="UTF-8",
+							extension="_alignment_common_ion.csv")
 
 	A1.write_common_ion_csv(tmp_pathplus / 'alignment_common_ion_seconds.csv', A1.common_ion(), minutes=False)
-	file_regression.check((tmp_pathplus / "alignment_common_ion_seconds.csv").read_text(), encoding="UTF-8", extension="_alignment_common_ion_seconds.csv")
+	file_regression.check((tmp_pathplus / "alignment_common_ion_seconds.csv").read_text(),
+							encoding="UTF-8",
+							extension="_alignment_common_ion_seconds.csv")
 
 
 # TODO: read the csv and check values

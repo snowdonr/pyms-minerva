@@ -28,10 +28,9 @@ import types
 import deprecation  # type: ignore
 import numpy  # type: ignore
 import pytest
-
-# this package
 from pytest_regressions.file_regression import FileRegressionFixture
 
+# this package
 from pyms.IntensityMatrix import (
 		ASCII_CSV,
 		IntensityMatrix,
@@ -421,14 +420,26 @@ class Test_export_ascii:
 
 		im.export_ascii(tmp_pathplus / "im_ascii")
 
-		file_regression.check((tmp_pathplus / "im_ascii.im.dat").read_text(), encoding="UTF-8", extension="_im_ascii.im.dat")
-		file_regression.check((tmp_pathplus / "im_ascii.mz.dat").read_text(), encoding="UTF-8", extension="_im_ascii.mz.dat")
-		file_regression.check((tmp_pathplus / "im_ascii.rt.dat").read_text(), encoding="UTF-8", extension="_im_ascii.rt.dat")
+		file_regression.check((tmp_pathplus / "im_ascii.im.dat").read_text(),
+								encoding="UTF-8",
+								extension="_im_ascii.im.dat")
+		file_regression.check((tmp_pathplus / "im_ascii.mz.dat").read_text(),
+								encoding="UTF-8",
+								extension="_im_ascii.mz.dat")
+		file_regression.check((tmp_pathplus / "im_ascii.rt.dat").read_text(),
+								encoding="UTF-8",
+								extension="_im_ascii.rt.dat")
 
 		im.export_ascii(tmp_pathplus / "im_csv", fmt=ASCII_CSV)
-		file_regression.check((tmp_pathplus / "im_csv.im.csv").read_text(), encoding="UTF-8", extension="_im_csv.im.csv")
-		file_regression.check((tmp_pathplus / "im_csv.mz.csv").read_text(), encoding="UTF-8", extension="_im_csv.mz.csv")
-		file_regression.check((tmp_pathplus / "im_csv.rt.csv").read_text(), encoding="UTF-8", extension="_im_csv.rt.csv")
+		file_regression.check((tmp_pathplus / "im_csv.im.csv").read_text(),
+								encoding="UTF-8",
+								extension="_im_csv.im.csv")
+		file_regression.check((tmp_pathplus / "im_csv.mz.csv").read_text(),
+								encoding="UTF-8",
+								extension="_im_csv.mz.csv")
+		file_regression.check((tmp_pathplus / "im_csv.rt.csv").read_text(),
+								encoding="UTF-8",
+								extension="_im_csv.rt.csv")
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_lists, *test_numbers])
 	def test_errors(self, obj, im, tmp_pathplus):

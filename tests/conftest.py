@@ -38,7 +38,6 @@ from pyms.Peak.Class import Peak
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.TopHat import tophat
 
-
 pytest_plugins = ("domdf_python_tools.testing", )
 
 

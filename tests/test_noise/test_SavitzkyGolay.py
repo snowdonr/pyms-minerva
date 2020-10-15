@@ -26,8 +26,6 @@ import pytest
 from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay, savitzky_golay_im
-
-# this package
 from tests.constants import *
 
 

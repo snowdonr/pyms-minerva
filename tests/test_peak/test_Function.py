@@ -33,8 +33,6 @@ from pyms.Peak.Function import (
 		top_ions_v1,
 		top_ions_v2
 		)
-
-# this package
 from tests.constants import *
 
 
