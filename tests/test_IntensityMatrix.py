@@ -20,6 +20,7 @@
 
 # stdlib
 import copy
+import pathlib
 import pickle
 import types
 
@@ -29,6 +30,8 @@ import numpy  # type: ignore
 import pytest
 
 # this package
+from pytest_regressions.file_regression import FileRegressionFixture
+
 from pyms.IntensityMatrix import (
 		ASCII_CSV,
 		IntensityMatrix,
@@ -42,14 +45,14 @@ from tests.constants import *
 
 
 @pytest.fixture(scope="module")
-def im_leco_filename(im, outputdir):
+def im_leco_filename(im, tmpdir_factory):
 	"""
 	Create the im_leco.csv file ahead of time and return the path to it
 	"""
 
-	filename = outputdir / "im_leco.csv"
+	filename = pathlib.Path(tmpdir_factory.mktemp('im_leco')) / 'im_leco.csv'
 	im.export_leco_csv(filename)
-	return filename
+	yield filename
 
 
 class TestIntensityMatrix:
@@ -89,8 +92,8 @@ class TestIntensityMatrix:
 
 	# Inherited Methods from pymsBaseClass
 
-	def test_dump(self, im_i, outputdir):
-		im_i.dump(outputdir / "im_i_dump.dat")
+	def test_dump(self, im_i, tmp_pathplus):
+		im_i.dump(tmp_pathplus / "im_i_dump.dat")
 
 		# Errors
 		for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
@@ -98,8 +101,8 @@ class TestIntensityMatrix:
 				im_i.dump(obj)
 
 		# Read and check values
-		assert (outputdir / "im_i_dump.dat").exists()
-		loaded_im_i = pickle.load((outputdir / "im_i_dump.dat").open("rb"))
+		assert (tmp_pathplus / "im_i_dump.dat").exists()
+		loaded_im_i = pickle.load((tmp_pathplus / "im_i_dump.dat").open("rb"))
 		assert loaded_im_i == im_i
 		assert len(loaded_im_i) == len(im_i)
 
@@ -408,7 +411,7 @@ class TestIntensityMatrix:
 
 class Test_export_ascii:
 
-	def test_export_ascii(self, im, outputdir):
+	def test_export_ascii(self, im, tmp_pathplus, file_regression: FileRegressionFixture):
 		"""
 		Export the entire IntensityMatrix as CSV. This will create
 		data.im.csv, data.mz.csv, and data.rt.csv where
@@ -416,15 +419,24 @@ class Test_export_ascii:
 		vector, and m/z vector in the CSV format
 		"""
 
-		im.export_ascii(outputdir / "im_ascii")
-		im.export_ascii(outputdir / "im_csv", fmt=ASCII_CSV)
+		im.export_ascii(tmp_pathplus / "im_ascii")
 
-		# TODO check exported files
+		file_regression.check((tmp_pathplus / "im_ascii.im.dat").read_text(), encoding="UTF-8", extension="_im_ascii.im.dat")
+		file_regression.check((tmp_pathplus / "im_ascii.mz.dat").read_text(), encoding="UTF-8", extension="_im_ascii.mz.dat")
+		file_regression.check((tmp_pathplus / "im_ascii.rt.dat").read_text(), encoding="UTF-8", extension="_im_ascii.rt.dat")
+
+		im.export_ascii(tmp_pathplus / "im_csv", fmt=ASCII_CSV)
+		file_regression.check((tmp_pathplus / "im_csv.im.csv").read_text(), encoding="UTF-8", extension="_im_csv.im.csv")
+		file_regression.check((tmp_pathplus / "im_csv.mz.csv").read_text(), encoding="UTF-8", extension="_im_csv.mz.csv")
+		file_regression.check((tmp_pathplus / "im_csv.rt.csv").read_text(), encoding="UTF-8", extension="_im_csv.rt.csv")
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_lists, *test_numbers])
-	def test_errors(self, obj, im):
+	def test_errors(self, obj, im, tmp_pathplus):
 		with pytest.raises(TypeError):
 			im.export_ascii(obj)
+
+		with pytest.raises(ValueError):
+			im.export_ascii(tmp_pathplus / "im_ascii", fmt=3)
 
 
 class Test_leco_csv:

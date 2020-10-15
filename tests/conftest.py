@@ -19,6 +19,7 @@
 #############################################################################
 
 # stdlib
+import copy
 import os
 import shutil
 from copy import deepcopy
@@ -38,17 +39,12 @@ from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.TopHat import tophat
 
 
+pytest_plugins = ("domdf_python_tools.testing", )
+
+
 @pytest.fixture(scope="session")
 def pyms_datadir():
 	return Path(os.path.split(__file__)[0]) / "data"
-
-
-@pytest.fixture(scope="session")
-def outputdir():
-	outputdir = Path(os.path.split(__file__)[0]) / "output"
-	if not outputdir.exists():
-		outputdir.mkdir(parents=True)
-	return outputdir
 
 
 @pytest.fixture(scope="session")
@@ -75,8 +71,8 @@ def im_i(data):
 	return build_intensity_matrix_i(data)
 
 
-@pytest.fixture(scope="function")
-def peak_list(im_i):
+@pytest.fixture(scope="session")
+def _peak_list(im_i):
 	im_i = deepcopy(im_i)
 
 	# Intensity matrix size (scans, masses)
@@ -97,8 +93,13 @@ def peak_list(im_i):
 
 
 @pytest.fixture(scope="function")
-def filtered_peak_list(im_i, peak_list):
-	# peak_list = deepcopy(peak_list)
+def peak_list(_peak_list):
+	return copy.deepcopy(_peak_list)
+
+
+@pytest.fixture(scope="session")
+def _filtered_peak_list(im_i, _peak_list):
+	peak_list = copy.deepcopy(_peak_list)
 	# do peak detection on pre-trimmed data
 	# trim by relative intensity
 	apl = rel_threshold(peak_list, 2, copy_peaks=False)
@@ -119,6 +120,11 @@ def filtered_peak_list(im_i, peak_list):
 		peak.ion_areas = area_dict
 
 	return new_peak_list
+
+
+@pytest.fixture(scope="function")
+def filtered_peak_list(im_i, _filtered_peak_list):
+	return copy.deepcopy(_filtered_peak_list)
 
 
 @pytest.fixture(scope="session")
@@ -143,12 +149,3 @@ def scan(data):
 def expr(filtered_peak_list):
 	# create an experiment
 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)
-
-
-#
-# # Teardown Function
-# def pytest_sessionfinish(session, exitstatus):
-# 	try:
-# 		shutil.rmtree(Path(os.path.split(__file__)[0]) / "output")
-# 	except FileNotFoundError:
-# 		pass

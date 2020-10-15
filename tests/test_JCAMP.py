@@ -84,14 +84,15 @@ def test_equality(data):
 def test_info(capsys, data):
 	data.info()
 	captured = capsys.readouterr()
-	assert captured.out == """ Data retention time range: 0.018 min -- 37.013 min
- Time step: 1.056 s (std=0.000 s)
- Number of scans: 2103
- Minimum m/z measured: 50.252
- Maximum m/z measured: 499.623
- Mean number of m/z values per scan: 99
- Median number of m/z values per scan: 98
-"""
+	assert captured.out.splitlines() == [
+			" Data retention time range: 0.018 min -- 37.013 min",
+			" Time step: 1.056 s (std=0.000 s)",
+			" Number of scans: 2103",
+			" Minimum m/z measured: 50.252",
+			" Maximum m/z measured: 499.623",
+			" Mean number of m/z values per scan: 99",
+			" Median number of m/z values per scan: 98",
+			]
 
 
 def test_scan_list(data):
@@ -198,8 +199,8 @@ def test_trim(data):
 		"jcamp_gcms_data.I.csv",
 		"jcamp_gcms_data.mz.csv",
 		])
-def test_write(data, outputdir, file_regression: FileRegressionFixture, filename):
-	data.write(outputdir / "jcamp_gcms_data")
+def test_write(data, tmp_pathplus, file_regression: FileRegressionFixture, filename):
+	data.write(tmp_pathplus / "jcamp_gcms_data")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
@@ -207,13 +208,13 @@ def test_write(data, outputdir, file_regression: FileRegressionFixture, filename
 			data.write(obj)
 
 	# Read file and check values
-	assert (outputdir / filename).exists()
-	file_regression.check((outputdir / filename).read_text(), encoding="UTF-8", extension=".csv")
+	assert (tmp_pathplus / filename).exists()
+	file_regression.check((tmp_pathplus / filename).read_text(), encoding="UTF-8", extension=".csv")
 
 
-def test_write_intensities_stream(data, outputdir, file_regression: FileRegressionFixture):
+def test_write_intensities_stream(data, tmp_pathplus, file_regression: FileRegressionFixture):
 	filename = "jcamp_intensity_stream.csv"
-	data.write_intensities_stream(outputdir / "jcamp_intensity_stream.csv")
+	data.write_intensities_stream(tmp_pathplus / "jcamp_intensity_stream.csv")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
@@ -221,15 +222,15 @@ def test_write_intensities_stream(data, outputdir, file_regression: FileRegressi
 			data.write_intensities_stream(obj)
 
 	# Read file and check values
-	assert (outputdir / filename).exists()
-	file_regression.check((outputdir / filename).read_text(), encoding="UTF-8", extension=".csv")
+	assert (tmp_pathplus / filename).exists()
+	file_regression.check((tmp_pathplus / filename).read_text(), encoding="UTF-8", extension=".csv")
 
 
 # Inherited Methods from pymsBaseClass
 
 
-def test_dump(data, outputdir):
-	data.dump(outputdir / "JCAMP_dump.dat")
+def test_dump(data, tmp_pathplus):
+	data.dump(tmp_pathplus / "JCAMP_dump.dat")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
@@ -237,8 +238,8 @@ def test_dump(data, outputdir):
 			data.dump(obj)
 
 	# Read and check values
-	assert (outputdir / "JCAMP_dump.dat").exists()
-	loaded_data = pickle.load((outputdir / "JCAMP_dump.dat").open("rb"))
+	assert (tmp_pathplus / "JCAMP_dump.dat").exists()
+	loaded_data = pickle.load((tmp_pathplus / "JCAMP_dump.dat").open("rb"))
 	assert loaded_data == data
 	assert len(loaded_data) == len(data)
 

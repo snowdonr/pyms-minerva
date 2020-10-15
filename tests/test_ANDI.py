@@ -290,8 +290,8 @@ def test_trim(andi):
 		"andi_gcms_data.I.csv",
 		"andi_gcms_data.mz.csv",
 		])
-def test_write(andi, outputdir, file_regression: FileRegressionFixture, filename):
-	andi.write(outputdir / "andi_gcms_data")
+def test_write(andi, tmp_pathplus, file_regression: FileRegressionFixture, filename):
+	andi.write(tmp_pathplus / "andi_gcms_data")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
@@ -299,13 +299,13 @@ def test_write(andi, outputdir, file_regression: FileRegressionFixture, filename
 			andi.write(obj)
 
 	# Read file and check values
-	assert (outputdir / filename).exists()
-	file_regression.check((outputdir / filename).read_text(), encoding="UTF-8", extension=".csv")
+	assert (tmp_pathplus / filename).exists()
+	file_regression.check((tmp_pathplus / filename).read_text(), encoding="UTF-8", extension=".csv")
 
 
-def test_write_intensities_stream(andi, outputdir, file_regression: FileRegressionFixture):
+def test_write_intensities_stream(andi, tmp_pathplus, file_regression: FileRegressionFixture):
 	filename = "andi_intensity_stream.csv"
-	andi.write_intensities_stream(outputdir / filename)
+	andi.write_intensities_stream(tmp_pathplus / filename)
 
 	# Errors
 	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
@@ -313,15 +313,15 @@ def test_write_intensities_stream(andi, outputdir, file_regression: FileRegressi
 			andi.write_intensities_stream(obj)
 
 	# Read file and check values
-	assert (outputdir / filename).exists()
-	file_regression.check((outputdir / filename).read_text(), encoding="UTF-8", extension=".csv")
+	assert (tmp_pathplus / filename).exists()
+	file_regression.check((tmp_pathplus / filename).read_text(), encoding="UTF-8", extension=".csv")
 
 
 # Inherited Methods from pymsBaseClass
 
 
-def test_dump(andi, outputdir):
-	andi.dump(outputdir / "ANDI_dump.dat")
+def test_dump(andi, tmp_pathplus):
+	andi.dump(tmp_pathplus / "ANDI_dump.dat")
 
 	# Errors
 	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
@@ -329,8 +329,8 @@ def test_dump(andi, outputdir):
 			andi.dump(obj)
 
 	# Read and check values
-	assert (outputdir / "ANDI_dump.dat").exists()
-	loaded_data = pickle.load((outputdir / "ANDI_dump.dat").open("rb"))
+	assert (tmp_pathplus / "ANDI_dump.dat").exists()
+	loaded_data = pickle.load((tmp_pathplus / "ANDI_dump.dat").open("rb"))
 	assert loaded_data == andi
 	assert len(loaded_data) == len(andi)
 

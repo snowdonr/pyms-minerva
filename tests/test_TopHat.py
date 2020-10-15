@@ -65,11 +65,11 @@ class TestErrors:
 
 		def test_im_errors(self, obj):
 			with pytest.raises(TypeError):
-				tophat_im(obj, "1m")
+				tophat_im(obj, "1m")  # type: ignore
 
 		def test_ic_errors(self, obj):
 			with pytest.raises(TypeError):
-				tophat(obj, "1m")
+				tophat(obj, "1m")  # type: ignore
 
 	@pytest.mark.parametrize(
 			"struct, expects", [

@@ -239,7 +239,7 @@ class Test_get_maxima_list_reduced:
 		maxima_list = get_maxima_list_reduced(tic, 12.34)
 		assert isinstance(maxima_list, list)
 		for peak in maxima_list:
-			assert isinstance(peak, list)
+			assert isinstance(peak, tuple)
 			assert len(peak) == 2
 			rt, intensity = peak
 			assert isinstance(rt, float)

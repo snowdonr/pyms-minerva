@@ -136,28 +136,28 @@ def test_time_step(tic):
 	assert tic.time_step == 1.0560000035830972
 
 
-def test_write(tic, outputdir):
-	tic.write(outputdir / "tic.dat", minutes=False, formatting=False)
+def test_write(tic, tmp_pathplus):
+	tic.write(tmp_pathplus / "tic.dat", minutes=False, formatting=False)
 
-	fp = (outputdir / "tic.dat").open()
+	fp = (tmp_pathplus / "tic.dat").open()
 
 	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
-		assert line == "{} {}\n".format(tic.time_list[ii], tic.intensity_array[ii])
+		assert line == f"{tic.time_list[ii]} {tic.intensity_array[ii]}\n"
 
 	fp.close()
 
-	tic.write(outputdir / "tic_minutes.dat", minutes=True, formatting=False)
+	tic.write(tmp_pathplus / "tic_minutes.dat", minutes=True, formatting=False)
 
-	fp = (outputdir / "tic_minutes.dat").open()
+	fp = (tmp_pathplus / "tic_minutes.dat").open()
 
 	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
-		assert line == "{} {}\n".format(tic.time_list[ii] / 60.0, tic.intensity_array[ii])
+		assert line == f"{tic.time_list[ii] / 60.0} {tic.intensity_array[ii]}\n"
 
 	fp.close()
 
-	tic.write(outputdir / "tic_formatting.dat", minutes=False)
+	tic.write(tmp_pathplus / "tic_formatting.dat", minutes=False)
 
-	fp = (outputdir / "tic_formatting.dat").open()
+	fp = (tmp_pathplus / "tic_formatting.dat").open()
 
 	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
 		assert line == f"{tic.time_list[ii]:8.4f} {tic.intensity_array[ii]:#.6e}\n"
@@ -172,8 +172,8 @@ def test_write(tic, outputdir):
 # Inherited Methods from pymsBaseClass
 
 
-def test_dump(im_i, outputdir):
-	im_i.dump(outputdir / "im_i_dump.dat")
+def test_dump(im_i, tmp_pathplus):
+	im_i.dump(tmp_pathplus / "im_i_dump.dat")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
@@ -181,8 +181,8 @@ def test_dump(im_i, outputdir):
 			im_i.dump(obj)
 
 	# Read and check values
-	assert (outputdir / "im_i_dump.dat").exists()
-	loaded_im_i = pickle.load((outputdir / "im_i_dump.dat").open("rb"))
+	assert (tmp_pathplus / "im_i_dump.dat").exists()
+	loaded_im_i = pickle.load((tmp_pathplus / "im_i_dump.dat").open("rb"))
 	assert loaded_im_i == im_i
 	assert len(loaded_im_i) == len(im_i)
 

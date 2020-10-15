@@ -18,15 +18,11 @@
 #                                                                           #
 #############################################################################
 
-# stdlib
-import copy
-
 # 3rd party
-import deprecation  # type: ignore
 import pytest
 
 # this package
-from pyms.Experiment import Experiment, load_expr, read_expr_list, store_expr
+from pyms.Experiment import Experiment, load_expr, read_expr_list
 from pyms.Peak.Class import Peak
 from pyms.Utils.Utils import is_sequence_of
 
@@ -74,8 +70,6 @@ def test_peak_list(expr, filtered_peak_list):
 
 
 def test_sele_rt_range(expr, filtered_peak_list):
-	expr = copy.copy(expr)
-
 	expr.sele_rt_range(["6.5m", "21m"])
 	assert expr.peak_list != filtered_peak_list
 
@@ -88,34 +82,17 @@ def test_sele_rt_range(expr, filtered_peak_list):
 			expr.sele_rt_range(obj)
 
 
-@deprecation.fail_if_not_removed
-def test_store_expr(expr, outputdir):
-	with pytest.warns(DeprecationWarning):
-		store_expr(str(outputdir / "ELEY_1_SUBTRACT_DEPRECATION.expr"), expr)
-
-	for obj in [*test_numbers, test_dict, *test_lists]:
-		with pytest.warns(DeprecationWarning):
-			with pytest.raises(TypeError):
-				store_expr(obj, expr)
-
-	for obj in [*test_numbers, test_string, test_dict, *test_lists]:
-		with pytest.warns(DeprecationWarning):
-			with pytest.raises(TypeError):
-				store_expr(test_string, obj)
-
-
 @pytest.fixture(scope="function")
-def expr_filename(expr, outputdir):
-	filename = outputdir / "ELEY_1_SUBTRACT.expr"
-	expr.store(filename)
-	return filename
+def expr_filename(expr, tmp_pathplus):
+	filename = tmp_pathplus / "ELEY_1_SUBTRACT.expr"
+	expr.dump(filename)
+	yield filename
 
 
-def test_store_errors(expr):
-
+def test_dump_errors(expr):
 	for obj in [*test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			expr.store(obj)
+			expr.dump(obj)
 
 
 def test_load_expr(filtered_peak_list, pyms_datadir, expr_filename):
@@ -142,8 +119,9 @@ def test_load_expr(filtered_peak_list, pyms_datadir, expr_filename):
 		load_expr(pyms_datadir / "not-an-experiment.expr")
 
 
-def test_read_expr_list(filtered_peak_list, pyms_datadir, expr_filename):
-	expr_list = read_expr_list(pyms_datadir / "read_expr_list.txt")
+def test_read_expr_list(filtered_peak_list, pyms_datadir, expr_filename, tmp_pathplus):
+	(tmp_pathplus / "read_expr_list.txt").write_lines([str(expr_filename)] * 5)
+	expr_list = read_expr_list(tmp_pathplus / "read_expr_list.txt")
 	assert isinstance(expr_list, list)
 	assert is_sequence_of(expr_list, Experiment)
 
