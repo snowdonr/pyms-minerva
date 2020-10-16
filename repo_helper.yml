@@ -76,3 +76,6 @@ exclude_files:
   - pre-commit
 
 enable_devmode: false
+
+travis_extra_install_post:
+  - sudo apt install libhdf5-dev
