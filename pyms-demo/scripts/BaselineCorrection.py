@@ -28,7 +28,6 @@
 
 # In[1]:
 
-# stdlib
 import pathlib
 
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
@@ -36,7 +35,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.TopHat import tophat
@@ -80,7 +78,6 @@ tic2.write(output_directory / "baseline_correction_tic_smooth_bc.dat", minutes=T
 
 # In[6]:
 
-# 3rd party
 from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.TopHat import tophat_im
 

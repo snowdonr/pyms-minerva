@@ -11,7 +11,6 @@
 
 # In[1]:
 
-# stdlib
 import pathlib
 
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
@@ -19,7 +18,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 
 # Read the raw data files and extract the TIC.
@@ -42,7 +40,6 @@ tic = data.tic
 
 # In[3]:
 
-# 3rd party
 from pyms.Noise.Window import window_smooth
 
 tic1 = window_smooth(tic, window=5)
@@ -84,7 +81,6 @@ tic2.write(output_directory / "noise_smoothing_tic2.dat", minutes=True)
 
 # In[7]:
 
-# 3rd party
 from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.Noise.Window import window_smooth_im
 
@@ -109,7 +105,6 @@ ic_smooth1.write(output_directory / "noise_smoothing_ic_smooth1.dat", minutes=Tr
 
 # In[9]:
 
-# 3rd party
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 
 tic4 = savitzky_golay(tic)
@@ -131,7 +126,6 @@ tic4.write(output_directory / "noise_smoothing_tic4.dat", minutes=True)
 
 # In[11]:
 
-# 3rd party
 from pyms.Noise.SavitzkyGolay import savitzky_golay_im
 
 im_smooth2 = savitzky_golay_im(im)

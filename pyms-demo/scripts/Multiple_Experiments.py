@@ -13,7 +13,6 @@
 
 # In[1]:
 
-# stdlib
 import pathlib
 
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
@@ -21,7 +20,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.Experiment import Experiment
 from pyms.GCMS.IO.ANDI import ANDI_reader

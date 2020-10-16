@@ -7,7 +7,6 @@
 
 # In[1]:
 
-# stdlib
 import pathlib
 
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
@@ -15,7 +14,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IntensityMatrix import build_intensity_matrix
 
@@ -31,7 +29,6 @@ im = build_intensity_matrix(data)
 
 # In[3]:
 
-# 3rd party
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.TopHat import tophat
 
@@ -47,7 +44,6 @@ for ii in range(n_mz):
 
 # In[4]:
 
-# 3rd party
 from pyms.BillerBiemann import BillerBiemann
 
 peak_list = BillerBiemann(im)
@@ -94,7 +90,6 @@ len(peak_list)
 
 # In[8]:
 
-# 3rd party
 from pyms.BillerBiemann import num_ions_threshold, rel_threshold
 
 pl = rel_threshold(peak_list, percent=2)

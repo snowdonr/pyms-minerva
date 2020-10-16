@@ -13,12 +13,10 @@
 
 # In[ ]:
 
-# stdlib
 import pathlib
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.DPA.Alignment import exprl2alignment
 from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
 from pyms.Experiment import load_expr
@@ -177,7 +175,6 @@ A9.write_csv(
 
 # In[ ]:
 
-# 3rd party
 from pyms.Peak.List.IO import store_peaks
 
 aligned_peaks = A9.aligned_peaks()

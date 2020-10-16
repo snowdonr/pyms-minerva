@@ -24,7 +24,6 @@
 
 # In[1]:
 
-# stdlib
 import pathlib
 
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
@@ -32,7 +31,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.IntensityMatrix import build_intensity_matrix_i
 
@@ -48,7 +46,6 @@ im = build_intensity_matrix_i(data)
 
 # In[3]:
 
-# 3rd party
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.TopHat import tophat
 
@@ -65,7 +62,6 @@ for ii in range(n_mz):
 
 # In[4]:
 
-# 3rd party
 from pyms.BillerBiemann import BillerBiemann
 
 pl = BillerBiemann(im, points=9, scans=2)
@@ -75,7 +71,6 @@ len(pl)
 
 # In[5]:
 
-# 3rd party
 from pyms.BillerBiemann import num_ions_threshold, rel_threshold
 
 apl = rel_threshold(pl, percent=2)
@@ -92,7 +87,6 @@ len(peak_list)
 
 # In[7]:
 
-# 3rd party
 from pyms.Peak.Function import peak_sum_area
 
 for peak in peak_list:
@@ -108,7 +102,6 @@ for peak in peak_list:
 
 # In[8]:
 
-# 3rd party
 from pyms.Experiment import Experiment
 
 expr = Experiment("a0806_077", peak_list)

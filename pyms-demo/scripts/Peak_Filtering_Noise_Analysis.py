@@ -21,7 +21,6 @@
 
 # In[1]:
 
-# stdlib
 import pathlib
 
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
@@ -29,7 +28,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-# 3rd party
 from pyms.BillerBiemann import BillerBiemann
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IntensityMatrix import build_intensity_matrix
@@ -54,7 +52,6 @@ peak_list = BillerBiemann(im, points=9, scans=2)
 
 # In[2]:
 
-# 3rd party
 from pyms.Noise.Analysis import window_analyzer
 
 tic = data.tic
@@ -67,7 +64,6 @@ print(noise_level)
 
 # In[3]:
 
-# 3rd party
 from pyms.BillerBiemann import num_ions_threshold
 
 filtered_peak_list = num_ions_threshold(peak_list, n=3, cutoff=noise_level)
