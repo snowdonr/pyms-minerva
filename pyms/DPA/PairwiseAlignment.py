@@ -301,13 +301,14 @@ def dp(S, gap_penalty: float) -> Dict:
 def position_similarity(pos1, pos2, D) -> float:
 	"""
 	Calculates the similarity between the two alignment positions.
+
 	A score of 0 is best and 1 is worst.
 
-	:param pos1: The position of the first alignment
-	:param pos2: The position of the second alignment
-	:param D: Retention time tolerance
+	:param pos1: The position of the first alignment.
+	:param pos2: The position of the second alignment.
+	:param D: Retention time tolerance.
 
-	:return: The similarity value for the current position
+	:return: The similarity value for the current position.
 
 	:authors: Qiao Wang, Vladimir Likic, Andrew Isaac
 	"""
@@ -371,13 +372,13 @@ Use `IntensityMatrix.crop_mass()` to set same length for all Mass Spectra"""
 
 def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 	"""
-	Merges two alignments with gaps added in from DP traceback
+	Merges two alignments with gaps added in from DP traceback.
 
-	:param A1: First alignment
-	:param A2: Second alignment
-	:param traces: DP traceback
+	:param A1: First alignment.
+	:param A2: Second alignment.
+	:param traces: DP traceback.
 
-	:return: A single alignment from A1 and A2
+	:return: A single alignment from ``A1`` and ``A2``.
 
 	:authors: Woon Wai Keen, Vladimir Likic, Qiao Wang
 	"""
@@ -442,7 +443,7 @@ def alignment_similarity(traces, score_matrix, gap: float):
 	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
-	score_matrix = 1. - score_matrix
+	score_matrix = 1.0 - score_matrix
 	similarity = 0.
 	idx1 = idx2 = 0
 
