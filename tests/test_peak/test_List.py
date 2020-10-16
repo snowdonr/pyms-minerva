@@ -23,7 +23,7 @@ import pytest
 
 # this package
 from pyms.Peak.Class import Peak
-from pyms.Peak.List import composite_peak, fill_peaks, sele_peaks_by_rt, is_peak_list
+from pyms.Peak.List import composite_peak, fill_peaks, is_peak_list, sele_peaks_by_rt
 from pyms.Peak.List.IO import load_peaks, store_peaks
 from pyms.Spectrum import MassSpectrum
 from tests.constants import *

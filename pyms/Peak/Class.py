@@ -26,7 +26,7 @@ Provides a class to model signal peak
 # stdlib
 import copy
 import warnings
-from typing import Dict, List, Optional, overload, Sequence, Tuple, Union, cast
+from typing import Dict, List, Optional, Sequence, Tuple, Union, cast, overload
 from warnings import warn
 
 # this package
@@ -280,7 +280,6 @@ class AbstractPeak(pymsBaseClass):
 
 		return self._UID
 
-
 	#
 	# def __dict__(self):
 	#
@@ -326,6 +325,8 @@ class Peak(AbstractPeak):
 
 		If the ``ms`` argument is unset an empty mass spectrum is used,
 		rather than :py:obj:`None` in previous versions.
+
+	.. TODO:: Change type hint of ``ms`` to Optional[MassSpectrum] once __new__ removed.
 	"""
 
 	_mass_spectrum: MassSpectrum
@@ -333,7 +334,7 @@ class Peak(AbstractPeak):
 	def __init__(
 			self,
 			rt: Union[int, float] = 0.0,
-			ms: Union[float, MassSpectrum, None] = None,  # TODO: change to Optional[MassSpectrum] once __new__ removed
+			ms: Union[float, MassSpectrum, None] = None,
 			minutes: bool = False,
 			outlier: bool = False,
 			):
@@ -354,16 +355,18 @@ class Peak(AbstractPeak):
 			ms: Optional[MassSpectrum],
 			minutes: bool = ...,
 			outlier: bool = ...,
-			) -> "Peak": ...
+			) -> "Peak":
+		...  # pragma: no cover
 
 	@overload
 	def __new__(  # type: ignore
-			cls,
-			rt: float,
-			ms: float,
-			minutes: bool = ...,
-			outlier: bool = ...,
-			) -> "ICPeak": ...  # type: ignore
+		cls,
+		rt: float,
+		ms: float,
+		minutes: bool = ...,
+		outlier: bool = ...,
+		) -> "ICPeak":
+		...  # pragma: no cover
 
 	def __new__(
 			cls,
@@ -595,7 +598,7 @@ class Peak(AbstractPeak):
 		# set the mass spectrum
 		self._mass_spectrum = data.get_ms_at_index(pt_apex)
 
-		# TODO: so something about this function for ICPeak
+		# TODO: something about this function for ICPeak
 		# clear single ion chromatogram mass
 		# self._ic_mass = None
 		self.make_UID()

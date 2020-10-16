@@ -231,7 +231,8 @@ def test_write_csv(A1, tmp_pathplus):
 		assert rt_csv[peak_idx + 1][1] == area_csv[peak_idx + 1][1] == f"{float(compo_peak.rt / 60):.3f}"
 
 	A1.write_csv(
-			tmp_pathplus / 'alignment_rt_seconds.csv', tmp_pathplus / 'alignment_area_seconds.csv',
+			tmp_pathplus / "alignment_rt_seconds.csv",
+			tmp_pathplus / "alignment_area_seconds.csv",
 			minutes=False,
 			)
 

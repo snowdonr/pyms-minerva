@@ -27,7 +27,7 @@ Functions related to Peak modification
 import copy
 from math import ceil
 from statistics import median
-from typing import cast, Dict, List, Sequence, Tuple, Union, overload
+from typing import Dict, List, Sequence, Tuple, Union, cast, overload
 
 # 3rd party
 import deprecation  # type: ignore
