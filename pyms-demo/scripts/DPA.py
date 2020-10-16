@@ -11,55 +11,48 @@
 #
 # First, determine the directory to the experiment files and import the required functions.
 
-# In[18]:
+# In[ ]:
 
-
+# stdlib
 import pathlib
+
 output_directory = pathlib.Path(".").resolve() / "output"
 
-from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
+# 3rd party
 from pyms.DPA.Alignment import exprl2alignment
+from pyms.DPA.PairwiseAlignment import PairwiseAlignment, align_with_tree
 from pyms.Experiment import load_expr
-
 
 # Define the input experiments list.
 
-# In[19]:
-
+# In[ ]:
 
 exprA_codes = ["a0806_077", "a0806_078", "a0806_079"]
 
-
 # Read the experiment files from disk and create a list of the loaded |Experiment| objects.
 
-# In[20]:
-
+# In[ ]:
 
 expr_list = []
 
 for expr_code in exprA_codes:
-    file_name = output_directory / "experiments" / f"{expr_code}.expr"
-    expr = load_expr(file_name)
-    expr_list.append(expr)
-
+	file_name = output_directory / "experiments" / f"{expr_code}.expr"
+	expr = load_expr(file_name)
+	expr_list.append(expr)
 
 # Define the within-state alignment parameters.
 
-# In[21]:
-
+# In[ ]:
 
 Dw = 2.5  # rt modulation [s]
-Gw = 0.30 # gap penalty
-
+Gw = 0.30  # gap penalty
 
 # Convert each |Experiment| object is converted into an |Alignment| object with
 # the function |exprl2alignment()|.
 
-# In[22]:
-
+# In[ ]:
 
 F1 = exprl2alignment(expr_list)
-
 
 # In this example, there is only one experimental condition so the alignment
 # object is only for within group alignment (this special case is called
@@ -70,11 +63,9 @@ F1 = exprl2alignment(expr_list)
 # calculates the similarity between all peaks in one sample with those of another sample.
 # This is done for all possible pairwise alignments (2-alignments).
 
-# In[23]:
-
+# In[ ]:
 
 T1 = PairwiseAlignment(F1, Dw, Gw)
-
 
 # The parameters for the alignment by dynamic programming are: ``Dw``, the
 # retention time modulation in seconds; and ``Gw``, the gap penalty. These
@@ -87,11 +78,9 @@ T1 = PairwiseAlignment(F1, Dw, Gw)
 # The function |align_with_tree()| then takes the object ``T1`` and aligns the
 # individual alignment objects according to the guide tree.
 
-# In[24]:
-
+# In[ ]:
 
 A1 = align_with_tree(T1, min_peaks=2)
-
 
 # In this example, the individual alignments are three 1-alignments, and the
 # function |align_with_tree()| first creates a 2-alignment from the two most
@@ -107,14 +96,12 @@ A1 = align_with_tree(T1, min_peaks=2)
 # containing peak retention times (``rt.csv``) and the corresponding peak areas
 # (``area.csv``). These are plain ASCII files in CSV format.
 
-# In[25]:
-
+# In[ ]:
 
 A1.write_csv(
 		output_directory / "within_state_alignment" / 'a_rt.csv',
 		output_directory / "within_state_alignment" / 'a_area.csv',
 		)
-
 
 # The file ``area1.csv`` contains the data matrix where the corresponding peaks are aligned in the columns and each row corresponds to an experiment.
 # The file ``rt1.csv`` is useful for manually inspecting the alignment.
@@ -149,17 +136,16 @@ A1.write_csv(
 #
 # First, perform within-state alignment for cell state B.
 
-# In[26]:
-
+# In[ ]:
 
 exprB_codes = ["a0806_140", "a0806_141", "a0806_142"]
 
 expr_list = []
 
 for expr_code in exprB_codes:
-    file_name = output_directory / "experiments" / f"{expr_code}.expr"
-    expr = load_expr(file_name)
-    expr_list.append(expr)
+	file_name = output_directory / "experiments" / f"{expr_code}.expr"
+	expr = load_expr(file_name)
+	expr_list.append(expr)
 
 F2 = exprl2alignment(expr_list)
 T2 = PairwiseAlignment(F2, Dw, Gw)
@@ -170,35 +156,32 @@ A2.write_csv(
 		output_directory / "within_state_alignment" / 'b_area.csv',
 		)
 
-
 # ``A1`` and ``A2`` are the results of the within group alignments for cell state A and B, respectively.
 # The between-state alignment can be performed as follows alignment commands:
 
-# In[27]:
-
+# In[ ]:
 
 # Define the within-state alignment parameters.
-Db = 10.0 # rt modulation
-Gb = 0.30 # gap penalty
+Db = 10.0  # rt modulation
+Gb = 0.30  # gap penalty
 
-T9 = PairwiseAlignment([A1,A2], Db, Gb)
+T9 = PairwiseAlignment([A1, A2], Db, Gb)
 A9 = align_with_tree(T9)
 
 A9.write_csv(
 		output_directory / "between_state_alignment" / 'rt.csv',
-		output_directory / "between_state_alignment" / 'area.csv')
-
+		output_directory / "between_state_alignment" / 'area.csv'
+		)
 
 # Store the aligned peaks to disk.
 
-# In[28]:
+# In[ ]:
 
-
+# 3rd party
 from pyms.Peak.List.IO import store_peaks
 
 aligned_peaks = A9.aligned_peaks()
 store_peaks(aligned_peaks, output_directory / "between_state_alignment" / 'peaks.bin')
-
 
 # In this example the retention time tolerance for between-state alignment is
 # greater compared to the retention time tolerance for the within-state alignment

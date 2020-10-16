@@ -23,20 +23,22 @@
 #
 # First, build the Peak list as before
 
-# In[ ]:
+# In[1]:
 
-
+# stdlib
 import pathlib
+
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 # Change this if the data files are stored in a different location
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
+# 3rd party
+from pyms.BillerBiemann import BillerBiemann
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.TopHat import tophat
-from pyms.BillerBiemann import BillerBiemann
 
 jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
@@ -45,28 +47,32 @@ im = build_intensity_matrix(data)
 n_scan, n_mz = im.size
 
 for ii in range(n_mz):
-    ic = im.get_ic_at_index(ii)
-    ic_smooth = savitzky_golay(ic)
-    ic_bc = tophat(ic_smooth, struct="1.5m")
-    im.set_ic_at_index(ii, ic_bc)
+	ic = im.get_ic_at_index(ii)
+	ic_smooth = savitzky_golay(ic)
+	ic_bc = tophat(ic_smooth, struct="1.5m")
+	im.set_ic_at_index(ii, ic_bc)
 
 peak_list = BillerBiemann(im, points=9, scans=2)
 
+# 3rd party
 from pyms.Noise.Analysis import window_analyzer
+
 tic = data.tic
 noise_level = window_analyzer(tic)
 
+# 3rd party
 from pyms.BillerBiemann import num_ions_threshold
+
 filtered_peak_list = num_ions_threshold(peak_list, n=3, cutoff=noise_level)
 print(filtered_peak_list[:10])
 
-
 # Given a list of peaks, areas can be determined and added as follows:
 
-# In[ ]:
+# In[2]:
 
-
+# 3rd party
 from pyms.Peak.Function import peak_sum_area
+
 for peak in peak_list:
-    area = peak_sum_area(im, peak)
-    peak.area = area
+	area = peak_sum_area(im, peak)
+	peak.area = area

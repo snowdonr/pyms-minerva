@@ -12,59 +12,52 @@
 #
 # First, setup the paths to the datafiles and the output directory, then import JCAMP_reader and AMDI_reader.
 
-# In[10]:
+# In[1]:
 
-
+# stdlib
 import pathlib
+
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 # Change this if the data files are stored in a different location
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
-from pyms.GCMS.IO.JCAMP import JCAMP_reader
+# 3rd party
 from pyms.GCMS.IO.ANDI import ANDI_reader
-
+from pyms.GCMS.IO.JCAMP import JCAMP_reader
 
 # Then the raw data is read as before.
 
-# In[11]:
-
+# In[2]:
 
 andi_file = data_directory / "gc01_0812_066.cdf"
 data1 = ANDI_reader(andi_file)
 print(data1)
 
-
-# In[12]:
-
+# In[3]:
 
 jcamp_file = data_directory / "gc01_0812_066.jdx"
 data2 = JCAMP_reader(jcamp_file)
 print(data2)
 
-
 # To compare the two data sets, use the function |diff()|
 
-# In[13]:
+# In[4]:
 
-
+# 3rd party
 from pyms.GCMS.Function import diff
 
 diff(data1, data2)
-
 
 # If the data cannot be compared, for example because of
 # different number of scans, or inconsistent number of m/z values
 # in between two scans, |diff()|
 # will report the difference. For example:
 
-# In[14]:
-
+# In[5]:
 
 data2.trim(begin=1000, end=2000)
 
-
-# In[15]:
-
+# In[6]:
 
 diff(data1, data2)

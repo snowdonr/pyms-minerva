@@ -12,25 +12,24 @@
 
 # In[1]:
 
-
+# stdlib
 import pathlib
+
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 # Change this if the data files are stored in a different location
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
+# 3rd party
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-
 
 # Read the raw JCAMP-dx data.
 
 # In[2]:
 
-
 jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
 print(data)
-
 
 # ### A GCMS_data Object
 #
@@ -50,32 +49,24 @@ print(data)
 
 # In[3]:
 
-
 print(data.min_mass)
-
 
 # In[4]:
 
-
 print(data.max_mass)
-
 
 # A list of the first 10 retention times can be returned with:
 
 # In[5]:
 
-
 print(data.time_list[:10])
-
 
 # The index of a specific retention time (in seconds) can be returned with:
 #
 
 # In[6]:
 
-
 data.get_index_at_time(400.0)
-
 
 # Note that this returns the index of the retention time in the
 # data closest to the given retention time of 400.0 seconds.
@@ -86,9 +77,7 @@ data.get_index_at_time(400.0)
 
 # In[7]:
 
-
 print(data.tic)
-
 
 # The |IonChromatogram| object is explained in a later example.
 #
@@ -102,41 +91,31 @@ print(data.tic)
 
 # In[8]:
 
-
 scans = data.scan_list
 print(scans[:10])
-
 
 # A list of the first 10 masses in a scan (e.g. the 1st scan) is returned with:
 
 # In[9]:
 
-
 print(scans[0].mass_list[:10])
-
 
 # A list of the first 10 corresponding intensities in a scan is returned with:
 
 # In[10]:
 
-
-print(scans[0].intensity_list[0])
-
+print(scans[0].intensity_list[:10])
 
 # The minimum and maximum mass in an individual scan (e.g. the 1st scan) are
 # returned with:
 
 # In[11]:
 
-
 print(scans[0].min_mass)
-
 
 # In[12]:
 
-
 print(scans[0].max_mass)
-
 
 # ### Exporting data and obtaining information about a data set
 #
@@ -145,15 +124,17 @@ print(scans[0].max_mass)
 # m/z range and so on. The |GCMS_data|
 # class provides a method |info()|
 # that can be used for this purpose.
-#
-# The entire raw data of a |GCMS_data| object can be exported to a file
-# with the method |write()|:
 
 # In[13]:
 
+data.info()
+
+# The entire raw data of a |GCMS_data| object can be exported to a file
+# with the method |write()|:
+
+# In[14]:
 
 data.write(output_directory / "data")
-
 
 # This method takes the filename ("output/data", in this example)
 # and writes two CSV files. One has extension ".I.csv" and

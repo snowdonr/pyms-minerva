@@ -11,15 +11,17 @@
 #
 # First, setup the paths to the datafiles and the output directory, then import the required functions.
 
-# In[11]:
+# In[1]:
 
-
+# stdlib
 import pathlib
+
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 # Change this if the data files are stored in a different location
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
+# 3rd party
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.Experiment import Experiment
 from pyms.GCMS.IO.ANDI import ANDI_reader
@@ -28,20 +30,16 @@ from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 from pyms.TopHat import tophat
 
-
 # Define the data files to process
 
-# In[12]:
-
+# In[2]:
 
 expr_codes = ["a0806_077", "a0806_078", "a0806_079"]
 # expr_codes = ["a0806_140", "a0806_141", "a0806_142"]
 
-
 # Loop over the experiments and perform the processing.
 
-# In[13]:
-
+# In[3]:
 
 for expr_code in expr_codes:
 
@@ -107,7 +105,6 @@ for expr_code in expr_codes:
 	print(f"\t -> Saving the result as '{output_file}'")
 
 	expr.dump(output_file)
-
 
 # The previous set of data all belong to the same experimental condition. That is,
 # they represent one group and any comparison between the data is a within group

@@ -11,25 +11,24 @@
 
 # In[1]:
 
-
+# stdlib
 import pathlib
+
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 # Change this if the data files are stored in a different location
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
+# 3rd party
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-
 
 # Read the raw data files and extract the TIC.
 
 # In[2]:
 
-
 jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
 tic = data.tic
-
 
 # ## Window averaging
 #
@@ -43,37 +42,31 @@ tic = data.tic
 
 # In[3]:
 
-
+# 3rd party
 from pyms.Noise.Window import window_smooth
-tic1 = window_smooth(tic, window=5)
 
+tic1 = window_smooth(tic, window=5)
 
 # To apply median window smoothing with a 5-point window:
 
 # In[4]:
 
-
 tic2 = window_smooth(tic, window=5, use_median=True)
-
 
 # To apply the mean windows smoothing, but specifying the window as
 # a time string (in this example, 7 seconds):
 
 # In[5]:
 
-
 tic3 = window_smooth(tic, window='7s')
-
 
 # Write the original TIC and the smoothed TICs to disk:
 
 # In[6]:
 
-
-tic.write(output_directory / "noise_smoothing_tic.dat",minutes=True)
-tic1.write(output_directory / "noise_smoothing_tic1.dat",minutes=True)
-tic2.write(output_directory / "noise_smoothing_tic2.dat",minutes=True)
-
+tic.write(output_directory / "noise_smoothing_tic.dat", minutes=True)
+tic1.write(output_directory / "noise_smoothing_tic1.dat", minutes=True)
+tic2.write(output_directory / "noise_smoothing_tic2.dat", minutes=True)
 
 # ## Window Averaging on Intensity Matrix
 #
@@ -91,24 +84,22 @@ tic2.write(output_directory / "noise_smoothing_tic2.dat",minutes=True)
 
 # In[7]:
 
-
+# 3rd party
 from pyms.IntensityMatrix import build_intensity_matrix
 from pyms.Noise.Window import window_smooth_im
-im = build_intensity_matrix(data)
-im_smooth1 = window_smooth_im(im, window = 5, use_median = False)
 
+im = build_intensity_matrix(data)
+im_smooth1 = window_smooth_im(im, window=5, use_median=False)
 
 # Write the IC for mass 73 to disk for both the original and smoothed |IntensityMatrix|:
 
 # In[8]:
 
-
 ic = im.get_ic_at_index(73)
 ic_smooth1 = im_smooth1.get_ic_at_index(73)
 
-ic.write(output_directory/"noise_smoothing_ic.dat",minutes=True)
-ic_smooth1.write(output_directory/"noise_smoothing_ic_smooth1.dat",minutes=True)
-
+ic.write(output_directory / "noise_smoothing_ic.dat", minutes=True)
+ic_smooth1.write(output_directory / "noise_smoothing_ic_smooth1.dat", minutes=True)
 
 # ## Savitzky--Golay noise filter
 #
@@ -118,18 +109,16 @@ ic_smooth1.write(output_directory/"noise_smoothing_ic_smooth1.dat",minutes=True)
 
 # In[9]:
 
-
+# 3rd party
 from pyms.Noise.SavitzkyGolay import savitzky_golay
-tic4 = savitzky_golay(tic)
 
+tic4 = savitzky_golay(tic)
 
 # Write the smoothed TIC to disk:
 
 # In[10]:
 
-
-tic4.write(output_directory / "noise_smoothing_tic4.dat",minutes=True)
-
+tic4.write(output_directory / "noise_smoothing_tic4.dat", minutes=True)
 
 # In this example the default parameters were used.
 #
@@ -142,18 +131,16 @@ tic4.write(output_directory / "noise_smoothing_tic4.dat",minutes=True)
 
 # In[11]:
 
-
+# 3rd party
 from pyms.Noise.SavitzkyGolay import savitzky_golay_im
-im_smooth2 = savitzky_golay_im(im)
 
+im_smooth2 = savitzky_golay_im(im)
 
 # Write the IC for mass 73 in the smoothed |IntensityMatrix| to disk:
 
 # In[12]:
 
-
 ic_smooth2 = im_smooth2.get_ic_at_index(73)
-ic_smooth2.write(output_directory/"noise_smoothing_ic_smooth2.dat",minutes=True)
-
+ic_smooth2.write(output_directory / "noise_smoothing_ic_smooth2.dat", minutes=True)
 
 #

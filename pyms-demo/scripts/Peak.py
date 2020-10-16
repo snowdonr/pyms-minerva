@@ -25,52 +25,48 @@
 
 # In[1]:
 
-
+# stdlib
 import pathlib
+
 data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 # Change this if the data files are stored in a different location
 
 output_directory = pathlib.Path(".").resolve() / "output"
 
+# 3rd party
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-
 
 # Read the raw data files.
 
 # In[2]:
 
-
 jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
-
 
 # Build the |IntensityMatrix|.
 
 # In[3]:
 
-
+# 3rd party
 from pyms.IntensityMatrix import build_intensity_matrix_i
 
 im = build_intensity_matrix_i(data)
-
 
 # Extract the |MassSpectrum| at 31.17 minutes in this example.
 
 # In[4]:
 
-
-index = im.get_index_at_time(31.17*60.0)
+index = im.get_index_at_time(31.17 * 60.0)
 ms = im.get_ms_at_index(index)
-
 
 # Create a |Peak| object for the given retention time.
 
 # In[5]:
 
-
+# 3rd party
 from pyms.Peak.Class import Peak
-peak = Peak(31.17, ms, minutes=True)
 
+peak = Peak(31.17, ms, minutes=True)
 
 # By default the retention time is assumed to be in seconds. The parameter
 # ``minutes`` can be set to ``True`` if the retention time is given in minutes.
@@ -99,23 +95,17 @@ peak = Peak(31.17, ms, minutes=True)
 
 # In[6]:
 
-
 print(peak.rt)
-
 
 # In[7]:
 
-
 print(peak.UID)
 
-
 # In[8]:
-
 
 index = im.get_index_of_mass(73.3)
 
 print(index)
-
 
 # ## Modifying a Peak Object
 #
@@ -127,18 +117,14 @@ print(index)
 
 # In[9]:
 
-
 peak.crop_mass(60, 450)
 peak.null_mass(73)
 peak.null_mass(147)
-
 
 # The UID is automatically updated to reflect the changes:
 
 # In[10]:
 
-
 print(peak.UID)
-
 
 # It is also possible to change the peak mass spectrum by setting the attribute |pyms.Peak.Class.Peak.mass_spectrum|.
