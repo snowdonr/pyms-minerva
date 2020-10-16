@@ -17,18 +17,19 @@ python3 -m pip install PyMassSpec --upgrade || exit 1
 python3 -m pip install nbconvert jupyter-client ipykernel --upgrade  || exit 1
 
 # Change to Notebooks branch
-git checkout -b Notebooks || exit 1
+git checkout -b Notebooks-v2 || exit 1
 
 cd pyms-demo/jupyter || exit 1
 
 # Render notebooks and stage
 for file in *.ipynb; do
+  jupyter nbconvert --clear-output --inplace "$file"
   jupyter nbconvert --to notebook --inplace --execute "$file"
   git stage "$file".ipynb
 done
 
 # Commit and push
 git commit -m "Re-rendered Jupyter Notebooks" || exit 1
-git push --set-upstream origin Notebooks || exit 1
+git push --set-upstream origin Notebooks-v2 || exit 1
 
 exit 0
