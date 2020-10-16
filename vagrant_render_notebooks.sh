@@ -22,8 +22,13 @@ git checkout -b Notebooks-v2 || exit 1
 
 cd pyms-demo/jupyter || exit 1
 
-# Run once to ensure output files exist
+# Run Multiple_Experiments to ensure output files exist
 jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
+python3 -c "import pathlib, re; file = pathlib.Path('Multiple_Experiments.ipynb'); \
+file.write_text(re.sub(r'\nexpr_codes = (.*)\n# expr_codes', r'\n# expr_codes = \1\nexpr_codes', file.read_text()))"
+jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
+python3 -c "import pathlib, re; file = pathlib.Path('Multiple_Experiments.ipynb'); \
+file.write_text(re.sub(r'\n# expr_codes = (.*)\nexpr_codes', r'\nexpr_codes = \1\n# expr_codes', file.read_text()))"
 
 # Render notebooks and stage
 for file in *.ipynb; do
