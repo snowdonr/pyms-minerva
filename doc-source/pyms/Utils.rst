@@ -1,6 +1,6 @@
-*********************
+==================
 :mod:`pyms.Utils`
-*********************
+==================
 
 .. contents:: Table of Contents
 
@@ -8,25 +8,25 @@
 
 
 :mod:`pyms.Utils.IO`
-===========================
+------------------------
 
 .. automodule:: pyms.Utils.IO
 
 
 :mod:`pyms.Utils.Math`
-===========================
+------------------------
 
 .. automodule:: pyms.Utils.Math
 
 
 :mod:`pyms.Utils.Time`
-===========================
+------------------------
 
 .. automodule:: pyms.Utils.Time
 
 
 :mod:`pyms.Utils.Utils`
-===========================
+------------------------
 
 .. automodule:: pyms.Utils.Utils
 	:exclude-members: signedinteger

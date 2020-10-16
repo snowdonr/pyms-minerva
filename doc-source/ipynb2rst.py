@@ -1,26 +1,153 @@
 """
 Convert ipynb notebook to rst
+
+Based on https://github.com/bebraw/pypandoc
+MIT Licensed
 """
 
 # stdlib
 import io
+import os
+import os.path
 import pathlib
+import re
+import shutil
+import subprocess
+import tempfile
+from typing import Dict, List, Optional, Tuple
+from urllib.request import urlopen
 
-# 3rd party
-# Install pandoc
-from pandoc_downloader import download_pandoc
+
+def get_pandoc_urls(version: str = "latest") -> Tuple[Dict[str, List[str]], str]:
+	"""Get the urls of pandoc's binaries
+	Uses sys.platform keys, but removes the 2 from linux2
+	Adding a new platform means implementing unpacking in "DownloadPandocCommand"
+	and adding the URL here
+
+	:param version: pandoc version.
+		Valid values are either a valid pandoc version e.g. "1.19.1", or "latest".
+
+	:return: A dictionary with mapping platforms to the url of the relevant binaries,
+		and the actual pandoc version (e.g. "latest" will be resolved to the actual version).
+	"""
+
+	# url to pandoc download page
+	url = f"https://github.com/jgm/pandoc/releases/{('tag/' if version != 'latest' else '')}{version}"
+
+	# read the HTML content
+	response = urlopen(url)
+	content = response.read()
+
+	# regex for the binaries
+	regex = re.compile(r"/jgm/pandoc/releases/download/.*\.(?:msi|deb|pkg)")
+
+	# a list of urls to the binaries
+	pandoc_urls_list = regex.findall(content.decode("utf-8"))
+
+	# actual pandoc version
+	version = pandoc_urls_list[0].split('/')[5]
+
+	# dict that lookup the platform from binary extension
+	ext2platform = {'msi': 'win32', 'deb': 'linux', 'pkg': 'darwin'}
+
+	# parse pandoc_urls from list to dict
+	pandoc_urls = {ext2platform[url_frag[-3:]]: ("https://github.com" + url_frag) for url_frag in pandoc_urls_list}
+
+	return pandoc_urls, version
+
+
+def _make_executable(path):
+	mode = os.stat(path).st_mode
+	mode |= (mode & 0o444) >> 2  # copy R bits to X
+	print("* Making %s executeable..." % (path))
+	os.chmod(path, mode)
+
+
+def download_pandoc(url: Optional[str] = None, targetfolder: str = "~/bin", version: str = "latest"):
+	"""
+	Download and unpack pandoc.
+
+	Downloads prebuild binaries for pandoc from ``url`` and unpacks it into ``targetfolder``.
+
+	:param url: URL for the to be downloaded pandoc binary distribution for
+		the platform under which this python runs.
+
+	:param str targetfolder: directory, where the binaries should be installed
+		to. If no `targetfolder` is give, uses a platform specific user
+		location: `~/bin` on Linux, `~/Applications/pandoc` on Mac OS X, and
+		`~\\AppData\\Local\\Pandoc` on Windows.
+	"""
+
+	pandoc_urls, _ = get_pandoc_urls(version)
+
+	if url is None:
+		url = pandoc_urls["linux"]
+
+	filename = url.split("/")[-1]
+	if os.path.isfile(filename):
+		print(f"* Using already downloaded file {filename}")
+	else:
+		print(f"* Downloading pandoc from {url} ...")
+
+		# https://stackoverflow.com/questions/30627937/tracebaclk-attributeerroraddinfourl-instance-has-no-attribute-exit
+		response = urlopen(url)
+		with open(filename, 'wb') as out_file:
+			shutil.copyfileobj(response, out_file)
+
+	targetfolder = pathlib.Path(targetfolder).expanduser()
+
+	# Make sure target folder exists...
+	if not targetfolder.is_dir():
+		targetfolder.mkdir(parents=True)
+
+	print(f"* Unpacking {filename} to tempfolder...")
+
+	tempfolder = pathlib.Path(tempfile.mkdtemp())
+	cur_wd = os.getcwd()
+	filename = os.path.abspath(filename)
+	try:
+		os.chdir(tempfolder)
+		cmd = ["ar", "x", filename]
+		subprocess.check_call(cmd)
+
+		dir_listing = set(os.listdir(tempfolder))
+		if "data.tar.gz" in dir_listing:
+			cmd = ["tar", "xzf", "data.tar.gz"]
+		elif "data.tar.xz" in dir_listing:
+			cmd = ["tar", "xJf", "data.tar.xz"]
+		elif "data.tar.bz" in dir_listing:
+			cmd = ["tar", "xjf", "data.tar.bz"]
+		else:
+			raise FileNotFoundError(f"'data' archive not found. Files in the download are:\n{dir_listing}")
+
+		subprocess.check_call(cmd)
+		src = tempfolder / "usr" / "bin" / "pandoc"
+		dst = targetfolder / "pandoc"
+
+		if not dst.parent.is_dir():
+			dst.parent.mkdir(parents=True)
+
+		print(f"* Copying 'pandoc' to {str(targetfolder)!r} ...")
+		shutil.copyfile(src, dst)
+		_make_executable(dst)
+
+		src = tempfolder / "usr" / "share" / "doc" / "pandoc" / "copyright"
+		dst = targetfolder / "copyright.pandoc"
+		print(f"* Copying copyright to {str(targetfolder)!r} ...")
+		shutil.copyfile(src, dst)
+	finally:
+		os.chdir(cur_wd)
+		shutil.rmtree(tempfolder)
+
 
 download_pandoc()
 
+# Import the RST exporter and instantiate it
+
 # 3rd party
-# Import the RST exproter
 from nbconvert import RSTExporter
 
-# Instantiate it
 rst_exporter = RSTExporter()
-# from nbconvert.preprocessors import ExecutePreprocessor
-# ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
-# rst_exporter.register_preprocessor(ep, True)
 
 replacements = {
 		"pyms.GCMS.IO.JCAMP":
@@ -183,13 +310,13 @@ for notebook in notebooks:
 	for original, replacement in replacements.items():
 		body = body.replace(f"\\|{original}\\|", replacement)
 
-		# Sometimes trailing slash doesn't get escaped
+		# Sometimes trailing slashes doesn't get escaped
 		body = body.replace(f"\\|{original}|", replacement)
 
 		original = original.replace("_", "\\_")
 		body = body.replace(f"\\|{original}\\|", replacement)
 
-		# Sometimes trailing slash doesn't get escaped
+		# Sometimes trailing slashes doesn't get escaped
 		body = body.replace(f"\\|{original}|", replacement)
 
 	for original, replacement in string_replacements.items():
@@ -197,15 +324,13 @@ for notebook in notebooks:
 
 	i = 1
 	while True:
-		# print(i)
-		# replace nbconvert syntax with nbsphinx syntax
 		old_body = body
-		# body = old_body.replace(".. code:: ipython2", f".. nbinput:: ipython3", 1) #
-		body = old_body.replace(
-				".. code:: ipython2", f".. nbinput:: ipython3\n    :execution-count: {i}", 1
-				)  # \n    :execution-count: {i}
+
+		# replace nbconvert syntax with nbsphinx syntax
+		body = re.sub(r".. code:: ipython\d?", f".. nbinput:: ipython3\n    :execution-count: {i}", body, 1)
 		if body == old_body:
 			break
+
 		# body = body.replace(".. parsed-literal::", f".. nboutput::", 1)
 		body = body.replace(".. parsed-literal::", f".. parsed-literal::", 1)
 		i += 1
@@ -217,8 +342,6 @@ for notebook in notebooks:
 
 		# Write images to file
 		for name, data in outputs.items():
-			# print(name)
-			# print(data)
 			with io.open(images_dir / f"{notebook}_{name}", 'wb') as f:
 				f.write(data)
 
