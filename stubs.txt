@@ -1,1 +1,1 @@
-/home/domdf/Python/01 GitHub Repos/05 Type Stubs/pytest-regressions-stubs
+git+https://github.com/domdfcoding/pytest-regressions-stubs
