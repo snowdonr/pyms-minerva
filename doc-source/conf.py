@@ -19,7 +19,6 @@ from __pkginfo__ import __version__
 nitpicky = True
 exclude_patterns = ['../pyms-demo/old/', 'demo_rst/reading_andi.rst', 'chapter09.rst', 'chapter10.rst']
 nbsphinx_input_prompt = 'In [%s]:'
-nbsphinx_output_prompt = 'Out[%s]:'
 
 github_username = "domdfcoding"
 github_repository = "PyMassSpec"

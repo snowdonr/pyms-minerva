@@ -70,6 +70,7 @@ sphinx_conf_preamble:
   - import ipynb2rst
   - nitpicky = True
   - "exclude_patterns = ['../pyms-demo/old/', 'demo_rst/reading_andi.rst', 'chapter09.rst', 'chapter10.rst']"
+  - nbsphinx_input_prompt = 'In [%s]:'
 
 exclude_files:
   - pre-commit

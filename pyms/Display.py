@@ -617,15 +617,13 @@ class ClickEventHandler:
 		# if the selected point is not close enough to peak
 		print("No Peak at this point")
 
-	def get_n_largest(self, intensity_list: List) -> List:
+	def get_n_largest(self, intensity_list: List[float]) -> List[float]:
 		"""
 		Computes the indices of the largest n ion intensities for writing to console
 
 		:param intensity_list: List of Ion intensities
-		:type intensity_list: list
 
-		:return: Indices of largest n ion intensities
-		:rtype: list
+		:return: Indices of largest ``n`` ion intensities
 		"""
 
 		largest = [0] * self.n_intensities
@@ -650,12 +648,10 @@ def invert_mass_spec(mass_spec: MassSpectrum, inplace: bool = False) -> MassSpec
 	Invert the mass spectrum for display in a head2tail plot.
 
 	:param mass_spec: The Mass Spectrum to normalize
-	:type mass_spec: :class:`pyms.Spectrum.MassSpectrum`
 	:param inplace: Whether the inversion should be applied to the
 		:class:`~pyms.Spectrum.MassSpectrum` object given, or to a copy (default behaviour).
 
 	:return: The normalized mass spectrum
-	:rtype: :class:`pyms.Spectrum.MassSpectrum`
 	"""
 
 	inverted_intensity_list = [-x for x in mass_spec.intensity_list]
