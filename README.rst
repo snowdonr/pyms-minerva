@@ -178,14 +178,14 @@ Usage
 A tutorial illustrating various PyMassSpec features in detail is provided
 in subsequent chapters of this User Guide. The commands executed
 interactively are grouped together by example, and can be found
-:ref:`here <pyms_demo_>`__.
+`here <https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo>`__.
 
 .. If you are viewing this source, the examples can be found in the pyms-demo directory, and the data files in pyms-data
 
 The data used in the PyMassSpec documentation and examples is available
-:ref:`here <datafiles_>`__.
+`here <https://pymassspec.readthedocs.io/en/master/pyms-demo/data-files.html>`__.
 
-In the ":ref:`Demos and Examples <pyms_demo_>`__" section there
+In the "`Demos and Examples`_" section there
 is a page corresponding to each example, coded with the chapter number
 (ie. "``pyms-demo/20a/``" corresponds to the Example 20a, from Chapter 2).
 
@@ -239,8 +239,8 @@ Further examples can be found in the `documentation`_
 Contributing
 ==============
 
-Contributions are very welcome. Tests can be run with `pytest`_. Please
-ensure the coverage is at least .. image:: https://coveralls.io/repos/github/domdfcoding/pymassspec/badge.svg?branch=master
+Contributions are very welcome. Tests can be run with `pytest`_.
+Please ensure the coverage is at least |coveralls|
 before you submit a pull request.
 
 For further information see the section `Contributing to PyMassSpec`_
@@ -263,5 +263,4 @@ detailed description.
 .. _`file an issue`: https://github.com/domdfcoding/pymassspec/issues
 .. _Python: https://www.python.org/
 .. _GPL: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
-.. _pyms_demo: https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo
-.. _datafiles: https://pymassspec.readthedocs.io/en/master/pyms-demo/data-files.html
+.. _Demos and Examples: https://pymassspec.readthedocs.io/en/master/pyms-demo/introduction.html#pyms-demo

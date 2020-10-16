@@ -227,15 +227,6 @@ The resulting noise and baseline corrected ion chromatogram is saved back into t
 
 Further examples can be found in the `documentation`_
 
-Contributing
-==============
-
-Contributions are very welcome. Tests can be run with `pytest`_. Please
-ensure the coverage is at least .. image:: https://coveralls.io/repos/github/domdfcoding/pymassspec/badge.svg?branch=master
-before you submit a pull request.
-
-For further information see the section `Contributing to PyMassSpec`_
-
 License
 =========
 PyMassSpec is Free and Open Source software released under the `GNU General Public License version 2 <GPL_>`__.
@@ -249,7 +240,6 @@ detailed description.
 
 
 .. _`documentation`: https://pymassspec.readthedocs.io
-.. _`Contributing to PyMassSpec`: https://pymassspec.readthedocs.io/en/master/Contributing/Contributing.html
 .. _`pytest`: https://pytest.org/
 .. _`file an issue`: https://github.com/domdfcoding/pymassspec/issues
 .. _Python: https://www.python.org/
