@@ -19,7 +19,7 @@ install:
   - pip install coveralls coverage_pyver_pragma
   - sudo add-apt-repository universe
   - sudo apt update
-  - sudo apt install libhdf5-dev
+  - sudo apt install libhdf5-dev netcdf-bin libnetcdf-dev
 
 script:
   - tox -vv
