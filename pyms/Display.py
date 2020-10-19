@@ -617,7 +617,7 @@ class ClickEventHandler:
 		# if the selected point is not close enough to peak
 		print("No Peak at this point")
 
-	def get_n_largest(self, intensity_list: List[float]) -> List[float]:
+	def get_n_largest(self, intensity_list: List[float]) -> List[int]:
 		"""
 		Computes the indices of the largest n ion intensities for writing to console
 

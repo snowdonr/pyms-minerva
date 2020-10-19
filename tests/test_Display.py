@@ -34,6 +34,7 @@ from pyms.Display import Display
 from .constants import *
 
 baseline = str(Path(os.path.split(__file__)[0]) / "baseline")
+assert os.path.exists(baseline)
 
 
 def test_Display():
