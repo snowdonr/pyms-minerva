@@ -78,4 +78,6 @@ exclude_files:
 enable_devmode: false
 
 travis_extra_install_post:
+  - sudo add-apt-repository universe
+  - sudo apt update
   - sudo apt install libhdf5-dev
