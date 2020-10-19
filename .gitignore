@@ -89,5 +89,6 @@ Scribble
 **/output
 **/nist_jdx_files
 .vagrant
+Vagrantfile
 **pandoc*.deb
 **/UserGuide.pdf

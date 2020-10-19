@@ -53,6 +53,7 @@ additional_ignore:
   - "**/output"
   - "**/nist_jdx_files"
   - .vagrant
+  - Vagrantfile
   - "**pandoc*.deb"
   - "**/UserGuide.pdf"
 
@@ -81,3 +82,6 @@ travis_extra_install_post:
   - sudo add-apt-repository universe
   - sudo apt update
   - sudo apt install libhdf5-dev
+
+imgbot_ignore:
+  - tests/baseline/*.png
