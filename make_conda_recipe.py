@@ -1,43 +1,48 @@
 #!/usr/bin/python3
 
-# This file is managed by `repo_helper`. Don't edit it directly.
+# This file is managed by 'repo_helper'. Don't edit it directly.
+
+# stdlib
+import pathlib
 
 # this package
-from __pkginfo__ import *  # pylint: disable=wildcard-import
+from __pkginfo__ import __version__
 
+description_block = """Python Toolkit for Mass Spectrometry
+
+
+
+Before installing please ensure you have added the following channels: bioconda, conda-forge, domdfcoding
+""".replace('"', '\\"')
+
+
+repo_root = pathlib.Path(__file__).parent
 recipe_dir = repo_root / "conda"
 
 if not recipe_dir.exists():
 	recipe_dir.mkdir()
 
+all_requirements = (repo_root / "requirements.txt").read_text(encoding="utf-8").split('\n')
+
 # TODO: entry_points, manifest
 
-all_requirements = install_requires[:]
-
-if isinstance(extras_require, dict):
-	for requires in extras_require.values():
-		all_requirements += requires
+for requires in {'all': []}.values():
+	all_requirements += requires
 
 all_requirements = {x.replace(" ", '') for x in set(all_requirements)}
 requirements_block = "\n".join(f"    - {req}" for req in all_requirements if req)
-
-description_block = conda_description.replace('"', '\\"')
 
 (recipe_dir / "meta.yaml").write_text(
 		encoding="UTF-8",
 		data=f"""\
 package:
-  name: "{pypi_name.lower()}"
+  name: "pymassspec"
   version: "{__version__}"
 
 source:
-  url: "https://pypi.io/packages/source/{pypi_name[0]}/{pypi_name}/{pypi_name}-{__version__}.tar.gz"
+  url: "https://pypi.io/packages/source/P/PyMassSpec/PyMassSpec-{__version__}.tar.gz"
 
 build:
-#  entry_points:
-#    - {import_name} = {import_name}:main
-#  skip_compile_pyc:
-#    - "*/templates/*.py"          # These should not (and cannot) be compiled
   noarch: python
   script: "{{{{ PYTHON }}}} -m pip install . -vv"
 
@@ -56,22 +61,22 @@ requirements:
 
 test:
   imports:
-    - {import_name}
+    - pyms
 
 about:
-  home: "{web}"
-  license: "{__license__}"
+  home: "https://github.com/domdfcoding/PyMassSpec"
+  license: "GNU General Public License v2 (GPLv2)"
   # license_family: LGPL
   # license_file: LICENSE
-  summary: "{short_desc}"
+  summary: "Python Toolkit for Mass Spectrometry"
   description: "{description_block}"
-  doc_url: {project_urls["Documentation"]}
-  dev_url: {project_urls["Source Code"]}
+  doc_url: https://PyMassSpec.readthedocs.io
+  dev_url: https://github.com/domdfcoding/PyMassSpec
 
 extra:
   maintainers:
-    - {author}
-    - github.com/{github_username}
+    - Dominic Davis-Foster
+    - github.com/domdfcoding
 
 """)
 
