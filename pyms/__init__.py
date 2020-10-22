@@ -1,5 +1,5 @@
 """
-The root of the package pyms
+The root of the package pyms.
 """
 
 ################################################################################
@@ -26,11 +26,11 @@ The root of the package pyms
 # from pyms import Baseline, Deconvolution, Display, Experiment, Gapfill, GCMS, Noise, Peak, Simulator, Utils
 
 name = "PyMassSpec"
-__author__ = 'See AUTHORS'
-__license__ = 'GPL v2'
-__maintainer_email__ = 'dominic@davis-foster.co.uk'
-__url__ = 'http://domdfcoding.github.io/PyMassSpec'
-__version__ = '2.2.22.b2'
+__author__ = "See AUTHORS"
+__license__ = "GPLv2"
+__maintainer_email__ = "dominic@davis-foster.co.uk"
+__url__ = "http://domdfcoding.github.io/PyMassSpec"
+__version__ = "2.2.22.b2"
 
 __copyright__ = "2005-2012 Vladimir Likic, 2019-2020 Dominic Davis-Foster"
 __email__ = "dominic@davis-foster.co.uk"

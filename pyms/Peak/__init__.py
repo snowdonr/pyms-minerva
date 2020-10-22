@@ -1,5 +1,5 @@
 """
-Functions for modelling signal peaks
+Functions for modelling signal peaks.
 """
 
 ################################################################################

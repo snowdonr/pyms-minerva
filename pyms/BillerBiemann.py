@@ -83,14 +83,14 @@ def BillerBiemann(im: IntensityMatrix, points: int = 3, scans: int = 1) -> List[
 	mass_list = im.mass_list
 	peak_list = []
 	maxima_im = get_maxima_matrix(im, points, scans)
-	numrows = len(maxima_im)
 
-	for row in range(numrows):
-		if sum(maxima_im[row]) > 0:
-			rt = rt_list[row]
-			ms = MassSpectrum(mass_list, maxima_im[row])
+	for row_idx, row in enumerate(maxima_im):
+		if sum(row) > 0:
+			rt = rt_list[row_idx]
+			ms = MassSpectrum(mass_list, row)
 			peak = Peak(rt, ms)
-			peak.bounds = (0, row, 0)  # store IM index for convenience
+			peak.bounds = (0, row_idx, 0)  # store IM index for convenience
+			# TODO: can the bounds be determined from the intensity matrix?
 			peak_list.append(peak)
 
 	return peak_list
@@ -98,26 +98,36 @@ def BillerBiemann(im: IntensityMatrix, points: int = 3, scans: int = 1) -> List[
 
 def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: int = 3) -> List[int]:
 	"""
-	Find local maxima.
+	Returns the scan indices for the apexes of the ion.
 
 	:param ion_intensities: A list of intensities for a single ion.
 	:param points: Number of scans over which to consider a maxima to be a peak.
 
-	:return: A list of scan indices
-
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
+
+	**Example:**
+
+	.. code-block:: python
+
+		>>> # A trivial set of data with two clear peaks
+		>>> data = [1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
+		>>> get_maxima_indices(data)
+		[4, 13]
+		>>> # Wider window (more points)
+		>>> get_maxima_indices(data, points=10)
+		[13]
+
 	"""
 
 	if not is_sequence_of(ion_intensities, _number_types):
-		raise TypeError("'ion_intensities' must be a List of numbers")
+		raise TypeError("'ion_intensities' must be a sequence of numbers")
 
 	if not isinstance(points, int):
 		raise TypeError("'points' must be an integer")
 
 	# find peak inflection points
 	# use a 'points' point window
-	# for a plateau after a rise, need to check if it is the left edge of
-	# a peak
+	# for a plateau after a rise, need to check if it is the left edge of a peak
 	peak_point = []
 	edge = -1
 	points = int(points)
@@ -130,13 +140,18 @@ def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: 
 		right = ion_intensities[index + half + 1:index + points]
 		# max in middle
 		if mid > max(left) and mid > max(right):
+			# the max value is in the middle
 			peak_point.append(index + half)
 			edge = -1  # ignore previous rising edge
-		# flat from rise (left of peak?)
-		if mid > max(left) and mid == max(right):
+			# input("Case 1 > ")
+
+		elif mid > max(left) and mid == max(right):
+			# start of plateau following rise (left of peak?)
 			edge = index + half  # ignore previous rising edge, update latest
-		# fall from flat
-		if mid == max(left) and mid > max(right):
+			# input("Case 2 > ")
+
+		elif mid == max(left) and mid > max(right):
+			# start of fall from plateau
 			if edge > -1:
 				centre = int((edge + index + half) / 2)  # mid point
 				peak_point.append(centre)
@@ -220,13 +235,20 @@ def get_maxima_list_reduced(
 
 def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> numpy.ndarray:
 	"""
+	Constructs a matrix containing only data for scans in which particular ions apexed.
+
+	The data can be optionally consolidated into the scan within a range
+	with the highest total intensity by adjusting the ``scans`` parameter.
+	By default this is ``1``, which does not consolidate the data.
+
+	The columns are ion masses and the rows are scans.
 	Get matrix of local maxima for each ion.
 
 	:param im:
 	:param points: Number of scans over which to consider a maxima to be a peak.
 	:param scans: Number of scans to combine peaks from to compensate for spectra skewing.
 
-	:return: A matrix of each ion and scan and intensity at ion peaks.
+	:return: A matrix of giving the intensities of ion masses (columns) and for each scan (rows).
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
@@ -240,11 +262,12 @@ def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> n
 	if not isinstance(scans, int):
 		raise TypeError("'scans' must be an integer")
 
-	numrows, numcols = im.size
+	numrows, numcols = im.size  # scans, masses
 	# zeroed matrix, size numrows*numcols
 	maxima_im = numpy.zeros((numrows, numcols))
 	raw_im = im.intensity_array
 
+	# Construct a 2d array which is all zeros apart from the apexing ions
 	for col in range(numcols):  # assume all rows have same width
 		# 1st, find maxima
 		maxima = get_maxima_indices(raw_im[:, col], points)
@@ -256,26 +279,35 @@ def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> n
 	# combine spectra within 'scans' scans.
 	half = int(scans / 2)
 
-	for row in range(numrows):
+	for row_idx in range(numrows):
+		# print(f"{row_idx=}")
 		# tic = 0
 		best = 0
 		loc = 0
 
 		# find best in scans
 		for ii in range(scans):
-			if 0 <= row - half + ii < numrows:
-				tic = maxima_im[row - half + ii].sum()
-				# find largest tic of scans
+			# print(f"{ii=}")
+
+			# Check the scan window around row_idx is not
+			# out of range on left (0) or right (numrows)
+			if 0 <= row_idx - half + ii < numrows:
+				# print(row_idx - half + ii)
+				tic = maxima_im[row_idx - half + ii].sum()
+
+				# find the index of the scan in the window with the highest TIC intensity
 				if tic > best:
 					best = tic
 					loc = ii
 
-		# move and add others to best
 		for ii in range(scans):
-			if 0 <= row - half + ii < numrows and ii != loc:
+			# Consolidate data in scan with highest TIC
+			source_idx = row_idx - half + ii  # the scan to move data from
+			dest_idx = row_idx - half + loc  # the scan to move data into
+			if 0 <= source_idx < numrows and ii != loc:
 				for col in range(numcols):
-					maxima_im[row - half + loc, col] += maxima_im[row - half + ii, col]
-					maxima_im[row - half + ii, col] = 0
+					maxima_im[dest_idx, col] += maxima_im[source_idx, col]
+					maxima_im[source_idx, col] = 0
 
 	return maxima_im
 
@@ -338,7 +370,7 @@ def rel_threshold(pl: Sequence[Peak], percent: float = 2, copy_peaks: bool = Tru
 	:return: A new list of Peak objects with threshold ions.
 
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
-	"""
+	"""  # noqa: D400
 
 	peak_list = pl
 

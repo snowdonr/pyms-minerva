@@ -55,7 +55,7 @@ __POINT_COUNT = "point_count"
 
 def ANDI_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
 	"""
-	A reader for ANDI-MS NetCDF files
+	A reader for ANDI-MS NetCDF files.
 
 	:param file_name: The path of the ANDI-MS file
 

@@ -1,5 +1,5 @@
 """
-Classes to model a GC-MS Ion Chromatogram
+Classes to model a GC-MS Ion Chromatogram.
 """
 
 ################################################################################
@@ -43,7 +43,7 @@ __all__ = ["IonChromatogram"]
 
 class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
 	r"""
-	Models an ion chromatogram
+	Models an ion chromatogram.
 
 	An ion chromatogram is a set of intensities as a function of retention time.
 	This can can be either *m/z* channel intensities (for example, ion
@@ -83,10 +83,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def __len__(self) -> int:
 		"""
-		Returns the length of the IonChromatogram object
-
-		:return: Length of ion chromatogram
-		:rtype: int
+		Returns the length of the IonChromatogram object.
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -95,7 +92,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def __sub__(self, other: "IonChromatogram") -> "IonChromatogram":
 		"""
-		Subtracts another IC from the current one
+		Subtracts another IC from the current one.
 
 		:param other: Another IC
 		"""
@@ -109,9 +106,9 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def __eq__(self, other: Any) -> bool:
 		"""
-		Return whether this IonChromatogram object is equal to another object
+		Return whether this IonChromatogram object is equal to another object.
 
-		:param other: The other object to test equality with
+		:param other: The other object to test equality with.
 		"""
 
 		if isinstance(other, self.__class__):
@@ -124,7 +121,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def __copy__(self) -> "IonChromatogram":
 		"""
-		Returns a new IonChromatogram containing a copy of the data in this object
+		Returns a new IonChromatogram containing a copy of the data in this object.
 		"""
 
 		return IonChromatogram(
@@ -138,11 +135,9 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def get_intensity_at_index(self, ix: int) -> float:
 		"""
-		Returns intensity at given index
+		Returns the intensity at the given index.
 
-		:param ix: An index
-
-		:return: Intensity value
+		:param ix: An index.
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -158,7 +153,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	@IntensityArrayMixin.intensity_array.setter  # type: ignore
 	def intensity_array(self, ia: Union[Sequence, numpy.ndarray]):
 		"""
-		Sets the value for the intensity array
+		Sets the value for the intensity array.
 
 		:param ia: An array of new intensity values
 
@@ -175,7 +170,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def is_tic(self) -> bool:
 		"""
-		Returns whether the ion chromatogram is a total ion chromatogram (TIC)
+		Returns whether the ion chromatogram is a total ion chromatogram (TIC).
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -185,9 +180,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	@property
 	def mass(self) -> Optional[float]:
 		"""
-		Returns the m/z channel of the IC
-
-		:return: m/z channel of the IC
+		Returns the *m/z* channel of the IC.
 
 		:author: Sean O'Callaghan
 		"""
@@ -200,9 +193,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	@property
 	def time_step(self) -> float:
 		"""
-		Returns the time step
-
-		:return: Time step
+		Returns the time step.
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -211,9 +202,9 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def __calc_time_step(self) -> float:
 		"""
-		Calculates the time step
+		Calculates the time step.
 
-		:return: Time step value
+		:return: Time step value.
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""
@@ -230,7 +221,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def write(self, file_name: Union[str, pathlib.Path], minutes: bool = False, formatting: bool = True):
 		"""
-		Writes the ion chromatogram to the specified file
+		Writes the ion chromatogram to the specified file.
 
 		:param file_name: The name of the output file
 		:param minutes: A boolean value indicating whether to write time in minutes

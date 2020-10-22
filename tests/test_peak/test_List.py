@@ -30,15 +30,15 @@ from tests.constants import *
 
 
 def test_composite_peak(filtered_peak_list, im_i):
-	print(".", end='')
+	print('.', end='')
 	composite_peak_list = filtered_peak_list[10:20]
-	print(".", end='')
+	print('.', end='')
 	peak = composite_peak(composite_peak_list)
-	print(".", end='')
+	print('.', end='')
 	assert isinstance(peak, Peak)
 
 	uid = peak.UID
-	assert uid == '96-69-62-47.73'
+	assert uid == "96-69-62-47.73"
 
 	assert peak.get_third_highest_mz() == 57
 	assert peak.bounds is None
@@ -71,7 +71,7 @@ def test_composite_peak_outliers(filtered_peak_list, im_i):
 	assert isinstance(peak, Peak)
 
 	uid = peak.UID
-	assert uid == '88-86-92-39.07'
+	assert uid == "88-86-92-39.07"
 
 	assert peak.get_third_highest_mz() == 85
 	assert peak.bounds is None
@@ -126,7 +126,7 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	assert isinstance(peak, Peak)
 
 	uid = peak.UID
-	assert uid == '68-54-26-722.30'
+	assert uid == "68-54-26-722.30"
 
 	assert peak.get_third_highest_mz() == 50
 	assert peak.bounds == (0, 683, 0)
@@ -158,7 +158,7 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def peak_list_filename(im, filtered_peak_list, tmp_pathplus):
 	filename = tmp_pathplus / "filtered_peak_list.dat"
 	store_peaks(filtered_peak_list, filename)

@@ -1,5 +1,5 @@
 """
-Models a GC-MS experiment, represented by a list of signal peaks
+Models a GC-MS experiment, represented by a list of signal peaks.
 """
 
 ################################################################################
@@ -108,14 +108,14 @@ class Experiment(pymsBaseClass):
 	@property
 	def peak_list(self) -> List[Peak]:
 		"""
-		Returns the peak list
+		Returns the peak list.
 		"""
 
 		return self._peak_list
 
 	def sele_rt_range(self, rt_range: Sequence[str]):
 		"""
-		Discards all peaks which have the retention time outside the specified range
+		Discards all peaks which have the retention time outside the specified range.
 
 		:param rt_range: Min, max retention time given as a sequence ``[rt_min, rt_max]``.
 		"""
@@ -176,7 +176,7 @@ def load_expr(file_name: Union[str, pathlib.Path]) -> Experiment:
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
 
-	fp = file_name.open('rb')
+	fp = file_name.open("rb")
 	expr = pickle.load(fp)
 	fp.close()
 

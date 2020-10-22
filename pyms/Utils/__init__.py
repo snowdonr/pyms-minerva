@@ -1,5 +1,5 @@
 """
-Utility functions for PyMassSpec wide use
+Utility functions for PyMassSpec wide use.
 """
 
 ################################################################################

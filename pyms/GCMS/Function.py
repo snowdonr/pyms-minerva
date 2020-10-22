@@ -1,5 +1,5 @@
 """
-Provides conversion and information functions for GC-MS data objects
+Provides conversion and information functions for GC-MS data objects.
 """
 
 ################################################################################
@@ -39,7 +39,7 @@ __all__ = ["diff", "ic_window_points"]
 
 def diff(data1: GCMS_data, data2: GCMS_data):
 	"""
-	Compares two GCMS_data objects
+	Compares two GCMS_data objects.
 
 	:param data1: GCMS data set 1
 	:param data2: GCMS data set 2
@@ -129,7 +129,7 @@ def ic_window_points(
 	:param half_window: Specifies whether to return half-window
 
 	:author: Vladimir Likic
-	"""
+	"""  # noqa: D400
 
 	if not isinstance(window_sele, (int, str)):
 		raise TypeError("'window_sele' must be either an integer or a string")

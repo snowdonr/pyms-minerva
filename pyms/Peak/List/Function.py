@@ -1,5 +1,5 @@
 """
-Functions related to Peak modification
+Functions related to Peak modification.
 """
 
 ################################################################################
@@ -127,7 +127,7 @@ def fill_peaks(
 	:return: List of Peak Objects
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
-	"""
+	"""  # noqa: D400
 
 	if not is_peak_list(peak_list):
 		raise TypeError("'peak_list' must be a list of Peak objects")

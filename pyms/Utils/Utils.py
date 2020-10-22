@@ -1,5 +1,5 @@
 """
-General utility functions
+General utility functions.
 """
 
 ################################################################################
@@ -45,7 +45,7 @@ _number_types = (int, float, signedinteger)
 
 def is_path(obj: Any) -> bool:
 	"""
-	Returns whether the object represents a filesystem path
+	Returns whether the object represents a filesystem path.
 
 	:param obj:
 	"""
@@ -62,7 +62,7 @@ def is_sequence(obj) -> bool:
 	and not a string.
 
 	:param obj:
-	"""
+	"""  # noqa: D400
 
 	return isinstance(obj, _list_types) and not isinstance(obj, str)
 
@@ -74,11 +74,16 @@ def is_sequence_of(obj: Any, of: Any) -> bool:
 
 	:param obj:
 	:param of:
-	"""
+	"""  # noqa: D400
 
 	return isinstance(obj, _list_types) and not isinstance(obj, str) and all(isinstance(x, of) for x in obj)
 
 
 def is_number(obj: Any) -> bool:
+	"""
+	Returns whether ``obj`` is a numerical value (:class:`int`, :class`float` etc).
+
+	:param obj:
+	"""
 
 	return isinstance(obj, _number_types)

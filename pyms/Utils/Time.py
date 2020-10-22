@@ -1,5 +1,5 @@
 """
-Time conversion and related functions
+Time conversion and related functions.
 """
 
 ################################################################################
@@ -55,7 +55,7 @@ def is_str_num(arg: str) -> bool:
 
 def time_str_secs(time_str: str) -> float:
 	"""
-	Resolves time string of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'`` and returns the time in seconds
+	Resolves time string of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'`` and returns the time in seconds.
 
 	:param time_str: A time string, which must be of the form
 		``'<NUMBER>s'`` or ``'<NUMBER>m'`` where ``'<NUMBER>'`` is a valid number
@@ -104,7 +104,7 @@ def window_sele_points(ic: IonChromatogram, window_sele: Union[int, str], half_w
 	:return: The number of points in the window
 
 	:author: Vladimir Likic
-	"""
+	"""  # noqa: D400
 
 	if not isinstance(window_sele, int) and not isinstance(window_sele, str):
 		raise TypeError("'window' must be an integer or a string")

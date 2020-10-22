@@ -1,5 +1,5 @@
 """
-Provides mathematical functions
+Provides mathematical functions.
 """
 
 ################################################################################
@@ -55,14 +55,14 @@ __all__ = [
 
 def vector_by_step(start: float, stop: float, step: float) -> List[float]:
 	"""
-	Generates a list by using start, stop, and step values
+	Generates a list by using start, stop, and step values.
 
 	:param start: Initial value
 	:param stop: Max value
 	:param step: Step
 
 	:author: Vladimir Likic
-	"""
+	"""  # noqa: D400
 
 	if not is_number(start) or not is_number(stop) or not is_number(step):
 		raise TypeError("parameters 'start', 'stop', and 'step' must be numbers")
@@ -79,9 +79,9 @@ def vector_by_step(start: float, stop: float, step: float) -> List[float]:
 
 def MAD(v: Union[Sequence, numpy.ndarray]) -> float:
 	"""
-	Median absolute deviation
+	Median absolute deviation.
 
-	:param v: List of values to calculate the median absolute deviation of
+	:param v: List of values to calculate the median absolute deviation of.
 
 	:return: median absolute deviation
 
@@ -105,7 +105,7 @@ def MAD(v: Union[Sequence, numpy.ndarray]) -> float:
 
 def rmsd(list1: Union[Sequence, numpy.ndarray], list2: Union[Sequence, numpy.ndarray]) -> float:
 	"""
-	Calculates RMSD for the 2 lists
+	Calculates RMSD for the 2 lists.
 
 	:param list1: First data set
 	:param list2: Second data set

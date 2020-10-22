@@ -43,7 +43,7 @@ def test_window_smooth(tic):
 
 	# an example of how to specify window as a time string
 	# (7 seconds in this case)
-	tic3 = window_smooth(tic, window='7s')
+	tic3 = window_smooth(tic, window="7s")
 	assert isinstance(tic3, IonChromatogram)
 
 	for obj in [*test_numbers, test_string, *test_lists, test_dict]:

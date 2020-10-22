@@ -1,5 +1,5 @@
 """
-Functions related to storing and loading a list of Peak objects
+Functions related to storing and loading a list of Peak objects.
 """
 
 ################################################################################
@@ -43,10 +43,10 @@ def store_peaks(
 		protocol: int = 1,
 		):
 	"""
-	Store the list of peak objects
+	Store the list of peak objects.
 
-	:param peak_list: A list of peak objects
-	:param file_name: File name to store peak list
+	:param peak_list: A list of peak objects.
+	:param file_name: File name to store peak list.
 	:param protocol: The :mod:`pickle` protocol to use.
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions and pathlib support)
@@ -60,9 +60,8 @@ def store_peaks(
 
 	file_name = prepare_filepath(file_name)
 
-	fp = file_name.open('wb')
-	pickle.dump(peak_list, fp, protocol)
-	fp.close()
+	with file_name.open("wb") as fp:
+		pickle.dump(peak_list, fp, protocol)
 
 
 def load_peaks(file_name: Union[str, pathlib.Path]) -> List[Peak]:

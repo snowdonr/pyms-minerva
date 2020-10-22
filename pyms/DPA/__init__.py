@@ -1,5 +1,5 @@
 """
-Alignment of peak lists by dynamic programming
+Alignment of peak lists by dynamic programming.
 """
 
 ################################################################################

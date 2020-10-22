@@ -1,5 +1,5 @@
 """
-Class to Display Ion Chromatograms and TIC
+Class to Display Ion Chromatograms and TIC.
 """
 
 ################################################################################
@@ -78,7 +78,7 @@ class Display:
 	:author: Sean O'Callaghan
 	:author: Vladimir Likic
 	:author: Dominic Davis-Foster
-	"""
+	"""  # noqa: D400
 
 	@deprecation.deprecated(
 			"2.2.8",
@@ -88,7 +88,7 @@ class Display:
 			)
 	def __init__(self, fig=None, ax=None):
 		"""
-		Initialises an instance of Display class
+		Initialises an instance of Display class.
 		"""
 
 		if fig is None:
@@ -123,7 +123,7 @@ class Display:
 		:meth:`~pyms.Display.Display.plot_peaks`
 
 		:param plot_label: Label for the plot to show e.g. the data origin
-		"""
+		"""  # noqa: D400
 
 		# if no plots have been created advise user
 		if len(self.__tic_ic_plots) == 0:
@@ -143,20 +143,16 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 		# If no peak list plot, no mouse click event
 		if len(self.__peak_list) != 0:
-			self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+			self.fig.canvas.mpl_connect("button_press_event", self.onclick)
 
 	# plt.show()
 
 	@staticmethod
-	def get_5_largest(intensity_list: List) -> List:
+	def get_5_largest(intensity_list: List[float]) -> List[int]:
 		"""
-		Computes the indices of the largest 5 ion intensities for writing to console
+		Returns the indices of the 5 largest ion intensities.
 
 		:param intensity_list: List of Ion intensities
-		:type intensity_list: list
-
-		:return: Indices of largest 5 ion intensities
-		:rtype: list
 		"""
 
 		largest = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -210,7 +206,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 	def plot_ic(self, ic: IonChromatogram, **kwargs):
 		"""
-		Plots an Ion Chromatogram
+		Plots an Ion Chromatogram.
 
 		:param ic: Ion Chromatograms m/z channels for plotting
 		:type ic: pyms.IonChromatogram.IonChromatogram
@@ -233,10 +229,9 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 	def plot_mass_spec(self, mass_spec: MassSpectrum, **kwargs):
 		"""
-		Plots a Mass Spectrum
+		Plots a Mass Spectrum.
 
 		:param mass_spec: The mass spectrum at a given time/index
-		:type mass_spec: pyms.Spectrum.MassSpectrum
 
 		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
@@ -271,9 +266,9 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 	def plot_tic(self, tic: IonChromatogram, minutes: bool = False, **kwargs):
 		"""
-		Plots a Total Ion Chromatogram
+		Plots a Total Ion Chromatogram.
 
-		:param tic: Total Ion Chromatogram
+		:param tic: Total Ion Chromatogram.
 		:param minutes: Whether to show the time in minutes.
 
 		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
@@ -297,10 +292,10 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 	def save_chart(self, filepath: str, filetypes: Optional[List[str]] = None):
 		"""
-		Save the chart to the given path with the given filetypes
+		Save the chart to the given path with the given filetypes.
 
-		:param filepath: Path and filename to save the chart as. Should not include extension
-		:param filetypes: List of filetypes to use
+		:param filepath: Path and filename to save the chart as. Should not include extension.
+		:param filetypes: List of filetypes to use.
 
 		:author: Dominic Davis-Foster
 		"""
@@ -319,7 +314,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 	def show_chart(self):
 		"""
-		Show the chart on screen
+		Show the chart on screen.
 
 		:author: Dominic Davis-Foster
 		"""
@@ -333,12 +328,10 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 def plot_ic(ax: matplotlib.axes.Axes, ic: IonChromatogram, minutes: bool = False, **kwargs) -> List[Line2D]:
 	"""
-	Plots an Ion Chromatogram
+	Plots an Ion Chromatogram.
 
 	:param ax: The axes to plot the IonChromatogram on
-	:type ax: matplotlib.axes.Axes
 	:param ic: Ion Chromatograms m/z channels for plotting
-	:type ic: pyms.IonChromatogram.IonChromatogram
 	:param minutes: Whether the x-axis should be plotted in minutes. Default False (plotted in seconds)
 
 	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
@@ -353,7 +346,6 @@ def plot_ic(ax: matplotlib.axes.Axes, ic: IonChromatogram, minutes: bool = False
 		for the list of possible kwargs
 
 	:return: A list of Line2D objects representing the plotted data.
-	:rtype: list of :class:`matplotlib.lines.Line2D`
 	"""
 
 	if not isinstance(ic, IonChromatogram):
@@ -374,7 +366,7 @@ def plot_ic(ax: matplotlib.axes.Axes, ic: IonChromatogram, minutes: bool = False
 
 def plot_mass_spec(ax: Axes, mass_spec: MassSpectrum, **kwargs) -> BarContainer:
 	"""
-	Plots a Mass Spectrum
+	Plots a Mass Spectrum.
 
 	:param ax: The axes to plot the MassSpectrum on
 	:type ax: matplotlib.axes.Axes
@@ -435,7 +427,7 @@ def plot_head2tail(
 		bottom_spec_kwargs: Optional[Dict] = None,
 		) -> Tuple[BarContainer, BarContainer]:
 	"""
-	Plots two Mass Spectra head to tail
+	Plots two mass spectra head to tail.
 
 	:param ax: The axes to plot the MassSpectra on
 	:type ax: matplotlib.axes.Axes
@@ -446,8 +438,10 @@ def plot_head2tail(
 	:type bottom_mass_spec: :class:`pyms.Spectrum.MassSpectrum` or None, optional
 	:param top_spec_kwargs: A dictionary of keyword arguments for the top mass spectrum.
 		Defaults to red with a line width of 0.5
+	:no-default top_spec_kwargs:
 	:param bottom_spec_kwargs: A dictionary of keyword arguments for the bottom mass spectrum.
-	Defaults to blue with a line width of 0.5
+		Defaults to blue with a line width of 0.5
+	:no-default bottom_spec_kwargs:
 
 	`top_spec_kwargs` and `bottom_spec_kwargs` are used to specify properties like a line label
 		(for auto legends), linewidth, antialiasing, marker face color.
@@ -478,7 +472,7 @@ def plot_head2tail(
 				)
 
 	# Plot a line at y=0 with same width and colour as Spines
-	ax.axhline(y=0, color=ax.spines['bottom'].get_edgecolor(), linewidth=ax.spines['bottom'].get_linewidth())
+	ax.axhline(y=0, color=ax.spines["bottom"].get_edgecolor(), linewidth=ax.spines["bottom"].get_linewidth())
 
 	# Normalize the mass spectra
 	top_mass_spec = normalize_mass_spec(top_mass_spec)
@@ -545,9 +539,9 @@ def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style
 
 class ClickEventHandler:
 	"""
-	Class to enable clicking clicking of chromatogram to view the intensities top n most intense
+	Class to enable clicking of chromatogram to view the intensities top n most intense
 	ions at that peak, and viewing of the mass spectrum with a right click
-	"""
+	"""  # noqa: D400
 
 	def __init__(self, peak_list, fig=None, ax=None, tolerance=0.005, n_intensities=5):
 		if fig is None:
@@ -571,7 +565,7 @@ class ClickEventHandler:
 
 		# If no peak list plot, no mouse click event
 		if len(self.peak_list) != 0:
-			self.cid = self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+			self.cid = self.fig.canvas.mpl_connect("button_press_event", self.onclick)
 		else:
 			self.cid = None
 
@@ -619,7 +613,7 @@ class ClickEventHandler:
 
 	def get_n_largest(self, intensity_list: List[float]) -> List[int]:
 		"""
-		Computes the indices of the largest n ion intensities for writing to console
+		Computes the indices of the largest n ion intensities for writing to console.
 
 		:param intensity_list: List of Ion intensities
 

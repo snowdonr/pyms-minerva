@@ -1,5 +1,5 @@
 """
-Provides a class for handling Missing Peaks in an output file (i.e. area.csv)
+Provides a class for handling Missing Peaks in an output file (i.e. ``area.csv``).
 """
 
 ################################################################################
@@ -40,7 +40,7 @@ class MissingPeak:
 	:param rt: Retention time of the peak.
 
 	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster
-	"""
+	"""  # noqa: D400
 
 	#: The area of the common ion
 	common_ion_area: Optional[float]
@@ -59,7 +59,7 @@ class MissingPeak:
 	@property
 	def common_ion(self) -> int:
 		"""
-		Returns the common ion for the peak object across an experiment
+		Returns the common ion for the peak object across an experiment.
 
 		:return: Common ion for the peak
 
@@ -71,7 +71,7 @@ class MissingPeak:
 	@property
 	def qual_ion1(self) -> int:
 		"""
-		Returns the top (most abundant) ion for the peak object
+		Returns the top (most abundant) ion for the peak object.
 
 		:return: Most abundant ion
 
@@ -89,7 +89,7 @@ class MissingPeak:
 	@property
 	def qual_ion2(self) -> int:
 		"""
-		Returns the second most abundant ion for the peak object
+		Returns the second most abundant ion for the peak object.
 
 		:return: Second most abundant ion
 
@@ -107,9 +107,7 @@ class MissingPeak:
 	@property
 	def rt(self) -> float:
 		"""
-		returns the retention time of the peak
-
-		:return: the retention time of the peak
+		Returns the retention time of the peak.
 		"""
 
 		return self.__rt
@@ -132,9 +130,9 @@ class Sample:
 
 	def add_missing_peak(self, missing_peak: MissingPeak) -> None:
 		"""
-		Add a new MissingPeak object to the Sample
+		Add a new MissingPeak object to the Sample.
 
-		:param missing_peak: The missing peak object to be added
+		:param missing_peak: The missing peak object to be added.
 		"""
 
 		# TODO: Do some checking here
@@ -158,7 +156,7 @@ class Sample:
 	@property
 	def missing_peaks(self) -> List[MissingPeak]:
 		"""
-		Returns a list of the MissingPeak objects in the Sample object
+		Returns a list of the MissingPeak objects in the Sample object.
 		"""
 
 		return self._missing_peak_list
@@ -174,7 +172,7 @@ class Sample:
 	@property
 	def rt_areas(self) -> Dict[float, Optional[float]]:
 		"""
-		returns a dictionary containing ``rt : area`` pairs.
+		Returns a dictionary containing ``rt : area`` pairs.
 		"""
 
 		rt_area_dict = {}

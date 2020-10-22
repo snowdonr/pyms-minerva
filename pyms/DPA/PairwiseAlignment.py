@@ -1,5 +1,5 @@
 """
-Classes for peak alignment by dynamic programming
+Classes for peak alignment by dynamic programming.
 """
 
 ################################################################################
@@ -62,20 +62,16 @@ __all__ = [
 
 class PairwiseAlignment:
 	"""
-	Models pairwise alignment of alignments
+	Models pairwise alignment of alignments.
 
-	:param alignments: A list of alignments
-	:param D: Retention time tolerance parameter for pairwise alignments
-	:param gap: Gap parameter for pairwise alignments
+	:param alignments: A list of alignments.
+	:param D: Retention time tolerance parameter for pairwise alignments.
+	:param gap: Gap parameter for pairwise alignments.
 
 	:authors: Woon Wai Keen, Vladimir Likic
 	"""
 
 	def __init__(self, alignments: List[Alignment], D: float, gap: float):
-		"""
-		Models pairwise alignment of alignments
-		"""
-
 		if not is_sequence_of(alignments, Alignment):
 			raise TypeError("'alignments' must be a Sequence of Alignment objects")
 
@@ -147,7 +143,7 @@ class PairwiseAlignment:
 
 def align(a1: Alignment, a2: Alignment, D: float, gap: float) -> Alignment:
 	"""
-	Aligns two alignments
+	Aligns two alignments.
 
 	:param a1: The first alignment
 	:param a2: The second alignment
@@ -180,13 +176,13 @@ def align(a1: Alignment, a2: Alignment, D: float, gap: float) -> Alignment:
 
 def score_matrix(a1: Alignment, a2: Alignment, D: float) -> numpy.ndarray:
 	"""
-	Calculates the score matrix between two alignments
+	Calculates the score matrix between two alignments.
 
-	:param a1: The first alignment
-	:param a2: The second alignment
-	:param D: Retention time tolerance
+	:param a1: The first alignment.
+	:param a2: The second alignment.
+	:param D: Retention time tolerance.
 
-	:return: Aligned alignments
+	:return: Aligned alignments.
 
 	:authors: Qiao Wang, Andrew Isaac
 	"""
@@ -470,7 +466,7 @@ def alignment_similarity(traces, score_matrix, gap: float):
 
 def alignment_compare(x, y):
 	"""
-	A helper function for sorting peak positions in a alignment
+	A helper function for sorting peak positions in a alignment.
 
 	:param x:
 	:param y:
@@ -490,7 +486,7 @@ def alignment_compare(x, y):
 
 def score_matrix_mpi(a1: Alignment, a2: Alignment, D: float) -> Alignment:
 	"""
-	Calculates the score matrix between two alignments
+	Calculates the score matrix between two alignments.
 
 	:param a1: The first alignment.
 	:param a2: The second alignment.
@@ -562,12 +558,12 @@ def score_matrix_mpi(a1: Alignment, a2: Alignment, D: float) -> Alignment:
 
 def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 	"""
-	Aligns a list of alignments using the supplied guide tree
+	Aligns a list of alignments using the supplied guide tree.
 
-	:param T: The pairwise alignment object
+	:param T: The pairwise alignment object.
 	:param min_peaks:
 
-	:return: The final alignment consisting of aligned input alignments
+	:return: The final alignment consisting of aligned input alignments.
 
 	:authors: Woon Wai Keen, Vladimir Likic
 	"""

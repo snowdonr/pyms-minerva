@@ -1,5 +1,5 @@
 """
-Functions for I/O of data in JCAMP-DX format
+Functions for I/O of data in JCAMP-DX format.
 """
 
 ################################################################################
@@ -44,7 +44,7 @@ __all__ = ["JCAMP_reader"]
 
 def JCAMP_reader(file_name: Union[str, Path]) -> GCMS_data:
 	"""
-	Generic reader for JCAMP DX files
+	Generic reader for JCAMP DX files.
 
 	:param file_name: Path of the file to read
 

@@ -49,7 +49,7 @@ def im_leco_filename(im, tmpdir_factory):
 	Create the im_leco.csv file ahead of time and return the path to it
 	"""
 
-	filename = pathlib.Path(tmpdir_factory.mktemp('im_leco')) / 'im_leco.csv'
+	filename = pathlib.Path(tmpdir_factory.mktemp("im_leco")) / "im_leco.csv"
 	im.export_leco_csv(filename)
 	yield filename
 

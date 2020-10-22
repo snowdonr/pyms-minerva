@@ -1,5 +1,5 @@
 """
-Classes for peak alignment by dynamic programming
+Classes for peak alignment by dynamic programming.
 """
 
 ################################################################################
@@ -89,7 +89,7 @@ class Alignment:
 		:rtype:
 
 		:authors: Qiao Wang, Vladimir Likic
-		"""
+		"""  # noqa: D400
 
 		return len(self.peakalgt)
 
@@ -106,7 +106,7 @@ class Alignment:
 		:author: Andrew Isaac
 
 		.. TODO:: minutes currently does nothing
-		"""
+		"""  # noqa: D400
 
 		# for all peaks found
 		peak_list = []
@@ -368,7 +368,7 @@ class Alignment:
 			minutes: bool = True,
 			):
 		"""
-		Writes the alignment to CSV files
+		Writes the alignment to CSV files.
 
 		This function writes two files: one containing the alignment of peak
 		retention times and the other containing the alignment of peak areas.

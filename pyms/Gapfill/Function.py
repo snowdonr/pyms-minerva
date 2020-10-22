@@ -1,5 +1,5 @@
 """
-Functions to fill missing peak objects
+Functions to fill missing peak objects.
 """
 
 ################################################################################
@@ -102,8 +102,8 @@ def missing_peak_finder(
 		rt_window: float = 1,
 		filetype: MissingPeakFiletype = MZML,
 		):
-	"""
-	Integrates raw data around missing peak locations to fill NAs in the data matrix
+	r"""
+	Integrates raw data around missing peak locations to fill ``NA``\s in the data matrix.
 
 	:param sample: The sample object containing missing peaks
 	:param file_name: Name of the raw data file
@@ -202,7 +202,7 @@ def missing_peak_finder(
 				if q1_intensity > threshold / 2 and q2_intensity > threshold / 2:
 					large_peaks.append([rt, intens])
 
-		print(f'found {len(large_peaks):d} peaks above threshold')
+		print(f"found {len(large_peaks):d} peaks above threshold")
 
 		areas = []
 		for peak in large_peaks:
@@ -235,7 +235,7 @@ def mp_finder(input_matrix: List) -> List[Sample]:
 	:rtype:
 
 	:authors: Jairus Bowne, Sean O'Callaghan
-	"""
+	"""  # noqa: D400
 
 	sample_list = []
 
@@ -245,7 +245,7 @@ def mp_finder(input_matrix: List) -> List[Sample]:
 	except ValueError:
 		ci_pos = input_matrix[0].index('"Quant Ion"')
 
-	uid_pos = input_matrix[0].index('UID')
+	uid_pos = input_matrix[0].index("UID")
 
 	# Set up the sample objects
 	# All entries on line 1 beyond the Qual Ion position are sample names
@@ -263,7 +263,7 @@ def mp_finder(input_matrix: List) -> List[Sample]:
 		rt = uid.split("-")[-1]
 
 		for i, area in enumerate(line[ci_pos:]):
-			if area == 'NA':
+			if area == "NA":
 				missing_peak = MissingPeak(common_ion, qual_ion_1, qual_ion_2, rt)
 				sample_list[i].add_missing_peak(missing_peak)
 
@@ -308,7 +308,7 @@ def write_filled_csv(
 			raise ValueError(f"Sample {sample_name!r} not found in sample_list.")
 
 		for i, part in enumerate(df[sample_name]):
-			if part == 'NA':
+			if part == "NA":
 				try:
 					df[sample_name][i] = rt_area_dict[rt_list[i]]
 				except KeyError:
@@ -323,7 +323,7 @@ def write_filled_rt_csv(
 		filled_rt_file: Union[str, pathlib.Path],
 		):
 	r"""
-	creates a new rt.csv file, replacing ``'NA'``\s with values from the sample_list objects where possible.
+	Creates a new rt.csv file, replacing ``'NA'``\s with values from the sample_list objects where possible.
 
 	:param sample_list: A list of samples.
 	:param rt_file: the file ``rt.csv`` from PyMassSpec output.
@@ -354,7 +354,7 @@ def write_filled_rt_csv(
 			raise ValueError(f"Sample {sample_name!r} not found in sample_list.")
 
 		for i, part in enumerate(df[sample_name]):
-			if part == 'NA':
+			if part == "NA":
 				try:
 					df[sample_name][i] = rt_exact_rt_dict[float(rt_list[i])]
 				except KeyError:

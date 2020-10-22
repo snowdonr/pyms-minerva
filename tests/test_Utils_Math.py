@@ -172,21 +172,20 @@ class TestMedian:
 
 	def test_odd_decimals(self):
 		# Test median works with an odd number of Decimals.
-		D = Decimal
-		data = [Decimal('2.5'), Decimal('3.1'), Decimal('4.2'), Decimal('5.7'), Decimal('5.8')]
+		data = [Decimal("2.5"), Decimal("3.1"), Decimal("4.2"), Decimal("5.7"), Decimal("5.8")]
 		assert len(data) % 2 == 1
 		random.shuffle(data)
-		assert statistics.median(data) == Decimal('4.2')
-		assert Math.median(data) == Decimal('4.2')
+		assert statistics.median(data) == Decimal("4.2")
+		assert Math.median(data) == Decimal("4.2")
 		assert statistics.median(data) == Math.median(data)
 
 	def test_even_decimals(self):
 		# Test median works with an even number of Decimals.
-		data = [Decimal('1.2'), Decimal('2.5'), Decimal('3.1'), Decimal('4.2'), Decimal('5.7'), Decimal('5.8')]
+		data = [Decimal("1.2"), Decimal("2.5"), Decimal("3.1"), Decimal("4.2"), Decimal("5.7"), Decimal("5.8")]
 		assert len(data) % 2 == 0
 		random.shuffle(data)
 		assert statistics.median(data) == Decimal('3.65')
-		assert Math.median(data) == Decimal('3.65')
+		assert Math.median(data) == Decimal("3.65")
 		assert statistics.median(data) == Math.median(data)
 
 
@@ -219,7 +218,7 @@ class TestStdev:
 	def test_decimals(self):
 		# Test sample variance with Decimal data.
 		data = [Decimal(2), Decimal(2), Decimal(7), Decimal(9)]
-		exact = (4 * Decimal('9.5') / Decimal(3)).sqrt()
+		exact = (4 * Decimal("9.5") / Decimal(3)).sqrt()
 		assert statistics.stdev(data) == exact
 		assert Math.std(data) == exact
 		assert statistics.stdev(data) == Math.std(data)

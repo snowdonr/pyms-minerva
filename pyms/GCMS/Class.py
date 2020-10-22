@@ -1,5 +1,5 @@
 """
-Class to model GC-MS data
+Class to model GC-MS data.
 """
 
 ################################################################################
@@ -203,7 +203,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	@property
 	def scan_list(self) -> List[Scan]:
 		"""
-		Return a list of the scan objects
+		Return a list of the scan objects.
 
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
@@ -356,7 +356,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		:param file_root: The root for the output file names
 
 		:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
-		"""
+		"""  # noqa: D400
 
 		if not isinstance(file_root, (str, pathlib.Path)):
 			raise TypeError("'file_root' must be a string or a pathlib.Path object")
@@ -394,13 +394,14 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	def write_intensities_stream(self, file_name: Union[str, pathlib.Path]):
 		"""
 		Loop over all scans and, for each scan, write the intensities to the
-		given file, one intensity per line. Intensities from different scans
-		are joined without any delimiters.
+		given file, one intensity per line.
 
-		:param file_name: Output file name
+		Intensities from different scans are joined without any delimiters.
+
+		:param file_name: Output file name.
 
 		:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
-		"""
+		"""  # noqa: D400
 
 		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")

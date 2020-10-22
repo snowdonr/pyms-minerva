@@ -82,7 +82,7 @@ def test_sele_rt_range(expr, filtered_peak_list):
 			expr.sele_rt_range(obj)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def expr_filename(expr, tmp_pathplus):
 	filename = tmp_pathplus / "ELEY_1_SUBTRACT.expr"
 	expr.dump(filename)

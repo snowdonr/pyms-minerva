@@ -1,5 +1,5 @@
 """
-Base for PyMassSpec classes
+Base for PyMassSpec classes.
 """
 
 ################################################################################
@@ -37,7 +37,7 @@ __all__ = ["pymsBaseClass"]
 
 class pymsBaseClass:
 	"""
-	Base class
+	Base class.
 	"""
 
 	def dump(self, file_name: Union[str, pathlib.Path], protocol: int = 3):
@@ -48,13 +48,13 @@ class pymsBaseClass:
 		:param protocol: The pickle protocol to use.
 
 		:authors: Vladimir Likic, Dominic Davis-Foster (pathlib and pickle protocol support)
-		"""
+		"""  # noqa: D402  # TODO: False positive
 
 		if not is_path(file_name):
 			raise TypeError("'file_name' must be a string or a PathLike object")
 
 		file_name = prepare_filepath(file_name)
 
-		fp = file_name.open('wb')
+		fp = file_name.open("wb")
 		pickle.dump(self, fp, protocol=protocol)
 		fp.close()

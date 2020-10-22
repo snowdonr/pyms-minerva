@@ -77,38 +77,38 @@ def test_plot():
 
 
 # Plotting IC with various Line2D options
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5))
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic_label(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), label="IC @ Index 5")
 	test_plot.ax.legend()
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic_alpha(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), alpha=0.5)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic_linewidth(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), linewidth=2)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic_linestyle(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), linestyle="--")
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic_multiple(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), label="IC @ Index 5")
 	test_plot.plot_ic(im_i.get_ic_at_index(10), label="IC @ Index 10")
@@ -120,7 +120,7 @@ def test_plot_ic_multiple(im_i, test_plot):
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_ic_title(im_i, test_plot):
 	test_plot.plot_ic(im_i.get_ic_at_index(5))
 	test_plot.ax.set_title("Test IC Plot")
@@ -134,32 +134,32 @@ def test_plot_ic_errors(im_i, test_plot, data, ms):
 
 
 # Plotting tic with various Line2D options
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_tic(tic, test_plot):
 	test_plot.plot_tic(tic)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_tic_label(tic, test_plot):
 	test_plot.plot_tic(tic, label="IC @ Index 5")
 	test_plot.ax.legend()
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_tic_alpha(tic, test_plot):
 	test_plot.plot_tic(tic, alpha=0.5)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_tic_linewidth(tic, test_plot):
 	test_plot.plot_tic(tic, linewidth=2)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_tic_linestyle(tic, test_plot):
 	test_plot.plot_tic(tic, linestyle="--")
 	return test_plot.fig
@@ -171,7 +171,7 @@ def test_plot_tic_errors(im_i, test_plot, data, ms):
 			test_plot.plot_tic(obj)
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_tic_title(tic, test_plot):
 	test_plot.plot_tic(tic)
 	test_plot.ax.set_title("Test TIC Plot")
@@ -179,25 +179,25 @@ def test_plot_tic_title(tic, test_plot):
 
 
 # Plotting mass spec with various Line2D options
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_mass_spec(im_i, test_plot):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50))
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_mass_spec_alpha(im_i, test_plot):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50), alpha=0.5)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_mass_spec_width(im_i, test_plot):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50), width=1)
 	return test_plot.fig
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_mass_spec_linestyle(im_i, test_plot):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50), linestyle="--")
 	return test_plot.fig
@@ -209,7 +209,7 @@ def test_plot_mass_spec_errors(im_i, test_plot, data, tic):
 			test_plot.plot_mass_spec(obj)
 
 
-@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={'dpi': 1200})
+@pytest.mark.mpl_image_compare(baseline_dir=baseline, savefig_kwargs={"dpi": 1200})
 def test_plot_mass_spec_title(im_i, test_plot):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50))
 	test_plot.ax.set_title(f"Mass spec for peak at time {im_i.get_time_at_index(50):5.2f}")

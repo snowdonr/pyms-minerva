@@ -1,5 +1,5 @@
 """
-Moving window noise filter
+Moving window noise filter.
 """
 
 ################################################################################

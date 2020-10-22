@@ -1,5 +1,5 @@
 """
-Provides a class to model signal peak
+Provides a class to model signal peak.
 """
 
 ################################################################################
@@ -158,7 +158,7 @@ class AbstractPeak(pymsBaseClass):
 	@bounds.setter
 	def bounds(self, value: Sequence[int]):
 		"""
-		Sets peak boundaries in points
+		Sets peak boundaries in points.
 
 		:param value: A 3-element tuple containing the left, apex, and right
 			peak boundaries in points. Left and right are offsets.
@@ -193,10 +193,10 @@ class AbstractPeak(pymsBaseClass):
 	@property
 	def ion_areas(self) -> Dict:
 		"""
-		Returns a copy of the ion areas dict
+		Returns a copy of the ion areas dict.
 
 		:return: The dictionary of ``ion: ion area`` pairs
-		"""
+		"""  # noqa: D400
 
 		if len(self._ion_areas) == 0:
 			raise ValueError("no ion areas set")
@@ -206,7 +206,7 @@ class AbstractPeak(pymsBaseClass):
 	@ion_areas.setter
 	def ion_areas(self, value: Dict):
 		"""
-		Sets the ``ion: ion area`` pairs dictionary
+		Sets the ``ion: ion area`` pairs dictionary.
 
 		:param value: The dictionary of ion:ion_area pairs
 		"""
@@ -218,9 +218,9 @@ class AbstractPeak(pymsBaseClass):
 
 	def make_UID(self) -> None:
 		"""
-		Create a unique peak ID (UID),
-		comprising the retention time of the peak to two decimal places.
+		Create a unique peak ID (UID).
 
+		The UID comprises the retention time of the peak to two decimal places.
 		Subclasses may define a more unique ID.
 
 		:author: Andrew Isaac
@@ -249,10 +249,10 @@ class AbstractPeak(pymsBaseClass):
 
 	def set_ion_area(self, ion: int, area: float):
 		"""
-		sets the area for a single ion
+		Sets the area for a single ion.
 
-		:param ion: the ion whose area is being entered
-		:param area: the area under the IC of ion
+		:param ion: the ion whose area is being entered.
+		:param area: the area under the IC of ion.
 
 		:author: Sean O'Callaghan
 		"""
@@ -276,11 +276,10 @@ class AbstractPeak(pymsBaseClass):
 		:return: UID string
 
 		:author: Andrew Isaac
-		"""
+		"""  # noqa: D400
 
 		return self._UID
 
-	#
 	# def __dict__(self):
 	#
 	# 	return {
@@ -452,7 +451,7 @@ class Peak(AbstractPeak):
 
 	def get_int_of_ion(self, ion: int) -> float:
 		"""
-		Returns the intensity of a given ion in this peak
+		Returns the intensity of a given ion in this peak.
 
 		:param ion: The m/z value of the ion of interest
 		"""
@@ -498,7 +497,7 @@ class Peak(AbstractPeak):
 		- Integer masses of top two intensities and their ratio (as ``Mass1-Mass2-Ratio*100``); or
 
 		:author: Andrew Isaac
-		"""
+		"""  # noqa: D400
 
 		if self._mass_spectrum:
 			mass_list = self._mass_spectrum.mass_list
@@ -539,7 +538,7 @@ class Peak(AbstractPeak):
 
 	def null_mass(self, mass: float):
 		"""
-		Ignore given mass in spectra
+		Ignore given mass in spectra.
 
 		:param mass: Mass value to remove
 
@@ -581,7 +580,7 @@ class Peak(AbstractPeak):
 		:param data:
 		:param from_bounds: Whether to use the attribute :attr:`pyms.Peak.Class.Peak.pt_bounds`
 			or to find the peak apex from the peak retention time.
-		"""
+		"""  # noqa: D400
 
 		if not isinstance(data, IntensityMatrix):
 			raise TypeError("'data' must be an IntensityMatrix")
@@ -605,9 +604,9 @@ class Peak(AbstractPeak):
 
 	def top_ions(self, num_ions: int = 5) -> List[float]:
 		"""
-		Computes the highest #num_ions intensity ions
+		Computes the highest #num_ions intensity ions.
 
-		:param num_ions: The number of ions to be recorded
+		:param num_ions: The number of ions to be recorded.
 
 		:return: A list of the ions with the highest intensity.
 
@@ -671,9 +670,9 @@ class ICPeak(AbstractPeak):
 
 	def __eq__(self, other) -> bool:
 		"""
-		Return whether this Peak object is equal to another object/
+		Return whether this Peak object is equal to another object.
 
-		:param other: The other object to test equality with/
+		:param other: The other object to test equality with.
 		"""
 
 		if isinstance(other, self.__class__):
@@ -715,7 +714,7 @@ class ICPeak(AbstractPeak):
 		- the single mass as an integer and the retention time.
 
 		:author: Andrew Isaac
-		"""
+		"""  # noqa: D400
 
 		if self._ic_mass is not None:
 			self._UID = f"{int(self._ic_mass):d}-{self._rt:.2f}"

@@ -1,5 +1,5 @@
 """
-General I/O functions
+General I/O functions.
 """
 
 ################################################################################
@@ -53,7 +53,7 @@ def prepare_filepath(
 	:return: file_name
 
 	:author: Dominic Davis-Foster
-	"""
+	"""  # noqa: D400
 
 	if not isinstance(file_name, pathlib.Path):
 		try:
@@ -69,7 +69,7 @@ def prepare_filepath(
 
 def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
 	"""
-	Dumps an object to a file through pickle.dump()
+	Dumps an object to a file through :func:`pickle.dump`.
 
 	:param obj: Object to be dumped
 	:param file_name: Name of the file for the object dump
@@ -82,18 +82,17 @@ def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
 
 	file_name = prepare_filepath(file_name)
 
-	with file_name.open('wb') as fp:
+	with file_name.open("wb") as fp:
 		pickle.dump(obj, fp)
 
 
 def load_object(file_name: Union[str, pathlib.Path]) -> object:
 	"""
-	Loads an object previously dumped with dump_object()
+	Loads an object previously dumped with :func:`~.dump_object`.
 
-	:param file_name: Name of the object dump file
+	:param file_name: Name of the object dump file.
 
-	:return: Object contained in the file 'file_name'
-	:rtype: An instance of an arbitrary class
+	:return: Object contained in the file.
 
 	:authors: Vladimir Likic, Dominic Davis-Foster (pathlib support)
 	"""
@@ -103,13 +102,13 @@ def load_object(file_name: Union[str, pathlib.Path]) -> object:
 
 	file_name = prepare_filepath(file_name)
 
-	with file_name.open('wb') as fp:
+	with file_name.open("wb") as fp:
 		return pickle.load(fp)
 
 
 def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List[str]:
 	"""
-	Returns lines from a file, as a list
+	Returns lines from a file, as a list.
 
 	:param file_name: Name of a file
 	:param strip: If True, lines are pre-processed. Newline characters are
@@ -153,12 +152,12 @@ def save_data(
 		file_name: Union[str, pathlib.Path],
 		data: Union[List[float], List[List[float]]],
 		format_str: str = "%.6f",
-		prepend: str = "",
+		prepend: str = '',
 		sep: str = " ",
 		compressed: bool = False,
 		):
 	"""
-	Saves a list of numbers or a list of lists of numbers to a file with specific formatting
+	Saves a list of numbers or a list of lists of numbers to a file with specific formatting.
 
 	:param file_name: Name of a file
 	:param data: A list of numbers, or a list of lists

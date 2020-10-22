@@ -1,5 +1,5 @@
 """
-Savitzky-Golay noise filter
+Savitzky-Golay noise filter.
 """
 
 ################################################################################
@@ -177,9 +177,9 @@ def __calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy
 
 def __resub(D, rhs):
 	"""
-	Solves D D^T = rhs by resubstitution
+	Solves ``D D^T = rhs`` by resubstitution.
 
-	D is lower triangle-matrix from cholesky-decomposition
+	D is lower triangle-matrix from cholesky-decomposition.
 
 	:param D:
 	:param rhs:

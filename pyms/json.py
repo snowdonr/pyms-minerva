@@ -1,5 +1,5 @@
 """
-Custom JSON Encoder to support PyMassSpec classes
+Custom JSON Encoder to support PyMassSpec classes.
 """
 
 ################################################################################
@@ -33,7 +33,7 @@ __all__ = ["PyMassSpecEncoder"]
 
 class PyMassSpecEncoder(sdjson.JSONEncoder):
 	"""
-	Custom JSON Encoder to support PyMassSpec classes
+	Custom JSON Encoder to support PyMassSpec classes.
 
 	.. note: Currently only supports Scan and MassSpectrum objects
 	"""

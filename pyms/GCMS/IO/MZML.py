@@ -1,5 +1,5 @@
 """
-Functions for reading mzML format data files
+Functions for reading mzML format data files.
 """
 
 ################################################################################
@@ -46,11 +46,11 @@ __all__ = ["mzML_reader"]
 
 def mzML_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
 	"""
-	A reader for mzML files
+	A reader for mzML files.
 
-	:param file_name: The name of the mzML file
+	:param file_name: The name of the mzML file.
 
-	:return: GC-MS data object
+	:return: GC-MS data object.
 
 	:authors: Sean O'Callaghan, Dominic Davis-Foster (pathlib support)
 	"""
@@ -99,9 +99,9 @@ def mzML_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
 		for element in spectrum.xmlTree:
 			# For some reason there are spectra with no time value,
 			# Ignore these????????????
-			if element.get('accession') == "MS:1000016":  # time value
+			if element.get("accession") == "MS:1000016":  # time value
 				# We need time in seconds not minutes
-				time_list.append(60 * float(element.get('value')))
+				time_list.append(60 * float(element.get("value")))
 				scan_list.append(Scan(mass_list, intensity_list))
 
 	# print("time:", len(time_list))

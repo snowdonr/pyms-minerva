@@ -1,5 +1,5 @@
 """
-Input/output functions for GC-MS data files
+Input/output functions for GC-MS data files.
 """
 
 ################################################################################

@@ -121,7 +121,7 @@ def test_expr_inequality(expr_list):
 @pytest.fixture(scope="module")
 def F1(expr_list):
 	# do the alignment
-	print('Aligning ELEY SUBTRACT')
+	print("Aligning ELEY SUBTRACT")
 	F1 = exprl2alignment(expr_list)
 	assert isinstance(F1, list)
 
@@ -277,8 +277,8 @@ def test_write_csv(A1, tmp_pathplus):
 
 
 def test_write_ion_areas_csv(A1, tmp_pathplus):
-	A1.write_ion_areas_csv(tmp_pathplus / 'alignment_ion_areas.csv')
-	A1.write_ion_areas_csv(tmp_pathplus / 'alignment_ion_areas_seconds.csv', minutes=False)
+	A1.write_ion_areas_csv(tmp_pathplus / "alignment_ion_areas.csv")
+	A1.write_ion_areas_csv(tmp_pathplus / "alignment_ion_areas_seconds.csv", minutes=False)
 
 	# Read alignment_ion_areas.csv and check values
 	assert (tmp_pathplus / "alignment_ion_areas.csv").exists()
@@ -322,12 +322,12 @@ def test_write_common_ion_csv(A1, tmp_pathplus, file_regression: FileRegressionF
 	assert common_ion[0] == 77
 
 	# read the csv and check values
-	A1.write_common_ion_csv(tmp_pathplus / 'alignment_common_ion.csv', A1.common_ion())
+	A1.write_common_ion_csv(tmp_pathplus / "alignment_common_ion.csv", A1.common_ion())
 	file_regression.check((tmp_pathplus / "alignment_common_ion.csv").read_text(),
 							encoding="UTF-8",
 							extension="_alignment_common_ion.csv")
 
-	A1.write_common_ion_csv(tmp_pathplus / 'alignment_common_ion_seconds.csv', A1.common_ion(), minutes=False)
+	A1.write_common_ion_csv(tmp_pathplus / "alignment_common_ion_seconds.csv", A1.common_ion(), minutes=False)
 	file_regression.check((tmp_pathplus / "alignment_common_ion_seconds.csv").read_text(),
 							encoding="UTF-8",
 							extension="_alignment_common_ion_seconds.csv")
@@ -386,17 +386,17 @@ def test_align_2_alignments(A1, pyms_datadir, tmp_pathplus):
 	Db = 10.0  # rt modulation
 	Gb = 0.30  # gap penalty
 
-	print('Aligning input {1,2}')
+	print("Aligning input {1,2}")
 	T9 = PairwiseAlignment([A1, A2], Db, Gb)
 	A9 = align_with_tree(T9)
 
-	A9.write_csv(tmp_pathplus / 'rt.csv', tmp_pathplus / 'area.csv')
+	A9.write_csv(tmp_pathplus / "rt.csv", tmp_pathplus / "area.csv")
 
 	aligned_peaks = list(filter(None, A9.aligned_peaks()))
-	store_peaks(aligned_peaks, tmp_pathplus / 'peaks.bin')
+	store_peaks(aligned_peaks, tmp_pathplus / "peaks.bin")
 
 	top_ion_list = A9.common_ion()
-	A9.write_common_ion_csv(tmp_pathplus / 'area.csv', top_ion_list)
+	A9.write_common_ion_csv(tmp_pathplus / "area.csv", top_ion_list)
 
 
 # def test_alignment_compare():

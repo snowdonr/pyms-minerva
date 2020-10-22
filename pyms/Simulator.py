@@ -1,5 +1,5 @@
 """
-Provides functions for simulation of GCMS data
+Provides functions for simulation of GCMS data.
 """
 
 ################################################################################
@@ -48,7 +48,7 @@ __all__ = [
 
 def add_gaussc_noise(im: IntensityMatrix, scale: float):
 	"""
-	Adds noise to an IntensityMatrix object
+	Adds noise to an IntensityMatrix object.
 
 	:param im: the intensity matrix object
 	:param scale: the scale of the normal distribution from which the noise is drawn
@@ -66,10 +66,10 @@ def add_gaussc_noise(im: IntensityMatrix, scale: float):
 
 def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
 	"""
-	Adds noise drawn from a normal distribution with constant scale to an ion chromatogram
+	Adds noise drawn from a normal distribution with constant scale to an ion chromatogram.
 
-	:param ic: The ion Chromatogram
-	:param scale: The scale of the normal distribution
+	:param ic: The ion Chromatogram.
+	:param scale: The scale of the normal distribution.
 
 	:author: Sean O'Callaghan
 	"""
@@ -87,7 +87,7 @@ def add_gaussv_noise(
 		prop: float,
 		):
 	"""
-	Adds noise to an IntensityMatrix object
+	Adds noise to an IntensityMatrix object.
 
 	:param im: the intensity matrix object
 	:param scale: the scale of the normal distribution from which the noise is drawn
@@ -128,7 +128,7 @@ def add_gaussv_noise_ic(
 		value multiplied by ``prop``.
 
 	:author: Sean O'Callaghan
-	"""
+	"""  # noqa: D400
 
 	noise = numpy.zeros(len(ic))
 
@@ -152,7 +152,8 @@ def chromatogram(
 		peak_scale: float,
 		) -> numpy.ndarray:
 	"""
-	Returns a simulated ion chromatogram of a pure component
+	Returns a simulated ion chromatogram of a pure component.
+
 	The ion chromatogram contains a single gaussian peak.
 
 	:param n_scan: the number of scans
@@ -175,7 +176,7 @@ def chromatogram(
 
 def gaussian(point: float, mean: int, sigma: float, scale: float) -> float:
 	"""
-	calculates a point on a gaussian density function
+	Calculates a point on a gaussian density function.
 
 	``f = s*exp(-((x-x0)^2)/(2*w^2))``
 
@@ -198,7 +199,7 @@ def gcms_sim(
 		peak_list: List[Peak.Peak],
 		) -> IntensityMatrix:
 	"""
-	Simulator of GCMS data
+	Simulator of GCMS data.
 
 	:param time_list: the list of scan times
 	:param mass_list: the list of m/z channels

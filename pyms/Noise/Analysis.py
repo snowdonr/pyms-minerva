@@ -1,5 +1,5 @@
 """
-Noise analysis functions
+Noise analysis functions.
 """
 
 ################################################################################
@@ -61,7 +61,7 @@ def window_analyzer(
 	:return: The noise estimate.
 
 	:author: Vladimir Likic
-	"""
+	"""  # noqa: D400
 
 	if not isinstance(ic, IonChromatogram):
 		raise TypeError("'ic' must be an IonChromatogram object")

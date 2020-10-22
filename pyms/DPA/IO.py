@@ -1,5 +1,5 @@
 """
-Functions for writing peak alignment to various file formats
+Functions for writing peak alignment to various file formats.
 """
 
 ################################################################################
@@ -58,7 +58,7 @@ def write_mass_hunter_csv(
 
 	:param top_ion_list: a list of the common ions for each peak in the
 		averaged peak list for the alignment.
-	"""
+	"""  # noqa: D400
 
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
@@ -302,15 +302,15 @@ def write_excel(
 		ws.conditional_formatting.add(
 				cell_range,
 				ColorScaleRule(
-						start_type='percentile',
+						start_type="percentile",
 						start_value=1,
-						start_color='E5FFCC',
-						mid_type='percentile',
+						start_color="E5FFCC",
+						mid_type="percentile",
 						mid_value=50,
-						mid_color='FFFFFF',
-						end_type='percentile',
+						mid_color="FFFFFF",
+						end_type="percentile",
 						end_value=99,
-						end_color='FFE5CC'
+						end_color="FFE5CC"
 						),
 				)
 

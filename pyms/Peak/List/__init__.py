@@ -1,5 +1,5 @@
 """
-Functions for modelling peak lists
+Functions for modelling peak lists.
 """
 
 ################################################################################

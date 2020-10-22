@@ -1,5 +1,5 @@
 """
-Functions related to Peak modification
+Functions related to Peak modification.
 """
 
 ################################################################################
@@ -190,10 +190,9 @@ def peak_top_ion_areas(
 		max_bound: int = 0,
 		) -> Dict[float, float]:
 	"""
-	Calculate and return the ion areas of the five most
-	abundant ions in the peak.
+	Calculate and return the ion areas of the five most abundant ions in the peak.
 
-	:param im: The originating IntensityMatrix object
+	:param im: The originating IntensityMatrix object.
 	:param peak:
 	:param n_top_ions: Number of top ions to return areas for.
 	:param max_bound: Optional value to limit size of detected bound.
@@ -243,9 +242,9 @@ def peak_top_ion_areas(
 		)
 def top_ions_v1(peak: Peak, num_ions: int = 5) -> List[float]:
 	"""
-	Computes the highest 5 intensity ions
+	Computes the highest 5 intensity ions.
 
-	:param peak: the peak to be processed
+	:param peak: the peak to be processed.
 	:param num_ions: The number of ions to be recorded.
 
 	:return: A list of the top 5 highest intensity ions
@@ -332,7 +331,7 @@ def ion_area(
 	:return: Area, left and right boundary offset, shared left, shared right.
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
-	"""
+	"""  # noqa: D400
 
 	if not isinstance(ia, list) or not is_number(ia[0]):
 		raise TypeError("'ia' must be a list of numbers")
@@ -373,7 +372,7 @@ def half_area(
 	:return: Half peak area, boundary offset, shared (True if shared ion).
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
-	"""
+	"""  # noqa: D400
 
 	if not isinstance(ia, list) or not is_number(ia[0]):
 		raise TypeError("'ia' must be a list of numbers")
@@ -420,7 +419,7 @@ def half_area(
 
 def median_bounds(im: IntensityMatrix, peak: Peak, shared: bool = True) -> Tuple[float, float]:
 	"""
-	Calculates the median of the left and right bounds found for each apexing peak mass
+	Calculates the median of the left and right bounds found for each apexing peak mass.
 
 	:param im: The originating IntensityMatrix object.
 	:param peak:

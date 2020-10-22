@@ -1,5 +1,5 @@
 """
-Constants required for reading JCAMP files
+Constants required for reading JCAMP files.
 """
 
 ################################################################################
@@ -63,7 +63,7 @@ xydata_tags = {"XYDATA", "DATA TABLE", "XYPOINTS, PEAK TABLE", "PEAK TABLE", "XY
 
 class JcampTagWarning(UserWarning):
 	"""
-	Warning emitted when an unrecognised Jcamp tag is detected,
+	Warning emitted when an unrecognised Jcamp tag is detected.
 
 	:param tag: The name of the tag.
 	"""

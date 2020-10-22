@@ -1,5 +1,5 @@
 """
-Mixins for PyMassSpec Classes
+Mixins for PyMassSpec Classes.
 """
 
 ################################################################################
@@ -44,13 +44,19 @@ __all__ = [
 
 
 class MaxMinMassMixin:
+	"""
+	Mixin class to add the ``min_mass`` and ``max_mass`` properties,
+	which provide read-only access to the internal
+	``_min_mass`` and ``_max_mass`` attributes.
+	"""  # noqa: D400
+
 	_min_mass: Optional[float]
 	_max_mass: Optional[float]
 
 	@property
 	def min_mass(self) -> Optional[float]:
 		"""
-		Returns the minimum *m/z* value in the spectrum
+		Returns the minimum *m/z* value in the spectrum.
 
 		:author: Andrew Isaac
 		"""
@@ -60,7 +66,7 @@ class MaxMinMassMixin:
 	@property
 	def max_mass(self) -> Optional[float]:
 		"""
-		Returns the maximum *m/z* value in the spectrum
+		Returns the maximum *m/z* value in the spectrum.
 
 		:author: Andrew Isaac
 		"""
@@ -69,12 +75,17 @@ class MaxMinMassMixin:
 
 
 class MassListMixin(MaxMinMassMixin):
+	"""
+	Mixin class to add the ``mass_list`` property,
+	which returns a copy of the internal ``_mass_list`` attribute.
+	"""  # noqa: D400
+
 	_mass_list: List[float]
 
 	@property
 	def mass_list(self) -> List[float]:
 		"""
-		Returns a list of the masses
+		Returns a list of the masses.
 
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
@@ -83,12 +94,17 @@ class MassListMixin(MaxMinMassMixin):
 
 
 class TimeListMixin:
+	"""
+	Mixin class to add the ``time_list`` property,
+	which returns a copy of the internal ``_time_list`` attribute.
+	"""  # noqa: D400
+
 	_time_list: List[float]
 
 	@property
 	def time_list(self) -> List[float]:
 		"""
-		Returns a copy of the time list
+		Returns a copy of the time list.
 
 		:return: List of retention times
 
@@ -104,12 +120,11 @@ class IntensityArrayMixin:
 	@property
 	def intensity_array(self) -> numpy.ndarray:
 		"""
-		Returns a copy of the intensity array
+		Returns a copy of the intensity array.
 
-		:return: Matrix of intensity values
+		:return: Matrix of intensity values.
 
-		:author: Andrew Isaac
-		:author: Lewis Lee
+		:authors: Andrew Isaac, Lewis Lee
 		"""
 
 		return numpy.copy(self._intensity_array)
@@ -117,9 +132,9 @@ class IntensityArrayMixin:
 	@property
 	def intensity_matrix(self) -> numpy.ndarray:
 		"""
-		Returns a copy of the intensity matrix
+		Returns a copy of the intensity matrix.
 
-		:return: Matrix of intensity values
+		:return: Matrix of intensity values.
 
 		:author: Andrew Isaac
 		"""
@@ -131,9 +146,9 @@ class IntensityArrayMixin:
 	@property
 	def intensity_array_list(self) -> List[List[float]]:
 		"""
-		Returns a copy of the intensity array as a list of lists of floats
+		Returns a copy of the intensity array as a list of lists of floats.
 
-		:return: Matrix of intensity values
+		:return: Matrix of intensity values.
 
 		:author: Andrew Isaac
 		"""
@@ -143,7 +158,7 @@ class IntensityArrayMixin:
 	@property
 	def matrix_list(self) -> numpy.ndarray:
 		"""
-		Returns the intensity matrix as a list of lists of floats
+		Returns the intensity matrix as a list of lists of floats.
 
 		:return: Matrix of intensity values
 
@@ -160,7 +175,7 @@ class GetIndexTimeMixin:
 
 	def get_index_at_time(self, time: float) -> int:
 		"""
-		Returns the nearest index corresponding to the given time
+		Returns the nearest index corresponding to the given time.
 
 		:param time: Time in seconds
 
@@ -197,11 +212,9 @@ class GetIndexTimeMixin:
 
 	def get_time_at_index(self, ix: int) -> float:
 		"""
-		Returns time at given index
+		Returns time at given index.
 
-		:param ix: An index
-
-		:return: Time value
+		:param ix:
 
 		:authors: Lewis Lee, Vladimir Likic
 		"""

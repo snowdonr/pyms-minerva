@@ -1,5 +1,5 @@
 """
-Top-hat baseline corrector
+Top-hat baseline corrector.
 """
 
 ################################################################################
@@ -44,12 +44,12 @@ _STRUCT_ELM_FRAC = 0.2
 
 def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None):
 	"""
-	Top-hat baseline correction on Ion Chromatogram
+	Top-hat baseline correction on Ion Chromatogram.
 
-	:param ic: The input ion chromatogram
-	:param struct: Top-hat structural element as time string
+	:param ic: The input ion chromatogram.
+	:param struct: Top-hat structural element as time string.
 
-	:return: Top-hat corrected ion chromatogram
+	:return: Top-hat corrected ion chromatogram.
 
 	:authors: Woon Wai Keen, Vladimir Likic, Dominic Davis-Foster (type assertions)
 	"""
@@ -77,12 +77,12 @@ def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None):
 
 def tophat_im(im: IntensityMatrix, struct: Optional[str] = None):
 	"""
-	Top-hat baseline correction on Intensity Matrix
+	Top-hat baseline correction on Intensity Matrix.
 
-	Wraps around the TopHat function above
+	Wraps around the TopHat function above.
 
-	:param im: The input Intensity Matrix
-	:param struct: Top-hat structural element as time string
+	:param im: The input Intensity Matrix.
+	:param struct: Top-hat structural element as time string.
 
 	:return: Top-hat corrected IntensityMatrix Matrix
 

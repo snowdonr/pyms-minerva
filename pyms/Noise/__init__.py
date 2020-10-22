@@ -1,5 +1,5 @@
 """
-Noise processing functions
+Noise processing functions.
 """
 
 ################################################################################

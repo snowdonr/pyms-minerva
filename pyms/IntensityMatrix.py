@@ -1,5 +1,5 @@
 """
-Class to model Intensity Matrix
+Class to model Intensity Matrix.
 """
 
 ################################################################################
@@ -71,7 +71,7 @@ ASCII_CSV = AsciiFiletypes.ASCII_CSV
 
 class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArrayMixin, GetIndexTimeMixin):
 	"""
-	Intensity matrix of binned raw data
+	Intensity matrix of binned raw data.
 
 	:param time_list: Retention time values
 	:param mass_list: Binned mass values
@@ -79,6 +79,8 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions and properties)
 	"""
+
+	# Rows are scans, columns are masses
 
 	_min_mass: float
 	_max_mass: float
@@ -146,16 +148,16 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def __len__(self) -> int:
 		"""
-		Returns the number of scans in the Intensity Matrix
+		Returns the number of scans in the Intensity Matrix.
 		"""
 
 		return len(self.time_list)
 
 	def __eq__(self, other: Any) -> bool:
 		"""
-		Return whether this IntensityMatrix object is equal to another object
+		Return whether this IntensityMatrix object is equal to another object.
 
-		:param other: The other object to test equality with
+		:param other: The other object to test equality with.
 		"""
 
 		if isinstance(other, self.__class__):
@@ -195,7 +197,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		"""
 
 		# Check for parallel.
-		if hasattr(self, 'comm'):
+		if hasattr(self, "comm"):
 			return self.m, self.n
 
 		# If serial call the regular routine.
@@ -209,9 +211,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 			)
 	def get_size(self) -> Tuple[int, int]:
 		"""
-		Gets the size of intensity matrix
+		Gets the size of intensity matrix.
 
-		:return: Number of rows and cols
+		:return: Number of rows and cols.
 
 		:authors: Qiao Wang, Andrew Isaac, Luke Hodkinson, Vladimir Likic
 		"""
@@ -221,7 +223,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 	@property
 	def size(self) -> Tuple[int, int]:
 		"""
-		Gets the size of intensity matrix
+		Gets the size of intensity matrix.
 
 		:return: Number of rows and cols
 
@@ -235,13 +237,13 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def iter_ms_indices(self) -> Iterator[int]:
 		"""
-		Iterates over local row indices
+		Iterates over local row indices.
 
 		:author: Luke Hodkinson
 		"""
 
 		# Check for parallel.
-		if hasattr(self, 'comm'):
+		if hasattr(self, "comm"):
 			# At the moment we assume we break the matrix into contiguous
 			# ranges. We've allowed for this to change by wrapping up the
 			# iteration in this method.
@@ -256,13 +258,13 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def iter_ic_indices(self) -> Iterator[int]:
 		"""
-		Iterate over local column indices
+		Iterate over local column indices.
 
 		:author: Luke Hodkinson
 		"""
 
 		# Check for parallel.
-		if hasattr(self, 'comm'):
+		if hasattr(self, "comm"):
 			# At the moment we assume we break the matrix into contiguous
 			# ranges. We've allowed for this to change by wrapping up the
 			# iteration in this method.
@@ -277,7 +279,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def set_ic_at_index(self, ix: int, ic: IonChromatogram):
 		"""
-		Sets the ion chromatogram specified by index to a new value
+		Sets the ion chromatogram specified by index to a new value.
 
 		:param ix: Index of an ion chromatogram in the intensity data matrix to be set
 		:param ic: Ion chromatogram that will be copied at position 'ix'
@@ -314,11 +316,11 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def get_ic_at_index(self, ix: int) -> IonChromatogram:
 		"""
-		Returns the ion chromatogram at the specified index
+		Returns the ion chromatogram at the specified index.
 
 		:param ix: Index of an ion chromatogram in the intensity data matrix.
 
-		:return: Ion chromatogram at given index
+		:return: Ion chromatogram at given index.
 
 		:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
 		"""
@@ -378,11 +380,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def get_ms_at_index(self, ix: int) -> MassSpectrum:
 		"""
-		Returns a mass spectrum for a given scan index
+		Returns a mass spectrum for a given scan index.
 
-		:param ix: The index of the scan
-
-		:return: Mass spectrum
+		:param ix: The index of the scan.
 
 		:author: Andrew Isaac
 		"""
@@ -396,7 +396,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def get_scan_at_index(self, ix: int) -> List[float]:
 		"""
-		Returns the spectral intensities for scan index
+		Returns the spectral intensities for scan index.
 
 		:param ix: The index of the scan
 
@@ -459,7 +459,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def crop_mass(self, mass_min: float, mass_max: float):
 		"""
-		Crops mass spectrum
+		Crops mass spectrum.
 
 		:param mass_min: Minimum mass value
 		:param mass_max: Maximum mass value
@@ -500,7 +500,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def null_mass(self, mass: float):
 		"""
-		Ignore given (closest) mass in spectra
+		Ignore given (closest) mass in spectra.
 
 		:param mass: Mass value to remove
 
@@ -526,7 +526,7 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		:param n_intensities: The number of top intensities to keep
 
 		:author: Vladimir Likic
-		"""
+		"""  # noqa: D400
 
 		if not is_number(n_intensities):
 			raise TypeError("'n_intensities' must be a number")
@@ -603,9 +603,9 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 	def export_leco_csv(self, file_name: Union[str, pathlib.Path]):
 		"""
-		Exports data in LECO CSV format
+		Exports data in LECO CSV format.
 
-		:param file_name: The name of the output file
+		:param file_name: The name of the output file.
 
 		:authors: Andrew Isaac, Vladimir Likic, Dominic Davis-Foster (pathlib support)
 		"""
@@ -633,10 +633,10 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 		# The format is 0.000000e+000
 
 		# write header
-		fp.write("\"Scan\",\"Time\"")
+		fp.write('"Scan","Time"')
 		for ii in mass_list:
 			if is_number(ii):
-				fp.write(f",\"{int(ii):d}\"")
+				fp.write(f',"{int(ii):d}"')
 			else:
 				raise TypeError("mass list datum not a number")
 		fp.write("\r\n")  # windows CR/LF
@@ -656,11 +656,11 @@ class IntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, IntensityArra
 
 def import_leco_csv(file_name: Union[str, pathlib.Path]) -> IntensityMatrix:
 	"""
-	Imports data in LECO CSV format
+	Imports data in LECO CSV format.
 
-	:param file_name: Path of the file to read
+	:param file_name: Path of the file to read.
 
-	:return: Data as an IntensityMatrix
+	:return: Data as an IntensityMatrix.
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (pathlib support)
 	"""
@@ -755,7 +755,7 @@ def build_intensity_matrix(
 		min_mass: Optional[float] = None,
 		) -> IntensityMatrix:
 	"""
-	Sets the full intensity matrix with flexible bins
+	Sets the full intensity matrix with flexible bins.
 
 	:param data: Raw GCMS data
 	:param bin_interval: interval between bin centres.
@@ -801,7 +801,7 @@ def build_intensity_matrix_i(
 		bin_right: float = 0.7,
 		) -> IntensityMatrix:
 	"""
-	Sets the full intensity matrix with integer bins
+	Sets the full intensity matrix with integer bins.
 
 	:param data: Raw GCMS data
 	:param bin_left: left bin boundary offset.
@@ -848,7 +848,7 @@ def __fill_bins(
 		bin_right: float,
 		) -> IntensityMatrix:
 	"""
-	Fills the intensity values for all bins
+	Fills the intensity values for all bins.
 
 	:param data: Raw GCMS data
 	:param min_mass: minimum mass value
@@ -906,7 +906,7 @@ def __fill_bins_old(
 		bin_right: float,
 		) -> IntensityMatrix:
 	"""
-	Fills the intensity values for all bins
+	Fills the intensity values for all bins.
 
 	:param data: Raw GCMS data
 	:param min_mass: minimum mass value
