@@ -1,6 +1,6 @@
 biopython>=1.74
 deprecation>=2.1.0
-domdf_python_tools>=0.12.0
+domdf_python_tools>=1.2.0
 enum_tools>=0.6.1
 matplotlib>=3.0.2
 netCDF4>=1.5.0
