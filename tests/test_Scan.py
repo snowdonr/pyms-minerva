@@ -43,7 +43,7 @@ def test_scan(scan):
 				(test_list_strs, ValueError),
 				(test_int, TypeError),
 				(test_dict, TypeError),
-				]
+				],
 		)
 def test_errors(scan, obj, expects):
 	with pytest.raises(expects):

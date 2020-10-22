@@ -166,7 +166,16 @@ def test_plot_tic_linestyle(tic, test_plot):
 
 
 def test_plot_tic_errors(im_i, test_plot, data, ms):
-	for obj in [*test_sequences, *test_numbers, test_string, test_dict, im_i, im_i.get_ic_at_index(0), data, ms]:
+	for obj in [
+			*test_sequences,
+			*test_numbers,
+			test_string,
+			test_dict,
+			im_i,
+			im_i.get_ic_at_index(0),
+			data,
+			ms,
+			]:
 		with pytest.raises(TypeError):
 			test_plot.plot_tic(obj)
 
@@ -204,7 +213,16 @@ def test_plot_mass_spec_linestyle(im_i, test_plot):
 
 
 def test_plot_mass_spec_errors(im_i, test_plot, data, tic):
-	for obj in [*test_sequences, test_string, *test_numbers, test_dict, im_i, im_i.get_ic_at_index(0), data, tic]:
+	for obj in [
+			*test_sequences,
+			test_string,
+			*test_numbers,
+			test_dict,
+			im_i,
+			im_i.get_ic_at_index(0),
+			data,
+			tic,
+			]:
 		with pytest.raises(TypeError):
 			test_plot.plot_mass_spec(obj)
 
@@ -226,5 +244,6 @@ def test_do_plotting_warning():
 	assert len(record) == 1
 	# check that the message matches
 	args = record[0].message.args  # type: ignore
-	assert args[0] == """No plots have been created.
+	expected = """No plots have been created.
 Please call a plotting function before calling 'do_plotting()'"""
+	assert args[0] == expected

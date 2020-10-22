@@ -54,7 +54,7 @@ class TestMean:
 				Fraction(4, 5),
 				Fraction(5, 6),
 				Fraction(6, 7),
-				Fraction(7, 8)
+				Fraction(7, 8),
 				]
 		random.shuffle(data)
 		assert statistics.mean(data) == Fraction(1479, 1960)
@@ -76,7 +76,7 @@ class TestMean:
 
 	def test_mismatched_infs(self):
 		# Test mean with infinities of opposite sign.
-		data = [2, 4, 6, float('inf'), 1, 3, 5, float('-inf')]
+		data = [2, 4, 6, float("inf"), 1, 3, 5, float("-inf")]
 		assert math.isnan(statistics.mean(data))
 		assert math.isnan(Math.mean(data))
 
@@ -110,7 +110,7 @@ class TestMean:
 	def test_regression_20561(self):
 		# Regression test for issue 20561.
 		# See http://bugs.python.org/issue20561
-		d = Decimal('1e4')
+		d = Decimal("1e4")
 		assert statistics.mean([d]) == d
 		assert Math.mean([d]) == d
 		assert Math.mean([d]) == statistics.mean([d])
@@ -119,11 +119,11 @@ class TestMean:
 		# Regression test for issue 25177.
 		# Ensure very big and very small floats don't overflow.
 		# See http://bugs.python.org/issue25177.
-		assert statistics.mean([8.988465674311579e+307, 8.98846567431158e+307]) == 8.98846567431158e+307
-		assert Math.mean([8.988465674311579e+307, 8.98846567431158e+307]) == 8.98846567431158e+307
-		assert statistics.mean([8.988465674311579e+307, 8.98846567431158e+307]
-								) == Math.mean([8.988465674311579e+307, 8.98846567431158e+307])
-		big = 8.98846567431158e+307
+		assert statistics.mean([8.988465674311579e307, 8.98846567431158e307]) == 8.98846567431158e307
+		assert Math.mean([8.988465674311579e307, 8.98846567431158e307]) == 8.98846567431158e307
+		assert statistics.mean([8.988465674311579e307,
+								8.98846567431158e307]) == Math.mean([8.988465674311579e307, 8.98846567431158e307])
+		big = 8.98846567431158e307
 		tiny = 5e-324
 		for n in (2, 3, 5, 200):
 			assert statistics.mean([big] * n) == big
@@ -163,7 +163,14 @@ class TestMedian:
 
 	def test_even_fractions(self):
 		# Test median works with an even number of Fractions.
-		data = [Fraction(1, 7), Fraction(2, 7), Fraction(3, 7), Fraction(4, 7), Fraction(5, 7), Fraction(6, 7)]
+		data = [
+				Fraction(1, 7),
+				Fraction(2, 7),
+				Fraction(3, 7),
+				Fraction(4, 7),
+				Fraction(5, 7),
+				Fraction(6, 7),
+				]
 		assert len(data) % 2 == 0
 		random.shuffle(data)
 		assert statistics.median(data) == Fraction(1, 2)
@@ -181,10 +188,17 @@ class TestMedian:
 
 	def test_even_decimals(self):
 		# Test median works with an even number of Decimals.
-		data = [Decimal("1.2"), Decimal("2.5"), Decimal("3.1"), Decimal("4.2"), Decimal("5.7"), Decimal("5.8")]
+		data = [
+				Decimal("1.2"),
+				Decimal("2.5"),
+				Decimal("3.1"),
+				Decimal("4.2"),
+				Decimal("5.7"),
+				Decimal("5.8"),
+				]
 		assert len(data) % 2 == 0
 		random.shuffle(data)
-		assert statistics.median(data) == Decimal('3.65')
+		assert statistics.median(data) == Decimal("3.65")
 		assert Math.median(data) == Decimal("3.65")
 		assert statistics.median(data) == Math.median(data)
 
@@ -195,7 +209,7 @@ class TestStdev:
 		self.func = statistics.variance
 
 	def test_single_value(self):
-		for x in (81, 203.74, 3.9e14, Fraction(5, 21), Decimal('35.719')):
+		for x in (81, 203.74, 3.9e14, Fraction(5, 21), Decimal("35.719")):
 			with pytest.raises(statistics.StatisticsError):
 				statistics.stdev([x])  # type: ignore
 

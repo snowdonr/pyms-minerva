@@ -194,7 +194,7 @@ class TestStoreLoadPeaks:
 					("not-an-experiment.expr", IOError),
 					("test_list_ints.dat", IOError),
 					("test_empty_list.dat", IOError),
-					]
+					],
 			)
 	def test_load_filename_errors_2(self, filename, expects, pyms_datadir):
 		with pytest.raises(expects):

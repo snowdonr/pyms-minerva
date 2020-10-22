@@ -47,8 +47,20 @@ from pyms.Utils.Utils import is_number
 # this package
 from .constants import *
 
-eley_codes = ["ELEY_1_SUBTRACT", "ELEY_2_SUBTRACT", "ELEY_3_SUBTRACT", "ELEY_4_SUBTRACT", "ELEY_5_SUBTRACT"]
-geco_codes = ["GECO_1_SUBTRACT", "GECO_2_SUBTRACT", "GECO_3_SUBTRACT", "GECO_4_SUBTRACT", "GECO_5_SUBTRACT"]
+eley_codes = [
+		"ELEY_1_SUBTRACT",
+		"ELEY_2_SUBTRACT",
+		"ELEY_3_SUBTRACT",
+		"ELEY_4_SUBTRACT",
+		"ELEY_5_SUBTRACT",
+		]
+geco_codes = [
+		"GECO_1_SUBTRACT",
+		"GECO_2_SUBTRACT",
+		"GECO_3_SUBTRACT",
+		"GECO_4_SUBTRACT",
+		"GECO_5_SUBTRACT",
+		]
 
 # within replicates alignment parameters
 Dw = 2.5  # rt modulation [s]
@@ -175,9 +187,9 @@ class Test_alignment_Errors:
 	@pytest.mark.parametrize("obj", [*test_numbers, test_dict, *test_lists])
 	def test_file_name_errors(self, A1, obj, tmp_pathplus):
 		with pytest.raises(TypeError):
-			A1.write_csv(obj, tmp_pathplus / 'alignment_area.csv')
+			A1.write_csv(obj, tmp_pathplus / "alignment_area.csv")
 		with pytest.raises(TypeError):
-			A1.write_csv(tmp_pathplus / 'alignment_rt.csv', obj)
+			A1.write_csv(tmp_pathplus / "alignment_rt.csv", obj)
 		with pytest.raises(TypeError):
 			A1.write_common_ion_csv(obj, A1.common_ion())
 		with pytest.raises(TypeError):
@@ -186,11 +198,11 @@ class Test_alignment_Errors:
 	@pytest.mark.parametrize("obj", [*test_numbers, test_dict, test_list_strs, test_string])
 	def test_top_ion_list_errors(self, A1, obj, tmp_pathplus):
 		with pytest.raises(TypeError):
-			A1.write_common_ion_csv(tmp_pathplus / 'alignent_ion_area.csv', obj)
+			A1.write_common_ion_csv(tmp_pathplus / "alignent_ion_area.csv", obj)
 
 
 def test_write_csv(A1, tmp_pathplus):
-	A1.write_csv(tmp_pathplus / 'alignment_rt.csv', tmp_pathplus / 'alignment_area.csv')
+	A1.write_csv(tmp_pathplus / "alignment_rt.csv", tmp_pathplus / "alignment_area.csv")
 
 	# Read alignment_rt.csv and alignment_area.csv and check values
 	assert (tmp_pathplus / "alignment_rt.csv").exists()
@@ -283,8 +295,8 @@ def test_write_ion_areas_csv(A1, tmp_pathplus):
 	# Read alignment_ion_areas.csv and check values
 	assert (tmp_pathplus / "alignment_ion_areas.csv").exists()
 
-	ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas.csv").open(), delimiter='|'))
-	seconds_ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas_seconds.csv").open(), delimiter='|'))
+	ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas.csv").open(), delimiter="|"))
+	seconds_ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas_seconds.csv").open(), delimiter="|"))
 
 	assert ion_csv[0][0:2] == seconds_ion_csv[0][0:2] == ["UID", "RTavg"]
 	assert ion_csv[0][2:] == seconds_ion_csv[0][2:] == A1.expr_code
@@ -323,14 +335,18 @@ def test_write_common_ion_csv(A1, tmp_pathplus, file_regression: FileRegressionF
 
 	# read the csv and check values
 	A1.write_common_ion_csv(tmp_pathplus / "alignment_common_ion.csv", A1.common_ion())
-	file_regression.check((tmp_pathplus / "alignment_common_ion.csv").read_text(),
-							encoding="UTF-8",
-							extension="_alignment_common_ion.csv")
+	file_regression.check(
+			(tmp_pathplus / "alignment_common_ion.csv").read_text(),
+			encoding="UTF-8",
+			extension="_alignment_common_ion.csv",
+			)
 
 	A1.write_common_ion_csv(tmp_pathplus / "alignment_common_ion_seconds.csv", A1.common_ion(), minutes=False)
-	file_regression.check((tmp_pathplus / "alignment_common_ion_seconds.csv").read_text(),
-							encoding="UTF-8",
-							extension="_alignment_common_ion_seconds.csv")
+	file_regression.check(
+			(tmp_pathplus / "alignment_common_ion_seconds.csv").read_text(),
+			encoding="UTF-8",
+			extension="_alignment_common_ion_seconds.csv",
+			)
 
 
 # TODO: read the csv and check values

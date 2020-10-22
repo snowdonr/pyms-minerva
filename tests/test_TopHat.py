@@ -72,10 +72,11 @@ class TestErrors:
 				tophat(obj, "1m")  # type: ignore
 
 	@pytest.mark.parametrize(
-			"struct, expects", [
+			"struct, expects",
+			[
 					(test_float, TypeError),
 					(test_string, ValueError),
-					] + [(struct, TypeError) for struct in test_sequences]
+					] + [(struct, TypeError) for struct in test_sequences],
 			)
 	class TeststructErrors:
 

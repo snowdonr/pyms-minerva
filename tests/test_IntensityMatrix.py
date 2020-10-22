@@ -182,7 +182,7 @@ class TestIntensityMatrix:
 					(test_list_strs, TypeError),
 					(-1, IndexError),
 					(1000000, IndexError),
-					]
+					],
 			)
 	def test_get_index_at_time_errors(self, im, obj, expects):
 		with pytest.raises(expects):
@@ -201,7 +201,7 @@ class TestIntensityMatrix:
 					(test_list_strs, TypeError),
 					(-1, IndexError),
 					(1000000, IndexError),
-					]
+					],
 			)
 	def test_get_time_at_index_errors(self, im, obj, expects):
 		with pytest.raises(expects):

@@ -176,7 +176,7 @@ def test_equality(andi):
 def test_info(capsys, andi):
 	andi.info()
 	captured = capsys.readouterr()
-	assert captured.out == """ Data retention time range: 5.093 min -- 66.795 min
+	expected = """ Data retention time range: 5.093 min -- 66.795 min
  Time step: 0.375 s (std=0.000 s)
  Number of scans: 9865
  Minimum m/z measured: 50.000
@@ -184,6 +184,8 @@ def test_info(capsys, andi):
  Mean number of m/z values per scan: 56
  Median number of m/z values per scan: 40
 """
+
+	assert captured.out == expected
 
 
 def test_scan_list(andi):
