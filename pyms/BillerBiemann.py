@@ -135,20 +135,20 @@ def get_maxima_indices(ion_intensities: Union[Sequence, numpy.ndarray], points: 
 	points = 2 * half + 1  # ensure odd number of points
 
 	for index in range(len(ion_intensities) - points + 1):
+
 		left = ion_intensities[index:index + half]
 		mid = ion_intensities[index + half]
 		right = ion_intensities[index + half + 1:index + points]
-		# max in middle
+		# print(left, mid, right)
+
 		if mid > max(left) and mid > max(right):
 			# the max value is in the middle
 			peak_point.append(index + half)
 			edge = -1  # ignore previous rising edge
-			# input("Case 1 > ")
 
 		elif mid > max(left) and mid == max(right):
 			# start of plateau following rise (left of peak?)
 			edge = index + half  # ignore previous rising edge, update latest
-			# input("Case 2 > ")
 
 		elif mid == max(left) and mid > max(right):
 			# start of fall from plateau

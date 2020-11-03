@@ -54,30 +54,42 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 	the value of the attribute 'mass'. This is set to the *m/z* value of the
 	ion chromatogram, or to :py:obj:`None` for TIC.
 
-	:param ia: Ion chromatogram intensity values
+	:param intensity_list: Ion chromatogram intensity values
 	:param time_list: A list of ion chromatogram retention times
 	:param mass: Mass of ion chromatogram (:py:obj:`None` if TIC)
 
 	:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
+
+	.. versionchanged:: 2.3.0
+
+		The ``ia`` parameter was renamed to ``intensity_list``.
 	"""
 
-	def __init__(self, ia: numpy.ndarray, time_list: List[float], mass: Optional[float] = None):
-		if not isinstance(ia, numpy.ndarray):
-			raise TypeError("'ia' must be a numpy array")
+	def __init__(
+			self,
+			intensity_list: Union[Sequence[float], numpy.ndarray],
+			time_list: Sequence[float],
+			mass: Optional[float] = None
+			):
+		if not is_sequence_of(intensity_list, _number_types):
+			raise TypeError("'intensity_list' must be a Sequence of numbers")
 
-		if not is_sequence(time_list) or not all(is_number(time) for time in time_list):
-			raise TypeError("'time_list' must be a list of numbers")
+		if not is_sequence_of(time_list, _number_types):
+			raise TypeError("'time_list' must be a Sequence of numbers")
 
-		if len(ia) != len(time_list):
-			raise ValueError("Intensity array and time list differ in length")
+		if len(intensity_list) != len(time_list):
+			raise ValueError("'intensity_list' and 'time_list' differ in length")
 
 		if mass is not None and not is_number(mass):
-			raise TypeError("'mass' must be a number")
+			raise TypeError("'mass' must be a number or None")
 
-		self._intensity_array = ia
-		self._time_list = time_list
+		if not isinstance(intensity_list, numpy.ndarray):
+			intensity_list = numpy.array(intensity_list)
+
+		self._intensity_array = intensity_list
+		self._time_list = list(time_list)
 		self._mass: Optional[float] = mass
-		self._time_step = self.__calc_time_step()
+		self._time_step = self._calc_time_step()
 		self._min_rt = min(time_list)
 		self._max_rt = max(time_list)
 
@@ -92,10 +104,13 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def __sub__(self, other: "IonChromatogram") -> "IonChromatogram":
 		"""
-		Subtracts another IC from the current one.
+		Subtracts another IC from the current one (in place).
 
 		:param other: Another IC
 		"""
+
+		if not isinstance(other, IonChromatogram):
+			return NotImplemented
 
 		ia_for_sub = other.intensity_array
 
@@ -125,7 +140,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		"""
 
 		return IonChromatogram(
-				ia=numpy.copy(self._intensity_array),
+				intensity_list=numpy.copy(self._intensity_array),
 				time_list=self._time_list[:],
 				mass=copy.copy(self._mass),
 				)
@@ -200,7 +215,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self._time_step
 
-	def __calc_time_step(self) -> float:
+	def _calc_time_step(self) -> float:
 		"""
 		Calculates the time step.
 
