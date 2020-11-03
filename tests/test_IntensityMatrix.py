@@ -219,20 +219,10 @@ class TestIntensityMatrix:
 		assert im != test_list_ints
 		assert im != test_list_strs
 
-	@deprecation.fail_if_not_removed
-	def test_get_local_size(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_local_size()
-
 	def test_local_size(self, im):
 		assert isinstance(im.local_size, tuple)
 		assert isinstance(im.local_size[0], int)
 		assert im.local_size[0] == 2103
-
-	@deprecation.fail_if_not_removed
-	def test_get_size(self, im):
-		with pytest.warns(DeprecationWarning):
-			im.get_size()
 
 	def test_size(self, im):
 		# size of intensity matrix (#scans, #bins)
