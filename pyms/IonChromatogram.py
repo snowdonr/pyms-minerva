@@ -27,7 +27,7 @@ Classes to model a GC-MS Ion Chromatogram.
 import copy
 import pathlib
 import warnings
-from typing import Any, List, Optional, Sequence, Union
+from typing import Any, Optional, Sequence, Tuple, Union
 
 # 3rd party
 import numpy  # type: ignore
@@ -36,9 +36,9 @@ import numpy  # type: ignore
 from pyms.Base import pymsBaseClass
 from pyms.Mixins import GetIndexTimeMixin, IntensityArrayMixin, TimeListMixin
 from pyms.Utils.IO import prepare_filepath
-from pyms.Utils.Utils import is_number, is_path, is_sequence
+from pyms.Utils.Utils import _number_types, is_number, is_path, is_sequence, is_sequence_of
 
-__all__ = ["IonChromatogram"]
+__all__ = ["IonChromatogram", "ExtractedIonChromatogram", "BasePeakChromatogram"]
 
 
 class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetIndexTimeMixin):
@@ -185,12 +185,33 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 	def is_tic(self) -> bool:
 		"""
-		Returns whether the ion chromatogram is a total ion chromatogram (TIC).
+		Returns whether the ion chromatogram is a total ion chromatogram (TIC)
+		or extracted ion chromatogram (EIC).
 
 		:authors: Lewis Lee, Vladimir Likic
-		"""
+		"""  # noqa: D400
 
 		return self._mass is None
+
+	@staticmethod
+	def is_eic() -> bool:
+		"""
+		Returns whether the ion chromatogram is an extracted ion chromatogram (EIC).
+
+		.. versionadded:: 2.3.0
+		"""
+
+		return False
+
+	@staticmethod
+	def is_bpc() -> bool:
+		"""
+		Returns whether the ion chromatogram is a base peak chromatogram (BPC).
+
+		.. versionadded:: 2.3.0
+		"""
+
+		return False
 
 	@property
 	def mass(self) -> Optional[float]:
@@ -263,3 +284,85 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 					fp.write(f"{time_list[ii]:8.4f} {self._intensity_array[ii]:#.6e}\n")
 				else:
 					fp.write(f"{time_list[ii]} {self._intensity_array[ii]}\n")
+
+
+class ExtractedIonChromatogram(IonChromatogram):
+	r"""
+	Models an extracted ion chromatogram (EIC).
+
+	An ion chromatogram is a set of intensities as a function of retention time.
+	This can can be either *m/z* channel intensities (for example, ion
+	chromatograms at ``m/z = 65``\), or cumulative intensities over all measured *m/z*.
+	In the latter case the ion chromatogram is total ion chromatogram (TIC).
+
+	:param intensity_list: Ion chromatogram intensity values
+	:param time_list: A list of ion chromatogram retention times
+	:param masses: List of extracted masses in the EIC.
+
+	:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
+
+	.. versionadded:: 2.3.0
+	"""
+
+	_mass: None
+
+	def __init__(
+			self,
+			intensity_list: Union[Sequence[float], numpy.ndarray],
+			time_list: Sequence[float],
+			masses: Sequence[float],
+			):
+
+		super().__init__(intensity_list, time_list, None)
+
+		self._masses = tuple(masses)
+
+	def is_eic(self) -> bool:
+		"""
+		Returns whether the ion chromatogram is an extracted ion chromatogram (EIC).
+		"""
+
+		return True
+
+	@property
+	def masses(self) -> Tuple[float]:
+		"""
+		List of extracted masses in the EIC
+		"""
+
+		return self._masses
+
+
+class BasePeakChromatogram(IonChromatogram):
+	r"""
+	Models a base peak chromatogram (BPC).
+
+	An ion chromatogram is a set of intensities as a function of retention time.
+	This can can be either *m/z* channel intensities (for example, ion
+	chromatograms at ``m/z = 65``\), or cumulative intensities over all measured *m/z*.
+	In the latter case the ion chromatogram is total ion chromatogram (TIC).
+
+	:param intensity_list: Ion chromatogram intensity values
+	:param time_list: A list of ion chromatogram retention times
+
+	:authors: Lewis Lee, Vladimir Likic, Dominic Davis-Foster (type assertions and properties)
+
+	.. versionadded:: 2.3.0
+	"""
+
+	_mass: None
+
+	def __init__(
+			self,
+			intensity_list: Union[Sequence[float], numpy.ndarray],
+			time_list: Sequence[float],
+			):
+
+		super().__init__(intensity_list, time_list, None)
+
+	def is_bpc(self) -> bool:
+		"""
+		Returns whether the ion chromatogram is a base peak chromatogram (BPC).
+		"""
+
+		return True
