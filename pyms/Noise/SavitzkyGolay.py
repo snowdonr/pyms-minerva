@@ -78,8 +78,8 @@ def savitzky_golay(
 	# print("      Window width (points): %d" % ( 2*wing_length+1 ))
 	# print("      Polynomial degree: %d" % ( degree ))
 
-	coeff = __calc_coeff(wing_length, degree)
-	ia_denoise = __smooth(ia, coeff)
+	coeff = _calc_coeff(wing_length, degree)
+	ia_denoise = _smooth(ia, coeff)
 
 	ic_denoise = copy.deepcopy(ic)
 	ic_denoise.intensity_array = ia_denoise
@@ -127,7 +127,7 @@ def savitzky_golay_im(
 	return im_smooth
 
 
-def __calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy.ndarray:
+def _calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy.ndarray:
 	"""
 	Calculates filter coefficients for symmetric savitzky-golay filter.
 
@@ -162,7 +162,7 @@ def __calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy
 	rhs = numpy.zeros((pol_degree + 1), float)
 	rhs[diff_order] = 1
 	D = numpy.linalg.cholesky(ATA)
-	wvec = __resub(D, rhs)
+	wvec = _resub(D, rhs)
 
 	# calculate filter-coefficients
 	coeff = numpy.zeros((2 * num_points + 1), float)
@@ -175,7 +175,7 @@ def __calc_coeff(num_points: int, pol_degree: int, diff_order: int = 0) -> numpy
 	return coeff
 
 
-def __resub(D, rhs):
+def _resub(D, rhs):
 	"""
 	Solves ``D D^T = rhs`` by resubstitution.
 
@@ -208,9 +208,9 @@ def __resub(D, rhs):
 	return x2
 
 
-def __smooth(signal: numpy.ndarray, coeff: numpy.ndarray) -> numpy.ndarray:
+def _smooth(signal: numpy.ndarray, coeff: numpy.ndarray) -> numpy.ndarray:
 	"""
-	Applies coefficients calculated by :func:`~.__calc_coeff()` to signal.
+	Applies coefficients calculated by :func:`~._calc_coeff()` to signal.
 
 	:param signal:
 	:param coeff:

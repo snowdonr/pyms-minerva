@@ -21,7 +21,6 @@
 # stdlib
 import copy
 import os
-import shutil
 from copy import deepcopy
 from pathlib import Path
 
@@ -91,7 +90,7 @@ def _peak_list(im_i):
 	return peak_list
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def peak_list(_peak_list):
 	return copy.deepcopy(_peak_list)
 
@@ -121,7 +120,7 @@ def _filtered_peak_list(im_i, _peak_list):
 	return new_peak_list
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def filtered_peak_list(im_i, _filtered_peak_list):
 	return copy.deepcopy(_filtered_peak_list)
 
@@ -144,7 +143,7 @@ def scan(data):
 	return deepcopy(data.scan_list[0])
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def expr(filtered_peak_list):
 	# create an experiment
 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)

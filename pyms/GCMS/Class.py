@@ -72,9 +72,9 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		self._time_list = list(time_list)
 		self._scan_list = list(scan_list)
-		self.__set_time()
-		self.__set_min_max_mass()
-		self.__calc_tic()
+		self._set_time()
+		self._set_min_max_mass()
+		self._calc_tic()
 
 	def __eq__(self, other) -> bool:
 		"""
@@ -103,7 +103,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 	def __str__(self) -> str:
 		return self.__repr__()
 
-	def __calc_tic(self) -> None:
+	def _calc_tic(self) -> None:
 		"""
 		Calculate the total ion chromatogram.
 
@@ -119,7 +119,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		self._tic = tic
 
-	def __set_time(self) -> None:
+	def _set_time(self) -> None:
 		"""
 		Sets time-related properties of the data.
 
@@ -147,7 +147,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self._min_rt = min(self._time_list)
 		self._max_rt = max(self._time_list)
 
-	def __set_min_max_mass(self) -> None:
+	def _set_min_max_mass(self) -> None:
 		"""
 		Sets the min and max mass value.
 
@@ -339,9 +339,9 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		# update info
 		self._scan_list = scan_list_new
 		self._time_list = time_list_new
-		self.__set_time()
-		self.__set_min_max_mass()
-		self.__calc_tic()
+		self._set_time()
+		self._set_min_max_mass()
+		self._calc_tic()
 
 	def write(self, file_root: Union[str, pathlib.Path]):
 		"""

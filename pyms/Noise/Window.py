@@ -75,9 +75,9 @@ def window_smooth(
 	wing_length = ic_window_points(ic, window, half_window=True)
 
 	if use_median:
-		ia_denoise = __median_window(ia, wing_length)
+		ia_denoise = _median_window(ia, wing_length)
 	else:
-		ia_denoise = __mean_window(ia, wing_length)
+		ia_denoise = _mean_window(ia, wing_length)
 
 	ic_denoise = copy.deepcopy(ic)
 	ic_denoise.intensity_array = ia_denoise
@@ -120,7 +120,7 @@ def window_smooth_im(
 	return im_smooth
 
 
-def __mean_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
+def _mean_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
 	"""
 	Applies mean-window averaging on the array of intensities.
 
@@ -149,7 +149,7 @@ def __mean_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
 	return ia_denoise
 
 
-def __median_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
+def _median_window(ia: numpy.ndarray, wing_length: int) -> numpy.ndarray:
 	"""
 	Applies median-window averaging on the array of intensities.
 
