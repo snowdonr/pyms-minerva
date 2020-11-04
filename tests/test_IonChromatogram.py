@@ -34,33 +34,38 @@ from pyms.Utils.Utils import is_number
 from .constants import *
 
 
-def test_IonChromatogram(im, tic):
-	# get the first ion chromatogram of the IntensityMatrix
-	ic = im.get_ic_at_index(0)
-	assert isinstance(ic, IonChromatogram)
-	assert not ic.is_tic()
+class TestIonChromatogram:
+	def test_success(self, im, tic):
+		# get the first ion chromatogram of the IntensityMatrix
+		ic = im.get_ic_at_index(0)
+		assert isinstance(ic, IonChromatogram)
+		assert not ic.is_tic()
 
-	# get the ion chromatogram for m/z = 73
-	ic = im.get_ic_at_mass(73)
-	assert isinstance(ic, IonChromatogram)
-	assert not ic.is_tic()
+		# get the ion chromatogram for m/z = 73
+		ic = im.get_ic_at_mass(73)
+		assert isinstance(ic, IonChromatogram)
+		assert not ic.is_tic()
 
-	assert isinstance(tic, IonChromatogram)
-	assert tic.is_tic()
+		assert isinstance(tic, IonChromatogram)
+		assert tic.is_tic()
 
-	# Errors
-	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
+		with pytest.raises(ValueError):
+			IonChromatogram(tic.intensity_array, test_list_ints)  # type: ignore
+
+	@pytest.mark.parametrize("value", [test_string, *test_numbers, test_list_strs, test_tuple, test_dict])
+	def test_errors_intensity_list(self, value, tic):
 		with pytest.raises(TypeError):
-			IonChromatogram(obj, tic.time_list)  # type: ignore
-	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
-		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, obj)  # type: ignore
-	for obj in [test_string, *test_sequences, test_dict]:
-		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, tic.time_list, mass=obj)  # type: ignore
+			IonChromatogram(value, tic.time_list)  # type: ignore
 
-	with pytest.raises(ValueError):
-		IonChromatogram(tic.intensity_array, test_list_ints)  # type: ignore
+	@pytest.mark.parametrize("value", [test_string, *test_numbers, test_list_strs, test_dict])
+	def test_errors_time_list(self, value, tic):
+		with pytest.raises(TypeError):
+			IonChromatogram(tic.intensity_array, value)  # type: ignore
+
+	@pytest.mark.parametrize("value", [test_string, *test_sequences, test_dict])
+	def test_errors_mass(self, value, tic):
+		with pytest.raises(TypeError):
+			IonChromatogram(tic.intensity_array, tic.time_list, mass=value)  # type: ignore
 
 
 def test_len(tic):
@@ -117,9 +122,10 @@ def test_intensity_array(tic, im):
 	tic = copy.deepcopy(tic)
 
 	assert isinstance(tic.intensity_array, numpy.ndarray)
-	assert all(
-			numpy.equal(IonChromatogram(tic.intensity_array, tic.time_list).intensity_array, tic.intensity_array)
-			)
+	assert all(numpy.equal(
+			IonChromatogram(tic.intensity_array, tic.time_list).intensity_array,
+			tic.intensity_array,
+			))
 
 	ic = im.get_ic_at_index(0)
 	tic.intensity_array = ic.intensity_array
