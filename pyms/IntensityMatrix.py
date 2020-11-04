@@ -42,6 +42,7 @@ from pyms.Utils.IO import prepare_filepath, save_data
 from pyms.Utils.Utils import _number_types, is_number, is_path, is_sequence, is_sequence_of
 
 __all__ = [
+		"BaseIntensityMatrix",
 		"AsciiFiletypes",
 		"IntensityMatrix",
 		"import_leco_csv",
@@ -859,7 +860,7 @@ def _fill_bins(
 	"""
 
 	if not (abs(bin_left + bin_right - bin_interval) < 1.0e-6 * bin_interval):
-		raise ValueError("there should be no gaps or overlap.")
+		raise ValueError("there should be no gaps or overlap between the bins.")
 
 	bin_left = abs(bin_left)
 	# bin_right = abs(bin_right)
