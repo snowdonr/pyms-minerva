@@ -74,6 +74,7 @@ sphinx_conf_preamble:
 
 exclude_files:
  - pre-commit
+ - contributing
 
 enable_devmode: false
 

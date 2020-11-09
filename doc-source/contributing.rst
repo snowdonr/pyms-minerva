@@ -49,6 +49,13 @@ To run tests for all Python versions, simply run:
 
 	tox
 
+A series of reference images for ``test_Display.py`` are in the "tests/baseline" directory.
+If these files need to be regenerated, run the following command:
+
+.. prompt:: bash
+
+	pytest --mpl-generate-path="tests/baseline" tests/test_Display.py
+
 
 Type Annotations
 -------------------
