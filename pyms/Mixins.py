@@ -164,7 +164,7 @@ class IntensityArrayMixin:
 
 		:author: Andrew Isaac
 		"""
-		warn(f"Use 'intensity_array' attribute instead", DeprecationWarning)
+		warn(f"Use 'intensity_array_list' attribute instead", DeprecationWarning)
 		return self.intensity_array
 
 

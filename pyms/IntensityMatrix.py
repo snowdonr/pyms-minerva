@@ -57,6 +57,8 @@ __all__ = [
 class AsciiFiletypes(IntEnum):
 	"""
 	Enumeration of supported ASCII filetypes for :meth:`~pyms.IntensityMatrix.IntensityMatrix.export_ascii`.
+
+	.. versionadded:: 2.3.0
 	"""
 
 	ASCII_DAT = 1  # doc: Tab-delimited ASCII file

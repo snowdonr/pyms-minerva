@@ -31,7 +31,7 @@ from typing import List, Union
 # 3rd party
 from openpyxl import Workbook  # type: ignore
 from openpyxl.comments import Comment  # type: ignore
-from openpyxl.formatting.rule import ColorScaleRule  # type: ignore  # , CellIsRule, FormulaRule   # type: ignore
+from openpyxl.formatting.rule import ColorScaleRule  # type: ignore
 from openpyxl.styles import PatternFill  # type: ignore
 from openpyxl.utils import get_column_letter  # type: ignore
 

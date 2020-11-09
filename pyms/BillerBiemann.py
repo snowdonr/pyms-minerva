@@ -204,7 +204,7 @@ def get_maxima_list_reduced(
 	:param ic:
 	:param mp_rt: The retention time of the missing peak
 	:param points: Number of scans over which to consider a maxima to be a peak.
-	:param window: The window around the ``mp_rt`` where peaks should be recorded.
+	:param window: The window around ``mp_rt`` where peaks should be recorded.
 
 	:return: A list of 2-element tuple containing the retention time and
 		intensity of local maxima for each ion.
@@ -227,8 +227,6 @@ def get_maxima_list_reduced(
 		if (rt > float(mp_rt) - window) and (rt < float(mp_rt) + window):
 			intensity = ic.get_intensity_at_index(peak_point[index])
 			maxima_list.append((rt, intensity))
-		else:
-			pass
 
 	return maxima_list
 

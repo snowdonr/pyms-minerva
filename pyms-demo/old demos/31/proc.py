@@ -10,8 +10,6 @@ data_directory = pathlib.Path(".").resolve().parent.parent / "pyms-data"
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IntensityMatrix import build_intensity_matrix
 
-# from pyms.Utils.IO import save_data
-
 # read the raw data
 jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)

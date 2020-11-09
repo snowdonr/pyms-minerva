@@ -7,7 +7,7 @@ format from the manufacturer’s software, and the JCAMP format exported
 from a third party software.
 
 First, setup the paths to the datafiles and the output directory, then
-import JCAMP_reader and AMDI_reader.
+import JCAMP_reader and ANDI_reader.
 
 .. nbinput:: ipython3
     :execution-count: 1

@@ -25,5 +25,5 @@ ic = im.get_ic_at_index(73)
 # find the IC for derivatisation product ion after smoothing
 ic_smooth = im_smooth.get_ic_at_index(73)
 
-ic.write("output/ic.dat",minutes=True)
-ic_smooth.write("output/ic_smooth.dat",minutes=True)
+ic.write("output/ic.dat", minutes=True)
+ic_smooth.write("output/ic_smooth.dat", minutes=True)

@@ -32,7 +32,7 @@ Read the raw data file and build the :class:`~pyms.IntensityMatrix.IntensityMatr
 
 
 Preprocess the data (Savitzky-Golay smoothing and Tophat baseline
-detection
+detection).
 
 .. nbinput:: ipython3
     :execution-count: 3

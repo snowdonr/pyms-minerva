@@ -8,7 +8,7 @@
 #
 #
 # First, setup the paths to the datafile and the output directory,
-# then import AMDI_reader
+# then import ANDI_reader
 
 # In[1]:
 

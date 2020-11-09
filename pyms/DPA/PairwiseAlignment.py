@@ -426,7 +426,7 @@ def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 	return ma
 
 
-def alignment_similarity(traces, score_matrix, gap: float):
+def alignment_similarity(traces, score_matrix, gap: float) -> float:
 	"""
 	Calculates similarity score between two alignments (new method).
 

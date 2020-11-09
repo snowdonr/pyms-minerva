@@ -8,7 +8,7 @@ GC-MS data derived objects
 In the raw GC-MS data, consecutive scans do not necessarily contain the same
 mass per charge (mass) values. For data processing, it is often necessary to
 convert the data to a matrix with a set number of masses and scans.
-In ``PyMassSpec`` the resulting object is called intensity matrix.
+In ``PyMassSpec`` the resulting object is called an intensity matrix.
 In this chapter the methods for converting the raw GC-MS data to an
 intensity matrix object are illustrated.
 

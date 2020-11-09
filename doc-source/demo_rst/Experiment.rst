@@ -9,15 +9,15 @@ retention time range.
 
 The procedure starts the same as in the previous examples, namely:
 
-#. read a file,
-#. bin the data into fixed mass values,
-#. smooth the data,
-#. remove the baseline,
-#. deconvolute peaks,
-#. filter the peaks,
-#. set the mass range,
-#. remove uninformative ions, and
-#. estimate peak areas.
+1. read a file,
+2. bin the data into fixed mass values,
+3. smooth the data,
+4. remove the baseline,
+5. deconvolute peaks,
+6. filter the peaks,
+7. set the mass range,
+8. remove uninformative ions, and
+9. estimate peak areas.
 
 First, setup the paths to the datafiles and the output directory, then
 import ANDI_reader and build_intensity_matrix_i.

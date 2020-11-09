@@ -5,7 +5,7 @@ The PyMS package :mod:`pyms.GCMS.IO.ANDI` provides capabilities to read the
 raw GC-MS data stored in the ANDI-MS format.
 
 First, setup the paths to the datafile and the output directory, then
-import AMDI_reader
+import ANDI_reader
 
 .. nbinput:: ipython3
     :execution-count: 1

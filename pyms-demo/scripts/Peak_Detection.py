@@ -25,7 +25,7 @@ jcamp_file = data_directory / "gc01_0812_066.jdx"
 data = JCAMP_reader(jcamp_file)
 im = build_intensity_matrix(data)
 
-# Preprocess the data (Savitzky-Golay smoothing and Tophat baseline detection
+# Preprocess the data (Savitzky-Golay smoothing and Tophat baseline detection).
 
 # In[3]:
 

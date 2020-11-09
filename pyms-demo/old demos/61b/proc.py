@@ -8,7 +8,6 @@ from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.TopHat import tophat
-# from pyms.Peak.Class import Peak
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
 
 from pyms.BillerBiemann import (
@@ -16,7 +15,7 @@ from pyms.BillerBiemann import (
     rel_threshold, num_ions_threshold,
     )
 
-from pyms.Experiment import Experiment, store_expr
+from pyms.Experiment import Experiment
 
 # define path to data files
 base_path = "data/"
@@ -96,4 +95,4 @@ for expr_code in expr_codes:
 
     print(f"\t -> Saving the result as '{output_file}'")
 
-    store_expr(output_file, expr)
+    expr.dump(output_file)

@@ -35,6 +35,7 @@ from .constants import *
 
 
 class TestIonChromatogram:
+
 	def test_success(self, im, tic):
 		# get the first ion chromatogram of the IntensityMatrix
 		ic = im.get_ic_at_index(0)
@@ -122,10 +123,12 @@ def test_intensity_array(tic, im):
 	tic = copy.deepcopy(tic)
 
 	assert isinstance(tic.intensity_array, numpy.ndarray)
-	assert all(numpy.equal(
-			IonChromatogram(tic.intensity_array, tic.time_list).intensity_array,
-			tic.intensity_array,
-			))
+	assert all(
+			numpy.equal(
+					IonChromatogram(tic.intensity_array, tic.time_list).intensity_array,
+					tic.intensity_array,
+					)
+			)
 
 	ic = im.get_ic_at_index(0)
 	tic.intensity_array = ic.intensity_array

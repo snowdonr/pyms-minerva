@@ -10,7 +10,7 @@
 #
 #
 #
-# First, setup the paths to the datafiles and the output directory, then import JCAMP_reader and AMDI_reader.
+# First, setup the paths to the datafiles and the output directory, then import JCAMP_reader and ANDI_reader.
 
 # In[1]:
 
