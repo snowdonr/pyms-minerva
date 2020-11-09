@@ -135,7 +135,7 @@ def test_ANDI_reader(pyms_datadir):
 			ANDI_reader(obj)  # type: ignore
 
 	with pytest.raises(FileNotFoundError):
-		ANDI_reader(test_string)  # type: ignore
+		ANDI_reader(test_string)
 
 
 # def test_ANDI_OpenChrom_reader(pyms_datadir):

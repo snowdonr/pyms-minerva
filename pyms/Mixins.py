@@ -153,7 +153,7 @@ class IntensityArrayMixin:
 		:author: Andrew Isaac
 		"""
 
-		return self._intensity_array.tolist()  # type: ignore
+		return self._intensity_array.tolist()
 
 	@property
 	def matrix_list(self) -> numpy.ndarray:

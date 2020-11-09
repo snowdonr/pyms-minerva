@@ -25,10 +25,11 @@ Functions to fill missing peak objects.
 
 # stdlib
 import pathlib
-from typing import List, Optional, Union
+from typing import List, Optional
 
 # 3rd party
 import pandas  # type: ignore
+from domdf_python_tools.typing import PathLike
 from enum_tools import IntEnum
 
 # this package
@@ -68,7 +69,7 @@ MZML = MissingPeakFiletype.MZML
 NETCDF = MissingPeakFiletype.NETCDF
 
 
-def file2dataframe(file_name: Union[str, pathlib.Path]) -> pandas.DataFrame:
+def file2dataframe(file_name: PathLike) -> pandas.DataFrame:
 	"""
 	Convert a .csv file to a pandas DataFrame.
 
@@ -272,8 +273,8 @@ def mp_finder(input_matrix: List) -> List[Sample]:
 
 def write_filled_csv(
 		sample_list: List[Sample],
-		area_file: Union[str, pathlib.Path],
-		filled_area_file: Union[str, pathlib.Path],
+		area_file: PathLike,
+		filled_area_file: PathLike,
 		):
 	r"""
 	Creates a new ``area_ci.csv`` file, replacing NAs with values from the sample_list objects where possible.
@@ -319,8 +320,8 @@ def write_filled_csv(
 
 def write_filled_rt_csv(
 		sample_list: List[Sample],
-		rt_file: Union[str, pathlib.Path],
-		filled_rt_file: Union[str, pathlib.Path],
+		rt_file: PathLike,
+		filled_rt_file: PathLike,
 		):
 	r"""
 	Creates a new rt.csv file, replacing ``'NA'``\s with values from the sample_list objects where possible.

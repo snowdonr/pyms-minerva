@@ -25,7 +25,7 @@ from pathlib import Path
 # 3rd party
 import pytest
 from matplotlib import axes, figure  # type: ignore
-from matplotlib import pyplot as plt  # type: ignore
+from matplotlib import pyplot as plt
 
 # this package
 from pyms.Display import Display

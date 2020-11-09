@@ -10,3 +10,4 @@ pandas>=1.0.0
 pymzml>=2.2.1
 scipy>=1.2.1
 sdjson>=0.3.0
+typing_extensions>=3.7.4.3

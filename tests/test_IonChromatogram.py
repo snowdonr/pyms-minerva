@@ -51,22 +51,22 @@ class TestIonChromatogram:
 		assert tic.is_tic()
 
 		with pytest.raises(ValueError):
-			IonChromatogram(tic.intensity_array, test_list_ints)  # type: ignore
+			IonChromatogram(tic.intensity_array, test_list_ints)
 
 	@pytest.mark.parametrize("value", [test_string, *test_numbers, test_list_strs, test_tuple, test_dict])
 	def test_errors_intensity_list(self, value, tic):
 		with pytest.raises(TypeError):
-			IonChromatogram(value, tic.time_list)  # type: ignore
+			IonChromatogram(value, tic.time_list)
 
 	@pytest.mark.parametrize("value", [test_string, *test_numbers, test_list_strs, test_dict])
 	def test_errors_time_list(self, value, tic):
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, value)  # type: ignore
+			IonChromatogram(tic.intensity_array, value)
 
 	@pytest.mark.parametrize("value", [test_string, *test_sequences, test_dict])
 	def test_errors_mass(self, value, tic):
 		with pytest.raises(TypeError):
-			IonChromatogram(tic.intensity_array, tic.time_list, mass=value)  # type: ignore
+			IonChromatogram(tic.intensity_array, tic.time_list, mass=value)
 
 
 def test_len(tic):

@@ -25,10 +25,10 @@ Functions for writing peak alignment to various file formats.
 
 # stdlib
 import operator
-import pathlib
-from typing import List, Union
+from typing import List
 
 # 3rd party
+from domdf_python_tools.typing import PathLike
 from openpyxl import Workbook  # type: ignore
 from openpyxl.comments import Comment  # type: ignore
 from openpyxl.formatting.rule import ColorScaleRule  # type: ignore
@@ -46,7 +46,7 @@ __all__ = ["write_mass_hunter_csv", "write_excel", "write_transposed_output"]
 
 def write_mass_hunter_csv(
 		alignment: Alignment,
-		file_name: Union[str, pathlib.Path],
+		file_name: PathLike,
 		top_ion_list: List[int],
 		):  # , peak_list_name):
 	"""
@@ -215,7 +215,7 @@ def write_mass_hunter_csv(
 
 def write_excel(
 		alignment: Alignment,
-		file_name: Union[str, pathlib.Path],
+		file_name: PathLike,
 		minutes: bool = True,
 		):
 	"""
@@ -319,7 +319,7 @@ def write_excel(
 
 def write_transposed_output(
 		alignment: Alignment,
-		file_name: Union[str, pathlib.Path],
+		file_name: PathLike,
 		minutes: bool = True,
 		):
 	"""
@@ -374,7 +374,7 @@ def write_transposed_output(
 				new_peak_list.append((peak, cell_col, cell_row))
 
 				# write the RT into the cell in the excel file
-				currcell1 = ws1.cell(column=cell_col, row=cell_row, value=round(rt, 3))  # type: ignore
+				currcell1 = ws1.cell(column=cell_col, row=cell_row, value=round(rt, 3))
 				ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))  # type: ignore
 
 				# get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them

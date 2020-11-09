@@ -32,6 +32,7 @@ from typing import List, Optional, Sequence, TypeVar, Union, cast
 # 3rd party
 import numpy  # type: ignore
 from domdf_python_tools.doctools import prettify_docstrings
+from domdf_python_tools.typing import PathLike
 
 # this package
 from pyms.Base import pymsBaseClass
@@ -343,7 +344,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self._set_min_max_mass()
 		self._calc_tic()
 
-	def write(self, file_root: Union[str, pathlib.Path]):
+	def write(self, file_root: PathLike):
 		"""
 		Writes the entire raw data to two CSV files:
 
@@ -391,7 +392,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		fp1.close()
 		fp2.close()
 
-	def write_intensities_stream(self, file_name: Union[str, pathlib.Path]):
+	def write_intensities_stream(self, file_name: PathLike):
 		"""
 		Loop over all scans and, for each scan, write the intensities to the
 		given file, one intensity per line.

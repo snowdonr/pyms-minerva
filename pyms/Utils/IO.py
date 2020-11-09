@@ -31,6 +31,7 @@ from typing import Any, List, Union, cast
 
 # 3rd party
 from domdf_python_tools.stringlist import StringList
+from domdf_python_tools.typing import PathLike
 
 # this package
 from pyms.Utils.Utils import _list_types, is_number, is_path
@@ -39,7 +40,7 @@ __all__ = ["prepare_filepath", "dump_object", "load_object", "file_lines", "save
 
 
 def prepare_filepath(
-		file_name: Union[str, pathlib.Path],
+		file_name: PathLike,
 		mkdirs: bool = True,
 		) -> pathlib.Path:
 	"""
@@ -67,7 +68,7 @@ def prepare_filepath(
 	return file_name
 
 
-def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
+def dump_object(obj: Any, file_name: PathLike):
 	"""
 	Dumps an object to a file through :func:`pickle.dump`.
 
@@ -86,7 +87,7 @@ def dump_object(obj: Any, file_name: Union[str, pathlib.Path]):
 		pickle.dump(obj, fp)
 
 
-def load_object(file_name: Union[str, pathlib.Path]) -> object:
+def load_object(file_name: PathLike) -> object:
 	"""
 	Loads an object previously dumped with :func:`~.dump_object`.
 
@@ -106,7 +107,7 @@ def load_object(file_name: Union[str, pathlib.Path]) -> object:
 		return pickle.load(fp)
 
 
-def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List[str]:
+def file_lines(file_name: PathLike, strip: bool = False) -> List[str]:
 	"""
 	Returns lines from a file, as a list.
 
@@ -149,7 +150,7 @@ def file_lines(file_name: Union[str, pathlib.Path], strip: bool = False) -> List
 
 
 def save_data(
-		file_name: Union[str, pathlib.Path],
+		file_name: PathLike,
 		data: Union[List[float], List[List[float]]],
 		format_str: str = "%.6f",
 		prepend: str = '',

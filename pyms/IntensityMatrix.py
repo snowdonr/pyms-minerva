@@ -30,6 +30,7 @@ from warnings import warn
 
 # 3rd party
 import numpy  # type: ignore
+from domdf_python_tools.typing import PathLike
 from enum_tools import IntEnum, document_enum
 
 # this package
@@ -534,7 +535,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 
 	def export_ascii(
 			self,
-			root_name: Union[str, pathlib.Path],
+			root_name: PathLike,
 			fmt: AsciiFiletypes = AsciiFiletypes.ASCII_DAT,
 			):
 		"""
@@ -580,7 +581,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 		time_list = self._time_list
 		save_data(f"{root_name}.rt.{extension}", time_list, sep=separator)
 
-	def export_leco_csv(self, file_name: Union[str, pathlib.Path]):
+	def export_leco_csv(self, file_name: PathLike):
 		"""
 		Exports data in LECO CSV format.
 
@@ -650,7 +651,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 				)
 
 
-def import_leco_csv(file_name: Union[str, pathlib.Path]) -> IntensityMatrix:
+def import_leco_csv(file_name: PathLike) -> IntensityMatrix:
 	"""
 	Imports data in LECO CSV format.
 

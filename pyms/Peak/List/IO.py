@@ -24,9 +24,11 @@ Functions related to storing and loading a list of Peak objects.
 ################################################################################
 
 # stdlib
-import pathlib
 import pickle
-from typing import List, Sequence, Union
+from typing import List, Sequence
+
+# 3rd party
+from domdf_python_tools.typing import PathLike
 
 # this package
 from pyms.Peak.Class import Peak
@@ -39,7 +41,7 @@ __all__ = ["store_peaks", "load_peaks"]
 
 def store_peaks(
 		peak_list: Sequence[Peak],
-		file_name: Union[str, pathlib.Path],
+		file_name: PathLike,
 		protocol: int = 1,
 		):
 	"""
@@ -64,7 +66,7 @@ def store_peaks(
 		pickle.dump(peak_list, fp, protocol)
 
 
-def load_peaks(file_name: Union[str, pathlib.Path]) -> List[Peak]:
+def load_peaks(file_name: PathLike) -> List[Peak]:
 	"""
 	Loads the peak_list stored with :func:`~.store_peaks`.
 

@@ -23,10 +23,10 @@ Class to model a subset of data from an Intensity Matrix.
 ################################################################################
 
 # stdlib
-from typing import Iterable, Optional, Sequence, Union
+from typing import Iterable, List, Optional, Sequence, Union, cast
 
 # 3rd party
-import numpy
+import numpy  # type: ignore
 
 # this package
 from pyms.IntensityMatrix import BaseIntensityMatrix, IntensityMatrix
@@ -136,12 +136,14 @@ def build_extracted_intensity_matrix(
 	:return:
 	"""
 
-	flat_target_masses = []
+	flat_target_masses: List[float] = []
 
 	for mass in masses:
 		if is_number(mass):
+			mass = cast(float, mass)
 			flat_target_masses.append(mass)
 		elif isinstance(masses, (Sequence, Iterable, range)):
+			mass = cast(Union[Sequence, Iterable, range], mass)
 			flat_target_masses.extend(mass)
 		else:
 			raise NotImplementedError(f"Unsupported type '{type(mass)}'")
@@ -151,7 +153,7 @@ def build_extracted_intensity_matrix(
 
 	for idx, mass in enumerate(im.mass_list):
 		for target_mass in flat_target_masses:
-			if target_mass - left_bound <= mass <= target_mass + right_bound:
+			if (target_mass - left_bound) <= mass <= (target_mass + right_bound):
 				indices.add(idx)
 
 	# construct array of rt vs (intensity for each mass)

@@ -28,12 +28,13 @@ import copy
 import math
 import operator
 import pathlib
-from typing import Dict, List, Optional, Sequence, Union
+from typing import Dict, List, Optional, Sequence
 
 # 3rd party
 import numpy  # type: ignore
 import pandas  # type: ignore
-from pandas import DataFrame  # type: ignore
+from domdf_python_tools.typing import PathLike
+from pandas import DataFrame
 
 # this package
 from pyms.Experiment import Experiment
@@ -63,6 +64,9 @@ class Alignment:
 	#:
 	peakalgt: List[List[Peak]]
 
+	#:
+	similarity: Optional[float]
+
 	def __init__(self, expr: Optional[Experiment]):
 
 		if expr is None:
@@ -77,7 +81,7 @@ class Alignment:
 			#    if peak.area() == None or peak.area() <= 0:
 			#        error("All peaks must have an area for alignment")
 			self.peakpos = [copy.deepcopy(expr.peak_list)]
-			self.peakalgt = numpy.transpose(self.peakpos).tolist()  # type: ignore
+			self.peakalgt = numpy.transpose(self.peakpos).tolist()
 			self.expr_code = [expr.expr_code]
 			self.similarity = None
 
@@ -259,8 +263,8 @@ class Alignment:
 
 	def write_csv(
 			self,
-			rt_file_name: Union[str, pathlib.Path],
-			area_file_name: Union[str, pathlib.Path],
+			rt_file_name: PathLike,
+			area_file_name: PathLike,
 			minutes: bool = True,
 			):
 		"""
@@ -363,7 +367,7 @@ class Alignment:
 
 	def write_common_ion_csv(
 			self,
-			area_file_name: Union[str, pathlib.Path],
+			area_file_name: PathLike,
 			top_ion_list: Sequence[float],
 			minutes: bool = True,
 			):
@@ -478,7 +482,7 @@ class Alignment:
 			for row in out_strings:
 				fp.write(row + "\n")
 
-	def write_ion_areas_csv(self, ms_file_name: Union[str, pathlib.Path], minutes: bool = True):
+	def write_ion_areas_csv(self, ms_file_name: PathLike, minutes: bool = True):
 		"""
 		Write Ion Areas to CSV File.
 

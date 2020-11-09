@@ -144,12 +144,12 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	with pytest.raises(TypeError):
 		sele_peaks_by_rt(filtered_peak_list, [1.2, 3.4])  # type: ignore
 	with pytest.raises(ValueError):
-		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])  # type: ignore
+		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])
 
 	# Errors
 	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			sele_peaks_by_rt(obj, ("12m", "13m"))  # type: ignore
+			sele_peaks_by_rt(obj, ("12m", "13m"))
 	for obj in [test_dict, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
 			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore

@@ -25,9 +25,9 @@ Functions for reading ANDI-MS data files.
 
 # stdlib
 import pathlib
-from typing import Union
 
 # 3rd party
+from domdf_python_tools.typing import PathLike
 from netCDF4 import Dataset  # type: ignore
 
 try:
@@ -53,7 +53,7 @@ __TIME_STRING = "scan_acquisition_time"
 __POINT_COUNT = "point_count"
 
 
-def ANDI_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
+def ANDI_reader(file_name: PathLike) -> GCMS_data:
 	"""
 	A reader for ANDI-MS NetCDF files.
 

@@ -527,7 +527,7 @@ def test_build_intensity_matrix(data):
 		with pytest.raises(TypeError):
 			build_intensity_matrix(data, min_mass=obj)  # type: ignore
 	with pytest.raises(ValueError):
-		build_intensity_matrix(data, bin_interval=0)  # type: ignore
+		build_intensity_matrix(data, bin_interval=0)
 
 
 def test_build_intensity_matrix_i(data, im_i):

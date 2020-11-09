@@ -23,12 +23,9 @@ Functions for reading mzML format data files.
 #                                                                              #
 ################################################################################
 
-# stdlib
-import pathlib
-from typing import Union
-
 # 3rd party
 import pymzml  # type: ignore
+from domdf_python_tools.typing import PathLike
 
 try:
 	# 3rd party
@@ -44,7 +41,7 @@ from pyms.Spectrum import Scan
 __all__ = ["mzML_reader"]
 
 
-def mzML_reader(file_name: Union[str, pathlib.Path]) -> GCMS_data:
+def mzML_reader(file_name: PathLike) -> GCMS_data:
 	"""
 	A reader for mzML files.
 

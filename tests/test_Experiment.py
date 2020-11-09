@@ -144,5 +144,5 @@ def test_read_expr_list(filtered_peak_list, pyms_datadir, expr_filename, tmp_pat
 		read_expr_list("non-existent.expr")
 	with pytest.raises((IOError, UnicodeDecodeError)):  # type: ignore
 		read_expr_list("not-an-experiment.expr")
-	with pytest.raises(IOError):  # type: ignore
+	with pytest.raises(IOError):
 		read_expr_list("__init__.py")

@@ -25,16 +25,13 @@ Models a GC-MS experiment, represented by a list of signal peaks.
 
 # stdlib
 import copy
-import os
-import pathlib
 import pickle
-from typing import Any, List, Sequence, Union
+from typing import List, Sequence
 
 # 3rd party
-import deprecation  # type: ignore
+from domdf_python_tools.typing import PathLike
 
 # this package
-from pyms import __version__
 from pyms.Base import pymsBaseClass
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list, sele_peaks_by_rt
@@ -127,7 +124,7 @@ class Experiment(pymsBaseClass):
 		self._peak_list = peaks_sele
 
 
-def read_expr_list(file_name: Union[str, pathlib.Path]) -> List[Experiment]:
+def read_expr_list(file_name: PathLike) -> List[Experiment]:
 	"""
 	Reads the set of experiment files and returns a list of :class:`pyms.Experiment.Experiment` objects.
 
@@ -160,7 +157,7 @@ def read_expr_list(file_name: Union[str, pathlib.Path]) -> List[Experiment]:
 	return expr_list
 
 
-def load_expr(file_name: Union[str, pathlib.Path]) -> Experiment:
+def load_expr(file_name: PathLike) -> Experiment:
 	"""
 	Loads an experiment saved with :meth:`pyms.Experiment.Experiment.dump`.
 

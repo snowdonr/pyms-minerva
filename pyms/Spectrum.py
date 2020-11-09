@@ -31,6 +31,7 @@ from typing import Any, Iterator, List, Optional, Sequence, Tuple, Union
 
 # 3rd party
 import numpy  # type: ignore
+from domdf_python_tools.typing import PathLike
 
 # this package
 from pyms.Base import pymsBaseClass
@@ -374,7 +375,7 @@ class MassSpectrum(Scan):
 		return self._mass_list[intensity_idx]
 
 	@classmethod
-	def from_jcamp(cls, file_name: Union[str, pathlib.Path]) -> "MassSpectrum":
+	def from_jcamp(cls, file_name: PathLike) -> "MassSpectrum":
 		"""
 		Create a MassSpectrum from a JCAMP-DX file.
 

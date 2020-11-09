@@ -24,9 +24,10 @@ Base for PyMassSpec classes.
 ################################################################################
 
 # stdlib
-import pathlib
 import pickle
-from typing import Union
+
+# 3rd party
+from domdf_python_tools.typing import PathLike
 
 # this package
 from pyms.Utils.IO import prepare_filepath
@@ -40,7 +41,7 @@ class pymsBaseClass:
 	Base class.
 	"""
 
-	def dump(self, file_name: Union[str, pathlib.Path], protocol: int = 3):
+	def dump(self, file_name: PathLike, protocol: int = 3):
 		"""
 		Dumps an object to a file through :func:`pickle.dump()`.
 

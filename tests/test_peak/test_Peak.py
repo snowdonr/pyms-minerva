@@ -93,7 +93,7 @@ def test_area(im_i, peak):
 		with pytest.raises(TypeError):
 			Peak(test_float, ms).area = obj  # type: ignore
 	with pytest.raises(ValueError):
-		Peak(test_float, ms).area = -1  # type: ignore
+		Peak(test_float, ms).area = -1
 
 
 def test_bounds(peak):
@@ -104,11 +104,11 @@ def test_bounds(peak):
 
 	for obj in [test_string, *test_numbers, test_dict, ["a", "b", "c"], test_tuple]:
 		with pytest.raises(TypeError):
-			peak.bounds = obj  # type: ignore
+			peak.bounds = obj
 
 	for obj in [*test_lists, (1, 2), [1, 2, 3, 4]]:
 		with pytest.raises(ValueError):
-			peak.bounds = obj  # type: ignore
+			peak.bounds = obj
 
 	# Getter
 	assert peak.bounds == (11, 12, 13)
@@ -277,14 +277,14 @@ def test_null_mass(peak):
 
 	# Errors
 	with pytest.raises(ValueError, match="Mass spectrum is unset."):
-		Peak(test_float).null_mass(1)  # type: ignore
+		Peak(test_float).null_mass(1)
 	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
 			Peak(test_float, peak.mass_spectrum).null_mass(obj)  # type: ignore
 	with pytest.raises(IndexError):
-		Peak(test_float, peak.mass_spectrum).null_mass(1)  # type: ignore
+		Peak(test_float, peak.mass_spectrum).null_mass(1)
 	with pytest.raises(IndexError):
-		Peak(test_float, peak.mass_spectrum).null_mass(10000)  # type: ignore
+		Peak(test_float, peak.mass_spectrum).null_mass(10000)
 
 
 def test_rt(peak):

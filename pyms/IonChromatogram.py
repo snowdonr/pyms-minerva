@@ -31,6 +31,7 @@ from typing import Any, Optional, Sequence, Tuple, Union
 
 # 3rd party
 import numpy  # type: ignore
+from domdf_python_tools.typing import PathLike
 
 # this package
 from pyms.Base import pymsBaseClass
@@ -255,7 +256,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return time_step
 
-	def write(self, file_name: Union[str, pathlib.Path], minutes: bool = False, formatting: bool = True):
+	def write(self, file_name: PathLike, minutes: bool = False, formatting: bool = True):
 		"""
 		Writes the ion chromatogram to the specified file.
 
@@ -317,7 +318,8 @@ class ExtractedIonChromatogram(IonChromatogram):
 
 		self._masses = tuple(masses)
 
-	def is_eic(self) -> bool:
+	@staticmethod
+	def is_eic() -> bool:
 		"""
 		Returns whether the ion chromatogram is an extracted ion chromatogram (EIC).
 		"""
@@ -325,7 +327,7 @@ class ExtractedIonChromatogram(IonChromatogram):
 		return True
 
 	@property
-	def masses(self) -> Tuple[float]:
+	def masses(self) -> Tuple[float, ...]:
 		"""
 		List of extracted masses in the EIC
 		"""
@@ -360,7 +362,8 @@ class BasePeakChromatogram(IonChromatogram):
 
 		super().__init__(intensity_list, time_list, None)
 
-	def is_bpc(self) -> bool:
+	@staticmethod
+	def is_bpc() -> bool:
 		"""
 		Returns whether the ion chromatogram is a base peak chromatogram (BPC).
 		"""
