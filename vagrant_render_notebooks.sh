@@ -22,13 +22,24 @@ git checkout -b Notebooks || exit 1
 
 cd pyms-demo/jupyter || exit 1
 
+cat > switch_experiments.py <<EOF
+#!/usr/bin/env/python3
+import pathlib
+import json
+
+notebook = pathlib.Path("Multiple_Experiments.ipynb")
+data = json.loads(notebook.read_text())
+lines = data["cells"][3]["source"]
+lines = [line[1:].lstrip() if line.startswith("#") else f"# {line}" for line in lines]
+data["cells"][3]["source"] = lines
+notebook.write_text(json.dumps(data, indent=2))
+EOF
+
 # Run Multiple_Experiments to ensure output files exist
 jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
-python3 -c "import pathlib, re; file = pathlib.Path('Multiple_Experiments.ipynb'); \
-file.write_text(re.sub(r'\nexpr_codes = (.*)\n# expr_codes', r'\n# expr_codes = \1\nexpr_codes', file.read_text()))"
+python3 switch_experiments.py
 jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
-python3 -c "import pathlib, re; file = pathlib.Path('Multiple_Experiments.ipynb'); \
-file.write_text(re.sub(r'\n# expr_codes = (.*)\nexpr_codes', r'\nexpr_codes = \1\n# expr_codes', file.read_text()))"
+python3 switch_experiments.py
 
 # Render notebooks and stage
 for file in *.ipynb; do
