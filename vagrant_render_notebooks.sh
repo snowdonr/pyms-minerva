@@ -13,7 +13,7 @@ source /home/vagrant/venv/bin/activate || exit 1
 
 # Install remaining requirements
 python3 -m pip install pip setuptools wheel --upgrade || exit 1
-python3 -m pip install nbconvert jupyter-client ipykernel --upgrade  || exit 1
+python3 -m pip install nbconvert jupyter-client ipykernel domdf_python_tools--upgrade  || exit 1
 python3 -m pip install -r requirements.txt --upgrade || exit 1
 python3 -m pip install . --upgrade || exit 1
 
@@ -50,17 +50,16 @@ done
 # remove execution times
 cat > remove_execution_times.py <<EOF
 #!/usr/bin/env/python3
-from pathlib import Path
-import json
+from domdf_python_tools.paths import PathPlus
 
 for filename in Path.cwd().glob("*.ipynb"):
-	notebook = json.loads(filename.read_text())
+	notebook = filename.load_json()
 	for cell in notebook["cells"]:
 		if "execution" in cell["metadata"]:
 			cell["metadata"]["execution"] = {}
 		if "pycharm" in cell["metadata"]:
 			del cell["metadata"]["pycharm"]
-	filename.write_text(json.dumps(notebook, indent=1))
+	filename.dump_json(notebook, indent=1))
 EOF
 
 python3 remove_execution_times.py
