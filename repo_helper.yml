@@ -55,6 +55,9 @@ additional_ignore:
  - Vagrantfile
  - "**pandoc*.deb"
  - "**/UserGuide.pdf"
+ - "eic_demo*.py"
+ - "bb.py"
+ - "pyms/colby_deconvolution.py"
 
 extra_sphinx_extensions:
  - 'autodocsumm'
