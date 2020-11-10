@@ -104,10 +104,10 @@ class Display:
 		self.ax = ax
 
 		# Container to store plots
-		self.__tic_ic_plots = []
+		self.__tic_ic_plots: List[List[Line2D]] = []
 
 		# Peak list container
-		self.__peak_list = []
+		self.__peak_list: List[Peak.Peak] = []
 
 	def do_plotting(self, plot_label: Optional[str] = None):
 		"""
