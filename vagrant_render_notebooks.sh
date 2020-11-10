@@ -53,7 +53,7 @@ cat > remove_execution_times.py <<EOF
 from pathlib import Path
 import json
 
-for filename in Path("pyms-demo/jupyter").glob("*.ipynb"):
+for filename in Path.cwd().glob("*.ipynb"):
 	notebook = json.loads(filename.read_text())
 	for cell in notebook["cells"]:
 		if "execution" in cell["metadata"]:
@@ -73,6 +73,6 @@ done
 
 # Commit and push
 git commit -m "Re-rendered Jupyter Notebooks" || exit 1
-git push --set-upstream origin Notebooks || exit 1
+git push --set-upstream origin Notebooks --force || exit 1
 
 exit 0
