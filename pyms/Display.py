@@ -34,6 +34,7 @@ import matplotlib.pyplot as plt  # type: ignore
 from matplotlib import axes, figure
 from matplotlib.axes import Axes  # type: ignore
 from matplotlib.container import BarContainer  # type: ignore
+from matplotlib.figure import Figure  # type: ignore
 from matplotlib.lines import Line2D  # type: ignore
 
 # this package
@@ -61,9 +62,7 @@ class Display:
 	:class:`pyms.IonChromatogram.IonChromatogram` using :mod:`matplotlib.pyplot`.
 
 	:param fig: figure object to use
-	:type fig: matplotlib.figure.Figure
 	:param ax: axes object to use
-	:type ax: matplotlib.axes.Axes
 
 	If ``fig`` is not given then ``fig`` and ``ax`` default to:
 
@@ -82,14 +81,11 @@ class Display:
 
 	@deprecation.deprecated(
 			"2.2.8",
-			"2.3.0",
+			"2.4.0",
 			current_version=__version__,
 			details="Functionality has moved to other functions and classes in this module.",
 			)
-	def __init__(self, fig=None, ax=None):
-		"""
-		Initialises an instance of Display class.
-		"""
+	def __init__(self, fig: Figure = None, ax: Axes = None):
 
 		if fig is None:
 			fig = plt.figure()
@@ -209,7 +205,6 @@ Please call a plotting function before calling 'do_plotting()'""",
 		Plots an Ion Chromatogram.
 
 		:param ic: Ion Chromatograms m/z channels for plotting
-		:type ic: pyms.IonChromatogram.IonChromatogram
 
 		:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 			Used to specify properties like a line label (for auto legends),
@@ -369,9 +364,7 @@ def plot_mass_spec(ax: Axes, mass_spec: MassSpectrum, **kwargs) -> BarContainer:
 	Plots a Mass Spectrum.
 
 	:param ax: The axes to plot the MassSpectrum on
-	:type ax: matplotlib.axes.Axes
 	:param mass_spec: The mass spectrum to plot
-	:type mass_spec: :class`pyms.Spectrum.MassSpectrum`
 
 	:Other Parameters: :class:`matplotlib.lines.Line2D` properties.
 		Used to specify properties like a line label (for auto legends),
@@ -430,12 +423,9 @@ def plot_head2tail(
 	Plots two mass spectra head to tail.
 
 	:param ax: The axes to plot the MassSpectra on
-	:type ax: matplotlib.axes.Axes
 
 	:param top_mass_spec: The Mass Spectrum to plot on top
-	:type top_mass_spec: :class:`pyms.Spectrum.MassSpectrum`
 	:param bottom_mass_spec: The Mass Spectrum to plot on the bottom
-	:type bottom_mass_spec: :class:`pyms.Spectrum.MassSpectrum` or None, optional
 	:param top_spec_kwargs: A dictionary of keyword arguments for the top mass spectrum.
 		Defaults to red with a line width of 0.5
 	:no-default top_spec_kwargs:
@@ -500,14 +490,11 @@ def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style
 	Plots the locations of peaks as found by PyMassSpec.
 
 	:param ax: The axes to plot the peaks on
-	:type ax: matplotlib.axes.Axes
 	:param peak_list: List of peaks to plot
-	:type peak_list: :class:`list` of :class:`pyms.Peak.Class.Peak` objects
 	:param label: label for plot legend.
 	:param style: The marker style. See `https://matplotlib.org/3.1.1/api/markers_api.html` for a complete list
 
 	:return: A list of Line2D objects representing the plotted data.
-	:rtype: list of :class:`matplotlib.lines.Line2D`
 	"""
 
 	if not is_peak_list(peak_list):
