@@ -32,7 +32,7 @@ data = json.loads(notebook.read_text())
 lines = data["cells"][3]["source"]
 lines = [line[1:].lstrip() if line.startswith("#") else f"# {line}" for line in lines]
 data["cells"][3]["source"] = lines
-notebook.write_text(json.dumps(data, indent=2))
+notebook.write_text(json.dumps(data, indent=1))
 EOF
 
 # Run Multiple_Experiments to ensure output files exist
@@ -45,8 +45,31 @@ python3 switch_experiments.py
 for file in *.ipynb; do
   jupyter nbconvert --clear-output --inplace "$file"
   jupyter nbconvert --to notebook --inplace --execute "$file"
+done
+
+# remove execution times
+cat > remove_execution_times.py <<EOF
+#!/usr/bin/env/python3
+from pathlib import Path
+import json
+
+for filename in Path("pyms-demo/jupyter").glob("*.ipynb"):
+	notebook = json.loads(filename.read_text())
+	for cell in notebook["cells"]:
+		if "execution" in cell["metadata"]:
+			cell["metadata"]["execution"] = {}
+		if "pycharm" in cell["metadata"]:
+			del cell["metadata"]["pycharm"]
+	filename.write_text(json.dumps(notebook, indent=1))
+EOF
+
+python3 remove_execution_times.py
+
+# Stage
+for file in *.ipynb; do
   git stage "$file"
 done
+
 
 # Commit and push
 git commit -m "Re-rendered Jupyter Notebooks" || exit 1
