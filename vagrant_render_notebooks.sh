@@ -13,7 +13,7 @@ source /home/vagrant/venv/bin/activate || exit 1
 
 # Install remaining requirements
 python3 -m pip install pip setuptools wheel --upgrade || exit 1
-python3 -m pip install nbconvert jupyter-client ipykernel domdf_python_tools--upgrade  || exit 1
+python3 -m pip install nbconvert jupyter-client ipykernel domdf_python_tools --upgrade  || exit 1
 python3 -m pip install -r requirements.txt --upgrade || exit 1
 python3 -m pip install . --upgrade || exit 1
 
