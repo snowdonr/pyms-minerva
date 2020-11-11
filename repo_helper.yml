@@ -76,7 +76,6 @@ sphinx_conf_preamble:
  - nbsphinx_input_prompt = 'In [%s]:'
 
 exclude_files:
- - pre-commit
  - contributing
 
 enable_devmode: false
@@ -88,3 +87,6 @@ travis_extra_install_post:
 
 imgbot_ignore:
  - tests/baseline/*.png
+
+yapf_exclude:
+ - pyms-demo/.*/.*
