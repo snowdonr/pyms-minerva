@@ -59,7 +59,7 @@ for filename in Path.cwd().glob("*.ipynb"):
 			cell["metadata"]["execution"] = {}
 		if "pycharm" in cell["metadata"]:
 			del cell["metadata"]["pycharm"]
-	filename.dump_json(notebook, indent=1))
+	filename.dump_json(notebook, indent=1)
 EOF
 
 python3 remove_execution_times.py
