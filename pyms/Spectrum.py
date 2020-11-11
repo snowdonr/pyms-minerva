@@ -156,8 +156,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 				}
 
 	def __iter__(self):
-		for key, value in self.__dict__.items():
-			yield key, value
+		yield from self.__dict__.items()
 
 	def __getstate__(self):
 		return self.__dict__
@@ -170,8 +169,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		Iterate over the peaks in the mass spectrum.
 		"""
 
-		for mz, intensity in zip(self.mass_list, self.intensity_list):
-			yield mz, intensity
+		yield from zip(self.mass_list, self.intensity_list)
 
 	@property
 	def intensity_list(self) -> List:

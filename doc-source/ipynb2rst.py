@@ -6,9 +6,7 @@ MIT Licensed
 """
 
 # stdlib
-import io
 import os
-import os.path
 import pathlib
 import re
 import shutil
@@ -342,7 +340,7 @@ for notebook in notebooks:
 
 		# Write images to file
 		for name, data in outputs.items():
-			with io.open(images_dir / f"{notebook}_{name}", 'wb') as f:
+			with open(images_dir / f"{notebook}_{name}", 'wb') as f:
 				f.write(data)
 
 		# Replace `.. image:: output` with `.. image:: {notebook}_output`

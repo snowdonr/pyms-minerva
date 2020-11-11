@@ -178,6 +178,6 @@ def load_expr(file_name: PathLike) -> Experiment:
 	fp.close()
 
 	if not isinstance(expr, Experiment):
-		raise IOError("The loaded file is not an experiment file")
+		raise OSError("The loaded file is not an experiment file")
 
 	return expr

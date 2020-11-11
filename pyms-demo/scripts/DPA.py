@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
 
 # ## Example: Within-state alignment of peak lists from multiple experiments
 #

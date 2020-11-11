@@ -87,8 +87,8 @@ def load_peaks(file_name: PathLike) -> List[Peak]:
 	fp.close()
 
 	if not is_sequence(peak_list):
-		raise IOError("The selected file is not a List")
+		raise OSError("The selected file is not a List")
 	if not len(peak_list) > 0 or not isinstance(peak_list[0], Peak):
-		raise IOError("The selected file is not a list of Peak objects")
+		raise OSError("The selected file is not a list of Peak objects")
 
 	return peak_list
