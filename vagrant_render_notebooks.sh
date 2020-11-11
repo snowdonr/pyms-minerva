@@ -52,7 +52,7 @@ cat > remove_execution_times.py <<EOF
 #!/usr/bin/env/python3
 from domdf_python_tools.paths import PathPlus
 
-for filename in Path.cwd().glob("*.ipynb"):
+for filename in PathPlus.cwd().glob("*.ipynb"):
 	notebook = filename.load_json()
 	for cell in notebook["cells"]:
 		if "execution" in cell["metadata"]:
