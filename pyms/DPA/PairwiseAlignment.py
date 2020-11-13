@@ -166,10 +166,10 @@ def align(a1: Alignment, a2: Alignment, D: float, gap: float) -> Alignment:
 	result = dp(M, gap)
 
 	# make composite alignment from the results
-	ma = merge_alignments(a1, a2, result['trace'])
+	ma = merge_alignments(a1, a2, result["trace"])
 
 	# calculate the similarity score
-	ma.similarity = alignment_similarity(result['trace'], M, gap)
+	ma.similarity = alignment_similarity(result["trace"], M, gap)
 
 	return ma
 
@@ -218,7 +218,7 @@ def dp(S, gap_penalty: float) -> Dict:
 	try:
 		row_length = len(S[:, 0])
 	except IndexError:
-		raise IndexError('Zero length alignment found: Samples with no peaks cannot be aligned')
+		raise IndexError("Zero length alignment found: Samples with no peaks cannot be aligned")
 
 	col_length = len(S[0, :])
 
@@ -291,7 +291,7 @@ def dp(S, gap_penalty: float) -> Dict:
 	trace.reverse()
 	matches.reverse()
 
-	return {'p': p, 'q': q, 'trace': trace, 'matches': matches, 'D': D, 'phi': trace_matrix}
+	return {'p': p, 'q': q, "trace": trace, "matches": matches, 'D': D, "phi": trace_matrix}
 
 
 def position_similarity(pos1, pos2, D) -> float:

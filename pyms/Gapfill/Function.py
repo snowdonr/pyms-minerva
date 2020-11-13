@@ -87,7 +87,7 @@ def file2dataframe(file_name: PathLike) -> pandas.DataFrame:
 
 	return pandas.read_csv(
 			file_name,
-			delimiter=",",
+			delimiter=',',
 			quotechar='"',
 			header=0,
 			)
@@ -259,9 +259,9 @@ def mp_finder(input_matrix: List) -> List[Sample]:
 		uid = line[uid_pos]
 		common_ion = line[ci_pos]
 
-		qual_ion_1 = uid.split("-")[0]
-		qual_ion_2 = uid.split("-")[1]
-		rt = uid.split("-")[-1]
+		qual_ion_1 = uid.split('-')[0]
+		qual_ion_2 = uid.split('-')[1]
+		rt = uid.split('-')[-1]
 
 		for i, area in enumerate(line[ci_pos:]):
 			if area == "NA":

@@ -66,7 +66,7 @@ def mzML_reader(file_name: PathLike) -> GCMS_data:
 			file_names = []
 
 			for i in range(1, size):
-				recv_buffer = ""
+				recv_buffer = ''
 				file_n = comm.recv(recv_buffer, i)
 				file_names.append(file_n)
 

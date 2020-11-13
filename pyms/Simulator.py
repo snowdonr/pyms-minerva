@@ -220,7 +220,7 @@ def gcms_sim(
 	i_array = numpy.zeros((n_scan, n_mz), 'd')
 
 	for peak in peak_list:
-		print("-", end='')
+		print('-', end='')
 		index = int((peak.rt - t1) / period)
 
 		height = sum(peak.mass_spectrum.mass_spec)

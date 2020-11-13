@@ -90,10 +90,10 @@ def expr_list(pyms_datadir):
 
 			peak_list = BillerBiemann(im, points=9, scans=2)
 
-			print("#")
+			print('#')
 			apl = rel_threshold(peak_list, 2)
 			new_peak_list = num_ions_threshold(apl, 3, 3000)
-			print("#")
+			print('#')
 
 			# ignore TMS ions and set mass range
 			for peak in new_peak_list:
@@ -112,9 +112,9 @@ def expr_list(pyms_datadir):
 			# set time range for all experiments
 			expr.sele_rt_range(["6.5m", "21m"])
 
-			print("#")
+			print('#')
 			expr.dump(outputdir / f"{jcamp_file}.expr")
-			print("#")
+			print('#')
 
 		# Load experiments
 		expr_list = []
@@ -295,8 +295,8 @@ def test_write_ion_areas_csv(A1, tmp_pathplus):
 	# Read alignment_ion_areas.csv and check values
 	assert (tmp_pathplus / "alignment_ion_areas.csv").exists()
 
-	ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas.csv").open(), delimiter="|"))
-	seconds_ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas_seconds.csv").open(), delimiter="|"))
+	ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas.csv").open(), delimiter='|'))
+	seconds_ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas_seconds.csv").open(), delimiter='|'))
 
 	assert ion_csv[0][0:2] == seconds_ion_csv[0][0:2] == ["UID", "RTavg"]
 	assert ion_csv[0][2:] == seconds_ion_csv[0][2:] == A1.expr_code

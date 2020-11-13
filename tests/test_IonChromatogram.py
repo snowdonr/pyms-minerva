@@ -264,7 +264,7 @@ def test_get_time_at_index(tic):
 	with pytest.raises(TypeError):
 		tic.get_time_at_index([1, 2, 3, 4])
 	with pytest.raises(TypeError):
-		tic.get_time_at_index({"a": 1, "b": 2, "c": 3, "d": 4})
+		tic.get_time_at_index({'a': 1, 'b': 2, 'c': 3, 'd': 4})
 	# tic.get_time_at_index(0)
 
 	with pytest.raises(IndexError):

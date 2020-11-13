@@ -65,7 +65,7 @@ def write_mass_hunter_csv(
 
 	file_name = prepare_filepath(file_name)
 
-	fp = file_name.open("w")
+	fp = file_name.open('w')
 
 	if top_ion_list is None:
 		raise ValueError("List of common ions must be supplied")
@@ -187,7 +187,7 @@ def write_mass_hunter_csv(
 			q2_ci_ratio = 0.01
 
 		out_strings.append(
-				",".join([
+				','.join([
 						peak_UID,
 						f"{common_ion}",
 						f"{qual_ion_1}",
@@ -239,11 +239,11 @@ def write_excel(
 	ws.title = "Aligned RT"
 
 	# create header row
-	ws['A1'] = "UID"
-	ws['B1'] = "RTavg"
+	ws["A1"] = "UID"
+	ws["B1"] = "RTavg"
 	for i, item in enumerate(alignment.expr_code):
 		currcell = ws.cell(row=1, column=i + 3, value=f"{item}")
-		comment = Comment('sample ' + str(i), 'dave')
+		comment = Comment("sample " + str(i), "dave")
 		currcell.comment = comment
 
 	# for each alignment position write alignment's peak and area
@@ -273,15 +273,15 @@ def write_excel(
 				sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
 
 				# write the peak area and mass spec into the comment for the cell
-				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", 'dave')
+				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", "dave")
 				# currcell.number_format
 				currcell.comment = comment
 
 			else:
 				# rt = 'NA'
 				# area = 'NA'
-				currcell = ws.cell(row=2 + peak_idx, column=3 + align_idx, value='NA')
-				comment = Comment("Area: NA", 'dave')
+				currcell = ws.cell(row=2 + peak_idx, column=3 + align_idx, value="NA")
+				comment = Comment("Area: NA", "dave")
 				# currcell.number_format
 				currcell.comment = comment
 
@@ -335,14 +335,14 @@ def write_transposed_output(
 	file_name = prepare_filepath(file_name)
 
 	wb = Workbook()
-	ws1 = wb.create_sheet(title='Aligned RT')
-	ws2 = wb.create_sheet(title='Aligned Area')
+	ws1 = wb.create_sheet(title="Aligned RT")
+	ws2 = wb.create_sheet(title="Aligned Area")
 
-	ws1['A1'] = "Peak"
-	ws1['A2'] = "RTavg"
+	ws1["A1"] = "Peak"
+	ws1["A2"] = "RTavg"
 
-	ws2['A1'] = "Peak"
-	ws2['A2'] = "RTavg"
+	ws2["A1"] = "Peak"
+	ws2["A2"] = "RTavg"
 
 	style_outlier = PatternFill(fill_type="solid", fgColor="FFAE19", bgColor="FFAE19")
 
@@ -383,15 +383,15 @@ def write_transposed_output(
 				sorted_ia = sorted(ia.items(), key=operator.itemgetter(1), reverse=True)
 
 				# write the peak area and mass spec into the comment for the cell
-				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", 'dave')
+				comment = Comment(f"Area: {area:.0f} | MassSpec: {sorted_ia}", "dave")
 				currcell1.comment = comment
 
 			else:
 				# rt = 'NA'
 				# area = 'NA'
-				currcell1 = ws1.cell(column=cell_col, row=cell_row, value='NA')
-				ws2.cell(column=cell_col, row=cell_row, value='NA')
-				comment = Comment("Area: NA", 'dave')
+				currcell1 = ws1.cell(column=cell_col, row=cell_row, value="NA")
+				ws2.cell(column=cell_col, row=cell_row, value="NA")
+				comment = Comment("Area: NA", "dave")
 				currcell1.comment = comment
 
 		# this method will create the compo peak, and also mark outlier peaks with a bool is_outlier

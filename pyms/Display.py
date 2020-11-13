@@ -190,7 +190,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		if len(intensity_list) != 0:
 			print("mass\t intensity")
 			for i in range(10):
-				print(mass_list[largest[i]], "\t", intensity_list[largest[i]])
+				print(mass_list[largest[i]], '\t', intensity_list[largest[i]])
 		else:  # if the selected point is not close enough to peak
 			print("No Peak at this point")
 
@@ -485,7 +485,7 @@ def plot_head2tail(
 	return top_plot, bottom_plot
 
 
-def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style: str = "o") -> List[Line2D]:
+def plot_peaks(ax: Axes, peak_list: List[Peak.Peak], label: str = "Peaks", style: str = 'o') -> List[Line2D]:
 	"""
 	Plots the locations of peaks as found by PyMassSpec.
 

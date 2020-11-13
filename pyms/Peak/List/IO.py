@@ -82,7 +82,7 @@ def load_peaks(file_name: PathLike) -> List[Peak]:
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
 
-	fp = file_name.open('rb')
+	fp = file_name.open("rb")
 	peak_list = pickle.load(fp)
 	fp.close()
 

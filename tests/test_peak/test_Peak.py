@@ -102,7 +102,7 @@ def test_bounds(peak):
 	# Setter
 	peak.bounds = (11, 12, 13)
 
-	for obj in [test_string, *test_numbers, test_dict, ["a", "b", "c"], test_tuple]:
+	for obj in [test_string, *test_numbers, test_dict, ['a', 'b', 'c'], test_tuple]:
 		with pytest.raises(TypeError):
 			peak.bounds = obj
 

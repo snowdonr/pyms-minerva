@@ -67,7 +67,7 @@ def ANDI_reader(file_name: PathLike) -> GCMS_data:
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
 
-	rootgrp = Dataset(file_name, "r+", format='NETCDF3_CLASSIC')
+	rootgrp = Dataset(file_name, "r+", format="NETCDF3_CLASSIC")
 	# TODO: find out if netCDF4 throws specific errors that we can use here
 
 	print(f" -> Reading netCDF file '{file_name}'")

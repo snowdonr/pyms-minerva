@@ -75,12 +75,12 @@ def time_str_secs(time_str: str) -> float:
 		print(f" --> received time string '{time_number}'")
 		raise ValueError("improper time string")
 
-	if time_spec not in ["s", "m"]:
+	if time_spec not in ['s', 'm']:
 		raise ValueError("time string must end with either 's' or 'm'")
 
 	time = float(time_number)
 
-	if time_spec == "m":
+	if time_spec == 'm':
 		time = time * 60.0
 
 	return time

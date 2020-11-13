@@ -46,7 +46,7 @@ def get_pandoc_urls(version: str = "latest") -> Tuple[Dict[str, List[str]], str]
 	version = pandoc_urls_list[0].split('/')[5]
 
 	# dict that lookup the platform from binary extension
-	ext2platform = {'msi': 'win32', 'deb': 'linux', 'pkg': 'darwin'}
+	ext2platform = {"msi": "win32", "deb": "linux", "pkg": "darwin"}
 
 	# parse pandoc_urls from list to dict
 	pandoc_urls = {ext2platform[url_frag[-3:]]: ("https://github.com" + url_frag) for url_frag in pandoc_urls_list}
@@ -81,7 +81,7 @@ def download_pandoc(url: Optional[str] = None, targetfolder: str = "~/bin", vers
 	if url is None:
 		url = pandoc_urls["linux"]
 
-	filename = url.split("/")[-1]
+	filename = url.split('/')[-1]
 	if os.path.isfile(filename):
 		print(f"* Using already downloaded file {filename}")
 	else:
@@ -89,7 +89,7 @@ def download_pandoc(url: Optional[str] = None, targetfolder: str = "~/bin", vers
 
 		# https://stackoverflow.com/questions/30627937/tracebaclk-attributeerroraddinfourl-instance-has-no-attribute-exit
 		response = urlopen(url)
-		with open(filename, 'wb') as out_file:
+		with open(filename, "wb") as out_file:
 			shutil.copyfileobj(response, out_file)
 
 	targetfolder = pathlib.Path(targetfolder).expanduser()
@@ -105,7 +105,7 @@ def download_pandoc(url: Optional[str] = None, targetfolder: str = "~/bin", vers
 	filename = os.path.abspath(filename)
 	try:
 		os.chdir(tempfolder)
-		cmd = ["ar", "x", filename]
+		cmd = ["ar", 'x', filename]
 		subprocess.check_call(cmd)
 
 		dir_listing = set(os.listdir(tempfolder))
@@ -311,7 +311,7 @@ for notebook in notebooks:
 		# Sometimes trailing slashes doesn't get escaped
 		body = body.replace(f"\\|{original}|", replacement)
 
-		original = original.replace("_", "\\_")
+		original = original.replace('_', "\\_")
 		body = body.replace(f"\\|{original}\\|", replacement)
 
 		# Sometimes trailing slashes doesn't get escaped
@@ -340,12 +340,12 @@ for notebook in notebooks:
 
 		# Write images to file
 		for name, data in outputs.items():
-			with open(images_dir / f"{notebook}_{name}", 'wb') as f:
+			with open(images_dir / f"{notebook}_{name}", "wb") as f:
 				f.write(data)
 
 		# Replace `.. image:: output` with `.. image:: {notebook}_output`
 		body = body.replace(".. image:: output", f".. image:: graphics/{notebook}_output")
 
 	# Write rst to file
-	with open(f"{demo_rst_dir/notebook}.rst", "w") as fp:
+	with open(f"{demo_rst_dir/notebook}.rst", 'w') as fp:
 		fp.write(body)

@@ -291,17 +291,17 @@ class Alignment:
 		rt_file_name = prepare_filepath(rt_file_name)
 		area_file_name = prepare_filepath(area_file_name)
 
-		fp1 = rt_file_name.open("w")
-		fp2 = area_file_name.open("w")
+		fp1 = rt_file_name.open('w')
+		fp2 = area_file_name.open('w')
 
 		# create header
-		header = ['UID', 'RTavg']
+		header = ["UID", "RTavg"]
 		for item in self.expr_code:
 			header.append(f'"{item}"')
 
 		# write headers
-		fp1.write(",".join(header) + "\n")
-		fp2.write(",".join(header) + "\n")
+		fp1.write(','.join(header) + '\n')
+		fp2.write(','.join(header) + '\n')
 
 		# for each alignment position write alignment's peak and area
 		for peak_idx in range(len(self.peakpos[0])):  # loop through peak lists (rows)
@@ -345,7 +345,7 @@ class Alignment:
 					fp1.write(",NA")
 				else:
 					fp1.write(f",{rt:.3f}")
-			fp1.write("\n")
+			fp1.write('\n')
 
 			# write to peak areas file
 			fp2.write(compo_peak.UID)
@@ -360,7 +360,7 @@ class Alignment:
 					fp2.write(",NA")
 				else:
 					fp2.write(f",{area:.0f}")
-			fp2.write("\n")
+			fp2.write('\n')
 
 		fp1.close()
 		fp2.close()
@@ -396,7 +396,7 @@ class Alignment:
 
 		area_file_name = prepare_filepath(area_file_name)
 
-		with area_file_name.open("w") as fp:
+		with area_file_name.open('w') as fp:
 
 			# create header
 			header = ['"UID"', '"RTavg"', '"Quant Ion"']
@@ -404,7 +404,7 @@ class Alignment:
 				header.append(f'"{item}"')
 
 			# write headers
-			fp.write(",".join(header) + "\n")
+			fp.write(','.join(header) + '\n')
 
 			rtsums: List[float] = []
 			rtcounts = []
@@ -480,7 +480,7 @@ class Alignment:
 			#        print("length of areas", len(areas))
 			#        print("length of out_strings", len(out_strings))
 			for row in out_strings:
-				fp.write(row + "\n")
+				fp.write(row + '\n')
 
 	def write_ion_areas_csv(self, ms_file_name: PathLike, minutes: bool = True):
 		"""
@@ -498,7 +498,7 @@ class Alignment:
 
 		ms_file_name = prepare_filepath(ms_file_name)
 
-		with ms_file_name.open("w") as fp1:
+		with ms_file_name.open('w') as fp1:
 
 			# create header
 
@@ -507,7 +507,7 @@ class Alignment:
 				header.append(f'"{item}"')
 
 			# write headers
-			fp1.write("|".join(header) + "\n")
+			fp1.write('|'.join(header) + '\n')
 
 			for peak_idx in range(len(self.peakpos[0])):
 
@@ -544,7 +544,7 @@ class Alignment:
 					else:
 						fp1.write(f"|{intensity_array}")
 
-				fp1.write("\n")
+				fp1.write('\n')
 
 	def get_peak_alignment(
 			self,

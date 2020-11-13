@@ -561,10 +561,10 @@ class IntensityMatrix(BaseIntensityMatrix):
 		fmt = AsciiFiletypes(fmt)
 
 		if fmt is AsciiFiletypes.ASCII_DAT:
-			separator = " "
+			separator = ' '
 			extension = "dat"
 		elif fmt is AsciiFiletypes.ASCII_CSV:
-			separator = ","
+			separator = ','
 			extension = "csv"
 
 		# export 2D matrix of intensities
@@ -602,7 +602,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 		time_list = self._time_list
 		vals = self._intensity_array
 
-		fp = file_name.open("w")
+		fp = file_name.open('w')
 
 		# Format is text header with:
 		# "Scan","Time",...
@@ -694,7 +694,7 @@ def import_leco_csv(file_name: PathLike) -> IntensityMatrix:
 			# get each value in line
 			for item in data_list:
 				item = item.strip()
-				item = item.strip('\'"')  # remove quotes (in header)
+				item = item.strip("'\"")  # remove quotes (in header)
 
 				# Get header
 				if HEADER:

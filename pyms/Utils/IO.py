@@ -140,7 +140,7 @@ def file_lines(file_name: PathLike, strip: bool = False) -> List[str]:
 		lines_to_discard = []
 		for line in lines_filtered:
 			# remove empty lines and comments
-			if len(line) == 0 or line[0] == "#":
+			if len(line) == 0 or line[0] == '#':
 				lines_to_discard.append(line)
 		for line in lines_to_discard:
 			lines_filtered.remove(line)
@@ -154,7 +154,7 @@ def save_data(
 		data: Union[List[float], List[List[float]]],
 		format_str: str = "%.6f",
 		prepend: str = '',
-		sep: str = " ",
+		sep: str = ' ',
 		compressed: bool = False,
 		):
 	"""

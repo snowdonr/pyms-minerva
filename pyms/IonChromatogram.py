@@ -272,7 +272,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		file_name = prepare_filepath(file_name)
 
-		with file_name.open("w") as fp:
+		with file_name.open('w') as fp:
 
 			time_list = copy.deepcopy(self._time_list)
 
