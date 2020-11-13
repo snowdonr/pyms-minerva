@@ -1,6 +1,8 @@
+# stdlib
 import pathlib
 import sys
 
+# 3rd party
 from notebook2script.__main__ import process_multiple_notebooks
 
 notebooks_dir = pathlib.Path(__file__).parent / "jupyter"
@@ -24,16 +26,18 @@ notebooks = [
 		"Experiment",
 		"Multiple_Experiments",
 		"DPA",
-
 		]
 
 # Never include these notebooks!
-"""
-Displaying_TIC
-Displaying_Multiple_IC
-Displaying_Mass_Spec
-Displaying_Detected_Peaks
-Display_User_Interaction
-"""
+# - Displaying_TIC
+# - Displaying_Multiple_IC
+# - Displaying_Mass_Spec
+# - Displaying_Detected_Peaks
+# - Display_User_Interaction
 
-sys.exit(process_multiple_notebooks([notebooks_dir / f"{nb}.ipynb" for nb in notebooks], outdir=scripts_dir, overwrite=True))
+ret = process_multiple_notebooks(
+		[notebooks_dir / f"{nb}.ipynb" for nb in notebooks],
+		outdir=scripts_dir,
+		overwrite=True,
+		)
+sys.exit(ret)

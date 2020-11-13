@@ -59,6 +59,7 @@ additional_ignore:
  - "bb.py"
  - "pyms/colby_deconvolution.py"
  - "doc-source/graphics/old/*"
+ - "doc-source/todo/*"
 
 extra_sphinx_extensions:
  - 'autodocsumm'
