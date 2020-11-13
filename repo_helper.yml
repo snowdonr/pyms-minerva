@@ -89,7 +89,7 @@ travis_extra_install_post:
  - sudo apt install libhdf5-dev netcdf-bin libnetcdf-dev
 
 imgbot_ignore:
- - tests/baseline/*.png
+ - tests/baseline/*
 
 yapf_exclude:
  - pyms-demo/.*/.*
