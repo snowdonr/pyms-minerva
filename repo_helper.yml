@@ -8,7 +8,7 @@ author: "Dominic Davis-Foster"
 rtfd_author: "PyMassSpec Authors"
 email: "dominic@davis-foster.co.uk"
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>
-version: "2.2.21"
+version: "2.3.0"
 username: "domdfcoding"
 license: 'GPLv2'
 short_desc: 'Python Toolkit for Mass Spectrometry'

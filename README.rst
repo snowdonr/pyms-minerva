@@ -90,7 +90,7 @@ PyMassSpec
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/PyMassSpec
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/PyMassSpec/v2.2.21
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/PyMassSpec/v2.3.0
 	:target: https://github.com/domdfcoding/PyMassSpec/pulse
 	:alt: GitHub commits since tagged version
 
