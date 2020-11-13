@@ -78,6 +78,7 @@ sphinx_conf_preamble:
 
 exclude_files:
  - contributing
+ - tox
 
 enable_devmode: false
 
