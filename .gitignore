@@ -95,3 +95,4 @@ Vagrantfile
 eic_demo*.py
 bb.py
 pyms/colby_deconvolution.py
+doc-source/graphics/old/*
