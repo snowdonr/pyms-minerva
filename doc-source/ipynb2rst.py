@@ -7,13 +7,15 @@ MIT Licensed
 
 # stdlib
 import os
-import pathlib
 import re
 import shutil
 import subprocess
 import tempfile
 from typing import Dict, List, Optional, Tuple
 from urllib.request import urlopen
+
+# 3rd party
+from domdf_python_tools.paths import PathPlus
 
 
 def get_pandoc_urls(version: str = "latest") -> Tuple[Dict[str, List[str]], str]:
@@ -92,7 +94,7 @@ def download_pandoc(url: Optional[str] = None, targetfolder: str = "~/bin", vers
 		with open(filename, "wb") as out_file:
 			shutil.copyfileobj(response, out_file)
 
-	targetfolder = pathlib.Path(targetfolder).expanduser()
+	targetfolder = PathPlus(targetfolder).expanduser()
 
 	# Make sure target folder exists...
 	if not targetfolder.is_dir():
@@ -100,7 +102,7 @@ def download_pandoc(url: Optional[str] = None, targetfolder: str = "~/bin", vers
 
 	print(f"* Unpacking {filename} to tempfolder...")
 
-	tempfolder = pathlib.Path(tempfile.mkdtemp())
+	tempfolder = PathPlus(tempfile.mkdtemp())
 	cur_wd = os.getcwd()
 	filename = os.path.abspath(filename)
 	try:
@@ -294,11 +296,11 @@ notebooks = [
 		"Display_User_Interaction",
 		]
 
-demo_rst_dir = pathlib.Path("./demo_rst").resolve()
+demo_rst_dir = PathPlus("./demo_rst").resolve()
 if not demo_rst_dir.is_dir():
 	demo_rst_dir.mkdir()
 
-images_dir = pathlib.Path("./graphics").resolve()
+images_dir = PathPlus("./graphics").resolve()
 if not images_dir.is_dir():
 	images_dir.mkdir()
 
@@ -340,12 +342,10 @@ for notebook in notebooks:
 
 		# Write images to file
 		for name, data in outputs.items():
-			with open(images_dir / f"{notebook}_{name}", "wb") as f:
-				f.write(data)
+			(images_dir / f"{notebook}_{name}").write_bytes(data)
 
 		# Replace `.. image:: output` with `.. image:: {notebook}_output`
 		body = body.replace(".. image:: output", f".. image:: graphics/{notebook}_output")
 
 	# Write rst to file
-	with open(f"{demo_rst_dir/notebook}.rst", 'w') as fp:
-		fp.write(body)
+	PathPlus(f"{demo_rst_dir/notebook}.rst").write_clean(body)
