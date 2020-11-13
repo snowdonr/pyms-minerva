@@ -58,7 +58,7 @@ tic = data.tic
 noise_level = window_analyzer(tic)
 print(noise_level)
 
-# Filter the Peak listusing this noise value as the cutoff.
+# Filter the Peak List using this noise value as the cutoff.
 #
 
 # In[3]:

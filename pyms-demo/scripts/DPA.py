@@ -10,7 +10,7 @@
 #
 # First, determine the directory to the experiment files and import the required functions.
 
-# In[ ]:
+# In[1]:
 
 import pathlib
 
@@ -22,13 +22,13 @@ from pyms.Experiment import load_expr
 
 # Define the input experiments list.
 
-# In[ ]:
+# In[2]:
 
 exprA_codes = ["a0806_077", "a0806_078", "a0806_079"]
 
 # Read the experiment files from disk and create a list of the loaded |Experiment| objects.
 
-# In[ ]:
+# In[3]:
 
 expr_list = []
 
@@ -39,7 +39,7 @@ for expr_code in exprA_codes:
 
 # Define the within-state alignment parameters.
 
-# In[ ]:
+# In[4]:
 
 Dw = 2.5  # rt modulation [s]
 Gw = 0.30  # gap penalty
@@ -47,7 +47,7 @@ Gw = 0.30  # gap penalty
 # Convert each |Experiment| object is converted into an |Alignment| object with
 # the function |exprl2alignment()|.
 
-# In[ ]:
+# In[5]:
 
 F1 = exprl2alignment(expr_list)
 
@@ -60,7 +60,7 @@ F1 = exprl2alignment(expr_list)
 # calculates the similarity between all peaks in one sample with those of another sample.
 # This is done for all possible pairwise alignments (2-alignments).
 
-# In[ ]:
+# In[6]:
 
 T1 = PairwiseAlignment(F1, Dw, Gw)
 
@@ -75,7 +75,7 @@ T1 = PairwiseAlignment(F1, Dw, Gw)
 # The function |align_with_tree()| then takes the object ``T1`` and aligns the
 # individual alignment objects according to the guide tree.
 
-# In[ ]:
+# In[7]:
 
 A1 = align_with_tree(T1, min_peaks=2)
 
@@ -93,7 +93,7 @@ A1 = align_with_tree(T1, min_peaks=2)
 # containing peak retention times (``rt.csv``) and the corresponding peak areas
 # (``area.csv``). These are plain ASCII files in CSV format.
 
-# In[ ]:
+# In[8]:
 
 A1.write_csv(
 		output_directory / "within_state_alignment" / 'a_rt.csv',
@@ -133,7 +133,7 @@ A1.write_csv(
 #
 # First, perform within-state alignment for cell state B.
 
-# In[ ]:
+# In[9]:
 
 exprB_codes = ["a0806_140", "a0806_141", "a0806_142"]
 
@@ -156,7 +156,7 @@ A2.write_csv(
 # ``A1`` and ``A2`` are the results of the within group alignments for cell state A and B, respectively.
 # The between-state alignment can be performed as follows alignment commands:
 
-# In[ ]:
+# In[10]:
 
 # Define the within-state alignment parameters.
 Db = 10.0  # rt modulation
@@ -172,7 +172,7 @@ A9.write_csv(
 
 # Store the aligned peaks to disk.
 
-# In[ ]:
+# In[11]:
 
 from pyms.Peak.List.IO import store_peaks
 

@@ -8,15 +8,16 @@
 # m/z channels and/or to select a certain retention time range.
 #
 # The procedure starts the same as in the previous examples, namely:
+#
 # 1. read a file,
-# 1. bin the data into fixed mass values,
-# 1. smooth the data,
-# 1. remove the baseline,
-# 1. deconvolute peaks,
-# 1. filter the peaks,
-# 1. set the mass range,
-# 1. remove uninformative ions, and
-# 1. estimate peak areas.
+# 2. bin the data into fixed mass values,
+# 3. smooth the data,
+# 4. remove the baseline,
+# 5. deconvolute peaks,
+# 6. filter the peaks,
+# 7. set the mass range,
+# 8. remove uninformative ions, and
+# 9. estimate peak areas.
 #
 #
 # First, setup the paths to the datafiles and the output directory, then import ANDI_reader and build_intensity_matrix_i.
