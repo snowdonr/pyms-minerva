@@ -40,7 +40,7 @@ Then the raw data is read as before.
 
 .. parsed-literal::
 
-    GCMS_data(rt range 305.582 - 4007.721, time_step 0.37531822789943226, length 9865)
+    <GCMS_data(305.582 - 4007.721 seconds, time step 0.37531822789943226, 9865 scans)>
 
 
 
@@ -61,7 +61,7 @@ Then the raw data is read as before.
 
 .. parsed-literal::
 
-    GCMS_data(rt range 305.582 - 4007.722, time_step 0.3753183292781833, length 9865)
+    <GCMS_data(305.582 - 4007.722 seconds, time step 0.3753183292781833, 9865 scans)>
 
 
 

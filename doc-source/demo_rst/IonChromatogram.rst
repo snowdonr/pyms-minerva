@@ -48,7 +48,7 @@ An :class:`~pyms.IonChromatogram.IonChromatogram` object for the TIC can be obta
 
 .. parsed-literal::
 
-    <pyms.IonChromatogram.IonChromatogram at 0x7fe8e5cfc5c0>
+    <pyms.IonChromatogram.IonChromatogram at 0x7f698cbb9e80>
 
 
 
@@ -64,7 +64,7 @@ The :class:`~pyms.IonChromatogram.IonChromatogram` at index 0 can be obtained wi
 
 .. parsed-literal::
 
-    <pyms.IonChromatogram.IonChromatogram at 0x7fe9044238d0>
+    <pyms.IonChromatogram.IonChromatogram at 0x7f69ac4e9198>
 
 
 
@@ -80,7 +80,7 @@ The :class:`~pyms.IonChromatogram.IonChromatogram` for the closest mass to 73 ca
 
 .. parsed-literal::
 
-    <pyms.IonChromatogram.IonChromatogram at 0x7fe90442a9e8>
+    <pyms.IonChromatogram.IonChromatogram at 0x7f69ac4e95f8>
 
 
 

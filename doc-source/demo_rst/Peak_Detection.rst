@@ -63,16 +63,16 @@ peaks.
 
 .. parsed-literal::
 
-    [<pyms.Peak.Class.Peak at 0x7fb9b85134e0>,
-     <pyms.Peak.Class.Peak at 0x7fb9b8513a58>,
-     <pyms.Peak.Class.Peak at 0x7fb9bf418da0>,
-     <pyms.Peak.Class.Peak at 0x7fb995fc0748>,
-     <pyms.Peak.Class.Peak at 0x7fb9c112f6d8>,
-     <pyms.Peak.Class.Peak at 0x7fb995fd4e10>,
-     <pyms.Peak.Class.Peak at 0x7fb995fd4fd0>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d080>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d0f0>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d160>]
+    [<pyms.Peak.Class.Peak at 0x7f8deca882b0>,
+     <pyms.Peak.Class.Peak at 0x7f8deca88550>,
+     <pyms.Peak.Class.Peak at 0x7f8dce908160>,
+     <pyms.Peak.Class.Peak at 0x7f8df3bc5c50>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a043c8>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04588>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a045f8>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04668>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a046d8>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04748>]
 
 
 
@@ -112,16 +112,16 @@ other:
 
 .. parsed-literal::
 
-    [<pyms.Peak.Class.Peak at 0x7fb9809e5668>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e56a0>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e5710>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e5780>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e57f0>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e5860>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e58d0>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e5940>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e59b0>,
-     <pyms.Peak.Class.Peak at 0x7fb9809e5a20>]
+    [<pyms.Peak.Class.Peak at 0x7f8dae545be0>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545c18>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545c88>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545cf8>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545d68>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545dd8>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545e48>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545eb8>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545f28>,
+     <pyms.Peak.Class.Peak at 0x7f8dae545f98>]
 
 
 
@@ -171,16 +171,16 @@ follows:
 
 .. parsed-literal::
 
-    [<pyms.Peak.Class.Peak at 0x7fb99821d048>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d160>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d1d0>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d278>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d390>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d3c8>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d4e0>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d518>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d630>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d668>]
+    [<pyms.Peak.Class.Peak at 0x7f8dc3a045f8>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04630>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04748>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a047b8>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a048d0>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a049e8>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04a20>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04b38>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04b70>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04c88>]
 
 
 
@@ -195,16 +195,16 @@ follows:
 
 .. parsed-literal::
 
-    [<pyms.Peak.Class.Peak at 0x7fb9b850c8d0>,
-     <pyms.Peak.Class.Peak at 0x7fb9b850c710>,
-     <pyms.Peak.Class.Peak at 0x7fb99821d198>,
-     <pyms.Peak.Class.Peak at 0x7fb98f0d7e10>,
-     <pyms.Peak.Class.Peak at 0x7fb98f0d7080>,
-     <pyms.Peak.Class.Peak at 0x7fb98f0d7ef0>,
-     <pyms.Peak.Class.Peak at 0x7fb98f0d7f98>,
-     <pyms.Peak.Class.Peak at 0x7fb998211128>,
-     <pyms.Peak.Class.Peak at 0x7fb998211160>,
-     <pyms.Peak.Class.Peak at 0x7fb998211208>]
+    [<pyms.Peak.Class.Peak at 0x7f8deca8e128>,
+     <pyms.Peak.Class.Peak at 0x7f8deca8e1d0>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04780>,
+     <pyms.Peak.Class.Peak at 0x7f8dc3a04550>,
+     <pyms.Peak.Class.Peak at 0x7f8dbb3cf3c8>,
+     <pyms.Peak.Class.Peak at 0x7f8dbb3cf048>,
+     <pyms.Peak.Class.Peak at 0x7f8dbb3cf4a8>,
+     <pyms.Peak.Class.Peak at 0x7f8dbb3cf550>,
+     <pyms.Peak.Class.Peak at 0x7f8dbb3cf5f8>,
+     <pyms.Peak.Class.Peak at 0x7f8dbb3cf6a0>]
 
 
 

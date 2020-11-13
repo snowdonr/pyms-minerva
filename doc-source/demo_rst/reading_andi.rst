@@ -37,7 +37,7 @@ Read the raw ANDI-MS data
 
 .. parsed-literal::
 
-    GCMS_data(rt range 305.582 - 4007.721, time_step 0.37531822789943226, length 9865)
+    <GCMS_data(305.582 - 4007.721 seconds, time step 0.37531822789943226, 9865 scans)>
 
 
 
@@ -142,7 +142,7 @@ of the data as an :class:`~pyms.IonChromatogram.IonChromatogram` object:
 
 .. parsed-literal::
 
-    <pyms.IonChromatogram.IonChromatogram at 0x7f86e6eed4e0>
+    <pyms.IonChromatogram.IonChromatogram at 0x7fe9987ffe80>
 
 
 
@@ -170,16 +170,16 @@ with:
 
 .. parsed-literal::
 
-    [<pyms.Spectrum.Scan at 0x7f8708fd5a58>,
-     <pyms.Spectrum.Scan at 0x7f86e6eed908>,
-     <pyms.Spectrum.Scan at 0x7f86e6eed978>,
-     <pyms.Spectrum.Scan at 0x7f86e6eeda20>,
-     <pyms.Spectrum.Scan at 0x7f86e6eedac8>,
-     <pyms.Spectrum.Scan at 0x7f86e6eedb70>,
-     <pyms.Spectrum.Scan at 0x7f86e6eedc18>,
-     <pyms.Spectrum.Scan at 0x7f86e6eedcc0>,
-     <pyms.Spectrum.Scan at 0x7f86e6eedd68>,
-     <pyms.Spectrum.Scan at 0x7f86e6eede10>]
+    [<pyms.Spectrum.Scan at 0x7fe99cfe6358>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe63c8>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe6470>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe6518>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe65c0>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe6668>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe6710>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe67b8>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe6860>,
+     <pyms.Spectrum.Scan at 0x7fe99cfe67f0>]
 
 
 

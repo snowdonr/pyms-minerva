@@ -34,7 +34,7 @@ Read the raw data files.
 
 .. parsed-literal::
 
-    GCMS_data(rt range 305.582 - 4007.722, time_step 0.3753183292781833, length 9865)
+    <GCMS_data(305.582 - 4007.722 seconds, time step 0.3753183292781833, 9865 scans)>
 
 
 
@@ -59,7 +59,7 @@ default intensity matrix can be built as follows:
 
 .. parsed-literal::
 
-    <pyms.IntensityMatrix.IntensityMatrix at 0x7f28f4500ac8>
+    <pyms.IntensityMatrix.IntensityMatrix at 0x7f31d8b12860>
 
 
 
@@ -190,7 +190,7 @@ bin interval, the upper and lower boundaries are set to ± 0.25.
 
 .. parsed-literal::
 
-    <pyms.IntensityMatrix.IntensityMatrix at 0x7f28d4e0a780>
+    <pyms.IntensityMatrix.IntensityMatrix at 0x7f31d8b8d710>
 
 
 
@@ -281,7 +281,7 @@ imported from :mod:`pyms.IntensityMatrix <pyms.IntensityMatrix>`:
 
 .. parsed-literal::
 
-    <pyms.IntensityMatrix.IntensityMatrix at 0x7f28d4e0a208>
+    <pyms.IntensityMatrix.IntensityMatrix at 0x7f31d8b121d0>
 
 
 

@@ -69,11 +69,11 @@ Compute the noise value.
 
 .. parsed-literal::
 
-    435.87842846553
+    432.1719792438844
 
 
 
-Filter the Peak listusing this noise value as the cutoff.
+Filter the Peak List using this noise value as the cutoff.
 
 .. nbinput:: ipython3
     :execution-count: 3
@@ -87,16 +87,16 @@ Filter the Peak listusing this noise value as the cutoff.
 
 .. parsed-literal::
 
-    [<pyms.Peak.Class.Peak at 0x7fef6c282f98>,
-     <pyms.Peak.Class.Peak at 0x7fef6c26e7b8>,
-     <pyms.Peak.Class.Peak at 0x7fef6c26ea58>,
-     <pyms.Peak.Class.Peak at 0x7fef6c26e2b0>,
-     <pyms.Peak.Class.Peak at 0x7fef6c26ef98>,
-     <pyms.Peak.Class.Peak at 0x7fef6c2a2080>,
-     <pyms.Peak.Class.Peak at 0x7fef6c2a2048>,
-     <pyms.Peak.Class.Peak at 0x7fef6c2a2278>,
-     <pyms.Peak.Class.Peak at 0x7fef6c2a22e8>,
-     <pyms.Peak.Class.Peak at 0x7fef6c2a23c8>]
+    [<pyms.Peak.Class.Peak at 0x7f4a9864f128>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f2e8>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f320>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f3c8>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f518>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f4a8>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f6a0>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f748>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f7f0>,
+     <pyms.Peak.Class.Peak at 0x7f4a9864f898>]
 
 
 
@@ -111,4 +111,4 @@ Filter the Peak listusing this noise value as the cutoff.
 
 .. parsed-literal::
 
-    607
+    612

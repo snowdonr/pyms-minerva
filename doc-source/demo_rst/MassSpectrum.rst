@@ -51,7 +51,7 @@ obtained as follows:
 
 .. parsed-literal::
 
-    <pyms.Spectrum.MassSpectrum at 0x7f8f4c529860>
+    <pyms.Spectrum.MassSpectrum at 0x7ff678cfe080>
 
 
 

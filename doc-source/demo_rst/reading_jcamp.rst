@@ -37,7 +37,7 @@ Read the raw JCAMP-dx data.
 
 .. parsed-literal::
 
-    GCMS_data(rt range 305.582 - 4007.722, time_step 0.3753183292781833, length 9865)
+    <GCMS_data(305.582 - 4007.722 seconds, time step 0.3753183292781833, 9865 scans)>
 
 
 
@@ -142,7 +142,7 @@ of the data as an :class:`~pyms.IonChromatogram.IonChromatogram` object:
 
 .. parsed-literal::
 
-    <pyms.IonChromatogram.IonChromatogram at 0x7f1252787390>
+    <pyms.IonChromatogram.IonChromatogram at 0x7f6b22ff9d68>
 
 
 
@@ -170,16 +170,16 @@ with:
 
 .. parsed-literal::
 
-    [<pyms.Spectrum.Scan at 0x7f12527871d0>,
-     <pyms.Spectrum.Scan at 0x7f1252787518>,
-     <pyms.Spectrum.Scan at 0x7f12527875c0>,
-     <pyms.Spectrum.Scan at 0x7f1252787668>,
-     <pyms.Spectrum.Scan at 0x7f1252787710>,
-     <pyms.Spectrum.Scan at 0x7f12527877b8>,
-     <pyms.Spectrum.Scan at 0x7f1252787860>,
-     <pyms.Spectrum.Scan at 0x7f1252787908>,
-     <pyms.Spectrum.Scan at 0x7f12527879b0>,
-     <pyms.Spectrum.Scan at 0x7f1252787940>]
+    [<pyms.Spectrum.Scan at 0x7f6b4117a518>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9400>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9dd8>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9e80>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9f28>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9fd0>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9e48>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9668>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9d30>,
+     <pyms.Spectrum.Scan at 0x7f6b22ff9cf8>]
 
 
 

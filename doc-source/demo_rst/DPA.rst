@@ -72,6 +72,16 @@ all possible pairwise alignments (2-alignments).
 
     T1 = PairwiseAlignment(F1, Dw, Gw)
 
+
+.. parsed-literal::
+
+     Calculating pairwise alignments for 3 alignments (D=2.50, gap=0.30)
+     -> 2 pairs remaining
+     -> 1 pairs remaining
+     -> 0 pairs remaining
+     -> Clustering 6 pairwise alignments.Done
+
+
 The parameters for the alignment by dynamic programming are: ``Dw``, the
 retention time modulation in seconds; and ``Gw``, the gap penalty. These
 parameters are explained in detail in [1]_.
@@ -87,6 +97,14 @@ aligns the individual alignment objects according to the guide tree.
     :execution-count: 7
 
     A1 = align_with_tree(T1, min_peaks=2)
+
+
+.. parsed-literal::
+
+     Aligning 3 items with guide tree (D=2.50, gap=0.30)
+     -> 1 item(s) remaining
+     -> 0 item(s) remaining
+
 
 In this example, the individual alignments are three 1-alignments, and
 the function :meth:`align_with_tree() <pyms.DPA.Alignment.align_with_tree>` first creates a 2-alignment from the
@@ -172,6 +190,19 @@ First, perform within-state alignment for cell state B.
     		output_directory / "within_state_alignment" / 'b_area.csv',
     		)
 
+
+.. parsed-literal::
+
+     Calculating pairwise alignments for 3 alignments (D=2.50, gap=0.30)
+     -> 2 pairs remaining
+     -> 1 pairs remaining
+     -> 0 pairs remaining
+     -> Clustering 6 pairwise alignments.Done
+     Aligning 3 items with guide tree (D=2.50, gap=0.30)
+     -> 1 item(s) remaining
+     -> 0 item(s) remaining
+
+
 ``A1`` and ``A2`` are the results of the within group alignments for
 cell state A and B, respectively. The between-state alignment can be
 performed as follows alignment commands:
@@ -189,6 +220,16 @@ performed as follows alignment commands:
     A9.write_csv(
     		output_directory / "between_state_alignment" / 'rt.csv',
     		output_directory / "between_state_alignment" / 'area.csv')
+
+
+.. parsed-literal::
+
+     Calculating pairwise alignments for 2 alignments (D=10.00, gap=0.30)
+     -> 0 pairs remaining
+     -> Clustering 2 pairwise alignments.Done
+     Aligning 2 items with guide tree (D=10.00, gap=0.30)
+     -> 0 item(s) remaining
+
 
 Store the aligned peaks to disk.
 

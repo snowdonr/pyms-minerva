@@ -69,16 +69,16 @@ First, build the Peak list as before
 
 .. parsed-literal::
 
-    [<pyms.Peak.Class.Peak at 0x7f04deeacba8>,
-     <pyms.Peak.Class.Peak at 0x7f04deeacc88>,
-     <pyms.Peak.Class.Peak at 0x7f04deeacd30>,
-     <pyms.Peak.Class.Peak at 0x7f04deeacdd8>,
-     <pyms.Peak.Class.Peak at 0x7f04deeace80>,
-     <pyms.Peak.Class.Peak at 0x7f04deeacf28>,
-     <pyms.Peak.Class.Peak at 0x7f04e6b3a048>,
-     <pyms.Peak.Class.Peak at 0x7f04e6b3a0b8>,
-     <pyms.Peak.Class.Peak at 0x7f04e6b3a160>,
-     <pyms.Peak.Class.Peak at 0x7f04e6b3a208>]
+    [<pyms.Peak.Class.Peak at 0x7fa8eae80198>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae80208>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae802b0>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae80358>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae80400>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae804a8>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae80550>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae805f8>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae806a0>,
+     <pyms.Peak.Class.Peak at 0x7fa8eae80748>]
 
 
 
