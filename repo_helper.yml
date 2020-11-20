@@ -79,7 +79,6 @@ sphinx_conf_preamble:
 
 exclude_files:
  - contributing
- - tox
 
 enable_devmode: false
 
@@ -93,3 +92,6 @@ imgbot_ignore:
 
 yapf_exclude:
  - pyms-demo/.*/.*
+
+tox_unmanaged:
+ - testenv
