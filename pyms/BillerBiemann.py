@@ -317,7 +317,7 @@ def num_ions_threshold(
 		copy_peaks: bool = True,
 		) -> List[Peak]:
 	"""
-	Remove Peaks where there are less than a given number of ion intensities above the given threshold.
+	Remove Peaks where there are fewer than ``n`` ions with intensities above the given threshold.
 
 	:param pl:
 	:param n: Minimum number of ions that must have intensities above the cutoff.

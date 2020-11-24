@@ -231,7 +231,7 @@ class AbstractPeak(pymsBaseClass):
 	@property
 	def rt(self) -> float:
 		"""
-		The retention time of the peak.
+		The retention time of the peak, in seconds.
 		"""
 
 		return self._rt

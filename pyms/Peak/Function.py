@@ -86,7 +86,7 @@ def peak_sum_area(
 	:param single_ion: whether single ion areas should be returned.
 	:param max_bound: Optional value to limit size of detected bound.
 
-	:return: Sum of peak apex ions in detected bounds/
+	:return: Sum of peak apex ions in detected bounds.
 
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 
@@ -324,7 +324,7 @@ def ion_area(
 	``tol`` percent of the current area.
 
 	:param ia: List of intensities for a given mass.
-	:param apex: Index of the peak apex..
+	:param apex: Index of the peak apex.
 	:param max_bound: Optional value to limit size of detected bound.
 	:param tol: Percentage tolerance of added area to current area.
 
@@ -350,7 +350,7 @@ def ion_area(
 	# Right area
 	rhs = ia[apex:]
 	r_area, right, r_share = half_area(rhs, max_bound, tol)
-	r_area -= ia[apex]  # counted apex twice for tollerence, now ignore
+	r_area -= ia[apex]  # Counted apex twice for tolerance now ignore
 
 	# Put it all together
 	return l_area + r_area, left, right, l_share, r_share
@@ -387,13 +387,11 @@ def half_area(
 	wide = 3
 
 	# start at 0, compare average value of 'wide' points to the right,
-	# centre 'wide' points on edge point,
-	# and keep moving right until:
-	# i) tollerence reached
+	# centre 'wide' points on edge point, and keep moving right until:
+	# i) tolerance reached
 	# ii) edge area starts increasing
 	# iii) bound reached
 
-	#
 	# initialise areas and bounds
 	shared = False
 	area = ia[0]
