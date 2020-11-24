@@ -353,7 +353,7 @@ def plot_ic(ax: matplotlib.axes.Axes, ic: IonChromatogram, minutes: bool = False
 	plot = ax.plot(time_list, ic.intensity_array, **kwargs)
 
 	# Set axis ranges
-	ax.set_xlim(min(ic.time_list), max(ic.time_list))
+	ax.set_xlim(min(time_list), max(time_list))
 	ax.set_ylim(bottom=0)
 
 	return plot
