@@ -31,7 +31,7 @@ from warnings import warn
 
 # this package
 from pyms.Base import pymsBaseClass
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Utils import is_number, is_sequence
 
@@ -569,7 +569,7 @@ class Peak(AbstractPeak):
 		# update UID
 		self.make_UID()
 
-	def find_mass_spectrum(self, data: IntensityMatrix, from_bounds: float = False):
+	def find_mass_spectrum(self, data: BaseIntensityMatrix, from_bounds: float = False):
 		"""
 		.. TODO:: What does this function do?
 
@@ -582,7 +582,7 @@ class Peak(AbstractPeak):
 			or to find the peak apex from the peak retention time.
 		"""  # noqa: D400
 
-		if not isinstance(data, IntensityMatrix):
+		if not isinstance(data, BaseIntensityMatrix):
 			raise TypeError("'data' must be an IntensityMatrix")
 
 		if from_bounds:

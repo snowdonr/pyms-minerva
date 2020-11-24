@@ -31,7 +31,7 @@ from typing import List, Sequence, Tuple, Union
 import numpy  # type: ignore
 
 # this package
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Peak.Class import Peak
 from pyms.Peak.List.Function import is_peak_list
@@ -57,7 +57,7 @@ __all__ = [
 #######################
 
 
-def BillerBiemann(im: IntensityMatrix, points: int = 3, scans: int = 1) -> List[Peak]:
+def BillerBiemann(im: BaseIntensityMatrix, points: int = 3, scans: int = 1) -> List[Peak]:
 	"""
 	Deconvolution based on the algorithm of Biller and Biemann (1974).
 
@@ -70,7 +70,7 @@ def BillerBiemann(im: IntensityMatrix, points: int = 3, scans: int = 1) -> List[
 	:authors: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	if not isinstance(points, int):
@@ -231,7 +231,7 @@ def get_maxima_list_reduced(
 	return maxima_list
 
 
-def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> numpy.ndarray:
+def get_maxima_matrix(im: BaseIntensityMatrix, points: int = 3, scans: int = 1) -> numpy.ndarray:
 	"""
 	Constructs a matrix containing only data for scans in which particular ions apexed.
 
@@ -251,7 +251,7 @@ def get_maxima_matrix(im: IntensityMatrix, points: int = 3, scans: int = 1) -> n
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	if not isinstance(points, int):
@@ -402,7 +402,7 @@ def rel_threshold(pl: Sequence[Peak], percent: float = 2, copy_peaks: bool = Tru
 	return new_peak_list
 
 
-def sum_maxima(im: IntensityMatrix, points: int = 3, scans: int = 1) -> IonChromatogram:
+def sum_maxima(im: BaseIntensityMatrix, points: int = 3, scans: int = 1) -> IonChromatogram:
 	"""
 	Reconstruct the TIC as sum of maxima.
 
@@ -415,7 +415,7 @@ def sum_maxima(im: IntensityMatrix, points: int = 3, scans: int = 1) -> IonChrom
 	:author: Andrew Isaac, Dominic Davis-Foster (type assertions)
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	if not isinstance(points, int):

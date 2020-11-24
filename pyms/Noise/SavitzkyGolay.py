@@ -25,20 +25,21 @@ Savitzky-Golay noise filter.
 
 # stdlib
 import copy
-from typing import Union
+from typing import TypeVar, Union
 
 # 3rd party
 import numpy  # type: ignore
 
 # this package
 from pyms.GCMS.Function import ic_window_points
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
 __all__ = ["savitzky_golay", "savitzky_golay_im"]
 
 _DEFAULT_WINDOW = 7
 _DEFAULT_POLYNOMIAL_DEGREE = 2
+_IM = TypeVar("_IM", bound=BaseIntensityMatrix)
 
 
 def savitzky_golay(
@@ -88,25 +89,27 @@ def savitzky_golay(
 
 
 def savitzky_golay_im(
-		im: IntensityMatrix,
+		im: _IM,
 		window: Union[int, str] = _DEFAULT_WINDOW,
 		degree: int = _DEFAULT_POLYNOMIAL_DEGREE,
-		) -> IntensityMatrix:
+		) -> _IM:
 	"""
 	Applies Savitzky-Golay filter on Intensity Matrix.
 
 	Simply wraps around the Savitzky Golay function above.
 
 	:param im:
+	:type im: :class:`~.BaseIntensityMatrix`
 	:param window: The window selection parameter.
 	:param degree: degree of the fitting polynomial for the Savitzky-Golay filter.
 
 	:return: Smoothed IntensityMatrix.
+	:rtype: :class:`~.BaseIntensityMatrix`
 
 	:authors: Sean O'Callaghan, Vladimir Likic, Dominic Davis-Foster
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	if not isinstance(window, (int, str)):

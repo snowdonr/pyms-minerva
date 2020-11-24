@@ -31,7 +31,7 @@ from typing import Any, List, Optional, Sequence, Union
 import numpy  # type: ignore
 
 # this package
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix
 from pyms.Peak import Peak
 from pyms.Spectrum import MassSpectrum
 from pyms.Utils.Math import median_outliers
@@ -108,7 +108,7 @@ def composite_peak(peak_list: List[Peak], ignore_outliers: bool = False) -> Opti
 
 
 def fill_peaks(
-		data: IntensityMatrix,
+		data: BaseIntensityMatrix,
 		peak_list: List[Peak],
 		D: float,
 		minutes: bool = False,

@@ -36,7 +36,7 @@ from typing_extensions import Literal
 
 # this package
 from pyms import __version__
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix, IntensityMatrix
 from pyms.Peak import Peak
 from pyms.Utils.Utils import is_number, is_sequence
 
@@ -54,7 +54,7 @@ __all__ = [
 
 @overload
 def peak_sum_area(
-		im: IntensityMatrix,
+		im: BaseIntensityMatrix,
 		peak: Peak,
 		single_ion: Literal[True],
 		max_bound: int = ...,
@@ -64,7 +64,7 @@ def peak_sum_area(
 
 @overload
 def peak_sum_area(
-		im: IntensityMatrix,
+		im: BaseIntensityMatrix,
 		peak: Peak,
 		single_ion: Literal[False] = ...,
 		max_bound: int = ...,
@@ -73,7 +73,7 @@ def peak_sum_area(
 
 
 def peak_sum_area(
-		im: IntensityMatrix,
+		im: BaseIntensityMatrix,
 		peak: Peak,
 		single_ion: bool = False,
 		max_bound: int = 0,
@@ -93,7 +93,7 @@ def peak_sum_area(
 	.. TODO:: what's the point of single_ion?
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	if not isinstance(peak, Peak):
@@ -134,7 +134,7 @@ def peak_sum_area(
 		return sum_area
 
 
-def peak_pt_bounds(im: IntensityMatrix, peak: Peak) -> Tuple[int, int]:
+def peak_pt_bounds(im: BaseIntensityMatrix, peak: Peak) -> Tuple[int, int]:
 	"""
 	Approximate the peak bounds (left and right offsets from apex).
 
@@ -146,7 +146,7 @@ def peak_pt_bounds(im: IntensityMatrix, peak: Peak) -> Tuple[int, int]:
 	:authors: Andrew Isaac, Sean O'Callaghan, Dominic Davis-Foster
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	if not isinstance(peak, Peak):
@@ -417,7 +417,7 @@ def half_area(
 	return area, index, shared
 
 
-def median_bounds(im: IntensityMatrix, peak: Peak, shared: bool = True) -> Tuple[float, float]:
+def median_bounds(im: BaseIntensityMatrix, peak: Peak, shared: bool = True) -> Tuple[float, float]:
 	"""
 	Calculates the median of the left and right bounds found for each apexing peak mass.
 
@@ -430,7 +430,7 @@ def median_bounds(im: IntensityMatrix, peak: Peak, shared: bool = True) -> Tuple
 	:authors: Andrew Isaac, Dominic Davis-Foster
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 	if not isinstance(peak, Peak):
 		raise TypeError("'peak' must be a Peak object")

@@ -33,7 +33,7 @@ from scipy import ndimage  # type: ignore
 
 # this package
 from pyms.GCMS.Function import ic_window_points
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
 __all__ = ["tophat", "tophat_im"]
@@ -75,7 +75,7 @@ def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None):
 	return ic_bc
 
 
-def tophat_im(im: IntensityMatrix, struct: Optional[str] = None):
+def tophat_im(im: BaseIntensityMatrix, struct: Optional[str] = None):
 	"""
 	Top-hat baseline correction on Intensity Matrix.
 
@@ -89,7 +89,7 @@ def tophat_im(im: IntensityMatrix, struct: Optional[str] = None):
 	:author: Sean O'Callaghan
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	n_scan, n_mz = im.size

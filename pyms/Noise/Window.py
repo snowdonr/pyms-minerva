@@ -33,8 +33,9 @@ import numpy  # type: ignore
 
 # this package
 from pyms.GCMS.Function import ic_window_points
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
+from pyms.Noise.SavitzkyGolay import _IM
 
 __all__ = ["window_smooth", "window_smooth_im"]
 
@@ -86,26 +87,28 @@ def window_smooth(
 
 
 def window_smooth_im(
-		im: IntensityMatrix,
+		im: _IM,
 		window: Union[int, str] = _DEFAULT_WINDOW,
 		use_median: bool = False,
-		) -> IntensityMatrix:
+		) -> _IM:
 	"""
 	Applies window smoothing on Intensity Matrix.
 
 	Simply wraps around the window smooth function above.
 
 	:param im:
+	:type im: :class:`~.BaseIntensityMatrix`
 	:param window: The window selection parameter.
 	:param use_median: If :py:obj:`True` median window smoothing will be used.
 		If :py:obj:`False` mean window smoothing will be used.
 
 	:return: Smoothed Intensity Matrix
+	:rtype: :class:`~.BaseIntensityMatrix`
 
 	:authors: Sean O'Callaghan, Vladimir Likic
 	"""
 
-	if not isinstance(im, IntensityMatrix):
+	if not isinstance(im, BaseIntensityMatrix):
 		raise TypeError("'im' must be an IntensityMatrix object")
 
 	n_scan, n_mz = im.size

@@ -32,7 +32,7 @@ import numpy  # type: ignore
 
 # this package
 from pyms import Peak
-from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IntensityMatrix import BaseIntensityMatrix, IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 
 __all__ = [
@@ -46,7 +46,7 @@ __all__ = [
 		]
 
 
-def add_gaussc_noise(im: IntensityMatrix, scale: float):
+def add_gaussc_noise(im: BaseIntensityMatrix, scale: float):
 	"""
 	Adds noise to an IntensityMatrix object.
 
@@ -81,7 +81,7 @@ def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
 
 
 def add_gaussv_noise(
-		im: IntensityMatrix,
+		im: BaseIntensityMatrix,
 		scale: int,
 		cutoff: int,
 		prop: float,
