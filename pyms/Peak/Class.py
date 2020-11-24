@@ -137,8 +137,10 @@ class AbstractPeak(pymsBaseClass):
 
 		if not is_number(value):
 			raise TypeError("'Peak.area' must be a positive number")
-		elif value <= 0:
+		elif value < 0:
 			raise ValueError("'Peak.area' must be a positive number")
+		elif value <= 0:
+			warnings.warn(f"Peak {self!r} @ {self.rt} seconds has zero area.")
 
 		self._area = value
 
