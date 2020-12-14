@@ -63,7 +63,7 @@ jobs:
           python3 switch_experiments.py
         working-directory: pyms-demo/jupyter
 
-      - name: "Render notebooks and stage"
+      - name: "Render notebooks"
         run: |
           for file in *.ipynb; do
             jupyter nbconvert --clear-output --inplace "$file"
@@ -92,6 +92,9 @@ jobs:
 
       - name: "Stage, commit and push"
         run: |
+          for file in *.ipynb; do
+            git stage "$file"
+          done
           git commit -m "Re-rendered Jupyter Notebooks"
           git push --set-upstream origin Notebooks --force
         working-directory: pyms-demo/jupyter
