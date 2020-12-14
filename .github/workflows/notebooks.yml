@@ -35,7 +35,6 @@ jobs:
 
       - name: "Setup work dir"
         run: |
-          cd pyms-demo/jupyter
           cat > switch_experiments.py <<EOF
           #!/usr/bin/env/python3
           import pathlib
@@ -48,9 +47,11 @@ jobs:
           data["cells"][3]["source"] = lines
           notebook.write_text(json.dumps(data, indent=1))
           EOF
+        working-directory: pyms-demo/jupyter
 
       - name: Display structure of work dir
         run: ls -R
+        working-directory: pyms-demo/jupyter
 
       - name: "Run Multiple_Experiments to ensure output files exist"
         run: |
@@ -58,6 +59,7 @@ jobs:
           python3 switch_experiments.py
           jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
           python3 switch_experiments.py
+        working-directory: pyms-demo/jupyter
 
       - name: "Render notebooks and stage"
         run: |
@@ -65,8 +67,10 @@ jobs:
             jupyter nbconvert --clear-output --inplace "$file"
             jupyter nbconvert --to notebook --inplace --execute "$file"
           done
+        working-directory: pyms-demo/jupyter
 
       - name: "Remove execution times"
+        working-directory: pyms-demo/jupyter
         run: |
           cat > remove_execution_times.py <<EOF
           #!/usr/bin/env/python3
@@ -88,3 +92,4 @@ jobs:
         run: |
           git commit -m "Re-rendered Jupyter Notebooks"
           git push --set-upstream origin Notebooks --force
+        working-directory: pyms-demo/jupyter
