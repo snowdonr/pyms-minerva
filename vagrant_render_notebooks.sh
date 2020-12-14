@@ -12,10 +12,10 @@ python3 -m venv /home/vagrant/venv
 source /home/vagrant/venv/bin/activate || exit 1
 
 # Install remaining requirements
-python3 -m pip install pip setuptools wheel --upgrade || exit 1
-python3 -m pip install nbconvert jupyter-client ipykernel domdf_python_tools --upgrade  || exit 1
-python3 -m pip install -r requirements.txt --upgrade || exit 1
-python3 -m pip install . --upgrade || exit 1
+python3 -m pip install --upgrade pip setuptools wheel || exit 1
+python3 -m pip install --upgrade nbconvert jupyter-client ipykernel domdf_python_tools  || exit 1
+python3 -m pip install --upgrade -r requirements.txt || exit 1
+python3 -m pip install --upgrade . || exit 1
 
 # Change to Notebooks branch
 git checkout -b Notebooks || exit 1

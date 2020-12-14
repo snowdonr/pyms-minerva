@@ -1,0 +1,87 @@
+# This file is managed by 'repo_helper'. Don't edit it directly.
+---
+name: notebooks rerender
+
+on:
+  push:
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  Run:
+    name: "notebooks"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Checkout 🛎️
+        uses: "actions/checkout@v2"
+
+      - name: Setup Python 🐍
+        uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.6"
+
+      - name: Install dependencies 🔧
+        run: |
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install nbconvert jupyter-client ipykernel domdf_python_tools
+          python -m pip install -r requirements.txt
+          python -m pip install .
+
+      - name: "Change to Notebooks branch"
+        run: git checkout -b Notebooks
+
+      - name: "Setup work dir"
+        run: |
+          cd pyms-demo/jupyter
+          cat > switch_experiments.py <<EOF
+          #!/usr/bin/env/python3
+          import pathlib
+          import json
+
+          notebook = pathlib.Path("Multiple_Experiments.ipynb")
+          data = json.loads(notebook.read_text())
+          lines = data["cells"][3]["source"]
+          lines = [line[1:].lstrip() if line.startswith("#") else f"# {line}" for line in lines]
+          data["cells"][3]["source"] = lines
+          notebook.write_text(json.dumps(data, indent=1))
+          EOF
+
+      - name: "Run Multiple_Experiments to ensure output files exist"
+        run: |
+          jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
+          python3 switch_experiments.py
+          jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
+          python3 switch_experiments.py
+
+      - name: "Render notebooks and stage"
+        run: |
+          for file in *.ipynb; do
+            jupyter nbconvert --clear-output --inplace "$file"
+            jupyter nbconvert --to notebook --inplace --execute "$file"
+          done
+
+      - name: "Remove execution times"
+        run: |
+          cat > remove_execution_times.py <<EOF
+          #!/usr/bin/env/python3
+          from domdf_python_tools.paths import PathPlus
+
+          for filename in PathPlus.cwd().glob("*.ipynb"):
+          	notebook = filename.load_json()
+          	for cell in notebook["cells"]:
+          		if "execution" in cell["metadata"]:
+          			cell["metadata"]["execution"] = {}
+          		if "pycharm" in cell["metadata"]:
+          			del cell["metadata"]["pycharm"]
+          	filename.dump_json(notebook, indent=1)
+          EOF
+
+          python3 remove_execution_times.py
+
+      - name: "Stage, commit and push"
+        run: |
+          git commit -m "Re-rendered Jupyter Notebooks"
+          git push --set-upstream origin Notebooks --force
