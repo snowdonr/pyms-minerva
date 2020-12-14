@@ -45,6 +45,9 @@ from pyms.Utils.Utils import _number_types, is_path, is_sequence, is_sequence_of
 
 __all__ = ["Alignment", "exprl2alignment"]
 
+# Ensure that the intersphinx links are correct.
+DataFrame.__module__ = "pandas"
+
 
 class Alignment:
 	"""

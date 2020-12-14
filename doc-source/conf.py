@@ -17,7 +17,7 @@ import ipynb2rst
 from __pkginfo__ import __version__
 
 nitpicky = True
-exclude_patterns = ["../pyms-demo/old/", "demo_rst/*.rst", "chapter09.rst", "chapter10.rst"]
+exclude_patterns = ["../pyms-demo/old/", "demo_rst/*.rst", "todo/", "chapter09.rst", "chapter10.rst"]
 nbsphinx_input_prompt = "In [%s]:"
 
 github_username = "domdfcoding"
