@@ -26,10 +26,12 @@ Classes to model Mass Spectra and Scans.
 # stdlib
 import re
 import warnings
-from typing import Any, Iterator, List, Optional, Sequence, Tuple, Union
+from collections import defaultdict
+from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Sequence, Tuple, Type, TypeVar, Union
 
 # 3rd party
 import numpy  # type: ignore
+from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
 
 # this package
@@ -39,7 +41,17 @@ from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.jcamp import xydata_tags
 from pyms.Utils.Utils import is_path, is_sequence
 
-__all__ = ["array_as_numeric", "Scan", "MassSpectrum", "normalize_mass_spec"]
+_S = TypeVar("_S", bound="Scan")
+_M = TypeVar("_M", bound="MassSpectrum")
+_C = TypeVar("_C", bound="CompositeMassSpectrum")
+
+__all__ = [
+		"array_as_numeric",
+		"Scan",
+		"MassSpectrum",
+		"CompositeMassSpectrum",
+		"normalize_mass_spec",
+		]
 
 
 def array_as_numeric(array: Union[Sequence, numpy.ndarray]) -> numpy.ndarray:
@@ -64,6 +76,7 @@ def array_as_numeric(array: Union[Sequence, numpy.ndarray]) -> numpy.ndarray:
 	return array
 
 
+@prettify_docstrings
 class Scan(pymsBaseClass, MassListMixin):
 	"""
 	Generic object for a single Scan's raw data.
@@ -191,10 +204,11 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		return self._intensity_list
 
 	@classmethod
-	def from_dict(cls, dictionary):
+	def from_dict(cls: Type[_S], dictionary: Mapping) -> _S:
 		return cls(**dictionary)
 
 
+@prettify_docstrings
 class MassSpectrum(Scan):
 	"""
 	Models a binned mass spectrum.
@@ -274,11 +288,11 @@ class MassSpectrum(Scan):
 			self._max_mass = None
 
 	def crop(
-			self,
+			self: _M,
 			min_mz: Optional[float] = None,
 			max_mz: Optional[float] = None,
 			inplace: bool = False,
-			) -> "MassSpectrum":
+			) -> _M:
 		"""
 		Crop the Mass Spectrum between the given mz values.
 
@@ -301,11 +315,11 @@ class MassSpectrum(Scan):
 		return self.icrop(min_mz_idx, max_mz_idx, inplace)
 
 	def icrop(
-			self,
+			self: _M,
 			min_index: int = 0,
 			max_index: int = -1,
 			inplace: bool = False,
-			) -> "MassSpectrum":
+			) -> _M:
 		"""
 		Crop the Mass Spectrum between the given indices.
 
@@ -372,7 +386,7 @@ class MassSpectrum(Scan):
 		return self._mass_list[intensity_idx]
 
 	@classmethod
-	def from_jcamp(cls, file_name: PathLike) -> "MassSpectrum":
+	def from_jcamp(cls: Type[_M], file_name: PathLike) -> _M:
 		"""
 		Create a MassSpectrum from a JCAMP-DX file.
 
@@ -425,7 +439,10 @@ class MassSpectrum(Scan):
 		return cls(mass_list, intensity_list)
 
 	@classmethod
-	def from_mz_int_pairs(cls, mz_int_pairs: Sequence[Tuple[float, float]]):
+	def from_mz_int_pairs(
+			cls: Type[_M],
+			mz_int_pairs: Sequence[Tuple[float, float]],
+			) -> _M:
 		"""
 		Construct a MassSpectrum from a list of (m/z, intensity) tuples.
 

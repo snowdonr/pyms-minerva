@@ -48,6 +48,8 @@ def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None):
 
 	:param ic: The input ion chromatogram.
 	:param struct: Top-hat structural element as time string.
+		The structural element needs to be larger than the features one
+		wants to retain in the spectrum after the top-hat transform.
 
 	:return: Top-hat corrected ion chromatogram.
 
@@ -83,6 +85,8 @@ def tophat_im(im: BaseIntensityMatrix, struct: Optional[str] = None):
 
 	:param im: The input Intensity Matrix.
 	:param struct: Top-hat structural element as time string.
+		The structural element needs to be larger than the features one
+		wants to retain in the spectrum after the top-hat transform.
 
 	:return: Top-hat corrected IntensityMatrix Matrix
 

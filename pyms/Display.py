@@ -54,6 +54,10 @@ __all__ = [
 
 default_filetypes = ["png", "pdf", "svg"]
 
+# Ensure that the intersphinx links are correct.
+Axes.__module__ = "matplotlib.axes"
+Figure.__module__ = "matplotlib.figure"
+
 
 class Display:
 	"""
