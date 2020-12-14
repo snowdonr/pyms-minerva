@@ -24,7 +24,6 @@ Class to model Intensity Matrix.
 ################################################################################
 
 # stdlib
-import pathlib
 from typing import Iterator, List, Optional, Sequence, Tuple, Union
 from warnings import warn
 

@@ -24,7 +24,6 @@ Classes to model Mass Spectra and Scans.
 ################################################################################
 
 # stdlib
-import pathlib
 import re
 import warnings
 from typing import Any, Iterator, List, Optional, Sequence, Tuple, Union

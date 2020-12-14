@@ -25,7 +25,6 @@ import pickle
 import types
 
 # 3rd party
-import deprecation  # type: ignore
 import numpy  # type: ignore
 import pytest
 from pytest_regressions.file_regression import FileRegressionFixture

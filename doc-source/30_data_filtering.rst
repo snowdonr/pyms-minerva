@@ -18,18 +18,18 @@ A time string is the specification of a time interval, that takes the format ``N
 
 .. include:: demo_rst/IntensityMatrix_Resizing.rst
 
-.. note:: This example is in `pyms-demo/jupyter/IntensityMatrix_Resizing.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/IntensityMatrix_Resizing.ipynb`.
 
 |
 
 .. include:: demo_rst/NoiseSmoothing.rst
 
-.. note:: This example is in `pyms-demo/jupyter/NoiseSmoothing.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/NoiseSmoothing.ipynb`.
 
 
 .. include:: demo_rst/BaselineCorrection.rst
 
-.. note:: This example is in `pyms-demo/jupyter/BaselineCorrection.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/BaselineCorrection.ipynb`.
 
 .. include:: demo_rst/IntensityMatrix_Preprocessing.rst
 
@@ -40,12 +40,12 @@ retrieval. There are general perpose object file handling methods in
     >>> from pyms.Utils.IO import dump_object
     >>> dump_object(im, "output/im-proc.dump")
 
-.. note:: This example is in `pyms-demo/jupyter/IntensityMatrix_Preprocessing.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/IntensityMatrix_Preprocessing.ipynb`.
 
 
 References
 ============
 
-.. [1] Serra J. `Image Analysis and Mathematical Morphology`. Academic Press, Inc, Orlando, 1983. ISBN 0126372403
+.. [1] Serra J. *Image Analysis and Mathematical Morphology*. Academic Press, Inc, Orlando, 1983. ISBN 0126372403
 
-.. [2] Sauve AC and Speed TP. Normalization, baseline correction and alignment of high-throughput mass spectrometry data. `Procedings Gensips`, 2004
+.. [2] Sauve AC and Speed TP. Normalization, baseline correction and alignment of high-throughput mass spectrometry data. *Procedings Gensips*, 2004

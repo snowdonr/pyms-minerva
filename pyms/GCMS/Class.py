@@ -27,7 +27,7 @@ Class to model GC-MS data.
 import copy
 import pathlib
 from statistics import mean, median, stdev
-from typing import List, Optional, Sequence, TypeVar, Union, cast
+from typing import List, Optional, Sequence, TypeVar, cast
 
 # 3rd party
 import numpy  # type: ignore

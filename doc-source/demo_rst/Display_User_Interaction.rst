@@ -86,7 +86,7 @@ collected.
     from pyms.Display import ClickEventHandler
 
     %matplotlib inline
-    # Change to `notebook` for an interactive view
+    # Change to ``notebook`` for an interactive view
 
     fig, ax = plt.subplots(1, 1, figsize=(8, 5))
 

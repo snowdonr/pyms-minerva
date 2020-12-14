@@ -25,7 +25,6 @@ Classes to model a GC-MS Ion Chromatogram.
 
 # stdlib
 import copy
-import pathlib
 import warnings
 from typing import Any, Optional, Sequence, Tuple, Union
 

@@ -16,11 +16,11 @@ Preparation of multiple experiments for peak alignment by dynamic programming
 
 .. include:: demo_rst/Experiment.rst
 
-.. note:: This example is in `pyms-demo/jupyter/Experiment.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/Experiment.ipynb`.
 
 .. include:: demo_rst/Multiple_Experiments.rst
 
-.. note:: This example is in `pyms-demo/jupyter/Multiple_Experiments.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/Multiple_Experiments.ipynb`.
 
 
 Dynamic Programming Alignment
@@ -28,7 +28,7 @@ Dynamic Programming Alignment
 
 .. include:: demo_rst/DPA.rst
 
-.. note:: These examples are in `pyms-demo/jupyter/DPA.ipynb`.
+.. note:: These examples are in :file:`pyms-demo/jupyter/DPA.ipynb`.
 
 Common Ion Area Quantitation
 ================================
@@ -66,4 +66,4 @@ alignment. To write peak areas using common ion quantitation:
 References
 ============
 
-.. [1] Robinson MD, De Souza DP, Keen WW, Saunders EC, McConville MJ, Speed TP, and Likic VA. A dynamic programming approach for the alignment of signal peaks in multiple gas chromatography-mass spectrometry experiments. `BMC Bioinformatics`, 8:419, 2007
+.. [1] Robinson MD, De Souza DP, Keen WW, Saunders EC, McConville MJ, Speed TP, and Likic VA. A dynamic programming approach for the alignment of signal peaks in multiple gas chromatography-mass spectrometry experiments. *BMC Bioinformatics*, 8:419, 2007

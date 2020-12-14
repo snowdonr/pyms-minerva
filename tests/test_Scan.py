@@ -19,7 +19,6 @@
 #############################################################################
 
 # 3rd party
-import numpy  # type: ignore
 import pytest
 
 # this package

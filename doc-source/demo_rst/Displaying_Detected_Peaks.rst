@@ -103,7 +103,7 @@ Create a subplot, and plot the TIC.
     :execution-count: 6
 
     %matplotlib inline
-    # Change to `notebook` for an interactive view
+    # Change to ``notebook`` for an interactive view
 
     fig, ax = plt.subplots(1, 1, figsize=(8, 5))
 

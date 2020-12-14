@@ -17,7 +17,7 @@ import ipynb2rst
 from __pkginfo__ import __version__
 
 nitpicky = True
-exclude_patterns = ["../pyms-demo/old/", "demo_rst/reading_andi.rst", "chapter09.rst", "chapter10.rst"]
+exclude_patterns = ["../pyms-demo/old/", "demo_rst/*.rst", "chapter09.rst", "chapter10.rst"]
 nbsphinx_input_prompt = "In [%s]:"
 
 github_username = "domdfcoding"
@@ -66,8 +66,6 @@ gitstamp_fmt = "%d %b %Y"
 templates_path = ["_templates"]
 html_static_path = ["_static"]
 source_suffix = ".rst"
-exclude_patterns = []
-
 master_doc = "index"
 suppress_warnings = ["image.nonlocal_uri"]
 pygments_style = "default"

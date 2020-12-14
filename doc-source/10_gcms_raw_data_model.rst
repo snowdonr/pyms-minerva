@@ -23,11 +23,11 @@ Internally, PyMassSpec stores the raw data from ANDI files or JCAMP files as a
 
 .. include:: demo_rst/reading_jcamp.rst
 
-.. note:: This example is in `pyms-demo/jupyter/reading_jcamp.ipynb`. There is also an example in that directory for reading ANDI-MS files.
+.. note:: This example is in :file:`pyms-demo/jupyter/reading_jcamp.ipynb`. There is also an example in that directory for reading ANDI-MS files.
 
 .. include:: demo_rst/comparing_datasets.rst
 
-.. note:: This example is in `pyms-demo/jupyter/comparing_datasets.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/comparing_datasets.ipynb`.
 
 
 .. The file ``gc01_0812_066.jdx`` (located in "data") is a GC-MS experiment

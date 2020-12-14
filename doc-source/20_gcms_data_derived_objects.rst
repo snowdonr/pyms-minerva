@@ -80,15 +80,15 @@ does not exceed 0.05, and MS accuracy will not cause additional problems.
 
 .. include:: demo_rst/IntensityMatrix.rst
 
-.. note:: This example is in `pyms-demo/jupyter/IntensityMatrix.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/IntensityMatrix.ipynb`.
 
 .. include:: demo_rst/MassSpectrum.rst
 
-.. note:: This example is in `pyms-demo/jupyter/MassSpectrum.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/MassSpectrum.ipynb`.
 
 .. include:: demo_rst/IonChromatogram.rst
 
-.. note:: This example is in `pyms-demo/jupyter/IonChromatogram.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/IonChromatogram.ipynb`.
 
 Writing IonChromatogram object to a file
 --------------------------------------------
@@ -185,7 +185,7 @@ Importing ASCII data
 
 .. note:: This example is in :ref:`pyms-demo/32 <demo-32>`
 
-The LECO CSV format data can be imported directly into an `~pyms.IntensityMatrix.IntensityMatrix` object. The data must follow the format outlined above. For example, the file saved above can be read and compared to the original:
+The LECO CSV format data can be imported directly into an :class:`~.IntensityMatrix` object. The data must follow the format outlined above. For example, the file saved above can be read and compared to the original:
 
 .. code-block:: python
 

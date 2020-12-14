@@ -7,7 +7,7 @@ Peak detection and representation
 
 .. include:: demo_rst/Peak.rst
 
-.. note:: This example is in `pyms-demo/jupyter/Peak.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/Peak.ipynb`.
 
 
 Peak Detection
@@ -26,15 +26,15 @@ The scans are combined by taking all apexing ions to have occurred at the scan t
 
 .. include:: demo_rst/Peak_Detection.rst
 
-.. note:: This example is in `pyms-demo/jupyter/Peak_Detection.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/Peak_Detection.ipynb`.
 
 .. include:: demo_rst/Peak_Filtering_Noise_Analysis.rst
 
-.. note:: This example is in `pyms-demo/jupyter/Peak_Filtering_Noise_Analysis.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/Peak_Filtering_Noise_Analysis.ipynb`.
 
 .. include:: demo_rst/Peak_Area_Estimation.rst
 
-.. note:: This example is in `pyms-demo/jupyter/Peak_Area_Estimation.ipynb`.
+.. note:: This example is in :file:`pyms-demo/jupyter/Peak_Area_Estimation.ipynb`.
 
 
 Individual Ion Areas
@@ -81,4 +81,4 @@ If the area of that ion has not been set (i.e. it was not one of the most abunda
 References
 ============
 
-.. [1] Biller JE and Biemann K. Reconstructed mass spectra, a novel approach for the utilization of gas chromatograph–mass spectrometer data. `Anal. Lett.`, 7:515–528, 1974
+.. [1] Biller JE and Biemann K. Reconstructed mass spectra, a novel approach for the utilization of gas chromatograph–mass spectrometer data. *Anal. Lett.*, 7:515–528, 1974

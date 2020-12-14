@@ -20,7 +20,7 @@ When not running in Jupyter Notebook, the plot may appear in a separate window l
 
 	Graphics window displayed by the script 70a/proc.py
 
-.. note:: This example is in `pyms-demo/jupyter/Displaying_TIC.ipynb` and `pyms-demo/70a/proc.py.
+.. note:: This example is in :file:`pyms-demo/jupyter/Displaying_TIC.ipynb` and `pyms-demo/70a/proc.py.
 
 
 .. include:: demo_rst/Displaying_Multiple_IC.rst
@@ -33,7 +33,7 @@ When not running in Jupyter Notebook, the plot may appear in a separate window l
 
 	Graphics window displayed by the script 70b/proc.py
 
-.. note:: This example is in `pyms-demo/jupyter/Displaying_Multiple_IC.ipynb` and `pyms-demo/70b/proc.py.
+.. note:: This example is in :file:`pyms-demo/jupyter/Displaying_Multiple_IC.ipynb` and `pyms-demo/70b/proc.py.
 
 .. include:: demo_rst/Displaying_Mass_Spec.rst
 
@@ -47,7 +47,7 @@ When not running in Jupyter Notebook, the spectrum may appear in a separate wind
 
 	Graphics window displayed by the script 70c/proc.py
 
-.. note:: This example is in `pyms-demo/jupyter/Displaying_Mass_Spec.ipynb` and `pyms-demo/70c/proc.py.
+.. note:: This example is in :file:`pyms-demo/jupyter/Displaying_Mass_Spec.ipynb` and `pyms-demo/70c/proc.py.
 
 
 
@@ -67,7 +67,7 @@ When not running in Jupyter Notebook, the plot may appear in a separate window l
 
 	Graphics window displayed by the script 71/proc.py
 
-.. note:: This example is in `pyms-demo/jupyter/Displaying_Detected_Peaks.ipynb` and `pyms-demo/71/proc.py.
+.. note:: This example is in :file:`pyms-demo/jupyter/Displaying_Detected_Peaks.ipynb` and `pyms-demo/71/proc.py.
 
 
 .. include:: demo_rst/Display_User_Interaction.rst
@@ -89,4 +89,4 @@ The |cross| button allows panning across the zoomed plot.
 .. |home| image:: graphics/chapter08/home_button.png
 .. |cross| image:: graphics/chapter08/cross_button.png
 
-.. note:: This example is in `pyms-demo/jupyter/Display_User_Interaction.ipynb` and `pyms-demo/72/proc.py.
+.. note:: This example is in :file:`pyms-demo/jupyter/Display_User_Interaction.ipynb` and `pyms-demo/72/proc.py.

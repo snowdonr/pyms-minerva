@@ -96,7 +96,7 @@ object with a 5 point window and mean window smoothing:
     from pyms.IntensityMatrix import build_intensity_matrix
     from pyms.Noise.Window import window_smooth_im
     im = build_intensity_matrix(data)
-    im_smooth1 = window_smooth_im(im, window = 5, use_median = False)
+    im_smooth1 = window_smooth_im(im, window=5, use_median=False)
 
 Write the IC for mass 73 to disk for both the original and smoothed
 :class:`~pyms.IntensityMatrix.IntensityMatrix`:
@@ -107,8 +107,8 @@ Write the IC for mass 73 to disk for both the original and smoothed
     ic = im.get_ic_at_index(73)
     ic_smooth1 = im_smooth1.get_ic_at_index(73)
 
-    ic.write(output_directory/"noise_smoothing_ic.dat",minutes=True)
-    ic_smooth1.write(output_directory/"noise_smoothing_ic_smooth1.dat",minutes=True)
+    ic.write(output_directory/"noise_smoothing_ic.dat", minutes=True)
+    ic_smooth1.write(output_directory/"noise_smoothing_ic_smooth1.dat", minutes=True)
 
 Savitzky–Golay noise filter
 ---------------------------

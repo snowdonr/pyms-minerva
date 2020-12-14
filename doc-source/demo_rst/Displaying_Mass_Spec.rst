@@ -46,7 +46,7 @@ subplot, and plot the spectrum on the chart:
     from pyms.Display import plot_mass_spec
 
     %matplotlib inline
-    # Change to `notebook` for an interactive view
+    # Change to ``notebook`` for an interactive view
 
     fig, ax = plt.subplots(1, 1, figsize=(8, 5))
 

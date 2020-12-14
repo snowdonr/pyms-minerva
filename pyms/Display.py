@@ -31,7 +31,6 @@ from typing import Dict, List, Optional, Tuple
 import deprecation  # type: ignore
 import matplotlib  # type: ignore
 import matplotlib.pyplot as plt  # type: ignore
-from matplotlib import axes, figure
 from matplotlib.axes import Axes  # type: ignore
 from matplotlib.container import BarContainer  # type: ignore
 from matplotlib.figure import Figure  # type: ignore

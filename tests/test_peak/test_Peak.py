@@ -23,7 +23,6 @@ import copy
 import pickle
 
 # 3rd party
-import deprecation  # type: ignore
 import pytest
 
 # this package

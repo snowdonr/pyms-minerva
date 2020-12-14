@@ -33,7 +33,7 @@ from pyms.IntensityMatrix import BaseIntensityMatrix, IntensityMatrix
 from pyms.IonChromatogram import BasePeakChromatogram, ExtractedIonChromatogram, IonChromatogram
 from pyms.Utils.Utils import is_number
 
-__all__ = ["ExtractedIntensityMatrix"]
+__all__ = ["ExtractedIntensityMatrix", "build_extracted_intensity_matrix"]
 
 
 class ExtractedIntensityMatrix(BaseIntensityMatrix):
@@ -82,8 +82,8 @@ class ExtractedIntensityMatrix(BaseIntensityMatrix):
 		"""
 
 		intensity_list = []
-		for i in range(len(self._intensity_array)):
-			intensity_list.append(sum(self._intensity_array[i]))
+		for row in self._intensity_array:
+			intensity_list.append(sum(row))
 
 		return ExtractedIonChromatogram(numpy.array(intensity_list), self._time_list[:], self.mass_list)
 
