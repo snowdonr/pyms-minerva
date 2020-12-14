@@ -474,6 +474,44 @@ class MassSpectrum(Scan):
 		return False
 
 
+class CompositeMassSpectrum(MassSpectrum):
+	"""
+	Represents a composite mass spectrum.
+
+	:param mass_list: mass values
+	:param intensity_list: intensity values
+
+	:author: Dominic Davis-Foster
+	"""
+
+	#: The number of mass spectra combined to create this composite spectrum.
+	size: int = 1
+
+	@classmethod
+	def from_spectra(cls: Type[_C], spectra: Iterable[MassSpectrum]) -> _C:
+		"""
+		Construct a :class:`~.CompositeMassSpectrum` from multiple :class:`~.MassSpectrum` objects.
+
+		If no :class:`~.MassSpectrum` objects are given an empty :class:`~.CompositeSpectrum` is returned.
+
+		:param spectra:
+		"""
+
+		combined_spectrum: Dict[float, float] = defaultdict(float)
+
+		n_scans = 0
+
+		for spectrum in spectra:
+			n_scans += 1
+			for mass, intensity in zip(spectrum.mass_list, spectrum.intensity_list):
+				combined_spectrum[mass] += intensity
+
+		compo_spec: _C = cls.from_mz_int_pairs(list(combined_spectrum.items()))
+		compo_spec.size = n_scans
+
+		return compo_spec
+
+
 def normalize_mass_spec(
 		mass_spec: MassSpectrum,
 		relative_to: Optional[float] = None,
