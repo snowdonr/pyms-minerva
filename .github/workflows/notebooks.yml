@@ -35,6 +35,8 @@ jobs:
 
       - name: "Setup work dir"
         run: |
+          git config --global user.email "dominic@davis-foster.co.uk"
+          git config --global user.name "Dominic Davis-Foster"
           cat > switch_experiments.py <<EOF
           #!/usr/bin/env/python3
           import pathlib
