@@ -49,6 +49,9 @@ jobs:
           notebook.write_text(json.dumps(data, indent=1))
           EOF
 
+      - name: Display structure of work dir
+        run: ls -R
+
       - name: "Run Multiple_Experiments to ensure output files exist"
         run: |
           jupyter nbconvert --to notebook --inplace --execute Multiple_Experiments.ipynb
