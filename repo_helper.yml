@@ -92,3 +92,6 @@ imgbot_ignore:
 
 yapf_exclude:
  - pyms-demo/.*/.*
+
+tox_requirements:
+  - "tox-pip-version>=0.0.7"
