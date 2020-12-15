@@ -92,6 +92,3 @@ imgbot_ignore:
 
 yapf_exclude:
  - pyms-demo/.*/.*
-
-tox_unmanaged:
- - tox
