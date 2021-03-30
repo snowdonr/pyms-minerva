@@ -498,22 +498,22 @@ def test_IntensityMatrix_custom(data):
 @pytest.mark.parametrize("obj", [test_dict, *test_lists, test_string, *test_numbers])
 def test_build_intensity_matrix_errors_data(obj):
 	with pytest.raises(TypeError, match="'data' must be a GCMS_data object"):
-		build_intensity_matrix(obj)  # type: ignore
+		build_intensity_matrix(obj)
 
 
 @pytest.mark.parametrize("obj", [test_dict, *test_lists, test_string])
 def test_build_intensity_matrix_errors(data, obj):
 	with pytest.raises(TypeError, match="'<=' not supported between instances of '.*' and 'int'"):
-		build_intensity_matrix(data, bin_interval=obj)  # type: ignore
+		build_intensity_matrix(data, bin_interval=obj)
 
 	with pytest.raises(TypeError, match="'bin_left' must be a number."):
-		build_intensity_matrix(data, bin_left=obj)  # type: ignore
+		build_intensity_matrix(data, bin_left=obj)
 
 	with pytest.raises(TypeError, match="'bin_right' must be a number."):
-		build_intensity_matrix(data, bin_right=obj)  # type: ignore
+		build_intensity_matrix(data, bin_right=obj)
 
 	with pytest.raises(TypeError, match="'min_mass' must be a number."):
-		build_intensity_matrix(data, min_mass=obj)  # type: ignore
+		build_intensity_matrix(data, min_mass=obj)
 
 	with pytest.raises(ValueError, match="The bin interval must be larger than zero."):
 		build_intensity_matrix(data, bin_interval=0)
