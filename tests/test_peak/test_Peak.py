@@ -30,7 +30,7 @@ from pyms.Peak import Peak
 from pyms.Peak.Class import ICPeak
 from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
 from pyms.Spectrum import MassSpectrum
-from pyms.Utils.Utils import is_number
+from pyms.Utils.Utils import _pickle_load_path, is_number
 from tests.constants import *
 
 
@@ -124,8 +124,9 @@ def test_bounds(peak):
 	assert isinstance(peak3.bounds, tuple)
 
 	for obj in [*test_sequences, test_string, test_dict, test_float]:
+		print(obj)
+
 		with pytest.raises(TypeError):
-			print(obj)
 			peak3.set_bounds(obj, 12, 13)  # type: ignore
 		with pytest.raises(TypeError):
 			peak3.set_bounds(11, obj, 13)  # type: ignore
@@ -329,14 +330,12 @@ def test_top_ions(peak):
 		assert top_ions_v1(peak, 10)[0] == 55
 
 	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
-		with pytest.raises(TypeError):
-			with pytest.warns(DeprecationWarning):
-				top_ions_v1(obj)
+		with pytest.raises(TypeError), pytest.warns(DeprecationWarning):
+			top_ions_v1(obj)
 
 	for obj in [test_string, test_float, test_dict, *test_lists]:
-		with pytest.raises(TypeError):
-			with pytest.warns(DeprecationWarning):
-				top_ions_v1(peak, obj)
+		with pytest.raises(TypeError), pytest.warns(DeprecationWarning):
+			top_ions_v1(peak, obj)
 
 	with pytest.warns(DeprecationWarning):
 		assert isinstance(top_ions_v2(peak, 10), list)
@@ -348,14 +347,12 @@ def test_top_ions(peak):
 		assert top_ions_v2(peak, 10)[0] == 55
 
 	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
-		with pytest.raises(TypeError):
-			with pytest.warns(DeprecationWarning):
-				top_ions_v2(obj)
+		with pytest.raises(TypeError), pytest.warns(DeprecationWarning):
+			top_ions_v2(obj)
 
 	for obj in [test_string, test_float, test_dict, *test_lists]:
-		with pytest.raises(TypeError):
-			with pytest.warns(DeprecationWarning):
-				top_ions_v2(peak, obj)
+		with pytest.raises(TypeError), pytest.warns(DeprecationWarning):
+			top_ions_v2(peak, obj)
 
 	assert isinstance(peak.top_ions(10), list)
 	assert len(peak.top_ions(10)) == 10
@@ -380,5 +377,5 @@ def test_dump(peak, tmp_pathplus):
 
 	# Read and check values
 	assert (tmp_pathplus / "Peak_dump.dat").exists()
-	loaded_peak = pickle.load((tmp_pathplus / "Peak_dump.dat").open("rb"))
+	loaded_peak = _pickle_load_path(tmp_pathplus / "Peak_dump.dat")
 	assert loaded_peak == peak

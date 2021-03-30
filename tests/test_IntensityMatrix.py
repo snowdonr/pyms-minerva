@@ -27,7 +27,7 @@ import types
 # 3rd party
 import numpy  # type: ignore
 import pytest
-from pytest_regressions.file_regression import FileRegressionFixture
+from coincidence.regressions import AdvancedFileRegressionFixture
 
 # this package
 from pyms.IntensityMatrix import (
@@ -39,6 +39,7 @@ from pyms.IntensityMatrix import (
 		)
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import MassSpectrum
+from pyms.Utils.Utils import _pickle_load_path
 from tests.constants import *
 
 
@@ -100,7 +101,7 @@ class TestIntensityMatrix:
 
 		# Read and check values
 		assert (tmp_pathplus / "im_i_dump.dat").exists()
-		loaded_im_i = pickle.load((tmp_pathplus / "im_i_dump.dat").open("rb"))
+		loaded_im_i = _pickle_load_path(tmp_pathplus / "im_i_dump.dat")
 		assert loaded_im_i == im_i
 		assert len(loaded_im_i) == len(im_i)
 
@@ -399,7 +400,7 @@ class TestIntensityMatrix:
 
 class Test_export_ascii:
 
-	def test_export_ascii(self, im, tmp_pathplus, file_regression: FileRegressionFixture):
+	def test_export_ascii(self, im, tmp_pathplus, advanced_file_regression: AdvancedFileRegressionFixture):
 		"""
 		Export the entire IntensityMatrix as CSV. This will create
 		data.im.csv, data.mz.csv, and data.rt.csv where
@@ -408,27 +409,14 @@ class Test_export_ascii:
 		"""
 
 		im.export_ascii(tmp_pathplus / "im_ascii")
-
-		file_regression.check((tmp_pathplus / "im_ascii.im.dat").read_text(),
-								encoding="UTF-8",
-								extension="_im_ascii.im.dat")
-		file_regression.check((tmp_pathplus / "im_ascii.mz.dat").read_text(),
-								encoding="UTF-8",
-								extension="_im_ascii.mz.dat")
-		file_regression.check((tmp_pathplus / "im_ascii.rt.dat").read_text(),
-								encoding="UTF-8",
-								extension="_im_ascii.rt.dat")
+		advanced_file_regression.check_file(tmp_pathplus / "im_ascii.im.dat", extension="_im_ascii.im.dat")
+		advanced_file_regression.check_file(tmp_pathplus / "im_ascii.mz.dat", extension="_im_ascii.mz.dat")
+		advanced_file_regression.check_file(tmp_pathplus / "im_ascii.rt.dat", extension="_im_ascii.rt.dat")
 
 		im.export_ascii(tmp_pathplus / "im_csv", fmt=ASCII_CSV)
-		file_regression.check((tmp_pathplus / "im_csv.im.csv").read_text(),
-								encoding="UTF-8",
-								extension="_im_csv.im.csv")
-		file_regression.check((tmp_pathplus / "im_csv.mz.csv").read_text(),
-								encoding="UTF-8",
-								extension="_im_csv.mz.csv")
-		file_regression.check((tmp_pathplus / "im_csv.rt.csv").read_text(),
-								encoding="UTF-8",
-								extension="_im_csv.rt.csv")
+		advanced_file_regression.check_file(tmp_pathplus / "im_csv.im.csv", extension="_im_csv.im.csv")
+		advanced_file_regression.check_file(tmp_pathplus / "im_csv.mz.csv", extension="_im_csv.mz.csv")
+		advanced_file_regression.check_file(tmp_pathplus / "im_csv.rt.csv", extension="_im_csv.rt.csv")
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_lists, *test_numbers])
 	def test_errors(self, obj, im, tmp_pathplus):

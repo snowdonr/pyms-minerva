@@ -205,6 +205,14 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 	@classmethod
 	def from_dict(cls: Type[_S], dictionary: Mapping) -> _S:
+		"""
+		Create a :class:`~.Scan` from a dictionary.
+
+		The dictionary's keys must match the arguments taken bt the class's constructor.
+
+		:param dictionary:
+		"""
+
 		return cls(**dictionary)
 
 
@@ -401,7 +409,7 @@ class MassSpectrum(Scan):
 		file_name = prepare_filepath(file_name, mkdirs=False)
 
 		print(f" -> Reading JCAMP file '{file_name}'")
-		lines_list = file_name.open('r')
+		lines_list = file_name.open('r', encoding="UTF-8")
 		xydata = []
 		last_tag = None
 

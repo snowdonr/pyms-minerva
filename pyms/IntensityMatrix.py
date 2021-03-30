@@ -601,7 +601,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 		time_list = self._time_list
 		vals = self._intensity_array
 
-		fp = file_name.open('w')
+		fp = file_name.open('w', encoding="UTF-8")
 
 		# Format is text header with:
 		# "Scan","Time",...
