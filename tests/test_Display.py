@@ -68,7 +68,7 @@ def test_Display():
 		Display(ax, fig)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def test_plot():
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
