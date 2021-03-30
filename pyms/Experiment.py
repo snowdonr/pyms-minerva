@@ -175,6 +175,6 @@ def load_expr(file_name: PathLike) -> Experiment:
 	expr = _pickle_load_path(file_name)
 
 	if not isinstance(expr, Experiment):
-		raise OSError("The loaded file is not an experiment file")
+		raise TypeError("The loaded file is not an experiment file")
 
 	return expr

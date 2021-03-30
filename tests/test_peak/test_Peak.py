@@ -91,7 +91,7 @@ def test_area(im_i, peak):
 	for obj in [test_string, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
 			Peak(test_float, ms).area = obj  # type: ignore
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'Peak.area' must be a positive number"):
 		Peak(test_float, ms).area = -1
 
 
@@ -106,7 +106,7 @@ def test_bounds(peak):
 			peak.bounds = obj
 
 	for obj in [*test_lists, (1, 2), [1, 2, 3, 4]]:
-		with pytest.raises(ValueError):
+		with pytest.raises(ValueError, match="'Peak.bounds' must have exactly 3 elements"):
 			peak.bounds = obj
 
 	# Getter
@@ -147,16 +147,16 @@ def test_crop_mass(peak):
 
 	# Errors
 	for obj in [test_string, *test_lists, test_dict]:
-		with pytest.raises(TypeError):
+		with pytest.raises(TypeError, match="'mass_min' and 'mass_max' must be numbers"):
 			peak2.crop_mass(obj, 450)
-		with pytest.raises(TypeError):
+		with pytest.raises(TypeError, match="'mass_min' and 'mass_max' must be numbers"):
 			peak2.crop_mass(450, obj)
 
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'mass_min' must be less than 'mass_max'"):
 		peak2.crop_mass(100, 0)
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'mass_min' is less than the smallest mass: 50"):
 		peak2.crop_mass(10, 450)
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'mass_max' is greater than the largest mass: 499"):
 		peak2.crop_mass(60, 500)
 	with pytest.warns(Warning):
 		peak2.crop_mass(60, 65)
@@ -197,7 +197,7 @@ def test_ion_area(peak):
 def test_ion_areas(peak):
 	peak = copy.deepcopy(peak)
 
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="no ion areas set"):
 		peak.ion_areas
 
 	peak.ion_areas = {1: 1234, 2: 1234, 3: 1234}

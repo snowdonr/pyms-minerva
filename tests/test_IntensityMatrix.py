@@ -360,14 +360,14 @@ class TestIntensityMatrix:
 			with pytest.raises(TypeError):
 				im.crop_mass(100, obj)
 
-		with pytest.raises(ValueError):
+		with pytest.raises(ValueError, match="'mass_min' must be less than 'mass_max'"):
 			im.crop_mass(200, 100)
 
 		im.crop_mass(100, 200)
 
-		with pytest.raises(ValueError):
+		with pytest.raises(ValueError, match="'mass_min' is less than the smallest mass: 100.252"):
 			im.crop_mass(50, 200)
-		with pytest.raises(ValueError):
+		with pytest.raises(ValueError, match="'mass_max' is greater than the largest mass: 199.252"):
 			im.crop_mass(150, 500)
 
 		im.crop_mass(101.5, 149.5)
@@ -420,10 +420,10 @@ class Test_export_ascii:
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_lists, *test_numbers])
 	def test_errors(self, obj, im, tmp_pathplus):
-		with pytest.raises(TypeError):
+		with pytest.raises(TypeError, match="'root_name' must be a string or a pathlib.Path object"):
 			im.export_ascii(obj)
 
-		with pytest.raises(ValueError):
+		with pytest.raises(ValueError, match="3 is not a valid AsciiFiletypes"):
 			im.export_ascii(tmp_pathplus / "im_ascii", fmt=3)
 
 
@@ -495,25 +495,27 @@ def test_IntensityMatrix_custom(data):
 	assert masses[0] == 50.2516
 
 
-def test_build_intensity_matrix(data):
-	# todo
+@pytest.mark.parametrize("obj", [test_dict, *test_lists, test_string, *test_numbers])
+def test_build_intensity_matrix_errors_data(obj):
+	with pytest.raises(TypeError, match="'data' must be a GCMS_data object"):
+		build_intensity_matrix(obj)  # type: ignore
 
-	for obj in [test_dict, *test_lists, test_string, *test_numbers]:
-		with pytest.raises(TypeError):
-			build_intensity_matrix(obj)  # type: ignore
-	for obj in [test_dict, *test_lists, test_string]:
-		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_interval=obj)  # type: ignore
-	for obj in [test_dict, *test_lists, test_string]:
-		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_left=obj)  # type: ignore
-	for obj in [test_dict, *test_lists, test_string]:
-		with pytest.raises(TypeError):
-			build_intensity_matrix(data, bin_right=obj)  # type: ignore
-	for obj in [test_dict, *test_lists, test_string]:
-		with pytest.raises(TypeError):
-			build_intensity_matrix(data, min_mass=obj)  # type: ignore
-	with pytest.raises(ValueError):
+
+@pytest.mark.parametrize("obj", [test_dict, *test_lists, test_string])
+def test_build_intensity_matrix_errors(data, obj):
+	with pytest.raises(TypeError, match="'<=' not supported between instances of '.*' and 'int'"):
+		build_intensity_matrix(data, bin_interval=obj)  # type: ignore
+
+	with pytest.raises(TypeError, match="'bin_left' must be a number."):
+		build_intensity_matrix(data, bin_left=obj)  # type: ignore
+
+	with pytest.raises(TypeError, match="'bin_right' must be a number."):
+		build_intensity_matrix(data, bin_right=obj)  # type: ignore
+
+	with pytest.raises(TypeError, match="'min_mass' must be a number."):
+		build_intensity_matrix(data, min_mass=obj)  # type: ignore
+
+	with pytest.raises(ValueError, match="The bin interval must be larger than zero."):
 		build_intensity_matrix(data, bin_interval=0)
 
 

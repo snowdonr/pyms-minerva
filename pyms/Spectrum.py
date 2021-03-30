@@ -457,7 +457,7 @@ class MassSpectrum(Scan):
 		:param mz_int_pairs:
 		"""
 
-		err_msg = "`mz_int_pairs` must be a list of (m/z, intensity) tuples."
+		err_msg = "'mz_int_pairs' must be a list of (m/z, intensity) tuples."
 
 		if (
 				not is_sequence(mz_int_pairs) or not is_sequence(mz_int_pairs[0])

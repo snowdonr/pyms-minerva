@@ -50,7 +50,7 @@ class TestIonChromatogram:
 		assert isinstance(tic, IonChromatogram)
 		assert tic.is_tic()
 
-		with pytest.raises(ValueError):
+		with pytest.raises(ValueError, match="'intensity_list' and 'time_list' differ in length"):
 			IonChromatogram(tic.intensity_array, test_list_ints)
 
 	@pytest.mark.parametrize("value", [test_string, *test_numbers, test_list_strs, test_tuple, test_dict])
