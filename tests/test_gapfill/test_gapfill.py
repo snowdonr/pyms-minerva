@@ -10,7 +10,7 @@ class MaxPrecisionFloatFormat(str):
 	__slots__ = ()
 
 	def __new__(cls, max_precision: int):
-		super().__new__(cls, f"%.{max_precision}f")
+		return super().__new__(cls, f"%.{max_precision}f")
 
 	def __mod__(self, other):
 		modded_string = super().__mod__(other).rstrip('0')
