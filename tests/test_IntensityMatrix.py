@@ -51,7 +51,7 @@ def im_leco_filename(im, tmpdir_factory):
 
 	filename = pathlib.Path(tmpdir_factory.mktemp("im_leco")) / "im_leco.csv"
 	im.export_leco_csv(filename)
-	yield filename
+	return filename
 
 
 class TestIntensityMatrix:
