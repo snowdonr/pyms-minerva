@@ -1,0 +1,20 @@
+{
+  "tests.test_Display.test_plot_mass_spec_width": "269900e78871c0db18d504ff27e6a0461b2040753c60e5c1728dd5602ea3985c",
+  "tests.test_Display.test_plot_ic": "c0294cbd67517c7a124dfbdbff78831cf5dc06bad98abe6a9802d7ca0714040a",
+  "tests.test_Display.test_plot_tic": "d561e5d1bd8df95e00a492798d951f4a30c5c2799e8e9310c58f75f245772171",
+  "tests.test_Display.test_plot_ic_title": "55a460f3e7478fbc28768532f9c1b4abb9d615fc0a617e31e9d634d52d2521d9",
+  "tests.test_Display.test_plot_ic_linestyle": "f1f08a3385dcb05e0eea220fd451f9b044fa13a4c6025c33dc9c47d3f9305903",
+  "tests.test_Display.test_plot_tic_linewidth": "e5b5b1819b252f40fd0a85a1d8cf507a8c04ed3414ade09088aaac3c2a629bf3",
+  "tests.test_Display.test_plot_mass_spec": "332c50d0c199cf6726613d2f0823d750eab6b0a5aa14f0b790662912d487b0fe",
+  "tests.test_Display.test_plot_ic_multiple": "75a2cd63dfba9c5b5180262c1024f42b446321471a0542f509436b2a8b481bee",
+  "tests.test_Display.test_plot_mass_spec_alpha": "eb5485ad8c1f0960b4f233d6dfabd2648517ac27ae25805af9e53b4a0bd0624b",
+  "tests.test_Display.test_plot_tic_alpha": "71f904db64e4ea2221c200fa49587be81ebffbde9f5ef89b0f1ba442e4b8ea4b",
+  "tests.test_Display.test_plot_tic_title": "c5be1ca981408993e182021a7dbc5a61af7d334cec5ec2ac493ed9cc775383fb",
+  "tests.test_Display.test_plot_tic_linestyle": "29c16526e8df6d0427d13104b55a1256ae06499b9d67fd92a03ac5523b3a5d37",
+  "tests.test_Display.test_plot_mass_spec_linestyle": "83a82ce2976fc35e51e5ef4c432917be70f9be9f3c11a5e1f0e6d7bc658c388c",
+  "tests.test_Display.test_plot_ic_label": "c423dc953714fce2aa8fdbef2ce159e17efc98bddcbd0fbdc204306e6b40bb7e",
+  "tests.test_Display.test_plot_tic_label": "300b62d70dd77f8e9303e7dff9bc583c8f9bc98c39cf1b891ebfb7d4a0d910a4",
+  "tests.test_Display.test_plot_ic_alpha": "d2dd73b8b2732afbf2104939c993796e467fa71f615fb4e68282d17d018c27e6",
+  "tests.test_Display.test_plot_ic_linewidth": "8776803a4291874e73a1079de41d4482351f2bc953005d9a3457d6700324a4d7",
+  "tests.test_Display.test_plot_mass_spec_title": "dad50d4aa7138eb1aeccb806769a8892914893af183495f0218c84966d2758c1"
+}
