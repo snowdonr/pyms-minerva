@@ -51,6 +51,9 @@ __all__ = [
 		"MassSpectrum",
 		"CompositeMassSpectrum",
 		"normalize_mass_spec",
+		"_S",
+		"_M",
+		"_C",
 		]
 
 
