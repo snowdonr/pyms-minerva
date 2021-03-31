@@ -1,18 +1,18 @@
 ---
 modname: PyMassSpec
 import_name: pyms
-repo_name: PyMassSpec
-pypi_name: PyMassSpec
 copyright_years: "2019-2021"
 author: "Dominic Davis-Foster"
 rtfd_author: "PyMassSpec Authors"
 email: "dominic@davis-foster.co.uk"
 # Original Author Sean O'Callaghan <spoc@unimelb.edu.au>
 version: "2.3.0"
-username: "domdfcoding"
+username: "PyMassSpec"
+assignee: "domdfcoding"
 license: 'GPLv2'
 short_desc: 'Python Toolkit for Mass Spectrometry'
 conda_description: 'Python Toolkit for Mass Spectrometry'
+primary_conda_channel: "domdfcoding"
 
 python_deploy_version: 3.6
 mypy_version: "0.812"

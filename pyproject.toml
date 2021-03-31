@@ -19,7 +19,7 @@ name = "Dominic Davis-Foster"
 file = "LICENSE"
 
 [project.urls]
-Homepage = "https://github.com/domdfcoding/PyMassSpec"
-"Issue Tracker" = "https://github.com/domdfcoding/PyMassSpec/issues"
-"Source Code" = "https://github.com/domdfcoding/PyMassSpec"
+Homepage = "https://github.com/PyMassSpec/PyMassSpec"
+"Issue Tracker" = "https://github.com/PyMassSpec/PyMassSpec/issues"
+"Source Code" = "https://github.com/PyMassSpec/PyMassSpec"
 Documentation = "https://pymassspec.readthedocs.io/en/latest"

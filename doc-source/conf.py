@@ -20,7 +20,7 @@ nitpicky = True
 exclude_patterns = ["../pyms-demo/old/", "demo_rst/*.rst", "todo/", "chapter09.rst", "chapter10.rst"]
 nbsphinx_input_prompt = "In [%s]:"
 
-github_username = "domdfcoding"
+github_username = "PyMassSpec"
 github_repository = "PyMassSpec"
 github_url = f"https://github.com/{github_username}/{github_repository}"
 
@@ -85,7 +85,7 @@ html_show_sourcelink = True  # True will show link to source
 
 html_context = {
 		"display_github": True,
-		"github_user": "domdfcoding",
+		"github_user": "PyMassSpec",
 		"github_repo": "PyMassSpec",
 		"github_version": "master",
 		"conf_py_path": "/doc-source/",
