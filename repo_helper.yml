@@ -3,7 +3,7 @@ modname: PyMassSpec
 import_name: pyms
 repo_name: PyMassSpec
 pypi_name: PyMassSpec
-copyright_years: "2019-2020"
+copyright_years: "2019-2021"
 author: "Dominic Davis-Foster"
 rtfd_author: "PyMassSpec Authors"
 email: "dominic@davis-foster.co.uk"
