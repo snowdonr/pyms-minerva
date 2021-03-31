@@ -95,3 +95,6 @@ tox_requirements:
 
 tox_unmanaged:
  - flake8
+
+sphinx_conf_epilogue:
+ - html_logo = "../logo/PyMassSpec_262.png"

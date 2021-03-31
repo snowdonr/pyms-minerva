@@ -144,3 +144,5 @@ autodoc_default_options = {
 		"show-inheritance": None,
 		"exclude-members": ','.join(autodoc_exclude_members),
 		}
+
+html_logo = "../logo/PyMassSpec_262.png"
