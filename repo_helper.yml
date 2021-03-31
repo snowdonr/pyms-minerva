@@ -92,3 +92,6 @@ yapf_exclude:
 
 tox_requirements:
   - "tox-pip-version>=0.0.7"
+
+tox_unmanaged:
+ - flake8
