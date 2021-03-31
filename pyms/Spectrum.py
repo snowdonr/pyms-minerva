@@ -60,7 +60,7 @@ def array_as_numeric(array: Union[Sequence, numpy.ndarray]) -> numpy.ndarray:
 
 	If the data in the array is already in a numeric data type no changes will be made.
 
-	If ``array`` is a python :class:`~python:collections.abc.Sequence` then it will first be
+	If ``array`` is a python :class:`~collections.abc.Sequence` then it will first be
 	converted to a numpy array.
 
 	:param array:
@@ -500,7 +500,7 @@ class CompositeMassSpectrum(MassSpectrum):
 		"""
 		Construct a :class:`~.CompositeMassSpectrum` from multiple :class:`~.MassSpectrum` objects.
 
-		If no :class:`~.MassSpectrum` objects are given an empty :class:`~.CompositeSpectrum` is returned.
+		If no :class:`~.MassSpectrum` objects are given an empty :class:`~.CompositeMassSpectrum` is returned.
 
 		:param spectra:
 		"""
