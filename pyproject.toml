@@ -23,3 +23,9 @@ Homepage = "https://github.com/PyMassSpec/PyMassSpec"
 "Issue Tracker" = "https://github.com/PyMassSpec/PyMassSpec/issues"
 "Source Code" = "https://github.com/PyMassSpec/PyMassSpec"
 Documentation = "https://pymassspec.readthedocs.io/en/latest"
+
+[tool.mkrecipe]
+conda-channels = [ "bioconda", "conda-forge", "domdfcoding",]
+extras = "all"
+license-key = "GPL-2.0-only"
+package = "pyms"
