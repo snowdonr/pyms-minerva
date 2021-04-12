@@ -100,3 +100,8 @@ tox_unmanaged:
 
 sphinx_conf_epilogue:
  - html_logo = "../logo/PyMassSpec_262.png"
+
+keywords:
+ - chemistry
+ - mass-spectrometry
+ - chromatography

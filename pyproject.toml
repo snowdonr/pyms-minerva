@@ -7,7 +7,7 @@ name = "PyMassSpec"
 version = "2.3.0"
 description = "Python Toolkit for Mass Spectrometry"
 readme = "README.rst"
-keywords = []
+keywords = [ "chemistry", "mass-spectrometry", "chromatography",]
 dynamic = [ "requires-python", "classifiers", "dependencies",]
 
 [[project.authors]]
