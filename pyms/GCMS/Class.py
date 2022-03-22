@@ -370,27 +370,23 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		print(f" -> Writing intensities to '{file_name1}'")
 		print(f" -> Writing m/z values to '{file_name2}'")
 
-		fp1 = open(file_name1, 'w', encoding="UTF-8")
-		fp2 = open(file_name2, 'w', encoding="UTF-8")
+		with open(file_name1, 'w', encoding="UTF-8") as fp1, open(file_name2, 'w', encoding="UTF-8") as fp2:
 
-		for scan in self._scan_list:
+			for scan in self._scan_list:
 
-			for index, intensity in enumerate(scan.intensity_list):
-				if index == 0:
-					fp1.write(f"{intensity:.4f}")
-				else:
-					fp1.write(f",{intensity:.4f}")
-			fp1.write('\n')
+				for index, intensity in enumerate(scan.intensity_list):
+					if index == 0:
+						fp1.write(f"{intensity:.4f}")
+					else:
+						fp1.write(f",{intensity:.4f}")
+				fp1.write('\n')
 
-			for index, mass in enumerate(scan.mass_list):
-				if index == 0:
-					fp2.write(f"{mass:.4f}")
-				else:
-					fp2.write(f",{mass:.4f}")
-			fp2.write('\n')
-
-		fp1.close()
-		fp2.close()
+				for index, mass in enumerate(scan.mass_list):
+					if index == 0:
+						fp2.write(f"{mass:.4f}")
+					else:
+						fp2.write(f",{mass:.4f}")
+				fp2.write('\n')
 
 	def write_intensities_stream(self, file_name: PathLike):
 		"""
@@ -413,11 +409,9 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 
 		print(" -> Writing scans to a file")
 
-		fp = file_name.open('w', encoding="UTF-8")
+		with file_name.open('w', encoding="UTF-8") as fp:
 
-		for scan in self._scan_list:
-			intensities = scan.intensity_list
-			for i in intensities:
-				fp.write(f"{i:8.4f}\n")
-
-		fp.close()
+			for scan in self._scan_list:
+				intensities = scan.intensity_list
+				for i in intensities:
+					fp.write(f"{i:8.4f}\n")

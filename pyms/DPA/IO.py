@@ -65,152 +65,150 @@ def write_mass_hunter_csv(
 
 	file_name = prepare_filepath(file_name)
 
-	fp = file_name.open('w', encoding="UTF-8")
-
 	if top_ion_list is None:
 		raise ValueError("List of common ions must be supplied")
 
-	# write headers
-	fp.write(
-			'"UID","Common Ion","Qual Ion 1","ratio QI1/CI","Qual Ion 2",'
-			'"ratio QI2/CI","l window delta","r window delta"\n'
-			)
+	with file_name.open('w', encoding="UTF-8") as fp:
 
-	rtsums: List[float] = []
-	rtcounts = []
+		# write headers
+		fp.write(
+				'"UID","Common Ion","Qual Ion 1","ratio QI1/CI","Qual Ion 2",'
+				'"ratio QI2/CI","l window delta","r window delta"\n'
+				)
 
-	# The following two arrays will become list of lists
-	# such that:
-	# areas = [  [align1_peak1, align2_peak1, .....,alignn_peak1]
-	#            [align1_peak2, ................................]
-	#              .............................................
-	#            [align1_peakm,....................,alignn_peakm]  ]
-	areas = []  # type: ignore
-	new_peak_lists = []  # type: ignore
-	rtmax = []
-	rtmin = []
+		rtsums: List[float] = []
+		rtcounts = []
 
-	for peak_list in alignment.peakpos:
+		# The following two arrays will become list of lists
+		# such that:
+		# areas = [  [align1_peak1, align2_peak1, .....,alignn_peak1]
+		#            [align1_peak2, ................................]
+		#              .............................................
+		#            [align1_peakm,....................,alignn_peakm]  ]
+		areas = []  # type: ignore
+		new_peak_lists = []  # type: ignore
+		rtmax = []
+		rtmin = []
+
+		for peak_list in alignment.peakpos:
+			index = 0
+
+			for peak in peak_list:
+				# on the first iteration, populate the lists
+				if len(areas) < len(peak_list):
+					areas.append([])
+					new_peak_lists.append([])
+					rtsums.append(0)
+					rtcounts.append(0)
+					rtmax.append(0.0)
+					rtmin.append(0.0)
+
+				if peak is not None:
+					rt = peak.rt
+
+					# get the area of the common ion for the peak
+					# an area of 'na' shows that while the peak was
+					# aligned, the common ion was not present
+					area = peak.get_ion_area(top_ion_list[index])
+
+					areas[index].append(area)
+					new_peak_lists[index].append(peak)
+
+					# The following code to the else statement is
+					# just for calculating the average rt
+					rtsums[index] += rt
+					rtcounts[index] += 1
+
+					# quick workaround for weird problem when
+					# attempting to set rtmin to max time above
+					if rtmin[index] == 0.0:
+						rtmin[index] = 5400.0
+
+					if rt > rtmax[index]:
+						rtmax[index] = rt
+
+					if rt < rtmin[index]:
+						rtmin[index] = rt
+
+				else:
+					areas[index].append(None)
+
+				index += 1
+
+		out_strings = []
+		compo_peaks = []
 		index = 0
+		# now write the strings for the file
+		for area_list in areas:
 
-		for peak in peak_list:
-			# on the first iteration, populate the lists
-			if len(areas) < len(peak_list):
-				areas.append([])
-				new_peak_lists.append([])
-				rtsums.append(0)
-				rtcounts.append(0)
-				rtmax.append(0.0)
-				rtmin.append(0.0)
+			# write initial info:
+			# peak unique id, peak average rt
+			compo_peak = composite_peak(new_peak_lists[index])
+			if compo_peak is None:
+				continue
 
-			if peak is not None:
-				rt = peak.rt
+			compo_peaks.append(compo_peak)
+			peak_UID = compo_peak.UID
+			peak_UID_string = f'"{peak_UID}"'
 
-				# get the area of the common ion for the peak
-				# an area of 'na' shows that while the peak was
-				# aligned, the common ion was not present
-				area = peak.get_ion_area(top_ion_list[index])
+			# calculate the time from the leftmost peak to the average
+			l_window_delta = compo_peak.rt - rtmin[index]
+			# print("l_window", l_window_delta, "rt", compo_peak.rt, "rt_min", rtmin[index])
+			r_window_delta = rtmax[index] - compo_peak.rt
 
-				areas[index].append(area)
-				new_peak_lists[index].append(peak)
+			common_ion = top_ion_list[index]
+			qual_ion_1 = int(peak_UID_string.split('-')[0].strip('"'))
+			qual_ion_2 = int(peak_UID_string.split('-')[1])
 
-				# The following code to the else statement is
-				# just for calculating the average rt
-				rtsums[index] += rt
-				rtcounts[index] += 1
-
-				# quick workaround for weird problem when
-				# attempting to set rtmin to max time above
-				if rtmin[index] == 0.0:
-					rtmin[index] = 5400.0
-
-				if rt > rtmax[index]:
-					rtmax[index] = rt
-
-				if rt < rtmin[index]:
-					rtmin[index] = rt
-
+			if qual_ion_1 == common_ion:
+				qual_ion_1 = compo_peak.get_third_highest_mz()
+			elif qual_ion_2 == common_ion:
+				qual_ion_2 = compo_peak.get_third_highest_mz()
 			else:
-				areas[index].append(None)
+				pass
+
+			ci_intensity = compo_peak.get_int_of_ion(common_ion)
+			q1_intensity = compo_peak.get_int_of_ion(qual_ion_1)
+			q2_intensity = compo_peak.get_int_of_ion(qual_ion_2)
+
+			try:
+				q1_ci_ratio = float(q1_intensity) / float(ci_intensity)
+			except TypeError:  # if no area available for that ion
+				q1_ci_ratio = 0.0
+			except ZeroDivisionError:
+				# shouldn't happen but does!!
+				q1_ci_ratio = 0.01
+			try:
+				q2_ci_ratio = float(q2_intensity) / float(ci_intensity)
+			except TypeError:
+				q2_ci_ratio = 0.0
+			except ZeroDivisionError:
+				# shouldn't happen, but does!!
+				q2_ci_ratio = 0.01
+
+			out_strings.append(
+					','.join([
+							peak_UID,
+							f"{common_ion}",
+							f"{qual_ion_1}",
+							f"{q1_ci_ratio * 100:.1f}",
+							f"{qual_ion_2}",
+							f"{q2_ci_ratio * 100:.1f}",
+							f"{(l_window_delta + 1.5) / 60:.2f}",
+							f"{(r_window_delta + 1.5) / 60:.2f}",
+							])
+					)
 
 			index += 1
 
-	out_strings = []
-	compo_peaks = []
-	index = 0
-	# now write the strings for the file
-	for area_list in areas:
+		# now write the file
+		#        print("length of areas[0]", len(areas[0]))
+		#        print("lenght of areas", len(areas))
+		#        print("length of out_strings", len(out_strings))
+		for row in out_strings:
+			fp.write(f"{row}\n")
 
-		# write initial info:
-		# peak unique id, peak average rt
-		compo_peak = composite_peak(new_peak_lists[index])
-		if compo_peak is None:
-			continue
-
-		compo_peaks.append(compo_peak)
-		peak_UID = compo_peak.UID
-		peak_UID_string = f'"{peak_UID}"'
-
-		# calculate the time from the leftmost peak to the average
-		l_window_delta = compo_peak.rt - rtmin[index]
-		# print("l_window", l_window_delta, "rt", compo_peak.rt, "rt_min", rtmin[index])
-		r_window_delta = rtmax[index] - compo_peak.rt
-
-		common_ion = top_ion_list[index]
-		qual_ion_1 = int(peak_UID_string.split('-')[0].strip('"'))
-		qual_ion_2 = int(peak_UID_string.split('-')[1])
-
-		if qual_ion_1 == common_ion:
-			qual_ion_1 = compo_peak.get_third_highest_mz()
-		elif qual_ion_2 == common_ion:
-			qual_ion_2 = compo_peak.get_third_highest_mz()
-		else:
-			pass
-
-		ci_intensity = compo_peak.get_int_of_ion(common_ion)
-		q1_intensity = compo_peak.get_int_of_ion(qual_ion_1)
-		q2_intensity = compo_peak.get_int_of_ion(qual_ion_2)
-
-		try:
-			q1_ci_ratio = float(q1_intensity) / float(ci_intensity)
-		except TypeError:  # if no area available for that ion
-			q1_ci_ratio = 0.0
-		except ZeroDivisionError:
-			# shouldn't happen but does!!
-			q1_ci_ratio = 0.01
-		try:
-			q2_ci_ratio = float(q2_intensity) / float(ci_intensity)
-		except TypeError:
-			q2_ci_ratio = 0.0
-		except ZeroDivisionError:
-			# shouldn't happen, but does!!
-			q2_ci_ratio = 0.01
-
-		out_strings.append(
-				','.join([
-						peak_UID,
-						f"{common_ion}",
-						f"{qual_ion_1}",
-						f"{q1_ci_ratio * 100:.1f}",
-						f"{qual_ion_2}",
-						f"{q2_ci_ratio * 100:.1f}",
-						f"{(l_window_delta + 1.5) / 60:.2f}",
-						f"{(r_window_delta + 1.5) / 60:.2f}",
-						])
-				)
-
-		index += 1
-
-	# now write the file
-	#        print("length of areas[0]", len(areas[0]))
-	#        print("lenght of areas", len(areas))
-	#        print("length of out_strings", len(out_strings))
-	for row in out_strings:
-		fp.write(f"{row}\n")
-
-	# dump_object(compo_peaks, peak_list_name)
-
-	fp.close()
+		# dump_object(compo_peaks, peak_list_name)
 
 
 def write_excel(

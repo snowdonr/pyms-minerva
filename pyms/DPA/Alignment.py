@@ -294,79 +294,75 @@ class Alignment:
 		rt_file_name = prepare_filepath(rt_file_name)
 		area_file_name = prepare_filepath(area_file_name)
 
-		fp1 = rt_file_name.open('w', encoding="UTF-8")
-		fp2 = area_file_name.open('w', encoding="UTF-8")
+		with rt_file_name.open('w', encoding="UTF-8") as fp1, area_file_name.open('w', encoding="UTF-8") as fp2:
 
-		# create header
-		header = ["UID", "RTavg"]
-		for item in self.expr_code:
-			header.append(f'"{item}"')
+			# create header
+			header = ["UID", "RTavg"]
+			for item in self.expr_code:
+				header.append(f'"{item}"')
 
-		# write headers
-		fp1.write(','.join(header) + '\n')
-		fp2.write(','.join(header) + '\n')
+			# write headers
+			fp1.write(','.join(header) + '\n')
+			fp2.write(','.join(header) + '\n')
 
-		# for each alignment position write alignment's peak and area
-		for peak_idx in range(len(self.peakpos[0])):  # loop through peak lists (rows)
+			# for each alignment position write alignment's peak and area
+			for peak_idx in range(len(self.peakpos[0])):  # loop through peak lists (rows)
 
-			rts = []
-			areas = []
-			new_peak_list = []
+				rts = []
+				areas = []
+				new_peak_list = []
 
-			for align_idx in range(len(self.peakpos)):
-				peak = self.peakpos[align_idx][peak_idx]
+				for align_idx in range(len(self.peakpos)):
+					peak = self.peakpos[align_idx][peak_idx]
 
-				if peak is not None:
+					if peak is not None:
 
-					if minutes:
-						rt = peak.rt / 60.0
+						if minutes:
+							rt = peak.rt / 60.0
+						else:
+							rt = peak.rt
+
+						rts.append(rt)
+						areas.append(peak.area)
+						new_peak_list.append(peak)
+
 					else:
-						rt = peak.rt
+						rts.append(None)
+						areas.append(None)
 
-					rts.append(rt)
-					areas.append(peak.area)
-					new_peak_list.append(peak)
+				compo_peak = composite_peak(new_peak_list)
+				if compo_peak is None:
+					continue
 
+				# write to retention times file
+				fp1.write(compo_peak.UID)
+
+				if minutes:
+					fp1.write(f",{float(compo_peak.rt / 60):.3f}")
 				else:
-					rts.append(None)
-					areas.append(None)
+					fp1.write(f",{compo_peak.rt:.3f}")
 
-			compo_peak = composite_peak(new_peak_list)
-			if compo_peak is None:
-				continue
+				for rt in rts:
+					if rt is None or numpy.isnan(rt):
+						fp1.write(",NA")
+					else:
+						fp1.write(f",{rt:.3f}")
+				fp1.write('\n')
 
-			# write to retention times file
-			fp1.write(compo_peak.UID)
+				# write to peak areas file
+				fp2.write(compo_peak.UID)
 
-			if minutes:
-				fp1.write(f",{float(compo_peak.rt / 60):.3f}")
-			else:
-				fp1.write(f",{compo_peak.rt:.3f}")
-
-			for rt in rts:
-				if rt is None or numpy.isnan(rt):
-					fp1.write(",NA")
+				if minutes:
+					fp2.write(f",{float(compo_peak.rt / 60):.3f}")
 				else:
-					fp1.write(f",{rt:.3f}")
-			fp1.write('\n')
+					fp2.write(f",{compo_peak.rt:.3f}")
 
-			# write to peak areas file
-			fp2.write(compo_peak.UID)
-
-			if minutes:
-				fp2.write(f",{float(compo_peak.rt / 60):.3f}")
-			else:
-				fp2.write(f",{compo_peak.rt:.3f}")
-
-			for area in areas:
-				if area is None:
-					fp2.write(",NA")
-				else:
-					fp2.write(f",{area:.0f}")
-			fp2.write('\n')
-
-		fp1.close()
-		fp2.close()
+				for area in areas:
+					if area is None:
+						fp2.write(",NA")
+					else:
+						fp2.write(f",{area:.0f}")
+				fp2.write('\n')
 
 	def write_common_ion_csv(
 			self,

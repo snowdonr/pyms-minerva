@@ -412,28 +412,29 @@ class MassSpectrum(Scan):
 		file_name = prepare_filepath(file_name, mkdirs=False)
 
 		print(f" -> Reading JCAMP file '{file_name}'")
-		lines_list = file_name.open('r', encoding="UTF-8")
 		xydata = []
 		last_tag = None
 
-		for line in lines_list:
+		with file_name.open('r', encoding="UTF-8") as lines_list:
 
-			if line.strip():
-				if line.startswith("##"):
-					# key word or information
-					fields = line.split('=', 1)
-					current_tag = fields[0] = fields[0].lstrip("##").upper()
-					last_tag = fields[0]
+			for line in lines_list:
 
-					if current_tag.upper().startswith("END"):
-						break
+				if line.strip():
+					if line.startswith("##"):
+						# key word or information
+						fields = line.split('=', 1)
+						current_tag = fields[0] = fields[0].lstrip("##").upper()
+						last_tag = fields[0]
 
-				else:
-					if last_tag in xydata_tags:
-						line_sub = re.split(r",| ", line.strip())
-						for item in line_sub:
-							if not len(item.strip()) == 0:
-								xydata.append(float(item.strip()))
+						if current_tag.upper().startswith("END"):
+							break
+
+					else:
+						if last_tag in xydata_tags:
+							line_sub = re.split(r",| ", line.strip())
+							for item in line_sub:
+								if not len(item.strip()) == 0:
+									xydata.append(float(item.strip()))
 
 		# By this point we should have all of the xydata
 		if len(xydata) % 2 == 1:

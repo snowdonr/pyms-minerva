@@ -31,6 +31,9 @@ Functions for I/O of data in JCAMP-DX format.
 from pathlib import Path
 from typing import Any, List, MutableMapping, Union
 
+# 3rd party
+from domdf_python_tools.paths import PathPlus
+
 # this package
 from pyms.GCMS.Class import GCMS_data
 from pyms.Spectrum import Scan
@@ -57,10 +60,10 @@ def JCAMP_reader(file_name: Union[str, Path]) -> GCMS_data:
 	if not is_path(file_name):
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
-	file_name = prepare_filepath(file_name, mkdirs=False)
+	file_name = PathPlus(prepare_filepath(file_name, mkdirs=False))
 
-	print(f" -> Reading JCAMP file '{file_name}'")
-	lines_list = file_name.open('r', encoding="UTF-8")
+	print(f" -> Reading JCAMP file {file_name.as_posix()!r}")
+	lines_list = file_name.read_lines()
 	data: List[float] = []
 	page_idx = 0
 	xydata_idx = 0

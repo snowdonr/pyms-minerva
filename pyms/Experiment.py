@@ -140,10 +140,8 @@ def read_expr_list(file_name: PathLike) -> List[Experiment]:
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
 
-	fp = file_name.open(encoding="UTF-8")
-
-	exprfiles = fp.readlines()
-	fp.close()
+	with file_name.open(encoding="UTF-8") as fp:
+		exprfiles = fp.readlines()
 
 	expr_list = []
 

@@ -208,8 +208,11 @@ def test_write_csv(A1, tmp_pathplus):
 	assert (tmp_pathplus / "alignment_rt.csv").exists()
 	assert (tmp_pathplus / "alignment_area.csv").exists()
 
-	rt_csv = list(csv.reader((tmp_pathplus / "alignment_rt.csv").open()))
-	area_csv = list(csv.reader((tmp_pathplus / "alignment_area.csv").open()))
+	with (tmp_pathplus / "alignment_rt.csv").open() as fp:
+		rt_csv = list(csv.reader(fp))
+
+	with (tmp_pathplus / "alignment_area.csv").open() as fp:
+		area_csv = list(csv.reader(fp))
 
 	assert rt_csv[0][0:2] == area_csv[0][0:2] == ["UID", "RTavg"]
 	assert rt_csv[0][2:] == area_csv[0][2:] == A1.expr_code
@@ -252,8 +255,11 @@ def test_write_csv(A1, tmp_pathplus):
 	assert (tmp_pathplus / "alignment_rt_seconds.csv").exists()
 	assert (tmp_pathplus / "alignment_area_seconds.csv").exists()
 
-	rt_csv = list(csv.reader((tmp_pathplus / "alignment_rt_seconds.csv").open()))
-	area_csv = list(csv.reader((tmp_pathplus / "alignment_area_seconds.csv").open()))
+	with (tmp_pathplus / "alignment_rt_seconds.csv").open() as fp:
+		rt_csv = list(csv.reader(fp))
+
+	with (tmp_pathplus / "alignment_area_seconds.csv").open() as fp:
+		area_csv = list(csv.reader(fp))
 
 	assert rt_csv[0][0:2] == area_csv[0][0:2] == ["UID", "RTavg"]
 	assert rt_csv[0][2:] == area_csv[0][2:] == A1.expr_code
@@ -295,8 +301,11 @@ def test_write_ion_areas_csv(A1, tmp_pathplus):
 	# Read alignment_ion_areas.csv and check values
 	assert (tmp_pathplus / "alignment_ion_areas.csv").exists()
 
-	ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas.csv").open(), delimiter='|'))
-	seconds_ion_csv = list(csv.reader((tmp_pathplus / "alignment_ion_areas_seconds.csv").open(), delimiter='|'))
+	with (tmp_pathplus / "alignment_ion_areas.csv").open() as fp:
+		ion_csv = list(csv.reader(fp, delimiter='|'))
+
+	with (tmp_pathplus / "alignment_ion_areas_seconds.csv").open() as fp:
+		seconds_ion_csv = list(csv.reader(fp, delimiter='|'))
 
 	assert ion_csv[0][0:2] == seconds_ion_csv[0][0:2] == ["UID", "RTavg"]
 	assert ion_csv[0][2:] == seconds_ion_csv[0][2:] == A1.expr_code

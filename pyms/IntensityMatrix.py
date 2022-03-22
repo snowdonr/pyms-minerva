@@ -601,36 +601,34 @@ class IntensityMatrix(BaseIntensityMatrix):
 		time_list = self._time_list
 		vals = self._intensity_array
 
-		fp = file_name.open('w', encoding="UTF-8")
+		with file_name.open('w', encoding="UTF-8") as fp:
 
-		# Format is text header with:
-		# "Scan","Time",...
-		# and the rest is "TIC" or m/z as text, i.e. "50","51"...
-		# The following lines are:
-		# scan_number,time,value,value,...
-		# scan_number is an int, rest seem to be fixed format floats.
-		# The format is 0.000000e+000
+			# Format is text header with:
+			# "Scan","Time",...
+			# and the rest is "TIC" or m/z as text, i.e. "50","51"...
+			# The following lines are:
+			# scan_number,time,value,value,...
+			# scan_number is an int, rest seem to be fixed format floats.
+			# The format is 0.000000e+000
 
-		# write header
-		fp.write('"Scan","Time"')
-		for ii in mass_list:
-			if is_number(ii):
-				fp.write(f',"{int(ii):d}"')
-			else:
-				raise TypeError("mass list datum not a number")
-		fp.write("\r\n")  # windows CR/LF
-
-		# write lines
-		for ii, time_ in enumerate(time_list):
-			fp.write(f"{ii},{time_:#.6e}")
-			for jj in range(len(vals[ii])):
-				if is_number(vals[ii][jj]):
-					fp.write(f",{vals[ii][jj]:#.6e}")
+			# write header
+			fp.write('"Scan","Time"')
+			for ii in mass_list:
+				if is_number(ii):
+					fp.write(f',"{int(ii):d}"')
 				else:
-					raise TypeError("datum not a number")
-			fp.write("\r\n")
+					raise TypeError("mass list datum not a number")
+			fp.write("\r\n")  # windows CR/LF
 
-		fp.close()
+			# write lines
+			for ii, time_ in enumerate(time_list):
+				fp.write(f"{ii},{time_:#.6e}")
+				for jj in range(len(vals[ii])):
+					if is_number(vals[ii][jj]):
+						fp.write(f",{vals[ii][jj]:#.6e}")
+					else:
+						raise TypeError("datum not a number")
+				fp.write("\r\n")
 
 	@property
 	def bpc(self) -> IonChromatogram:
@@ -666,7 +664,6 @@ def import_leco_csv(file_name: PathLike) -> IntensityMatrix:
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
 
-	lines_list = file_name.open('r')
 	data = []
 	time_list = []
 	mass_list = []
@@ -685,56 +682,59 @@ def import_leco_csv(file_name: PathLike) -> IntensityMatrix:
 	data_col = -1
 	time_col = -1
 	# get each line
-	for line in lines_list:
-		cols = -1
-		data_row = []
-		if len(line.strip()) > 0:
-			data_list = line.strip().split(',')
-			# get each value in line
-			for item in data_list:
-				item = item.strip()
-				item = item.strip("'\"")  # remove quotes (in header)
 
-				# Get header
-				if HEADER:
-					cols += 1
-					if len(item) > 0:
-						if item.lower().find("time") > -1:
-							time_col = cols
-						try:
-							value = float(item)
-							# find 1st col with number as header
-							if FIRST and value > 1:  # assume >1 mass
-								data_col = cols
-								# assume time col is previous col
-								if time_col < 0:
-									time_col = cols - 1
-								FIRST = False
-							mass_list.append(value)
-							num_mass += 1
-						except ValueError:
-							pass
-				# Get rest
-				else:
-					cols += 1
-					if len(item) > 0:
-						try:
-							value = float(item)
-							if cols == time_col:
-								time_list.append(value)
-							elif cols >= data_col:
-								data_row.append(value)
-						except ValueError:
-							pass
+	with file_name.open('r', encoding="UTF-8") as lines_list:
 
-			# check row length
-			if not HEADER:
-				if len(data_row) == num_mass:
-					data.append(data_row)
-				else:
-					warn("ignoring row")
+		for line in lines_list:
+			cols = -1
+			data_row = []
+			if len(line.strip()) > 0:
+				data_list = line.strip().split(',')
+				# get each value in line
+				for item in data_list:
+					item = item.strip()
+					item = item.strip("'\"")  # remove quotes (in header)
 
-			HEADER = False
+					# Get header
+					if HEADER:
+						cols += 1
+						if len(item) > 0:
+							if item.lower().find("time") > -1:
+								time_col = cols
+							try:
+								value = float(item)
+								# find 1st col with number as header
+								if FIRST and value > 1:  # assume >1 mass
+									data_col = cols
+									# assume time col is previous col
+									if time_col < 0:
+										time_col = cols - 1
+									FIRST = False
+								mass_list.append(value)
+								num_mass += 1
+							except ValueError:
+								pass
+					# Get rest
+					else:
+						cols += 1
+						if len(item) > 0:
+							try:
+								value = float(item)
+								if cols == time_col:
+									time_list.append(value)
+								elif cols >= data_col:
+									data_row.append(value)
+							except ValueError:
+								pass
+
+				# check row length
+				if not HEADER:
+					if len(data_row) == num_mass:
+						data.append(data_row)
+					else:
+						warn("ignoring row")
+
+				HEADER = False
 
 	# check col lengths
 	if len(time_list) != len(data):

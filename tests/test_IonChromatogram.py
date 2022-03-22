@@ -148,30 +148,21 @@ def test_time_step(tic):
 def test_write(tic, tmp_pathplus):
 	tic.write(tmp_pathplus / "tic.dat", minutes=False, formatting=False)
 
-	fp = (tmp_pathplus / "tic.dat").open()
-
-	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
-		assert line == f"{tic.time_list[ii]} {tic.intensity_array[ii]}\n"
-
-	fp.close()
+	with (tmp_pathplus / "tic.dat").open() as fp:
+		for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
+			assert line == f"{tic.time_list[ii]} {tic.intensity_array[ii]}\n"
 
 	tic.write(tmp_pathplus / "tic_minutes.dat", minutes=True, formatting=False)
 
-	fp = (tmp_pathplus / "tic_minutes.dat").open()
-
-	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
-		assert line == f"{tic.time_list[ii] / 60.0} {tic.intensity_array[ii]}\n"
-
-	fp.close()
+	with (tmp_pathplus / "tic_minutes.dat").open() as fp:
+		for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
+			assert line == f"{tic.time_list[ii] / 60.0} {tic.intensity_array[ii]}\n"
 
 	tic.write(tmp_pathplus / "tic_formatting.dat", minutes=False)
 
-	fp = (tmp_pathplus / "tic_formatting.dat").open()
-
-	for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
-		assert line == f"{tic.time_list[ii]:8.4f} {tic.intensity_array[ii]:#.6e}\n"
-
-	fp.close()
+	with (tmp_pathplus / "tic_formatting.dat").open() as fp:
+		for line, ii in zip(fp.readlines(), range(len(tic.time_list))):
+			assert line == f"{tic.time_list[ii]:8.4f} {tic.intensity_array[ii]:#.6e}\n"
 
 	for obj in [test_dict, *test_sequences, *test_numbers]:
 		with pytest.raises(TypeError):
