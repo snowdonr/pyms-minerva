@@ -24,6 +24,7 @@ Functions for reading ANDI-MS data files.
 ################################################################################
 
 # stdlib
+import os
 import pathlib
 
 # 3rd party
@@ -66,6 +67,11 @@ def ANDI_reader(file_name: PathLike) -> GCMS_data:
 
 	if not isinstance(file_name, (str, pathlib.Path)):
 		raise TypeError("'file_name' must be a string or a pathlib.Path object")
+
+	if not os.path.isfile(file_name):
+		# netCDF4 1.6.0 has stopped raising FileNotFoundError
+		# and instead creates an empty file, for some reason.
+		raise FileNotFoundError(2, "No such file or directory", file_name)
 
 	rootgrp = Dataset(file_name, "r+", format="NETCDF3_CLASSIC")
 	# TODO: find out if netCDF4 throws specific errors that we can use here
