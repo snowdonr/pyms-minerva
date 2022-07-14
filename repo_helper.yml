@@ -38,7 +38,6 @@ classifiers:
  - "Intended Audience :: Education"
  - "Intended Audience :: End Users/Desktop"
  - "Intended Audience :: Science/Research"
- - 'Operating System :: OS Independent'
  - "Topic :: Education"
  - "Topic :: Scientific/Engineering :: Bio-Informatics"
  - "Topic :: Scientific/Engineering :: Chemistry"
@@ -60,7 +59,6 @@ additional_ignore:
  - "doc-source/todo/*"
 
 extra_sphinx_extensions:
- - 'autodocsumm'
  - 'nbsphinx'
  - 'enum_tools.autoenum'
  - sphinx.ext.autosectionlabel
