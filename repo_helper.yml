@@ -30,7 +30,8 @@ python_versions:
  - 3.7
  - 3.8
  - 3.9
- - 3.10-dev
+ - "3.10"
+ - 3.11-dev
 
 classifiers:
  - "Development Status :: 5 - Production/Stable"
@@ -89,9 +90,6 @@ imgbot_ignore:
 
 yapf_exclude:
  - pyms-demo/.*/.*
-
-tox_requirements:
-  - "tox-pip-version>=0.0.7"
 
 tox_unmanaged:
  - flake8
