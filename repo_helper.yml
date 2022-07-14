@@ -80,10 +80,16 @@ exclude_files:
  - contributing
  - actions
 
-travis_extra_install_post:
- - sudo add-apt-repository universe
- - sudo apt update
- - sudo apt install libhdf5-dev netcdf-bin libnetcdf-dev
+github_ci_requirements:
+ Linux:
+  post:
+   - sudo add-apt-repository universe
+   - sudo apt update
+   - sudo apt install libhdf5-dev netcdf-bin libnetcdf-dev
+ Windows:
+  post:
+   # Prefery binary wheels for older versions over sdists for newer ones
+   - pip config set global.prefer-binary true
 
 imgbot_ignore:
  - tests/baseline/*
