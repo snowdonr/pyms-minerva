@@ -20,8 +20,6 @@
 
 # stdlib
 import copy
-import os
-from copy import deepcopy
 from pathlib import Path
 
 # 3rd party
@@ -42,7 +40,7 @@ pytest_plugins = ("coincidence", )
 
 @pytest.fixture(scope="session")
 def pyms_datadir():
-	return Path(os.path.split(__file__)[0]) / "data"
+	return Path(__file__).parent / "data"
 
 
 @pytest.fixture(scope="session")
@@ -60,7 +58,7 @@ def im(data):
 @pytest.fixture(scope="session")
 def tic(data):
 	# get the TIC
-	return deepcopy(data.tic)
+	return copy.deepcopy(data.tic)
 
 
 @pytest.fixture(scope="session")
@@ -71,7 +69,7 @@ def im_i(data):
 
 @pytest.fixture(scope="session")  # noqa: PT005
 def _peak_list(im_i):
-	im_i = deepcopy(im_i)
+	im_i = copy.deepcopy(im_i)
 
 	# Intensity matrix size (scans, masses)
 	n_scan, n_mz = im_i.size
@@ -134,13 +132,13 @@ def peak(im_i):
 
 @pytest.fixture(scope="session")
 def ms(im_i):
-	return deepcopy(im_i.get_ms_at_index(0))
+	return copy.deepcopy(im_i.get_ms_at_index(0))
 
 
 @pytest.fixture(scope="session")
 def scan(data):
 	# return deepcopy(im_i.get_scan_at_index(0))
-	return deepcopy(data.scan_list[0])
+	return copy.deepcopy(data.scan_list[0])
 
 
 @pytest.fixture()

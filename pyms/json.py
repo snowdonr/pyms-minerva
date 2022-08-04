@@ -38,7 +38,7 @@ class PyMassSpecEncoder(sdjson.JSONEncoder):
 	.. note: Currently only supports Scan and MassSpectrum objects
 	"""
 
-	def default(self, o):
+	def default(self, o):  # noqa: D102
 		if isinstance(o, (Scan, MassSpectrum)):
 			return dict(o)
 		else:

@@ -26,15 +26,17 @@ from copy import deepcopy
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
 
-pytest.importorskip("pyms.GCMS.IO.ANDI")
-
 # this package
 from pyms.GCMS.Class import GCMS_data
-from pyms.GCMS.IO.ANDI import ANDI_reader
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Spectrum import Scan
 from pyms.Utils.Utils import _pickle_load_path
 from tests.constants import *
+
+pytest.importorskip("pyms.GCMS.IO.ANDI")
+
+# this package
+from pyms.GCMS.IO.ANDI import ANDI_reader  # noqa: E402
 
 
 @pytest.fixture(scope="module")

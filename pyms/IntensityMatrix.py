@@ -681,10 +681,10 @@ def import_leco_csv(file_name: PathLike) -> IntensityMatrix:
 	HEADER = True
 	data_col = -1
 	time_col = -1
-	# get each line
 
 	with file_name.open('r', encoding="UTF-8") as lines_list:
 
+		# get each line
 		for line in lines_list:
 			cols = -1
 			data_row = []
