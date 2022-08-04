@@ -86,8 +86,9 @@ Example:
 
 .. code-block:: python
 
-    fp1 = open("some_file.txt", 'w')
-    fp2 = open("another.txt", 'w')
+    with open("some_file.txt", 'w', encoding="UTF-8") as fp1:
+		with open("another.txt", 'w', encoding="UTF-8") as fp2:
+			pass
 
 
 Short Comments
@@ -117,7 +118,7 @@ Import forms
 
 For standard library modules, always import the entire module name space. i.e.
 
-.. code-block:: python
+.. code-block:: python3
 
       # stdlib
       import os
@@ -143,7 +144,8 @@ For Specific variable names:
 
         .. code-block:: python
 
-            fp = open(file_name, 'r')
+            with open(file_name, 'r', encoding="UTF-8") as fp:
+            	pass
 
 Module names
 -------------
@@ -244,38 +246,42 @@ Functions
 In all functions the following Sphinx tags must be defined:
 
     * ``:param``
-    * ``:type`` (for all input arguments)
     * ``:return``
-    * ``:rtype`` (unless the function returns None)
     * ``:author``
 
 Other fields are optional.
+
+The parameter and return types must be specified using type annotations per :pep:`484`.
 
 
 Example:
 
 .. code-block:: python
 
-      def open_for_reading(file_name):
-      	"""
-          Opens file for reading, returns file pointer
+	# stdlib
+	from typing import IO
 
-          :param file_name: Name of the file to be opened for reading
-          :type file_name: StringType
 
-          :return: Pointer to the opened file
-          :rtype: FileType
+	def open_for_reading(file_name: str) -> IO:
+		"""
+		Opens file for reading, returns file pointer
 
-          :author: Jake Blues
-          """
+		:param file_name: Name of the file to be opened for reading
+
+		:return: Pointer to the opened file
+
+		:author: Jake Blues
+		"""
 
 Classes
 ---------
-* The root class docstring must contain ``:summary`` and ``:author`` fields
 
-* The ``__init__`` method must contain ``:param`` and ``:type`` fields. Other fields are optional.
+* The root class docstring must contain the ``:author`` field,
+in addition to ``:param`` and ``:return`` fields for the ``__init__`` method.
+Other fields are optional.
+``__init__`` should have no docstring.
 
-* Methods docstrings adhere to rules for Functions. Except for special methods (i.e. ``__len__()``, ``__del__()``, etc) which should contain only the ``:summary`` field, and possibly the ``:author`` field.
+* Methods docstrings adhere to rules for Functions. Docstrings are optional for special methods (i.e. ``__len__()``, ``__del__()``, etc).
 
 * Class methods. The rules for functions apply, except that the tag ``:author`` does not need to be defined (if authors are given in the class docstring).
 
@@ -287,11 +293,10 @@ Classes
         	"""
             ANDI-MS reader for Agilent ChemStation NetCDF files
 
+            :param file_name: The name of the ANDI-MS file
+
             :author: Jake Blues
             """
 
-        	def __init__(self, file_name):
-        		"""
-                :param file_name: The name of the ANDI-MS file
-                :type file_name: StringType
-                """
+        	def __init__(self, file_name: str):
+        		pass
