@@ -201,13 +201,14 @@ def test_time_list(tic):
 
 
 def test_intensity_matrix(im):
-	assert isinstance(im.intensity_matrix, numpy.ndarray)
-	assert isinstance(im.intensity_matrix[0], numpy.ndarray)
-	assert isinstance(im.intensity_matrix[0][0], float)
-	assert im.intensity_matrix[0][0] == 0.0
-	assert im.intensity_matrix[3][5] == 0.0
-	assert im.intensity_matrix[0][0] == im.intensity_array[0][0]
-	assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
+	with pytest.warns(DeprecationWarning, match="Use 'intensity_array' attribute instead"):
+		assert isinstance(im.intensity_matrix, numpy.ndarray)
+		assert isinstance(im.intensity_matrix[0], numpy.ndarray)
+		assert isinstance(im.intensity_matrix[0][0], float)
+		assert im.intensity_matrix[0][0] == 0.0
+		assert im.intensity_matrix[3][5] == 0.0
+		assert im.intensity_matrix[0][0] == im.intensity_array[0][0]
+		assert numpy.equal(im.intensity_matrix.all(), im.intensity_array.all())
 
 
 def test_intensity_array_list(im):
@@ -221,7 +222,8 @@ def test_intensity_array_list(im):
 
 
 def test_matrix_list(im):
-	assert isinstance(im.matrix_list, numpy.ndarray)
+	with pytest.warns(DeprecationWarning, match="Use 'intensity_array_list' attribute instead"):
+		assert isinstance(im.matrix_list, numpy.ndarray)
 
 
 # Inherited methods from GetIndexTimeMixin
