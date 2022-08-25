@@ -18,17 +18,21 @@
 #                                                                           #
 #############################################################################
 
+# stdlib
+from typing import Any, Type
+
 # 3rd party
 import pytest
 
 # this package
+from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Spectrum import Scan
 
 # this package
 from .constants import *
 
 
-def test_scan(scan):
+def test_scan(scan: Scan):
 	assert isinstance(scan, Scan)
 	assert isinstance(scan.mass_list, list)
 	assert isinstance(scan.intensity_list, list)
@@ -44,7 +48,7 @@ def test_scan(scan):
 				(test_dict, TypeError),
 				],
 		)
-def test_errors(scan, obj, expects):
+def test_errors(scan: Scan, obj: Any, expects: Type[Exception]):
 	with pytest.raises(expects):
 		Scan(obj, scan.intensity_list)
 
@@ -52,24 +56,24 @@ def test_errors(scan, obj, expects):
 		Scan(scan.mass_list, obj)
 
 
-def test_len(scan):
+def test_len(scan: Scan):
 	assert len(scan) == 101
 
 
-def test_equality(im, scan):
+def test_equality(im: IntensityMatrix, scan: Scan):
 	assert scan == Scan(scan.mass_list, scan.intensity_list)
 	assert scan != im.get_scan_at_index(1234)
 
 
 @pytest.mark.parametrize("val", [test_list_ints, test_list_strs, test_tuple, test_string, test_int, test_float])
-def test_inequality(scan, val):
+def test_inequality(scan: Scan, val: Any):
 	assert scan != val
 
 
 @pytest.mark.parametrize(
 		"index, mass, intensity", [(5, 60.9465, 1381.0), (50, 138.8299, 673.0), (100, 477.6667, 1728.0)]
 		)
-def test_scan_values(scan, index, mass, intensity):
+def test_scan_values(scan: Scan, index: int, mass: float, intensity: float):
 	assert scan.mass_list[index] == mass
 	assert scan.intensity_list[index] == intensity
 

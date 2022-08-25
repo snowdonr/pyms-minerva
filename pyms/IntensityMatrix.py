@@ -28,7 +28,7 @@ from typing import Iterator, List, Optional, Sequence, Tuple, Union
 from warnings import warn
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 from domdf_python_tools.typing import PathLike
 from enum_tools import IntEnum, document_enum
 
@@ -128,7 +128,7 @@ class BaseIntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, Intensity
 
 		return len(self.time_list)
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		"""
 		Return whether this intensity matrix object is equal to another object.
 
@@ -172,7 +172,7 @@ class BaseIntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, Intensity
 
 		yield from range(0, len(self._intensity_array[0]))
 
-	def set_ic_at_index(self, ix: int, ic: IonChromatogram):
+	def set_ic_at_index(self, ix: int, ic: IonChromatogram) -> None:
 		"""
 		Sets the intensity of the mass at index ``ix`` in each scan to a new value.
 
@@ -297,7 +297,7 @@ class BaseIntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, Intensity
 				ix = idx
 		return ix
 
-	def crop_mass(self, mass_min: float, mass_max: float):
+	def crop_mass(self, mass_min: float, mass_max: float) -> None:
 		"""
 		Crops mass spectrum.
 
@@ -338,7 +338,7 @@ class BaseIntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, Intensity
 		self._min_mass = min(new_mass_list)
 		self._max_mass = max(new_mass_list)
 
-	def null_mass(self, mass: float):
+	def null_mass(self, mass: float) -> None:
 		"""
 		Ignore given (closest) mass in spectra.
 
@@ -358,7 +358,7 @@ class BaseIntensityMatrix(pymsBaseClass, TimeListMixin, MassListMixin, Intensity
 		for spec_jj in range(len(im)):
 			im[spec_jj][ii] = 0
 
-	def reduce_mass_spectra(self, n_intensities: int = 5):
+	def reduce_mass_spectra(self, n_intensities: int = 5) -> None:
 		"""
 		Reduces the mass spectra by retaining the top `n_intensities`,
 		discarding all other intensities.
@@ -416,7 +416,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 		# Try to include parallelism.
 		try:
 			# 3rd party
-			from mpi4py import MPI  # type: ignore
+			from mpi4py import MPI  # type: ignore[import]
 			comm = MPI.COMM_WORLD
 			num_ranks = comm.Get_size()
 			rank = comm.Get_rank()
@@ -536,7 +536,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 			self,
 			root_name: PathLike,
 			fmt: AsciiFiletypes = AsciiFiletypes.ASCII_DAT,
-			):
+			) -> None:
 		"""
 		Exports the intensity matrix, retention time vector, and m/z vector to the ascii format.
 
@@ -580,7 +580,7 @@ class IntensityMatrix(BaseIntensityMatrix):
 		time_list = self._time_list
 		save_data(f"{root_name}.rt.{extension}", time_list, sep=separator)
 
-	def export_leco_csv(self, file_name: PathLike):
+	def export_leco_csv(self, file_name: PathLike) -> None:
 		"""
 		Exports data in LECO CSV format.
 

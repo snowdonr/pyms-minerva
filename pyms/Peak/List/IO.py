@@ -24,8 +24,7 @@ Functions related to storing and loading a list of Peak objects.
 ################################################################################
 
 # stdlib
-import pickle
-from typing import List, Sequence
+from typing import List, Sequence, cast
 
 # 3rd party
 from domdf_python_tools.typing import PathLike
@@ -43,7 +42,7 @@ def store_peaks(
 		peak_list: Sequence[Peak],
 		file_name: PathLike,
 		protocol: int = 1,
-		):
+		) -> None:
 	"""
 	Store the list of peak objects.
 
@@ -78,7 +77,7 @@ def load_peaks(file_name: PathLike) -> List[Peak]:
 		raise TypeError("'file_name' must be a string or a PathLike object")
 
 	file_name = prepare_filepath(file_name, mkdirs=False)
-	peak_list = _pickle_load_path(file_name)
+	peak_list = cast(List[Peak], _pickle_load_path(file_name))
 
 	if not is_sequence(peak_list):
 		raise OSError("The selected file is not a List")

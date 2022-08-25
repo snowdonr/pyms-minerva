@@ -29,7 +29,7 @@ import warnings
 from typing import Any, Optional, Sequence, Tuple, Union
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 from domdf_python_tools.typing import PathLike
 
 # this package
@@ -165,7 +165,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return self._intensity_array[ix]
 
-	@IntensityArrayMixin.intensity_array.setter  # type: ignore
+	@IntensityArrayMixin.intensity_array.setter  # type: ignore[attr-defined]
 	def intensity_array(self, ia: Union[Sequence, numpy.ndarray]):
 		"""
 		Sets the value for the intensity array.

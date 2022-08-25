@@ -18,10 +18,16 @@
 #                                                                           #
 #############################################################################
 
+# stdlib
+from typing import Any, List, Type
+
 # 3rd party
 import pytest
+from domdf_python_tools.paths import PathPlus
 
 # this package
+from pyms.GCMS.Class import GCMS_data
+from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak.Class import Peak
 from pyms.Peak.List import composite_peak, fill_peaks, is_peak_list, sele_peaks_by_rt
 from pyms.Peak.List.IO import load_peaks, store_peaks
@@ -29,7 +35,7 @@ from pyms.Spectrum import MassSpectrum
 from tests.constants import *
 
 
-def test_composite_peak(filtered_peak_list, im_i):
+def test_composite_peak(filtered_peak_list: List[Peak]):
 	print('.', end='')
 	composite_peak_list = filtered_peak_list[10:20]
 	print('.', end='')
@@ -62,10 +68,10 @@ def test_composite_peak(filtered_peak_list, im_i):
 	# Errors
 	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			composite_peak(obj)  # type: ignore
+			composite_peak(obj)  # type: ignore[arg-type]
 
 
-def test_composite_peak_outliers(filtered_peak_list, im_i):
+def test_composite_peak_outliers(filtered_peak_list: List[Peak]):
 	composite_peak_list = filtered_peak_list[10:13]
 	peak = composite_peak(composite_peak_list, ignore_outliers=True)
 	assert isinstance(peak, Peak)
@@ -91,20 +97,20 @@ def test_composite_peak_outliers(filtered_peak_list, im_i):
 	assert peak.UID != uid
 
 
-def test_fill_peaks(im_i, peak_list):
+def test_fill_peaks(im_i: IntensityMatrix, peak_list: List[Peak]):
 	filled_peak_list = fill_peaks(im_i, peak_list, 10.0)
 	assert is_peak_list(filled_peak_list)
 
 	# Errors
 	for obj in [test_dict, *test_sequences, *test_numbers, test_string]:
 		with pytest.raises(TypeError):
-			fill_peaks(im_i, obj, 10.0)  # type: ignore
+			fill_peaks(im_i, obj, 10.0)  # type: ignore[arg-type]
 	for obj in [test_dict, *test_sequences, test_string, test_int]:
 		with pytest.raises(TypeError):
-			fill_peaks(im_i, peak_list, obj)  # type: ignore
+			fill_peaks(im_i, peak_list, obj)  # type: ignore[arg-type]
 
 
-def test_is_peak_list(peak_list, ms, im_i, data):
+def test_is_peak_list(peak_list: List[Peak], ms: MassSpectrum, im_i: IntensityMatrix, data: GCMS_data):
 	assert is_peak_list(peak_list)
 	assert not is_peak_list(test_int)
 	assert not is_peak_list(test_string)
@@ -118,7 +124,7 @@ def test_is_peak_list(peak_list, ms, im_i, data):
 	assert not is_peak_list(data)
 
 
-def test_sele_peaks_by_rt(filtered_peak_list):
+def test_sele_peaks_by_rt(filtered_peak_list: List[Peak]):
 	selected_peaks = sele_peaks_by_rt(filtered_peak_list, ("12m", "13m"))
 	assert is_peak_list(selected_peaks)
 	assert len(selected_peaks) == 18
@@ -142,7 +148,7 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 	assert peak.UID != uid
 
 	with pytest.raises(TypeError, match="lower/upper retention time limits must be strings"):
-		sele_peaks_by_rt(filtered_peak_list, [1.2, 3.4])  # type: ignore
+		sele_peaks_by_rt(filtered_peak_list, [1.2, 3.4])  # type: ignore[list-item]
 	with pytest.raises(ValueError, match="lower retention time limit must be less than upper"):
 		sele_peaks_by_rt(filtered_peak_list, ["50s", "10s"])
 
@@ -152,14 +158,14 @@ def test_sele_peaks_by_rt(filtered_peak_list):
 			sele_peaks_by_rt(obj, ("12m", "13m"))
 	for obj in [test_dict, *test_numbers, test_string]:
 		with pytest.raises(TypeError, match="'rt_range' must be a Sequence"):
-			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore
+			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore[arg-type]
 	for obj in [*test_sequences]:
 		with pytest.raises(ValueError, match="'rt_range' must have exactly two elements"):
-			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore
+			sele_peaks_by_rt(filtered_peak_list, obj)  # type: ignore[arg-type]
 
 
 @pytest.fixture()
-def peak_list_filename(im, filtered_peak_list, tmp_pathplus):
+def peak_list_filename(filtered_peak_list: List[Peak], tmp_pathplus: PathPlus) -> PathPlus:
 	filename = tmp_pathplus / "filtered_peak_list.dat"
 	store_peaks(filtered_peak_list, filename)
 	return filename
@@ -168,22 +174,22 @@ def peak_list_filename(im, filtered_peak_list, tmp_pathplus):
 class TestStoreLoadPeaks:
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_sequences, *test_numbers, test_string])
-	def test_store_filename_errors(self, tmp_pathplus, obj):
+	def test_store_filename_errors(self, tmp_pathplus: PathPlus, obj: Any):
 		with pytest.raises(TypeError):
 			store_peaks(obj, tmp_pathplus / test_string)
 
 	@pytest.mark.parametrize("obj", [test_dict, *test_sequences, *test_numbers])
-	def test_store_peak_list_errors(self, filtered_peak_list, obj):
+	def test_store_peak_list_errors(self, filtered_peak_list: List[Peak], obj: Any):
 		with pytest.raises(TypeError):
 			store_peaks(filtered_peak_list, obj)
 
-	def test_load_peaks(self, filtered_peak_list, pyms_datadir, peak_list_filename):
+	def test_load_peaks(self, filtered_peak_list: List[Peak], peak_list_filename: PathPlus):
 		loaded_peak_list = load_peaks(peak_list_filename)
 
 		assert loaded_peak_list == filtered_peak_list
 
 	@pytest.mark.parametrize("filename", [test_dict, *test_sequences, *test_numbers])
-	def test_load_filename_errors_1(self, filename):
+	def test_load_filename_errors_1(self, filename: Any):
 		with pytest.raises(TypeError):
 			load_peaks(filename)
 
@@ -196,6 +202,6 @@ class TestStoreLoadPeaks:
 					("test_empty_list.dat", IOError),
 					],
 			)
-	def test_load_filename_errors_2(self, filename, expects, pyms_datadir):
+	def test_load_filename_errors_2(self, filename: str, expects: Type[Exception], pyms_datadir: PathPlus):
 		with pytest.raises(expects):
 			load_peaks(pyms_datadir / filename)

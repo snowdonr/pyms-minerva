@@ -27,6 +27,7 @@ from timeit import timeit
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
 from pyms.IntensityMatrix import build_intensity_matrix_i
 from pyms.Peak.Class import Peak
+from pyms.Spectrum import MassSpectrum
 
 data = JCAMP_reader(os.path.join("data", "ELEY_1_SUBTRACT.JDX"))
 im_i = build_intensity_matrix_i(data)
@@ -35,11 +36,11 @@ ms = im_i.get_ms_at_index(scan_i)
 peak = Peak(12.34, ms)
 
 
-def copy_peak():
+def copy_peak() -> Peak:
 	return copy(peak)
 
 
-def deepcopy_peak():
+def deepcopy_peak() -> Peak:
 	return deepcopy(peak)
 
 
@@ -47,11 +48,11 @@ print(timeit(copy_peak))
 print(timeit(deepcopy_peak))
 
 
-def copy_ms():
+def copy_ms() -> MassSpectrum:
 	return copy(ms)
 
 
-def deepcopy_ms():
+def deepcopy_ms() -> MassSpectrum:
 	return deepcopy(ms)
 
 

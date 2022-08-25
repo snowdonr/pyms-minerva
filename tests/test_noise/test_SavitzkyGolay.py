@@ -29,7 +29,7 @@ from pyms.Noise.SavitzkyGolay import savitzky_golay, savitzky_golay_im
 from tests.constants import *
 
 
-def test_savitzky_golay(tic):
+def test_savitzky_golay(tic: IonChromatogram):
 	assert isinstance(tic, IonChromatogram)
 
 	# apply noise smoothing
@@ -56,18 +56,18 @@ def test_savitzky_golay(tic):
 	# Test Errors
 	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(obj)  # type: ignore
+			savitzky_golay(obj)  # type: ignore[arg-type]
 
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(tic, degree=obj)  # type: ignore
+			savitzky_golay(tic, degree=obj)  # type: ignore[arg-type]
 
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay(tic, window=obj)  # type: ignore
+			savitzky_golay(tic, window=obj)  # type: ignore[arg-type]
 
 
-def test_savitzky_golay_intensity_matrix(im, tic):
+def test_savitzky_golay_intensity_matrix(im: IntensityMatrix):
 	# Use Savitzky-Golay filtering to smooth all IC's in the IM
 	im_smooth = savitzky_golay_im(im)
 	assert isinstance(im_smooth, IntensityMatrix)
@@ -89,12 +89,12 @@ def test_savitzky_golay_intensity_matrix(im, tic):
 
 	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(obj)  # type: ignore
+			savitzky_golay_im(obj)  # type: ignore[type-var]
 
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(im, degree=obj)  # type: ignore
+			savitzky_golay_im(im, degree=obj)  # type: ignore[arg-type]
 
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			savitzky_golay_im(im, window=obj)  # type: ignore
+			savitzky_golay_im(im, window=obj)  # type: ignore[arg-type]

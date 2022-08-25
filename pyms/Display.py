@@ -28,13 +28,13 @@ import warnings
 from typing import Dict, List, Optional, Tuple
 
 # 3rd party
-import deprecation  # type: ignore
-import matplotlib  # type: ignore
-import matplotlib.pyplot as plt  # type: ignore
-from matplotlib.axes import Axes  # type: ignore
-from matplotlib.container import BarContainer  # type: ignore
-from matplotlib.figure import Figure  # type: ignore
-from matplotlib.lines import Line2D  # type: ignore
+import deprecation  # type: ignore[import]
+import matplotlib  # type: ignore[import]
+import matplotlib.pyplot as plt  # type: ignore[import]
+from matplotlib.axes import Axes  # type: ignore[import]
+from matplotlib.container import BarContainer  # type: ignore[import]
+from matplotlib.figure import Figure  # type: ignore[import]
+from matplotlib.lines import Line2D  # type: ignore[import]
 
 # this package
 from pyms import Peak, __version__
@@ -589,10 +589,10 @@ class ClickEventHandler:
 					if self.ms_fig is None:
 						self.ms_fig, self.ms_ax = plt.subplots(1, 1)
 					else:
-						self.ms_ax.clear()  # type: ignore
+						self.ms_ax.clear()  # type: ignore[union-attr]
 
 					plot_mass_spec(self.ms_ax, peak.mass_spectrum)
-					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")  # type: ignore
+					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")  # type: ignore[union-attr]
 					self.ms_fig.show()
 				# TODO: Add multiple MS to same plot window and add option to close one of them
 				# TODO: Allow more interaction with MS, e.g. adjusting mass range?

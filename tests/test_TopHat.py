@@ -18,6 +18,9 @@
 #                                                                           #
 #############################################################################
 
+# stdlib
+from typing import Any, Type
+
 # 3rd party
 import pytest
 
@@ -30,7 +33,7 @@ from pyms.TopHat import tophat, tophat_im
 from .constants import *
 
 
-def test_topHat(tic):
+def test_topHat(tic: IonChromatogram):
 	assert isinstance(tic, IonChromatogram)
 
 	# apply noise smoothing and baseline correction
@@ -44,7 +47,7 @@ def test_topHat(tic):
 	assert isinstance(tic4, IonChromatogram)
 
 
-def test_tophat_im(im):
+def test_tophat_im(im: IntensityMatrix):
 	# Use TopHat baseline correction on all IC's in the IM
 	im_base_corr = tophat_im(im, struct="1.5m")
 	assert isinstance(im_base_corr, IntensityMatrix)
@@ -63,11 +66,11 @@ class TestErrors:
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences])
 	class TestobjErrors:
 
-		def test_im_errors(self, obj):
+		def test_im_errors(self, obj: Any):
 			with pytest.raises(TypeError):
 				tophat_im(obj, "1m")
 
-		def test_ic_errors(self, obj):
+		def test_ic_errors(self, obj: Any):
 			with pytest.raises(TypeError):
 				tophat(obj, "1m")
 
@@ -80,11 +83,11 @@ class TestErrors:
 			)
 	class TeststructErrors:
 
-		def test_im_errors(self, im, struct, expects):
+		def test_im_errors(self, im: IntensityMatrix, struct: Any, expects: Type[Exception]):
 			with pytest.raises(expects):
 				tophat_im(im, struct)
 
-		def test_ic_errors(self, tic, struct, expects):
+		def test_ic_errors(self, tic: IonChromatogram, struct: Any, expects: Type[Exception]):
 			with pytest.raises(expects):
 				tophat(tic, struct)
 

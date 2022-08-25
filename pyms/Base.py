@@ -23,9 +23,6 @@ Base for PyMassSpec classes.
 #                                                                              #
 ################################################################################
 
-# stdlib
-import pickle
-
 # 3rd party
 from domdf_python_tools.typing import PathLike
 

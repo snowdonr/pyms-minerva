@@ -20,9 +20,10 @@
 
 # stdlib
 import copy
+from typing import Any, List
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 import pytest
 
 # this package
@@ -36,6 +37,7 @@ from pyms.BillerBiemann import (
 		rel_threshold,
 		sum_maxima
 		)
+from pyms.IntensityMatrix import IntensityMatrix
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.Analysis import window_analyzer
 from pyms.Noise.SavitzkyGolay import savitzky_golay
@@ -46,7 +48,7 @@ from tests.constants import *
 
 class TestBillerBiemann:
 
-	def test_BillerBiemann(self, im_i):
+	def test_BillerBiemann(self, im_i: IntensityMatrix):
 		im_i = copy.deepcopy(im_i)
 		# Intensity matrix size (scans, masses)
 		n_scan, n_mz = im_i.size
@@ -75,24 +77,24 @@ class TestBillerBiemann:
 		assert len(peak_list2) <= len(peak_list)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test_im_errors(self, obj):
+	def test_im_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			BillerBiemann(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_scans_errors(self, obj, im_i):
+	def test_scans_errors(self, obj: Any, im_i: IntensityMatrix):
 		with pytest.raises(TypeError):
 			BillerBiemann(im_i, scans=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_points_errors(self, obj, im_i):
+	def test_points_errors(self, obj: Any, im_i: IntensityMatrix):
 		with pytest.raises(TypeError):
 			BillerBiemann(im_i, points=obj)
 
 
 class Test_rel_threshold:
 
-	def test_rel_threshold(self, peak_list):
+	def test_rel_threshold(self, peak_list: List[Peak]):
 		rel_threshold(peak_list)
 		rel_threshold(peak_list, 2.0)
 		pl = rel_threshold(peak_list, 2)
@@ -108,19 +110,19 @@ class Test_rel_threshold:
 			rel_threshold(peak_list, percent=0)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict, test_int])
-	def test_peak_list_errors(self, obj):
+	def test_peak_list_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			rel_threshold(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict])
-	def test_percent_errors(self, obj, peak_list):
+	def test_percent_errors(self, obj: Any, peak_list: List[Peak]):
 		with pytest.raises(TypeError):
 			rel_threshold(peak_list, percent=obj)
 
 
 class Test_num_ions_threshold:
 
-	def test_num_ions_threshold(self, peak_list, tic):
+	def test_num_ions_threshold(self, peak_list: List[Peak], tic: IonChromatogram):
 		"""
 		Filter the peak list, first by removing all intensities in a peak less
 		than a given relative threshold, then by removing all peaks that have
@@ -157,40 +159,40 @@ class Test_num_ions_threshold:
 		assert len(peak_list) <= len(peak_list)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test_peak_list_errors(self, obj):
+	def test_peak_list_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			num_ions_threshold(obj, n=5, cutoff=100)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_n_errors(self, obj, peak_list):
+	def test_n_errors(self, obj: Any, peak_list: List[Peak]):
 		with pytest.raises(TypeError):
 			num_ions_threshold(peak_list, n=obj, cutoff=100.0)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict])
-	def test_cutoff_errors(self, obj, peak_list):
+	def test_cutoff_errors(self, obj: Any, peak_list: List[Peak]):
 		with pytest.raises(TypeError):
 			num_ions_threshold(peak_list, n=5, cutoff=obj)
 
 
 class Test_sum_maxima:
 
-	def test_sum_maxima(self, im):
+	def test_sum_maxima(self, im: IntensityMatrix):
 		new_tic = sum_maxima(im)
 		assert isinstance(new_tic, IonChromatogram)
 		assert new_tic.is_tic()
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test_im_errors(self, obj):
+	def test_im_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			sum_maxima(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_points_errors(self, obj, im):
+	def test_points_errors(self, obj: Any, im: IntensityMatrix):
 		with pytest.raises(TypeError):
 			sum_maxima(im, points=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_errors_errors(self, obj, im):
+	def test_errors_errors(self, obj: Any, im: IntensityMatrix):
 		with pytest.raises(TypeError):
 			sum_maxima(im, scans=obj)
 
@@ -203,19 +205,19 @@ class Test_get_maxima_indices:
 		pass
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_list_strs, test_dict])
-	def test_ion_intensities_errors(self, obj):
+	def test_ion_intensities_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			get_maxima_indices(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_float, test_dict])
-	def test_points_errors(self, obj):
+	def test_points_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			get_maxima_indices(test_list_ints, points=obj)
 
 
 class Test_get_maxima_list:
 
-	def test_get_maxima_list(self, tic):
+	def test_get_maxima_list(self, tic: Any):
 		maxima_iist = get_maxima_list(tic)
 		assert isinstance(maxima_iist, list)
 		assert isinstance(maxima_iist[0], list)
@@ -223,19 +225,19 @@ class Test_get_maxima_list:
 		assert maxima_iist[0][0] == 2.10800014436
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test_ic_errors(self, obj):
+	def test_ic_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			get_maxima_list(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_float, test_dict])
-	def test_points_errors(self, obj, tic):
+	def test_points_errors(self, obj: Any, tic: IonChromatogram):
 		with pytest.raises(TypeError):
 			get_maxima_list(tic, points=obj)
 
 
 class Test_get_maxima_list_reduced:
 
-	def test_get_maxima_list_reduced(self, tic):
+	def test_get_maxima_list_reduced(self, tic: IonChromatogram):
 		maxima_list = get_maxima_list_reduced(tic, 12.34)
 		assert isinstance(maxima_list, list)
 		for peak in maxima_list:
@@ -247,44 +249,44 @@ class Test_get_maxima_list_reduced:
 		assert maxima_list[0][0] == 10.5559998751
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test__errors(self, obj):
+	def test__errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(obj, 0)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict])
-	def test_mp_rt_errors(self, obj, tic):
+	def test_mp_rt_errors(self, obj: Any, tic: IonChromatogram):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(tic, mp_rt=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_float, test_dict])
-	def test_points_errors(self, obj, tic):
+	def test_points_errors(self, obj: Any, tic: IonChromatogram):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(tic, test_float, points=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_sequences, test_dict])
-	def test_window_errors(self, obj, tic):
+	def test_window_errors(self, obj: Any, tic: IonChromatogram):
 		with pytest.raises(TypeError):
 			get_maxima_list_reduced(tic, test_float, window=obj)
 
 
 class Test_get_maxima_matrix:
 
-	def test_get_maxima_matrix(self, peak_list, im, tic):
+	def test_get_maxima_matrix(self, im: IntensityMatrix):
 		maxima_matrix = get_maxima_matrix(im)
 		assert isinstance(maxima_matrix, numpy.ndarray)
 		# TODO: value check
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, *test_sequences, test_dict])
-	def test_im_errors(self, obj):
+	def test_im_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			get_maxima_matrix(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_points_errors(self, obj, im):
+	def test_points_errors(self, obj: Any, im: IntensityMatrix):
 		with pytest.raises(TypeError):
 			get_maxima_matrix(im, points=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, *test_sequences, test_dict])
-	def test_scans_errors(self, obj, im):
+	def test_scans_errors(self, obj: Any, im: IntensityMatrix):
 		with pytest.raises(TypeError):
 			get_maxima_matrix(im, scans=obj)

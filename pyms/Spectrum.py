@@ -30,7 +30,7 @@ from collections import defaultdict
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Sequence, Tuple, Type, TypeVar, Union
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
 
@@ -177,7 +177,7 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 		return self.__dict__
 
 	def __setstate__(self, state):
-		self.__init__(**state)  # type: ignore
+		self.__init__(**state)  # type: ignore[misc]
 
 	def iter_peaks(self) -> Iterator[Tuple[float, float]]:
 		"""
@@ -237,7 +237,7 @@ class MassSpectrum(Scan):
 			):
 		Scan.__init__(self, mass_list, intensity_list)
 
-	@Scan.intensity_list.setter  # type: ignore
+	@Scan.intensity_list.setter  # type: ignore[attr-defined]
 	def intensity_list(self, value: List[float]):
 		"""
 		Set the intensity values for the spectrum.
@@ -255,7 +255,7 @@ class MassSpectrum(Scan):
 
 		self._intensity_list = list(value)
 
-	@Scan.mass_spec.setter  # type: ignore
+	@Scan.mass_spec.setter  # type: ignore[attr-defined]
 	def mass_spec(self, value: List[float]):
 		"""
 		Set the intensity values for the spectrum.
@@ -273,7 +273,7 @@ class MassSpectrum(Scan):
 
 		self._intensity_list = list(value)
 
-	@MassListMixin.mass_list.setter  # type: ignore
+	@MassListMixin.mass_list.setter  # type: ignore[attr-defined]
 	def mass_list(self, value: List[float]):
 		"""
 		Set the mass values for the spectrum.

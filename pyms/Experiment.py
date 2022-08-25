@@ -25,7 +25,6 @@ Models a GC-MS experiment, represented by a list of signal peaks.
 
 # stdlib
 import copy
-import pickle
 from typing import List, Sequence
 
 # 3rd party
@@ -61,7 +60,7 @@ class Experiment(pymsBaseClass):
 		self._expr_code = expr_code
 		self._peak_list = list(peak_list)
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		"""
 		Return whether this Experiment object is equal to another object.
 
@@ -87,7 +86,7 @@ class Experiment(pymsBaseClass):
 
 		return Experiment(copy.copy(self._expr_code), copy.copy(self.peak_list))
 
-	def __deepcopy__(self, memodict={}) -> "Experiment":
+	def __deepcopy__(self, memodict={}) -> "Experiment":  # noqa: MAN001
 		"""
 		Returns a new Experiment object containing a copy of the data in this object.
 		"""
@@ -110,7 +109,7 @@ class Experiment(pymsBaseClass):
 
 		return self._peak_list
 
-	def sele_rt_range(self, rt_range: Sequence[str]):
+	def sele_rt_range(self, rt_range: Sequence[str]) -> None:
 		"""
 		Discards all peaks which have the retention time outside the specified range.
 

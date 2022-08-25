@@ -75,7 +75,7 @@ class AbstractPeak(pymsBaseClass):
 
 		self.make_UID()
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		"""
 		Return whether this Peak object is equal to another object.
 
@@ -359,7 +359,7 @@ class Peak(AbstractPeak):
 			) -> "Peak": ...
 
 	@overload
-	def __new__(  # type: ignore
+	def __new__(  # type: ignore[misc]
 		cls,
 		rt: float,
 		ms: float,
@@ -569,7 +569,7 @@ class Peak(AbstractPeak):
 		# update UID
 		self.make_UID()
 
-	def find_mass_spectrum(self, data: BaseIntensityMatrix, from_bounds: float = False):
+	def find_mass_spectrum(self, data: BaseIntensityMatrix, from_bounds: float = False) -> None:
 		"""
 		.. TODO:: What does this function do?
 

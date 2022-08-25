@@ -24,11 +24,15 @@ import os
 # 3rd party
 import pytest
 from domdf_python_tools.paths import PathPlus
-from matplotlib import axes, figure  # type: ignore
+from matplotlib import axes, figure  # type: ignore[import]
 from matplotlib import pyplot as plt
 
 # this package
 from pyms.Display import Display
+from pyms.GCMS.Class import GCMS_data
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.IonChromatogram import IonChromatogram
+from pyms.Spectrum import MassSpectrum
 
 # this package
 from .constants import *
@@ -77,7 +81,7 @@ def test_Display():
 
 
 @pytest.fixture()
-def test_plot():
+def test_plot() -> Display:
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
 	test_plot = Display(fig, ax)
@@ -85,39 +89,39 @@ def test_plot():
 
 
 @check_images
-def test_plot_ic(im_i, test_plot):
+def test_plot_ic(im_i: IntensityMatrix, test_plot: Display):
 	# Plotting IC with various Line2D options
 	test_plot.plot_ic(im_i.get_ic_at_index(5))
 	return test_plot.fig
 
 
 @check_images
-def test_plot_ic_label(im_i, test_plot):
+def test_plot_ic_label(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), label="IC @ Index 5")
 	test_plot.ax.legend()
 	return test_plot.fig
 
 
 @check_images
-def test_plot_ic_alpha(im_i, test_plot):
+def test_plot_ic_alpha(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), alpha=0.5)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_ic_linewidth(im_i, test_plot):
+def test_plot_ic_linewidth(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), linewidth=2)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_ic_linestyle(im_i, test_plot):
+def test_plot_ic_linestyle(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), linestyle="--")
 	return test_plot.fig
 
 
 @check_images
-def test_plot_ic_multiple(im_i, test_plot):
+def test_plot_ic_multiple(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_ic(im_i.get_ic_at_index(5), label="IC @ Index 5")
 	test_plot.plot_ic(im_i.get_ic_at_index(10), label="IC @ Index 10")
 	test_plot.plot_ic(im_i.get_ic_at_index(20), label="IC @ Index 20")
@@ -129,51 +133,61 @@ def test_plot_ic_multiple(im_i, test_plot):
 
 
 @check_images
-def test_plot_ic_title(im_i, test_plot):
+def test_plot_ic_title(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_ic(im_i.get_ic_at_index(5))
 	test_plot.ax.set_title("Test IC Plot")
 	return test_plot.fig
 
 
-def test_plot_ic_errors(im_i, test_plot, data, ms):
+def test_plot_ic_errors(
+		im_i: IntensityMatrix,
+		test_plot: Display,
+		data: GCMS_data,
+		ms: MassSpectrum,
+		):
 	for obj in [*test_sequences, test_string, *test_numbers, test_dict, im_i, data, ms]:
 		with pytest.raises(TypeError):
-			test_plot.plot_ic(obj)
+			test_plot.plot_ic(obj)  # type: ignore[arg-type]
 
 
 # Plotting tic with various Line2D options
 @check_images
-def test_plot_tic(tic, test_plot):
+def test_plot_tic(tic: IonChromatogram, test_plot: Display):
 	test_plot.plot_tic(tic)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_tic_label(tic, test_plot):
+def test_plot_tic_label(tic: IonChromatogram, test_plot: Display):
 	test_plot.plot_tic(tic, label="IC @ Index 5")
 	test_plot.ax.legend()
 	return test_plot.fig
 
 
 @check_images
-def test_plot_tic_alpha(tic, test_plot):
+def test_plot_tic_alpha(tic: IonChromatogram, test_plot: Display):
 	test_plot.plot_tic(tic, alpha=0.5)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_tic_linewidth(tic, test_plot):
+def test_plot_tic_linewidth(tic: IonChromatogram, test_plot: Display):
 	test_plot.plot_tic(tic, linewidth=2)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_tic_linestyle(tic, test_plot):
+def test_plot_tic_linestyle(tic: IonChromatogram, test_plot: Display):
 	test_plot.plot_tic(tic, linestyle="--")
 	return test_plot.fig
 
 
-def test_plot_tic_errors(im_i, test_plot, data, ms):
+def test_plot_tic_errors(
+		im_i: IntensityMatrix,
+		test_plot: Display,
+		data: GCMS_data,
+		ms: MassSpectrum,
+		):
 	for obj in [
 			*test_sequences,
 			*test_numbers,
@@ -185,11 +199,11 @@ def test_plot_tic_errors(im_i, test_plot, data, ms):
 			ms,
 			]:
 		with pytest.raises(TypeError):
-			test_plot.plot_tic(obj)
+			test_plot.plot_tic(obj)  # type: ignore[arg-type]
 
 
 @check_images
-def test_plot_tic_title(tic, test_plot):
+def test_plot_tic_title(tic: IonChromatogram, test_plot: Display):
 	test_plot.plot_tic(tic)
 	test_plot.ax.set_title("Test TIC Plot")
 	return test_plot.fig
@@ -197,30 +211,35 @@ def test_plot_tic_title(tic, test_plot):
 
 # Plotting mass spec with various Line2D options
 @check_images
-def test_plot_mass_spec(im_i, test_plot):
+def test_plot_mass_spec(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50))
 	return test_plot.fig
 
 
 @check_images
-def test_plot_mass_spec_alpha(im_i, test_plot):
+def test_plot_mass_spec_alpha(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50), alpha=0.5)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_mass_spec_width(im_i, test_plot):
+def test_plot_mass_spec_width(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50), width=1)
 	return test_plot.fig
 
 
 @check_images
-def test_plot_mass_spec_linestyle(im_i, test_plot):
+def test_plot_mass_spec_linestyle(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50), linestyle="--")
 	return test_plot.fig
 
 
-def test_plot_mass_spec_errors(im_i, test_plot, data, tic):
+def test_plot_mass_spec_errors(
+		im_i: IntensityMatrix,
+		test_plot: Display,
+		data: GCMS_data,
+		tic: IonChromatogram,
+		):
 	for obj in [
 			*test_sequences,
 			test_string,
@@ -232,11 +251,11 @@ def test_plot_mass_spec_errors(im_i, test_plot, data, tic):
 			tic,
 			]:
 		with pytest.raises(TypeError):
-			test_plot.plot_mass_spec(obj)
+			test_plot.plot_mass_spec(obj)  # type: ignore[arg-type]
 
 
 @check_images
-def test_plot_mass_spec_title(im_i, test_plot):
+def test_plot_mass_spec_title(im_i: IntensityMatrix, test_plot: Display):
 	test_plot.plot_mass_spec(im_i.get_ms_at_index(50))
 	test_plot.ax.set_title(f"Mass spec for peak at time {im_i.get_time_at_index(50):5.2f}")
 	return test_plot.fig
@@ -251,7 +270,7 @@ def test_do_plotting_warning():
 	# check that only one warning was raised
 	assert len(record) == 1
 	# check that the message matches
-	args = record[0].message.args  # type: ignore
+	args = record[0].message.args  # type: ignore[union-attr]
 	expected = """No plots have been created.
 Please call a plotting function before calling 'do_plotting()'"""
 	assert args[0] == expected

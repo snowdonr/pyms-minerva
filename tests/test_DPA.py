@@ -24,11 +24,13 @@ import math
 import operator
 import pathlib
 import tempfile
+from typing import Any, Iterator, List
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
+from domdf_python_tools.paths import PathPlus
 
 # this package
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
@@ -68,7 +70,7 @@ Gw = 0.30  # gap penalty
 
 
 @pytest.fixture(scope="module")
-def expr_list(pyms_datadir):
+def expr_list(pyms_datadir: PathPlus) -> Iterator[List[Experiment]]:
 
 	with tempfile.TemporaryDirectory() as tmpdir:
 		outputdir = pathlib.Path(tmpdir)
@@ -126,12 +128,12 @@ def expr_list(pyms_datadir):
 		yield expr_list
 
 
-def test_expr_inequality(expr_list):
+def test_expr_inequality(expr_list: List[Experiment]):
 	assert expr_list[0] != expr_list[1]
 
 
 @pytest.fixture(scope="module")
-def F1(expr_list):
+def F1(expr_list: List[Experiment]) -> List[Alignment]:
 	# do the alignment
 	print("Aligning ELEY SUBTRACT")
 	F1 = exprl2alignment(expr_list)
@@ -141,7 +143,7 @@ def F1(expr_list):
 
 
 @pytest.fixture(scope="module")
-def T1(F1):
+def T1(F1: List[Alignment]) -> PairwiseAlignment:
 	T1 = PairwiseAlignment(F1, Dw, Gw)
 	assert isinstance(T1, PairwiseAlignment)
 
@@ -149,7 +151,7 @@ def T1(F1):
 
 
 @pytest.fixture(scope="module")
-def A1(T1):
+def A1(T1: PairwiseAlignment) -> Alignment:
 	A1 = align_with_tree(T1, min_peaks=2)
 	assert isinstance(A1, Alignment)
 
@@ -164,14 +166,14 @@ def A1(T1):
 class Test_alignment_Errors:
 
 	@pytest.mark.parametrize("obj", [test_string, test_int, *test_sequences, test_dict])
-	def test_alignments_errors(self, F1, obj):
+	def test_alignments_errors(self, F1: List[Alignment], obj: Any):
 		with pytest.raises(TypeError):
 			PairwiseAlignment(F1, obj, Gw)
 		with pytest.raises(TypeError):
 			PairwiseAlignment(F1, Dw, obj)
 
 	@pytest.mark.parametrize("obj", [*test_numbers, test_string, *test_sequences, test_dict])
-	def test_expr_errors(self, obj):
+	def test_expr_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			exprl2alignment(obj)
 		with pytest.raises(TypeError):
@@ -180,12 +182,12 @@ class Test_alignment_Errors:
 			Alignment(obj)
 
 	@pytest.mark.parametrize("obj", [test_float, test_string, test_dict, test_list_strs, test_list_ints])
-	def test_min_peaks_errors(self, A1, obj):
+	def test_min_peaks_errors(self, A1: Alignment, obj: Any):
 		with pytest.raises(TypeError):
 			A1.filter_min_peaks(obj)
 
 	@pytest.mark.parametrize("obj", [*test_numbers, test_dict, *test_lists])
-	def test_file_name_errors(self, A1, obj, tmp_pathplus):
+	def test_file_name_errors(self, A1: Alignment, obj: Any, tmp_pathplus: PathPlus):
 		with pytest.raises(TypeError):
 			A1.write_csv(obj, tmp_pathplus / "alignment_area.csv")
 		with pytest.raises(TypeError):
@@ -196,12 +198,12 @@ class Test_alignment_Errors:
 			A1.write_ion_areas_csv(obj)
 
 	@pytest.mark.parametrize("obj", [*test_numbers, test_dict, test_list_strs, test_string])
-	def test_top_ion_list_errors(self, A1, obj, tmp_pathplus):
+	def test_top_ion_list_errors(self, A1: Alignment, obj: Any, tmp_pathplus: PathPlus):
 		with pytest.raises(TypeError):
 			A1.write_common_ion_csv(tmp_pathplus / "alignent_ion_area.csv", obj)
 
 
-def test_write_csv(A1, tmp_pathplus):
+def test_write_csv(A1: Alignment, tmp_pathplus: PathPlus):
 	A1.write_csv(tmp_pathplus / "alignment_rt.csv", tmp_pathplus / "alignment_area.csv")
 
 	# Read alignment_rt.csv and alignment_area.csv and check values
@@ -294,7 +296,7 @@ def test_write_csv(A1, tmp_pathplus):
 		assert rt_csv[peak_idx + 1][1] == area_csv[peak_idx + 1][1] == f"{float(compo_peak.rt):.3f}"
 
 
-def test_write_ion_areas_csv(A1, tmp_pathplus):
+def test_write_ion_areas_csv(A1: Alignment, tmp_pathplus: PathPlus):
 	A1.write_ion_areas_csv(tmp_pathplus / "alignment_ion_areas.csv")
 	A1.write_ion_areas_csv(tmp_pathplus / "alignment_ion_areas_seconds.csv", minutes=False)
 
@@ -336,7 +338,11 @@ def test_write_ion_areas_csv(A1, tmp_pathplus):
 		assert seconds_ion_csv[peak_idx + 1][1] == f"{float(compo_peak.rt):.3f}"
 
 
-def test_write_common_ion_csv(A1, tmp_pathplus, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_write_common_ion_csv(
+		A1: Alignment,
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		):
 	common_ion = A1.common_ion()
 	assert isinstance(common_ion, list)
 	assert is_number(common_ion[0])
@@ -359,7 +365,7 @@ def test_write_common_ion_csv(A1, tmp_pathplus, advanced_file_regression: Advanc
 # TODO: read the csv and check values
 
 
-def test_align_2_alignments(A1, pyms_datadir, tmp_pathplus):
+def test_align_2_alignments(A1: Alignment, pyms_datadir: PathPlus, tmp_pathplus: PathPlus):
 	expr_list = []
 
 	for jcamp_file in geco_codes:

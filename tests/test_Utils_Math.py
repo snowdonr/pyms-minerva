@@ -207,13 +207,13 @@ class TestMedian:
 
 class TestStdev:
 	# Tests for sample variance.
-	def setUp(self):
+	def setUp(self) -> None:
 		self.func = statistics.variance
 
 	def test_single_value(self):
 		for x in (81, 203.74, 3.9e14, Fraction(5, 21), Decimal("35.719")):
 			with pytest.raises(statistics.StatisticsError):
-				statistics.stdev([x])  # type: ignore
+				statistics.stdev([x])  # type: ignore[type-var]
 
 	def test_ints(self):
 		# Test sample variance with int data.

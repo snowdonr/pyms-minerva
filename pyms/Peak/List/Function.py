@@ -28,7 +28,7 @@ import math
 from typing import Any, List, Optional, Sequence, Union
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 
 # this package
 from pyms.IntensityMatrix import BaseIntensityMatrix
@@ -209,7 +209,7 @@ def fill_peaks(
 		cosarr = toparr / botarr
 
 		# RT weight of each scan
-		rtimearr = numpy.exp(-((subrts - rt) / float(Dclose))**2 / 2.0)  # type: ignore
+		rtimearr = numpy.exp(-((subrts - rt) / float(Dclose))**2 / 2.0)  # type: ignore[operator]
 
 		# weighted scores
 		scorearr = cosarr * rtimearr

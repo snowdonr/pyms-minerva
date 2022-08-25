@@ -29,11 +29,11 @@ from typing import List
 
 # 3rd party
 from domdf_python_tools.typing import PathLike
-from openpyxl import Workbook  # type: ignore
-from openpyxl.comments import Comment  # type: ignore
-from openpyxl.formatting.rule import ColorScaleRule  # type: ignore
-from openpyxl.styles import PatternFill  # type: ignore
-from openpyxl.utils import get_column_letter  # type: ignore
+from openpyxl import Workbook  # type: ignore[import]
+from openpyxl.comments import Comment  # type: ignore[import]
+from openpyxl.formatting.rule import ColorScaleRule  # type: ignore[import]
+from openpyxl.styles import PatternFill  # type: ignore[import]
+from openpyxl.utils import get_column_letter  # type: ignore[import]
 
 # this package
 from pyms.DPA.Alignment import Alignment
@@ -85,8 +85,8 @@ def write_mass_hunter_csv(
 		#            [align1_peak2, ................................]
 		#              .............................................
 		#            [align1_peakm,....................,alignn_peakm]  ]
-		areas = []  # type: ignore
-		new_peak_lists = []  # type: ignore
+		areas = []  # type: ignore[var-annotated]
+		new_peak_lists = []  # type: ignore[var-annotated]
 		rtmax = []
 		rtmin = []
 
@@ -373,7 +373,7 @@ def write_transposed_output(
 
 				# write the RT into the cell in the excel file
 				currcell1 = ws1.cell(column=cell_col, row=cell_row, value=round(rt, 3))
-				ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))  # type: ignore
+				ws2.cell(column=cell_col, row=cell_row, value=round(area, 3))  # type: ignore[arg-type]
 
 				# get the mini-mass spec for this peak, and divide the ion intensities by 1000 to shorten them
 				ia = peak.ion_areas

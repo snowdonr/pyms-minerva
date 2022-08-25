@@ -28,7 +28,7 @@ import math
 from typing import List
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 
 # this package
 from pyms import Peak
@@ -225,7 +225,7 @@ def gcms_sim(
 
 		height = sum(peak.mass_spectrum.mass_spec)
 		# standard deviation = area/(height * sqrt(2/pi))
-		sigma: float = peak.area / (height * (math.sqrt(2 * math.pi)))  # type: ignore
+		sigma: float = peak.area / (height * (math.sqrt(2 * math.pi)))  # type: ignore[operator]
 		print("width", sigma)
 
 		for i in range(len(peak.mass_spectrum.mass_list)):

@@ -24,4 +24,4 @@ Functions for modelling peak lists.
 ################################################################################
 
 # this package
-from pyms.Peak.List.Function import *
+from pyms.Peak.List.Function import *  # noqa: F401

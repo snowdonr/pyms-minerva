@@ -30,8 +30,8 @@ from statistics import median
 from typing import Dict, List, Sequence, Tuple, Union, cast, overload
 
 # 3rd party
-import deprecation  # type: ignore
-from numpy import percentile  # type: ignore
+import deprecation  # type: ignore[import]
+from numpy import percentile  # type: ignore[import]
 from typing_extensions import Literal
 
 # this package

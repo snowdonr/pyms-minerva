@@ -24,4 +24,4 @@ Functions for modelling signal peaks.
 ################################################################################
 
 # this package
-from pyms.Peak.Class import Peak
+from pyms.Peak.Class import Peak  # noqa: F401

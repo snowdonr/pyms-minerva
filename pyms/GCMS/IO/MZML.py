@@ -24,12 +24,12 @@ Functions for reading mzML format data files.
 ################################################################################
 
 # 3rd party
-import pymzml  # type: ignore
+import pymzml  # type: ignore[import]
 from domdf_python_tools.typing import PathLike
 
 try:
 	# 3rd party
-	from mpi4py import MPI  # type: ignore
+	from mpi4py import MPI  # type: ignore[import]
 except ModuleNotFoundError:
 	pass
 

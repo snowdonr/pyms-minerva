@@ -153,7 +153,7 @@ def save_data(
 		prepend: str = '',
 		sep: str = ' ',
 		compressed: bool = False,
-		):
+		) -> None:
 	"""
 	Saves a list of numbers or a list of lists of numbers to a file with specific formatting.
 

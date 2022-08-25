@@ -30,14 +30,14 @@ import math
 from typing import Dict, List
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 
 # this package
 from pyms.Peak import Peak
 
 try:
 	# 3rd party
-	from mpi4py import MPI  # type: ignore
+	from mpi4py import MPI  # type: ignore[import]
 except ModuleNotFoundError:
 	pass
 
@@ -403,7 +403,7 @@ def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 
 		elif trace == 2:
 			for i, _ in enumerate(A1.peakpos):
-				merged[i].append(None)  # type: ignore
+				merged[i].append(None)  # type: ignore[arg-type]
 
 		# ---
 
@@ -415,7 +415,7 @@ def merge_alignments(A1: Alignment, A2: Alignment, traces) -> Alignment:
 
 		elif trace == 1:
 			for j, _ in enumerate(A2.peakpos):
-				merged[1 + i + j].append(None)  # type: ignore
+				merged[1 + i + j].append(None)  # type: ignore[arg-type]
 
 	ma.peakalgt = numpy.transpose(merged)
 	# sort according to average peak

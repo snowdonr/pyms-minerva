@@ -18,11 +18,16 @@
 #                                                                           #
 #############################################################################
 
+# stdlib
+from typing import Any
+
 # 3rd party
-import deprecation  # type: ignore
+import deprecation  # type: ignore[import]
 import pytest
 
 # this package
+from pyms.IntensityMatrix import IntensityMatrix
+from pyms.Peak import Peak
 from pyms.Peak.Function import (
 		half_area,
 		ion_area,
@@ -38,7 +43,7 @@ from tests.constants import *
 
 class Test_peak_sum_area:
 
-	def test_main(self, peak, im_i):
+	def test_main(self, peak: Peak, im_i: IntensityMatrix):
 
 		area_sum, area_dict = peak_sum_area(im_i, peak, single_ion=True, max_bound=5)
 		assert isinstance(area_sum, float)
@@ -51,24 +56,24 @@ class Test_peak_sum_area:
 		assert area_sum == 10025814.0
 
 	@pytest.mark.parametrize("obj", [*test_numbers, test_string, test_dict, *test_sequences])
-	def test_im_errors(self, peak, obj):
+	def test_im_errors(self, peak: IntensityMatrix, obj: Any):
 		with pytest.raises(TypeError):
-			peak_sum_area(obj, peak)
+			peak_sum_area(obj, peak)  # type: ignore[call-overload]
 
 	@pytest.mark.parametrize("obj", [*test_numbers, test_string, test_dict, *test_sequences])
-	def test_peak_errors(self, im_i, obj):
+	def test_peak_errors(self, im_i: IntensityMatrix, obj: Any):
 		with pytest.raises(TypeError):
 			peak_sum_area(im_i, obj)
 
 	@pytest.mark.parametrize("obj", [test_float, test_string, test_dict, *test_sequences])
-	def test_max_bound_errors(self, im_i, peak, obj):
+	def test_max_bound_errors(self, im_i: IntensityMatrix, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			peak_sum_area(im_i, peak, max_bound=obj)
 
 
 class Test_peak_pt_bounds:
 
-	def test_main(self, peak, im_i):
+	def test_main(self, peak: Peak, im_i: IntensityMatrix):
 		bounds = peak_pt_bounds(im_i, peak)
 		assert isinstance(bounds, tuple)
 		assert len(bounds) == 2
@@ -76,19 +81,19 @@ class Test_peak_pt_bounds:
 		assert isinstance(bounds[0], int)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, *test_lists])
-	def test_im_errors(self, peak, obj):
+	def test_im_errors(self, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			peak_pt_bounds(obj, peak)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, *test_lists])
-	def test_peak_errors(self, im_i, obj):
+	def test_peak_errors(self, im_i: IntensityMatrix, obj: Any):
 		with pytest.raises(TypeError):
 			peak_pt_bounds(im_i, obj)
 
 
 class Test_peak_top_ion_areas:
 
-	def test_main(self, peak, im_i):
+	def test_main(self, peak: Peak, im_i: IntensityMatrix):
 		areas = peak_top_ion_areas(im_i, peak, 5)
 		assert isinstance(areas, dict)
 
@@ -98,41 +103,41 @@ class Test_peak_top_ion_areas:
 		assert isinstance(areas[100], float)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, *test_lists])
-	def test_im_errors(self, peak, obj):
+	def test_im_errors(self, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			peak_top_ion_areas(obj, peak)
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, *test_lists])
-	def test_peak_errors(self, im_i, obj):
+	def test_peak_errors(self, im_i: IntensityMatrix, obj: Any):
 		with pytest.raises(TypeError):
 			peak_top_ion_areas(im_i, obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, test_dict, *test_lists])
-	def test_n_top_ions_errors(self, im_i, peak, obj):
+	def test_n_top_ions_errors(self, im_i: IntensityMatrix, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			peak_top_ion_areas(im_i, peak, n_top_ions=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, test_dict, *test_lists])
-	def test_max_bound_errors(self, im_i, peak, obj):
+	def test_max_bound_errors(self, im_i: IntensityMatrix, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			peak_top_ion_areas(im_i, peak, max_bound=obj)
 
 
 @deprecation.fail_if_not_removed
-def test_top_ions_v1(peak):
+def test_top_ions_v1(peak: Peak):
 	with pytest.warns(DeprecationWarning):
 		top_ions_v1(peak, 10)
 
 
 @deprecation.fail_if_not_removed
-def test_top_ions_v2(peak):
+def test_top_ions_v2(peak: Peak):
 	with pytest.warns(DeprecationWarning):
 		top_ions_v2(peak, 10)
 
 
 class Test_ion_area:
 
-	def test_main(self, peak, im_i):
+	def test_main(self):
 		ion_area_val = ion_area(list(range(100)), 20)
 		assert isinstance(ion_area_val, tuple)
 		assert len(ion_area_val) == 5
@@ -143,29 +148,29 @@ class Test_ion_area:
 		assert ion_area_val[4] is True
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, test_list_strs])
-	def test_ia_errors(self, obj):
+	def test_ia_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			ion_area(obj, 20)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, test_dict, *test_lists])
-	def test_apex_errors(self, obj):
+	def test_apex_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			ion_area(list(range(100)), obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, test_dict, *test_lists])
-	def test_max_bound_errors(self, obj):
+	def test_max_bound_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			ion_area(list(range(100)), 20, max_bound=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_int, test_dict, *test_lists])
-	def test_tol_errors(self, obj):
+	def test_tol_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			ion_area(list(range(100)), 20, tol=obj)
 
 
 class Test_half_area:
 
-	def test_main(self, peak, im_i):
+	def test_main(self):
 		half_area_value = half_area(list(range(100)), 20)
 		assert isinstance(half_area_value, tuple)
 		assert len(half_area_value) == 3
@@ -174,24 +179,24 @@ class Test_half_area:
 		assert half_area_value[2] is True
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, test_list_strs])
-	def test_ia_errors(self, obj):
+	def test_ia_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			half_area(obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, test_dict, *test_lists])
-	def test_max_bound_errors(self, obj):
+	def test_max_bound_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			half_area(list(range(100)), max_bound=obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_int, test_dict, *test_lists])
-	def test_tol_errors(self, obj):
+	def test_tol_errors(self, obj: Any):
 		with pytest.raises(TypeError):
 			half_area(list(range(100)), tol=obj)
 
 
 class Test_median_bounds:
 
-	def test_main(self, peak, im_i):
+	def test_main(self, peak: Peak, im_i: IntensityMatrix):
 		median_bounds_value = median_bounds(im_i, peak)
 		assert isinstance(median_bounds_value, tuple)
 		assert isinstance(median_bounds(im_i, peak, False), tuple)
@@ -201,17 +206,17 @@ class Test_median_bounds:
 		assert median_bounds_value[1] == 1
 
 	@pytest.mark.parametrize("obj", [test_string, *test_numbers, test_dict, test_list_strs, test_list_ints])
-	def test_im_errors(self, peak, obj):
+	def test_im_errors(self, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			median_bounds(obj, peak)
 
 	@pytest.mark.parametrize("obj", [test_string, test_float, test_dict, *test_lists])
-	def test_peak_errors(self, im_i, obj):
+	def test_peak_errors(self, im_i: IntensityMatrix, obj: Any):
 		with pytest.raises(TypeError):
 			median_bounds(im_i, obj)
 
 	@pytest.mark.parametrize("obj", [test_string, test_int, test_dict, *test_lists])
-	def test_shared_errors(self, im_i, peak, obj):
+	def test_shared_errors(self, im_i: IntensityMatrix, peak: Peak, obj: Any):
 		with pytest.raises(TypeError):
 			median_bounds(im_i, peak, obj)
 

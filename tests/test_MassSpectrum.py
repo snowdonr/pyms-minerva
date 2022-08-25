@@ -21,19 +21,21 @@
 # stdlib
 import copy
 import pathlib
+from typing import Any, Type
 
 # 3rd party
 import pytest
 import requests
 
 # this package
+from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Spectrum import MassSpectrum
 
 # this package
 from .constants import *
 
 
-def test_MassSpectrum(ms):
+def test_MassSpectrum(ms: MassSpectrum):
 	assert isinstance(ms, MassSpectrum)
 
 
@@ -47,7 +49,7 @@ def test_MassSpectrum(ms):
 				(test_dict, TypeError),
 				],
 		)
-def test_errors(ms, obj, expects):
+def test_errors(ms: MassSpectrum, obj: Any, expects: Type[Exception]):
 	with pytest.raises(expects):
 		MassSpectrum(obj, ms.intensity_list)
 
@@ -55,11 +57,11 @@ def test_errors(ms, obj, expects):
 		MassSpectrum(ms.mass_list, obj)
 
 
-def test_len(ms):
+def test_len(ms: MassSpectrum):
 	assert len(ms) == 450
 
 
-def test_equality(im, ms):
+def test_equality(im: IntensityMatrix, ms: MassSpectrum):
 	assert ms != im.get_ms_at_index(1234)
 	assert ms == MassSpectrum(ms.mass_list, ms.mass_spec)
 	assert ms != test_list_ints
@@ -70,7 +72,7 @@ def test_equality(im, ms):
 	assert ms != test_float
 
 
-def test_mass_spec(ms):
+def test_mass_spec(ms: MassSpectrum):
 	ms = copy.deepcopy(ms)
 	assert ms.mass_spec[5] == 4192.0
 	assert ms.mass_spec[50] == 3459.0
@@ -98,7 +100,7 @@ def test_mass_spec(ms):
 				(test_list_strs, ValueError),
 				]
 		)
-def test_mass_spec_errors(ms, obj, expects):
+def test_mass_spec_errors(ms: MassSpectrum, obj: Any, expects: Type[Exception]):
 	with pytest.raises(expects):
 		ms.mass_spec = obj
 
@@ -106,7 +108,7 @@ def test_mass_spec_errors(ms, obj, expects):
 		ms.intensity_list = obj
 
 
-def test_mass_list(ms):
+def test_mass_list(ms: MassSpectrum):
 	assert ms.mass_list[5] == 55
 	assert ms.mass_list[50] == 100
 	assert ms.mass_list[100] == 150
@@ -126,7 +128,7 @@ def test_mass_list(ms):
 				(test_list_strs, ValueError),
 				]
 		)
-def test_mass_list_errors(ms, obj, expects):
+def test_mass_list_errors(ms: MassSpectrum, obj: Any, expects: Type[Exception]):
 	with pytest.raises(expects):
 		ms.mass_list = obj
 
@@ -253,11 +255,11 @@ def test_from_mz_int_pairs():
 			(["abc", "123"]),
 			]:
 		with pytest.raises(TypeError):
-			MassSpectrum.from_mz_int_pairs(obj)  # type: ignore
+			MassSpectrum.from_mz_int_pairs(obj)  # type: ignore[arg-type]
 
 	for obj in [[(1, 2, 3)], ([1, 2, 3], ), [(1, )], ([1], )]:
 		with pytest.raises(ValueError, match=r"'mz_int_pairs' must be a list of \(m/z, intensity\) tuples."):
-			MassSpectrum.from_mz_int_pairs(obj)  # type: ignore
+			MassSpectrum.from_mz_int_pairs(obj)  # type: ignore[arg-type]
 
 	with pytest.raises(ValueError, match="could not convert string to float: 'abc'"):
-		MassSpectrum.from_mz_int_pairs([("abc", "123")])  # type: ignore
+		MassSpectrum.from_mz_int_pairs([("abc", "123")])  # type: ignore[list-item]

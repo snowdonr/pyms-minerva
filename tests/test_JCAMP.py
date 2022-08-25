@@ -19,12 +19,13 @@
 #############################################################################
 
 # stdlib
-import pickle
 from copy import deepcopy
+from typing import cast
 
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
+from domdf_python_tools.paths import PathPlus
 
 # this package
 from pyms.GCMS.Class import GCMS_data
@@ -41,7 +42,7 @@ def test_JCAMP_reader(pyms_datadir):
 	# Errors
 	for obj in [*test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			JCAMP_reader(obj)  # type: ignore
+			JCAMP_reader(obj)  # type: ignore[arg-type]
 
 	with pytest.raises(FileNotFoundError):
 		JCAMP_reader(test_string)
@@ -51,7 +52,7 @@ def test_JCAMP_reader(pyms_datadir):
 # todo
 
 
-def test_GCMS_data(data):
+def test_GCMS_data(data: GCMS_data):
 	assert isinstance(data, GCMS_data)
 
 	GCMS_data(data.time_list, data.scan_list)
@@ -59,18 +60,18 @@ def test_GCMS_data(data):
 	# Errors
 	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(obj, data.scan_list)  # type: ignore
+			GCMS_data(obj, data.scan_list)  # type: ignore[arg-type]
 
 	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(data.time_list, obj)  # type: ignore
+			GCMS_data(data.time_list, obj)  # type: ignore[arg-type]
 
 
 def test_len(data):
 	assert len(data) == 2103
 
 
-def test_equality(data):
+def test_equality(data: GCMS_data):
 	assert data == GCMS_data(data.time_list, data.scan_list)
 	assert data != GCMS_data(list(range(len(data.scan_list))), data.scan_list)
 	assert data != test_string
@@ -200,7 +201,12 @@ def test_trim(data):
 		"jcamp_gcms_data.I.csv",
 		"jcamp_gcms_data.mz.csv",
 		])
-def test_write(data, tmp_pathplus, advanced_file_regression: AdvancedFileRegressionFixture, filename):
+def test_write(
+		data: GCMS_data,
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		filename: str,
+		):
 	data.write(tmp_pathplus / "jcamp_gcms_data")
 
 	# Errors
@@ -213,7 +219,11 @@ def test_write(data, tmp_pathplus, advanced_file_regression: AdvancedFileRegress
 	advanced_file_regression.check_file(tmp_pathplus / filename)
 
 
-def test_write_intensities_stream(data, tmp_pathplus, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_write_intensities_stream(
+		data,
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		):
 	filename = "jcamp_intensity_stream.csv"
 	data.write_intensities_stream(tmp_pathplus / "jcamp_intensity_stream.csv")
 
@@ -230,17 +240,17 @@ def test_write_intensities_stream(data, tmp_pathplus, advanced_file_regression: 
 # Inherited Methods from pymsBaseClass
 
 
-def test_dump(data, tmp_pathplus):
+def test_dump(data: GCMS_data, tmp_pathplus: PathPlus):
 	data.dump(tmp_pathplus / "JCAMP_dump.dat")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
 		with pytest.raises(TypeError):
-			data.dump(obj)
+			data.dump(obj)  # type: ignore[arg-type]
 
 	# Read and check values
 	assert (tmp_pathplus / "JCAMP_dump.dat").exists()
-	loaded_data = _pickle_load_path(tmp_pathplus / "JCAMP_dump.dat")
+	loaded_data = cast(GCMS_data, _pickle_load_path(tmp_pathplus / "JCAMP_dump.dat"))
 	assert loaded_data == data
 	assert len(loaded_data) == len(data)
 

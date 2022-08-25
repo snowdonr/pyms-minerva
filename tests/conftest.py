@@ -21,6 +21,7 @@
 # stdlib
 import copy
 from pathlib import Path
+from typing import List
 
 # 3rd party
 import pytest
@@ -28,47 +29,50 @@ import pytest
 # this package
 from pyms.BillerBiemann import BillerBiemann, num_ions_threshold, rel_threshold
 from pyms.Experiment import Experiment
+from pyms.GCMS.Class import GCMS_data
 from pyms.GCMS.IO.JCAMP import JCAMP_reader
-from pyms.IntensityMatrix import build_intensity_matrix, build_intensity_matrix_i
+from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix, build_intensity_matrix_i
+from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay
 from pyms.Peak.Class import Peak
 from pyms.Peak.Function import peak_sum_area, peak_top_ion_areas
+from pyms.Spectrum import MassSpectrum, Scan
 from pyms.TopHat import tophat
 
 pytest_plugins = ("coincidence", )
 
 
 @pytest.fixture(scope="session")
-def pyms_datadir():
+def pyms_datadir() -> Path:
 	return Path(__file__).parent / "data"
 
 
 @pytest.fixture(scope="session")
-def data(pyms_datadir):
+def data(pyms_datadir: Path) -> GCMS_data:
 	print("data")
 	return JCAMP_reader(pyms_datadir / "ELEY_1_SUBTRACT.JDX")
 
 
 @pytest.fixture(scope="session")
-def im(data):
+def im(data: GCMS_data) -> IntensityMatrix:
 	# build an intensity matrix object from the data
 	return build_intensity_matrix(data)
 
 
 @pytest.fixture(scope="session")
-def tic(data):
+def tic(data: GCMS_data) -> IonChromatogram:
 	# get the TIC
 	return copy.deepcopy(data.tic)
 
 
 @pytest.fixture(scope="session")
-def im_i(data):
+def im_i(data: GCMS_data) -> IntensityMatrix:
 	# build an intensity matrix object from the data
 	return build_intensity_matrix_i(data)
 
 
 @pytest.fixture(scope="session")  # noqa: PT005
-def _peak_list(im_i):
+def _peak_list(im_i: IntensityMatrix) -> List[Peak]:
 	im_i = copy.deepcopy(im_i)
 
 	# Intensity matrix size (scans, masses)
@@ -89,12 +93,12 @@ def _peak_list(im_i):
 
 
 @pytest.fixture()
-def peak_list(_peak_list):
+def peak_list(_peak_list: List[Peak]) -> List[Peak]:
 	return copy.deepcopy(_peak_list)
 
 
 @pytest.fixture(scope="session")  # noqa: PT005
-def _filtered_peak_list(im_i, _peak_list):
+def _filtered_peak_list(im_i: IntensityMatrix, _peak_list: List[Peak]) -> List[Peak]:
 	peak_list = copy.deepcopy(_peak_list)
 	# do peak detection on pre-trimmed data
 	# trim by relative intensity
@@ -119,29 +123,29 @@ def _filtered_peak_list(im_i, _peak_list):
 
 
 @pytest.fixture()
-def filtered_peak_list(im_i, _filtered_peak_list):
+def filtered_peak_list(_filtered_peak_list: List[Peak]) -> List[Peak]:
 	return copy.deepcopy(_filtered_peak_list)
 
 
 @pytest.fixture(scope="session")
-def peak(im_i):
+def peak(im_i: IntensityMatrix) -> Peak:
 	scan_i = im_i.get_index_at_time(31.17 * 60.0)
 	ms = im_i.get_ms_at_index(scan_i)
 	return Peak(12.34, ms)
 
 
 @pytest.fixture(scope="session")
-def ms(im_i):
+def ms(im_i: IntensityMatrix) -> MassSpectrum:
 	return copy.deepcopy(im_i.get_ms_at_index(0))
 
 
 @pytest.fixture(scope="session")
-def scan(data):
+def scan(data: GCMS_data) -> Scan:
 	# return deepcopy(im_i.get_scan_at_index(0))
 	return copy.deepcopy(data.scan_list[0])
 
 
 @pytest.fixture()
-def expr(filtered_peak_list):
+def expr(filtered_peak_list: List[Peak]) -> Experiment:
 	# create an experiment
 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)

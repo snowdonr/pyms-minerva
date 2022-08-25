@@ -30,7 +30,7 @@ from statistics import mean, median, stdev
 from typing import List, Optional, Sequence, TypeVar, cast
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
 
@@ -265,7 +265,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 			self,
 			begin: Optional[IntStr] = None,
 			end: Optional[IntStr] = None,
-			):
+			) -> None:
 		"""
 		Trims data in the time domain.
 

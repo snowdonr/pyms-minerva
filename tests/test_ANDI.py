@@ -19,12 +19,13 @@
 #############################################################################
 
 # stdlib
-import pickle
 from copy import deepcopy
+from typing import cast
 
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
+from domdf_python_tools.paths import PathPlus
 
 # this package
 from pyms.GCMS.Class import GCMS_data
@@ -40,7 +41,7 @@ from pyms.GCMS.IO.ANDI import ANDI_reader  # noqa: E402
 
 
 @pytest.fixture(scope="module")
-def andi(pyms_datadir):
+def andi(pyms_datadir: PathPlus) -> GCMS_data:
 	print("data")
 	return ANDI_reader(pyms_datadir / "gc01_0812_066.cdf")
 
@@ -133,11 +134,11 @@ def andi(pyms_datadir):
 # 	return Experiment("ELEY_1_SUBTRACT", filtered_peak_list)
 
 
-def test_ANDI_reader(pyms_datadir):
+def test_ANDI_reader():
 	# Errors
 	for obj in [*test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			ANDI_reader(obj)  # type: ignore
+			ANDI_reader(obj)  # type: ignore[arg-type]
 
 	with pytest.raises(FileNotFoundError):
 		ANDI_reader(test_string)
@@ -147,7 +148,7 @@ def test_ANDI_reader(pyms_datadir):
 # todo
 
 
-def test_GCMS_data(andi):
+def test_GCMS_data(andi: GCMS_data):
 	assert isinstance(andi, GCMS_data)
 
 	GCMS_data(andi.time_list, andi.scan_list)
@@ -155,18 +156,18 @@ def test_GCMS_data(andi):
 	# Errors
 	for obj in [test_string, *test_numbers, test_list_strs, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(obj, andi.scan_list)  # type: ignore
+			GCMS_data(obj, andi.scan_list)  # type: ignore[arg-type]
 
 	for obj in [test_string, *test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			GCMS_data(andi.time_list, obj)  # type: ignore
+			GCMS_data(andi.time_list, obj)  # type: ignore[arg-type]
 
 
-def test_len(andi):
+def test_len(andi: GCMS_data):
 	assert len(andi) == 9865
 
 
-def test_equality(andi):
+def test_equality(andi: GCMS_data):
 	assert andi == GCMS_data(andi.time_list, andi.scan_list)
 	assert andi != GCMS_data(list(range(len(andi.scan_list))), andi.scan_list)
 	assert andi != test_string
@@ -178,7 +179,7 @@ def test_equality(andi):
 	assert andi != test_dict
 
 
-def test_info(capsys, andi):
+def test_info(capsys, andi: GCMS_data):
 	andi.info()
 	captured = capsys.readouterr()
 	expected = """ Data retention time range: 5.093 min -- 66.795 min
@@ -193,7 +194,7 @@ def test_info(capsys, andi):
 	assert captured.out == expected
 
 
-def test_scan_list(andi):
+def test_scan_list(andi: GCMS_data):
 	# raw scans
 	scans = andi.scan_list
 
@@ -219,7 +220,7 @@ def test_scan_list(andi):
 	assert scans[0].max_mass == 599.4000244140625
 
 
-def test_tic(andi):
+def test_tic(andi: GCMS_data):
 	tic = andi.tic
 	assert isinstance(tic, IonChromatogram)
 	# number of scans in TIC
@@ -245,7 +246,7 @@ def test_tic(andi):
 	assert tic.is_tic()
 
 
-def test_trim(andi):
+def test_trim(andi: GCMS_data):
 	# time
 	trimmed = deepcopy(andi)
 	trimmed.trim("6.5m", "21m")
@@ -288,36 +289,45 @@ def test_trim(andi):
 
 	for obj in [*test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			trimmed.trim(begin=obj)
+			trimmed.trim(begin=obj)  # type: ignore[type-var]
 		with pytest.raises(TypeError):
-			trimmed.trim(end=obj)
+			trimmed.trim(end=obj)  # type: ignore[type-var]
 
 
 @pytest.mark.parametrize("filename", [
 		"andi_gcms_data.I.csv",
 		"andi_gcms_data.mz.csv",
 		])
-def test_write(andi, tmp_pathplus, advanced_file_regression: AdvancedFileRegressionFixture, filename):
+def test_write(
+		andi: GCMS_data,
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		filename: str,
+		):
 	andi.write(tmp_pathplus / "andi_gcms_data")
 
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
 		with pytest.raises(TypeError):
-			andi.write(obj)
+			andi.write(obj)  # type: ignore[arg-type]
 
 	# Read file and check values
 	assert (tmp_pathplus / filename).exists()
 	advanced_file_regression.check_file(tmp_pathplus / filename)
 
 
-def test_write_intensities_stream(andi, tmp_pathplus, advanced_file_regression: AdvancedFileRegressionFixture):
+def test_write_intensities_stream(
+		andi: GCMS_data,
+		tmp_pathplus: PathPlus,
+		advanced_file_regression: AdvancedFileRegressionFixture,
+		):
 	filename = "andi_intensity_stream.csv"
 	andi.write_intensities_stream(tmp_pathplus / filename)
 
 	# Errors
 	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
 		with pytest.raises(TypeError):
-			andi.write_intensities_stream(obj)
+			andi.write_intensities_stream(obj)  # type: ignore[arg-type]
 
 	# Read file and check values
 	assert (tmp_pathplus / filename).exists()
@@ -327,17 +337,17 @@ def test_write_intensities_stream(andi, tmp_pathplus, advanced_file_regression: 
 # Inherited Methods from pymsBaseClass
 
 
-def test_dump(andi, tmp_pathplus):
+def test_dump(andi: GCMS_data, tmp_pathplus: PathPlus):
 	andi.dump(tmp_pathplus / "ANDI_dump.dat")
 
 	# Errors
 	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
 		with pytest.raises(TypeError):
-			andi.dump(obj)
+			andi.dump(obj)  # type: ignore[arg-type]
 
 	# Read and check values
 	assert (tmp_pathplus / "ANDI_dump.dat").exists()
-	loaded_data = _pickle_load_path(tmp_pathplus / "ANDI_dump.dat")
+	loaded_data = cast(GCMS_data, _pickle_load_path(tmp_pathplus / "ANDI_dump.dat"))
 	assert loaded_data == andi
 	assert len(loaded_data) == len(andi)
 
@@ -345,7 +355,7 @@ def test_dump(andi, tmp_pathplus):
 # Inherited Methods from TimeListMixin
 
 
-def test_time_list(andi):
+def test_time_list(andi: GCMS_data):
 	time = andi.time_list
 	assert isinstance(time, list)
 	# number of retention times
@@ -358,13 +368,13 @@ def test_time_list(andi):
 # Inherited Methods from MaxMinMassMixin
 
 
-def test_max_mass(andi):
+def test_max_mass(andi: GCMS_data):
 	# maximum mass found in all data
 	assert isinstance(andi.max_mass, float)
 	assert andi.max_mass == 599.9000244140625
 
 
-def test_min_mass(andi):
+def test_min_mass(andi: GCMS_data):
 	assert isinstance(andi.min_mass, float)
 	# minimum mass found in all data
 	assert andi.min_mass == 50.0
@@ -373,7 +383,7 @@ def test_min_mass(andi):
 # Inherited Methods from GetIndexTimeMixin
 
 
-def test_get_index_at_time(andi):
+def test_get_index_at_time(andi: GCMS_data):
 	# index of 400sec in time_list
 	assert isinstance(andi.get_index_at_time(400.0), int)
 	assert andi.get_index_at_time(400.0) == 252
@@ -381,21 +391,21 @@ def test_get_index_at_time(andi):
 	# Errors
 	for obj in [test_dict, *test_lists, test_string, test_tuple]:
 		with pytest.raises(TypeError):
-			andi.get_index_at_time(obj)
+			andi.get_index_at_time(obj)  # type: ignore[arg-type]
 	with pytest.raises(IndexError):
 		andi.get_index_at_time(0)
 	with pytest.raises(IndexError):
 		andi.get_index_at_time(100000)
 
 
-def test_get_time_at_index(andi):
+def test_get_time_at_index(andi: GCMS_data):
 	assert isinstance(andi.get_time_at_index(400), float)
 	assert andi.get_time_at_index(400) == 455.71
 
 	# Errors
 	for obj in [test_dict, *test_lists, test_string, test_tuple]:
 		with pytest.raises(TypeError):
-			andi.get_time_at_index(obj)
+			andi.get_time_at_index(obj)  # type: ignore[arg-type]
 	with pytest.raises(IndexError):
 		andi.get_time_at_index(-1)
 	with pytest.raises(IndexError):

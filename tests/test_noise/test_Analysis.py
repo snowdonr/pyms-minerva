@@ -22,11 +22,12 @@
 import pytest
 
 # this package
+from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.Analysis import window_analyzer
 from tests.constants import *
 
 
-def test_window_anlyzer(tic):
+def test_window_anlyzer(tic: IonChromatogram):
 	noise_estimate = window_analyzer(tic, rand_seed=test_int)
 	assert noise_estimate == 22524.833209785025
 
@@ -37,14 +38,14 @@ def test_window_anlyzer(tic):
 
 	for obj in [test_string, *test_numbers, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(obj)  # type: ignore
+			window_analyzer(obj)  # type: ignore[arg-type]
 
 	for obj in [*test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, rand_seed=obj)  # type: ignore
+			window_analyzer(tic, rand_seed=obj)  # type: ignore[arg-type]
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, window=obj)  # type: ignore
+			window_analyzer(tic, window=obj)  # type: ignore[arg-type]
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_analyzer(tic, n_windows=obj)  # type: ignore
+			window_analyzer(tic, n_windows=obj)  # type: ignore[arg-type]

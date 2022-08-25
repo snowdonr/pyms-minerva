@@ -22,6 +22,7 @@
 import pytest
 
 # this package
+from pyms.GCMS.Class import GCMS_data
 from pyms.IntensityMatrix import IntensityMatrix, build_intensity_matrix_i
 from pyms.IonChromatogram import IonChromatogram
 from pyms.Noise.SavitzkyGolay import savitzky_golay
@@ -30,7 +31,7 @@ from pyms.TopHat import tophat
 from tests.constants import *
 
 
-def test_window_smooth(tic):
+def test_window_smooth(tic: IonChromatogram):
 	assert isinstance(tic, IonChromatogram)
 
 	# apply window smoothing: mean and median, in both cases
@@ -48,16 +49,16 @@ def test_window_smooth(tic):
 
 	for obj in [*test_numbers, test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(obj)  # type: ignore
+			window_smooth(obj)  # type: ignore[arg-type]
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(tic, window=obj)  # type: ignore
+			window_smooth(tic, window=obj)  # type: ignore[arg-type]
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth(tic, use_median=obj)  # type: ignore
+			window_smooth(tic, use_median=obj)  # type: ignore[arg-type]
 
 
-def test_window_smooth_im(im):
+def test_window_smooth_im(im: IntensityMatrix):
 
 	window_smooth_im(im)
 	window_smooth_im(im, window=5)
@@ -76,16 +77,16 @@ def test_window_smooth_im(im):
 
 	for obj in [*test_numbers, test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(obj)  # type: ignore
+			window_smooth_im(obj)  # type: ignore[type-var]
 	for obj in [test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(im, window=obj)  # type: ignore
+			window_smooth_im(im, window=obj)  # type: ignore[arg-type]
 	for obj in [test_string, test_float, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			window_smooth_im(im, use_median=obj)  # type: ignore
+			window_smooth_im(im, use_median=obj)  # type: ignore[arg-type]
 
 
-def test_smooth_im(data):
+def test_smooth_im(data: GCMS_data):
 	# Build intensity matrix with defaults, float masses with interval
 	# (bin size) of one from min mass
 	im = build_intensity_matrix_i(data)

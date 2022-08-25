@@ -28,8 +28,8 @@ import copy
 from typing import Optional, Union
 
 # 3rd party
-import numpy  # type: ignore
-from scipy import ndimage  # type: ignore
+import numpy  # type: ignore[import]
+from scipy import ndimage  # type: ignore[import]
 
 # this package
 from pyms.GCMS.Function import ic_window_points
@@ -42,7 +42,7 @@ __all__ = ["tophat", "tophat_im"]
 _STRUCT_ELM_FRAC = 0.2
 
 
-def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None):
+def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None) -> IonChromatogram:
 	"""
 	Top-hat baseline correction on Ion Chromatogram.
 

@@ -30,7 +30,7 @@ import pickle
 from typing import TYPE_CHECKING, Any, Sequence
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 
 __all__ = ["is_path", "is_sequence", "is_sequence_of", "_number_types", "signedinteger", "is_number"]
 
@@ -90,11 +90,11 @@ def is_number(obj: Any) -> bool:
 	return isinstance(obj, _number_types)
 
 
-def _pickle_load_path(filename: pathlib.Path, *args, **kwargs):
+def _pickle_load_path(filename: pathlib.Path, *args, **kwargs) -> object:
 	with filename.open("rb") as fp:
 		return pickle.load(fp, *args, **kwargs)
 
 
-def _pickle_dump_path(filename: pathlib.Path, data: Any, *args, **kwargs):
+def _pickle_dump_path(filename: pathlib.Path, data: Any, *args, **kwargs) -> None:
 	with filename.open("wb") as fp:
-		return pickle.dump(data, fp, *args, **kwargs)
+		pickle.dump(data, fp, *args, **kwargs)

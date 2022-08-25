@@ -12,7 +12,7 @@ class MaxPrecisionFloatFormat(str):
 	def __new__(cls, max_precision: int):
 		return super().__new__(cls, f"%.{max_precision}f")
 
-	def __mod__(self, other):
+	def __mod__(self, other):  # noqa: MAN001,MAN002
 		modded_string = super().__mod__(other).rstrip('0')
 
 		if modded_string.endswith('.'):

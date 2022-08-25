@@ -31,8 +31,8 @@ import pathlib
 from typing import Dict, List, Optional, Sequence
 
 # 3rd party
-import numpy  # type: ignore
-import pandas  # type: ignore
+import numpy  # type: ignore[import]
+import pandas  # type: ignore[import]
 from domdf_python_tools.typing import PathLike
 from pandas import DataFrame
 
@@ -217,7 +217,7 @@ class Alignment:
 
 		return top_ion_list
 
-	def filter_min_peaks(self, min_peaks: int):
+	def filter_min_peaks(self, min_peaks: int) -> None:
 		"""
 		Filters alignment positions that have less peaks than ``min_peaks``.
 
@@ -269,7 +269,7 @@ class Alignment:
 			rt_file_name: PathLike,
 			area_file_name: PathLike,
 			minutes: bool = True,
-			):
+			) -> None:
 		"""
 		Writes the alignment to CSV files.
 

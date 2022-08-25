@@ -25,11 +25,11 @@ Provides Pycluster.treecluster regardless of which library provides it.
 
 try:
 	# 3rd party
-	from Pycluster import treecluster  # type: ignore
+	from Pycluster import treecluster  # type: ignore[import]
 except ModuleNotFoundError:
 	try:
 		# 3rd party
-		from Bio.Cluster import treecluster  # type: ignore
+		from Bio.Cluster import treecluster  # type: ignore[import]
 	except ModuleNotFoundError:
 		raise ModuleNotFoundError(
 				"""Neither PyCluster or BioPython is installed.

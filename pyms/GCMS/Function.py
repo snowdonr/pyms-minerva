@@ -116,7 +116,7 @@ def ic_window_points(
 		ic: IonChromatogram.IonChromatogram,
 		window_sele: Union[int, str],
 		half_window: bool = False,
-		):
+		) -> int:
 	"""
 	Converts the window selection parameter into points based on the
 	time step in an ion chromatogram.

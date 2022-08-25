@@ -20,12 +20,14 @@
 
 # stdlib
 import copy
-import pickle
+from typing import Any
 
 # 3rd party
 import pytest
+from domdf_python_tools.paths import PathPlus
 
 # this package
+from pyms.IntensityMatrix import IntensityMatrix
 from pyms.Peak import Peak
 from pyms.Peak.Class import ICPeak
 from pyms.Peak.Function import peak_sum_area, top_ions_v1, top_ions_v2
@@ -34,7 +36,7 @@ from pyms.Utils.Utils import _pickle_load_path, is_number
 from tests.constants import *
 
 
-def test_Peak(im_i, peak):
+def test_Peak(im_i: IntensityMatrix, peak: Peak):
 	assert isinstance(peak, Peak)
 
 	# Get the scan of a known TIC peak (at RT 31.17 minutes)
@@ -52,9 +54,9 @@ def test_Peak(im_i, peak):
 	for obj in [test_string, *test_lists, test_dict]:
 
 		with pytest.raises(TypeError):
-			Peak(obj, ms, minutes=True)  # type: ignore
+			Peak(obj, ms, minutes=True)  # type: ignore[arg-type]
 		with pytest.raises(TypeError):
-			Peak(test_float, obj, minutes=False)  # type: ignore
+			Peak(test_float, obj, minutes=False)  # type: ignore[arg-type]
 
 	Peak(test_float, test_int)
 	ICPeak(test_float, test_int)
@@ -70,11 +72,11 @@ def test_equality(peak):
 @pytest.mark.parametrize(
 		"val", [test_list_ints, test_list_strs, test_tuple, test_string, test_int, test_float, test_dict]
 		)
-def test_inequality(peak, val):
+def test_inequality(peak: Peak, val: Any):
 	assert peak != val
 
 
-def test_area(im_i, peak):
+def test_area(im_i: IntensityMatrix, peak: Peak):
 	peak = copy.deepcopy(peak)
 
 	# determine and set area
@@ -90,12 +92,12 @@ def test_area(im_i, peak):
 
 	for obj in [test_string, test_dict, test_list_strs, test_list_ints]:
 		with pytest.raises(TypeError):
-			Peak(test_float, ms).area = obj  # type: ignore
+			Peak(test_float, ms).area = obj  # type: ignore[assignment]
 	with pytest.raises(ValueError, match="'Peak.area' must be a positive number"):
 		Peak(test_float, ms).area = -1
 
 
-def test_bounds(peak):
+def test_bounds(peak: Peak):
 	peak = copy.copy(peak)
 
 	# Setter
@@ -103,17 +105,17 @@ def test_bounds(peak):
 
 	for obj in [test_string, *test_numbers, test_dict, ['a', 'b', 'c'], test_tuple]:
 		with pytest.raises(TypeError):
-			peak.bounds = obj
+			peak.bounds = obj  # type: ignore[assignment]
 
 	for obj in [*test_lists, (1, 2), [1, 2, 3, 4]]:
 		with pytest.raises(ValueError, match="'Peak.bounds' must have exactly 3 elements"):
-			peak.bounds = obj
+			peak.bounds = obj  # type: ignore[assignment]
 
 	# Getter
 	assert peak.bounds == (11, 12, 13)
 	assert isinstance(peak.bounds, tuple)
 	peak2 = Peak(test_float)
-	peak2.bounds = [11, 12, 13]  # type: ignore
+	peak2.bounds = [11, 12, 13]  # type: ignore[assignment]
 	assert peak2.bounds == (11, 12, 13)
 	assert isinstance(peak2.bounds, tuple)
 
@@ -127,14 +129,14 @@ def test_bounds(peak):
 		print(obj)
 
 		with pytest.raises(TypeError):
-			peak3.set_bounds(obj, 12, 13)  # type: ignore
+			peak3.set_bounds(obj, 12, 13)  # type: ignore[arg-type]
 		with pytest.raises(TypeError):
-			peak3.set_bounds(11, obj, 13)  # type: ignore
+			peak3.set_bounds(11, obj, 13)  # type: ignore[arg-type]
 		with pytest.raises(TypeError):
-			peak3.set_bounds(11, 12, obj)  # type: ignore
+			peak3.set_bounds(11, 12, obj)  # type: ignore[arg-type]
 
 
-def test_crop_mass(peak):
+def test_crop_mass(peak: Peak):
 	peak = copy.deepcopy(peak)
 	peak2 = copy.deepcopy(peak)
 
@@ -148,9 +150,9 @@ def test_crop_mass(peak):
 	# Errors
 	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError, match="'mass_min' and 'mass_max' must be numbers"):
-			peak2.crop_mass(obj, 450)
+			peak2.crop_mass(obj, 450)  # type: ignore[arg-type]
 		with pytest.raises(TypeError, match="'mass_min' and 'mass_max' must be numbers"):
-			peak2.crop_mass(450, obj)
+			peak2.crop_mass(450, obj)  # type: ignore[arg-type]
 
 	with pytest.raises(ValueError, match="'mass_min' must be less than 'mass_max'"):
 		peak2.crop_mass(100, 0)
@@ -173,7 +175,7 @@ def test_get_int_of_ion(peak):
 		peak.get_int_of_ion(1000000)
 
 
-def test_ion_area(peak):
+def test_ion_area(peak: Peak):
 	peak = copy.deepcopy(peak)
 
 	assert peak.get_ion_area(1) is None
@@ -188,10 +190,10 @@ def test_ion_area(peak):
 	# Errors
 	for obj in [test_dict, *test_sequences, test_float, test_string]:
 		with pytest.raises(TypeError):
-			peak.set_ion_area(obj, test_int)
+			peak.set_ion_area(obj, test_int)  # type: ignore[arg-type]
 	for obj in [test_dict, *test_sequences, test_string]:
 		with pytest.raises(TypeError):
-			peak.set_ion_area(1, obj)
+			peak.set_ion_area(1, obj)  # type: ignore[arg-type]
 
 
 def test_ion_areas(peak):
@@ -209,7 +211,7 @@ def test_ion_areas(peak):
 	assert peak.ion_areas == {1: 1234, 2: 1234, 3: 1234}
 
 
-def test_get_third_highest_mz(peak):
+def test_get_third_highest_mz(peak: Peak):
 	assert peak.get_third_highest_mz() == 59
 	assert isinstance(peak.get_third_highest_mz(), int)
 
@@ -232,7 +234,7 @@ def test_ic_mass():
 	# Errors
 	for obj in [*test_sequences, test_string, test_dict]:
 		with pytest.raises(TypeError):
-			peak.ic_mass = obj  # type: ignore
+			peak.ic_mass = obj  # type: ignore[assignment]
 
 
 def test_mass_spectrum(peak, im_i):
@@ -261,7 +263,7 @@ def test_mass_spectrum(peak, im_i):
 			peak.mass_spectrum = obj
 
 
-def test_null_mass(peak):
+def test_null_mass(peak: Peak):
 	peak = copy.deepcopy(peak)
 	uid = peak.UID
 
@@ -280,19 +282,19 @@ def test_null_mass(peak):
 		Peak(test_float).null_mass(1)
 	for obj in [test_string, *test_lists, test_dict]:
 		with pytest.raises(TypeError):
-			Peak(test_float, peak.mass_spectrum).null_mass(obj)  # type: ignore
+			Peak(test_float, peak.mass_spectrum).null_mass(obj)  # type: ignore[arg-type]
 	with pytest.raises(IndexError):
 		Peak(test_float, peak.mass_spectrum).null_mass(1)
 	with pytest.raises(IndexError):
 		Peak(test_float, peak.mass_spectrum).null_mass(10000)
 
 
-def test_rt(peak):
+def test_rt(peak: Peak):
 	assert isinstance(peak.rt, float)
 	assert peak.rt == 12.34
 
 
-def test_UID(peak):
+def test_UID(peak: Peak):
 	# Get the peak's unique ID
 	# Consists of the two most abundant ions and their ratio,
 	# and the retention time (in the format set by minutes=True or False)
@@ -302,7 +304,7 @@ def test_UID(peak):
 	assert isinstance(Peak(test_float).UID, str)
 
 
-def test_another_peak(im_i, peak):
+def test_another_peak(im_i: IntensityMatrix, peak: Peak):
 	# A different peak
 	scan_i = im_i.get_index_at_time(31.44 * 60.0)
 	ms = im_i.get_ms_at_index(scan_i)
@@ -312,14 +314,14 @@ def test_another_peak(im_i, peak):
 	assert peak.UID != peak2.UID
 
 
-def test_outlier(peak):
+def test_outlier(peak: Peak):
 	assert isinstance(peak.is_outlier, bool)
 	assert peak.is_outlier is False
 
 	assert Peak(12.34, outlier=True).is_outlier is True
 
 
-def test_top_ions(peak):
+def test_top_ions(peak: Peak):
 	with pytest.warns(DeprecationWarning):
 		assert isinstance(top_ions_v1(peak, 10), list)
 	with pytest.warns(DeprecationWarning):
@@ -361,19 +363,19 @@ def test_top_ions(peak):
 
 	for obj in [test_string, test_float, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak.top_ions(obj)
+			peak.top_ions(obj)  # type: ignore[arg-type]
 
 
 # Inherited Methods from pymsBaseClass
 
 
-def test_dump(peak, tmp_pathplus):
+def test_dump(peak: Peak, tmp_pathplus: PathPlus):
 	peak.dump(tmp_pathplus / "Peak_dump.dat")
 
 	# Errors
 	for obj in [test_list_strs, test_dict, test_list_ints, test_tuple, *test_numbers]:
 		with pytest.raises(TypeError):
-			peak.dump(obj)
+			peak.dump(obj)  # type: ignore[arg-type]
 
 	# Read and check values
 	assert (tmp_pathplus / "Peak_dump.dat").exists()
