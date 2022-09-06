@@ -212,7 +212,7 @@ def test_write(
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
 		with pytest.raises(TypeError):
-			data.write(obj)
+			data.write(obj)  # type: ignore[arg-type]
 
 	# Read file and check values
 	assert (tmp_pathplus / filename).exists()

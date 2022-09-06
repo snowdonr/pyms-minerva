@@ -578,7 +578,8 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 	#   is one less than the number of items.
 
 	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
-	As: List[Alignment] = copy.deepcopy(T.alignments) + [None for _ in range(len(T.alignments))]  # type: ignore
+	As_padding = [None for _ in range(len(T.alignments))]
+	As: List[Alignment] = copy.deepcopy(T.alignments) + As_padding  # type: ignore[misc]
 
 	# align the alignments into positions -1, ... ,-(n-1)
 	total = len(T.tree)

@@ -26,7 +26,7 @@ Class to model a subset of data from an Intensity Matrix.
 from typing import Iterable, List, Optional, Sequence, Union, cast
 
 # 3rd party
-import numpy  # type: ignore
+import numpy  # type: ignore[import]
 
 # this package
 from pyms.IntensityMatrix import BaseIntensityMatrix, IntensityMatrix
@@ -109,7 +109,7 @@ class ExtractedIntensityMatrix(BaseIntensityMatrix):
 
 def build_extracted_intensity_matrix(
 		im: IntensityMatrix,
-		masses: Sequence[Union[Union[float], Iterable[float]]],
+		masses: Sequence[Union[float, Iterable[float]]],
 		left_bound: float = 0.5,
 		right_bound: float = 0.5,
 		) -> ExtractedIntensityMatrix:
