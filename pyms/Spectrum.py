@@ -160,23 +160,23 @@ Please report this at https://github.com/domdfcoding/pymassspec/issues and uploa
 
 		return self.__class__(self._mass_list[:], self._intensity_list[:])
 
-	def __deepcopy__(self, memodict={}) -> "Scan":
+	def __deepcopy__(self, memodict={}) -> "Scan":  # noqa: MAN001
 		return self.__copy__()
 
 	@property
-	def __dict__(self):
+	def __dict__(self):  # noqa: MAN002
 		return {
 				"intensity_list": self.intensity_list,
 				"mass_list": self.mass_list,
 				}
 
-	def __iter__(self):
+	def __iter__(self) -> Iterator[Tuple[str, Any]]:
 		yield from self.__dict__.items()
 
-	def __getstate__(self):
+	def __getstate__(self) -> Dict[str, Any]:
 		return self.__dict__
 
-	def __setstate__(self, state):
+	def __setstate__(self, state) -> None:  # noqa: MAN001
 		self.__init__(**state)  # type: ignore[misc]
 
 	def iter_peaks(self) -> Iterator[Tuple[float, float]]:
@@ -238,7 +238,7 @@ class MassSpectrum(Scan):
 		Scan.__init__(self, mass_list, intensity_list)
 
 	@Scan.intensity_list.setter  # type: ignore[attr-defined]
-	def intensity_list(self, value: List[float]):
+	def intensity_list(self, value: List[float]) -> None:
 		"""
 		Set the intensity values for the spectrum.
 
@@ -256,7 +256,7 @@ class MassSpectrum(Scan):
 		self._intensity_list = list(value)
 
 	@Scan.mass_spec.setter  # type: ignore[attr-defined]
-	def mass_spec(self, value: List[float]):
+	def mass_spec(self, value: List[float]) -> None:
 		"""
 		Set the intensity values for the spectrum.
 
@@ -274,7 +274,7 @@ class MassSpectrum(Scan):
 		self._intensity_list = list(value)
 
 	@MassListMixin.mass_list.setter  # type: ignore[attr-defined]
-	def mass_list(self, value: List[float]):
+	def mass_list(self, value: List[float]) -> None:
 		"""
 		Set the mass values for the spectrum.
 
@@ -354,7 +354,7 @@ class MassSpectrum(Scan):
 					mass_list=cropped_intensity_list,
 					)
 
-	def n_largest_peaks(self, n: int):
+	def n_largest_peaks(self, n: int) -> List[int]:
 		"""
 		Returns the indices of the ``n`` largest peaks in the Mass Spectrum.
 

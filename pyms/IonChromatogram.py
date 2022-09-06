@@ -145,7 +145,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 				mass=copy.copy(self._mass),
 				)
 
-	def __deepcopy__(self, memodict={}):
+	def __deepcopy__(self, memodict={}):  # noqa: MAN001,MAN002
 		return self.__copy__()
 
 	def get_intensity_at_index(self, ix: int) -> float:
@@ -166,7 +166,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 		return self._intensity_array[ix]
 
 	@IntensityArrayMixin.intensity_array.setter  # type: ignore[attr-defined]
-	def intensity_array(self, ia: Union[Sequence, numpy.ndarray]):
+	def intensity_array(self, ia: Union[Sequence, numpy.ndarray]) -> None:
 		"""
 		Sets the value for the intensity array.
 
@@ -255,7 +255,7 @@ class IonChromatogram(pymsBaseClass, TimeListMixin, IntensityArrayMixin, GetInde
 
 		return time_step
 
-	def write(self, file_name: PathLike, minutes: bool = False, formatting: bool = True):
+	def write(self, file_name: PathLike, minutes: bool = False, formatting: bool = True) -> None:
 		"""
 		Writes the ion chromatogram to the specified file.
 

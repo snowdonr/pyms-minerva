@@ -77,7 +77,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self._set_min_max_mass()
 		self._calc_tic()
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		"""
 		Return whether this GCMS_data object is equal to another object.
 
@@ -344,7 +344,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 		self._set_min_max_mass()
 		self._calc_tic()
 
-	def write(self, file_root: PathLike):
+	def write(self, file_root: PathLike) -> None:
 		"""
 		Writes the entire raw data to two CSV files:
 
@@ -388,7 +388,7 @@ class GCMS_data(pymsBaseClass, TimeListMixin, MaxMinMassMixin, GetIndexTimeMixin
 						fp2.write(f",{mass:.4f}")
 				fp2.write('\n')
 
-	def write_intensities_stream(self, file_name: PathLike):
+	def write_intensities_stream(self, file_name: PathLike) -> None:
 		"""
 		Loop over all scans and, for each scan, write the intensities to the
 		given file, one intensity per line.

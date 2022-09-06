@@ -64,7 +64,7 @@ def test_Peak(im_i: IntensityMatrix, peak: Peak):
 	ICPeak(test_float, test_float)
 
 
-def test_equality(peak):
+def test_equality(peak: Peak):
 	assert peak == Peak(peak.rt, peak.mass_spectrum)
 	assert peak != Peak(50, peak.mass_spectrum)
 
@@ -164,7 +164,7 @@ def test_crop_mass(peak: Peak):
 		peak2.crop_mass(60, 65)
 
 
-def test_get_int_of_ion(peak):
+def test_get_int_of_ion(peak: Peak):
 	assert peak.get_int_of_ion(100) == 3888.0
 	assert peak.get_int_of_ion(200) == 0.0
 	assert is_number(peak.get_int_of_ion(100))
@@ -196,7 +196,7 @@ def test_ion_area(peak: Peak):
 			peak.set_ion_area(1, obj)  # type: ignore[arg-type]
 
 
-def test_ion_areas(peak):
+def test_ion_areas(peak: Peak):
 	peak = copy.deepcopy(peak)
 
 	with pytest.raises(ValueError, match="no ion areas set"):
@@ -206,7 +206,7 @@ def test_ion_areas(peak):
 
 	for obj in [*test_numbers, test_string, test_list_strs, test_list_ints, tuple]:
 		with pytest.raises(TypeError):
-			peak.ion_areas = obj
+			peak.ion_areas = obj  # type: ignore[assignment]
 
 	assert peak.ion_areas == {1: 1234, 2: 1234, 3: 1234}
 
@@ -237,7 +237,7 @@ def test_ic_mass():
 			peak.ic_mass = obj  # type: ignore[assignment]
 
 
-def test_mass_spectrum(peak, im_i):
+def test_mass_spectrum(peak: Peak, im_i: IntensityMatrix):
 	scan_i = im_i.get_index_at_time(31.17 * 60.0)
 	ms = im_i.get_ms_at_index(scan_i)
 
@@ -260,7 +260,7 @@ def test_mass_spectrum(peak, im_i):
 
 	for obj in [test_string, *test_numbers, test_dict, *test_lists]:
 		with pytest.raises(TypeError):
-			peak.mass_spectrum = obj
+			peak.mass_spectrum = obj  # type: ignore[assignment]
 
 
 def test_null_mass(peak: Peak):

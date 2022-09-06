@@ -369,7 +369,7 @@ class Alignment:
 			area_file_name: PathLike,
 			top_ion_list: Sequence[float],
 			minutes: bool = True,
-			):
+			) -> None:
 		"""
 		Writes the alignment to CSV files.
 
@@ -481,7 +481,7 @@ class Alignment:
 			for row in out_strings:
 				fp.write(row + '\n')
 
-	def write_ion_areas_csv(self, ms_file_name: PathLike, minutes: bool = True):
+	def write_ion_areas_csv(self, ms_file_name: PathLike, minutes: bool = True) -> None:
 		"""
 		Write Ion Areas to CSV File.
 

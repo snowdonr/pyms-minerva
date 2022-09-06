@@ -38,7 +38,7 @@ class pymsBaseClass:
 	Base class.
 	"""
 
-	def dump(self, file_name: PathLike, protocol: int = 3):
+	def dump(self, file_name: PathLike, protocol: int = 3) -> None:
 		"""
 		Dumps an object to a file through :func:`pickle.dump()`.
 

@@ -57,7 +57,7 @@ def is_path(obj: Any) -> bool:
 		return hasattr(obj, " __fspath__")
 
 
-def is_sequence(obj) -> bool:
+def is_sequence(obj: Any) -> bool:
 	"""
 	Returns whether the object is a :class:`~collections.abc.Sequence`,
 	and not a string.

@@ -37,7 +37,7 @@ from pyms.Utils.Time import time_str_secs
 __all__ = ["diff", "ic_window_points"]
 
 
-def diff(data1: GCMS_data, data2: GCMS_data):
+def diff(data1: GCMS_data, data2: GCMS_data) -> None:
 	"""
 	Compares two GCMS_data objects.
 

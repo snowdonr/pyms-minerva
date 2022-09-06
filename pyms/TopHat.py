@@ -77,7 +77,7 @@ def tophat(ic: IonChromatogram, struct: Union[int, str, None] = None) -> IonChro
 	return ic_bc
 
 
-def tophat_im(im: BaseIntensityMatrix, struct: Optional[str] = None):
+def tophat_im(im: BaseIntensityMatrix, struct: Optional[str] = None) -> BaseIntensityMatrix:
 	"""
 	Top-hat baseline correction on Intensity Matrix.
 

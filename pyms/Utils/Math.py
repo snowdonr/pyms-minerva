@@ -130,7 +130,7 @@ def rmsd(list1: Union[Sequence, numpy.ndarray], list2: Union[Sequence, numpy.nda
 
 def mad_based_outlier(data, thresh: float = 3.5):
 	"""
-	Identify outliers using the median absolute deviation (MAD)
+	Identify outliers using the median absolute deviation (MAD).
 
 	:param data:
 	:param thresh:
@@ -174,6 +174,7 @@ def percentile_based_outlier(data, threshold: int = 95):
 
 def median_outliers(data, m: float = 2.5):
 	"""
+	Identify outliers using the median value.
 
 	:param data:
 	:param m:

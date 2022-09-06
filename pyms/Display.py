@@ -112,7 +112,7 @@ class Display:
 		# Peak list container
 		self.__peak_list: List[Peak.Peak] = []
 
-	def do_plotting(self, plot_label: Optional[str] = None):
+	def do_plotting(self, plot_label: Optional[str] = None) -> None:
 		"""
 		Plots TIC and IC(s) if they have been created by
 		:meth:`~pyms.Display.Display.plot_tic` or
@@ -170,7 +170,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 		return largest
 
-	def onclick(self, event):
+	def onclick(self, event) -> None:
 		"""
 		Finds the 5 highest intensity m/z channels for the selected peak.
 		The peak is selected by clicking on it.
@@ -203,7 +203,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 			# self.plot_mass_spec(event.xdata, mass_list, intensity_list)
 			self.plot_mass_spec(MassSpectrum(mass_list, intensity_list))
 
-	def plot_ic(self, ic: IonChromatogram, **kwargs):
+	def plot_ic(self, ic: IonChromatogram, **kwargs) -> List[Line2D]:
 		"""
 		Plots an Ion Chromatogram.
 
@@ -225,7 +225,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		self.__tic_ic_plots.append(plot)
 		return plot
 
-	def plot_mass_spec(self, mass_spec: MassSpectrum, **kwargs):
+	def plot_mass_spec(self, mass_spec: MassSpectrum, **kwargs) -> BarContainer:
 		"""
 		Plots a Mass Spectrum.
 
@@ -247,7 +247,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		plot = plot_mass_spec(self.ax, mass_spec, **kwargs)
 		return plot
 
-	def plot_peaks(self, peak_list: List[Peak.Peak], label: str = "Peaks"):
+	def plot_peaks(self, peak_list: List[Peak.Peak], label: str = "Peaks") -> List[Line2D]:
 		"""
 		Plots the locations of peaks as found by PyMassSpec.
 
@@ -262,7 +262,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 
 		return plot
 
-	def plot_tic(self, tic: IonChromatogram, minutes: bool = False, **kwargs):
+	def plot_tic(self, tic: IonChromatogram, minutes: bool = False, **kwargs) -> List[Line2D]:
 		"""
 		Plots a Total Ion Chromatogram.
 
@@ -288,7 +288,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 		self.__tic_ic_plots.append(plot)
 		return plot
 
-	def save_chart(self, filepath: str, filetypes: Optional[List[str]] = None):
+	def save_chart(self, filepath: str, filetypes: Optional[List[str]] = None) -> None:
 		"""
 		Save the chart to the given path with the given filetypes.
 
@@ -310,7 +310,7 @@ Please call a plotting function before calling 'do_plotting()'""",
 			self.fig.savefig(filepath + f".{filetype}")
 		plt.close()
 
-	def show_chart(self):
+	def show_chart(self) -> None:
 		"""
 		Show the chart on screen.
 
@@ -533,7 +533,21 @@ class ClickEventHandler:
 	ions at that peak, and viewing of the mass spectrum with a right click
 	"""  # noqa: D400
 
-	def __init__(self, peak_list, fig=None, ax=None, tolerance=0.005, n_intensities=5):
+	peak_list: List[Peak.Peak]
+	fig: Figure
+	ax: Axes
+	ms_fig: Optional[Figure]
+	ms_ax: Optional[Axes]
+	n_intensities: int
+
+	def __init__(
+			self,
+			peak_list: List[Peak.Peak],
+			fig: Optional[Figure] = None,
+			ax: Optional[Axes] = None,
+			tolerance: float = 0.005,
+			n_intensities: int = 5,
+			):
 		if fig is None:
 			self.fig = plt.gcf()
 		else:
@@ -546,8 +560,8 @@ class ClickEventHandler:
 
 		self.peak_list = peak_list
 
-		self.ms_fig = None
-		self.ms_ax = None
+		self.ms_fig: Optional[Figure] = None
+		self.ms_ax: Optional[Axes] = None
 
 		self._min = 1 - tolerance
 		self._max = 1 + tolerance
@@ -559,7 +573,7 @@ class ClickEventHandler:
 		else:
 			self.cid = None
 
-	def onclick(self, event):
+	def onclick(self, event) -> None:
 		"""
 		Finds the n highest intensity m/z channels for the selected peak.
 		The peak is selected by clicking on it.
@@ -586,13 +600,13 @@ class ClickEventHandler:
 				if event.button == 3 and len(intensity_list) != 0:
 					# from pyms.Display import plot_mass_spec
 
-					if self.ms_fig is None:
+					if self.ms_fig is None or self.ms_ax is None:
 						self.ms_fig, self.ms_ax = plt.subplots(1, 1)
 					else:
-						self.ms_ax.clear()  # type: ignore[union-attr]
+						self.ms_ax.clear()
 
 					plot_mass_spec(self.ms_ax, peak.mass_spectrum)
-					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")  # type: ignore[union-attr]
+					self.ms_ax.set_title(f"Mass Spectrum at RT {peak.rt}")
 					self.ms_fig.show()
 				# TODO: Add multiple MS to same plot window and add option to close one of them
 				# TODO: Allow more interaction with MS, e.g. adjusting mass range?

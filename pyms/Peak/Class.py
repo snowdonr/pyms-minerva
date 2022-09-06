@@ -126,7 +126,7 @@ class AbstractPeak(pymsBaseClass):
 		return self._area
 
 	@area.setter
-	def area(self, value: float):
+	def area(self, value: float) -> None:
 		"""
 		Sets the area under the peak.
 
@@ -158,7 +158,7 @@ class AbstractPeak(pymsBaseClass):
 		return self._pt_bounds
 
 	@bounds.setter
-	def bounds(self, value: Sequence[int]):
+	def bounds(self, value: Sequence[int]) -> None:
 		"""
 		Sets peak boundaries in points.
 
@@ -206,7 +206,7 @@ class AbstractPeak(pymsBaseClass):
 		return copy.deepcopy(self._ion_areas)
 
 	@ion_areas.setter
-	def ion_areas(self, value: Dict):
+	def ion_areas(self, value: Dict) -> None:
 		"""
 		Sets the ``ion: ion area`` pairs dictionary.
 
@@ -238,7 +238,7 @@ class AbstractPeak(pymsBaseClass):
 
 		return self._rt
 
-	def set_bounds(self, left: int, apex: int, right: int):
+	def set_bounds(self, left: int, apex: int, right: int) -> None:
 		"""
 		Sets peak boundaries in points.
 
@@ -249,7 +249,7 @@ class AbstractPeak(pymsBaseClass):
 
 		self.bounds = (left, apex, right)
 
-	def set_ion_area(self, ion: int, area: float):
+	def set_ion_area(self, ion: int, area: float) -> None:
 		"""
 		Sets the area for a single ion.
 
@@ -386,7 +386,7 @@ class Peak(AbstractPeak):
 			obj.__init__(rt, ms, minutes, outlier)
 			return obj
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		"""
 		Return whether this Peak object is equal to another object.
 
@@ -401,7 +401,7 @@ class Peak(AbstractPeak):
 
 		return NotImplemented
 
-	def crop_mass(self, mass_min: float, mass_max: float):
+	def crop_mass(self, mass_min: float, mass_max: float) -> None:
 		"""
 		Crops mass spectrum.
 
@@ -525,7 +525,7 @@ class Peak(AbstractPeak):
 		return copy.copy(self._mass_spectrum)
 
 	@mass_spectrum.setter
-	def mass_spectrum(self, value: MassSpectrum):
+	def mass_spectrum(self, value: MassSpectrum) -> None:
 		"""
 		Sets the mass spectrum for the apex of the peak.
 		"""
@@ -536,7 +536,7 @@ class Peak(AbstractPeak):
 		self._mass_spectrum = value
 		self.make_UID()
 
-	def null_mass(self, mass: float):
+	def null_mass(self, mass: float) -> None:
 		"""
 		Ignore given mass in spectra.
 
@@ -668,7 +668,7 @@ class ICPeak(AbstractPeak):
 
 		super().__init__(rt, minutes, outlier)
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		"""
 		Return whether this Peak object is equal to another object.
 
@@ -694,7 +694,7 @@ class ICPeak(AbstractPeak):
 		return self._ic_mass
 
 	@ic_mass.setter
-	def ic_mass(self, value: float):
+	def ic_mass(self, value: float) -> None:
 		"""
 		Sets the mass for a single ion chromatogram peak and clears the mass spectrum.
 

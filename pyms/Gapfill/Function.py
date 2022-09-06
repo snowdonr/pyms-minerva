@@ -102,7 +102,7 @@ def missing_peak_finder(
 		threshold: int = 1000,
 		rt_window: float = 1,
 		filetype: MissingPeakFiletype = MZML,
-		):
+		) -> None:
 	r"""
 	Integrates raw data around missing peak locations to fill ``NA``\s in the data matrix.
 
@@ -275,7 +275,7 @@ def write_filled_csv(
 		sample_list: List[Sample],
 		area_file: PathLike,
 		filled_area_file: PathLike,
-		):
+		) -> None:
 	r"""
 	Creates a new ``area_ci.csv`` file, replacing NAs with values from the sample_list objects where possible.
 
@@ -322,7 +322,7 @@ def write_filled_rt_csv(
 		sample_list: List[Sample],
 		rt_file: PathLike,
 		filled_rt_file: PathLike,
-		):
+		) -> None:
 	r"""
 	Creates a new rt.csv file, replacing ``'NA'``\s with values from the sample_list objects where possible.
 

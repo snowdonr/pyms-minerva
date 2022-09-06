@@ -48,7 +48,7 @@ def write_mass_hunter_csv(
 		alignment: Alignment,
 		file_name: PathLike,
 		top_ion_list: List[int],
-		):  # , peak_list_name):
+		) -> None:  # , peak_list_name):
 	"""
 	Creates a csv file with UID, common and qualifying ions and their
 	ratios for mass hunter interpretation.
@@ -215,7 +215,7 @@ def write_excel(
 		alignment: Alignment,
 		file_name: PathLike,
 		minutes: bool = True,
-		):
+		) -> None:
 	"""
 	Writes the alignment to an excel file, with colouring showing possible mis-alignments.
 
@@ -319,7 +319,7 @@ def write_transposed_output(
 		alignment: Alignment,
 		file_name: PathLike,
 		minutes: bool = True,
-		):
+		) -> None:
 	"""
 
 	:param alignment: :class:`pyms.DPA.Alignment.Alignment` object to write to file

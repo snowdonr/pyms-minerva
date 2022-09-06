@@ -38,7 +38,7 @@ from pyms.Utils.Utils import _pickle_load_path
 from .constants import *
 
 
-def test_JCAMP_reader(pyms_datadir):
+def test_JCAMP_reader():
 	# Errors
 	for obj in [*test_numbers, *test_sequences, test_dict]:
 		with pytest.raises(TypeError):
@@ -67,7 +67,7 @@ def test_GCMS_data(data: GCMS_data):
 			GCMS_data(data.time_list, obj)  # type: ignore[arg-type]
 
 
-def test_len(data):
+def test_len(data: GCMS_data):
 	assert len(data) == 2103
 
 
@@ -83,7 +83,7 @@ def test_equality(data: GCMS_data):
 	assert data != test_dict
 
 
-def test_info(capsys, data):
+def test_info(capsys, data: GCMS_data):
 	data.info()
 	captured = capsys.readouterr()
 	assert captured.out.splitlines() == [
@@ -97,7 +97,7 @@ def test_info(capsys, data):
 			]
 
 
-def test_scan_list(data):
+def test_scan_list(data: GCMS_data):
 	# raw scans
 	scans = data.scan_list
 
@@ -123,7 +123,7 @@ def test_scan_list(data):
 	assert scans[0].max_mass == 477.6667
 
 
-def test_tic(data):
+def test_tic(data: GCMS_data):
 	tic = data.tic
 	assert isinstance(tic, IonChromatogram)
 	# number of scans in TIC
@@ -149,7 +149,7 @@ def test_tic(data):
 	assert tic.is_tic()
 
 
-def test_trim(data):
+def test_trim(data: GCMS_data):
 	# time
 	trimmed = deepcopy(data)
 	trimmed.trim("6.5m", "21m")
@@ -192,9 +192,9 @@ def test_trim(data):
 
 	for obj in [*test_sequences, test_dict]:
 		with pytest.raises(TypeError):
-			trimmed.trim(begin=obj)
+			trimmed.trim(begin=obj)  # type: ignore[type-var]
 		with pytest.raises(TypeError):
-			trimmed.trim(end=obj)
+			trimmed.trim(end=obj)  # type: ignore[type-var]
 
 
 @pytest.mark.parametrize("filename", [
@@ -220,7 +220,7 @@ def test_write(
 
 
 def test_write_intensities_stream(
-		data,
+		data: GCMS_data,
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		):
@@ -230,7 +230,7 @@ def test_write_intensities_stream(
 	# Errors
 	for obj in [*test_sequences, test_dict, *test_numbers]:
 		with pytest.raises(TypeError):
-			data.write_intensities_stream(obj)
+			data.write_intensities_stream(obj)  # type: ignore[arg-type]
 
 	# Read file and check values
 	assert (tmp_pathplus / filename).exists()
@@ -258,7 +258,7 @@ def test_dump(data: GCMS_data, tmp_pathplus: PathPlus):
 # Inherited Methods from TimeListMixin
 
 
-def test_time_list(data):
+def test_time_list(data: GCMS_data):
 	time = data.time_list
 	assert isinstance(time, list)
 	# number of retention times
@@ -271,13 +271,13 @@ def test_time_list(data):
 # Inherited Methods from MaxMinMassMixin
 
 
-def test_max_mass(data):
+def test_max_mass(data: GCMS_data):
 	# maximum mass found in all data
 	assert isinstance(data.max_mass, float)
 	assert data.max_mass == 499.6226
 
 
-def test_min_mass(data):
+def test_min_mass(data: GCMS_data):
 	assert isinstance(data.min_mass, float)
 	# minimum mass found in all data
 	assert data.min_mass == 50.2516
@@ -286,7 +286,7 @@ def test_min_mass(data):
 # Inherited Methods from GetIndexTimeMixin
 
 
-def test_get_index_at_time(data):
+def test_get_index_at_time(data: GCMS_data):
 	# index of 400sec in time_list
 	assert isinstance(data.get_index_at_time(400.0), int)
 	assert data.get_index_at_time(400.0) == 378
@@ -294,21 +294,21 @@ def test_get_index_at_time(data):
 	# Errors
 	for obj in [test_dict, *test_lists, test_string, test_tuple]:
 		with pytest.raises(TypeError):
-			data.get_index_at_time(obj)
+			data.get_index_at_time(obj)  # type: ignore[arg-type]
 	with pytest.raises(IndexError):
 		data.get_index_at_time(0)
 	with pytest.raises(IndexError):
 		data.get_index_at_time(1000000)
 
 
-def test_get_time_at_index(data):
+def test_get_time_at_index(data: GCMS_data):
 	assert isinstance(data.get_time_at_index(400), float)
 	assert data.get_time_at_index(400) == 423.45199585
 
 	# Errors
 	for obj in [test_dict, *test_lists, test_string, test_tuple]:
 		with pytest.raises(TypeError):
-			data.get_time_at_index(obj)
+			data.get_time_at_index(obj)  # type: ignore[arg-type]
 	with pytest.raises(IndexError):
 		data.get_time_at_index(-1)
 	with pytest.raises(IndexError):

@@ -68,7 +68,7 @@ def prepare_filepath(
 	return file_name
 
 
-def dump_object(obj: Any, file_name: PathLike):
+def dump_object(obj: Any, file_name: PathLike) -> None:
 	"""
 	Dumps an object to a file through :func:`pickle.dump`.
 

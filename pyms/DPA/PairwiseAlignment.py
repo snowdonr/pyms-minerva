@@ -294,7 +294,7 @@ def dp(S, gap_penalty: float) -> Dict:
 	return {'p': p, 'q': q, "trace": trace, "matches": matches, 'D': D, "phi": trace_matrix}
 
 
-def position_similarity(pos1, pos2, D) -> float:
+def position_similarity(pos1, pos2, D: float) -> float:
 	"""
 	Calculates the similarity between the two alignment positions.
 
@@ -464,7 +464,7 @@ def alignment_similarity(traces, score_matrix, gap: float) -> float:
 	return similarity
 
 
-def alignment_compare(x, y):
+def alignment_compare(x, y) -> int:
 	"""
 	A helper function for sorting peak positions in a alignment.
 
@@ -579,7 +579,7 @@ def align_with_tree(T: PairwiseAlignment, min_peaks: int = 1) -> Alignment:
 
 	# extend As to length 2n to hold the n items, n-1 nodes, and 1 root
 	As_padding = [None for _ in range(len(T.alignments))]
-	As: List[Alignment] = copy.deepcopy(T.alignments) + As_padding  # type: ignore[misc]
+	As: List[Alignment] = copy.deepcopy(T.alignments) + As_padding  # type: ignore[operator]
 
 	# align the alignments into positions -1, ... ,-(n-1)
 	total = len(T.tree)

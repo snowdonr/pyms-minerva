@@ -46,7 +46,7 @@ __all__ = [
 		]
 
 
-def add_gaussc_noise(im: BaseIntensityMatrix, scale: float):
+def add_gaussc_noise(im: BaseIntensityMatrix, scale: float) -> None:
 	"""
 	Adds noise to an IntensityMatrix object.
 
@@ -64,7 +64,7 @@ def add_gaussc_noise(im: BaseIntensityMatrix, scale: float):
 		im.set_ic_at_index(i, ic)
 
 
-def add_gaussc_noise_ic(ic: IonChromatogram, scale: float):
+def add_gaussc_noise_ic(ic: IonChromatogram, scale: float) -> None:
 	"""
 	Adds noise drawn from a normal distribution with constant scale to an ion chromatogram.
 
@@ -85,7 +85,7 @@ def add_gaussv_noise(
 		scale: int,
 		cutoff: int,
 		prop: float,
-		):
+		) -> None:
 	"""
 	Adds noise to an IntensityMatrix object.
 
@@ -113,7 +113,7 @@ def add_gaussv_noise_ic(
 		scale: int,
 		cutoff: int,
 		prop: float,
-		):
+		) -> None:
 	"""
 	Adds noise to an ic. The noise value is drawn from a normal
 	distribution, the scale of this distribution depends on the
