@@ -121,6 +121,7 @@ PyMassSpec is a Python_ package for processing gas chromatography-mass spectrome
 PyMassSpec provides a framework and a set of components for rapid development and testing of methods for processing of chromatography--mass spectrometry data.
 PyMassSpec can be used interactively through the Python shell, in a `Jupyter Notebook <https://jupyter.org/>`_, or the functions can be collected into scripts when it is preferable to perform data processing in the batch mode.
 
+Forked from PyMassSpec/PyMassSpec to refactor and reduce type checking overhead, and used in gcms-Minerva user interface.
 |
 
 Forked from the original PyMS Repository: https://github.com/ma-bio21/pyms.
