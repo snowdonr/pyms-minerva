@@ -30,156 +30,156 @@ __all__ = ["MissingPeak", "Sample"]
 
 
 class MissingPeak:
-	"""
-	Class to encapsulate a peak object identified as missing in the output area
-	matrix fom PyMassSpec.
+    """
+    Class to encapsulate a peak object identified as missing in the output area
+    matrix fom PyMassSpec.
 
-	:param common_ion: Common ion for the peak across samples in an experiment.
-	:param qual_ion_1: The top (most abundant) ion for the peak object
-	:param qual_ion_2: The second most abundant ion for the peak object
-	:param rt: Retention time of the peak.
+    :param common_ion: Common ion for the peak across samples in an experiment.
+    :param qual_ion_1: The top (most abundant) ion for the peak object
+    :param qual_ion_2: The second most abundant ion for the peak object
+    :param rt: Retention time of the peak.
 
-	:authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster
-	"""  # noqa: D400
+    :authors: Jairus Bowne, Sean O'Callaghan, Dominic Davis-Foster
+    """  # noqa: D400
 
-	#: The area of the common ion
-	common_ion_area: Optional[float]
+    #: The area of the common ion
+    common_ion_area: Optional[float]
 
-	#: The retention time of the apex of the peak
-	exact_rt: Optional[float]
+    #: The retention time of the apex of the peak
+    exact_rt: Optional[float]
 
-	def __init__(self, common_ion: int, qual_ion_1: int, qual_ion_2: int, rt: float = 0.0):
-		self.__common_ion = common_ion
-		self.__qual_1 = qual_ion_1
-		self.__qual_2 = qual_ion_2
-		self.__rt = rt
-		self.exact_rt = None
-		self.common_ion_area = None
+    def __init__(self, common_ion: int, qual_ion_1: int, qual_ion_2: int, rt: float = 0.0):
+        self.__common_ion = common_ion
+        self.__qual_1 = qual_ion_1
+        self.__qual_2 = qual_ion_2
+        self.__rt = rt
+        self.exact_rt = None
+        self.common_ion_area = None
 
-	@property
-	def common_ion(self) -> int:
-		"""
-		Returns the common ion for the peak object across an experiment.
+    @property
+    def common_ion(self) -> int:
+        """
+        Returns the common ion for the peak object across an experiment.
 
-		:return: Common ion for the peak
+        :return: Common ion for the peak
 
-		:author: Jairus Bowne
-		"""
+        :author: Jairus Bowne
+        """
 
-		return self.__common_ion
+        return self.__common_ion
 
-	@property
-	def qual_ion1(self) -> int:
-		"""
-		Returns the top (most abundant) ion for the peak object.
+    @property
+    def qual_ion1(self) -> int:
+        """
+        Returns the top (most abundant) ion for the peak object.
 
-		:return: Most abundant ion
+        :return: Most abundant ion
 
-		:author: Jairus Bowne
-		"""
+        :author: Jairus Bowne
+        """
 
-		# TODO: Consider the abundance of ions when some (i.e. 73, 147) have
-		#  been im.null_mass()'d. Is there a way to determine whether that
-		#  has been done to generate the original peak list?
+        # TODO: Consider the abundance of ions when some (i.e. 73, 147) have
+        #  been im.null_mass()'d. Is there a way to determine whether that
+        #  has been done to generate the original peak list?
 
-		return self.__qual_1
+        return self.__qual_1
 
-		# return int(string.split(self.__UID, '-')[0])
+        # return int(string.split(self.__UID, '-')[0])
 
-	@property
-	def qual_ion2(self) -> int:
-		"""
-		Returns the second most abundant ion for the peak object.
+    @property
+    def qual_ion2(self) -> int:
+        """
+        Returns the second most abundant ion for the peak object.
 
-		:return: Second most abundant ion
+        :return: Second most abundant ion
 
-		:author: Jairus Bowne
-		"""
+        :author: Jairus Bowne
+        """
 
-		# TODO: Consider the abundance of ions when some (i.e. 73, 147) have
-		# 	been im.null_mass()'d. Is there a way to determine whether that
-		# 	has been done to generate the original peak list?
+        # TODO: Consider the abundance of ions when some (i.e. 73, 147) have
+        #     been im.null_mass()'d. Is there a way to determine whether that
+        #     has been done to generate the original peak list?
 
-		return self.__qual_1
+        return self.__qual_1
 
-		# return int(string.split(self.__UID, '-')[0])
+        # return int(string.split(self.__UID, '-')[0])
 
-	@property
-	def rt(self) -> float:
-		"""
-		Returns the retention time of the peak.
-		"""
+    @property
+    def rt(self) -> float:
+        """
+        Returns the retention time of the peak.
+        """
 
-		return self.__rt
+        return self.__rt
 
 
 class Sample:
-	"""
-	A collection of MissingPeak objects.
+    """
+    A collection of MissingPeak objects.
 
-	:param sample_name: the experiment code/name.
-	:param matrix_position: position along x-axis where sample is located.
+    :param sample_name: the experiment code/name.
+    :param matrix_position: position along x-axis where sample is located.
 
-	:authors: Sean O'Callaghan, Dominic Davis-Foster (properties)
-	"""
+    :authors: Sean O'Callaghan, Dominic Davis-Foster (properties)
+    """
 
-	def __init__(self, sample_name: str, matrix_position: int):
-		self._sample_name = sample_name
-		self._matrix_position = matrix_position
-		self._missing_peak_list: List[MissingPeak] = []
+    def __init__(self, sample_name: str, matrix_position: int):
+        self._sample_name = sample_name
+        self._matrix_position = matrix_position
+        self._missing_peak_list: List[MissingPeak] = []
 
-	def add_missing_peak(self, missing_peak: MissingPeak) -> None:
-		"""
-		Add a new MissingPeak object to the Sample.
+    def add_missing_peak(self, missing_peak: MissingPeak) -> None:
+        """
+        Add a new MissingPeak object to the Sample.
 
-		:param missing_peak: The missing peak object to be added.
-		"""
+        :param missing_peak: The missing peak object to be added.
+        """
 
-		# TODO: Do some checking here
+        # TODO: Do some checking here
 
-		self._missing_peak_list.append(missing_peak)
+        self._missing_peak_list.append(missing_peak)
 
-	def get_mp_rt_exact_rt_dict(self) -> Dict[float, Optional[float]]:
-		"""
-		Returns a dictionary containing ``average_rt : exact_rt`` pairs.
-		"""
+    def get_mp_rt_exact_rt_dict(self) -> Dict[float, Optional[float]]:
+        """
+        Returns a dictionary containing ``average_rt : exact_rt`` pairs.
+        """
 
-		rt_exact_rt_dict = {}
-		for peak in self._missing_peak_list:
-			rt = peak.rt
-			exact_rt = peak.exact_rt
+        rt_exact_rt_dict = {}
+        for peak in self._missing_peak_list:
+            rt = peak.rt
+            exact_rt = peak.exact_rt
 
-			rt_exact_rt_dict[rt] = exact_rt
+            rt_exact_rt_dict[rt] = exact_rt
 
-		return rt_exact_rt_dict
+        return rt_exact_rt_dict
 
-	@property
-	def missing_peaks(self) -> List[MissingPeak]:
-		"""
-		Returns a list of the MissingPeak objects in the Sample object.
-		"""
+    @property
+    def missing_peaks(self) -> List[MissingPeak]:
+        """
+        Returns a list of the MissingPeak objects in the Sample object.
+        """
 
-		return self._missing_peak_list
+        return self._missing_peak_list
 
-	@property
-	def name(self) -> str:
-		"""
-		Returns name of the sample.
-		"""
+    @property
+    def name(self) -> str:
+        """
+        Returns name of the sample.
+        """
 
-		return self._sample_name
+        return self._sample_name
 
-	@property
-	def rt_areas(self) -> Dict[float, Optional[float]]:
-		"""
-		Returns a dictionary containing ``rt : area`` pairs.
-		"""
+    @property
+    def rt_areas(self) -> Dict[float, Optional[float]]:
+        """
+        Returns a dictionary containing ``rt : area`` pairs.
+        """
 
-		rt_area_dict = {}
-		for peak in self._missing_peak_list:
-			rt = peak.rt
-			area = peak.common_ion_area
+        rt_area_dict = {}
+        for peak in self._missing_peak_list:
+            rt = peak.rt
+            area = peak.common_ion_area
 
-			rt_area_dict[rt] = area
+            rt_area_dict[rt] = area
 
-		return rt_area_dict
+        return rt_area_dict

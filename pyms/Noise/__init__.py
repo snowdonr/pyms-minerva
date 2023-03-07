@@ -24,4 +24,4 @@ Noise processing functions.
 ################################################################################
 
 # this package
-from pyms.Noise import Analysis, SavitzkyGolay, Window  # noqa: F401
+from pyms.Noise import Analysis, SavitzkyGolay, Window

@@ -22,9 +22,6 @@ Custom JSON Encoder to support PyMassSpec classes.
 #                                                                              #
 ################################################################################
 
-# stdlib
-from typing import Dict
-
 # 3rd party
 import sdjson
 
@@ -35,24 +32,24 @@ __all__ = ["PyMassSpecEncoder"]
 
 
 class PyMassSpecEncoder(sdjson.JSONEncoder):
-	"""
-	Custom JSON Encoder to support PyMassSpec classes.
+    """
+    Custom JSON Encoder to support PyMassSpec classes.
 
-	.. note: Currently only supports Scan and MassSpectrum objects
-	"""
+    .. note: Currently only supports Scan and MassSpectrum objects
+    """
 
-	def default(self, o):  # noqa: D102,MAN001,MAN002
-		if isinstance(o, (Scan, MassSpectrum)):
-			return dict(o)
-		else:
-			return super().default(o)
+    def default(self, o):
+        if isinstance(o, (Scan, MassSpectrum)):
+            return dict(o)
+        else:
+            return super().default(o)
 
 
 @sdjson.register_encoder(Scan)
-def encode_scan(obj: Scan) -> Dict:
-	return dict(obj)
+def encode_scan(obj):
+    return dict(obj)
 
 
 @sdjson.register_encoder(MassSpectrum)
-def encode_mass_spec(obj: MassSpectrum) -> Dict:
-	return dict(obj)
+def encode_mass_spec(obj):
+    return dict(obj)

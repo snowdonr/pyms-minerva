@@ -24,4 +24,4 @@ Module to handle raw data.
 ################################################################################
 
 # this package
-from pyms.GCMS import IO, Class, Function  # noqa: F401
+from pyms.GCMS import IO, Class, Function

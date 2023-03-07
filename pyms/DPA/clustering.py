@@ -24,16 +24,16 @@ Provides Pycluster.treecluster regardless of which library provides it.
 ################################################################################
 
 try:
-	# 3rd party
-	from Pycluster import treecluster  # type: ignore[import]
+    # 3rd party
+    from Pycluster import treecluster  # type: ignore
 except ModuleNotFoundError:
-	try:
-		# 3rd party
-		from Bio.Cluster import treecluster  # type: ignore[import]
-	except ModuleNotFoundError:
-		raise ModuleNotFoundError(
-				"""Neither PyCluster or BioPython is installed.
+    try:
+        # 3rd party
+        from Bio.Cluster import treecluster  # type: ignore
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError(
+                """Neither PyCluster or BioPython is installed.
 Please install one of them and try again."""
-				) from None
+                ) from None
 
 __all__ = ["treecluster"]

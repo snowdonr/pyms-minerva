@@ -37,125 +37,125 @@ from pyms.Utils.Time import time_str_secs
 __all__ = ["diff", "ic_window_points"]
 
 
-def diff(data1: GCMS_data, data2: GCMS_data) -> None:
-	"""
-	Compares two GCMS_data objects.
+def diff(data1: GCMS_data, data2: GCMS_data):
+    """
+    Compares two GCMS_data objects.
 
-	:param data1: GCMS data set 1
-	:param data2: GCMS data set 2
+    :param data1: GCMS data set 1
+    :param data2: GCMS data set 2
 
-	:authors: Qiao Wang, Andrew Isaac, Vladimir Likic
-	"""
+    :authors: Qiao Wang, Andrew Isaac, Vladimir Likic
+    """
 
-	# get time attributes
-	time_list1 = data1.time_list
-	time_list2 = data2.time_list
+    # get time attributes
+    time_list1 = data1.time_list
+    time_list2 = data2.time_list
 
-	# First, check if two data sets have the same number of retention times.
-	if len(time_list1) != len(time_list2):
-		print(" The number of retention time points differ.")
-		print(f"	First data set: {len(time_list1):d} time points")
-		print(f"	Second data set: {len(time_list2):d} time points")
-		print(" Data sets are different.")
-		return
-	else:
-		time_rmsd = rmsd(time_list1, time_list2)
-		print(" Data sets have the same number of time points.")
-		print(f"   Time RMSD: {time_rmsd:.2e}")
+    # First, check if two data sets have the same number of retention times.
+    if len(time_list1) != len(time_list2):
+        print(" The number of retention time points differ.")
+        print(f"    First data set: {len(time_list1):d} time points")
+        print(f"    Second data set: {len(time_list2):d} time points")
+        print(" Data sets are different.")
+        return
+    else:
+        time_rmsd = rmsd(time_list1, time_list2)
+        print(" Data sets have the same number of time points.")
+        print(f"   Time RMSD: {time_rmsd:.2e}")
 
-	# Second, check if each scan has the same number of m/z intensities
-	print(" Checking for consistency in scan lengths ...", end='')
-	sys.stdout.flush()
+    # Second, check if each scan has the same number of m/z intensities
+    print(" Checking for consistency in scan lengths ...", end='')
+    sys.stdout.flush()
 
-	scan_list1 = data1.scan_list
-	scan_list2 = data2.scan_list
+    scan_list1 = data1.scan_list
+    scan_list2 = data2.scan_list
 
-	if not len(scan_list1) == len(scan_list2):
-		# since the number of rention times are the same, this indicated
-		# some unexpected problem with data
-		raise ValueError("inconsistency in data detected")
+    if not len(scan_list1) == len(scan_list2):
+        # since the number of rention times are the same, this indicated
+        # some unexpected problem with data
+        raise ValueError("inconsistency in data detected")
 
-	for ii in range(len(scan_list1)):
-		scan1 = scan_list1[ii]
-		scan2 = scan_list2[ii]
-		mass_list1 = scan1.mass_list
-		mass_list2 = scan2.mass_list
-		if len(mass_list1) != len(mass_list2):
-			print(f"\n Different number of points detected in scan no. {ii:d}")
-			print(" Data sets are different.")
-			return
+    for ii in range(len(scan_list1)):
+        scan1 = scan_list1[ii]
+        scan2 = scan_list2[ii]
+        mass_list1 = scan1.mass_list
+        mass_list2 = scan2.mass_list
+        if len(mass_list1) != len(mass_list2):
+            print(f"\n Different number of points detected in scan no. {ii:d}")
+            print(" Data sets are different.")
+            return
 
-	print("OK")
+    print("OK")
 
-	# Third, if here, calculate the max RMSD for m/z and intensities
-	print(" Calculating maximum RMSD for m/z values and intensities ...", end='')
-	sys.stdout.flush()
+    # Third, if here, calculate the max RMSD for m/z and intensities
+    print(" Calculating maximum RMSD for m/z values and intensities ...", end='')
+    sys.stdout.flush()
 
-	max_mass_rmsd = 0.0
-	max_intensity_rmsd = 0.0
+    max_mass_rmsd = 0.0
+    max_intensity_rmsd = 0.0
 
-	for ii in range(len(scan_list1)):
-		scan1 = scan_list1[ii]
-		scan2 = scan_list2[ii]
-		mass_list1 = scan1.mass_list
-		mass_list2 = scan2.mass_list
-		intensity_list1 = scan1.intensity_list
-		intensity_list2 = scan2.intensity_list
-		mass_rmsd = rmsd(mass_list1, mass_list2)
-		if mass_rmsd > max_mass_rmsd:
-			max_mass_rmsd = mass_rmsd
-		intensity_rmsd = rmsd(intensity_list1, intensity_list2)
-		if intensity_rmsd > max_intensity_rmsd:
-			max_intensity_rmsd = intensity_rmsd
+    for ii in range(len(scan_list1)):
+        scan1 = scan_list1[ii]
+        scan2 = scan_list2[ii]
+        mass_list1 = scan1.mass_list
+        mass_list2 = scan2.mass_list
+        intensity_list1 = scan1.intensity_list
+        intensity_list2 = scan2.intensity_list
+        mass_rmsd = rmsd(mass_list1, mass_list2)
+        if mass_rmsd > max_mass_rmsd:
+            max_mass_rmsd = mass_rmsd
+        intensity_rmsd = rmsd(intensity_list1, intensity_list2)
+        if intensity_rmsd > max_intensity_rmsd:
+            max_intensity_rmsd = intensity_rmsd
 
-	print(f"\n   Max m/z RMSD: {max_mass_rmsd:.2e}")
-	print(f"   Max intensity RMSD: {max_intensity_rmsd:.2e}")
+    print(f"\n   Max m/z RMSD: {max_mass_rmsd:.2e}")
+    print(f"   Max intensity RMSD: {max_intensity_rmsd:.2e}")
 
 
 def ic_window_points(
-		ic: IonChromatogram.IonChromatogram,
-		window_sele: Union[int, str],
-		half_window: bool = False,
-		) -> int:
-	"""
-	Converts the window selection parameter into points based on the
-	time step in an ion chromatogram.
+        ic: IonChromatogram.IonChromatogram,
+        window_sele: Union[int, str],
+        half_window: bool = False,
+):
+    """
+    Converts the window selection parameter into points based on the
+    time step in an ion chromatogram.
 
-	:param ic: ion chromatogram object relevant for the conversion
-	:param window_sele: The window selection parameter. This can be an
-		integer or time string. If an integer, taken as the number of points.
-		If a string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``,
-		specifying a time in seconds or minutes, respectively
-	:param half_window: Specifies whether to return half-window
+    :param ic: ion chromatogram object relevant for the conversion
+    :param window_sele: The window selection parameter. This can be an
+        integer or time string. If an integer, taken as the number of points.
+        If a string, must of the form ``'<NUMBER>s'`` or ``'<NUMBER>m'``,
+        specifying a time in seconds or minutes, respectively
+    :param half_window: Specifies whether to return half-window
 
-	:author: Vladimir Likic
-	"""  # noqa: D400
+    :author: Vladimir Likic
+    """  # noqa: D400
 
-	if not isinstance(window_sele, (int, str)):
-		raise TypeError("'window_sele' must be either an integer or a string")
+    if not isinstance(window_sele, (int, str)):
+        raise TypeError("'window_sele' must be either an integer or a string")
 
-	if isinstance(window_sele, int):
-		if half_window:
-			if window_sele % 2 == 0:
-				raise ValueError("window must be an odd number of points")
-			else:
-				points = int(math.floor(window_sele * 0.5))
-		else:
-			points = window_sele
-	else:
-		time = time_str_secs(window_sele)
-		time_step = ic.time_step
+    if isinstance(window_sele, int):
+        if half_window:
+            if window_sele % 2 == 0:
+                raise ValueError("window must be an odd number of points")
+            else:
+                points = int(math.floor(window_sele * 0.5))
+        else:
+            points = window_sele
+    else:
+        time = time_str_secs(window_sele)
+        time_step = ic.time_step
 
-		if half_window:
-			time = time * 0.5
+        if half_window:
+            time = time * 0.5
 
-		points = int(math.floor(time / time_step))
+        points = int(math.floor(time / time_step))
 
-	if half_window:
-		if points < 1:
-			raise ValueError(f"window too small (half window={points:d})")
-	else:
-		if points < 2:
-			raise ValueError(f"window too small (window={points})")
+    if half_window:
+        if points < 1:
+            raise ValueError(f"window too small (half window={points:d})")
+    else:
+        if points < 2:
+            raise ValueError(f"window too small (window={points})")
 
-	return points
+    return points

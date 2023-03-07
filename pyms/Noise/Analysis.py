@@ -40,66 +40,66 @@ _DEFAULT_N_WINDOWS = 1024
 
 
 def window_analyzer(
-		ic: IonChromatogram,
-		window: Union[int, str] = _DEFAULT_WINDOW,
-		n_windows: int = _DEFAULT_N_WINDOWS,
-		rand_seed: Union[int, float, str, None] = None,
-		) -> float:
-	"""
-	A simple estimator of the signal noise based on randomly placed windows and
-	median absolute deviation.
+        ic: IonChromatogram,
+        window: Union[int, str] = _DEFAULT_WINDOW,
+        n_windows: int = _DEFAULT_N_WINDOWS,
+        rand_seed: Union[int, float, str, None] = None,
+        ) -> float:
+    """
+    A simple estimator of the signal noise based on randomly placed windows and
+    median absolute deviation.
 
-	The noise value is estimated by repeatedly and picking random windows
-	(of a specified width) and calculating median absolute deviation (MAD).
-	The noise estimate is given by the minimum MAD.
+    The noise value is estimated by repeatedly and picking random windows
+    (of a specified width) and calculating median absolute deviation (MAD).
+    The noise estimate is given by the minimum MAD.
 
-	:param ic:
-	:param window: Window width selection.
-	:param n_windows: The number of windows to calculate.
-	:param rand_seed: Seed for random number generator.
+    :param ic:
+    :param window: Window width selection.
+    :param n_windows: The number of windows to calculate.
+    :param rand_seed: Seed for random number generator.
 
-	:return: The noise estimate.
+    :return: The noise estimate.
 
-	:author: Vladimir Likic
-	"""  # noqa: D400
+    :author: Vladimir Likic
+    """  # noqa: D400
 
-	if not isinstance(ic, IonChromatogram):
-		raise TypeError("'ic' must be an IonChromatogram object")
+    if not isinstance(ic, IonChromatogram):
+        raise TypeError("'ic' must be an IonChromatogram object")
 
-	if not isinstance(window, (int, str)):
-		raise TypeError("'window' must be a int or string")
+    if not isinstance(window, (int, str)):
+        raise TypeError("'window' must be a int or string")
 
-	if not isinstance(n_windows, int):
-		raise TypeError("'n_windows' must be an integer")
+    if not isinstance(n_windows, int):
+        raise TypeError("'n_windows' must be an integer")
 
-	ia = ic.intensity_array  # fetch the intensitiess
+    ia = ic.intensity_array  # fetch the intensitiess
 
-	# create an instance of the Random class
-	if rand_seed:
-		generator = random.Random(rand_seed)
-	else:
-		generator = random.Random()
+    # create an instance of the Random class
+    if rand_seed:
+        generator = random.Random(rand_seed)
+    else:
+        generator = random.Random()
 
-	window_pts = window_sele_points(ic, window)
+    window_pts = window_sele_points(ic, window)
 
-	maxi = ia.size - window_pts
-	noise_level = math.fabs(ia.max() - ia.min())
-	# best_window_pos = None
-	seen_positions = []
+    maxi = ia.size - window_pts
+    noise_level = math.fabs(ia.max() - ia.min())
+    # best_window_pos = None
+    seen_positions = []
 
-	cntr = 0
+    cntr = 0
 
-	while cntr < n_windows:
-		# generator.randrange(): last point not included in range
-		try_pos = generator.randrange(0, maxi + 1)
-		# only process the window if not analyzed previously
-		if try_pos not in seen_positions:
-			end_slice = try_pos + window_pts
-			crnt_mad = MAD(ia[try_pos:end_slice])
-			if crnt_mad < noise_level:
-				noise_level = crnt_mad
-				# best_window_pos = try_pos
-		cntr = cntr + 1
-		seen_positions.append(try_pos)
+    while cntr < n_windows:
+        # generator.randrange(): last point not included in range
+        try_pos = generator.randrange(0, maxi + 1)
+        # only process the window if not analyzed previously
+        if try_pos not in seen_positions:
+            end_slice = try_pos + window_pts
+            crnt_mad = MAD(ia[try_pos:end_slice])
+            if crnt_mad < noise_level:
+                noise_level = crnt_mad
+                # best_window_pos = try_pos
+        cntr = cntr + 1
+        seen_positions.append(try_pos)
 
-	return noise_level
+    return noise_level

@@ -30,14 +30,14 @@ import pickle
 from typing import TYPE_CHECKING, Any, Sequence
 
 # 3rd party
-import numpy  # type: ignore[import]
+import numpy  # type: ignore
 
 __all__ = ["is_path", "is_sequence", "is_sequence_of", "_number_types", "signedinteger", "is_number"]
 
 if TYPE_CHECKING:
-	signedinteger = int
+    signedinteger = int
 else:
-	signedinteger = numpy.signedinteger
+    signedinteger = numpy.signedinteger
 
 _list_types = (Sequence, numpy.core.ndarray)
 _path_types = (str, os.PathLike, pathlib.Path)
@@ -45,56 +45,56 @@ _number_types = (int, float, signedinteger)
 
 
 def is_path(obj: Any) -> bool:
-	"""
-	Returns whether the object represents a filesystem path.
+    """
+    Returns whether the object represents a filesystem path.
 
-	:param obj:
-	"""
+    :param obj:
+    """
 
-	if isinstance(obj, _path_types):
-		return True
-	else:
-		return hasattr(obj, " __fspath__")
+    if isinstance(obj, _path_types):
+        return True
+    else:
+        return hasattr(obj, " __fspath__")
 
 
-def is_sequence(obj: Any) -> bool:
-	"""
-	Returns whether the object is a :class:`~collections.abc.Sequence`,
-	and not a string.
+def is_sequence(obj) -> bool:
+    """
+    Returns whether the object is a :class:`~collections.abc.Sequence`,
+    and not a string.
 
-	:param obj:
-	"""  # noqa: D400
+    :param obj:
+    """  # noqa: D400
 
-	return isinstance(obj, _list_types) and not isinstance(obj, str)
+    return isinstance(obj, _list_types) and not isinstance(obj, str)
 
 
 def is_sequence_of(obj: Any, of: Any) -> bool:
-	"""
-	Returns whether the object is a :class:`~collections.abc.Sequence`,
-	and not a string, of the given type.
+    """
+    Returns whether the object is a :class:`~collections.abc.Sequence`,
+    and not a string, of the given type.
 
-	:param obj:
-	:param of:
-	"""  # noqa: D400
+    :param obj:
+    :param of:
+    """  # noqa: D400
 
-	return isinstance(obj, _list_types) and not isinstance(obj, str) and all(isinstance(x, of) for x in obj)
+    return isinstance(obj, _list_types) and not isinstance(obj, str) and all(isinstance(x, of) for x in obj)
 
 
 def is_number(obj: Any) -> bool:
-	"""
-	Returns whether ``obj`` is a numerical value (:class:`int`, :class`float` etc).
+    """
+    Returns whether ``obj`` is a numerical value (:class:`int`, :class`float` etc).
 
-	:param obj:
-	"""
+    :param obj:
+    """
 
-	return isinstance(obj, _number_types)
-
-
-def _pickle_load_path(filename: pathlib.Path, *args, **kwargs) -> object:
-	with filename.open("rb") as fp:
-		return pickle.load(fp, *args, **kwargs)
+    return isinstance(obj, _number_types)
 
 
-def _pickle_dump_path(filename: pathlib.Path, data: Any, *args, **kwargs) -> None:
-	with filename.open("wb") as fp:
-		pickle.dump(data, fp, *args, **kwargs)
+def _pickle_load_path(filename: pathlib.Path, *args, **kwargs):
+    with filename.open("rb") as fp:
+        return pickle.load(fp, *args, **kwargs)
+
+
+def _pickle_dump_path(filename: pathlib.Path, data: Any, *args, **kwargs):
+    with filename.open("wb") as fp:
+        return pickle.dump(data, fp, *args, **kwargs)

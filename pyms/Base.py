@@ -23,33 +23,36 @@ Base for PyMassSpec classes.
 #                                                                              #
 ################################################################################
 
-# 3rd party
-from domdf_python_tools.typing import PathLike
+# stdlib
+import typing
+import pathlib
+import os
 
 # this package
 from pyms.Utils.IO import prepare_filepath
 from pyms.Utils.Utils import _pickle_dump_path, is_path
 
 __all__ = ["pymsBaseClass"]
+PathLike = typing.Union[str, pathlib.Path, os.PathLike]
 
 
 class pymsBaseClass:
-	"""
-	Base class.
-	"""
+    """
+    Base class.
+    """
 
-	def dump(self, file_name: PathLike, protocol: int = 3) -> None:
-		"""
-		Dumps an object to a file through :func:`pickle.dump()`.
+    def dump(self, file_name: PathLike, protocol: int = 3):
+        """
+        Dumps an object to a file through :func:`pickle.dump()`.
 
-		:param file_name: Filename to save the dump as.
-		:param protocol: The pickle protocol to use.
+        :param file_name: Filename to save the dump as.
+        :param protocol: The pickle protocol to use.
 
-		:authors: Vladimir Likic, Dominic Davis-Foster (pathlib and pickle protocol support)
-		"""  # noqa: D402  # TODO: False positive
+        :authors: Vladimir Likic, Dominic Davis-Foster (pathlib and pickle protocol support)
+        """  # noqa: D402  # TODO: False positive
 
-		if not is_path(file_name):
-			raise TypeError("'file_name' must be a string or a PathLike object")
+        if not is_path(file_name):
+            raise TypeError("'file_name' must be a string or a PathLike object")
 
-		file_name = prepare_filepath(file_name)
-		_pickle_dump_path(file_name, self, protocol)
+        file_name = prepare_filepath(file_name)
+        _pickle_dump_path(file_name, self, protocol)
